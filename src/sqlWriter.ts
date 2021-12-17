@@ -1,3 +1,5 @@
+'use strict'
+
 export class ASql {
   private dbSchema: Table[]
   private table: Table
@@ -55,7 +57,8 @@ export class ASql {
   }
 
   public getSQL(): string {
-    let result = `SELECT ${this.columns.join(', ')} FROM ${this.table}
+    let result = `SELECT ${this.columns.join(', ')}
+                      FROM ${this.table}
         `
     if (this.operationConditions && this.operationConditions.length > 0) {
       let i = 0

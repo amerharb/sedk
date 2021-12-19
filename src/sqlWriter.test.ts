@@ -1,5 +1,6 @@
 'use strict'
 import * as sql from './sqlWriter'
+import { Operator } from './sqlWriter'
 
 describe('test from one table', () => {
   // database schema
@@ -64,7 +65,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1, col2 FROM testTable WHERE ( col1 = x OR col2 = y )')
   })
 
-  it('has correct select 2 columns from one table with where has 1 conditions then AND after it without parentheses', () => {
+  it('has correct select 2 columns from one table with where has 1 condition then AND after it without parentheses', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -74,5 +75,17 @@ describe('test from one table', () => {
       .replace(/\n/g, ' ')
       .replace(/ +/g, ' ')
     expect(received).toEqual('SELECT col1, col2 FROM testTable WHERE col1 = x AND col2 = y')
+  })
+
+  it('has correct select 2 columns from one table with where has 2 conditions then AND after it without parentheses', () => {
+    const received = asql
+      .select(column1, column2)
+      .from(table)
+      .where(column1.isEqual('x'), Operator.OR, column2.isEqual('y'))
+      .and(column3.isEqual('z'))
+      .getSQL()
+      .replace(/\n/g, ' ')
+      .replace(/ +/g, ' ')
+    expect(received).toEqual('SELECT col1, col2 FROM testTable WHERE ( col1 = x OR col2 = y ) AND col3 = z')
   })
 })

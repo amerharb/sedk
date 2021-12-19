@@ -61,10 +61,11 @@ export class ASql {
                       FROM ${this.table}
         `
     if (this.operationConditions && this.operationConditions.length > 0) {
+      result += ' WHERE'
       let i = 0
       let opCond = this.operationConditions[i]
       if (opCond instanceof OperatorCondition) {
-        result += `  WHERE ${opCond.getCondition()}` //first cond has no operator
+        result += ` ${opCond.getCondition()}` //first cond has no operator
       } else {
         if (opCond === Group.Open) {
           const nextOpCond = this.operationConditions[i + 1]
@@ -76,15 +77,15 @@ export class ASql {
         i++
         opCond = this.operationConditions[i]
         if (opCond instanceof OperatorCondition)
-          result += ` ${opCond.getCondition()} `
+          result += ` ${opCond.getCondition()}`
         i++
         opCond = this.operationConditions[i]
         if (opCond instanceof OperatorCondition)
-          result += ` ${opCond.getOperator()} ${opCond.getCondition()} `
+          result += ` ${opCond.getOperator()} ${opCond.getCondition()}`
         i++
         opCond = this.operationConditions[i]
         if (opCond === Group.Close)
-          result += ` ${opCond} `
+          result += ` ${opCond}`
       }
       i++
       while (i < this.operationConditions.length) {
@@ -96,6 +97,11 @@ export class ASql {
       }
 
     }
+
+    // clean up
+    this.steps.length = 0
+    this.operationConditions.length = 0
+
     return result
   }
 }

@@ -1,0 +1,17 @@
+{
+  "name": "sql-writer",
+  "version": "0.1.0",
+  "description": "Simple SQL builder",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "tsc && node dist/index.js"
+  },
+  "keywords": [
+    "SQL"
+  ],
+  "author": "Amer Harb",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.5.4"
+  }
+}

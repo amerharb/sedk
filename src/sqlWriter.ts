@@ -37,6 +37,8 @@ export class ASql {
       this.operationConditions.push(new OperatorCondition(null, left))
       this.operationConditions.push(new OperatorCondition(operator, right))
       this.operationConditions.push(Group.Close)
+    } else {
+      //TODO: throw error
     }
     this.steps.push(STEPS.WHERE)
     return this
@@ -91,7 +93,7 @@ export class ASql {
       while (i < this.operationConditions.length) {
         opCond = this.operationConditions[i]
         if (opCond instanceof OperatorCondition) {
-          result += ` ${opCond.getOperator()} ${opCond.getCondition()} `
+          result += ` ${opCond.getOperator()} ${opCond.getCondition()}`
         }
         i++
       }

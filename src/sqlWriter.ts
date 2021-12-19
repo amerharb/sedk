@@ -91,7 +91,7 @@ export class ASql {
       while (i < this.operationConditions.length) {
         opCond = this.operationConditions[i]
         if (opCond instanceof OperatorCondition) {
-          result += ` ${opCond.getOperator()} ${opCond.getCondition()} `
+          result += ` ${opCond.getOperator()} ${opCond.getCondition()}`
         }
         i++
       }

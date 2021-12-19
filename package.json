@@ -6,7 +6,8 @@
   "scripts": {
     "start": "tsc && node dist/src/index.js",
     "test": "jest",
-    "lint": "eslint src/**/*.ts"
+    "lint": "eslint src/**/*.ts",
+    "lint-fix": "eslint src/**/*.ts --fix"
   },
   "keywords": [
     "SQL"

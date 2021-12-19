@@ -37,6 +37,8 @@ export class ASql {
       this.operationConditions.push(new OperatorCondition(null, left))
       this.operationConditions.push(new OperatorCondition(operator, right))
       this.operationConditions.push(Group.Close)
+    } else {
+      //TODO: throw error
     }
     this.steps.push(STEPS.WHERE)
     return this

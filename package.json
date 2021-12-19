@@ -2,10 +2,11 @@
   "name": "sql-writer",
   "version": "0.1.0",
   "description": "Simple SQL builder",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
-    "start": "tsc && node dist/index.js",
-    "test": "jest"
+    "start": "tsc && node dist/src/index.js",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts"
   },
   "keywords": [
     "SQL"

@@ -8,7 +8,8 @@ describe('test from one table', () => {
   const column2 = new sql.Column('col2',)
   const column3 = new sql.Column('col3',)
   const table = new sql.Table('testTable', [column1, column2, column3])
-  const asql = new sql.ASql([table])
+  const db = new sql.Database([table], 1)
+  const asql = new sql.ASql(db)
 
   it('has correct select 1 column from one table', () => {
     const received = asql

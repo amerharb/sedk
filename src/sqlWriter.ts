@@ -1,14 +1,14 @@
 'use strict'
 
 export class ASql {
-  private dbSchema: Table[]
+  private dbSchema: Database
   private table: Table
   private columns: Column[]
   private operationConditions: (OperatorCondition | Group)[] = []
   private steps: STEPS[] = []
 
-  constructor(tables: Table[]) {
-    this.dbSchema = tables
+  constructor(database: Database) {
+    this.dbSchema = database
   }
 
   public select(...columns: Column[]): ASql {
@@ -130,6 +130,24 @@ enum STEPS {
     WHERE = 'where',
     AND = 'and',
     OR = 'or',
+}
+
+export class Database {
+  private readonly version: number
+  private readonly tables: Table[]
+
+  constructor(tables: Table[], version: number) {
+    this.tables = tables
+    this.version = version
+  }
+
+  getVersion(): number{
+    return this.version
+  }
+
+  getTables(): Table[]{
+    return this.tables
+  }
 }
 
 export class Table {

@@ -63,4 +63,16 @@ describe('test from one table', () => {
       .replace(/ +/g, ' ')
     expect(received).toEqual('SELECT col1, col2 FROM testTable WHERE ( col1 = x OR col2 = y )')
   })
+
+  it('has correct select 2 columns from one table with where has 1 conditions then AND after it without parentheses', () => {
+    const received = asql
+      .select(column1, column2)
+      .from(table)
+      .where(column1.isEqual('x'))
+      .and(column2.isEqual('y'))
+      .getSQL()
+      .replace(/\n/g, ' ')
+      .replace(/ +/g, ' ')
+    expect(received).toEqual('SELECT col1, col2 FROM testTable WHERE col1 = x AND col2 = y')
+  })
 })

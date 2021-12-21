@@ -1,22 +1,36 @@
 'use strict'
 
 export class Database {
-  private readonly version: number
+  private readonly version?: number
+  //TODO: add engine
+  // private readonly engin?: EngineEnum
   private readonly tables: Table[]
 
-  constructor(tables: Table[], version: number) {
+  //TODO: add engine
+  constructor(tables: Table[], version?: number) {
     this.tables = tables
     this.version = version
   }
 
-  getVersion(): number {
+  getVersion(): number|undefined {
     return this.version
   }
 
   getTables(): Table[] {
     return this.tables
   }
+
+  //TODO: add engine
+  // getEngine(): EngineEnum|undefined {
+  //   return this.engin
+  // }
 }
+
+//TODO: add engine
+// enum EngineEnum {
+//   SQL_92,
+//   POSTGRESQL,
+// }
 
 export class Table {
   private readonly tableName: string

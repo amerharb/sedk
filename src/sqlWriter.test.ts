@@ -1,6 +1,6 @@
 'use strict'
 import * as sql from './sqlWriter'
-import { Database, Table, TextColumn } from './model'
+import { Database, Table, TextColumn, NumberColumn } from './model'
 
 //Alias
 const AND = sql.Operator.AND
@@ -8,11 +8,11 @@ const OR = sql.Operator.OR
 
 describe('test from one table', () => {
   // database schema
-  // TODO: add NumberColumn and test
-  const column1 = new TextColumn('col1',)
-  const column2 = new TextColumn('col2',)
-  const column3 = new TextColumn('col3',)
-  const table = new Table('testTable', [column1, column2, column3])
+  const column1 = new TextColumn('col1')
+  const column2 = new TextColumn('col2')
+  const column3 = new TextColumn('col3')
+  const column4 = new NumberColumn('col4')
+  const table = new Table('testTable', [column1, column2, column3, column4])
   const db = new Database([table], 1)
   const asql = new sql.ASql(db)
 
@@ -49,6 +49,17 @@ describe('test from one table', () => {
       .replace(/\n/g, ' ')
       .replace(/ +/g, ' ')
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x'")
+  })
+
+  it('has correct select 2 columns from one table with where has 1 condition for number column', () => {
+    const received = asql
+      .select(column1, column4)
+      .from(table)
+      .where(column4.equal(5))
+      .getSQL()
+      .replace(/\n/g, ' ')
+      .replace(/ +/g, ' ')
+    expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col4 = 5')
   })
 
   it('has correct select 2 columns from one table with where has 2 conditions with AND inside parentheses', () => {

@@ -1,7 +1,10 @@
 'use strict'
 import * as sql from './sqlWriter'
-import { Operator } from './sqlWriter'
 import { Database, Table, Column} from './model'
+
+//Alias
+const AND = sql.Operator.AND
+const OR = sql.Operator.OR
 
 describe('test from one table', () => {
   // database schema
@@ -49,7 +52,7 @@ describe('test from one table', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
-      .where(column1.isEqual('x'), sql.Operator.AND, column2.isEqual('y'))
+      .where(column1.isEqual('x'), AND, column2.isEqual('y'))
       .getSQL()
       .replace(/\n/g, ' ')
       .replace(/ +/g, ' ')
@@ -60,7 +63,7 @@ describe('test from one table', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
-      .where(column1.isEqual('x'), sql.Operator.OR, column2.isEqual('y'))
+      .where(column1.isEqual('x'), OR, column2.isEqual('y'))
       .getSQL()
       .replace(/\n/g, ' ')
       .replace(/ +/g, ' ')
@@ -83,7 +86,7 @@ describe('test from one table', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
-      .where(column1.isEqual('x'), Operator.OR, column2.isEqual('y'))
+      .where(column1.isEqual('x'), OR, column2.isEqual('y'))
       .and(column3.isEqual('z'))
       .getSQL()
       .replace(/\n/g, ' ')
@@ -107,7 +110,7 @@ describe('test from one table', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
-      .where(column1.isEqual('x'), Operator.AND, column2.isEqual('y'))
+      .where(column1.isEqual('x'), AND, column2.isEqual('y'))
       .or(column3.isEqual('z'))
       .getSQL()
       .replace(/\n/g, ' ')
@@ -119,7 +122,7 @@ describe('test from one table', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
-      .where(column1.isEqual('x'), Operator.AND, column2.isEqual('y'))
+      .where(column1.isEqual('x'), AND, column2.isEqual('y'))
       .and(column3.isEqual('z1'))
       .or(column3.isEqual('z2'))
       .getSQL()

@@ -62,6 +62,28 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col4 = 5')
   })
 
+  it('has correct select 2 columns from one table with where has 1 condition for text column is null', () => {
+    const received = asql
+      .select(column1, column4)
+      .from(table)
+      .where(column4.equal(null))
+      .getSQL()
+      .replace(/\n/g, ' ')
+      .replace(/ +/g, ' ')
+    expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col4 = NULL')
+  })
+
+  it('has correct select 2 columns from one table with where has 1 condition for number column is null', () => {
+    const received = asql
+      .select(column1, column4)
+      .from(table)
+      .where(column1.equal(null))
+      .getSQL()
+      .replace(/\n/g, ' ')
+      .replace(/ +/g, ' ')
+    expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col1 = NULL')
+  })
+
   it('has correct select 2 columns from one table with where has 2 conditions with AND inside parentheses', () => {
     const received = asql
       .select(column1, column2)

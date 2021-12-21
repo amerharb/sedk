@@ -88,6 +88,7 @@ export class Condition {
   private readonly value: string|number|null
 
   constructor(column: Column, qualifier: Qualifier, value: string|number|null) {
+    // TODO: validate if qualifier is valid for the value type, for example Greater or Lesser does not work with string
     this.column = column
     this.qualifier = qualifier
     this.value = value
@@ -96,7 +97,8 @@ export class Condition {
   public toString() {
     if (this.column instanceof TextColumn) {
       if (typeof this.value === 'string') {
-        /**TODO: escape single quote if they inside value dependce ondb enginge
+        /**
+         * TODO: escape single quote if they inside value dependce ondb enginge
          * for example PostgreSQL way of escape is repeat the single qoute so for "I can't" -> 'I can''t'
          * so using .replaceAll("'","''") should do the job
          */

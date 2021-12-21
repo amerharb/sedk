@@ -70,15 +70,14 @@ export class ASql {
       result += ' WHERE'
       let i = 0
       let opCond = this.operationConditions[i]
+      // TODO: generalize this code for case where there will Open and Close Group after first Where
       if (opCond instanceof OperatorCondition) {
         result += ` ${opCond.getCondition()}` //first cond has no operator
       } else {
         if (opCond === Group.Open) {
           const nextOpCond = this.operationConditions[i + 1]
-          if (nextOpCond instanceof OperatorCondition) {
-            const op = (nextOpCond.getOperator() ?? '').toString()
-            result += ` ${op} ${Group.Open} `
-          }
+          if (nextOpCond instanceof OperatorCondition)
+            result += ` ${Group.Open} ` //first cond has no operator
         }
         i++
         opCond = this.operationConditions[i]

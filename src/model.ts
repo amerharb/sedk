@@ -53,7 +53,7 @@ export class TextColumn extends Column {
     super(columnName)
   }
 
-  public equal(value: string): Condition {
+  public equal(value: string|null): Condition {
     return new Condition(this, Qualifier.Equal, value)
   }
 }
@@ -63,7 +63,7 @@ export class NumberColumn extends Column {
     super(columnName)
   }
 
-  public equal(value: string): Condition {
+  public equal(value: number|null): Condition {
     return new Condition(this, Qualifier.Equal, value)
   }
 }

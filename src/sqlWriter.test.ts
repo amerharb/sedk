@@ -1,14 +1,15 @@
 'use strict'
 import * as sql from './sqlWriter'
 import { Operator } from './sqlWriter'
+import { Database, Table, Column} from './model'
 
 describe('test from one table', () => {
   // database schema
-  const column1 = new sql.Column('col1',)
-  const column2 = new sql.Column('col2',)
-  const column3 = new sql.Column('col3',)
-  const table = new sql.Table('testTable', [column1, column2, column3])
-  const db = new sql.Database([table], 1)
+  const column1 = new Column('col1',)
+  const column2 = new Column('col2',)
+  const column3 = new Column('col3',)
+  const table = new Table('testTable', [column1, column2, column3])
+  const db = new Database([table], 1)
   const asql = new sql.ASql(db)
 
   it('has correct select 1 column from one table', () => {

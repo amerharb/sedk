@@ -36,15 +36,13 @@ export class ASql {
   public where(left: Condition, operator: Operator, right: Condition): ASql;
   public where(left: Condition, operator?: Operator, right?: Condition): ASql {
     //TODO: check that last step was FROM before add WHERE step
-    if (!operator || !right) {
+    if (operator === undefined && right === undefined) {
       this.operationConditions.push(new OperatorCondition(null, left))
-    } else if (operator && right) {
+    } else if (operator !== undefined && right !== undefined ) {
       this.operationConditions.push(Group.Open)
       this.operationConditions.push(new OperatorCondition(null, left))
       this.operationConditions.push(new OperatorCondition(operator, right))
       this.operationConditions.push(Group.Close)
-    } else {
-      //TODO: throw error
     }
     this.steps.push(STEPS.WHERE)
     return this

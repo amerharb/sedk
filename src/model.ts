@@ -43,7 +43,7 @@ export class Column {
     this.columnName = columnName
   }
 
-  public isEqual(value: string): Condition {
+  public equal(value: string): Condition {
     return new Condition(this, Qualifier.Equal, value)
   }
 

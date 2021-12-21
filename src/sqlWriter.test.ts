@@ -41,7 +41,7 @@ describe('test from one table', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
-      .where(column1.isEqual('x'))
+      .where(column1.equal('x'))
       .getSQL()
       .replace(/\n/g, ' ')
       .replace(/ +/g, ' ')
@@ -52,7 +52,7 @@ describe('test from one table', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
-      .where(column1.isEqual('x'), AND, column2.isEqual('y'))
+      .where(column1.equal('x'), AND, column2.equal('y'))
       .getSQL()
       .replace(/\n/g, ' ')
       .replace(/ +/g, ' ')
@@ -63,7 +63,7 @@ describe('test from one table', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
-      .where(column1.isEqual('x'), OR, column2.isEqual('y'))
+      .where(column1.equal('x'), OR, column2.equal('y'))
       .getSQL()
       .replace(/\n/g, ' ')
       .replace(/ +/g, ' ')
@@ -74,8 +74,8 @@ describe('test from one table', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
-      .where(column1.isEqual('x'))
-      .and(column2.isEqual('y'))
+      .where(column1.equal('x'))
+      .and(column2.equal('y'))
       .getSQL()
       .replace(/\n/g, ' ')
       .replace(/ +/g, ' ')
@@ -86,8 +86,8 @@ describe('test from one table', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
-      .where(column1.isEqual('x'), OR, column2.isEqual('y'))
-      .and(column3.isEqual('z'))
+      .where(column1.equal('x'), OR, column2.equal('y'))
+      .and(column3.equal('z'))
       .getSQL()
       .replace(/\n/g, ' ')
       .replace(/ +/g, ' ')
@@ -98,8 +98,8 @@ describe('test from one table', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
-      .where(column1.isEqual('x'))
-      .or(column2.isEqual('y'))
+      .where(column1.equal('x'))
+      .or(column2.equal('y'))
       .getSQL()
       .replace(/\n/g, ' ')
       .replace(/ +/g, ' ')
@@ -110,8 +110,8 @@ describe('test from one table', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
-      .where(column1.isEqual('x'), AND, column2.isEqual('y'))
-      .or(column3.isEqual('z'))
+      .where(column1.equal('x'), AND, column2.equal('y'))
+      .or(column3.equal('z'))
       .getSQL()
       .replace(/\n/g, ' ')
       .replace(/ +/g, ' ')
@@ -122,9 +122,9 @@ describe('test from one table', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
-      .where(column1.isEqual('x'), AND, column2.isEqual('y'))
-      .and(column3.isEqual('z1'))
-      .or(column3.isEqual('z2'))
+      .where(column1.equal('x'), AND, column2.equal('y'))
+      .and(column3.equal('z1'))
+      .or(column3.equal('z2'))
       .getSQL()
       .replace(/\n/g, ' ')
       .replace(/ +/g, ' ')

@@ -56,9 +56,18 @@ export class ASql {
     return this
   }
 
-  public and(condition: Condition): ASql {
+  public and(condition: Condition): ASql
+  public and(left: Condition, operator: Operator, right: Condition): ASql
+  public and(left: Condition, operator?: Operator, right?: Condition): ASql {
     //TODO: check that last step was WHERE or OR before add AND step
-    this.operationConditions.push(new OperatorCondition(Operator.AND, condition))
+    if (operator === undefined && right === undefined) {
+      this.operationConditions.push(new OperatorCondition(AND, left))
+    } else if (operator !== undefined && right !== undefined) {
+      this.operationConditions.push(Group.Open)
+      this.operationConditions.push(new OperatorCondition(AND, left))
+      this.operationConditions.push(new OperatorCondition(operator, right))
+      this.operationConditions.push(Group.Close)
+    }
     this.steps.push(STEPS.AND)
     return this
   }

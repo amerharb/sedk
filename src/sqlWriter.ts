@@ -6,6 +6,14 @@ import {
   Condition,
 } from './model'
 
+export enum Operator {
+    AND = 'AND',
+    OR = 'OR',
+}
+//Aliases
+const AND = Operator.AND
+const OR = Operator.OR
+
 export class ASql {
   private dbSchema: Database
   private table: Table
@@ -32,13 +40,13 @@ export class ASql {
     return this
   }
 
-  public where(condition: Condition): ASql;
-  public where(left: Condition, operator: Operator, right: Condition): ASql;
+  public where(condition: Condition): ASql
+  public where(left: Condition, operator: Operator, right: Condition): ASql
   public where(left: Condition, operator?: Operator, right?: Condition): ASql {
     //TODO: check that last step was FROM before add WHERE step
     if (operator === undefined && right === undefined) {
       this.operationConditions.push(new OperatorCondition(null, left))
-    } else if (operator !== undefined && right !== undefined ) {
+    } else if (operator !== undefined && right !== undefined) {
       this.operationConditions.push(Group.Open)
       this.operationConditions.push(new OperatorCondition(null, left))
       this.operationConditions.push(new OperatorCondition(operator, right))
@@ -57,7 +65,7 @@ export class ASql {
 
   public or(condition: Condition): ASql {
     //TODO: check that last step was WHERE or AND before add OR step
-    this.operationConditions.push(new OperatorCondition(Operator.OR, condition))
+    this.operationConditions.push(new OperatorCondition(OR, condition))
     this.steps.push(STEPS.OR)
     return this
   }
@@ -140,9 +148,4 @@ export class OperatorCondition {
 enum Group {
     Open = '(',
     Close = ')',
-}
-
-export enum Operator {
-    AND = 'AND',
-    OR = 'OR',
 }

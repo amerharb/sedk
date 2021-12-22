@@ -77,7 +77,7 @@ export class NumberColumn extends Column {
     super(columnName)
   }
 
-  public equal(value: number|null): Condition {
+  public eq(value: number|null): Condition {
     return new Condition(this, Qualifier.Equal, value)
   }
 }

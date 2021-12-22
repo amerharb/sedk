@@ -55,7 +55,7 @@ describe('test from one table', () => {
     const received = asql
       .select(column1, column4)
       .from(table)
-      .where(column4.equal(5))
+      .where(column4.eq(5))
       .getSQL()
       .replace(/\n/g, ' ')
       .replace(/ +/g, ' ')
@@ -66,11 +66,11 @@ describe('test from one table', () => {
     const received = asql
       .select(column1, column4)
       .from(table)
-      .where(column4.equal(null))
+      .where(column4.eq(null))
       .getSQL()
       .replace(/\n/g, ' ')
       .replace(/ +/g, ' ')
-    expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col4 = NULL')
+    expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col4 IS NULL')
   })
 
   it('has correct select 2 columns from one table with where has 1 condition for number column is null', () => {
@@ -81,7 +81,7 @@ describe('test from one table', () => {
       .getSQL()
       .replace(/\n/g, ' ')
       .replace(/ +/g, ' ')
-    expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col1 = NULL')
+    expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col1 IS NULL')
   })
 
   it('has correct select 2 columns from one table with where has 2 conditions with AND inside parentheses', () => {

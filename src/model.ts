@@ -68,7 +68,10 @@ export class TextColumn extends Column {
   }
 
   public eq(value: string|null): Condition {
-    return new Condition(this, Qualifier.Equal, value)
+    if (value === null)
+      return new Condition(this, Qualifier.Is, value)
+    else
+      return new Condition(this, Qualifier.Equal, value)
   }
 }
 
@@ -78,7 +81,10 @@ export class NumberColumn extends Column {
   }
 
   public eq(value: number|null): Condition {
-    return new Condition(this, Qualifier.Equal, value)
+    if (value === null)
+      return new Condition(this, Qualifier.Is, value)
+    else
+      return new Condition(this, Qualifier.Equal, value)
   }
 }
 
@@ -127,8 +133,7 @@ enum Qualifier {
     Equal = '=',
     // TODO: add "in" Qualifier
     // In = 'IN',
-    // TODO: add "is" Qualifier for null
-    // Is = 'IS',
+    Is = 'IS',
     // TODO: add other Qualifier for number
     // Greater = '>',
     // GreaterOrEqual = '>=',

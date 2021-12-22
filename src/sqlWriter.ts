@@ -36,15 +36,13 @@ export class ASql {
   public where(left: Condition, operator: Operator, right: Condition): ASql;
   public where(left: Condition, operator?: Operator, right?: Condition): ASql {
     //TODO: check that last step was FROM before add WHERE step
-    if (!operator || !right) {
+    if (operator === undefined && right === undefined) {
       this.operationConditions.push(new OperatorCondition(null, left))
-    } else if (operator && right) {
+    } else if (operator !== undefined && right !== undefined ) {
       this.operationConditions.push(Group.Open)
       this.operationConditions.push(new OperatorCondition(null, left))
       this.operationConditions.push(new OperatorCondition(operator, right))
       this.operationConditions.push(Group.Close)
-    } else {
-      //TODO: throw error
     }
     this.steps.push(STEPS.WHERE)
     return this
@@ -72,15 +70,14 @@ export class ASql {
       result += ' WHERE'
       let i = 0
       let opCond = this.operationConditions[i]
+      // TODO: generalize this code for case where there will Open and Close Group after first Where
       if (opCond instanceof OperatorCondition) {
         result += ` ${opCond.getCondition()}` //first cond has no operator
       } else {
         if (opCond === Group.Open) {
           const nextOpCond = this.operationConditions[i + 1]
-          if (nextOpCond instanceof OperatorCondition) {
-            const op = (nextOpCond.getOperator() ?? '').toString()
-            result += ` ${op} ${Group.Open} `
-          }
+          if (nextOpCond instanceof OperatorCondition)
+            result += ` ${Group.Open} ` //first cond has no operator
         }
         i++
         opCond = this.operationConditions[i]

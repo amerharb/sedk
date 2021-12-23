@@ -16,10 +16,6 @@ export class Database {
     return this.version
   }
 
-  getTables(): Table[] {
-    return this.tables
-  }
-
   //TODO: add engine
   // getEngine(): EngineEnum|undefined {
   //   return this.engin
@@ -39,10 +35,6 @@ export class Table {
   constructor(tableName: string, columns: Column[]) {
     this.tableName = tableName
     this.columns = columns
-  }
-
-  getColumns() {
-    return this.columns
   }
 
   public toString() {

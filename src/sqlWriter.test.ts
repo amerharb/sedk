@@ -21,8 +21,7 @@ describe('test from one table', () => {
       .select(column1)
       .from(table)
       .getSQL()
-      .replace(/\n/g, ' ')
-      .replace(/ +/g, ' ')
+      .replace(/\s+/g, ' ')
       .trim()
 
     expect(received).toEqual('SELECT col1 FROM testTable')
@@ -33,8 +32,7 @@ describe('test from one table', () => {
       .select(column1, column2)
       .from(table)
       .getSQL()
-      .replace(/\n/g, ' ')
-      .replace(/ +/g, ' ')
+      .replace(/\s+/g, ' ')
       .trim()
 
     expect(received).toEqual('SELECT col1, col2 FROM testTable')
@@ -46,8 +44,7 @@ describe('test from one table', () => {
       .from(table)
       .where(column1.eq('x'))
       .getSQL()
-      .replace(/\n/g, ' ')
-      .replace(/ +/g, ' ')
+      .replace(/\s+/g, ' ')
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x'")
   })
 
@@ -57,8 +54,7 @@ describe('test from one table', () => {
       .from(table)
       .where(column4.eq(5))
       .getSQL()
-      .replace(/\n/g, ' ')
-      .replace(/ +/g, ' ')
+      .replace(/\s+/g, ' ')
     expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col4 = 5')
   })
 
@@ -68,8 +64,7 @@ describe('test from one table', () => {
       .from(table)
       .where(column4.eq(null))
       .getSQL()
-      .replace(/\n/g, ' ')
-      .replace(/ +/g, ' ')
+      .replace(/\s+/g, ' ')
     expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col4 IS NULL')
   })
 
@@ -79,8 +74,7 @@ describe('test from one table', () => {
       .from(table)
       .where(column1.eq(null))
       .getSQL()
-      .replace(/\n/g, ' ')
-      .replace(/ +/g, ' ')
+      .replace(/\s+/g, ' ')
     expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col1 IS NULL')
   })
 
@@ -90,8 +84,7 @@ describe('test from one table', () => {
       .from(table)
       .where(column1.eq('x'), AND, column2.eq('y'))
       .getSQL()
-      .replace(/\n/g, ' ')
-      .replace(/ +/g, ' ')
+      .replace(/\s+/g, ' ')
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' )")
   })
 
@@ -101,8 +94,7 @@ describe('test from one table', () => {
       .from(table)
       .where(column1.eq('x'), OR, column2.eq('y'))
       .getSQL()
-      .replace(/\n/g, ' ')
-      .replace(/ +/g, ' ')
+      .replace(/\s+/g, ' ')
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' OR col2 = 'y' )")
   })
 
@@ -113,8 +105,7 @@ describe('test from one table', () => {
       .where(column1.eq('x'))
       .and(column2.eq('y'))
       .getSQL()
-      .replace(/\n/g, ' ')
-      .replace(/ +/g, ' ')
+      .replace(/\s+/g, ' ')
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x' AND col2 = 'y'")
   })
 
@@ -125,8 +116,7 @@ describe('test from one table', () => {
       .where(column1.eq('x'), OR, column2.eq('y'))
       .and(column3.eq('z'))
       .getSQL()
-      .replace(/\n/g, ' ')
-      .replace(/ +/g, ' ')
+      .replace(/\s+/g, ' ')
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' OR col2 = 'y' ) AND col3 = 'z'")
   })
 
@@ -137,8 +127,7 @@ describe('test from one table', () => {
       .where(column1.eq('x'))
       .or(column2.eq('y'))
       .getSQL()
-      .replace(/\n/g, ' ')
-      .replace(/ +/g, ' ')
+      .replace(/\s+/g, ' ')
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x' OR col2 = 'y'")
   })
 
@@ -149,12 +138,11 @@ describe('test from one table', () => {
       .where(column1.eq('x'), AND, column2.eq('y'))
       .or(column3.eq('z'))
       .getSQL()
-      .replace(/\n/g, ' ')
-      .replace(/ +/g, ' ')
+      .replace(/\s+/g, ' ')
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' ) OR col3 = 'z'")
   })
 
-  it('has correct select 2 columns from one table with where has 1 condition then OR after it then AND without parentheses', () => {
+  it('has correct select 2 columns from one table with where has 2 conditions then AND after it then OR without parentheses', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -162,8 +150,7 @@ describe('test from one table', () => {
       .and(column3.eq('z1'))
       .or(column3.eq('z2'))
       .getSQL()
-      .replace(/\n/g, ' ')
-      .replace(/ +/g, ' ')
+      .replace(/\s+/g, ' ')
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' ) AND col3 = 'z1' OR col3 = 'z2'")
   })
 })

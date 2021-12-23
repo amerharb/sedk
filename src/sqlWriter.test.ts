@@ -17,7 +17,7 @@ describe('test from one table', () => {
   const asql = new sql.ASql(db)
 
   //regex to replace multi white space with one ignore singel quoted text
-  //TODO: enhance it to cover the case when there is escape qutoe "\'"
+  //TODO: enhance it to cover the case when there is escape quote "\'"
   const whiteSpaceRegex = /\s+(?=(?:'[^']*'|[^'])*$)/g
 
   it('produces [SELECT col1 FROM testTable]', () => {
@@ -188,5 +188,27 @@ describe('test from one table', () => {
       .getSQL()
       .replace(whiteSpaceRegex, ' ')
     expect(received).toEqual("SELECT col1 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' OR col4 = 5 )")
+  })
+
+  it("produces [SELECT col1 FROM testTable WHERE col1 = 'x' AND ( col2 = 'y' OR col3 = 'z' OR col4 = 5 )]", () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column1.eq('x'))
+      .and(column2.eq('y'), OR, column3.eq('z'), OR, column4.eq(5))
+      .getSQL()
+      .replace(whiteSpaceRegex, ' ')
+    expect(received).toEqual("SELECT col1 FROM testTable WHERE col1 = 'x' AND ( col2 = 'y' OR col3 = 'z' OR col4 = 5 )")
+  })
+
+  it("produces [SELECT col1 FROM testTable WHERE col1 = 'x' OR ( col2 = 'y' AND col3 = 'z' AND col4 = 5 )]", () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column1.eq('x'))
+      .or(column2.eq('y'), AND, column3.eq('z'), AND, column4.eq(5))
+      .getSQL()
+      .replace(whiteSpaceRegex, ' ')
+    expect(received).toEqual("SELECT col1 FROM testTable WHERE col1 = 'x' OR ( col2 = 'y' AND col3 = 'z' AND col4 = 5 )")
   })
 })

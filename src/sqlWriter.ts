@@ -42,41 +42,48 @@ export class ASql {
 
   public where(condition: Condition): ASql
   public where(left: Condition, operator: Operator, right: Condition): ASql
-  public where(left: Condition, operator?: Operator, right?: Condition): ASql {
+  public where(left: Condition, operator1: Operator, middle: Condition, operator2: Operator, right: Condition): ASql
+  public where(cond1: Condition, op1?: Operator, cond2?: Condition, op2?: Operator, cond3?: Condition): ASql {
     //TODO: check that last step was FROM before add WHERE step
-    this.addWhereParts(left, operator, right)
+    this.addWhereParts(cond1, op1, cond2, op2, cond3)
     this.steps.push(STEPS.WHERE)
     return this
   }
 
   public and(condition: Condition): ASql
   public and(left: Condition, operator: Operator, right: Condition): ASql
-  public and(left: Condition, operator?: Operator, right?: Condition): ASql {
+  public and(left: Condition, operator1: Operator, middle: Condition, operator2: Operator, right: Condition): ASql
+  public and(cond1: Condition, op1?: Operator, cond2?: Condition, op2?: Operator, cond3?: Condition): ASql {
     //TODO: check that last step was WHERE or OR before add AND step
     this.whereParts.push(AND)
-    this.addWhereParts(left, operator, right)
+    this.addWhereParts(cond1, op1, cond2, op2, cond3)
     this.steps.push(STEPS.AND)
     return this
   }
 
   public or(condition: Condition): ASql
   public or(left: Condition, operator: Operator, right: Condition): ASql
-  public or(left: Condition, operator?: Operator, right?: Condition): ASql {
+  public or(left: Condition, operator1: Operator, middle: Condition, operator2: Operator, right: Condition): ASql
+  public or(cond1: Condition, op1?: Operator, cond2?: Condition, op2?: Operator, cond3?: Condition): ASql {
     //TODO: check that last step was WHERE or AND before add OR step
     this.whereParts.push(OR)
-    this.addWhereParts(left, operator, right)
+    this.addWhereParts(cond1, op1, cond2, op2, cond3)
     this.steps.push(STEPS.OR)
     return this
   }
 
-  private addWhereParts(left: Condition, operator?: Operator, right?: Condition) {
-    if (operator === undefined && right === undefined) {
-      this.whereParts.push(left)
-    } else if (operator !== undefined && right !== undefined) {
+  private addWhereParts(cond1: Condition, op1?: Operator, cond2?: Condition, op2?: Operator, cond3?: Condition) {
+    if (op1 === undefined && cond2 === undefined) {
+      this.whereParts.push(cond1)
+    } else if (op1 !== undefined && cond2 !== undefined) {
       this.whereParts.push(Parenthesis.Open)
-      this.whereParts.push(left)
-      this.whereParts.push(operator)
-      this.whereParts.push(right)
+      this.whereParts.push(cond1)
+      this.whereParts.push(op1)
+      this.whereParts.push(cond2)
+      if (op2 !== undefined && cond3 !== undefined) {
+        this.whereParts.push(op2)
+        this.whereParts.push(cond3)
+      }
       this.whereParts.push(Parenthesis.Close)
     }
   }

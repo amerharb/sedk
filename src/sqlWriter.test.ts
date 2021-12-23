@@ -20,7 +20,7 @@ describe('test from one table', () => {
   //TODO: enhance it to cover the case when there is escape qutoe "\'"
   const whiteSpaceRegex = /\s+(?=(?:'[^']*'|[^'])*$)/g
 
-  it('has correct select 1 column from one table', () => {
+  it('produces [SELECT col1 FROM testTable]', () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -31,7 +31,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable')
   })
 
-  it('has correct select 2 columns from one table', () => {
+  it('produces [SELECT col1, col2 FROM testTable]', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -42,7 +42,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1, col2 FROM testTable')
   })
 
-  it('has correct select 2 columns from one table with where has 1 condition', () => {
+  it("produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x']", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -52,7 +52,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x'")
   })
 
-  it('has correct select 2 columns from one table with where has 1 condition for number column', () => {
+  it('produces [SELECT col1, col4 FROM testTable WHERE col4 = 5]', () => {
     const received = asql
       .select(column1, column4)
       .from(table)
@@ -62,7 +62,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col4 = 5')
   })
 
-  it('has correct select 2 columns from one table with where has 1 condition for text column is null', () => {
+  it('produces [SELECT col1, col4 FROM testTable WHERE col4 IS NULL]', () => {
     const received = asql
       .select(column1, column4)
       .from(table)
@@ -72,7 +72,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col4 IS NULL')
   })
 
-  it('has correct select 2 columns from one table with where has 1 condition for number column is null', () => {
+  it('produces [SELECT col1, col4 FROM testTable WHERE col1 IS NULL]', () => {
     const received = asql
       .select(column1, column4)
       .from(table)
@@ -82,7 +82,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col1 IS NULL')
   })
 
-  it('has correct select 2 columns from one table with where has 2 conditions with AND inside parentheses', () => {
+  it("produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' )]", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -92,7 +92,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' )")
   })
 
-  it('has correct select 2 columns from one table with where has 2 conditions with OR inside parentheses', () => {
+  it("produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' OR col2 = 'y' )]", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -102,7 +102,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' OR col2 = 'y' )")
   })
 
-  it('has correct select 2 columns from one table with where has 1 condition then AND after it without parentheses', () => {
+  it("produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x' AND col2 = 'y']", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -113,7 +113,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x' AND col2 = 'y'")
   })
 
-  it('has correct select 2 columns from one table with where has 2 conditions then AND after it without parentheses', () => {
+  it("produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' OR col2 = 'y' ) AND col3 = 'z']", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -124,7 +124,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' OR col2 = 'y' ) AND col3 = 'z'")
   })
 
-  it('has correct select 2 columns from one table with where has 1 condition then OR after it without parentheses', () => {
+  it("produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x' OR col2 = 'y']", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -135,7 +135,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x' OR col2 = 'y'")
   })
 
-  it('has correct select 2 columns from one table with where has 2 conditions then OR after it without parentheses', () => {
+  it("produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' ) OR col3 = 'z']", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -146,7 +146,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' ) OR col3 = 'z'")
   })
 
-  it('has correct select 2 columns from one table with where has 2 conditions then AND after it then OR without parentheses', () => {
+  it("produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' ) AND col3 = 'z1' OR col3 = 'z2']", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -158,7 +158,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' ) AND col3 = 'z1' OR col3 = 'z2'")
   })
 
-  it('has correct select 2 columns from one table with where has 1 condition then AND after it has 2 conditions', () => {
+  it("produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x1  x2' AND ( col2 = 'y' OR col3 = 'z' )]", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -169,7 +169,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x1  x2' AND ( col2 = 'y' OR col3 = 'z' )")
   })
 
-  it('has correct select 2 columns from one table with where has 1 condition then OR after it has 2 conditions', () => {
+  it("produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x1  x2' OR ( col2 = 'y' AND col3 = 'z' )]", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -178,5 +178,15 @@ describe('test from one table', () => {
       .getSQL()
       .replace(whiteSpaceRegex, ' ')
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x1  x2' OR ( col2 = 'y' AND col3 = 'z' )")
+  })
+
+  it("produces [SELECT col1 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' OR col4 = 5 )]", () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column1.eq('x'), AND, column2.eq('y'), OR, column4.eq(5))
+      .getSQL()
+      .replace(whiteSpaceRegex, ' ')
+    expect(received).toEqual("SELECT col1 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' OR col4 = 5 )")
   })
 })

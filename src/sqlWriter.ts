@@ -44,15 +44,7 @@ export class ASql {
   public where(left: Condition, operator: Operator, right: Condition): ASql
   public where(left: Condition, operator?: Operator, right?: Condition): ASql {
     //TODO: check that last step was FROM before add WHERE step
-    if (operator === undefined && right === undefined) {
-      this.whereParts.push(left)
-    } else if (operator !== undefined && right !== undefined) {
-      this.whereParts.push(Parenthesis.Open)
-      this.whereParts.push(left)
-      this.whereParts.push(operator)
-      this.whereParts.push(right)
-      this.whereParts.push(Parenthesis.Close)
-    }
+    this.addWhereParts(left, operator, right)
     this.steps.push(STEPS.WHERE)
     return this
   }
@@ -62,15 +54,7 @@ export class ASql {
   public and(left: Condition, operator?: Operator, right?: Condition): ASql {
     //TODO: check that last step was WHERE or OR before add AND step
     this.whereParts.push(AND)
-    if (operator === undefined && right === undefined) {
-      this.whereParts.push(left)
-    } else if (operator !== undefined && right !== undefined) {
-      this.whereParts.push(Parenthesis.Open)
-      this.whereParts.push(left)
-      this.whereParts.push(operator)
-      this.whereParts.push(right)
-      this.whereParts.push(Parenthesis.Close)
-    }
+    this.addWhereParts(left, operator, right)
     this.steps.push(STEPS.AND)
     return this
   }
@@ -80,6 +64,12 @@ export class ASql {
   public or(left: Condition, operator?: Operator, right?: Condition): ASql {
     //TODO: check that last step was WHERE or AND before add OR step
     this.whereParts.push(OR)
+    this.addWhereParts(left, operator, right)
+    this.steps.push(STEPS.OR)
+    return this
+  }
+
+  private addWhereParts(left: Condition, operator?: Operator, right?: Condition) {
     if (operator === undefined && right === undefined) {
       this.whereParts.push(left)
     } else if (operator !== undefined && right !== undefined) {
@@ -89,8 +79,6 @@ export class ASql {
       this.whereParts.push(right)
       this.whereParts.push(Parenthesis.Close)
     }
-    this.steps.push(STEPS.OR)
-    return this
   }
 
   public getSQL(): string {

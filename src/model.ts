@@ -16,10 +16,6 @@ export class Database {
     return this.version
   }
 
-  getTables(): Table[] {
-    return this.tables
-  }
-
   //TODO: add engine
   // getEngine(): EngineEnum|undefined {
   //   return this.engin
@@ -39,10 +35,6 @@ export class Table {
   constructor(tableName: string, columns: Column[]) {
     this.tableName = tableName
     this.columns = columns
-  }
-
-  getColumns() {
-    return this.columns
   }
 
   public toString() {
@@ -67,8 +59,11 @@ export class TextColumn extends Column {
     super(columnName)
   }
 
-  public equal(value: string|null): Condition {
-    return new Condition(this, Qualifier.Equal, value)
+  public eq(value: string|null): Condition {
+    if (value === null)
+      return new Condition(this, Qualifier.Is, value)
+    else
+      return new Condition(this, Qualifier.Equal, value)
   }
 }
 
@@ -77,8 +72,11 @@ export class NumberColumn extends Column {
     super(columnName)
   }
 
-  public equal(value: number|null): Condition {
-    return new Condition(this, Qualifier.Equal, value)
+  public eq(value: number|null): Condition {
+    if (value === null)
+      return new Condition(this, Qualifier.Is, value)
+    else
+      return new Condition(this, Qualifier.Equal, value)
   }
 }
 
@@ -127,8 +125,7 @@ enum Qualifier {
     Equal = '=',
     // TODO: add "in" Qualifier
     // In = 'IN',
-    // TODO: add "is" Qualifier for null
-    // Is = 'IS',
+    Is = 'IS',
     // TODO: add other Qualifier for number
     // Greater = '>',
     // GreaterOrEqual = '>=',

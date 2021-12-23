@@ -18,7 +18,7 @@ export class ASql {
   private dbSchema: Database
   private table: Table
   private columns: Column[]
-  private whereParts: (OperatorCondition|Parenthesis)[] = []
+  private whereParts: (Operator|Condition|Parenthesis)[] = []
   private steps: STEPS[] = []
 
   constructor(database: Database) {
@@ -45,11 +45,12 @@ export class ASql {
   public where(left: Condition, operator?: Operator, right?: Condition): ASql {
     //TODO: check that last step was FROM before add WHERE step
     if (operator === undefined && right === undefined) {
-      this.whereParts.push(new OperatorCondition(null, left))
+      this.whereParts.push(left)
     } else if (operator !== undefined && right !== undefined) {
       this.whereParts.push(Parenthesis.Open)
-      this.whereParts.push(new OperatorCondition(null, left))
-      this.whereParts.push(new OperatorCondition(operator, right))
+      this.whereParts.push(left)
+      this.whereParts.push(operator)
+      this.whereParts.push(right)
       this.whereParts.push(Parenthesis.Close)
     }
     this.steps.push(STEPS.WHERE)
@@ -60,12 +61,14 @@ export class ASql {
   public and(left: Condition, operator: Operator, right: Condition): ASql
   public and(left: Condition, operator?: Operator, right?: Condition): ASql {
     //TODO: check that last step was WHERE or OR before add AND step
+    this.whereParts.push(AND)
     if (operator === undefined && right === undefined) {
-      this.whereParts.push(new OperatorCondition(AND, left))
+      this.whereParts.push(left)
     } else if (operator !== undefined && right !== undefined) {
       this.whereParts.push(Parenthesis.Open)
-      this.whereParts.push(new OperatorCondition(AND, left))
-      this.whereParts.push(new OperatorCondition(operator, right))
+      this.whereParts.push(left)
+      this.whereParts.push(operator)
+      this.whereParts.push(right)
       this.whereParts.push(Parenthesis.Close)
     }
     this.steps.push(STEPS.AND)
@@ -76,12 +79,14 @@ export class ASql {
   public or(left: Condition, operator: Operator, right: Condition): ASql
   public or(left: Condition, operator?: Operator, right?: Condition): ASql {
     //TODO: check that last step was WHERE or AND before add OR step
+    this.whereParts.push(OR)
     if (operator === undefined && right === undefined) {
-      this.whereParts.push(new OperatorCondition(OR, left))
+      this.whereParts.push(left)
     } else if (operator !== undefined && right !== undefined) {
       this.whereParts.push(Parenthesis.Open)
-      this.whereParts.push(new OperatorCondition(OR, left))
-      this.whereParts.push(new OperatorCondition(operator, right))
+      this.whereParts.push(left)
+      this.whereParts.push(operator)
+      this.whereParts.push(right)
       this.whereParts.push(Parenthesis.Close)
     }
     this.steps.push(STEPS.OR)
@@ -97,23 +102,7 @@ export class ASql {
           3. open_group comes always before close_group e.g. ( then ) ok, but ) then ( not ok
           4. no empty group, so no (), there should be at least one oc in between
        */
-      result += ' WHERE'
-      let wherePartCounter = 0
-      let parenthesisCounter = 0
-      let opCond:OperatorCondition|Parenthesis
-
-      while (wherePartCounter < this.whereParts.length) {
-        opCond = this.whereParts[wherePartCounter]
-        if (opCond instanceof OperatorCondition) {
-          result += ` ${opCond.getOperator() ?? ''} ${Parenthesis.Open.repeat(parenthesisCounter)} ${opCond.getCondition()}`
-          parenthesisCounter = 0
-        } else if ( opCond === Parenthesis.Open) {
-          parenthesisCounter++
-        } else if ( opCond === Parenthesis.Close){
-          result += ` ${opCond}`
-        }
-        wherePartCounter++
-      }
+      result += ` WHERE ${this.whereParts.join(' ')}`
     }
 
     // clean up
@@ -130,24 +119,6 @@ enum STEPS {
     WHERE = 'where',
     AND = 'and',
     OR = 'or',
-}
-
-export class OperatorCondition {
-  private readonly operator: Operator | null
-  private readonly condition: Condition
-
-  constructor(operator: Operator | null, condition: Condition) {
-    this.operator = operator
-    this.condition = condition
-  }
-
-  public getOperator(): Operator | null {
-    return this.operator
-  }
-
-  public getCondition(): Condition {
-    return this.condition
-  }
 }
 
 enum Parenthesis {

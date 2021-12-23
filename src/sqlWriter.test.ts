@@ -157,4 +157,26 @@ describe('test from one table', () => {
       .replace(whiteSpaceRegex, ' ')
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' ) AND col3 = 'z1' OR col3 = 'z2'")
   })
+
+  it('has correct select 2 columns from one table with where has 1 condition then AND after it has 2 conditions', () => {
+    const received = asql
+      .select(column1, column2)
+      .from(table)
+      .where(column1.eq('x1  x2'))
+      .and(column2.eq('y'), OR, column3.eq('z'))
+      .getSQL()
+      .replace(whiteSpaceRegex, ' ')
+    expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x1  x2' AND ( col2 = 'y' OR col3 = 'z' )")
+  })
+
+  it('has correct select 2 columns from one table with where has 1 condition then OR after it has 2 conditions', () => {
+    const received = asql
+      .select(column1, column2)
+      .from(table)
+      .where(column1.eq('x1  x2'))
+      .or(column2.eq('y'), AND, column3.eq('z'))
+      .getSQL()
+      .replace(whiteSpaceRegex, ' ')
+    expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x1  x2' OR ( col2 = 'y' AND col3 = 'z' )")
+  })
 })

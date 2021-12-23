@@ -18,7 +18,7 @@ export class ASql {
   private dbSchema: Database
   private table: Table
   private columns: Column[]
-  private operationConditions: (OperatorCondition | Group)[] = []
+  private whereParts: (OperatorCondition|Parenthesis)[] = []
   private steps: STEPS[] = []
 
   constructor(database: Database) {
@@ -45,12 +45,12 @@ export class ASql {
   public where(left: Condition, operator?: Operator, right?: Condition): ASql {
     //TODO: check that last step was FROM before add WHERE step
     if (operator === undefined && right === undefined) {
-      this.operationConditions.push(new OperatorCondition(null, left))
+      this.whereParts.push(new OperatorCondition(null, left))
     } else if (operator !== undefined && right !== undefined) {
-      this.operationConditions.push(Group.Open)
-      this.operationConditions.push(new OperatorCondition(null, left))
-      this.operationConditions.push(new OperatorCondition(operator, right))
-      this.operationConditions.push(Group.Close)
+      this.whereParts.push(Parenthesis.Open)
+      this.whereParts.push(new OperatorCondition(null, left))
+      this.whereParts.push(new OperatorCondition(operator, right))
+      this.whereParts.push(Parenthesis.Close)
     }
     this.steps.push(STEPS.WHERE)
     return this
@@ -61,12 +61,12 @@ export class ASql {
   public and(left: Condition, operator?: Operator, right?: Condition): ASql {
     //TODO: check that last step was WHERE or OR before add AND step
     if (operator === undefined && right === undefined) {
-      this.operationConditions.push(new OperatorCondition(AND, left))
+      this.whereParts.push(new OperatorCondition(AND, left))
     } else if (operator !== undefined && right !== undefined) {
-      this.operationConditions.push(Group.Open)
-      this.operationConditions.push(new OperatorCondition(AND, left))
-      this.operationConditions.push(new OperatorCondition(operator, right))
-      this.operationConditions.push(Group.Close)
+      this.whereParts.push(Parenthesis.Open)
+      this.whereParts.push(new OperatorCondition(AND, left))
+      this.whereParts.push(new OperatorCondition(operator, right))
+      this.whereParts.push(Parenthesis.Close)
     }
     this.steps.push(STEPS.AND)
     return this
@@ -77,61 +77,48 @@ export class ASql {
   public or(left: Condition, operator?: Operator, right?: Condition): ASql {
     //TODO: check that last step was WHERE or AND before add OR step
     if (operator === undefined && right === undefined) {
-      this.operationConditions.push(new OperatorCondition(OR, left))
+      this.whereParts.push(new OperatorCondition(OR, left))
     } else if (operator !== undefined && right !== undefined) {
-      this.operationConditions.push(Group.Open)
-      this.operationConditions.push(new OperatorCondition(OR, left))
-      this.operationConditions.push(new OperatorCondition(operator, right))
-      this.operationConditions.push(Group.Close)
+      this.whereParts.push(Parenthesis.Open)
+      this.whereParts.push(new OperatorCondition(OR, left))
+      this.whereParts.push(new OperatorCondition(operator, right))
+      this.whereParts.push(Parenthesis.Close)
     }
     this.steps.push(STEPS.OR)
     return this
   }
 
   public getSQL(): string {
-    let result = `SELECT ${this.columns.join(', ')}
-                      FROM ${this.table}
-        `
-    if (this.operationConditions && this.operationConditions.length > 0) {
+    let result = `SELECT ${this.columns.join(', ')} FROM ${this.table}`
+    if (this.whereParts && this.whereParts.length > 0) {
+      /* TODO: validate the array
+          1. first oc (operationCondition) has null operator, this not necessarily index 0, as array could start with open_group
+          2. number of open_group equal number of close_group
+          3. open_group comes always before close_group e.g. ( then ) ok, but ) then ( not ok
+          4. no empty group, so no (), there should be at least one oc in between
+       */
       result += ' WHERE'
-      let i = 0
-      let opCond = this.operationConditions[i]
-      // TODO: generalize this code for case where there will Open and Close Group after first Where
-      if (opCond instanceof OperatorCondition) {
-        result += ` ${opCond.getCondition()}` //first cond has no operator
-      } else {
-        if (opCond === Group.Open) {
-          const nextOpCond = this.operationConditions[i + 1]
-          if (nextOpCond instanceof OperatorCondition)
-            result += ` ${Group.Open} ` //first cond has no operator
-        }
-        i++
-        opCond = this.operationConditions[i]
-        if (opCond instanceof OperatorCondition)
-          result += ` ${opCond.getCondition()}`
-        i++
-        opCond = this.operationConditions[i]
-        if (opCond instanceof OperatorCondition)
-          result += ` ${opCond.getOperator()} ${opCond.getCondition()}`
-        i++
-        opCond = this.operationConditions[i]
-        if (opCond === Group.Close)
-          result += ` ${opCond}`
-      }
-      i++
-      while (i < this.operationConditions.length) {
-        opCond = this.operationConditions[i]
-        if (opCond instanceof OperatorCondition) {
-          result += ` ${opCond.getOperator()} ${opCond.getCondition()}`
-        }
-        i++
-      }
+      let wherePartCounter = 0
+      let parenthesisCounter = 0
+      let opCond:OperatorCondition|Parenthesis
 
+      while (wherePartCounter < this.whereParts.length) {
+        opCond = this.whereParts[wherePartCounter]
+        if (opCond instanceof OperatorCondition) {
+          result += ` ${opCond.getOperator() ?? ''} ${Parenthesis.Open.repeat(parenthesisCounter)} ${opCond.getCondition()}`
+          parenthesisCounter = 0
+        } else if ( opCond === Parenthesis.Open) {
+          parenthesisCounter++
+        } else if ( opCond === Parenthesis.Close){
+          result += ` ${opCond}`
+        }
+        wherePartCounter++
+      }
     }
 
     // clean up
     this.steps.length = 0
-    this.operationConditions.length = 0
+    this.whereParts.length = 0
 
     return result
   }
@@ -163,7 +150,7 @@ export class OperatorCondition {
   }
 }
 
-enum Group {
+enum Parenthesis {
     Open = '(',
     Close = ')',
 }

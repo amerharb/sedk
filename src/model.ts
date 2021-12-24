@@ -83,13 +83,8 @@ export class NumberColumn extends Column {
   }
 
   public eq(value: number|null|NumberColumn): Condition {
-    if (value === null)
-      return new Condition(this, Qualifier.Is, new Expression(null))
-    else if (typeof value === 'number')
-      return new Condition(this, Qualifier.Equal, new Expression(value))
-    else { //NumberColumn
-      return new Condition(this, Qualifier.Equal, new Expression(value))
-    }
+    const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
+    return new Condition(this, qualifier, new Expression(value))
   }
 
   public gt(value: number): Condition
@@ -115,12 +110,7 @@ export class Condition {
     if (this.column instanceof TextColumn) {
       if (this.value.type === ExpressionType.SINGLE) {
         if (typeof this.value.value1 === 'string') {
-          /**
-           * TODO: escape single quote if they inside value dependency on db engine
-           * for example PostgreSQL way of escape is repeat the single quote so for "I can't" -> 'I can''t'
-           * so using .replaceAll("'","''") should do the job
-           */
-          return `${this.column} ${this.qualifier} '${this.value}'`
+          return `${this.column} ${this.qualifier} ${this.value}`
         } else if (this.value.value1 === null) {
           //TODO: check if we need to check if qualifier in this case should be only "IS" or not
           return `${this.column} ${this.qualifier} NULL`
@@ -181,15 +171,20 @@ export class Expression {
   }
 
   public toString(): string {
-    if (this.arOp === undefined && this.value2 === undefined) {
-      return this.value1 === null ? 'NULL' : this.value1.toString()
-    } else if (this.arOp !== undefined && this.value2 !== undefined) {
-      const p1 = this.value1 === null ? 'NULL' : this.value1.toString()
-      const p2 = this.arOp.toString()
-      const p3 = this.value2 === null ? 'NULL' : this.value2.toString()
-      return `${p1} ${p2} ${p3}`
+    let result = Expression.getValueString(this.value1)
+    if (this.arOp !== undefined && this.value2 !== undefined) {
+      result += ` ${this.arOp.toString()} ${Expression.getValueString(this.value2)}`
     }
-    throw new Error('invalid Expression')
+    return result
+  }
+
+  private static getValueString(value: ValueType|Expression): string {
+    if (value === null)
+      return 'NULL'
+    else if (typeof value === 'string')
+      return `'${value}'` //todo: escape single quote
+    else
+      return  value.toString()
   }
 }
 

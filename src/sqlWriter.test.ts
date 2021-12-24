@@ -1,4 +1,3 @@
-'use strict'
 import * as sql from './sqlWriter'
 import {ArithmeticOperator, Database, NumberColumn, Table, TextColumn} from './model'
 

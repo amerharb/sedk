@@ -1,4 +1,3 @@
-'use strict'
 import {
   Database,
   Table,
@@ -7,9 +6,10 @@ import {
 } from './model'
 
 export enum Operator {
-    AND = 'AND',
-    OR = 'OR',
+  AND = 'AND',
+  OR = 'OR',
 }
+
 //Aliases
 const AND = Operator.AND
 const OR = Operator.OR
@@ -108,14 +108,14 @@ export class ASql {
 }
 
 enum STEPS {
-    SELECT = 'select',
-    FROM = 'from',
-    WHERE = 'where',
-    AND = 'and',
-    OR = 'or',
+  SELECT = 'select',
+  FROM = 'from',
+  WHERE = 'where',
+  AND = 'and',
+  OR = 'or',
 }
 
 enum Parenthesis {
-    Open = '(',
-    Close = ')',
+  Open = '(',
+  Close = ')',
 }

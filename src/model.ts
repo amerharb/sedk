@@ -1,5 +1,3 @@
-'use strict'
-
 export class Database {
   private readonly version?: number
   //TODO: add engine

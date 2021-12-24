@@ -92,10 +92,9 @@ export class ASql {
     let result = `SELECT ${this.columns.join(', ')} FROM ${this.table}`
     if (this.whereParts && this.whereParts.length > 0) {
       /* TODO: validate the array
-          1. first oc (operationCondition) has null operator, this not necessarily index 0, as array could start with open_group
+          1. no empty group, so no (), there should be at least one oc in between
           2. number of open_group equal number of close_group
           3. open_group comes always before close_group e.g. ( then ) ok, but ) then ( not ok
-          4. no empty group, so no (), there should be at least one oc in between
        */
       result += ` WHERE ${this.whereParts.join(' ')}`
     }

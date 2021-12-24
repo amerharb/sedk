@@ -90,19 +90,19 @@ export class NumberColumn extends Column {
 }
 
 export class Condition {
-  private readonly column: Column
+  private readonly left: Column
   private readonly qualifier: Qualifier
-  private readonly value: Expression
+  private readonly right: Expression
 
-  constructor(column: Column, qualifier: Qualifier, value: Expression) {
-    // TODO: validate if qualifier is valid for the value type, for example Greater or Lesser does not work with string
-    this.column = column
+  constructor(left: Column, qualifier: Qualifier, right: Expression) {
+    // TODO: validate if qualifier is valid for the "right" type, for example Greater or Lesser does not work with string
+    this.left = left
     this.qualifier = qualifier
-    this.value = value
+    this.right = right
   }
 
   public toString() {
-    return `${this.column} ${this.qualifier} ${this.value}`
+    return `${this.left} ${this.qualifier} ${this.right}`
   }
 }
 

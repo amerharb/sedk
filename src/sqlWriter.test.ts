@@ -1,10 +1,11 @@
 'use strict'
 import * as sql from './sqlWriter'
-import { Database, Table, TextColumn, NumberColumn } from './model'
+import {ArithmeticOperator, Database, NumberColumn, Table, TextColumn} from './model'
 
 //Alias
 const AND = sql.Operator.AND
 const OR = sql.Operator.OR
+const ADD = ArithmeticOperator.ADD
 
 describe('test from one table', () => {
   // database schema
@@ -12,6 +13,7 @@ describe('test from one table', () => {
   const column2 = new TextColumn('col2')
   const column3 = new TextColumn('col3')
   const column4 = new NumberColumn('col4')
+  const column5 = new NumberColumn('col5')
   const table = new Table('testTable', [column1, column2, column3, column4])
   const db = new Database([table], 1)
   const asql = new sql.ASql(db)
@@ -220,5 +222,45 @@ describe('test from one table', () => {
       .getSQL()
       .replace(whiteSpaceRegex, ' ')
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 > 5')
+  })
+
+  it('produces [SELECT col1 FROM testTable WHERE col1 = col2]', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column1.eq(column2))
+      .getSQL()
+      .replace(whiteSpaceRegex, ' ')
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col1 = col2')
+  })
+
+  it('produces [SELECT col1 FROM testTable WHERE col1 = col2 + col3]', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column1.eq(column2, ADD, column3))
+      .getSQL()
+      .replace(whiteSpaceRegex, ' ')
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col1 = col2 + col3')
+  })
+
+  it('produces [SELECT col1 FROM testTable WHERE col4 > col5]', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column4.gt(column5))
+      .getSQL()
+      .replace(whiteSpaceRegex, ' ')
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 > col5')
+  })
+
+  it('produces [SELECT col1 FROM testTable WHERE col4 = col5]', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column4.eq(column5))
+      .getSQL()
+      .replace(whiteSpaceRegex, ' ')
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = col5')
   })
 })

@@ -62,18 +62,13 @@ export class TextColumn extends Column {
   public eq(col1: TextColumn, arOp: ArithmeticOperator, col2: TextColumn): Condition
   public eq(value: string|null|TextColumn): Condition
   public eq(value: string|null|TextColumn, arOp?: ArithmeticOperator, col2?: TextColumn): Condition {
-    if (value === null)
-      return new Condition(this, Qualifier.Is, new Expression(null))
-    else if (typeof value === 'string')
-      return new Condition(this, Qualifier.Equal, new Expression(value))
-    else { // TextColumn
-      if (arOp === undefined && col2 === undefined) {
-        return new Condition(this, Qualifier.Equal, new Expression(value))
-      } else if (arOp !== undefined && col2 !== undefined) {
-        return new Condition(this, Qualifier.Equal, new Expression(value, arOp, col2))
-      }
+    if (arOp === undefined && col2 === undefined) {
+      const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
+      return new Condition(this, qualifier, new Expression(value))
+    } else if (arOp !== undefined && col2 !== undefined) {
+      return new Condition(this, Qualifier.Equal, new Expression(value, arOp, col2))
     }
-    throw new Error('invalid condition')
+    throw new Error('not supported case')
   }
 }
 
@@ -107,38 +102,7 @@ export class Condition {
   }
 
   public toString() {
-    if (this.column instanceof TextColumn) {
-      if (this.value.type === ExpressionType.SINGLE) {
-        if (typeof this.value.value1 === 'string') {
-          return `${this.column} ${this.qualifier} ${this.value}`
-        } else if (this.value.value1 === null) {
-          //TODO: check if we need to check if qualifier in this case should be only "IS" or not
-          return `${this.column} ${this.qualifier} NULL`
-        } else if (this.value.value1 instanceof TextColumn) {
-          return `${this.column} ${this.qualifier} ${this.value}`
-        } else { // value is number
-          throw new Error('TextColumn can not be validate with number value')
-        }
-      } else { //complex
-        return `${this.column} ${this.qualifier} ${this.value}`
-      }
-    } else if (this.column instanceof NumberColumn) {
-      if (this.value.type === ExpressionType.SINGLE) {
-        if (typeof this.value.value1 === 'number') {
-          return `${this.column} ${this.qualifier} ${this.value}`
-        } else if (this.value.value1 === null) {
-          //TODO: check if we need to check if qualifier in this case should be only "IS" or not
-          return `${this.column} ${this.qualifier} NULL`
-        } else if (this.value.value1 instanceof NumberColumn) {
-          return `${this.column} ${this.qualifier} ${this.value}`
-        } else { // value is string
-          throw new Error('NumberColumn can not be validate with string value')
-        }
-      } else { //complex
-        return `${this.column} ${this.qualifier} ${this.value}`
-      }
-    }
-    throw new Error('Column type is not supported')
+    return `${this.column} ${this.qualifier} ${this.value}`
   }
 }
 
@@ -184,7 +148,7 @@ export class Expression {
     else if (typeof value === 'string')
       return `'${value}'` //todo: escape single quote
     else
-      return  value.toString()
+      return value.toString()
   }
 }
 

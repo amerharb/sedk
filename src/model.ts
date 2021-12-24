@@ -64,9 +64,9 @@ export class TextColumn extends Column {
   public eq(value: string|null|TextColumn, arOp?: ArithmeticOperator, col2?: TextColumn): Condition {
     if (arOp === undefined && col2 === undefined) {
       const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
-      return new Condition(this, qualifier, new Expression(value))
+      return new Condition(new Expression(this), qualifier, new Expression(value))
     } else if (arOp !== undefined && col2 !== undefined) {
-      return new Condition(this, Qualifier.Equal, new Expression(value, arOp, col2))
+      return new Condition(new Expression(this), Qualifier.Equal, new Expression(value, arOp, col2))
     }
     throw new Error('not supported case')
   }
@@ -79,22 +79,22 @@ export class NumberColumn extends Column {
 
   public eq(value: number|null|NumberColumn): Condition {
     const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
-    return new Condition(this, qualifier, new Expression(value))
+    return new Condition(new Expression(this), qualifier, new Expression(value))
   }
 
   public gt(value: number): Condition
   public gt(value: NumberColumn): Condition
   public gt(value: number|NumberColumn): Condition {
-    return new Condition(this, Qualifier.GreaterThan, new Expression(value))
+    return new Condition(new Expression(this), Qualifier.GreaterThan, new Expression(value))
   }
 }
 
 export class Condition {
-  private readonly left: Column
+  private readonly left: Expression
   private readonly qualifier: Qualifier
   private readonly right: Expression
 
-  constructor(left: Column, qualifier: Qualifier, right: Expression) {
+  constructor(left: Expression, qualifier: Qualifier, right: Expression) {
     // TODO: validate if qualifier is valid for the "right" type, for example Greater or Lesser does not work with string
     this.left = left
     this.qualifier = qualifier

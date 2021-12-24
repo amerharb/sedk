@@ -14,7 +14,7 @@ describe('test from one table', () => {
   const column3 = new TextColumn('col3')
   const column4 = new NumberColumn('col4')
   const column5 = new NumberColumn('col5')
-  const table = new Table('testTable', [column1, column2, column3, column4])
+  const table = new Table('testTable', [column1, column2, column3, column4, column5])
   const db = new Database([table], 1)
   const asql = new sql.ASql(db)
 

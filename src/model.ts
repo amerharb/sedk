@@ -1,5 +1,3 @@
-'use strict'
-
 export class Database {
   private readonly version?: number
   //TODO: add engine
@@ -59,11 +57,16 @@ export class TextColumn extends Column {
     super(columnName)
   }
 
-  public eq(value: string|null): Condition {
-    if (value === null)
-      return new Condition(this, Qualifier.Is, value)
-    else
-      return new Condition(this, Qualifier.Equal, value)
+  public eq(col1: TextColumn, arOp: ArithmeticOperator, col2: TextColumn): Condition
+  public eq(value: string|null|TextColumn): Condition
+  public eq(value: string|null|TextColumn, arOp?: ArithmeticOperator, col2?: TextColumn): Condition {
+    if (arOp === undefined && col2 === undefined) {
+      const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
+      return new Condition(new Expression(this), qualifier, new Expression(value))
+    } else if (arOp !== undefined && col2 !== undefined) {
+      return new Condition(new Expression(this), Qualifier.Equal, new Expression(value, arOp, col2))
+    }
+    throw new Error('not supported case')
   }
 }
 
@@ -72,66 +75,94 @@ export class NumberColumn extends Column {
     super(columnName)
   }
 
-  public eq(value: number|null): Condition {
-    if (value === null)
-      return new Condition(this, Qualifier.Is, value)
-    else
-      return new Condition(this, Qualifier.Equal, value)
+  public eq(value: number|null|NumberColumn): Condition {
+    const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
+    return new Condition(new Expression(this), qualifier, new Expression(value))
   }
-  public gt(value: number): Condition {
-    return new Condition(this, Qualifier.GreaterThan, value)
+
+  public gt(value: number): Condition
+  public gt(value: NumberColumn): Condition
+  public gt(value: number|NumberColumn): Condition {
+    return new Condition(new Expression(this), Qualifier.GreaterThan, new Expression(value))
   }
 }
 
 export class Condition {
-  private readonly column: Column
+  private readonly left: Expression
   private readonly qualifier: Qualifier
-  private readonly value: string|number|null
+  private readonly right: Expression
 
-  constructor(column: Column, qualifier: Qualifier, value: string|number|null) {
-    // TODO: validate if qualifier is valid for the value type, for example Greater or Lesser does not work with string
-    this.column = column
+  constructor(left: Expression, qualifier: Qualifier, right: Expression) {
+    // TODO: validate if qualifier is valid for the "right" type, for example Greater or Lesser does not work with string
+    this.left = left
     this.qualifier = qualifier
-    this.value = value
+    this.right = right
   }
 
   public toString() {
-    if (this.column instanceof TextColumn) {
-      if (typeof this.value === 'string') {
-        /**
-         * TODO: escape single quote if they inside value dependce ondb enginge
-         * for example PostgreSQL way of escape is repeat the single qoute so for "I can't" -> 'I can''t'
-         * so using .replaceAll("'","''") should do the job
-         */
-        return `${this.column} ${this.qualifier} '${this.value}'`
-      } else if (this.value === null) {
-        //TODO: check if we need to check if qualifier in this case should be only "IS" or not
-        return `${this.column} ${this.qualifier} NULL`
-      } else { // value is number
-        throw new Error('TextColumn can not be validate with number value')
-      }
-    } else if (this.column instanceof NumberColumn) {
-      if (typeof this.value === 'number') {
-        return `${this.column} ${this.qualifier} ${this.value}`
-      } else if (this.value === null) {
-        //TODO: check if we need to check if qualifier in this case should be only "IS" or not
-        return `${this.column} ${this.qualifier} NULL`
-      } else { // value is string
-        throw new Error('NumberColumn can not be validate with string value')
-      }
-    }
-    throw new Error('Column type is not supported')
+    return `${this.left} ${this.qualifier} ${this.right}`
   }
 }
 
+//TODO: include other value type like boolean
+type NumberLike = number|NumberColumn
+type TextLike = string|TextColumn
+type ValueType = null|TextLike|NumberLike
+
+export enum ArithmeticOperator {
+  ADD = '+',
+  SUB = '-',
+}
+
+export class Expression {
+  public readonly value1: ValueType|Expression
+  public readonly arOp?: ArithmeticOperator
+  public readonly value2?: ValueType|Expression
+  public readonly type: ExpressionType
+
+  constructor(value1: ValueType|Expression)
+  constructor(value1: ValueType|Expression, arOp: ArithmeticOperator, value2: ValueType|Expression)
+  constructor(value1: ValueType|Expression, arOp?: ArithmeticOperator, value2?: ValueType|Expression) {
+    this.value1 = value1
+    this.arOp = arOp
+    this.value2 = value2
+    if (arOp !== undefined)
+      this.type = ExpressionType.Complex
+    else
+      this.type = ExpressionType.SINGLE
+  }
+
+  public toString(): string {
+    let result = Expression.getValueString(this.value1)
+    if (this.arOp !== undefined && this.value2 !== undefined) {
+      result += ` ${this.arOp.toString()} ${Expression.getValueString(this.value2)}`
+    }
+    return result
+  }
+
+  private static getValueString(value: ValueType|Expression): string {
+    if (value === null)
+      return 'NULL'
+    else if (typeof value === 'string')
+      return `'${value}'` //todo: escape single quote
+    else
+      return value.toString()
+  }
+}
+
+enum ExpressionType {
+  SINGLE = 'single',
+  Complex = 'complex',
+}
+
 enum Qualifier {
-    Equal = '=',
-    // TODO: add "in" Qualifier
-    // In = 'IN',
-    Is = 'IS',
-    // TODO: add other Qualifier for number
-    GreaterThan = '>',
-    // GreaterOrEqual = '>=',
-    // Lesser = '<',
-    // LesserOrEqual = '<=',
+  Equal = '=',
+  // TODO: add "in" Qualifier
+  // In = 'IN',
+  Is = 'IS',
+  // TODO: add other Qualifier for number
+  GreaterThan = '>',
+  // GreaterOrEqual = '>=',
+  // Lesser = '<',
+  // LesserOrEqual = '<=',
 }

@@ -1,4 +1,3 @@
-'use strict'
 import {
   Database,
   Table,
@@ -7,9 +6,10 @@ import {
 } from './model'
 
 export enum Operator {
-    AND = 'AND',
-    OR = 'OR',
+  AND = 'AND',
+  OR = 'OR',
 }
+
 //Aliases
 const AND = Operator.AND
 const OR = Operator.OR
@@ -91,12 +91,7 @@ export class ASql {
   public getSQL(): string {
     let result = `SELECT ${this.columns.join(', ')} FROM ${this.table}`
     if (this.whereParts && this.whereParts.length > 0) {
-      /* TODO: validate the array
-          1. first oc (operationCondition) has null operator, this not necessarily index 0, as array could start with open_group
-          2. number of open_group equal number of close_group
-          3. open_group comes always before close_group e.g. ( then ) ok, but ) then ( not ok
-          4. no empty group, so no (), there should be at least one oc in between
-       */
+      this.validateWhereParts()
       result += ` WHERE ${this.whereParts.join(' ')}`
     }
 
@@ -106,17 +101,45 @@ export class ASql {
 
     return result
   }
+
+  /**
+   * This function throws error if WhereParts Array where invalid
+   * it check the number of open and close parentheses in the conditions
+   */
+  private validateWhereParts() {
+    let pCounter = 0
+    for (let i = 0; i < this.whereParts.length; i++) {
+      if (this.whereParts[i] === Parenthesis.Open) {
+        pCounter++
+        if (i < this.whereParts.length - 1)
+          if (this.whereParts[i + 1] === Parenthesis.Close)
+            throw new Error('invalid conditions build, empty parenthesis is not allowed')
+      }
+
+      if (this.whereParts[i] === Parenthesis.Close)
+        pCounter--
+
+      if (pCounter < 0) // Close comes before Open
+        throw new Error('invalid conditions build, closing parentheses must not occur after Opening one')
+    }
+
+    if (pCounter > 0) // Opening more than closing
+      throw new Error('invalid conditions build, opening parentheses is more than closing ones')
+
+    if (pCounter < 0) // Closing more than opening
+      throw new Error('invalid conditions build, closing parentheses is more than opening ones')
+  }
 }
 
 enum STEPS {
-    SELECT = 'select',
-    FROM = 'from',
-    WHERE = 'where',
-    AND = 'and',
-    OR = 'or',
+  SELECT = 'select',
+  FROM = 'from',
+  WHERE = 'where',
+  AND = 'and',
+  OR = 'or',
 }
 
 enum Parenthesis {
-    Open = '(',
-    Close = ')',
+  Open = '(',
+  Close = ')',
 }

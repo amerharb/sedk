@@ -6,6 +6,7 @@
   "scripts": {
     "start": "tsc && node dist/src/index.js",
     "test": "jest",
+    "Build&test": "tsc && jest",
     "lint": "eslint src/**/*.ts",
     "lint-fix": "eslint src/**/*.ts --fix"
   },

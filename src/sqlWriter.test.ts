@@ -6,6 +6,7 @@ import {ArithmeticOperator, Database, NumberColumn, Table, TextColumn} from './m
 const AND = sql.Operator.AND
 const OR = sql.Operator.OR
 const ADD = ArithmeticOperator.ADD
+const SUB = ArithmeticOperator.SUB
 
 describe('test from one table', () => {
   // database schema
@@ -242,6 +243,16 @@ describe('test from one table', () => {
       .getSQL()
       .replace(whiteSpaceRegex, ' ')
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col1 = col2 + col3')
+  })
+
+  it('produces [SELECT col1 FROM testTable WHERE col1 = col2 - col3]', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column1.eq(column2, SUB, column3))
+      .getSQL()
+      .replace(whiteSpaceRegex, ' ')
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col1 = col2 - col3')
   })
 
   it('produces [SELECT col1 FROM testTable WHERE col4 > col5]', () => {

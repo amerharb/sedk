@@ -78,6 +78,9 @@ export class NumberColumn extends Column {
     else
       return new Condition(this, Qualifier.Equal, value)
   }
+  public gt(value: number): Condition {
+    return new Condition(this, Qualifier.GreaterThan, value)
+  }
 }
 
 export class Condition {
@@ -127,7 +130,7 @@ enum Qualifier {
     // In = 'IN',
     Is = 'IS',
     // TODO: add other Qualifier for number
-    // Greater = '>',
+    GreaterThan = '>',
     // GreaterOrEqual = '>=',
     // Lesser = '<',
     // LesserOrEqual = '<=',

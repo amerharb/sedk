@@ -211,4 +211,14 @@ describe('test from one table', () => {
       .replace(whiteSpaceRegex, ' ')
     expect(received).toEqual("SELECT col1 FROM testTable WHERE col1 = 'x' OR ( col2 = 'y' AND col3 = 'z' AND col4 = 5 )")
   })
+
+  it('produces [SELECT col1 FROM testTable WHERE col4 > 5]', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column4.gt(5))
+      .getSQL()
+      .replace(whiteSpaceRegex, ' ')
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 > 5')
+  })
 })

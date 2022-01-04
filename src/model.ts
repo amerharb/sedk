@@ -109,11 +109,6 @@ type NumberLike = number|NumberColumn
 type TextLike = string|TextColumn
 type ValueType = null|TextLike|NumberLike
 
-export enum ArithmeticOperator {
-  ADD = '+',
-  SUB = '-',
-}
-
 export class Expression {
   public readonly value1: ValueType|Expression
   public readonly arOp?: ArithmeticOperator
@@ -165,4 +160,9 @@ enum Qualifier {
   // GreaterOrEqual = '>=',
   // Lesser = '<',
   // LesserOrEqual = '<=',
+}
+
+export enum ArithmeticOperator {
+  ADD = '+',
+  SUB = '-',
 }

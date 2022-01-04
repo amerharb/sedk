@@ -14,7 +14,8 @@ describe('test from one table', () => {
   const column3 = new TextColumn('col3')
   const column4 = new NumberColumn('col4')
   const column5 = new NumberColumn('col5')
-  const table = new Table('testTable', [column1, column2, column3, column4, column5])
+  const column6 = new NumberColumn('col6')
+  const table = new Table('testTable', [column1, column2, column3, column4, column5, column6])
   const db = new Database([table], 1)
   const asql = new sql.ASql(db)
 
@@ -234,26 +235,26 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col1 = col2')
   })
 
-  //TODO: this should raise an error since col1, col2 and col3 are text they should be number
-  it('produces [SELECT col1 FROM testTable WHERE col1 = col2 + col3]', () => {
+  it('produces [SELECT col1 FROM testTable WHERE col4 = col5 + col6]', () => {
     const received = asql
       .select(column1)
       .from(table)
-      .where(column1.eq(column2, ADD, column3))
+      .where(column4.eq(column5, ADD, column6))
       .getSQL()
       .replace(whiteSpaceRegex, ' ')
-    expect(received).toEqual('SELECT col1 FROM testTable WHERE col1 = col2 + col3')
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = col5 + col6')
   })
 
-  //TODO: this should raise an error since col1, col2 and col3 are text they should be number
-  it('produces [SELECT col1 FROM testTable WHERE col1 = col2 - col3]', () => {
+  it('produces [SELECT col1 FROM testTable WHERE col4 = col5 - col6]', () => {
     const received = asql
       .select(column1)
       .from(table)
-      .where(column1.eq(column2, SUB, column3))
+      .where(column4.eq(column5, SUB, column6))
       .getSQL()
       .replace(whiteSpaceRegex, ' ')
-    expect(received).toEqual('SELECT col1 FROM testTable WHERE col1 = col2 - col3')
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = col5 - col6')
   })
 
   it('produces [SELECT col1 FROM testTable WHERE col4 > col5]', () => {

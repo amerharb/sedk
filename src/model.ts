@@ -57,16 +57,9 @@ export class TextColumn extends Column {
     super(columnName)
   }
 
-  public eq(col1: TextColumn, arOp: ArithmeticOperator, col2: TextColumn): Condition
-  public eq(value: string|null|TextColumn): Condition
-  public eq(value: string|null|TextColumn, arOp?: ArithmeticOperator, col2?: TextColumn): Condition {
-    if (arOp === undefined && col2 === undefined) {
-      const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
-      return new Condition(new Expression(this), qualifier, new Expression(value))
-    } else if (arOp !== undefined && col2 !== undefined) {
-      return new Condition(new Expression(this), Qualifier.Equal, new Expression(value, arOp, col2))
-    }
-    throw new Error('not supported case')
+  public eq(value: string|null|TextColumn): Condition   {
+    const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
+    return new Condition(new Expression(this), qualifier, new Expression(value))
   }
 }
 
@@ -75,9 +68,16 @@ export class NumberColumn extends Column {
     super(columnName)
   }
 
-  public eq(value: number|null|NumberColumn): Condition {
-    const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
-    return new Condition(new Expression(this), qualifier, new Expression(value))
+  public eq(col1: NumberColumn, arOp: ArithmeticOperator, col2: NumberColumn): Condition
+  public eq(value: number|null|NumberColumn): Condition
+  public eq(value: number|null|NumberColumn, arOp?: ArithmeticOperator, col2?: NumberColumn): Condition {
+    if (arOp === undefined && col2 === undefined) {
+      const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
+      return new Condition(new Expression(this), qualifier, new Expression(value))
+    } else if (arOp !== undefined && col2 !== undefined) {
+      return new Condition(new Expression(this), Qualifier.Equal, new Expression(value, arOp, col2))
+    }
+    throw new Error('not supported case')
   }
 
   public gt(value: number): Condition

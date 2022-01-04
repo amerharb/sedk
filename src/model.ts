@@ -129,7 +129,7 @@ export class Expression {
     if (arOp !== undefined)
       this.type = ExpressionType.Complex
     else
-      this.type = ExpressionType.SINGLE
+      this.type = ExpressionType.Single
   }
 
   public toString(): string {
@@ -151,7 +151,7 @@ export class Expression {
 }
 
 enum ExpressionType {
-  SINGLE = 'single',
+  Single = 'single',
   Complex = 'complex',
 }
 

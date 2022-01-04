@@ -234,6 +234,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col1 = col2')
   })
 
+  //TODO: this should raise an error since col1, col2 and col3 are text they should be number
   it('produces [SELECT col1 FROM testTable WHERE col1 = col2 + col3]', () => {
     const received = asql
       .select(column1)
@@ -244,6 +245,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col1 = col2 + col3')
   })
 
+  //TODO: this should raise an error since col1, col2 and col3 are text they should be number
   it('produces [SELECT col1 FROM testTable WHERE col1 = col2 - col3]', () => {
     const received = asql
       .select(column1)

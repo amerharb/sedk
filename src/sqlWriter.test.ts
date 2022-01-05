@@ -20,7 +20,7 @@ describe('test from one table', () => {
   const db = new Database([table], 1)
   const asql = new sql.ASql(db)
 
-  //regex to replace multi white space with one ignore singel quoted text
+  //regex to replace multi white space with one space, ignore singel quoted text
   //TODO: enhance it to cover the case when there is escape quote "\'"
   const whiteSpaceRegex = /\s+(?=(?:'[^']*'|[^'])*$)/g
 

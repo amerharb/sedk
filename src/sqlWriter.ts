@@ -4,6 +4,7 @@ import {
   Column,
   Condition,
 } from './model'
+import { ColumnNotFoundError } from './Errors'
 
 export enum Operator {
   AND = 'AND',
@@ -27,6 +28,7 @@ export class ASql {
 
   public select(...columns: Column[]): ASql {
     //TODO check that these columns are part of database
+    this.throwIfColumnsNotInDb(columns)
     this.columns = columns
     this.steps.push(STEPS.SELECT)
     return this
@@ -89,7 +91,8 @@ export class ASql {
   }
 
   public getSQL(): string {
-    let result = `SELECT ${this.columns.join(', ')} FROM ${this.table}`
+    let result = `SELECT ${this.columns.join(', ')}
+                  FROM ${this.table}`
     if (this.whereParts && this.whereParts.length > 0) {
       this.validateWhereParts()
       result += ` WHERE ${this.whereParts.join(' ')}`
@@ -128,6 +131,24 @@ export class ASql {
 
     if (pCounter < 0) // Closing more than opening
       throw new Error('invalid conditions build, closing parentheses is more than opening ones')
+  }
+
+  private throwIfColumnsNotInDb(columns: Column[]) {
+    for (const column of columns) {
+      // TODO: move search function into database model
+      let found = false
+      COL:
+      for (const table of this.dbSchema.getTables()) {
+        for (const col of table.getColumn()) {
+          if (column === col) {
+            found = true
+            break COL
+          }
+        }
+      }
+      if (!found)
+        throw new ColumnNotFoundError(`Column: ${column} not found`)
+    }
   }
 }
 

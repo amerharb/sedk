@@ -10,6 +10,10 @@ export class Database {
   getVersion(): number|undefined {
     return this.version
   }
+
+  getTables(): Table[] {
+    return this.tables
+  }
 }
 
 export class Table {
@@ -21,6 +25,9 @@ export class Table {
     this.columns = columns
   }
 
+  public getColumn(){
+    return this.columns
+  }
   public toString() {
     return this.tableName
   }

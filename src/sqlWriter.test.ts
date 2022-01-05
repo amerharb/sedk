@@ -1,5 +1,6 @@
 import * as sql from './sqlWriter'
 import {ArithmeticOperator, Database, NumberColumn, Table, TextColumn} from './model'
+import {ColumnNotFoundError} from './Errors'
 
 //Alias
 const AND = sql.Operator.AND
@@ -286,5 +287,19 @@ describe('test from one table', () => {
       .getSQL()
       .replace(whiteSpaceRegex, ' ')
     expect(received).toEqual("SELECT col1 FROM testTable WHERE col2 = 'value contain single quote '' and more '''' , '''")
+  })
+
+  it('Throw error when column not exist', () => {
+    const wrongColumn = new TextColumn('wrongColumn')
+    try{
+      asql
+        .select(column1, wrongColumn, column3)
+        .from(table)
+        .getSQL()
+        .replace(whiteSpaceRegex, ' ')
+    } catch (err) {
+      expect(err).toBeInstanceOf(ColumnNotFoundError)
+      expect(err).toMatchObject(new ColumnNotFoundError('Column: wrongColumn not found'))
+    }
   })
 })

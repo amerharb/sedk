@@ -1,6 +1,6 @@
 import * as sql from './sqlWriter'
 import {ArithmeticOperator, Database, NumberColumn, Table, TextColumn} from './model'
-import {ColumnNotFoundError} from './Errors'
+import {ColumnNotFoundError, TableNotFoundError} from './Errors'
 
 //Alias
 const AND = sql.Operator.AND
@@ -300,6 +300,20 @@ describe('test from one table', () => {
     } catch (err) {
       expect(err).toBeInstanceOf(ColumnNotFoundError)
       expect(err).toMatchObject(new ColumnNotFoundError('Column: wrongColumn not found'))
+    }
+  })
+
+  it('Throw error when table not exist', () => {
+    const wrongTable = new Table('wrongTable', [new TextColumn('anyColumn')])
+    try{
+      asql
+        .select(column1)
+        .from(wrongTable)
+        .getSQL()
+        .replace(whiteSpaceRegex, ' ')
+    } catch (err) {
+      expect(err).toBeInstanceOf(TableNotFoundError)
+      expect(err).toMatchObject(new ColumnNotFoundError('Table: wrongTable not found'))
     }
   })
 })

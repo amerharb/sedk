@@ -4,7 +4,7 @@ import {
   Column,
   Condition,
 } from './model'
-import { ColumnNotFoundError } from './Errors'
+import { ColumnNotFoundError, TableNotFoundError } from './Errors'
 
 export enum Operator {
   AND = 'AND',
@@ -27,7 +27,6 @@ export class ASql {
   }
 
   public select(...columns: Column[]): ASql {
-    //TODO check that these columns are part of database
     this.throwIfColumnsNotInDb(columns)
     this.columns = columns
     this.steps.push(STEPS.SELECT)
@@ -35,7 +34,7 @@ export class ASql {
   }
 
   public from(table: Table): ASql {
-    //TODO check if this table are part of database
+    this.throwIfTableNotInDb(table)
     //TODO: check that last step was SELECT before add FROM step
     this.table = table
     this.steps.push(STEPS.FROM)
@@ -149,6 +148,19 @@ export class ASql {
       if (!found)
         throw new ColumnNotFoundError(`Column: ${column} not found`)
     }
+  }
+
+  private throwIfTableNotInDb(table: Table) {
+    let found = false
+    // TODO: move search function into database model
+    for (const t of this.dbSchema.getTables()) {
+      if (table === t) {
+        found = true
+        break
+      }
+    }
+    if (!found)
+      throw new TableNotFoundError(`Table: ${table} not found`)
   }
 }
 

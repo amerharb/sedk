@@ -122,12 +122,15 @@ export class Expression {
   }
 
   private static getValueString(value: ValueType|Expression): string {
-    if (value === null)
+    if (value === null) {
       return 'NULL'
-    else if (typeof value === 'string')
-      return `'${value}'` //todo: escape single quote
-    else
+    } else if (typeof value === 'string') {
+      // escape single quote by repeating it
+      const result = value.replace(/'/g, "''")
+      return `'${result}'`
+    } else {
       return value.toString()
+    }
   }
 }
 

@@ -276,4 +276,14 @@ describe('test from one table', () => {
       .replace(whiteSpaceRegex, ' ')
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = col5')
   })
+
+  it("produces [SELECT col1 FROM testTable WHERE col2 = 'value contain single quote '' and more '''' , ''']", () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column2.eq("value contain single quote ' and more '' , '"))
+      .getSQL()
+      .replace(whiteSpaceRegex, ' ')
+    expect(received).toEqual("SELECT col1 FROM testTable WHERE col2 = 'value contain single quote '' and more '''' , '''")
+  })
 })

@@ -1,10 +1,7 @@
 export class Database {
   private readonly version?: number
-  //TODO: add engine
-  // private readonly engin?: EngineEnum
   private readonly tables: Table[]
 
-  //TODO: add engine
   constructor(tables: Table[], version?: number) {
     this.tables = tables
     this.version = version
@@ -13,18 +10,7 @@ export class Database {
   getVersion(): number|undefined {
     return this.version
   }
-
-  //TODO: add engine
-  // getEngine(): EngineEnum|undefined {
-  //   return this.engin
-  // }
 }
-
-//TODO: add engine
-// enum EngineEnum {
-//   SQL_92,
-//   POSTGRESQL,
-// }
 
 export class Table {
   private readonly tableName: string
@@ -57,7 +43,7 @@ export class TextColumn extends Column {
     super(columnName)
   }
 
-  public eq(value: string|null|TextColumn): Condition   {
+  public eq(value: string|null|TextColumn): Condition {
     const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }

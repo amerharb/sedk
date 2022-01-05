@@ -278,10 +278,11 @@ describe('test from one table', () => {
   })
 
   it("produces [SELECT col1 FROM testTable WHERE col2 = 'value contain single quote '' and more '''' , ''']", () => {
+    const stringContainSingleQuote = "value contain single quote ' and more '' , '"
     const received = asql
       .select(column1)
       .from(table)
-      .where(column2.eq("value contain single quote ' and more '' , '"))
+      .where(column2.eq(stringContainSingleQuote))
       .getSQL()
       .replace(whiteSpaceRegex, ' ')
     expect(received).toEqual("SELECT col1 FROM testTable WHERE col2 = 'value contain single quote '' and more '''' , '''")

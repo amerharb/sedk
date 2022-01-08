@@ -291,7 +291,7 @@ describe('test from one table', () => {
 
   it('Throw error when column not exist', () => {
     const wrongColumn = new TextColumn('wrongColumn')
-    try{
+    try {
       asql
         .select(column1, wrongColumn, column3)
         .from(table)
@@ -305,7 +305,7 @@ describe('test from one table', () => {
 
   it('Throw error when table not exist', () => {
     const wrongTable = new Table('wrongTable', [new TextColumn('anyColumn')])
-    try{
+    try {
       asql
         .select(column1)
         .from(wrongTable)

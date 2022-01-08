@@ -25,9 +25,10 @@ export class Table {
     this.columns = columns
   }
 
-  public getColumn(){
+  public getColumn() {
     return this.columns
   }
+
   public toString() {
     return this.tableName
   }
@@ -114,10 +115,11 @@ export class Expression {
     this.value1 = value1
     this.arOp = arOp
     this.value2 = value2
-    if (arOp !== undefined)
+    if (arOp !== undefined) {
       this.type = ExpressionType.Complex
-    else
+    } else {
       this.type = ExpressionType.Single
+    }
   }
 
   public toString(): string {
@@ -133,7 +135,7 @@ export class Expression {
       return 'NULL'
     } else if (typeof value === 'string') {
       // escape single quote by repeating it
-      const result = value.replace(/'/g, "''")
+      const result = value.replace(/'/g, '\'\'')
       return `'${result}'`
     } else {
       return value.toString()

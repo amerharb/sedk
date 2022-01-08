@@ -90,8 +90,8 @@ export class ASql {
   }
 
   public getSQL(): string {
-    let result = `SELECT ${this.columns.join(', ')}
-                  FROM ${this.table}`
+    let result = `SELECT ${this.columns.join(', ')}`
+    result += ` FROM ${this.table}`
     if (this.whereParts && this.whereParts.length > 0) {
       this.validateWhereParts()
       result += ` WHERE ${this.whereParts.join(' ')}`

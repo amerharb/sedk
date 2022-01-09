@@ -1,12 +1,12 @@
 import * as sql from './sqlWriter'
-import {ArithmeticOperator, Database, NumberColumn, Table, TextColumn} from './model'
+import {Operator, Database, NumberColumn, Table, TextColumn} from './model'
 import {ColumnNotFoundError, TableNotFoundError} from './Errors'
 
 //Alias
-const AND = sql.Operator.AND
-const OR = sql.Operator.OR
-const ADD = ArithmeticOperator.ADD
-const SUB = ArithmeticOperator.SUB
+const AND = sql.LogicalOperator.AND
+const OR = sql.LogicalOperator.OR
+const ADD = Operator.ADD
+const SUB = Operator.SUB
 
 describe('test from one table', () => {
   // database schema

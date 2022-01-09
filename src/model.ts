@@ -62,14 +62,14 @@ export class NumberColumn extends Column {
     super(columnName)
   }
 
-  public eq(col1: NumberColumn, arOp: ArithmeticOperator, col2: NumberColumn): Condition
+  public eq(col1: NumberColumn, op: Operator, col2: NumberColumn): Condition
   public eq(value: number|null|NumberColumn): Condition
-  public eq(value: number|null|NumberColumn, arOp?: ArithmeticOperator, col2?: NumberColumn): Condition {
-    if (arOp === undefined && col2 === undefined) {
+  public eq(value: number|null|NumberColumn, op?: Operator, col2?: NumberColumn): Condition {
+    if (op === undefined && col2 === undefined) {
       const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
       return new Condition(new Expression(this), qualifier, new Expression(value))
-    } else if (arOp !== undefined && col2 !== undefined) {
-      return new Condition(new Expression(this), Qualifier.Equal, new Expression(value, arOp, col2))
+    } else if (op !== undefined && col2 !== undefined) {
+      return new Condition(new Expression(this), Qualifier.Equal, new Expression(value, op, col2))
     }
     throw new Error('not supported case')
   }
@@ -81,56 +81,107 @@ export class NumberColumn extends Column {
   }
 }
 
-export class Condition {
-  private readonly left: Expression
-  private readonly qualifier: Qualifier
-  private readonly right: Expression
+export class Condition implements Expression {
+  public readonly left: Expression
+  public readonly qualifier: Qualifier
+  public readonly right: Expression
+
+  public readonly operator: Operator
+  public readonly leftType: ExpressionType
+  public readonly RightType: ExpressionType
+  public readonly resultType: ExpressionType
 
   constructor(left: Expression, qualifier: Qualifier, right: Expression) {
     // TODO: validate if qualifier is valid for the "right" type, for example Greater or Lesser does not work with string
     this.left = left
     this.qualifier = qualifier
     this.right = right
+
+    this.operator = Condition.getOperatorFromQualifier(qualifier)
+    this.leftType = left.resultType
+    this.RightType = right.resultType
+    this.resultType = ExpressionType.BOOLEAN
+  }
+
+  private static getOperatorFromQualifier(qualifier: Qualifier): Operator {
+    switch (qualifier) {
+    case Qualifier.Equal:
+      return Operator.Equal
+    case Qualifier.Is:
+      return Operator.Is
+    case Qualifier.GreaterThan:
+      return Operator.GreaterThan
+    }
   }
 
   public toString() {
     return `${this.left} ${this.qualifier} ${this.right}`
   }
+
 }
 
-//TODO: include other value type like boolean
+//TODO: include other value type like date time
+type BooleanLike = boolean // TODO: |BooleanColumn
 type NumberLike = number|NumberColumn
 type TextLike = string|TextColumn
-type ValueType = null|TextLike|NumberLike
+type ValueType = null|BooleanLike|NumberLike|TextLike
+type OperandType = ValueType|Expression
 
 export class Expression {
-  public readonly value1: ValueType|Expression
-  public readonly arOp?: ArithmeticOperator
-  public readonly value2?: ValueType|Expression
-  public readonly type: ExpressionType
+  public readonly left: OperandType
+  public readonly operator?: Operator
+  public readonly right?: OperandType
+  public readonly leftType: ExpressionType
+  public readonly RightType: ExpressionType
+  public readonly resultType: ExpressionType
 
-  constructor(value1: ValueType|Expression)
-  constructor(value1: ValueType|Expression, arOp: ArithmeticOperator, value2: ValueType|Expression)
-  constructor(value1: ValueType|Expression, arOp?: ArithmeticOperator, value2?: ValueType|Expression) {
-    this.value1 = value1
-    this.arOp = arOp
-    this.value2 = value2
-    if (arOp !== undefined) {
-      this.type = ExpressionType.Complex
-    } else {
-      this.type = ExpressionType.Single
+  constructor(left: OperandType)
+  constructor(left: OperandType, operator: Operator, right: OperandType)
+  constructor(left: OperandType, operator?: Operator, right?: OperandType) {
+    // TODO: validate Expression, for example if left and right are string they can not be used with + and -
+    this.left = left
+    this.operator = operator
+    this.right = right
+    this.leftType = Expression.getExpressionType(left)
+
+    if (right === undefined) {
+      this.RightType = ExpressionType.NOT_DEFINED
+      this.resultType = this.leftType
+    } else if (operator !== undefined) {
+      this.RightType = Expression.getExpressionType(right)
+      this.resultType = Expression.getResultExpressionType(left, operator, right)
     }
   }
 
   public toString(): string {
-    let result = Expression.getValueString(this.value1)
-    if (this.arOp !== undefined && this.value2 !== undefined) {
-      result += ` ${this.arOp.toString()} ${Expression.getValueString(this.value2)}`
+    let result = Expression.getValueString(this.left)
+    if (this.operator !== undefined && this.right !== undefined) {
+      result += ` ${this.operator.toString()} ${Expression.getValueString(this.right)}`
     }
     return result
   }
 
-  private static getValueString(value: ValueType|Expression): string {
+  private static getExpressionType(operand: OperandType): ExpressionType {
+    if (operand === null) {
+      return ExpressionType.NULL
+    } else if (operand instanceof Expression) {
+      return operand.resultType
+    } else if (typeof operand === 'boolean') { // TODO: check if it is boolean column
+      return ExpressionType.BOOLEAN
+    } else if (typeof operand === 'number' || operand instanceof NumberColumn) {
+      return ExpressionType.NUMBER
+    } else if (typeof operand === 'string' || operand instanceof TextColumn) {
+      return ExpressionType.TEXT
+    }
+    throw new Error('Operand type is not supported')
+  }
+
+  private static getResultExpressionType(left: OperandType, operator: Operator, right: OperandType): ExpressionType {
+    //FIXME: write logic
+    throw new Error('Function getResultExpressionType is not support yet')
+  }
+
+  private static getValueString(value: OperandType): string {
     if (value === null) {
       return 'NULL'
     } else if (typeof value === 'string') {
@@ -143,14 +194,17 @@ export class Expression {
   }
 }
 
-enum ExpressionType {
-  Single = 'single',
-  Complex = 'complex',
-}
+enum ExpressionType {NOT_DEFINED, NULL, BOOLEAN, NUMBER, TEXT}
 
-enum Qualifier {
+/*
+Remember to redefine everything in Qualifier enum again in LogicalOperator enum.
+currently, we can not read from the same source as we can't have computed string value in enum
+there is an open issue for this: https://github.com/microsoft/TypeScript/issues/40793
+ */
+enum Qualifier { //Relational operator
   Equal = '=',
   // TODO: add "in" Qualifier
+  // Like = 'like',
   // In = 'IN',
   Is = 'IS',
   // TODO: add other Qualifier for number
@@ -160,7 +214,12 @@ enum Qualifier {
   // LesserOrEqual = '<=',
 }
 
-export enum ArithmeticOperator {
+export enum Operator {
   ADD = '+',
   SUB = '-',
+
+  //All Qualifier Enum Copied Manually
+  Equal = '=',
+  Is = 'IS',
+  GreaterThan = '>',
 }

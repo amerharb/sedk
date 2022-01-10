@@ -4,22 +4,22 @@ NEED: enhance it to cover the case when there is escape quote "\'"
 
 
 exp operator logic:
-- null    + null      -> error
-- null    + boolean   -> error
-- null    + number    -> null
-- null    + text      -> error
-- boolean + null      -> error
-- boolean + boolean   -> error
-- boolean + number    -> error
-- boolean + text      -> error
-- number  + null      -> null
-- number  + boolean   -> error
-- number  + number    -> number
-- number  + text      -> error
-- text    + null      -> error
-- text    + boolean   -> error
-- text    + number    -> error
-- text    + text      -> error
+- null     +   null     -> error
+- null     +   boolean  -> error
+- null     +   number   -> null
+- null     +   text     -> error
+- boolean  +   null     -> error
+- boolean  +   boolean  -> error
+- boolean  +   number   -> error
+- boolean  +   text     -> error
+- number   +   null     -> null
+- number   +   boolean  -> error
+- number   +   number   -> number
+- number   +   text     -> error
+- text     +   null     -> error
+- text     +   boolean  -> error
+- text     +   number   -> error
+- text     +   text     -> error
 
 
 

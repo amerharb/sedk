@@ -149,7 +149,7 @@ export class Expression {
       this.resultType = this.leftType
     } else if (operator !== undefined) {
       this.RightType = Expression.getExpressionType(right)
-      this.resultType = Expression.getResultExpressionType(left, operator, right)
+      this.resultType = Expression.getResultExpressionType(this.leftType, operator, this.RightType)
     }
   }
 
@@ -176,9 +176,19 @@ export class Expression {
     throw new Error('Operand type is not supported')
   }
 
-  private static getResultExpressionType(left: OperandType, operator: Operator, right: OperandType): ExpressionType {
-    //FIXME: write logic
-    throw new Error('Function getResultExpressionType is not support yet')
+  private static getResultExpressionType(left: ExpressionType, operator: Operator, right: ExpressionType): ExpressionType {
+    if (operator === Operator.ADD || operator === Operator.SUB) {
+      if ((left === ExpressionType.NULL && right === ExpressionType.NUMBER)
+         || (left === ExpressionType.NUMBER && right === ExpressionType.NULL))
+        return ExpressionType.NULL
+
+      if (left === ExpressionType.NUMBER && right === ExpressionType.NUMBER)
+        return ExpressionType.NUMBER
+
+      throw new Error(`You can not have "${left}" and "${right}" in Arithmetic operator ${operator}`)
+    } else {
+      throw new Error(`Function getResultExpressionType is not support for this operator ${operator}`)
+    }
   }
 
   private static getValueString(value: OperandType): string {

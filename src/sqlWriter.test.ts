@@ -20,7 +20,7 @@ describe('test from one table', () => {
   const db = new Database([table], 1)
   const asql = new sql.ASql(db)
 
-  it('produces [SELECT col1 FROM testTable]', () => {
+  it('Produces [SELECT col1 FROM testTable]', () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -29,7 +29,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable')
   })
 
-  it('produces [SELECT col1, col2 FROM testTable]', () => {
+  it('Produces [SELECT col1, col2 FROM testTable]', () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -38,7 +38,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1, col2 FROM testTable')
   })
 
-  it("produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x']", () => {
+  it("Produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x']", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -48,7 +48,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x'")
   })
 
-  it('produces [SELECT col1, col4 FROM testTable WHERE col4 = 5]', () => {
+  it('Produces [SELECT col1, col4 FROM testTable WHERE col4 = 5]', () => {
     const received = asql
       .select(column1, column4)
       .from(table)
@@ -58,7 +58,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col4 = 5')
   })
 
-  it('produces [SELECT col1, col4 FROM testTable WHERE col4 IS NULL]', () => {
+  it('Produces [SELECT col1, col4 FROM testTable WHERE col4 IS NULL]', () => {
     const received = asql
       .select(column1, column4)
       .from(table)
@@ -68,7 +68,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col4 IS NULL')
   })
 
-  it('produces [SELECT col1, col4 FROM testTable WHERE col1 IS NULL]', () => {
+  it('Produces [SELECT col1, col4 FROM testTable WHERE col1 IS NULL]', () => {
     const received = asql
       .select(column1, column4)
       .from(table)
@@ -78,7 +78,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1, col4 FROM testTable WHERE col1 IS NULL')
   })
 
-  it("produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' )]", () => {
+  it("Produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' )]", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -88,7 +88,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' )")
   })
 
-  it("produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' OR col2 = 'y' )]", () => {
+  it("Produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' OR col2 = 'y' )]", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -98,7 +98,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' OR col2 = 'y' )")
   })
 
-  it("produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x' AND col2 = 'y']", () => {
+  it("Produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x' AND col2 = 'y']", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -109,7 +109,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x' AND col2 = 'y'")
   })
 
-  it("produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' OR col2 = 'y' ) AND col3 = 'z']", () => {
+  it("Produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' OR col2 = 'y' ) AND col3 = 'z']", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -120,7 +120,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' OR col2 = 'y' ) AND col3 = 'z'")
   })
 
-  it("produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x' OR col2 = 'y']", () => {
+  it("Produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x' OR col2 = 'y']", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -131,7 +131,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x' OR col2 = 'y'")
   })
 
-  it("produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' ) OR col3 = 'z']", () => {
+  it("Produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' ) OR col3 = 'z']", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -142,7 +142,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' ) OR col3 = 'z'")
   })
 
-  it("produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' ) AND col3 = 'z1' OR col3 = 'z2']", () => {
+  it("Produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' ) AND col3 = 'z1' OR col3 = 'z2']", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -154,7 +154,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' ) AND col3 = 'z1' OR col3 = 'z2'")
   })
 
-  it("produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x1  x2' AND ( col2 = 'y' OR col3 = 'z' )]", () => {
+  it("Produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x1  x2' AND ( col2 = 'y' OR col3 = 'z' )]", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -165,7 +165,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x1  x2' AND ( col2 = 'y' OR col3 = 'z' )")
   })
 
-  it("produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x1  x2' OR ( col2 = 'y' AND col3 = 'z' )]", () => {
+  it("Produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x1  x2' OR ( col2 = 'y' AND col3 = 'z' )]", () => {
     const received = asql
       .select(column1, column2)
       .from(table)
@@ -176,7 +176,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x1  x2' OR ( col2 = 'y' AND col3 = 'z' )")
   })
 
-  it("produces [SELECT col1 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' OR col4 = 5 )]", () => {
+  it("Produces [SELECT col1 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' OR col4 = 5 )]", () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -186,7 +186,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' OR col4 = 5 )")
   })
 
-  it("produces [SELECT col1 FROM testTable WHERE col1 = 'x' AND ( col2 = 'y' OR col3 = 'z' OR col4 = 5 )]", () => {
+  it("Produces [SELECT col1 FROM testTable WHERE col1 = 'x' AND ( col2 = 'y' OR col3 = 'z' OR col4 = 5 )]", () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -197,7 +197,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1 FROM testTable WHERE col1 = 'x' AND ( col2 = 'y' OR col3 = 'z' OR col4 = 5 )")
   })
 
-  it("produces [SELECT col1 FROM testTable WHERE col1 = 'x' OR ( col2 = 'y' AND col3 = 'z' AND col4 = 5 )]", () => {
+  it("Produces [SELECT col1 FROM testTable WHERE col1 = 'x' OR ( col2 = 'y' AND col3 = 'z' AND col4 = 5 )]", () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -208,7 +208,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1 FROM testTable WHERE col1 = 'x' OR ( col2 = 'y' AND col3 = 'z' AND col4 = 5 )")
   })
 
-  it('produces [SELECT col1 FROM testTable WHERE col4 > 5]', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col4 > 5]', () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -218,7 +218,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 > 5')
   })
 
-  it('produces [SELECT col1 FROM testTable WHERE col1 = col2]', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col1 = col2]', () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -228,7 +228,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col1 = col2')
   })
 
-  it('produces [SELECT col1 FROM testTable WHERE col4 = col5 + col6]', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col4 = col5 + col6]', () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -238,7 +238,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = col5 + col6')
   })
 
-  it('produces [SELECT col1 FROM testTable WHERE col4 = col5 - col6]', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col4 = col5 - col6]', () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -248,7 +248,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = col5 - col6')
   })
 
-  it('produces [SELECT col1 FROM testTable WHERE col4 = col5 - 1]', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col4 = col5 - 1]', () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -258,7 +258,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = col5 - 1')
   })
 
-  it('produces [SELECT col1 FROM testTable WHERE col4 = 1 + col5]', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col4 = 1 + col5]', () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -268,7 +268,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = 1 + col5')
   })
 
-  it('produces [SELECT col1 FROM testTable WHERE col4 = 1 + 1]', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col4 = 1 + 1]', () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -278,7 +278,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = 1 + 1')
   })
 
-  it('throw error when add invalid operator]', () => {
+  it('throws error when add invalid operator]', () => {
     try {
       asql
         .select(column1)
@@ -292,7 +292,7 @@ describe('test from one table', () => {
     }
   })
 
-  it('produces [SELECT col1 FROM testTable WHERE col4 > col5]', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col4 > col5]', () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -302,7 +302,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 > col5')
   })
 
-  it('produces [SELECT col1 FROM testTable WHERE col4 = col5]', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col4 = col5]', () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -312,7 +312,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = col5')
   })
 
-  it("produces [SELECT col1 FROM testTable WHERE col2 = 'value contain single quote '' and more '''' , ''']", () => {
+  it("Produces [SELECT col1 FROM testTable WHERE col2 = 'value contain single quote '' and more '''' , ''']", () => {
     const stringContainSingleQuote = "value contain single quote ' and more '' , '"
     const received = asql
       .select(column1)
@@ -323,7 +323,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1 FROM testTable WHERE col2 = 'value contain single quote '' and more '''' , '''")
   })
 
-  it('Throw error when column not exist', () => {
+  it('Throws error when column not exist', () => {
     const wrongColumn = new TextColumn('wrongColumn')
     try {
       asql
@@ -337,7 +337,7 @@ describe('test from one table', () => {
     }
   })
 
-  it('Throw error when table not exist', () => {
+  it('Throws error when table not exist', () => {
     const wrongTable = new Table('wrongTable', [new TextColumn('anyColumn')])
     try {
       asql

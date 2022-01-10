@@ -4,21 +4,22 @@ import {
   Column,
   Condition,
 } from './model'
+import { ColumnNotFoundError, TableNotFoundError } from './Errors'
 
-export enum Operator {
+export enum LogicalOperator {
   AND = 'AND',
   OR = 'OR',
 }
 
 //Aliases
-const AND = Operator.AND
-const OR = Operator.OR
+const AND = LogicalOperator.AND
+const OR = LogicalOperator.OR
 
 export class ASql {
   private dbSchema: Database
   private table: Table
   private columns: Column[]
-  private whereParts: (Operator|Condition|Parenthesis)[] = []
+  private whereParts: (LogicalOperator|Condition|Parenthesis)[] = []
   private steps: STEPS[] = []
 
   constructor(database: Database) {
@@ -26,14 +27,14 @@ export class ASql {
   }
 
   public select(...columns: Column[]): ASql {
-    //TODO check that these columns are part of database
+    this.throwIfColumnsNotInDb(columns)
     this.columns = columns
     this.steps.push(STEPS.SELECT)
     return this
   }
 
   public from(table: Table): ASql {
-    //TODO check if this table are part of database
+    this.throwIfTableNotInDb(table)
     //TODO: check that last step was SELECT before add FROM step
     this.table = table
     this.steps.push(STEPS.FROM)
@@ -41,9 +42,9 @@ export class ASql {
   }
 
   public where(condition: Condition): ASql
-  public where(left: Condition, operator: Operator, right: Condition): ASql
-  public where(left: Condition, operator1: Operator, middle: Condition, operator2: Operator, right: Condition): ASql
-  public where(cond1: Condition, op1?: Operator, cond2?: Condition, op2?: Operator, cond3?: Condition): ASql {
+  public where(left: Condition, operator: LogicalOperator, right: Condition): ASql
+  public where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): ASql
+  public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): ASql {
     //TODO: check that last step was FROM before add WHERE step
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
     this.steps.push(STEPS.WHERE)
@@ -51,9 +52,9 @@ export class ASql {
   }
 
   public and(condition: Condition): ASql
-  public and(left: Condition, operator: Operator, right: Condition): ASql
-  public and(left: Condition, operator1: Operator, middle: Condition, operator2: Operator, right: Condition): ASql
-  public and(cond1: Condition, op1?: Operator, cond2?: Condition, op2?: Operator, cond3?: Condition): ASql {
+  public and(left: Condition, operator: LogicalOperator, right: Condition): ASql
+  public and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): ASql
+  public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): ASql {
     //TODO: check that last step was WHERE or OR before add AND step
     this.whereParts.push(AND)
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
@@ -62,9 +63,9 @@ export class ASql {
   }
 
   public or(condition: Condition): ASql
-  public or(left: Condition, operator: Operator, right: Condition): ASql
-  public or(left: Condition, operator1: Operator, middle: Condition, operator2: Operator, right: Condition): ASql
-  public or(cond1: Condition, op1?: Operator, cond2?: Condition, op2?: Operator, cond3?: Condition): ASql {
+  public or(left: Condition, operator: LogicalOperator, right: Condition): ASql
+  public or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): ASql
+  public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): ASql {
     //TODO: check that last step was WHERE or AND before add OR step
     this.whereParts.push(OR)
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
@@ -72,7 +73,7 @@ export class ASql {
     return this
   }
 
-  private addWhereParts(cond1: Condition, op1?: Operator, cond2?: Condition, op2?: Operator, cond3?: Condition) {
+  private addWhereParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
     if (op1 === undefined && cond2 === undefined) {
       this.whereParts.push(cond1)
     } else if (op1 !== undefined && cond2 !== undefined) {
@@ -89,7 +90,8 @@ export class ASql {
   }
 
   public getSQL(): string {
-    let result = `SELECT ${this.columns.join(', ')} FROM ${this.table}`
+    let result = `SELECT ${this.columns.join(', ')}`
+    result += ` FROM ${this.table}`
     if (this.whereParts && this.whereParts.length > 0) {
       this.validateWhereParts()
       result += ` WHERE ${this.whereParts.join(' ')}`
@@ -128,6 +130,37 @@ export class ASql {
 
     if (pCounter < 0) // Closing more than opening
       throw new Error('invalid conditions build, closing parentheses is more than opening ones')
+  }
+
+  private throwIfColumnsNotInDb(columns: Column[]) {
+    for (const column of columns) {
+      // TODO: move search function into database model
+      let found = false
+      COL:
+      for (const table of this.dbSchema.getTables()) {
+        for (const col of table.getColumn()) {
+          if (column === col) {
+            found = true
+            break COL
+          }
+        }
+      }
+      if (!found)
+        throw new ColumnNotFoundError(`Column: ${column} not found`)
+    }
+  }
+
+  private throwIfTableNotInDb(table: Table) {
+    let found = false
+    // TODO: move search function into database model
+    for (const t of this.dbSchema.getTables()) {
+      if (table === t) {
+        found = true
+        break
+      }
+    }
+    if (!found)
+      throw new TableNotFoundError(`Table: ${table} not found`)
   }
 }
 

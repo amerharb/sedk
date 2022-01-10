@@ -97,10 +97,14 @@ export class Condition implements Expression {
 
   public readonly operator: Operator
   public readonly leftType: ExpressionType
-  public readonly RightType: ExpressionType
+  public readonly rightType: ExpressionType
   public readonly resultType: ExpressionType
+  public readonly notLeft: boolean
+  public readonly notRight: boolean
 
-  constructor(left: Expression, qualifier: Qualifier, right: Expression) {
+  constructor(left: Expression, qualifier: Qualifier, right: Expression)
+  constructor(left: Expression, qualifier: Qualifier, right: Expression, notLeft: boolean, notRight: boolean)
+  constructor(left: Expression, qualifier: Qualifier, right: Expression, notLeft?: boolean, notRight?: boolean) {
     // TODO: validate if qualifier is valid for the "right" type, for example Greater or Lesser does not work with string
     this.left = left
     this.qualifier = qualifier
@@ -108,8 +112,10 @@ export class Condition implements Expression {
 
     this.operator = Condition.getOperatorFromQualifier(qualifier)
     this.leftType = left.resultType
-    this.RightType = right.resultType
+    this.rightType = right.resultType
     this.resultType = ExpressionType.BOOLEAN
+    this.notLeft = getNotValueOrThrow(notLeft, left.resultType)
+    this.notRight = getNotValueOrThrow(notRight, right.resultType)
   }
 
   private static getOperatorFromQualifier(qualifier: Qualifier): Operator {
@@ -136,17 +142,32 @@ type TextLike = string|TextColumn
 type ValueType = null|BooleanLike|NumberLike|TextLike
 type OperandType = ValueType|Expression
 
+function getNotValueOrThrow(notValue:boolean|undefined, expressionType: ExpressionType): boolean{
+  if (notValue === true) {
+    if (expressionType === ExpressionType.BOOLEAN) {
+      return true
+    } else {
+      throw new Error('You can not use "NOT" modifier unless expression type is boolean')
+    }
+  } else {
+    return false
+  }
+}
+
 export class Expression {
   public readonly left: OperandType
   public readonly operator?: Operator
   public readonly right?: OperandType
   public readonly leftType: ExpressionType
-  public readonly RightType: ExpressionType
+  public readonly rightType: ExpressionType
   public readonly resultType: ExpressionType
+  public readonly notLeft: boolean
+  public readonly notRight: boolean
 
   constructor(left: OperandType)
   constructor(left: OperandType, operator: Operator, right: OperandType)
-  constructor(left: OperandType, operator?: Operator, right?: OperandType) {
+  constructor(left: OperandType, operator: Operator, right: OperandType, notLeft: boolean, notRight: boolean)
+  constructor(left: OperandType, operator?: Operator, right?: OperandType, notLeft?: boolean, notRight?: boolean) {
     // TODO: validate Expression, for example if left and right are string they can not be used with + and -
     this.left = left
     this.operator = operator
@@ -154,12 +175,15 @@ export class Expression {
     this.leftType = Expression.getExpressionType(left)
 
     if (right === undefined) {
-      this.RightType = ExpressionType.NOT_EXIST
+      this.rightType = ExpressionType.NOT_EXIST
       this.resultType = this.leftType
     } else if (operator !== undefined) {
-      this.RightType = Expression.getExpressionType(right)
-      this.resultType = Expression.getResultExpressionType(this.leftType, operator, this.RightType)
+      this.rightType = Expression.getExpressionType(right)
+      this.resultType = Expression.getResultExpressionType(this.leftType, operator, this.rightType)
     }
+
+    this.notLeft = getNotValueOrThrow(notLeft, this.leftType)
+    this.notRight = getNotValueOrThrow(notRight, this.rightType)
   }
 
   public toString(): string {

@@ -17,7 +17,11 @@ describe('test from one table', () => {
   const column5 = new NumberColumn('col5')
   const column6 = new NumberColumn('col6')
   const column7 = new BooleanColumn('col7')
-  const table = new Table('testTable', [column1, column2, column3, column4, column5, column6, column7])
+  const column8 = new BooleanColumn('col8')
+  const table = new Table(
+    'testTable',
+    [column1, column2, column3, column4, column5, column6, column7, column8],
+  )
   const db = new Database([table], 1)
   const asql = new sql.ASql(db)
 
@@ -324,24 +328,44 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1 FROM testTable WHERE col2 = 'value contain single quote '' and more '''' , '''")
   })
 
-  it('Produces [SELECT col1 FROM testTable WHERE col7 IS TRUE', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col7 = TRUE', () => {
     const received = asql
       .select(column1)
       .from(table)
       .where(column7.eq(true))
       .getSQL()
 
-    expect(received).toEqual('SELECT col1 FROM testTable WHERE col7 IS TRUE')
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col7 = TRUE')
   })
 
-  it('Produces [SELECT col1 FROM testTable WHERE col7 IS FALSE', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col7 = FALSE', () => {
     const received = asql
       .select(column1)
       .from(table)
       .where(column7.eq(false))
       .getSQL()
 
-    expect(received).toEqual('SELECT col1 FROM testTable WHERE col7 IS FALSE')
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col7 = FALSE')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE col7 = col8', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column7.eq(column8))
+      .getSQL()
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col7 = col8')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE col7 IS NULL', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column7.eq(null))
+      .getSQL()
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col7 IS NULL')
   })
 
   it('Throws error when column not exist', () => {

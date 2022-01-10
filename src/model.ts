@@ -52,7 +52,8 @@ export class BooleanColumn extends Column {
   }
 
   public eq(value: null|BooleanLike): Condition {
-    return new Condition(new Expression(this), Qualifier.Is, new Expression(value))
+    const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
+    return new Condition(new Expression(this), qualifier, new Expression(value))
   }
 }
 
@@ -83,7 +84,7 @@ export class TextColumn extends Column {
     super(columnName)
   }
 
-  public eq(value: string|null|TextColumn): Condition {
+  public eq(value: null|string|TextColumn): Condition {
     const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }

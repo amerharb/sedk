@@ -1,5 +1,5 @@
 import * as sql from './sqlWriter'
-import {Database, NumberColumn, Operator, Table, TextColumn} from './model'
+import {BooleanColumn, Database, NumberColumn, Operator, Table, TextColumn} from './model'
 import {ColumnNotFoundError, TableNotFoundError} from './Errors'
 
 //Alias
@@ -16,7 +16,8 @@ describe('test from one table', () => {
   const column4 = new NumberColumn('col4')
   const column5 = new NumberColumn('col5')
   const column6 = new NumberColumn('col6')
-  const table = new Table('testTable', [column1, column2, column3, column4, column5, column6])
+  const column7 = new BooleanColumn('col7')
+  const table = new Table('testTable', [column1, column2, column3, column4, column5, column6, column7])
   const db = new Database([table], 1)
   const asql = new sql.ASql(db)
 
@@ -321,6 +322,26 @@ describe('test from one table', () => {
       .getSQL()
 
     expect(received).toEqual("SELECT col1 FROM testTable WHERE col2 = 'value contain single quote '' and more '''' , '''")
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE col7 IS TRUE', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column7.eq(true))
+      .getSQL()
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col7 IS TRUE')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE col7 IS FALSE', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column7.eq(false))
+      .getSQL()
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col7 IS FALSE')
   })
 
   it('Throws error when column not exist', () => {

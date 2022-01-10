@@ -1,5 +1,5 @@
 import * as sql from './sqlWriter'
-import {Operator, Database, NumberColumn, Table, TextColumn} from './model'
+import {Database, NumberColumn, Operator, Table, TextColumn} from './model'
 import {ColumnNotFoundError, TableNotFoundError} from './Errors'
 
 //Alias
@@ -245,8 +245,51 @@ describe('test from one table', () => {
       .where(column4.eq(column5, SUB, column6))
       .getSQL()
 
-
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = col5 - col6')
+  })
+
+  it('produces [SELECT col1 FROM testTable WHERE col4 = col5 - 1]', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column4.eq(column5, SUB, 1))
+      .getSQL()
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = col5 - 1')
+  })
+
+  it('produces [SELECT col1 FROM testTable WHERE col4 = 1 + col5]', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column4.eq(1, ADD, column5))
+      .getSQL()
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = 1 + col5')
+  })
+
+  it('produces [SELECT col1 FROM testTable WHERE col4 = 1 + 1]', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column4.eq(1, ADD, 1))
+      .getSQL()
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = 1 + 1')
+  })
+
+  it('throw error when add invalid operator]', () => {
+    try {
+      asql
+        .select(column1)
+        .from(table)
+        .where(column4.eq(1, Operator.Equal, 1))
+        .getSQL()
+
+    } catch (err) {
+      expect(err).toBeInstanceOf(Error)
+      expect(err).toMatchObject(new Error('Function "getResultExpressionType" does not support operator: "="'))
+    }
   })
 
   it('produces [SELECT col1 FROM testTable WHERE col4 > col5]', () => {

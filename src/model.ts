@@ -62,21 +62,19 @@ export class NumberColumn extends Column {
     super(columnName)
   }
 
-  public eq(col1: NumberColumn, op: Operator, col2: NumberColumn): Condition
-  public eq(value: number|null|NumberColumn): Condition
-  public eq(value: number|null|NumberColumn, op?: Operator, col2?: NumberColumn): Condition {
-    if (op === undefined && col2 === undefined) {
-      const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
-      return new Condition(new Expression(this), qualifier, new Expression(value))
-    } else if (op !== undefined && col2 !== undefined) {
-      return new Condition(new Expression(this), Qualifier.Equal, new Expression(value, op, col2))
+  public eq(value1: NumberLike, op: Operator, value2: NumberLike): Condition
+  public eq(value: null|NumberLike): Condition
+  public eq(value1: null|NumberLike, op?: Operator, value2?: NumberLike): Condition {
+    if (op === undefined && value2 === undefined) {
+      const qualifier = value1 === null ? Qualifier.Is : Qualifier.Equal
+      return new Condition(new Expression(this), qualifier, new Expression(value1))
+    } else if (op !== undefined && value2 !== undefined) {
+      return new Condition(new Expression(this), Qualifier.Equal, new Expression(value1, op, value2))
     }
     throw new Error('not supported case')
   }
 
-  public gt(value: number): Condition
-  public gt(value: NumberColumn): Condition
-  public gt(value: number|NumberColumn): Condition {
+  public gt(value: NumberLike): Condition {
     return new Condition(new Expression(this), Qualifier.GreaterThan, new Expression(value))
   }
 }
@@ -187,7 +185,7 @@ export class Expression {
 
       throw new Error(`You can not have "${left}" and "${right}" in Arithmetic operator ${operator}`)
     } else {
-      throw new Error(`Function getResultExpressionType is not support for this operator ${operator}`)
+      throw new Error(`Function "getResultExpressionType" does not support operator: "${operator}"`)
     }
   }
 

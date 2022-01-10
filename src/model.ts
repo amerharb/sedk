@@ -96,9 +96,15 @@ export class TextColumn extends Column {
     super(columnName)
   }
 
-  public eq(value: null|string|TextColumn): Condition {
+  public eq(value: Expression): Condition
+  public eq(value: null|string|TextColumn): Condition
+  public eq(value: null|string|TextColumn|Expression): Condition {
     const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
     return new Condition(new Expression(this), qualifier, new Expression(value))
+  }
+
+  public concat(value: TextLike): Expression {
+    return new Expression(this, Operator.CONCAT, value)
   }
 }
 
@@ -238,7 +244,7 @@ export class Expression {
   }
 
   private static getResultExpressionType(left: ExpressionType, operator: Operator, right: ExpressionType): ExpressionType {
-    if (operator === Operator.ADD || operator === Operator.SUB) {
+    if (operator === Operator.ADD || operator === Operator.SUB) { // TODO: add other arithmetic operators
       if ((left === ExpressionType.NULL && right === ExpressionType.NUMBER)
         || (left === ExpressionType.NUMBER && right === ExpressionType.NULL))
         return ExpressionType.NULL
@@ -246,10 +252,35 @@ export class Expression {
       if (left === ExpressionType.NUMBER && right === ExpressionType.NUMBER)
         return ExpressionType.NUMBER
 
-      throw new Error(`You can not have "${left}" and "${right}" in Arithmetic operator ${operator}`)
+      Expression.throwInvalidTypeError(left, operator, right)
+    } else if (operator === Operator.Equal || operator === Operator.GreaterThan) { // TODO: add other comparison operators
+      if (left === ExpressionType.NULL || right === ExpressionType.NULL)
+        return ExpressionType.NULL
+
+      if (left === right)
+        return ExpressionType.BOOLEAN
+
+      //TODO: support the case when TEXT is convertable to boolean or number
+      Expression.throwInvalidTypeError(left, operator, right)
+    } else if (operator === Operator.Is) {
+      if (right === ExpressionType.NULL)
+        return ExpressionType.BOOLEAN
+
+      //TODO: support the case when left is boolean and right is literal TRUE or FALSE
+      Expression.throwInvalidTypeError(left, operator, right)
+    } else if (operator === Operator.CONCAT) {
+      if (left === ExpressionType.NULL || right === ExpressionType.NULL)
+        return ExpressionType.NULL
+
+      // "||" operator can combine text, number and boolean
+      return ExpressionType.TEXT
     } else {
       throw new Error(`Function "getResultExpressionType" does not support operator: "${operator}"`)
     }
+  }
+
+  private static throwInvalidTypeError(left: ExpressionType, operator: Operator, right: ExpressionType): never {
+    throw new Error(`You can not have "${ExpressionType[left]}" and "${ExpressionType[right]}" with operator "${operator}"`)
   }
 
   private static getOperandString(value: OperandType, isNot: boolean): string {
@@ -260,9 +291,9 @@ export class Expression {
       const result = value.replace(/'/g, '\'\'')
       return `'${result}'`
     } else if (typeof value === 'boolean') {
-      return `${isNot ? 'NOT ': ''}${value ? 'TRUE' : 'FALSE'}`
+      return `${isNot ? 'NOT ' : ''}${value ? 'TRUE' : 'FALSE'}`
     } else {
-      return `${isNot ? 'NOT ': ''}${value}`
+      return `${isNot ? 'NOT ' : ''}${value}`
     }
   }
 }
@@ -290,6 +321,7 @@ enum Qualifier { //Relational operator
 export enum Operator {
   ADD = '+',
   SUB = '-',
+  CONCAT = '||',
 
   //All Qualifier Enum Copied Manually
   Equal = '=',

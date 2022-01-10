@@ -206,6 +206,8 @@ export class Expression {
       // escape single quote by repeating it
       const result = value.replace(/'/g, '\'\'')
       return `'${result}'`
+    } else if (typeof value === 'boolean') {
+      return value ? 'TRUE' : 'FALSE'
     } else {
       return value.toString()
     }

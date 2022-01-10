@@ -46,17 +46,6 @@ export abstract class Column {
   }
 }
 
-export class TextColumn extends Column {
-  constructor(columnName: string) {
-    super(columnName)
-  }
-
-  public eq(value: string|null|TextColumn): Condition {
-    const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
-    return new Condition(new Expression(this), qualifier, new Expression(value))
-  }
-}
-
 export class NumberColumn extends Column {
   constructor(columnName: string) {
     super(columnName)
@@ -76,6 +65,17 @@ export class NumberColumn extends Column {
 
   public gt(value: NumberLike): Condition {
     return new Condition(new Expression(this), Qualifier.GreaterThan, new Expression(value))
+  }
+}
+
+export class TextColumn extends Column {
+  constructor(columnName: string) {
+    super(columnName)
+  }
+
+  public eq(value: string|null|TextColumn): Condition {
+    const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
+    return new Condition(new Expression(this), qualifier, new Expression(value))
   }
 }
 

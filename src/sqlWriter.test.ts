@@ -1,10 +1,19 @@
-import * as sql from './sqlWriter'
-import {BooleanColumn, Database, NumberColumn, Operator, Table, TextColumn} from './model'
-import {ColumnNotFoundError, TableNotFoundError} from './Errors'
+import {
+  LogicalOperator,
+  Operator,
+  Database,
+  Table,
+  TextColumn,
+  NumberColumn,
+  BooleanColumn,
+  TableNotFoundError,
+  ColumnNotFoundError,
+  ASql,
+} from '.'
 
 //Alias
-const AND = sql.LogicalOperator.AND
-const OR = sql.LogicalOperator.OR
+const AND = LogicalOperator.AND
+const OR = LogicalOperator.OR
 const ADD = Operator.ADD
 const SUB = Operator.SUB
 
@@ -23,7 +32,7 @@ describe('test from one table', () => {
     [column1, column2, column3, column4, column5, column6, column7, column8],
   )
   const db = new Database([table], 1)
-  const asql = new sql.ASql(db)
+  const asql = new ASql(db)
 
   it('Produces [SELECT col1 FROM testTable]', () => {
     const received = asql
@@ -328,7 +337,7 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1 FROM testTable WHERE col2 = 'value contain single quote '' and more '''' , '''")
   })
 
-  it('Produces [SELECT col1 FROM testTable WHERE col7 = TRUE', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col7 = TRUE]', () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -338,7 +347,48 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col7 = TRUE')
   })
 
-  it('Produces [SELECT col1 FROM testTable WHERE col7 = FALSE', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col7]', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column7)
+      .getSQL()
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col7')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE NOT col7]', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column7.not())
+      .getSQL()
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE NOT col7')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE (NOT col7 OR NOT col8)]', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column7.not(), OR, column8.not())
+      .getSQL()
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE ( NOT col7 OR NOT col8 )')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE NOT col7 AND NOT col8]', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column7.not())
+      .and(column8.not())
+      .getSQL()
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE NOT col7 AND NOT col8')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE col7 = FALSE]', () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -348,7 +398,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col7 = FALSE')
   })
 
-  it('Produces [SELECT col1 FROM testTable WHERE col7 = col8', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col7 = col8]', () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -358,7 +408,7 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col7 = col8')
   })
 
-  it('Produces [SELECT col1 FROM testTable WHERE col7 IS NULL', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col7 IS NULL]', () => {
     const received = asql
       .select(column1)
       .from(table)
@@ -366,6 +416,26 @@ describe('test from one table', () => {
       .getSQL()
 
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col7 IS NULL')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE col1 = col2 || col3]', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column1.eq(column2.concat(column3)))
+      .getSQL()
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col1 = col2 || col3')
+  })
+
+  it("Produces [SELECT col1 FROM testTable WHERE col1 = col2 || 'something']", () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column1.eq(column2.concat('something')))
+      .getSQL()
+
+    expect(received).toEqual("SELECT col1 FROM testTable WHERE col1 = col2 || 'something'")
   })
 
   it('Throws error when column not exist', () => {

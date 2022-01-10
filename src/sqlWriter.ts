@@ -93,7 +93,7 @@ export class ASql {
     let result = `SELECT ${this.columns.join(', ')}`
     result += ` FROM ${this.table}`
     if (this.whereParts && this.whereParts.length > 0) {
-      this.validateWhereParts()
+      this.throwIfWherePartsInvalid()
       result += ` WHERE ${this.whereParts.join(' ')}`
     }
 
@@ -108,7 +108,7 @@ export class ASql {
    * This function throws error if WhereParts Array where invalid
    * it check the number of open and close parentheses in the conditions
    */
-  private validateWhereParts() {
+  private throwIfWherePartsInvalid() {
     let pCounter = 0
     for (let i = 0; i < this.whereParts.length; i++) {
       if (this.whereParts[i] === Parenthesis.Open) {

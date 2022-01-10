@@ -46,6 +46,16 @@ export abstract class Column {
   }
 }
 
+export class BooleanColumn extends Column {
+  constructor(columnName: string) {
+    super(columnName)
+  }
+
+  public eq(value: null|BooleanLike): Condition {
+    return new Condition(new Expression(this), Qualifier.Is, new Expression(value))
+  }
+}
+
 export class NumberColumn extends Column {
   constructor(columnName: string) {
     super(columnName)
@@ -119,7 +129,7 @@ export class Condition implements Expression {
 }
 
 //TODO: include other value type like date time
-type BooleanLike = boolean // TODO: |BooleanColumn
+type BooleanLike = boolean|BooleanColumn
 type NumberLike = number|NumberColumn
 type TextLike = string|TextColumn
 type ValueType = null|BooleanLike|NumberLike|TextLike
@@ -164,7 +174,7 @@ export class Expression {
       return ExpressionType.NULL
     } else if (operand instanceof Expression) {
       return operand.resultType
-    } else if (typeof operand === 'boolean') { // TODO: check if it is boolean column
+    } else if (typeof operand === 'boolean' || operand instanceof BooleanColumn) {
       return ExpressionType.BOOLEAN
     } else if (typeof operand === 'number' || operand instanceof NumberColumn) {
       return ExpressionType.NUMBER
@@ -177,7 +187,7 @@ export class Expression {
   private static getResultExpressionType(left: ExpressionType, operator: Operator, right: ExpressionType): ExpressionType {
     if (operator === Operator.ADD || operator === Operator.SUB) {
       if ((left === ExpressionType.NULL && right === ExpressionType.NUMBER)
-         || (left === ExpressionType.NUMBER && right === ExpressionType.NULL))
+        || (left === ExpressionType.NUMBER && right === ExpressionType.NULL))
         return ExpressionType.NULL
 
       if (left === ExpressionType.NUMBER && right === ExpressionType.NUMBER)

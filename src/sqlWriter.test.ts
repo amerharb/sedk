@@ -338,6 +338,47 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col7 = TRUE')
   })
 
+  it('Produces [SELECT col1 FROM testTable WHERE col7', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column7)
+      .getSQL()
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col7')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE NOT col7', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column7.not())
+      .getSQL()
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE NOT col7')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE (NOT col7 OR NOT col8)', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column7.not(), OR, column8.not())
+      .getSQL()
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE ( NOT col7 OR NOT col8 )')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE NOT col7 AND NOT col8', () => {
+    const received = asql
+      .select(column1)
+      .from(table)
+      .where(column7.not())
+      .and(column8.not())
+      .getSQL()
+
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE NOT col7 AND NOT col8')
+  })
+
   it('Produces [SELECT col1 FROM testTable WHERE col7 = FALSE', () => {
     const received = asql
       .select(column1)

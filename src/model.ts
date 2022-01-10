@@ -129,7 +129,7 @@ export class Condition implements Expression {
 
 }
 
-//TODO: include other value type like date time
+//TODO: include other value type like date-time
 type BooleanLike = boolean|BooleanColumn
 type NumberLike = number|NumberColumn
 type TextLike = string|TextColumn
@@ -154,7 +154,7 @@ export class Expression {
     this.leftType = Expression.getExpressionType(left)
 
     if (right === undefined) {
-      this.RightType = ExpressionType.NOT_DEFINED
+      this.RightType = ExpressionType.NOT_EXIST
       this.resultType = this.leftType
     } else if (operator !== undefined) {
       this.RightType = Expression.getExpressionType(right)
@@ -163,9 +163,9 @@ export class Expression {
   }
 
   public toString(): string {
-    let result = Expression.getValueString(this.left)
+    let result = Expression.getOperandString(this.left)
     if (this.operator !== undefined && this.right !== undefined) {
-      result += ` ${this.operator.toString()} ${Expression.getValueString(this.right)}`
+      result += ` ${this.operator.toString()} ${Expression.getOperandString(this.right)}`
     }
     return result
   }
@@ -200,7 +200,7 @@ export class Expression {
     }
   }
 
-  private static getValueString(value: OperandType): string {
+  private static getOperandString(value: OperandType): string {
     if (value === null) {
       return 'NULL'
     } else if (typeof value === 'string') {
@@ -215,7 +215,7 @@ export class Expression {
   }
 }
 
-enum ExpressionType {NOT_DEFINED, NULL, BOOLEAN, NUMBER, TEXT}
+enum ExpressionType {NOT_EXIST, NULL, BOOLEAN, NUMBER, TEXT}
 
 /*
 Remember to redefine everything in Qualifier enum again in LogicalOperator enum.

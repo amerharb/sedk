@@ -1,4 +1,4 @@
-import {InvalidExpressionError} from './Errors'
+import { InvalidExpressionError } from './Errors'
 
 export class Database {
   private readonly version?: number

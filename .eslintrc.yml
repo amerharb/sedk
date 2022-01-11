@@ -20,9 +20,13 @@ rules:
     - error
     - unix
   quotes:
-    - error
+    - warn
     - single
     - { "avoidEscape": true }
   semi:
-    - error
+    - warn
     - never
+  object-curly-spacing:
+    - warn
+    - always
+    - { "objectsInObjects": false, "arraysInObjects": false }

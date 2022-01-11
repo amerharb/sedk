@@ -11,6 +11,7 @@ import {
   TableNotFoundError,
   TextColumn,
 } from '.'
+import {InvalidExpressionError} from './Errors'
 
 //Alias
 const AND = LogicalOperator.AND
@@ -79,6 +80,22 @@ describe('test from one table', () => {
       .getSQL()
 
     expect(received).toEqual('SELECT (1 + (2 - 3)) FROM testTable')
+  })
+
+  describe('select literal values', () => {
+    it('Produces [SELECT TRUE]', () => {
+      const received = asql.select(e(true)).getSQL()
+      expect(received).toEqual('SELECT TRUE')
+    })
+
+    it('Throws error if number added to text', () => {
+      try {
+        asql.select(e(1, ADD, 'a')).getSQL()
+      } catch (err) {
+        expect(err).toBeInstanceOf(InvalidExpressionError)
+        expect(err).toMatchObject(new InvalidExpressionError('You can not have "NUMBER" and "TEXT" with operator "+"'))
+      }
+    })
   })
 
   it('Produces [SELECT col1, col2 FROM testTable]', () => {

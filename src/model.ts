@@ -1,3 +1,5 @@
+import {InvalidExpressionError} from './Errors'
+
 export class Database {
   private readonly version?: number
   private readonly tables: Table[]
@@ -279,7 +281,7 @@ export class Expression {
   }
 
   private static throwInvalidTypeError(left: ExpressionType, operator: Operator, right: ExpressionType): never {
-    throw new Error(`You can not have "${ExpressionType[left]}" and "${ExpressionType[right]}" with operator "${operator}"`)
+    throw new InvalidExpressionError(`You can not have "${ExpressionType[left]}" and "${ExpressionType[right]}" with operator "${operator}"`)
   }
 
   private static getOperandString(value: OperandType, isNot: boolean): string {

@@ -22,7 +22,8 @@ type ColumnLike = Column | Expression
 
 export class ASql {
   private dbSchema: Database
-  private table: Table
+  //TODO: make table array ot another kind of collection object when we add left inner join step
+  private table?: Table
   private columns: ColumnLike[]
   private whereParts: (LogicalOperator|Condition|Parenthesis)[] = []
   private steps: STEPS[] = []
@@ -96,7 +97,11 @@ export class ASql {
 
   public getSQL(): string {
     let result = `SELECT ${this.columns.join(', ')}`
-    result += ` FROM ${this.table}`
+
+    if (this.table) {
+      result += ` FROM ${this.table}`
+    }
+
     if (this.whereParts && this.whereParts.length > 0) {
       this.throwIfWherePartsInvalid()
       result += ` WHERE ${this.whereParts.join(' ')}`
@@ -105,6 +110,7 @@ export class ASql {
     // clean up
     this.steps.length = 0
     this.whereParts.length = 0
+    this.table = undefined
 
     return result
   }
@@ -146,6 +152,7 @@ export class ASql {
       // TODO: move search function into database model
       let found = false
       COL:
+      //TODO: filter only the table in the current query
       for (const table of this.dbSchema.getTables()) {
         for (const col of table.getColumn()) {
           if (column === col) {

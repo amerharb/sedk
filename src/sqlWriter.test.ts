@@ -64,6 +64,15 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT 'a' FROM testTable")
   })
 
+  it("Produces [SELECT 'a', 1, TRUE FROM testTableR]", () => {
+    const received = asql
+      .select('a', 1, true)
+      .from(table)
+      .getSQL()
+
+    expect(received).toEqual("SELECT 'a', 1, TRUE FROM testTable")
+  })
+
   it("Produces [SELECT ('a' || 'b') FROM testTable]", () => {
     const received = asql
       .select(e('a', CONCAT, 'b'))

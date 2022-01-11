@@ -88,14 +88,6 @@ describe('test from one table', () => {
       expect(received).toEqual('SELECT TRUE')
     })
 
-    it('Throws error if number added to text', () => {
-      try {
-        asql.select(e(1, ADD, 'a')).getSQL()
-      } catch (err) {
-        expect(err).toBeInstanceOf(InvalidExpressionError)
-        expect(err).toMatchObject(new InvalidExpressionError('You can not have "NUMBER" and "TEXT" with operator "+"'))
-      }
-    })
   })
 
   it('Produces [SELECT col1, col2 FROM testTable]', () => {
@@ -347,18 +339,46 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = (1 + 1)')
   })
 
-  it('throws error when add invalid operator]', () => {
-    try {
-      asql
-        .select(column1)
-        .from(table)
-        .where(column4.eq(1, Operator.Equal, 1))
-        .getSQL()
+  describe('Throw desired Errors', () => {
+    it('Throws error when add invalid operator]', () => {
+      function actual() {
+        asql.select(e(1, Operator.GreaterThan, 'f'))
+      }
 
-    } catch (err) {
-      expect(err).toBeInstanceOf(Error)
-      expect(err).toMatchObject(new Error('Function "getResultExpressionType" does not support operator: "="'))
-    }
+      expect(actual).toThrowError('You can not have "NUMBER" and "TEXT" with operator ">"')
+      expect(actual).toThrowError(InvalidExpressionError)
+    })
+
+    it('Throws error when column not exist', () => {
+      const wrongColumn = new TextColumn('wrongColumn')
+
+      function actual() {
+        asql.select(column1, wrongColumn, column3)
+      }
+
+      expect(actual).toThrowError('Column: wrongColumn not found')
+      expect(actual).toThrowError(ColumnNotFoundError)
+    })
+
+    it('Throws error when table not exist', () => {
+      const wrongTable = new Table('wrongTable', [new TextColumn('anyColumn')])
+
+      function actual() {
+        asql.select(column1).from(wrongTable)
+      }
+
+      expect(actual).toThrowError('Table: wrongTable not found')
+      expect(actual).toThrowError(TableNotFoundError)
+    })
+
+    it('Throws error if number added to text', () => {
+      function actual() {
+        asql.select(e(1, ADD, 'a')).getSQL()
+      }
+
+      expect(actual).toThrowError('You can not have "NUMBER" and "TEXT" with operator "+"')
+      expect(actual).toThrowError(InvalidExpressionError)
+    })
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col4 > col5]', () => {
@@ -491,32 +511,5 @@ describe('test from one table', () => {
       .getSQL()
 
     expect(received).toEqual("SELECT col1 FROM testTable WHERE col1 = (col2 || 'something')")
-  })
-
-  it('Throws error when column not exist', () => {
-    const wrongColumn = new TextColumn('wrongColumn')
-    try {
-      asql
-        .select(column1, wrongColumn, column3)
-        .from(table)
-        .getSQL()
-
-    } catch (err) {
-      expect(err).toBeInstanceOf(ColumnNotFoundError)
-      expect(err).toMatchObject(new ColumnNotFoundError('Column: wrongColumn not found'))
-    }
-  })
-
-  it('Throws error when table not exist', () => {
-    const wrongTable = new Table('wrongTable', [new TextColumn('anyColumn')])
-    try {
-      asql
-        .select(column1)
-        .from(wrongTable)
-        .getSQL()
-    } catch (err) {
-      expect(err).toBeInstanceOf(TableNotFoundError)
-      expect(err).toMatchObject(new ColumnNotFoundError('Table: wrongTable not found'))
-    }
   })
 })

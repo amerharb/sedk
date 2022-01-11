@@ -18,7 +18,7 @@ export enum LogicalOperator {
 const AND = LogicalOperator.AND
 const OR = LogicalOperator.OR
 
-type ColumnLike = Column | Expression
+type ColumnLike = Column|Expression
 
 export class ASql {
   private dbSchema: Database
@@ -32,7 +32,13 @@ export class ASql {
     this.dbSchema = database
   }
 
-  public select(...columns: ColumnLike[]): ASql {
+  public select(...items: (ColumnLike|string|number|boolean)[]): ASql {
+    const columns = items.map(it => {
+      if (it instanceof Expression || it instanceof Column)
+        return it
+      else
+        return new Expression(it)
+    })
     this.throwIfColumnsNotInDb(columns)
     this.columns = columns
     this.steps.push(STEPS.SELECT)
@@ -166,7 +172,7 @@ export class ASql {
     }
   }
 
-  public static getColumnsFromExpression(expression: Expression):Column[] {
+  public static getColumnsFromExpression(expression: Expression): Column[] {
     const columns: Column[] = []
     if (expression.left instanceof Column)
       columns.push(expression.left)
@@ -195,9 +201,9 @@ export class ASql {
   }
 }
 
-export function e(left:OperandType): Expression
-export function e(left:OperandType, operator:Operator, right:OperandType): Expression
-export function e(left:OperandType, operator?:Operator, right?:OperandType): Expression{
+export function e(left: OperandType): Expression
+export function e(left: OperandType, operator: Operator, right: OperandType): Expression
+export function e(left: OperandType, operator?: Operator, right?: OperandType): Expression {
   if (operator !== undefined && right !== undefined)
     return new Expression(left, operator, right)
   else

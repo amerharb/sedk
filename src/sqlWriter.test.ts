@@ -11,7 +11,7 @@ import {
   TableNotFoundError,
   TextColumn,
 } from '.'
-import {InvalidExpressionError} from './Errors'
+import { InvalidExpressionError } from './Errors'
 
 //Alias
 const AND = LogicalOperator.AND

@@ -3,6 +3,9 @@ import {
   Table,
   Column,
   Condition,
+  Expression,
+  Operator,
+  OperandType,
 } from './model'
 import { ColumnNotFoundError, TableNotFoundError } from './Errors'
 
@@ -15,10 +18,12 @@ export enum LogicalOperator {
 const AND = LogicalOperator.AND
 const OR = LogicalOperator.OR
 
+type ColumnLike = Column | Expression
+
 export class ASql {
   private dbSchema: Database
   private table: Table
-  private columns: Column[]
+  private columns: ColumnLike[]
   private whereParts: (LogicalOperator|Condition|Parenthesis)[] = []
   private steps: STEPS[] = []
 
@@ -26,7 +31,7 @@ export class ASql {
     this.dbSchema = database
   }
 
-  public select(...columns: Column[]): ASql {
+  public select(...columns: ColumnLike[]): ASql {
     this.throwIfColumnsNotInDb(columns)
     this.columns = columns
     this.steps.push(STEPS.SELECT)
@@ -132,8 +137,12 @@ export class ASql {
       throw new Error('invalid conditions build, closing parentheses is more than opening ones')
   }
 
-  private throwIfColumnsNotInDb(columns: Column[]) {
+  private throwIfColumnsNotInDb(columns: ColumnLike[]) {
     for (const column of columns) {
+      if (column instanceof Expression) {
+        this.throwIfColumnsNotInDb(ASql.getColumnsFromExpression(column))
+        continue
+      }
       // TODO: move search function into database model
       let found = false
       COL:
@@ -150,6 +159,21 @@ export class ASql {
     }
   }
 
+  public static getColumnsFromExpression(expression: Expression):Column[] {
+    const columns: Column[] = []
+    if (expression.left instanceof Column)
+      columns.push(expression.left)
+    else if (expression.left instanceof Expression)
+      columns.push(...ASql.getColumnsFromExpression(expression.left))
+
+    if (expression.right instanceof Column)
+      columns.push(expression.right)
+    else if (expression.right instanceof Expression)
+      columns.push(...ASql.getColumnsFromExpression(expression.right))
+
+    return columns
+  }
+
   private throwIfTableNotInDb(table: Table) {
     let found = false
     // TODO: move search function into database model
@@ -162,6 +186,15 @@ export class ASql {
     if (!found)
       throw new TableNotFoundError(`Table: ${table} not found`)
   }
+}
+
+export function e(left:OperandType): Expression
+export function e(left:OperandType, operator:Operator, right:OperandType): Expression
+export function e(left:OperandType, operator?:Operator, right?:OperandType): Expression{
+  if (operator !== undefined && right !== undefined)
+    return new Expression(left, operator, right)
+  else
+    return new Expression(left)
 }
 
 enum STEPS {

@@ -168,7 +168,7 @@ type BooleanLike = boolean|BooleanColumn
 type NumberLike = number|NumberColumn
 type TextLike = string|TextColumn
 type ValueType = null|BooleanLike|NumberLike|TextLike
-type OperandType = ValueType|Expression
+export type OperandType = ValueType|Expression
 
 function getNotValueOrThrow(notValue: boolean|undefined, expressionType: ExpressionType): boolean {
   if (notValue === true) {
@@ -221,11 +221,10 @@ export class Expression {
   }
 
   public toString(): string {
-    let result = Expression.getOperandString(this.left, this.notLeft)
     if (this.operator !== undefined && this.right !== undefined) {
-      result += ` ${this.operator.toString()} ${Expression.getOperandString(this.right, this.notRight)}`
+      return `(${Expression.getOperandString(this.left, this.notLeft)} ${this.operator.toString()} ${Expression.getOperandString(this.right, this.notRight)})`
     }
-    return result
+    return Expression.getOperandString(this.left, this.notLeft)
   }
 
   private static getExpressionType(operand: OperandType): ExpressionType {

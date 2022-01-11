@@ -1,14 +1,15 @@
 import {
-  LogicalOperator,
-  Operator,
-  Database,
-  Table,
-  TextColumn,
-  NumberColumn,
-  BooleanColumn,
-  TableNotFoundError,
-  ColumnNotFoundError,
   ASql,
+  BooleanColumn,
+  ColumnNotFoundError,
+  Database,
+  e,
+  LogicalOperator,
+  NumberColumn,
+  Operator,
+  Table,
+  TableNotFoundError,
+  TextColumn,
 } from '.'
 
 //Alias
@@ -16,6 +17,7 @@ const AND = LogicalOperator.AND
 const OR = LogicalOperator.OR
 const ADD = Operator.ADD
 const SUB = Operator.SUB
+const CONCAT = Operator.CONCAT
 
 describe('test from one table', () => {
   // database schema
@@ -41,6 +43,42 @@ describe('test from one table', () => {
       .getSQL()
 
     expect(received).toEqual('SELECT col1 FROM testTable')
+  })
+
+  it('Produces [SELECT 1 FROM testTable]', () => {
+    const received = asql
+      .select(e(1))
+      .from(table)
+      .getSQL()
+
+    expect(received).toEqual('SELECT 1 FROM testTable')
+  })
+
+  it("Produces [SELECT 'a' FROM testTable]", () => {
+    const received = asql
+      .select(e('a'))
+      .from(table)
+      .getSQL()
+
+    expect(received).toEqual("SELECT 'a' FROM testTable")
+  })
+
+  it("Produces [SELECT ('a' || 'b') FROM testTable]", () => {
+    const received = asql
+      .select(e('a', CONCAT, 'b'))
+      .from(table)
+      .getSQL()
+
+    expect(received).toEqual("SELECT ('a' || 'b') FROM testTable")
+  })
+
+  it('Produces [SELECT (1 + (2 - 3)) FROM testTable]', () => {
+    const received = asql
+      .select(e(1, ADD, e(2, SUB, 3)))
+      .from(table)
+      .getSQL()
+
+    expect(received).toEqual('SELECT (1 + (2 - 3)) FROM testTable')
   })
 
   it('Produces [SELECT col1, col2 FROM testTable]', () => {
@@ -242,54 +280,54 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col1 = col2')
   })
 
-  it('Produces [SELECT col1 FROM testTable WHERE col4 = col5 + col6]', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col4 = (col5 + col6)]', () => {
     const received = asql
       .select(column1)
       .from(table)
       .where(column4.eq(column5, ADD, column6))
       .getSQL()
 
-    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = col5 + col6')
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = (col5 + col6)')
   })
 
-  it('Produces [SELECT col1 FROM testTable WHERE col4 = col5 - col6]', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col4 = (col5 - col6)]', () => {
     const received = asql
       .select(column1)
       .from(table)
       .where(column4.eq(column5, SUB, column6))
       .getSQL()
 
-    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = col5 - col6')
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = (col5 - col6)')
   })
 
-  it('Produces [SELECT col1 FROM testTable WHERE col4 = col5 - 1]', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col4 = (col5 - 1)]', () => {
     const received = asql
       .select(column1)
       .from(table)
       .where(column4.eq(column5, SUB, 1))
       .getSQL()
 
-    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = col5 - 1')
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = (col5 - 1)')
   })
 
-  it('Produces [SELECT col1 FROM testTable WHERE col4 = 1 + col5]', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col4 = (1 + col5)]', () => {
     const received = asql
       .select(column1)
       .from(table)
       .where(column4.eq(1, ADD, column5))
       .getSQL()
 
-    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = 1 + col5')
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = (1 + col5)')
   })
 
-  it('Produces [SELECT col1 FROM testTable WHERE col4 = 1 + 1]', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col4 = (1 + 1)]', () => {
     const received = asql
       .select(column1)
       .from(table)
       .where(column4.eq(1, ADD, 1))
       .getSQL()
 
-    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = 1 + 1')
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col4 = (1 + 1)')
   })
 
   it('throws error when add invalid operator]', () => {
@@ -418,24 +456,24 @@ describe('test from one table', () => {
     expect(received).toEqual('SELECT col1 FROM testTable WHERE col7 IS NULL')
   })
 
-  it('Produces [SELECT col1 FROM testTable WHERE col1 = col2 || col3]', () => {
+  it('Produces [SELECT col1 FROM testTable WHERE col1 = (col2 || col3)]', () => {
     const received = asql
       .select(column1)
       .from(table)
       .where(column1.eq(column2.concat(column3)))
       .getSQL()
 
-    expect(received).toEqual('SELECT col1 FROM testTable WHERE col1 = col2 || col3')
+    expect(received).toEqual('SELECT col1 FROM testTable WHERE col1 = (col2 || col3)')
   })
 
-  it("Produces [SELECT col1 FROM testTable WHERE col1 = col2 || 'something']", () => {
+  it("Produces [SELECT col1 FROM testTable WHERE col1 = (col2 || 'something')]", () => {
     const received = asql
       .select(column1)
       .from(table)
       .where(column1.eq(column2.concat('something')))
       .getSQL()
 
-    expect(received).toEqual("SELECT col1 FROM testTable WHERE col1 = col2 || 'something'")
+    expect(received).toEqual("SELECT col1 FROM testTable WHERE col1 = (col2 || 'something')")
   })
 
   it('Throws error when column not exist', () => {

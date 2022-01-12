@@ -172,6 +172,21 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' )")
   })
 
+  it('Produces [SELECT col1, col2 FROM testTable WHERE ( col1 = $1 AND col2 = $2 )]', () => {
+    const actual = asql
+      .select(column1, column2)
+      .from(table)
+      .where(column1.eq$('x'), AND, column2.eq$('y'))
+      .getPostgresqlBinding()
+
+    const expected = {
+      sql: 'SELECT col1, col2 FROM testTable WHERE ( col1 = $1 AND col2 = $2 )',
+      values: ['x', 'y']
+    }
+
+    expect(actual).toEqual(expected)
+  })
+
   it("Produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' OR col2 = 'y' )]", () => {
     const received = asql
       .select(column1, column2)

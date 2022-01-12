@@ -329,3 +329,5 @@ export enum Operator {
   Is = 'IS',
   GreaterThan = '>',
 }
+
+export type PostgresqlBinder = { sql: string, values: any[] }

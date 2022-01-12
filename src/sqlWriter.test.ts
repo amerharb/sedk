@@ -118,6 +118,20 @@ describe('test from one table', () => {
     expect(received).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x'")
   })
 
+  it('Produces correct binder', () => {
+    const actual = asql
+      .select(column1, column2)
+      .from(table)
+      .where(column1.eq('x'))
+      .getPostgresqlBinding()
+
+    const expected = {
+      sql: 'SELECT col1, col2 FROM testTable WHERE col1 = $1',
+      values: ['x'],
+    }
+    expect(actual).toEqual(expected)
+  })
+
   it('Produces [SELECT col1, col4 FROM testTable WHERE col4 = 5]', () => {
     const received = asql
       .select(column1, column4)

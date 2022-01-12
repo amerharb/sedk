@@ -5,7 +5,7 @@ import {
   Condition,
   Expression,
   Operator,
-  OperandType,
+  OperandType, PostgresqlBinder,
 } from './model'
 import { ColumnNotFoundError, TableNotFoundError } from './Errors'
 
@@ -108,7 +108,7 @@ export class ASql {
       result += ` FROM ${this.table}`
     }
 
-    if (this.whereParts && this.whereParts.length > 0) {
+    if (this.whereParts.length > 0) {
       this.throwIfWherePartsInvalid()
       result += ` WHERE ${this.whereParts.join(' ')}`
     }
@@ -121,6 +121,9 @@ export class ASql {
     return result
   }
 
+  public getPostgresqlBinding(): PostgresqlBinder {
+    return { sql: 'any shit with $1 $2 $3 ', values: [1, 'a', true]}
+  }
   /**
    * This function throws error if WhereParts Array where invalid
    * it check the number of open and close parentheses in the conditions

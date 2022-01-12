@@ -39,6 +39,7 @@ export class Table {
 
 export abstract class Column {
   protected readonly columnName: string
+  protected readonly binder = Binder.getInstance()
 
   protected constructor(columnName: string) {
     this.columnName = columnName
@@ -77,8 +78,8 @@ export class NumberColumn extends Column {
     super(columnName)
   }
 
-  public eq(value1: NumberLike, op: Operator, value2: NumberLike): Condition
   public eq(value: null|NumberLike): Condition
+  public eq(value1: NumberLike, op: Operator, value2: NumberLike): Condition
   public eq(value1: null|NumberLike, op?: Operator, value2?: NumberLike): Condition {
     if (op === undefined && value2 === undefined) {
       const qualifier = value1 === null ? Qualifier.Is : Qualifier.Equal
@@ -89,14 +90,17 @@ export class NumberColumn extends Column {
     throw new Error('not supported case')
   }
 
+  public eq$(value: number): Condition {
+    const n = this.binder.add(value)
+    return new Condition(new Expression(this), Qualifier.Equal, new Expression(n))
+  }
+
   public gt(value: NumberLike): Condition {
     return new Condition(new Expression(this), Qualifier.GreaterThan, new Expression(value))
   }
 }
 
 export class TextColumn extends Column {
-  private readonly binder = Binder.getInstance()
-
   constructor(columnName: string) {
     super(columnName)
   }

@@ -129,6 +129,7 @@ describe('test from one table', () => {
       sql: 'SELECT col1, col2 FROM testTable WHERE col1 = $1',
       values: ['x'],
     }
+
     expect(actual).toEqual(expected)
   })
 
@@ -320,6 +321,22 @@ describe('test from one table', () => {
       .getSQL()
 
     expect(actual).toEqual("SELECT col1 FROM testTable WHERE col1 = 'x' OR ( col2 = 'y' AND col3 = 'z' AND col4 = 5 )")
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE col1 = $1 OR ( col2 = $2 AND col3 = $3 AND col4 = $4 )]', () => {
+    const actual = asql
+      .select(column1)
+      .from(table)
+      .where(column1.eq$('x'))
+      .or(column2.eq$('y'), AND, column3.eq$('z'), AND, column4.eq$(5))
+      .getPostgresqlBinding()
+
+    const expected = {
+      sql: 'SELECT col1 FROM testTable WHERE col1 = $1 OR ( col2 = $2 AND col3 = $3 AND col4 = $4 )',
+      values: ['x', 'y', 'z', 5],
+    }
+
+    expect(actual).toEqual(expected)
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col4 > 5]', () => {

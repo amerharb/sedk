@@ -23,6 +23,7 @@
     "object-curly-spacing": [
       "warn", "always", {"objectsInObjects": false, "arraysInObjects": false}
     ],
-    "no-empty-function": ["error", { "allow": ["constructors"] }]
+    "no-empty-function": ["error", { "allow": ["constructors"] }],
+    "no-explicit-any": ["off"]
   }
 }

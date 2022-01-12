@@ -1,4 +1,5 @@
 import { InvalidExpressionError } from './Errors'
+import { Binder, BinderNo } from './Binder'
 
 export class Database {
   private readonly version?: number
@@ -94,6 +95,8 @@ export class NumberColumn extends Column {
 }
 
 export class TextColumn extends Column {
+  private readonly binder = Binder.getInstance()
+
   constructor(columnName: string) {
     super(columnName)
   }
@@ -103,6 +106,11 @@ export class TextColumn extends Column {
   public eq(value: null|string|TextColumn|Expression): Condition {
     const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
     return new Condition(new Expression(this), qualifier, new Expression(value))
+  }
+
+  public eq$(value: string): Condition {
+    const n = this.binder.add(value)
+    return new Condition(new Expression(this), Qualifier.Equal, new Expression(n))
   }
 
   public concat(value: TextLike): Expression {
@@ -185,7 +193,7 @@ function getNotValueOrThrow(notValue: boolean|undefined, expressionType: Express
 }
 
 export class Expression {
-  public readonly left: OperandType
+  public readonly left: OperandType|BinderNo
   public readonly operator?: Operator
   public readonly right?: OperandType
   public readonly leftType: ExpressionType
@@ -194,11 +202,12 @@ export class Expression {
   public readonly notLeft: boolean
   public readonly notRight: boolean
 
+  constructor(binderNo: BinderNo)
   constructor(left: OperandType)
   constructor(left: OperandType, notLeft: boolean)
   constructor(left: OperandType, operator: Operator, right: OperandType)
   constructor(left: OperandType, operator: Operator, right: OperandType, notLeft: boolean, notRight: boolean)
-  constructor(left: OperandType, operatorOrNotLeft?: boolean|Operator, right?: OperandType, notLeft?: boolean, notRight?: boolean) {
+  constructor(left: OperandType|BinderNo, operatorOrNotLeft?: boolean|Operator, right?: OperandType, notLeft?: boolean, notRight?: boolean) {
     // TODO: validate Expression, for example if left and right are string they can not be used with + and -
     this.left = left
     this.leftType = Expression.getExpressionType(left)
@@ -229,11 +238,13 @@ export class Expression {
     return Expression.getOperandString(this.left, this.notLeft)
   }
 
-  private static getExpressionType(operand: OperandType): ExpressionType {
+  private static getExpressionType(operand: OperandType|BinderNo): ExpressionType {
     if (operand === null) {
       return ExpressionType.NULL
     } else if (operand instanceof Expression) {
       return operand.resultType
+    } else if (operand instanceof BinderNo) {
+      return ExpressionType.BINDER
     } else if (typeof operand === 'boolean' || operand instanceof BooleanColumn) {
       return ExpressionType.BOOLEAN
     } else if (typeof operand === 'number' || operand instanceof NumberColumn) {
@@ -284,9 +295,11 @@ export class Expression {
     throw new InvalidExpressionError(`You can not have "${ExpressionType[left]}" and "${ExpressionType[right]}" with operator "${operator}"`)
   }
 
-  private static getOperandString(value: OperandType, isNot: boolean): string {
+  private static getOperandString(value: OperandType|BinderNo, isNot: boolean): string {
     if (value === null) {
       return 'NULL'
+    } else if (value instanceof BinderNo) {
+      return `$${value.no}`
     } else if (typeof value === 'string') {
       // escape single quote by repeating it
       const result = value.replace(/'/g, '\'\'')
@@ -299,7 +312,7 @@ export class Expression {
   }
 }
 
-enum ExpressionType {NOT_EXIST, NULL, BOOLEAN, NUMBER, TEXT}
+enum ExpressionType {NOT_EXIST, NULL, BOOLEAN, NUMBER, TEXT, BINDER}
 
 /*
 Remember to redefine everything in Qualifier enum again in LogicalOperator enum.

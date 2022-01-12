@@ -122,7 +122,7 @@ describe('test from one table', () => {
     const actual = asql
       .select(column1, column2)
       .from(table)
-      .where(column1.eq('x'))
+      .where(column1.eq$('x'))
       .getPostgresqlBinding()
 
     const expected = {

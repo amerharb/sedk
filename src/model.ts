@@ -61,8 +61,8 @@ export class BooleanColumn extends Column implements Condition {
   }
 
   public eq$(value: null|boolean): Condition {
-    const binder = this.binderStore.add(value)
     const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
+    const binder = this.binderStore.add(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
@@ -96,9 +96,10 @@ export class NumberColumn extends Column {
     throw new Error('not supported case')
   }
 
-  public eq$(value: number): Condition {
+  public eq$(value: null|number): Condition {
+    const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
     const binder = this.binderStore.add(value)
-    return new Condition(new Expression(this), Qualifier.Equal, new Expression(binder))
+    return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
   public gt(value: NumberLike): Condition {
@@ -123,9 +124,10 @@ export class TextColumn extends Column {
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }
 
-  public eq$(value: string): Condition {
+  public eq$(value: null|string): Condition {
+    const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
     const binder = this.binderStore.add(value)
-    return new Condition(new Expression(this), Qualifier.Equal, new Expression(binder))
+    return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
   public concat(value: TextLike): Expression {

@@ -178,6 +178,36 @@ describe('test from one table', () => {
     expect(actual).toEqual('SELECT col1, col4 FROM testTable WHERE col1 IS NULL')
   })
 
+  it('Produces [SELECT col1, col4 FROM testTable WHERE col4 IS $1]', () => {
+    const actual = asql
+      .select(column1, column4)
+      .from(table)
+      .where(column4.eq$(null))
+      .getPostgresqlBinding()
+
+    const expected = {
+      sql: 'SELECT col1, col4 FROM testTable WHERE col4 IS $1',
+      values: [null],
+    }
+
+    expect(actual).toEqual(expected)
+  })
+
+  it('Produces [SELECT col1, col4 FROM testTable WHERE col1 IS $1]', () => {
+    const actual = asql
+      .select(column1, column4)
+      .from(table)
+      .where(column1.eq$(null))
+      .getPostgresqlBinding()
+
+    const expected = {
+      sql: 'SELECT col1, col4 FROM testTable WHERE col1 IS $1',
+      values: [null],
+    }
+
+    expect(actual).toEqual(expected)
+  })
+
   it("Produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' )]", () => {
     const actual = asql
       .select(column1, column2)
@@ -358,7 +388,7 @@ describe('test from one table', () => {
 
     const expected = {
       sql: 'SELECT col1 FROM testTable WHERE col4 > $1',
-      values: [5]
+      values: [5],
     }
     expect(actual).toEqual(expected)
   })

@@ -10,12 +10,23 @@ export class Database {
     this.version = version
   }
 
-  getVersion(): number|undefined {
+  public getVersion(): number|undefined {
     return this.version
   }
 
-  getTables(): Table[] {
+  public getTables(): Table[] {
     return this.tables
+  }
+
+  public isTableExist(table: Table): boolean {
+    let found = false
+    for (const t of this.tables) {
+      if (table === t) {
+        found = true
+        break
+      }
+    }
+    return found
   }
 }
 

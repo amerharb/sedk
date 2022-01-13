@@ -169,7 +169,7 @@ export class ASql {
     }
   }
 
-  public static getColumnsFromExpression(expression: Expression): Column[] {
+  private static getColumnsFromExpression(expression: Expression): Column[] {
     const columns: Column[] = []
     if (expression.left instanceof Column)
       columns.push(expression.left)
@@ -185,15 +185,7 @@ export class ASql {
   }
 
   private throwIfTableNotInDb(table: Table) {
-    let found = false
-    // TODO: move search function into database model
-    for (const t of this.dbSchema.getTables()) {
-      if (table === t) {
-        found = true
-        break
-      }
-    }
-    if (!found)
+    if (!this.dbSchema.isTableExist(table))
       throw new TableNotFoundError(`Table: ${table} not found`)
   }
 }

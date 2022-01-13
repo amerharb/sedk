@@ -42,9 +42,11 @@ todo:
   - left/right/inner join, on
   - Asterisk
   - column
-  - As
-  - 
+  - as
+  - insert
+  - update
+  - delete
 
-- from should take more than one table
+- FROM should take more than one table
 - alias step for all capital letter
 - 

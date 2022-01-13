@@ -104,6 +104,11 @@ export class NumberColumn extends Column {
   public gt(value: NumberLike): Condition {
     return new Condition(new Expression(this), Qualifier.GreaterThan, new Expression(value))
   }
+
+  public gt$(value: number): Condition {
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), Qualifier.GreaterThan, new Expression(binder))
+  }
 }
 
 export class TextColumn extends Column {

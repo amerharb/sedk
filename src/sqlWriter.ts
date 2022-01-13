@@ -5,9 +5,10 @@ import {
   Condition,
   Expression,
   Operator,
-  OperandType,
+  OperandType, PostgresqlBinder,
 } from './model'
 import { ColumnNotFoundError, TableNotFoundError } from './Errors'
+import { BinderStore } from './Binder'
 
 export enum LogicalOperator {
   AND = 'AND',
@@ -27,6 +28,7 @@ export class ASql {
   private columns: ColumnLike[]
   private whereParts: (LogicalOperator|Condition|Parenthesis)[] = []
   private steps: STEPS[] = []
+  private binderStore = BinderStore.getInstance()
 
   constructor(database: Database) {
     this.dbSchema = database
@@ -108,7 +110,7 @@ export class ASql {
       result += ` FROM ${this.table}`
     }
 
-    if (this.whereParts && this.whereParts.length > 0) {
+    if (this.whereParts.length > 0) {
       this.throwIfWherePartsInvalid()
       result += ` WHERE ${this.whereParts.join(' ')}`
     }
@@ -116,9 +118,14 @@ export class ASql {
     // clean up
     this.steps.length = 0
     this.whereParts.length = 0
+    this.steps.length = 0
     this.table = undefined
 
     return result
+  }
+
+  public getPostgresqlBinding(): PostgresqlBinder {
+    return { sql: this.getSQL(), values: this.binderStore.getValues() }
   }
 
   /**

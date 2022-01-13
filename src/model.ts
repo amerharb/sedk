@@ -1,4 +1,5 @@
 import { InvalidExpressionError } from './Errors'
+import { BinderStore, Binder, PrimitiveType } from './Binder'
 
 export class Database {
   private readonly version?: number
@@ -38,6 +39,7 @@ export class Table {
 
 export abstract class Column {
   protected readonly columnName: string
+  protected readonly binderStore = BinderStore.getInstance()
 
   protected constructor(columnName: string) {
     this.columnName = columnName
@@ -58,6 +60,12 @@ export class BooleanColumn extends Column implements Condition {
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }
 
+  public eq$(value: null|boolean): Condition {
+    const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), qualifier, new Expression(binder))
+  }
+
   public not(): Condition {
     return new Condition(new Expression(this, true))
   }
@@ -76,8 +84,8 @@ export class NumberColumn extends Column {
     super(columnName)
   }
 
-  public eq(value1: NumberLike, op: Operator, value2: NumberLike): Condition
   public eq(value: null|NumberLike): Condition
+  public eq(value1: NumberLike, op: Operator, value2: NumberLike): Condition
   public eq(value1: null|NumberLike, op?: Operator, value2?: NumberLike): Condition {
     if (op === undefined && value2 === undefined) {
       const qualifier = value1 === null ? Qualifier.Is : Qualifier.Equal
@@ -88,8 +96,19 @@ export class NumberColumn extends Column {
     throw new Error('not supported case')
   }
 
+  public eq$(value: null|number): Condition {
+    const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), qualifier, new Expression(binder))
+  }
+
   public gt(value: NumberLike): Condition {
     return new Condition(new Expression(this), Qualifier.GreaterThan, new Expression(value))
+  }
+
+  public gt$(value: number): Condition {
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), Qualifier.GreaterThan, new Expression(binder))
   }
 }
 
@@ -103,6 +122,12 @@ export class TextColumn extends Column {
   public eq(value: null|string|TextColumn|Expression): Condition {
     const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
     return new Condition(new Expression(this), qualifier, new Expression(value))
+  }
+
+  public eq$(value: null|string): Condition {
+    const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
   public concat(value: TextLike): Expression {
@@ -185,7 +210,7 @@ function getNotValueOrThrow(notValue: boolean|undefined, expressionType: Express
 }
 
 export class Expression {
-  public readonly left: OperandType
+  public readonly left: OperandType|Binder
   public readonly operator?: Operator
   public readonly right?: OperandType
   public readonly leftType: ExpressionType
@@ -194,11 +219,12 @@ export class Expression {
   public readonly notLeft: boolean
   public readonly notRight: boolean
 
+  constructor(binder: Binder)
   constructor(left: OperandType)
   constructor(left: OperandType, notLeft: boolean)
   constructor(left: OperandType, operator: Operator, right: OperandType)
   constructor(left: OperandType, operator: Operator, right: OperandType, notLeft: boolean, notRight: boolean)
-  constructor(left: OperandType, operatorOrNotLeft?: boolean|Operator, right?: OperandType, notLeft?: boolean, notRight?: boolean) {
+  constructor(left: OperandType|Binder, operatorOrNotLeft?: boolean|Operator, right?: OperandType, notLeft?: boolean, notRight?: boolean) {
     // TODO: validate Expression, for example if left and right are string they can not be used with + and -
     this.left = left
     this.leftType = Expression.getExpressionType(left)
@@ -229,11 +255,13 @@ export class Expression {
     return Expression.getOperandString(this.left, this.notLeft)
   }
 
-  private static getExpressionType(operand: OperandType): ExpressionType {
+  private static getExpressionType(operand: OperandType|Binder): ExpressionType {
     if (operand === null) {
       return ExpressionType.NULL
     } else if (operand instanceof Expression) {
       return operand.resultType
+    } else if (operand instanceof Binder) {
+      return ExpressionType.BINDER
     } else if (typeof operand === 'boolean' || operand instanceof BooleanColumn) {
       return ExpressionType.BOOLEAN
     } else if (typeof operand === 'number' || operand instanceof NumberColumn) {
@@ -284,9 +312,11 @@ export class Expression {
     throw new InvalidExpressionError(`You can not have "${ExpressionType[left]}" and "${ExpressionType[right]}" with operator "${operator}"`)
   }
 
-  private static getOperandString(value: OperandType, isNot: boolean): string {
+  private static getOperandString(value: OperandType|Binder, isNot: boolean): string {
     if (value === null) {
       return 'NULL'
+    } else if (value instanceof Binder) {
+      return `$${value.no}`
     } else if (typeof value === 'string') {
       // escape single quote by repeating it
       const result = value.replace(/'/g, '\'\'')
@@ -299,7 +329,7 @@ export class Expression {
   }
 }
 
-enum ExpressionType {NOT_EXIST, NULL, BOOLEAN, NUMBER, TEXT}
+enum ExpressionType {NOT_EXIST, NULL, BOOLEAN, NUMBER, TEXT, BINDER}
 
 /*
 Remember to redefine everything in Qualifier enum again in LogicalOperator enum.
@@ -329,3 +359,5 @@ export enum Operator {
   Is = 'IS',
   GreaterThan = '>',
 }
+
+export type PostgresqlBinder = { sql: string, values: PrimitiveType[] }

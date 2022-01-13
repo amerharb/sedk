@@ -1,6 +1,6 @@
 {
   "name": "sql-writer",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Simple SQL builder",
   "main": "dist/src/index.js",
   "scripts": {
@@ -10,9 +10,7 @@
     "lint": "eslint src/**/*.ts",
     "lint-fix": "eslint src/**/*.ts --fix"
   },
-  "keywords": [
-    "SQL"
-  ],
+  "keywords": ["SQL", "SQL Builder", "Postgresql"],
   "author": "Amer Harb",
   "license": "ISC",
   "devDependencies": {

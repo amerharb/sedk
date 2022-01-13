@@ -492,6 +492,36 @@ describe('test from one table', () => {
     expect(actual).toEqual('SELECT col1 FROM testTable WHERE col7 = TRUE')
   })
 
+  it('Produces [SELECT col1 FROM testTable WHERE col7 = $1] for [$1=true]', () => {
+    const actual = asql
+      .select(column1)
+      .from(table)
+      .where(column7.eq$(true))
+      .getPostgresqlBinding()
+
+    const expected = {
+      sql: 'SELECT col1 FROM testTable WHERE col7 = $1',
+      values: [true],
+    }
+
+    expect(actual).toEqual(expected)
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE col7 IS $1] for [$1=null]', () => {
+    const actual = asql
+      .select(column1)
+      .from(table)
+      .where(column7.eq$(null))
+      .getPostgresqlBinding()
+
+    const expected = {
+      sql: 'SELECT col1 FROM testTable WHERE col7 IS $1',
+      values: [null],
+    }
+
+    expect(actual).toEqual(expected)
+  })
+
   it('Produces [SELECT col1 FROM testTable WHERE col7]', () => {
     const actual = asql
       .select(column1)

@@ -60,6 +60,12 @@ export class BooleanColumn extends Column implements Condition {
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }
 
+  public eq$(value: null|boolean): Condition {
+    const binder = this.binderStore.add(value)
+    const qualifier = value === null ? Qualifier.Is : Qualifier.Equal
+    return new Condition(new Expression(this), qualifier, new Expression(binder))
+  }
+
   public not(): Condition {
     return new Condition(new Expression(this, true))
   }
@@ -91,8 +97,8 @@ export class NumberColumn extends Column {
   }
 
   public eq$(value: number): Condition {
-    const n = this.binderStore.add(value)
-    return new Condition(new Expression(this), Qualifier.Equal, new Expression(n))
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), Qualifier.Equal, new Expression(binder))
   }
 
   public gt(value: NumberLike): Condition {
@@ -113,8 +119,8 @@ export class TextColumn extends Column {
   }
 
   public eq$(value: string): Condition {
-    const n = this.binderStore.add(value)
-    return new Condition(new Expression(this), Qualifier.Equal, new Expression(n))
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), Qualifier.Equal, new Expression(binder))
   }
 
   public concat(value: TextLike): Expression {

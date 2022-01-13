@@ -4,20 +4,10 @@ import {
   Column,
   Condition,
   Expression,
-  Operator,
-  OperandType, PostgresqlBinder,
-} from './model'
-import { ColumnNotFoundError, TableNotFoundError } from './Errors'
-import { BinderStore } from './Binder'
-
-export enum LogicalOperator {
-  AND = 'AND',
-  OR = 'OR',
-}
-
-//Aliases
-const AND = LogicalOperator.AND
-const OR = LogicalOperator.OR
+  PostgreSqlBinder,
+} from './models'
+import { ColumnNotFoundError, TableNotFoundError } from './errors'
+import { BinderStore } from './binder'
 
 type ColumnLike = Column|Expression
 
@@ -124,7 +114,7 @@ export class ASql {
     return result
   }
 
-  public getPostgresqlBinding(): PostgresqlBinder {
+  public getPostgresqlBinding(): PostgreSqlBinder {
     return { sql: this.getSQL(), values: this.binderStore.getValues() }
   }
 
@@ -208,14 +198,14 @@ export class ASql {
   }
 }
 
-export function e(left: OperandType): Expression
-export function e(left: OperandType, operator: Operator, right: OperandType): Expression
-export function e(left: OperandType, operator?: Operator, right?: OperandType): Expression {
-  if (operator !== undefined && right !== undefined)
-    return new Expression(left, operator, right)
-  else
-    return new Expression(left)
+export enum LogicalOperator {
+  AND = 'AND',
+  OR = 'OR',
 }
+
+//Aliases
+const AND = LogicalOperator.AND
+const OR = LogicalOperator.OR
 
 enum STEPS {
   SELECT = 'select',

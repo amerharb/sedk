@@ -10,8 +10,8 @@ import {
   Table,
   TableNotFoundError,
   TextColumn,
-} from '.'
-import { InvalidExpressionError } from './Errors'
+  InvalidExpressionError,
+} from '../src'
 
 //Alias
 const AND = LogicalOperator.AND

@@ -1,5 +1,5 @@
-import { InvalidExpressionError } from './Errors'
-import { BinderStore, Binder, PrimitiveType } from './Binder'
+import { InvalidExpressionError } from './errors'
+import { BinderStore, Binder, PrimitiveType } from './binder'
 
 export class Database {
   private readonly version?: number
@@ -360,4 +360,4 @@ export enum Operator {
   GreaterThan = '>',
 }
 
-export type PostgresqlBinder = { sql: string, values: PrimitiveType[] }
+export type PostgreSqlBinder = { sql: string, values: PrimitiveType[] }

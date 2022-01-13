@@ -1,5 +1,5 @@
 import { InvalidExpressionError } from './Errors'
-import { Binder, BinderNo } from './Binder'
+import { BinderStore, Binder, PrimitiveType } from './Binder'
 
 export class Database {
   private readonly version?: number
@@ -39,7 +39,7 @@ export class Table {
 
 export abstract class Column {
   protected readonly columnName: string
-  protected readonly binder = Binder.getInstance()
+  protected readonly binderStore = BinderStore.getInstance()
 
   protected constructor(columnName: string) {
     this.columnName = columnName
@@ -91,7 +91,7 @@ export class NumberColumn extends Column {
   }
 
   public eq$(value: number): Condition {
-    const n = this.binder.add(value)
+    const n = this.binderStore.add(value)
     return new Condition(new Expression(this), Qualifier.Equal, new Expression(n))
   }
 
@@ -113,7 +113,7 @@ export class TextColumn extends Column {
   }
 
   public eq$(value: string): Condition {
-    const n = this.binder.add(value)
+    const n = this.binderStore.add(value)
     return new Condition(new Expression(this), Qualifier.Equal, new Expression(n))
   }
 
@@ -197,7 +197,7 @@ function getNotValueOrThrow(notValue: boolean|undefined, expressionType: Express
 }
 
 export class Expression {
-  public readonly left: OperandType|BinderNo
+  public readonly left: OperandType|Binder
   public readonly operator?: Operator
   public readonly right?: OperandType
   public readonly leftType: ExpressionType
@@ -206,12 +206,12 @@ export class Expression {
   public readonly notLeft: boolean
   public readonly notRight: boolean
 
-  constructor(binderNo: BinderNo)
+  constructor(binder: Binder)
   constructor(left: OperandType)
   constructor(left: OperandType, notLeft: boolean)
   constructor(left: OperandType, operator: Operator, right: OperandType)
   constructor(left: OperandType, operator: Operator, right: OperandType, notLeft: boolean, notRight: boolean)
-  constructor(left: OperandType|BinderNo, operatorOrNotLeft?: boolean|Operator, right?: OperandType, notLeft?: boolean, notRight?: boolean) {
+  constructor(left: OperandType|Binder, operatorOrNotLeft?: boolean|Operator, right?: OperandType, notLeft?: boolean, notRight?: boolean) {
     // TODO: validate Expression, for example if left and right are string they can not be used with + and -
     this.left = left
     this.leftType = Expression.getExpressionType(left)
@@ -242,12 +242,12 @@ export class Expression {
     return Expression.getOperandString(this.left, this.notLeft)
   }
 
-  private static getExpressionType(operand: OperandType|BinderNo): ExpressionType {
+  private static getExpressionType(operand: OperandType|Binder): ExpressionType {
     if (operand === null) {
       return ExpressionType.NULL
     } else if (operand instanceof Expression) {
       return operand.resultType
-    } else if (operand instanceof BinderNo) {
+    } else if (operand instanceof Binder) {
       return ExpressionType.BINDER
     } else if (typeof operand === 'boolean' || operand instanceof BooleanColumn) {
       return ExpressionType.BOOLEAN
@@ -299,10 +299,10 @@ export class Expression {
     throw new InvalidExpressionError(`You can not have "${ExpressionType[left]}" and "${ExpressionType[right]}" with operator "${operator}"`)
   }
 
-  private static getOperandString(value: OperandType|BinderNo, isNot: boolean): string {
+  private static getOperandString(value: OperandType|Binder, isNot: boolean): string {
     if (value === null) {
       return 'NULL'
-    } else if (value instanceof BinderNo) {
+    } else if (value instanceof Binder) {
       return `$${value.no}`
     } else if (typeof value === 'string') {
       // escape single quote by repeating it
@@ -347,4 +347,4 @@ export enum Operator {
   GreaterThan = '>',
 }
 
-export type PostgresqlBinder = { sql: string, values: any[] }
+export type PostgresqlBinder = { sql: string, values: PrimitiveType[] }

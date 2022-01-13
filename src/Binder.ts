@@ -1,30 +1,32 @@
-export class Binder {
-  private static instance: Binder
-  private values: any[] = []
+export class BinderStore {
+  private static instance: BinderStore
+  private store: Binder[] = []
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private constructor() {
-  }
+  private constructor() {}
 
-  public static getInstance(): Binder {
-    if (!Binder.instance) {
-      Binder.instance = new Binder()
+  public static getInstance(): BinderStore {
+    if (!BinderStore.instance) {
+      BinderStore.instance = new BinderStore()
     }
-    return Binder.instance
+    return BinderStore.instance
   }
 
-  public add(value: any): BinderNo {
-    this.values.push(value)
-    return new BinderNo(this.values.length)
+  public add(value: PrimitiveType): Binder {
+    const binder = new Binder(this.store.length + 1, value)
+    this.store.push(binder)
+    return binder
   }
 
-  public getValues(): any[] {
-    const result = [...this.values]
-    this.values.length = 0
+  public getValues(): PrimitiveType[] {
+    const result = this.store.map(it => it.value)
+    this.store.length = 0
     return result
   }
 }
 
-export class BinderNo {
-  public constructor(public readonly no: number) {}
+export class Binder {
+  public constructor(public readonly no: number, public readonly value: PrimitiveType) {}
 }
+
+export type PrimitiveType = null|boolean|number|string

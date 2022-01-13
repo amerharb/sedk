@@ -8,7 +8,7 @@ import {
   OperandType, PostgresqlBinder,
 } from './model'
 import { ColumnNotFoundError, TableNotFoundError } from './Errors'
-import { Binder } from './Binder'
+import { BinderStore } from './Binder'
 
 export enum LogicalOperator {
   AND = 'AND',
@@ -28,7 +28,7 @@ export class ASql {
   private columns: ColumnLike[]
   private whereParts: (LogicalOperator|Condition|Parenthesis)[] = []
   private steps: STEPS[] = []
-  private binder = Binder.getInstance()
+  private binderStore = BinderStore.getInstance()
 
   constructor(database: Database) {
     this.dbSchema = database
@@ -125,7 +125,7 @@ export class ASql {
   }
 
   public getPostgresqlBinding(): PostgresqlBinder {
-    return { sql: this.getSQL(), values: this.binder.getValues() }
+    return { sql: this.getSQL(), values: this.binderStore.getValues() }
   }
 
   /**

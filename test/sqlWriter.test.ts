@@ -1,5 +1,5 @@
 import {
-  ASql,
+  Builder,
   BooleanColumn,
   ColumnNotFoundError,
   Database,
@@ -35,10 +35,10 @@ describe('test from one table', () => {
     [column1, column2, column3, column4, column5, column6, column7, column8],
   )
   const db = new Database([table], 1)
-  const asql = new ASql(db)
+  const sql = new Builder(db)
 
   it('Produces [SELECT col1 FROM testTable]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .getSQL()
@@ -47,7 +47,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT 1 FROM testTable]', () => {
-    const actual = asql
+    const actual = sql
       .select(e(1))
       .from(table)
       .getSQL()
@@ -56,7 +56,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT 'a' FROM testTable]", () => {
-    const actual = asql
+    const actual = sql
       .select(e('a'))
       .from(table)
       .getSQL()
@@ -65,7 +65,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT 'a', 1, TRUE FROM testTableR]", () => {
-    const actual = asql
+    const actual = sql
       .select('a', 1, true)
       .from(table)
       .getSQL()
@@ -74,7 +74,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT ('a' || 'b') FROM testTable]", () => {
-    const actual = asql
+    const actual = sql
       .select(e('a', CONCAT, 'b'))
       .from(table)
       .getSQL()
@@ -83,7 +83,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT (1 + (2 - 3)) FROM testTable]', () => {
-    const actual = asql
+    const actual = sql
       .select(e(1, ADD, e(2, SUB, 3)))
       .from(table)
       .getSQL()
@@ -93,14 +93,14 @@ describe('test from one table', () => {
 
   describe('select literal values', () => {
     it('Produces [SELECT TRUE]', () => {
-      const actual = asql.select(e(true)).getSQL()
+      const actual = sql.select(e(true)).getSQL()
       expect(actual).toEqual('SELECT TRUE')
     })
 
   })
 
   it('Produces [SELECT col1, col2 FROM testTable]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column2)
       .from(table)
       .getSQL()
@@ -109,7 +109,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x']", () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column2)
       .from(table)
       .where(column1.eq('x'))
@@ -119,7 +119,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1, col2 FROM testTable WHERE col1 = $1]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column2)
       .from(table)
       .where(column1.eq$('x'))
@@ -134,7 +134,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1, col4 FROM testTable WHERE col4 = 5]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column4)
       .from(table)
       .where(column4.eq(5))
@@ -144,7 +144,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1, col4 FROM testTable WHERE col4 = $1]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column4)
       .from(table)
       .where(column4.eq$(5))
@@ -159,7 +159,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1, col4 FROM testTable WHERE col4 IS NULL]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column4)
       .from(table)
       .where(column4.eq(null))
@@ -169,7 +169,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1, col4 FROM testTable WHERE col1 IS NULL]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column4)
       .from(table)
       .where(column1.eq(null))
@@ -179,7 +179,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1, col4 FROM testTable WHERE col4 IS $1]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column4)
       .from(table)
       .where(column4.eq$(null))
@@ -194,7 +194,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1, col4 FROM testTable WHERE col1 IS $1]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column4)
       .from(table)
       .where(column1.eq$(null))
@@ -209,7 +209,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' )]", () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column2)
       .from(table)
       .where(column1.eq('x'), AND, column2.eq('y'))
@@ -219,7 +219,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1, col2 FROM testTable WHERE ( col1 = $1 AND col2 = $2 )]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column2)
       .from(table)
       .where(column1.eq$('x'), AND, column2.eq$('y'))
@@ -234,7 +234,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' OR col2 = 'y' )]", () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column2)
       .from(table)
       .where(column1.eq('x'), OR, column2.eq('y'))
@@ -244,7 +244,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x' AND col2 = 'y']", () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column2)
       .from(table)
       .where(column1.eq('x'))
@@ -255,7 +255,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' OR col2 = 'y' ) AND col3 = 'z']", () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column2)
       .from(table)
       .where(column1.eq('x'), OR, column2.eq('y'))
@@ -266,7 +266,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x' OR col2 = 'y']", () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column2)
       .from(table)
       .where(column1.eq('x'))
@@ -277,7 +277,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' ) OR col3 = 'z']", () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column2)
       .from(table)
       .where(column1.eq('x'), AND, column2.eq('y'))
@@ -288,7 +288,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' ) AND col3 = 'z1' OR col3 = 'z2']", () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column2)
       .from(table)
       .where(column1.eq('x'), AND, column2.eq('y'))
@@ -300,7 +300,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x1  x2' AND ( col2 = 'y' OR col3 = 'z' )]", () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column2)
       .from(table)
       .where(column1.eq('x1  x2'))
@@ -311,7 +311,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x1  x2' OR ( col2 = 'y' AND col3 = 'z' )]", () => {
-    const actual = asql
+    const actual = sql
       .select(column1, column2)
       .from(table)
       .where(column1.eq('x1  x2'))
@@ -322,7 +322,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT col1 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' OR col4 = 5 )]", () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column1.eq('x'), AND, column2.eq('y'), OR, column4.eq(5))
@@ -332,7 +332,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT col1 FROM testTable WHERE col1 = 'x' AND ( col2 = 'y' OR col3 = 'z' OR col4 = 5 )]", () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column1.eq('x'))
@@ -343,7 +343,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT col1 FROM testTable WHERE col1 = 'x' OR ( col2 = 'y' AND col3 = 'z' AND col4 = 5 )]", () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column1.eq('x'))
@@ -354,7 +354,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col1 = $1 OR ( col2 = $2 AND col3 = $3 AND col4 = $4 )]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column1.eq$('x'))
@@ -370,7 +370,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col4 > 5]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column4.gt(5))
@@ -380,7 +380,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col4 > $1]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column4.gt$(5))
@@ -394,7 +394,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col1 = col2]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column1.eq(column2))
@@ -404,7 +404,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col4 = (col5 + col6)]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column4.eq(column5, ADD, column6))
@@ -414,7 +414,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col4 = (col5 - col6)]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column4.eq(column5, SUB, column6))
@@ -424,7 +424,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col4 = (col5 - 1)]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column4.eq(column5, SUB, 1))
@@ -434,7 +434,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col4 = (1 + col5)]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column4.eq(1, ADD, column5))
@@ -444,7 +444,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col4 = (1 + 1)]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column4.eq(1, ADD, 1))
@@ -456,7 +456,7 @@ describe('test from one table', () => {
   describe('Throw desired Errors', () => {
     it('Throws error when add invalid operator]', () => {
       function actual() {
-        asql.select(e(1, Operator.GreaterThan, 'f'))
+        sql.select(e(1, Operator.GreaterThan, 'f'))
       }
 
       expect(actual).toThrowError('You can not have "NUMBER" and "TEXT" with operator ">"')
@@ -467,7 +467,7 @@ describe('test from one table', () => {
       const wrongColumn = new TextColumn('wrongColumn')
 
       function actual() {
-        asql.select(column1, wrongColumn, column3)
+        sql.select(column1, wrongColumn, column3)
       }
 
       expect(actual).toThrowError('Column: wrongColumn not found')
@@ -478,7 +478,7 @@ describe('test from one table', () => {
       const wrongTable = new Table('wrongTable', [new TextColumn('anyColumn')])
 
       function actual() {
-        asql.select(column1).from(wrongTable)
+        sql.select(column1).from(wrongTable)
       }
 
       expect(actual).toThrowError('Table: wrongTable not found')
@@ -487,7 +487,7 @@ describe('test from one table', () => {
 
     it('Throws error if number added to text', () => {
       function actual() {
-        asql.select(e(1, ADD, 'a')).getSQL()
+        sql.select(e(1, ADD, 'a')).getSQL()
       }
 
       expect(actual).toThrowError('You can not have "NUMBER" and "TEXT" with operator "+"')
@@ -496,7 +496,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col4 > col5]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column4.gt(column5))
@@ -506,7 +506,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col4 = col5]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column4.eq(column5))
@@ -517,7 +517,7 @@ describe('test from one table', () => {
 
   it("Produces [SELECT col1 FROM testTable WHERE col2 = 'value contain single quote '' and more '''' , ''']", () => {
     const stringContainSingleQuote = "value contain single quote ' and more '' , '"
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column2.eq(stringContainSingleQuote))
@@ -527,7 +527,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col7 = TRUE]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column7.eq(true))
@@ -537,7 +537,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col7 = $1] for [$1=true]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column7.eq$(true))
@@ -552,7 +552,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col7 IS $1] for [$1=null]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column7.eq$(null))
@@ -567,7 +567,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col7]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column7)
@@ -577,7 +577,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE NOT col7]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column7.not())
@@ -587,7 +587,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE (NOT col7 OR NOT col8)]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column7.not(), OR, column8.not())
@@ -597,7 +597,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE NOT col7 AND NOT col8]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column7.not())
@@ -608,7 +608,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col7 = FALSE]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column7.eq(false))
@@ -618,7 +618,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col7 = col8]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column7.eq(column8))
@@ -628,7 +628,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col7 IS NULL]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column7.eq(null))
@@ -638,7 +638,7 @@ describe('test from one table', () => {
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col1 = (col2 || col3)]', () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column1.eq(column2.concat(column3)))
@@ -648,7 +648,7 @@ describe('test from one table', () => {
   })
 
   it("Produces [SELECT col1 FROM testTable WHERE col1 = (col2 || 'something')]", () => {
-    const actual = asql
+    const actual = sql
       .select(column1)
       .from(table)
       .where(column1.eq(column2.concat('something')))

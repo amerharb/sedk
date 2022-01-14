@@ -371,4 +371,4 @@ export enum Operator {
   GreaterThan = '>',
 }
 
-export type PostgreSqlBinder = { sql: string, values: PrimitiveType[] }
+export type PostgresBinder = { sql: string, values: PrimitiveType[] }

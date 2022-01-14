@@ -340,7 +340,14 @@ export class Expression {
   }
 }
 
-enum ExpressionType {NOT_EXIST, NULL, BOOLEAN, NUMBER, TEXT, BINDER}
+enum ExpressionType {
+  NOT_EXIST,
+  NULL,
+  BOOLEAN,
+  NUMBER,
+  TEXT,
+  BINDER,
+}
 
 /*
 Remember to redefine everything in Qualifier enum again in LogicalOperator enum.

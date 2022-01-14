@@ -33,3 +33,20 @@ there is alias step all capital
 if you pick the SELECT then the result will be also all capital
 
 
+todo:
+- steps:
+  - xor
+  - order-by
+  - group-by
+  - having
+  - left/right/inner join, on
+  - Asterisk
+  - column
+  - as
+  - insert
+  - update
+  - delete
+
+- FROM should take more than one table
+- alias step for all capital letter
+- 

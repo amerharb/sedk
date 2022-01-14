@@ -1,5 +1,5 @@
-import { InvalidExpressionError } from './Errors'
-import { BinderStore, Binder, PrimitiveType } from './Binder'
+import { InvalidExpressionError } from './errors'
+import { BinderStore, Binder, PrimitiveType } from './binder'
 
 export class Database {
   private readonly version?: number
@@ -10,12 +10,23 @@ export class Database {
     this.version = version
   }
 
-  getVersion(): number|undefined {
+  public getVersion(): number|undefined {
     return this.version
   }
 
-  getTables(): Table[] {
+  public getTables(): Table[] {
     return this.tables
+  }
+
+  public isTableExist(table: Table): boolean {
+    let found = false
+    for (const t of this.tables) {
+      if (table === t) {
+        found = true
+        break
+      }
+    }
+    return found
   }
 }
 
@@ -360,4 +371,4 @@ export enum Operator {
   GreaterThan = '>',
 }
 
-export type PostgresqlBinder = { sql: string, values: PrimitiveType[] }
+export type PostgresBinder = { sql: string, values: PrimitiveType[] }

@@ -4,24 +4,14 @@ import {
   Column,
   Condition,
   Expression,
-  Operator,
-  OperandType, PostgresqlBinder,
-} from './model'
-import { ColumnNotFoundError, TableNotFoundError } from './Errors'
-import { BinderStore } from './Binder'
-
-export enum LogicalOperator {
-  AND = 'AND',
-  OR = 'OR',
-}
-
-//Aliases
-const AND = LogicalOperator.AND
-const OR = LogicalOperator.OR
+  PostgresBinder,
+} from './models'
+import { ColumnNotFoundError, TableNotFoundError } from './errors'
+import { BinderStore } from './binder'
 
 type ColumnLike = Column|Expression
 
-export class ASql {
+export class Builder {
   private dbSchema: Database
   //TODO: make table array ot another kind of collection object when we add left inner join step
   private table?: Table
@@ -34,7 +24,7 @@ export class ASql {
     this.dbSchema = database
   }
 
-  public select(...items: (ColumnLike|string|number|boolean)[]): ASql {
+  public select(...items: (ColumnLike|string|number|boolean)[]): Builder {
     const columns = items.map(it => {
       if (it instanceof Expression || it instanceof Column)
         return it
@@ -47,7 +37,7 @@ export class ASql {
     return this
   }
 
-  public from(table: Table): ASql {
+  public from(table: Table): Builder {
     this.throwIfTableNotInDb(table)
     //TODO: check that last step was SELECT before add FROM step
     this.table = table
@@ -55,20 +45,20 @@ export class ASql {
     return this
   }
 
-  public where(condition: Condition): ASql
-  public where(left: Condition, operator: LogicalOperator, right: Condition): ASql
-  public where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): ASql
-  public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): ASql {
+  public where(condition: Condition): Builder
+  public where(left: Condition, operator: LogicalOperator, right: Condition): Builder
+  public where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): Builder
+  public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): Builder {
     //TODO: check that last step was FROM before add WHERE step
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
     this.steps.push(STEPS.WHERE)
     return this
   }
 
-  public and(condition: Condition): ASql
-  public and(left: Condition, operator: LogicalOperator, right: Condition): ASql
-  public and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): ASql
-  public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): ASql {
+  public and(condition: Condition): Builder
+  public and(left: Condition, operator: LogicalOperator, right: Condition): Builder
+  public and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): Builder
+  public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): Builder {
     //TODO: check that last step was WHERE or OR before add AND step
     this.whereParts.push(AND)
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
@@ -76,10 +66,10 @@ export class ASql {
     return this
   }
 
-  public or(condition: Condition): ASql
-  public or(left: Condition, operator: LogicalOperator, right: Condition): ASql
-  public or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): ASql
-  public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): ASql {
+  public or(condition: Condition): Builder
+  public or(left: Condition, operator: LogicalOperator, right: Condition): Builder
+  public or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): Builder
+  public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): Builder {
     //TODO: check that last step was WHERE or AND before add OR step
     this.whereParts.push(OR)
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
@@ -104,6 +94,21 @@ export class ASql {
   }
 
   public getSQL(): string {
+    const result = this.getStatment()
+    this.cleanUp()
+    return result
+  }
+
+  public getPostgresqlBinding(): PostgresBinder {
+    const result = {
+      sql: this.getStatment(),
+      values: this.binderStore.getValues()
+    }
+    this.cleanUp()
+    return result
+  }
+
+  private getStatment(): string {
     let result = `SELECT ${this.columns.join(', ')}`
 
     if (this.table) {
@@ -114,18 +119,15 @@ export class ASql {
       this.throwIfWherePartsInvalid()
       result += ` WHERE ${this.whereParts.join(' ')}`
     }
+    return result
+  }
 
-    // clean up
+  private cleanUp() {
     this.steps.length = 0
     this.whereParts.length = 0
     this.steps.length = 0
     this.table = undefined
-
-    return result
-  }
-
-  public getPostgresqlBinding(): PostgresqlBinder {
-    return { sql: this.getSQL(), values: this.binderStore.getValues() }
+    this.binderStore.getValues() // when binder return the values its clean up
   }
 
   /**
@@ -159,7 +161,7 @@ export class ASql {
   private throwIfColumnsNotInDb(columns: ColumnLike[]) {
     for (const column of columns) {
       if (column instanceof Expression) {
-        this.throwIfColumnsNotInDb(ASql.getColumnsFromExpression(column))
+        this.throwIfColumnsNotInDb(Builder.getColumnsFromExpression(column))
         continue
       }
       // TODO: move search function into database model
@@ -179,43 +181,35 @@ export class ASql {
     }
   }
 
-  public static getColumnsFromExpression(expression: Expression): Column[] {
+  private static getColumnsFromExpression(expression: Expression): Column[] {
     const columns: Column[] = []
     if (expression.left instanceof Column)
       columns.push(expression.left)
     else if (expression.left instanceof Expression)
-      columns.push(...ASql.getColumnsFromExpression(expression.left))
+      columns.push(...Builder.getColumnsFromExpression(expression.left))
 
     if (expression.right instanceof Column)
       columns.push(expression.right)
     else if (expression.right instanceof Expression)
-      columns.push(...ASql.getColumnsFromExpression(expression.right))
+      columns.push(...Builder.getColumnsFromExpression(expression.right))
 
     return columns
   }
 
   private throwIfTableNotInDb(table: Table) {
-    let found = false
-    // TODO: move search function into database model
-    for (const t of this.dbSchema.getTables()) {
-      if (table === t) {
-        found = true
-        break
-      }
-    }
-    if (!found)
+    if (!this.dbSchema.isTableExist(table))
       throw new TableNotFoundError(`Table: ${table} not found`)
   }
 }
 
-export function e(left: OperandType): Expression
-export function e(left: OperandType, operator: Operator, right: OperandType): Expression
-export function e(left: OperandType, operator?: Operator, right?: OperandType): Expression {
-  if (operator !== undefined && right !== undefined)
-    return new Expression(left, operator, right)
-  else
-    return new Expression(left)
+export enum LogicalOperator {
+  AND = 'AND',
+  OR = 'OR',
 }
+
+//Aliases
+const AND = LogicalOperator.AND
+const OR = LogicalOperator.OR
 
 enum STEPS {
   SELECT = 'select',

@@ -94,6 +94,21 @@ export class ASql {
   }
 
   public getSQL(): string {
+    const result = this.getStatment()
+    this.cleanUp()
+    return result
+  }
+
+  public getPostgresqlBinding(): PostgreSqlBinder {
+    const result = {
+      sql: this.getStatment(),
+      values: this.binderStore.getValues()
+    }
+    this.cleanUp()
+    return result
+  }
+
+  private getStatment(): string {
     let result = `SELECT ${this.columns.join(', ')}`
 
     if (this.table) {
@@ -104,18 +119,15 @@ export class ASql {
       this.throwIfWherePartsInvalid()
       result += ` WHERE ${this.whereParts.join(' ')}`
     }
+    return result
+  }
 
-    // clean up
+  private cleanUp() {
     this.steps.length = 0
     this.whereParts.length = 0
     this.steps.length = 0
     this.table = undefined
-
-    return result
-  }
-
-  public getPostgresqlBinding(): PostgreSqlBinder {
-    return { sql: this.getSQL(), values: this.binderStore.getValues() }
+    this.binderStore.getValues() // when binder return the values its clean up
   }
 
   /**

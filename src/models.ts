@@ -293,8 +293,9 @@ export class Expression {
         return ExpressionType.NUMBER
 
       this.throwInvalidTypeError(left, operator, right)
+    }
 
-    } else if (this.isBooleanOperator(operator)) {
+    if (this.isBooleanOperator(operator)) {
       if (left === ExpressionType.NULL || right === ExpressionType.NULL)
         return ExpressionType.NULL
 
@@ -303,8 +304,9 @@ export class Expression {
 
       //TODO: support the case when TEXT is convertable to boolean or number
       this.throwInvalidTypeError(left, operator, right)
+    }
 
-    } else if (this.isNullOperator(operator)) {
+    if (this.isNullOperator(operator)) {
       if (right === ExpressionType.NULL)
         return ExpressionType.BOOLEAN
 
@@ -316,8 +318,9 @@ export class Expression {
       }
 
       this.throwInvalidTypeError(left, operator, right)
+    }
 
-    } else if (this.isTextOperator(operator)) {
+    if (this.isTextOperator(operator)) {
       if (left === ExpressionType.NULL || right === ExpressionType.NULL)
         return ExpressionType.NULL
 
@@ -328,9 +331,9 @@ export class Expression {
         return ExpressionType.TEXT
 
       this.throwInvalidTypeError(left, operator, right)
-    } else {
-      throw new Error(`Function "getResultExpressionType" does not support operator: "${operator}"`)
     }
+
+    throw new Error(`Function "getResultExpressionType" does not support operator: "${operator}"`)
   }
 
   private static isArithmeticOperator(operator: Operator): boolean {

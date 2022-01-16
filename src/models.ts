@@ -63,8 +63,8 @@ export abstract class Column {
 
 export class BooleanColumn extends Column implements Condition {
   // implement Condition
-  public readonly leftPart: Expression = new Expression(this)
-  public readonly leftOperand: Operand = this.leftPart.leftOperand
+  public readonly leftExpression: Expression = new Expression(this)
+  public readonly leftOperand: Operand = this.leftExpression.leftOperand
   public readonly type: ExpressionType = ExpressionType.BOOLEAN
 
   constructor(columnName: string) {
@@ -144,26 +144,26 @@ export class TextColumn extends Column {
 }
 
 export class Condition implements Expression {
-  public readonly leftPart: Expression
+  public readonly leftExpression: Expression
   public readonly operator?: Qualifier
-  public readonly rightPart?: Expression
+  public readonly rightExpression?: Expression
 
   //Implement Expression
   public readonly leftOperand: Operand
   public readonly rightOperand?: Operand
   public readonly type: ExpressionType = ExpressionType.BOOLEAN
 
-  constructor(left: Expression)
-  constructor(left: Expression, operator: Qualifier, right: Expression)
-  constructor(left: Expression, operator: Qualifier, right: Expression, notLeft: boolean, notRight: boolean)
-  constructor(left: Expression, operator?: Qualifier, right?: Expression, notLeft?: boolean, notRight?: boolean) {
+  constructor(leftExpression: Expression)
+  constructor(leftExpression: Expression, operator: Qualifier, rightExpression: Expression)
+  constructor(leftExpression: Expression, operator: Qualifier, rightExpression: Expression, notLeft: boolean, notRight: boolean)
+  constructor(leftExpression: Expression, operator?: Qualifier, rightExpression?: Expression, notLeft?: boolean, notRight?: boolean) {
     // TODO: validate if qualifier is valid for the "rightOperand" type, for example Greater or Lesser does not work with string
-    this.leftOperand = new Operand(left, notLeft)
+    this.leftOperand = new Operand(leftExpression, notLeft)
     this.operator = operator
-    this.rightOperand = new Operand(right, notRight)
+    this.rightOperand = new Operand(rightExpression, notRight)
     this.type = ExpressionType.BOOLEAN
-    this.leftPart = left
-    this.rightPart = right
+    this.leftExpression = leftExpression
+    this.rightExpression = rightExpression
   }
 
   public toString(): string {

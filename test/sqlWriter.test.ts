@@ -6,19 +6,24 @@ import {
   e,
   LogicalOperator,
   NumberColumn,
-  Operator,
   Table,
   TableNotFoundError,
   TextColumn,
   InvalidExpressionError,
 } from '../src'
+import {
+  ArithmeticOperator,
+  BooleanOperator,
+  TextOperator
+} from '../src/models'
 
 //Alias
 const AND = LogicalOperator.AND
 const OR = LogicalOperator.OR
-const ADD = Operator.ADD
-const SUB = Operator.SUB
-const CONCAT = Operator.CONCAT
+const ADD = ArithmeticOperator.ADD
+const SUB = ArithmeticOperator.SUB
+const CONCAT = TextOperator.CONCAT
+const GT = BooleanOperator.GreaterThan
 
 describe('test from one table', () => {
   // database schema
@@ -456,7 +461,7 @@ describe('test from one table', () => {
   describe('Throw desired Errors', () => {
     it('Throws error when add invalid operator]', () => {
       function actual() {
-        sql.select(e(1, Operator.GreaterThan, 'f'))
+        sql.select(e(1, GT, 'f'))
       }
 
       expect(actual).toThrowError('You can not have "NUMBER" and "TEXT" with operator ">"')

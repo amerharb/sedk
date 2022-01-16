@@ -142,7 +142,7 @@ export class TextColumn extends Column {
   }
 
   public concat(value: TextLike): Expression {
-    return new Expression(this, Operator.CONCAT, value)
+    return new Expression(this, TextOperator.CONCAT, value)
   }
 }
 
@@ -184,11 +184,11 @@ export class Condition implements Expression {
   private static getOperatorFromQualifier(qualifier: Qualifier): Operator {
     switch (qualifier) {
     case Qualifier.Equal:
-      return Operator.Equal
+      return BooleanOperator.Equal
     case Qualifier.Is:
-      return Operator.Is
+      return NullOperator.Is
     case Qualifier.GreaterThan:
-      return Operator.GreaterThan
+      return BooleanOperator.GreaterThan
     }
   }
 
@@ -284,7 +284,7 @@ export class Expression {
   }
 
   private static getResultExpressionType(left: ExpressionType, operator: Operator, right: ExpressionType): ExpressionType {
-    if (operator === Operator.ADD || operator === Operator.SUB) { // TODO: add other arithmetic operators
+    if (this.isArithmeticOperator(operator)) {
       if ((left === ExpressionType.NULL && right === ExpressionType.NUMBER)
         || (left === ExpressionType.NUMBER && right === ExpressionType.NULL))
         return ExpressionType.NULL
@@ -292,8 +292,9 @@ export class Expression {
       if (left === ExpressionType.NUMBER && right === ExpressionType.NUMBER)
         return ExpressionType.NUMBER
 
-      Expression.throwInvalidTypeError(left, operator, right)
-    } else if (operator === Operator.Equal || operator === Operator.GreaterThan) { // TODO: add other comparison operators
+      this.throwInvalidTypeError(left, operator, right)
+
+    } else if (this.isBooleanOperator(operator)) {
       if (left === ExpressionType.NULL || right === ExpressionType.NULL)
         return ExpressionType.NULL
 
@@ -301,22 +302,51 @@ export class Expression {
         return ExpressionType.BOOLEAN
 
       //TODO: support the case when TEXT is convertable to boolean or number
-      Expression.throwInvalidTypeError(left, operator, right)
-    } else if (operator === Operator.Is) {
+      this.throwInvalidTypeError(left, operator, right)
+
+    } else if (this.isNullOperator(operator)) {
       if (right === ExpressionType.NULL)
         return ExpressionType.BOOLEAN
 
-      //TODO: support the case when left is boolean and right is literal TRUE or FALSE
-      Expression.throwInvalidTypeError(left, operator, right)
-    } else if (operator === Operator.CONCAT) {
+      if (right === ExpressionType.BOOLEAN) {
+        if (left === ExpressionType.BOOLEAN)
+          return ExpressionType.BOOLEAN
+        if (left === ExpressionType.TEXT) //TODO: support the case when left is boolean and right is literal TRUE or FALSE
+          this.throwInvalidTypeError(left, operator, right) //todo check text value
+      }
+
+      this.throwInvalidTypeError(left, operator, right)
+
+    } else if (this.isTextOperator(operator)) {
       if (left === ExpressionType.NULL || right === ExpressionType.NULL)
         return ExpressionType.NULL
 
-      // "||" operator can combine text, number and boolean
-      return ExpressionType.TEXT
+      if (left === ExpressionType.TEXT && (right === ExpressionType.TEXT || right === ExpressionType.NUMBER))
+        return ExpressionType.TEXT
+
+      if (left === ExpressionType.NUMBER && right === ExpressionType.TEXT)
+        return ExpressionType.TEXT
+
+      this.throwInvalidTypeError(left, operator, right)
     } else {
       throw new Error(`Function "getResultExpressionType" does not support operator: "${operator}"`)
     }
+  }
+
+  private static isArithmeticOperator(operator: Operator): boolean {
+    return Object.values(ArithmeticOperator).includes(operator as ArithmeticOperator)
+  }
+
+  private static isTextOperator(operator: Operator): boolean {
+    return Object.values(TextOperator).includes(operator as TextOperator)
+  }
+
+  private static isBooleanOperator(operator: Operator): boolean {
+    return Object.values(BooleanOperator).includes(operator as BooleanOperator)
+  }
+
+  private static isNullOperator(operator: Operator): boolean {
+    return Object.values(NullOperator).includes(operator as NullOperator)
   }
 
   private static throwInvalidTypeError(left: ExpressionType, operator: Operator, right: ExpressionType): never {
@@ -367,15 +397,29 @@ enum Qualifier { //Relational operator
   // LesserOrEqual = '<=',
 }
 
-export enum Operator {
+// TODO: add other arithmetic operators
+export enum ArithmeticOperator {
   ADD = '+',
   SUB = '-',
-  CONCAT = '||',
+}
 
-  //All Qualifier Enum Copied Manually
+export enum TextOperator {
+  CONCAT = '||',
+}
+
+// TODO: add other comparison operators
+export enum BooleanOperator {
   Equal = '=',
-  Is = 'IS',
   GreaterThan = '>',
 }
 
-export type PostgresBinder = { sql: string, values: PrimitiveType[] }
+export enum NullOperator {
+  Is = 'IS',
+}
+
+export type Operator = NullOperator|BooleanOperator|ArithmeticOperator|TextOperator
+
+export type PostgresBinder = {
+  sql: string,
+  values: PrimitiveType[]
+}

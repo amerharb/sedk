@@ -510,6 +510,16 @@ describe('test from one table', () => {
     expect(actual).toEqual('SELECT col1 FROM testTable WHERE col4 > col5')
   })
 
+  it("Produces [SELECT col1 FROM testTable WHERE (col7 > 'tru')]", () => {
+    const actual = sql
+      .select(column1)
+      .from(table)
+      .where(e(column7, GT, 'tru'))
+      .getSQL()
+
+    expect(actual).toEqual("SELECT col1 FROM testTable WHERE (col7 > 'tru')")
+  })
+
   it('Produces [SELECT col1 FROM testTable WHERE col4 = col5]', () => {
     const actual = sql
       .select(column1)

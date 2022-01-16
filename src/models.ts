@@ -175,11 +175,29 @@ export class Condition implements Expression {
 }
 
 //TODO: include other value type like date-time
-type BooleanLike = boolean|BooleanColumn
-type NumberLike = number|NumberColumn
-type TextLike = string|TextColumn
-type ValueType = null|BooleanLike|NumberLike|TextLike
+export type BooleanLike = boolean|BooleanColumn
+export type NumberLike = number|NumberColumn
+export type TextLike = string|TextColumn
+export type ValueType = null|BooleanLike|NumberLike|TextLike
 export type OperandType = ValueType|Expression
+
+const booleanArray: readonly string[] = ['t', 'tr', 'tru', 'true', 'f', 'fa', 'fal', 'fals', 'false']
+type TextBooleanSmallLetter = typeof booleanArray[number]
+export type TextBoolean = TextBooleanSmallLetter|Capitalize<TextBooleanSmallLetter>|Uppercase<TextBooleanSmallLetter>
+
+export function isTextBoolean(text: unknown): text is TextBoolean {
+  if (typeof text === 'string')
+    return booleanArray.includes(text)
+  return false
+}
+
+export function isTextNumber(text: unknown): text is number {
+  if (typeof text === 'string') {
+    const numberRegex = /^-?[0-9]+(\.[0-9]+)?$/
+    return numberRegex.test(text)
+  }
+  return false
+}
 
 class Operand {
   public value?: OperandType|Binder
@@ -270,7 +288,7 @@ export class Expression {
     if (this.rightOperand.type === ExpressionType.NOT_EXIST) {
       this.type = this.leftOperand.type
     } else if (typeof operatorOrNotLeft !== 'boolean' && operatorOrNotLeft !== undefined) {
-      this.type = Expression.getResultExpressionType(this.leftOperand.type, operatorOrNotLeft, this.rightOperand.type)
+      this.type = Expression.getResultExpressionType(this.leftOperand, operatorOrNotLeft, this.rightOperand)
     }
   }
 
@@ -281,61 +299,66 @@ export class Expression {
     return this.leftOperand.toString()
   }
 
-  private static getResultExpressionType(leftType: ExpressionType, operator: Operator, rightType: ExpressionType): ExpressionType {
+  private static getResultExpressionType(left: Operand, operator: Operator, right: Operand): ExpressionType {
     if (this.isArithmeticOperator(operator)) {
-      if ((leftType === ExpressionType.NULL && rightType === ExpressionType.NUMBER)
-        || (leftType === ExpressionType.NUMBER && rightType === ExpressionType.NULL))
+      if ((left.type === ExpressionType.NULL && right.type === ExpressionType.NUMBER)
+        || (left.type === ExpressionType.NUMBER && right.type === ExpressionType.NULL))
         return ExpressionType.NULL
 
-      if (leftType === ExpressionType.NUMBER && rightType === ExpressionType.NUMBER)
+      if (left.type === ExpressionType.NUMBER && right.type === ExpressionType.NUMBER)
         return ExpressionType.NUMBER
 
-      if ((leftType === ExpressionType.TEXT && rightType === ExpressionType.NUMBER)
-        || (leftType === ExpressionType.NUMBER && rightType === ExpressionType.TEXT))
-        this.throwInvalidTypeError(leftType, operator, rightType) //TODO: support case when text is convertable to number
+      if ((left.type === ExpressionType.TEXT && right.type === ExpressionType.NUMBER)
+        || (left.type === ExpressionType.NUMBER && right.type === ExpressionType.TEXT))
+        this.throwInvalidTypeError(left.type, operator, right.type) //TODO: support case when text is convertable to number
 
-      this.throwInvalidTypeError(leftType, operator, rightType)
+      this.throwInvalidTypeError(left.type, operator, right.type)
     }
 
     if (this.isBooleanOperator(operator)) {
-      if (leftType === ExpressionType.NULL || rightType === ExpressionType.NULL)
+      if (left.type === ExpressionType.NULL || right.type === ExpressionType.NULL)
         return ExpressionType.NULL
 
-      if (leftType === rightType)
+      if (left.type === right.type)
         return ExpressionType.BOOLEAN
 
-      if (leftType === ExpressionType.TEXT) //TODO: support the case when leftOperand is boolean and rightOperand is literal TRUE or FALSE
-        this.throwInvalidTypeError(leftType, operator, rightType) //todo check text value
+      if (left.type === ExpressionType.BOOLEAN && (right.type === ExpressionType.TEXT && isTextBoolean(right.value))
+        || right.type === ExpressionType.BOOLEAN && (left.type === ExpressionType.TEXT && isTextBoolean(left.value)))
+        return ExpressionType.BOOLEAN
 
-      //TODO: support the case when TEXT is convertable to boolean or number
-      this.throwInvalidTypeError(leftType, operator, rightType)
+      if (left.type === ExpressionType.NUMBER && (right.type === ExpressionType.TEXT && isTextNumber(right.value))
+        || right.type === ExpressionType.NUMBER && (left.type === ExpressionType.TEXT && isTextNumber(left.value)))
+        return ExpressionType.BOOLEAN
+
+      this.throwInvalidTypeError(left.type, operator, right.type)
     }
 
     if (this.isNullOperator(operator)) {
-      if (rightType === ExpressionType.NULL)
+      if (right.type === ExpressionType.NULL)
         return ExpressionType.BOOLEAN
 
-      if (rightType === ExpressionType.BOOLEAN) {
-        if (leftType === ExpressionType.NULL || ExpressionType.BOOLEAN)
+      if (right.type === ExpressionType.BOOLEAN) {
+        if (left.type === ExpressionType.NULL || ExpressionType.BOOLEAN)
           return ExpressionType.BOOLEAN
-        if (leftType === ExpressionType.TEXT) //TODO: support the case when leftOperand is boolean and rightOperand is literal TRUE or FALSE
-          this.throwInvalidTypeError(leftType, operator, rightType) //todo check text value
+        if (left.type === ExpressionType.TEXT && isTextNumber(left.value))
+          return ExpressionType.BOOLEAN
       }
 
-      this.throwInvalidTypeError(leftType, operator, rightType)
+      this.throwInvalidTypeError(left.type, operator, right.type)
     }
 
     if (this.isTextOperator(operator)) {
-      if (leftType === ExpressionType.NULL || rightType === ExpressionType.NULL)
+      if (left.type === ExpressionType.NULL || right.type === ExpressionType.NULL)
         return ExpressionType.NULL
 
-      if (leftType === ExpressionType.TEXT && (rightType === ExpressionType.TEXT || rightType === ExpressionType.NUMBER))
+      if (left.type === ExpressionType.TEXT
+        && (right.type === ExpressionType.TEXT || right.type === ExpressionType.NUMBER))
         return ExpressionType.TEXT
 
-      if (leftType === ExpressionType.NUMBER && rightType === ExpressionType.TEXT)
+      if (left.type === ExpressionType.NUMBER && right.type === ExpressionType.TEXT)
         return ExpressionType.TEXT
 
-      this.throwInvalidTypeError(leftType, operator, rightType)
+      this.throwInvalidTypeError(left.type, operator, right.type)
     }
 
     throw new Error(`Function "getResultExpressionType" does not support operator: "${operator}"`)

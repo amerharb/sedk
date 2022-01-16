@@ -277,6 +277,10 @@ export class Expression {
       if (left === ExpressionType.NUMBER && right === ExpressionType.NUMBER)
         return ExpressionType.NUMBER
 
+      if ((left === ExpressionType.TEXT && right === ExpressionType.NUMBER)
+        || (left === ExpressionType.NUMBER && right === ExpressionType.TEXT))
+        this.throwInvalidTypeError(left, operator, right) //TODO: support case when text is convertable to number
+
       this.throwInvalidTypeError(left, operator, right)
     }
 
@@ -287,6 +291,9 @@ export class Expression {
       if (left === right)
         return ExpressionType.BOOLEAN
 
+      if (left === ExpressionType.TEXT) //TODO: support the case when left is boolean and right is literal TRUE or FALSE
+        this.throwInvalidTypeError(left, operator, right) //todo check text value
+
       //TODO: support the case when TEXT is convertable to boolean or number
       this.throwInvalidTypeError(left, operator, right)
     }
@@ -296,7 +303,7 @@ export class Expression {
         return ExpressionType.BOOLEAN
 
       if (right === ExpressionType.BOOLEAN) {
-        if (left === ExpressionType.BOOLEAN)
+        if (left === ExpressionType.NULL || ExpressionType.BOOLEAN)
           return ExpressionType.BOOLEAN
         if (left === ExpressionType.TEXT) //TODO: support the case when left is boolean and right is literal TRUE or FALSE
           this.throwInvalidTypeError(left, operator, right) //todo check text value

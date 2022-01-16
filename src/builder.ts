@@ -13,7 +13,7 @@ type ColumnLike = Column|Expression
 
 export class Builder {
   private dbSchema: Database
-  //TODO: make table array ot another kind of collection object when we add left inner join step
+  //TODO: make table array ot another kind of collection object when we add leftOperand inner join step
   private table?: Table
   private columns: ColumnLike[]
   private whereParts: (LogicalOperator|Condition|Parenthesis)[] = []
@@ -183,15 +183,15 @@ export class Builder {
 
   private static getColumnsFromExpression(expression: Expression): Column[] {
     const columns: Column[] = []
-    if (expression.left instanceof Column)
-      columns.push(expression.left)
-    else if (expression.left instanceof Expression)
-      columns.push(...Builder.getColumnsFromExpression(expression.left))
+    if (expression.leftOperand.value instanceof Column)
+      columns.push(expression.leftOperand.value)
+    else if (expression.leftOperand.value instanceof Expression)
+      columns.push(...Builder.getColumnsFromExpression(expression.leftOperand.value))
 
-    if (expression.right instanceof Column)
-      columns.push(expression.right)
-    else if (expression.right instanceof Expression)
-      columns.push(...Builder.getColumnsFromExpression(expression.right))
+    if (expression.rightOperand?.value instanceof Column)
+      columns.push(expression.rightOperand.value)
+    else if (expression.rightOperand?.value instanceof Expression)
+      columns.push(...Builder.getColumnsFromExpression(expression.rightOperand.value))
 
     return columns
   }

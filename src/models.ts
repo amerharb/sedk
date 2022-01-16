@@ -272,7 +272,6 @@ export class Expression {
   constructor(leftOperandType: OperandType, operator: Operator, rightOperandType: OperandType)
   constructor(leftOperandType: OperandType, operator: Operator, rightOperandType: OperandType, notLeft: boolean, notRight: boolean)
   constructor(leftOperandType: OperandType|Binder, operatorOrNotLeft?: boolean|Operator, rightOperandType?: OperandType, notLeft?: boolean, notRight?: boolean) {
-    // TODO: validate Expression, for example if leftOperand and rightOperand are string they can not be used with + and -
     if (typeof operatorOrNotLeft === 'boolean')
       this.leftOperand = new Operand(leftOperandType, operatorOrNotLeft)
     else
@@ -308,9 +307,9 @@ export class Expression {
       if (left.type === ExpressionType.NUMBER && right.type === ExpressionType.NUMBER)
         return ExpressionType.NUMBER
 
-      if ((left.type === ExpressionType.TEXT && right.type === ExpressionType.NUMBER)
-        || (left.type === ExpressionType.NUMBER && right.type === ExpressionType.TEXT))
-        this.throwInvalidTypeError(left.type, operator, right.type) //TODO: support case when text is convertable to number
+      if (((left.type === ExpressionType.TEXT && isTextNumber(left.value)) && right.type === ExpressionType.NUMBER)
+        || (left.type === ExpressionType.NUMBER && (right.type === ExpressionType.TEXT && isTextNumber(right.value))))
+        return ExpressionType.NUMBER
 
       this.throwInvalidTypeError(left.type, operator, right.type)
     }

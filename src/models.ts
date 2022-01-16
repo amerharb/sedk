@@ -62,6 +62,11 @@ export abstract class Column {
 }
 
 export class BooleanColumn extends Column implements Condition {
+  // implement Condition
+  public readonly leftPart:Expression = new Expression(this)
+  public readonly left: Operand = this.leftPart.left
+  public readonly resultType: ExpressionType = ExpressionType.BOOLEAN
+
   constructor(columnName: string) {
     super(columnName)
   }
@@ -80,14 +85,6 @@ export class BooleanColumn extends Column implements Condition {
   public not(): Condition {
     return new Condition(new Expression(this, true))
   }
-
-  // implement Condition
-  public readonly left: Expression = new Condition(this)
-  public readonly leftType: ExpressionType = ExpressionType.BOOLEAN
-  public readonly notLeft: boolean = false
-  public readonly notRight: boolean = false
-  public readonly resultType: ExpressionType = ExpressionType.BOOLEAN
-  public readonly rightType: ExpressionType = ExpressionType.NOT_EXIST
 }
 
 export class NumberColumn extends Column {
@@ -147,35 +144,26 @@ export class TextColumn extends Column {
 }
 
 export class Condition implements Expression {
-  public readonly left: Expression
+  public readonly leftPart: Expression
   public readonly operator?: Qualifier
-  public readonly right?: Expression
+  public readonly rightPart?: Expression
 
-  public readonly leftType: ExpressionType
-  public readonly rightType: ExpressionType
-  public readonly resultType: ExpressionType
-  public readonly notLeft: boolean
-  public readonly notRight: boolean
+  //Implement Expression
+  public readonly left: Operand
+  public readonly right?: Operand
+  public readonly resultType: ExpressionType = ExpressionType.BOOLEAN
 
   constructor(left: Expression)
   constructor(left: Expression, operator: Qualifier, right: Expression)
   constructor(left: Expression, operator: Qualifier, right: Expression, notLeft: boolean, notRight: boolean)
   constructor(left: Expression, operator?: Qualifier, right?: Expression, notLeft?: boolean, notRight?: boolean) {
     // TODO: validate if qualifier is valid for the "right" type, for example Greater or Lesser does not work with string
-    this.left = left
+    this.left = new Operand(left, notLeft)
     this.operator = operator
-    this.right = right
-
-    this.leftType = left.resultType
+    this.right = new Operand(right, notRight)
     this.resultType = ExpressionType.BOOLEAN
-    this.notLeft = getNotValueOrThrow(notLeft, left.resultType)
-    if (operator === undefined && right === undefined && left.resultType === ExpressionType.BOOLEAN) {
-      this.rightType = ExpressionType.NOT_EXIST
-      this.notRight = false
-    } else if (operator !== undefined && right !== undefined) {
-      this.rightType = right.resultType
-      this.notRight = getNotValueOrThrow(notRight, right.resultType)
-    }
+    this.leftPart = left
+    this.rightPart = right
   }
 
   public toString(): string {
@@ -193,66 +181,37 @@ type TextLike = string|TextColumn
 type ValueType = null|BooleanLike|NumberLike|TextLike
 export type OperandType = ValueType|Expression
 
-function getNotValueOrThrow(notValue: boolean|undefined, expressionType: ExpressionType): boolean {
-  if (notValue === true) {
-    if (expressionType === ExpressionType.BOOLEAN) {
-      return true
-    } else {
-      throw new Error('You can not use "NOT" modifier unless expression type is boolean')
-    }
-  } else {
-    return false
-  }
-}
+class Operand {
+  public value?: OperandType|Binder
+  public type: ExpressionType
+  public isNot: boolean
 
-export class Expression {
-  public readonly left: OperandType|Binder
-  public readonly operator?: Operator
-  public readonly right?: OperandType
-  public readonly leftType: ExpressionType
-  public readonly rightType: ExpressionType
-  public readonly resultType: ExpressionType
-  public readonly notLeft: boolean
-  public readonly notRight: boolean
-
-  constructor(binder: Binder)
-  constructor(left: OperandType)
-  constructor(left: OperandType, notLeft: boolean)
-  constructor(left: OperandType, operator: Operator, right: OperandType)
-  constructor(left: OperandType, operator: Operator, right: OperandType, notLeft: boolean, notRight: boolean)
-  constructor(left: OperandType|Binder, operatorOrNotLeft?: boolean|Operator, right?: OperandType, notLeft?: boolean, notRight?: boolean) {
-    // TODO: validate Expression, for example if left and right are string they can not be used with + and -
-    this.left = left
-    this.leftType = Expression.getExpressionType(left)
-    if (typeof operatorOrNotLeft !== 'boolean') {
-      this.operator = operatorOrNotLeft
-      this.notLeft = getNotValueOrThrow(notLeft, this.leftType)
-    } else {
-      this.operator = undefined
-      this.notLeft = getNotValueOrThrow(operatorOrNotLeft, this.leftType)
-    }
-    this.right = right
-
-    if (right === undefined) {
-      this.rightType = ExpressionType.NOT_EXIST
-      this.resultType = this.leftType
-    } else if (typeof operatorOrNotLeft !== 'boolean' && operatorOrNotLeft !== undefined) {
-      this.rightType = Expression.getExpressionType(right)
-      this.resultType = Expression.getResultExpressionType(this.leftType, operatorOrNotLeft, this.rightType)
-    }
-
-    this.notRight = getNotValueOrThrow(notRight, this.rightType)
+  constructor(value?: OperandType|Binder, isNot?: boolean) {
+    this.value = value
+    this.type = Operand.getExpressionType(value)
+    this.isNot = Operand.getNotValueOrThrow(isNot, this.type)
   }
 
   public toString(): string {
-    if (this.operator !== undefined && this.right !== undefined) {
-      return `(${Expression.getOperandString(this.left, this.notLeft)} ${this.operator.toString()} ${Expression.getOperandString(this.right, this.notRight)})`
+    if (this.value === null) {
+      return 'NULL'
+    } else if (this.value instanceof Binder) {
+      return `$${this.value.no}`
+    } else if (typeof this.value === 'string') {
+      // escape single quote by repeating it
+      const result = this.value.replace(/'/g, '\'\'')
+      return `'${result}'`
+    } else if (typeof this.value === 'boolean') {
+      return `${this.isNot ? 'NOT ' : ''}${this.value ? 'TRUE' : 'FALSE'}`
+    } else {
+      return `${this.isNot ? 'NOT ' : ''}${this.value}`
     }
-    return Expression.getOperandString(this.left, this.notLeft)
   }
 
-  private static getExpressionType(operand: OperandType|Binder): ExpressionType {
-    if (operand === null) {
+  private static getExpressionType(operand?: OperandType|Binder): ExpressionType {
+    if (operand === undefined) {
+      return ExpressionType.NOT_EXIST
+    } else if (operand === null) {
       return ExpressionType.NULL
     } else if (operand instanceof Expression) {
       return operand.resultType
@@ -266,6 +225,60 @@ export class Expression {
       return ExpressionType.TEXT
     }
     throw new Error('Operand type is not supported')
+  }
+
+  private static getNotValueOrThrow(notValue: boolean|undefined, expressionType: ExpressionType): boolean {
+    if (notValue === true) {
+      if (expressionType === ExpressionType.BOOLEAN) {
+        return true
+      } else {
+        throw new Error('You can not use "NOT" modifier unless expression type is boolean')
+      }
+    } else {
+      return false
+    }
+  }
+
+
+}
+
+export class Expression {
+  public readonly left: Operand
+  public readonly operator?: Operator
+  public readonly right?: Operand
+  public readonly resultType: ExpressionType
+
+  constructor(binder: Binder)
+  constructor(left: OperandType)
+  constructor(left: OperandType, notLeft: boolean)
+  constructor(left: OperandType, operator: Operator, right: OperandType)
+  constructor(left: OperandType, operator: Operator, right: OperandType, notLeft: boolean, notRight: boolean)
+  constructor(left: OperandType|Binder, operatorOrNotLeft?: boolean|Operator, right?: OperandType, notLeft?: boolean, notRight?: boolean) {
+    // TODO: validate Expression, for example if left and right are string they can not be used with + and -
+    if (typeof operatorOrNotLeft === 'boolean')
+      this.left = new Operand(left, operatorOrNotLeft)
+    else
+      this.left = new Operand(left, notLeft)
+
+    if (typeof operatorOrNotLeft !== 'boolean') {
+      this.operator = operatorOrNotLeft
+    } else {
+      this.operator = undefined
+    }
+    this.right = new Operand(right, notRight)
+
+    if (this.right.type === ExpressionType.NOT_EXIST) {
+      this.resultType = this.left.type
+    } else if (typeof operatorOrNotLeft !== 'boolean' && operatorOrNotLeft !== undefined) {
+      this.resultType = Expression.getResultExpressionType(this.left.type, operatorOrNotLeft, this.right.type)
+    }
+  }
+
+  public toString(): string {
+    if (this.operator !== undefined && this.right !== undefined) {
+      return `(${this.left} ${this.operator.toString()} ${this.right})`
+    }
+    return this.left.toString()
   }
 
   private static getResultExpressionType(left: ExpressionType, operator: Operator, right: ExpressionType): ExpressionType {
@@ -346,22 +359,6 @@ export class Expression {
 
   private static throwInvalidTypeError(left: ExpressionType, operator: Operator, right: ExpressionType): never {
     throw new InvalidExpressionError(`You can not have "${ExpressionType[left]}" and "${ExpressionType[right]}" with operator "${operator}"`)
-  }
-
-  private static getOperandString(value: OperandType|Binder, isNot: boolean): string {
-    if (value === null) {
-      return 'NULL'
-    } else if (value instanceof Binder) {
-      return `$${value.no}`
-    } else if (typeof value === 'string') {
-      // escape single quote by repeating it
-      const result = value.replace(/'/g, '\'\'')
-      return `'${result}'`
-    } else if (typeof value === 'boolean') {
-      return `${isNot ? 'NOT ' : ''}${value ? 'TRUE' : 'FALSE'}`
-    } else {
-      return `${isNot ? 'NOT ' : ''}${value}`
-    }
   }
 }
 

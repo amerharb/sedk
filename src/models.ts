@@ -63,9 +63,9 @@ export abstract class Column {
 
 export class BooleanColumn extends Column implements Condition {
   // implement Condition
-  public readonly leftPart:Expression = new Expression(this)
-  public readonly left: Operand = this.leftPart.left
-  public readonly resultType: ExpressionType = ExpressionType.BOOLEAN
+  public readonly leftPart: Expression = new Expression(this)
+  public readonly leftOperand: Operand = this.leftPart.leftOperand
+  public readonly type: ExpressionType = ExpressionType.BOOLEAN
 
   constructor(columnName: string) {
     super(columnName)
@@ -149,28 +149,28 @@ export class Condition implements Expression {
   public readonly rightPart?: Expression
 
   //Implement Expression
-  public readonly left: Operand
-  public readonly right?: Operand
-  public readonly resultType: ExpressionType = ExpressionType.BOOLEAN
+  public readonly leftOperand: Operand
+  public readonly rightOperand?: Operand
+  public readonly type: ExpressionType = ExpressionType.BOOLEAN
 
   constructor(left: Expression)
   constructor(left: Expression, operator: Qualifier, right: Expression)
   constructor(left: Expression, operator: Qualifier, right: Expression, notLeft: boolean, notRight: boolean)
   constructor(left: Expression, operator?: Qualifier, right?: Expression, notLeft?: boolean, notRight?: boolean) {
-    // TODO: validate if qualifier is valid for the "right" type, for example Greater or Lesser does not work with string
-    this.left = new Operand(left, notLeft)
+    // TODO: validate if qualifier is valid for the "rightOperand" type, for example Greater or Lesser does not work with string
+    this.leftOperand = new Operand(left, notLeft)
     this.operator = operator
-    this.right = new Operand(right, notRight)
-    this.resultType = ExpressionType.BOOLEAN
+    this.rightOperand = new Operand(right, notRight)
+    this.type = ExpressionType.BOOLEAN
     this.leftPart = left
     this.rightPart = right
   }
 
   public toString(): string {
-    if (this.operator !== undefined && this.right !== undefined)
-      return `${this.left} ${this.operator} ${this.right}`
+    if (this.operator !== undefined && this.rightOperand !== undefined)
+      return `${this.leftOperand} ${this.operator} ${this.rightOperand}`
     else
-      return this.left.toString()
+      return this.leftOperand.toString()
   }
 }
 
@@ -208,20 +208,20 @@ class Operand {
     }
   }
 
-  private static getExpressionType(operand?: OperandType|Binder): ExpressionType {
-    if (operand === undefined) {
+  private static getExpressionType(operandType?: OperandType|Binder): ExpressionType {
+    if (operandType === undefined) {
       return ExpressionType.NOT_EXIST
-    } else if (operand === null) {
+    } else if (operandType === null) {
       return ExpressionType.NULL
-    } else if (operand instanceof Expression) {
-      return operand.resultType
-    } else if (operand instanceof Binder) {
+    } else if (operandType instanceof Expression) {
+      return operandType.type
+    } else if (operandType instanceof Binder) {
       return ExpressionType.BINDER
-    } else if (typeof operand === 'boolean' || operand instanceof BooleanColumn) {
+    } else if (typeof operandType === 'boolean' || operandType instanceof BooleanColumn) {
       return ExpressionType.BOOLEAN
-    } else if (typeof operand === 'number' || operand instanceof NumberColumn) {
+    } else if (typeof operandType === 'number' || operandType instanceof NumberColumn) {
       return ExpressionType.NUMBER
-    } else if (typeof operand === 'string' || operand instanceof TextColumn) {
+    } else if (typeof operandType === 'string' || operandType instanceof TextColumn) {
       return ExpressionType.TEXT
     }
     throw new Error('Operand type is not supported')
@@ -243,99 +243,99 @@ class Operand {
 }
 
 export class Expression {
-  public readonly left: Operand
+  public readonly leftOperand: Operand
   public readonly operator?: Operator
-  public readonly right?: Operand
-  public readonly resultType: ExpressionType
+  public readonly rightOperand?: Operand
+  public readonly type: ExpressionType
 
   constructor(binder: Binder)
-  constructor(left: OperandType)
-  constructor(left: OperandType, notLeft: boolean)
-  constructor(left: OperandType, operator: Operator, right: OperandType)
-  constructor(left: OperandType, operator: Operator, right: OperandType, notLeft: boolean, notRight: boolean)
-  constructor(left: OperandType|Binder, operatorOrNotLeft?: boolean|Operator, right?: OperandType, notLeft?: boolean, notRight?: boolean) {
-    // TODO: validate Expression, for example if left and right are string they can not be used with + and -
+  constructor(leftOperandType: OperandType)
+  constructor(leftOperandType: OperandType, notLeft: boolean)
+  constructor(leftOperandType: OperandType, operator: Operator, rightOperandType: OperandType)
+  constructor(leftOperandType: OperandType, operator: Operator, rightOperandType: OperandType, notLeft: boolean, notRight: boolean)
+  constructor(leftOperandType: OperandType|Binder, operatorOrNotLeft?: boolean|Operator, rightOperandType?: OperandType, notLeft?: boolean, notRight?: boolean) {
+    // TODO: validate Expression, for example if leftOperand and rightOperand are string they can not be used with + and -
     if (typeof operatorOrNotLeft === 'boolean')
-      this.left = new Operand(left, operatorOrNotLeft)
+      this.leftOperand = new Operand(leftOperandType, operatorOrNotLeft)
     else
-      this.left = new Operand(left, notLeft)
+      this.leftOperand = new Operand(leftOperandType, notLeft)
 
     if (typeof operatorOrNotLeft !== 'boolean') {
       this.operator = operatorOrNotLeft
     } else {
       this.operator = undefined
     }
-    this.right = new Operand(right, notRight)
+    this.rightOperand = new Operand(rightOperandType, notRight)
 
-    if (this.right.type === ExpressionType.NOT_EXIST) {
-      this.resultType = this.left.type
+    if (this.rightOperand.type === ExpressionType.NOT_EXIST) {
+      this.type = this.leftOperand.type
     } else if (typeof operatorOrNotLeft !== 'boolean' && operatorOrNotLeft !== undefined) {
-      this.resultType = Expression.getResultExpressionType(this.left.type, operatorOrNotLeft, this.right.type)
+      this.type = Expression.getResultExpressionType(this.leftOperand.type, operatorOrNotLeft, this.rightOperand.type)
     }
   }
 
   public toString(): string {
-    if (this.operator !== undefined && this.right !== undefined) {
-      return `(${this.left} ${this.operator.toString()} ${this.right})`
+    if (this.operator !== undefined && this.rightOperand !== undefined) {
+      return `(${this.leftOperand} ${this.operator.toString()} ${this.rightOperand})`
     }
-    return this.left.toString()
+    return this.leftOperand.toString()
   }
 
-  private static getResultExpressionType(left: ExpressionType, operator: Operator, right: ExpressionType): ExpressionType {
+  private static getResultExpressionType(leftType: ExpressionType, operator: Operator, rightType: ExpressionType): ExpressionType {
     if (this.isArithmeticOperator(operator)) {
-      if ((left === ExpressionType.NULL && right === ExpressionType.NUMBER)
-        || (left === ExpressionType.NUMBER && right === ExpressionType.NULL))
+      if ((leftType === ExpressionType.NULL && rightType === ExpressionType.NUMBER)
+        || (leftType === ExpressionType.NUMBER && rightType === ExpressionType.NULL))
         return ExpressionType.NULL
 
-      if (left === ExpressionType.NUMBER && right === ExpressionType.NUMBER)
+      if (leftType === ExpressionType.NUMBER && rightType === ExpressionType.NUMBER)
         return ExpressionType.NUMBER
 
-      if ((left === ExpressionType.TEXT && right === ExpressionType.NUMBER)
-        || (left === ExpressionType.NUMBER && right === ExpressionType.TEXT))
-        this.throwInvalidTypeError(left, operator, right) //TODO: support case when text is convertable to number
+      if ((leftType === ExpressionType.TEXT && rightType === ExpressionType.NUMBER)
+        || (leftType === ExpressionType.NUMBER && rightType === ExpressionType.TEXT))
+        this.throwInvalidTypeError(leftType, operator, rightType) //TODO: support case when text is convertable to number
 
-      this.throwInvalidTypeError(left, operator, right)
+      this.throwInvalidTypeError(leftType, operator, rightType)
     }
 
     if (this.isBooleanOperator(operator)) {
-      if (left === ExpressionType.NULL || right === ExpressionType.NULL)
+      if (leftType === ExpressionType.NULL || rightType === ExpressionType.NULL)
         return ExpressionType.NULL
 
-      if (left === right)
+      if (leftType === rightType)
         return ExpressionType.BOOLEAN
 
-      if (left === ExpressionType.TEXT) //TODO: support the case when left is boolean and right is literal TRUE or FALSE
-        this.throwInvalidTypeError(left, operator, right) //todo check text value
+      if (leftType === ExpressionType.TEXT) //TODO: support the case when leftOperand is boolean and rightOperand is literal TRUE or FALSE
+        this.throwInvalidTypeError(leftType, operator, rightType) //todo check text value
 
       //TODO: support the case when TEXT is convertable to boolean or number
-      this.throwInvalidTypeError(left, operator, right)
+      this.throwInvalidTypeError(leftType, operator, rightType)
     }
 
     if (this.isNullOperator(operator)) {
-      if (right === ExpressionType.NULL)
+      if (rightType === ExpressionType.NULL)
         return ExpressionType.BOOLEAN
 
-      if (right === ExpressionType.BOOLEAN) {
-        if (left === ExpressionType.NULL || ExpressionType.BOOLEAN)
+      if (rightType === ExpressionType.BOOLEAN) {
+        if (leftType === ExpressionType.NULL || ExpressionType.BOOLEAN)
           return ExpressionType.BOOLEAN
-        if (left === ExpressionType.TEXT) //TODO: support the case when left is boolean and right is literal TRUE or FALSE
-          this.throwInvalidTypeError(left, operator, right) //todo check text value
+        if (leftType === ExpressionType.TEXT) //TODO: support the case when leftOperand is boolean and rightOperand is literal TRUE or FALSE
+          this.throwInvalidTypeError(leftType, operator, rightType) //todo check text value
       }
 
-      this.throwInvalidTypeError(left, operator, right)
+      this.throwInvalidTypeError(leftType, operator, rightType)
     }
 
     if (this.isTextOperator(operator)) {
-      if (left === ExpressionType.NULL || right === ExpressionType.NULL)
+      if (leftType === ExpressionType.NULL || rightType === ExpressionType.NULL)
         return ExpressionType.NULL
 
-      if (left === ExpressionType.TEXT && (right === ExpressionType.TEXT || right === ExpressionType.NUMBER))
+      if (leftType === ExpressionType.TEXT && (rightType === ExpressionType.TEXT || rightType === ExpressionType.NUMBER))
         return ExpressionType.TEXT
 
-      if (left === ExpressionType.NUMBER && right === ExpressionType.TEXT)
+      if (leftType === ExpressionType.NUMBER && rightType === ExpressionType.TEXT)
         return ExpressionType.TEXT
 
-      this.throwInvalidTypeError(left, operator, right)
+      this.throwInvalidTypeError(leftType, operator, rightType)
     }
 
     throw new Error(`Function "getResultExpressionType" does not support operator: "${operator}"`)
@@ -357,8 +357,8 @@ export class Expression {
     return Object.values(NullOperator).includes(operator as NullOperator)
   }
 
-  private static throwInvalidTypeError(left: ExpressionType, operator: Operator, right: ExpressionType): never {
-    throw new InvalidExpressionError(`You can not have "${ExpressionType[left]}" and "${ExpressionType[right]}" with operator "${operator}"`)
+  private static throwInvalidTypeError(leftType: ExpressionType, operator: Operator, rightType: ExpressionType): never {
+    throw new InvalidExpressionError(`You can not have "${ExpressionType[leftType]}" and "${ExpressionType[rightType]}" with operator "${operator}"`)
   }
 }
 

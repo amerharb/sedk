@@ -94,21 +94,21 @@ export class Builder {
   }
 
   public getSQL(): string {
-    const result = this.getStatment()
+    const result = this.getStatement()
     this.cleanUp()
     return result
   }
 
   public getPostgresqlBinding(): PostgresBinder {
     const result = {
-      sql: this.getStatment(),
+      sql: this.getStatement(),
       values: this.binderStore.getValues()
     }
     this.cleanUp()
     return result
   }
 
-  private getStatment(): string {
+  private getStatement(): string {
     let result = `SELECT ${this.columns.join(', ')}`
 
     if (this.table) {

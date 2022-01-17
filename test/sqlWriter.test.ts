@@ -304,6 +304,30 @@ describe('test from one table', () => {
     expect(actual).toEqual("SELECT col1, col2 FROM testTable WHERE ( col1 = 'x' AND col2 = 'y' ) AND col3 = 'z1' OR col3 = 'z2'")
   })
 
+  it("Produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x' AND col2 = 'y' AND col3 = 'z']", () => {
+    const actual = sql
+      .select(column1, column2)
+      .from(table)
+      .where(column1.eq('x'))
+      .and(column2.eq('y'))
+      .and(column3.eq('z'))
+      .getSQL()
+
+    expect(actual).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x' AND col2 = 'y' AND col3 = 'z'")
+  })
+
+  it("Produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x' OR col2 = 'y' OR col3 = 'z']", () => {
+    const actual = sql
+      .select(column1, column2)
+      .from(table)
+      .where(column1.eq('x'))
+      .or(column2.eq('y'))
+      .or(column3.eq('z'))
+      .getSQL()
+
+    expect(actual).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x' OR col2 = 'y' OR col3 = 'z'")
+  })
+
   it("Produces [SELECT col1, col2 FROM testTable WHERE col1 = 'x1  x2' AND ( col2 = 'y' OR col3 = 'z' )]", () => {
     const actual = sql
       .select(column1, column2)

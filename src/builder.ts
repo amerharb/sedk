@@ -11,17 +11,28 @@ import { BinderStore } from './binder'
 
 type ColumnLike = Column|Expression
 
-export class Builder {
-  private dbSchema: Database
+type BuilderData = {
+  dbSchema: Database,
   //TODO: make table array ot another kind of collection object when we add leftOperand inner join step
-  private table?: Table
-  private columns: ColumnLike[] = []
-  private whereParts: (LogicalOperator|Condition|Parenthesis)[] = []
-  private steps: STEPS[] = []
-  private binderStore = BinderStore.getInstance()
+  table?: Table,
+  columns: ColumnLike[],
+  whereParts: (LogicalOperator|Condition|Parenthesis)[],
+  steps: STEPS[],
+  binderStore: BinderStore,
+}
+
+export class Builder {
+  private data: BuilderData
 
   constructor(database: Database) {
-    this.dbSchema = database
+    this.data = {
+      dbSchema: database,
+      table: undefined,
+      columns: [],
+      whereParts: [],
+      steps: [],
+      binderStore: BinderStore.getInstance(),
+    }
   }
 
   public select(...items: (ColumnLike|string|number|boolean)[]): Builder {
@@ -34,16 +45,16 @@ export class Builder {
     this.throwIfColumnsNotInDb(columns)
     //Note: the cleanup needed as is one select in the chain also we start with it always
     this.cleanUp()
-    this.columns.push(...columns)
-    this.steps.push(STEPS.SELECT)
+    this.data.columns.push(...columns)
+    this.data.steps.push(STEPS.SELECT)
     return this
   }
 
   public from(table: Table): Builder {
     this.throwIfTableNotInDb(table)
     //TODO: check that last step was SELECT before add FROM step
-    this.table = table
-    this.steps.push(STEPS.FROM)
+    this.data.table = table
+    this.data.steps.push(STEPS.FROM)
     return this
   }
 
@@ -53,7 +64,7 @@ export class Builder {
   public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): Builder {
     //TODO: check that last step was FROM before add WHERE step
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    this.steps.push(STEPS.WHERE)
+    this.data.steps.push(STEPS.WHERE)
     return this
   }
 
@@ -62,9 +73,9 @@ export class Builder {
   public and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): Builder
   public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): Builder {
     //TODO: check that last step was WHERE or OR before add AND step
-    this.whereParts.push(AND)
+    this.data.whereParts.push(AND)
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    this.steps.push(STEPS.AND)
+    this.data.steps.push(STEPS.AND)
     return this
   }
 
@@ -73,25 +84,25 @@ export class Builder {
   public or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): Builder
   public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): Builder {
     //TODO: check that last step was WHERE or AND before add OR step
-    this.whereParts.push(OR)
+    this.data.whereParts.push(OR)
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    this.steps.push(STEPS.OR)
+    this.data.steps.push(STEPS.OR)
     return this
   }
 
   private addWhereParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
     if (op1 === undefined && cond2 === undefined) {
-      this.whereParts.push(cond1)
+      this.data.whereParts.push(cond1)
     } else if (op1 !== undefined && cond2 !== undefined) {
-      this.whereParts.push(Parenthesis.Open)
-      this.whereParts.push(cond1)
-      this.whereParts.push(op1)
-      this.whereParts.push(cond2)
+      this.data.whereParts.push(Parenthesis.Open)
+      this.data.whereParts.push(cond1)
+      this.data.whereParts.push(op1)
+      this.data.whereParts.push(cond2)
       if (op2 !== undefined && cond3 !== undefined) {
-        this.whereParts.push(op2)
-        this.whereParts.push(cond3)
+        this.data.whereParts.push(op2)
+        this.data.whereParts.push(cond3)
       }
-      this.whereParts.push(Parenthesis.Close)
+      this.data.whereParts.push(Parenthesis.Close)
     }
   }
 
@@ -104,32 +115,32 @@ export class Builder {
   public getPostgresqlBinding(): PostgresBinder {
     const result = {
       sql: this.getStatement(),
-      values: this.binderStore.getValues(),
+      values: this.data.binderStore.getValues(),
     }
     this.cleanUp()
     return result
   }
 
   private getStatement(): string {
-    let result = `SELECT ${this.columns.join(', ')}`
+    let result = `SELECT ${this.data.columns.join(', ')}`
 
-    if (this.table) {
-      result += ` FROM ${this.table}`
+    if (this.data.table) {
+      result += ` FROM ${this.data.table}`
     }
 
-    if (this.whereParts.length > 0) {
+    if (this.data.whereParts.length > 0) {
       this.throwIfWherePartsInvalid()
-      result += ` WHERE ${this.whereParts.join(' ')}`
+      result += ` WHERE ${this.data.whereParts.join(' ')}`
     }
     return result
   }
 
   private cleanUp() {
-    this.steps.length = 0
-    this.whereParts.length = 0
-    this.columns.length = 0
-    this.table = undefined
-    this.binderStore.getValues() // when binder return the values its clean up
+    this.data.steps.length = 0
+    this.data.whereParts.length = 0
+    this.data.columns.length = 0
+    this.data.table = undefined
+    this.data.binderStore.getValues() // when binder return the values its clean up
   }
 
   /**
@@ -138,16 +149,16 @@ export class Builder {
    */
   private throwIfWherePartsInvalid() {
     let pCounter = 0
-    for (let i = 0; i < this.whereParts.length; i++) {
-      if (this.whereParts[i] === Parenthesis.Open) {
+    for (let i = 0; i < this.data.whereParts.length; i++) {
+      if (this.data.whereParts[i] === Parenthesis.Open) {
         pCounter++
-        if (i < this.whereParts.length - 1)
-          if (this.whereParts[i + 1] === Parenthesis.Close) {
+        if (i < this.data.whereParts.length - 1)
+          if (this.data.whereParts[i + 1] === Parenthesis.Close) {
             throw new Error('invalid conditions build, empty parenthesis is not allowed')
           }
       }
 
-      if (this.whereParts[i] === Parenthesis.Close)
+      if (this.data.whereParts[i] === Parenthesis.Close)
         pCounter--
 
       if (pCounter < 0) {// Close comes before Open
@@ -170,9 +181,10 @@ export class Builder {
       }
       // TODO: move search function into database model
       let found = false
+      //@formatter:off
       COL:
       //TODO: filter only the table in the current query
-      for (const table of this.dbSchema.getTables()) {
+      for (const table of this.data.dbSchema.getTables()) {
         for (const col of table.getColumn()) {
           if (column === col) {
             found = true
@@ -180,6 +192,7 @@ export class Builder {
           }
         }
       }
+      //@formatter:on
       if (!found)
         throw new ColumnNotFoundError(`Column: ${column} not found`)
     }
@@ -201,7 +214,7 @@ export class Builder {
   }
 
   private throwIfTableNotInDb(table: Table) {
-    if (!this.dbSchema.isTableExist(table))
+    if (!this.data.dbSchema.isTableExist(table))
       throw new TableNotFoundError(`Table: ${table} not found`)
   }
 }

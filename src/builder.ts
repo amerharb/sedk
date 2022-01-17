@@ -125,7 +125,6 @@ export class Builder {
   private cleanUp() {
     this.steps.length = 0
     this.whereParts.length = 0
-    this.steps.length = 0
     this.table = undefined
     this.binderStore.getValues() // when binder return the values its clean up
   }

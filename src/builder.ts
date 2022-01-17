@@ -17,13 +17,13 @@ type BuilderData = {
   table?: Table,
   columns: ColumnLike[],
   whereParts: (LogicalOperator|Condition|Parenthesis)[],
-  steps: STEPS[],
+  steps: Step[],
   binderStore: BinderStore,
 }
 
 export class Builder {
   private readonly data: BuilderData
-  private step: Step
+  private rootStep: Step
 
   constructor(database: Database) {
     this.data = {
@@ -34,7 +34,7 @@ export class Builder {
       steps: [],
       binderStore: BinderStore.getInstance(),
     }
-    this.step = new Step(this.data)
+    this.rootStep = new Step(this.data)
   }
 
   public select(...items: (ColumnLike|string|number|boolean)[]): SelectStep {
@@ -46,10 +46,11 @@ export class Builder {
     })
     this.throwIfColumnsNotInDb(columns)
     //Note: the cleanup needed as is one select in the chain also we start with it always
-    this.step.cleanUp()
+    this.rootStep.cleanUp()
     this.data.columns.push(...columns)
-    this.data.steps.push(STEPS.SELECT)
-    return new SelectStep(this.data)
+    const step = new SelectStep(this.data)
+    this.data.steps.push(step)
+    return step
   }
 
   private throwIfColumnsNotInDb(columns: ColumnLike[]) {
@@ -189,8 +190,10 @@ class SelectStep extends Step {
   public from(table: Table): FromStep {
     this.throwIfTableNotInDb(table)
     this.data.table = table
-    this.data.steps.push(STEPS.FROM)
-    return new FromStep(this.data)
+
+    const step = new FromStep(this.data)
+    this.data.steps.push(step)
+    return step
   }
 }
 
@@ -200,8 +203,9 @@ class FromStep extends Step {
   public where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
   public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereStep {
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    this.data.steps.push(STEPS.WHERE)
-    return new WhereStep(this.data)
+    const step = new WhereStep(this.data)
+    this.data.steps.push(step)
+    return step
   }
 }
 
@@ -212,8 +216,9 @@ class WhereStep extends Step {
   public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): AndStep {
     this.data.whereParts.push(AND)
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    this.data.steps.push(STEPS.AND)
-    return new AndStep(this.data)
+    const step = new AndStep(this.data)
+    this.data.steps.push(step)
+    return step
   }
 
   public or(condition: Condition): OrStep
@@ -222,8 +227,9 @@ class WhereStep extends Step {
   public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): OrStep {
     this.data.whereParts.push(OR)
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    this.data.steps.push(STEPS.OR)
-    return new OrStep(this.data)
+    const step = new OrStep(this.data)
+    this.data.steps.push(step)
+    return step
   }
 }
 
@@ -234,8 +240,9 @@ class AndStep extends Step {
   public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): AndStep {
     this.data.whereParts.push(AND)
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    this.data.steps.push(STEPS.AND)
-    return new AndStep(this.data)
+    const step = new AndStep(this.data)
+    this.data.steps.push(step)
+    return step
   }
 
   public or(condition: Condition): OrStep
@@ -244,8 +251,9 @@ class AndStep extends Step {
   public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): OrStep {
     this.data.whereParts.push(OR)
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    this.data.steps.push(STEPS.OR)
-    return new OrStep(this.data)
+    const step = new OrStep(this.data)
+    this.data.steps.push(step)
+    return step
   }
 }
 
@@ -256,8 +264,9 @@ class OrStep extends Step {
   public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): OrStep {
     this.data.whereParts.push(OR)
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    this.data.steps.push(STEPS.OR)
-    return new OrStep(this.data)
+    const step = new OrStep(this.data)
+    this.data.steps.push(step)
+    return step
   }
 
   public and(condition: Condition): AndStep
@@ -266,8 +275,9 @@ class OrStep extends Step {
   public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): AndStep {
     this.data.whereParts.push(AND)
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    this.data.steps.push(STEPS.AND)
-    return new AndStep(this.data)
+    const step = new AndStep(this.data)
+    this.data.steps.push(step)
+    return step
   }
 }
 
@@ -279,14 +289,6 @@ export enum LogicalOperator {
 //Aliases
 const AND = LogicalOperator.AND
 const OR = LogicalOperator.OR
-
-enum STEPS {
-  SELECT = 'select',
-  FROM = 'from',
-  WHERE = 'where',
-  AND = 'and',
-  OR = 'or',
-}
 
 enum Parenthesis {
   Open = '(',

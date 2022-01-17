@@ -15,7 +15,7 @@ export class Builder {
   private dbSchema: Database
   //TODO: make table array ot another kind of collection object when we add leftOperand inner join step
   private table?: Table
-  private columns: ColumnLike[]
+  private columns: ColumnLike[] = []
   private whereParts: (LogicalOperator|Condition|Parenthesis)[] = []
   private steps: STEPS[] = []
   private binderStore = BinderStore.getInstance()
@@ -32,7 +32,9 @@ export class Builder {
         return new Expression(it)
     })
     this.throwIfColumnsNotInDb(columns)
-    this.columns = columns
+    //Note: the cleanup needed as is one select in the chain also we start with it always
+    this.cleanUp()
+    this.columns.push(...columns)
     this.steps.push(STEPS.SELECT)
     return this
   }
@@ -102,7 +104,7 @@ export class Builder {
   public getPostgresqlBinding(): PostgresBinder {
     const result = {
       sql: this.getStatement(),
-      values: this.binderStore.getValues()
+      values: this.binderStore.getValues(),
     }
     this.cleanUp()
     return result
@@ -125,6 +127,7 @@ export class Builder {
   private cleanUp() {
     this.steps.length = 0
     this.whereParts.length = 0
+    this.columns.length = 0
     this.table = undefined
     this.binderStore.getValues() // when binder return the values its clean up
   }
@@ -139,15 +142,17 @@ export class Builder {
       if (this.whereParts[i] === Parenthesis.Open) {
         pCounter++
         if (i < this.whereParts.length - 1)
-          if (this.whereParts[i + 1] === Parenthesis.Close)
+          if (this.whereParts[i + 1] === Parenthesis.Close) {
             throw new Error('invalid conditions build, empty parenthesis is not allowed')
+          }
       }
 
       if (this.whereParts[i] === Parenthesis.Close)
         pCounter--
 
-      if (pCounter < 0) // Close comes before Open
+      if (pCounter < 0) {// Close comes before Open
         throw new Error('invalid conditions build, closing parentheses must not occur after Opening one')
+      }
     }
 
     if (pCounter > 0) // Opening more than closing

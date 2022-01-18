@@ -10,12 +10,10 @@ import {
   TableNotFoundError,
   TextColumn,
   InvalidExpressionError,
-} from '../src'
-import {
   ArithmeticOperator,
   BooleanOperator,
   TextOperator
-} from '../src/models'
+} from '../src'
 
 //Alias
 const AND = LogicalOperator.AND

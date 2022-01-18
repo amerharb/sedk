@@ -11,7 +11,7 @@ import {
   TextColumn,
   InvalidExpressionError,
   ArithmeticOperator,
-  BooleanOperator,
+  ComparisonOperator,
   TextOperator
 } from '../src'
 
@@ -21,7 +21,7 @@ const OR = LogicalOperator.OR
 const ADD = ArithmeticOperator.ADD
 const SUB = ArithmeticOperator.SUB
 const CONCAT = TextOperator.CONCAT
-const GT = BooleanOperator.GreaterThan
+const GT = ComparisonOperator.GreaterThan
 
 describe('test from one table', () => {
   // database schema

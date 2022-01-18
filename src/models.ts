@@ -3,7 +3,7 @@ import { Binder, PrimitiveType } from './binder'
 import { BooleanColumn, NumberColumn, TextColumn } from './schema'
 import {
   NullOperator,
-  BooleanOperator,
+  ComparisonOperator,
   ArithmeticOperator,
   TextOperator,
   Operator,
@@ -237,7 +237,7 @@ export class Expression {
   }
 
   private static isBooleanOperator(operator: Operator): boolean {
-    return Object.values(BooleanOperator).includes(operator as BooleanOperator)
+    return Object.values(ComparisonOperator).includes(operator as ComparisonOperator)
   }
 
   private static isNullOperator(operator: Operator): boolean {

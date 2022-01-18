@@ -9,7 +9,7 @@ export enum TextOperator {
 }
 
 // TODO: add other comparison operators
-export enum BooleanOperator {
+export enum ComparisonOperator {
   Equal = '=',
   GreaterThan = '>',
 }
@@ -18,5 +18,5 @@ export enum NullOperator {
   Is = 'IS',
 }
 
-export type Qualifier = NullOperator|BooleanOperator
-export type Operator = NullOperator|BooleanOperator|ArithmeticOperator|TextOperator
+export type Qualifier = NullOperator|ComparisonOperator
+export type Operator = NullOperator|ComparisonOperator|ArithmeticOperator|TextOperator

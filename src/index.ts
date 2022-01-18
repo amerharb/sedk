@@ -2,11 +2,11 @@ export { Builder } from './builder'
 export { LogicalOperator } from './steps'
 export { e } from './functions'
 export {
-  Operator,
+  ComparisonOperator,
   ArithmeticOperator,
-  BooleanOperator,
   TextOperator,
-} from './models'
+  Operator,
+} from './operators'
 export {
   ColumnNotFoundError,
   TableNotFoundError,

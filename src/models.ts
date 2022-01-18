@@ -1,6 +1,14 @@
 import { InvalidExpressionError } from './errors'
 import { Binder, PrimitiveType } from './binder'
-import { BooleanColumn, NumberColumn , TextColumn } from './schema'
+import { BooleanColumn, NumberColumn, TextColumn } from './schema'
+import {
+  NullOperator,
+  ComparisonOperator,
+  ArithmeticOperator,
+  TextOperator,
+  Operator,
+  Qualifier,
+} from './operators'
 
 export class Condition implements Expression {
   public readonly leftExpression: Expression
@@ -76,7 +84,7 @@ export class Operand {
       return `$${this.value.no}`
     } else if (typeof this.value === 'string') {
       // escape single quote by repeating it
-      const result = this.value.replace(/'/g, '\'\'')
+      const result = this.value.replace(/'/g, "''")
       return `'${result}'`
     } else if (typeof this.value === 'boolean') {
       return `${this.isNot ? 'NOT ' : ''}${this.value ? 'TRUE' : 'FALSE'}`
@@ -229,7 +237,7 @@ export class Expression {
   }
 
   private static isBooleanOperator(operator: Operator): boolean {
-    return Object.values(BooleanOperator).includes(operator as BooleanOperator)
+    return Object.values(ComparisonOperator).includes(operator as ComparisonOperator)
   }
 
   private static isNullOperator(operator: Operator): boolean {
@@ -249,29 +257,6 @@ export enum ExpressionType {
   TEXT,
   BINDER,
 }
-
-// TODO: add other arithmetic operators
-export enum ArithmeticOperator {
-  ADD = '+',
-  SUB = '-',
-}
-
-export enum TextOperator {
-  CONCAT = '||',
-}
-
-// TODO: add other comparison operators
-export enum BooleanOperator {
-  Equal = '=',
-  GreaterThan = '>',
-}
-
-export enum NullOperator {
-  Is = 'IS',
-}
-
-export type Qualifier = NullOperator|BooleanOperator
-export type Operator = NullOperator|BooleanOperator|ArithmeticOperator|TextOperator
 
 export type PostgresBinder = {
   sql: string,

@@ -1,7 +1,7 @@
 {
-  "name": "sql-writer",
-  "version": "0.3.0",
-  "description": "Simple SQL builder",
+  "name": "sedk-postgres",
+  "version": "0.4.0",
+  "description": "Simple SQL builder and validator",
   "main": "dist/src/index.js",
   "scripts": {
     "start": "tsc && node dist/src/index.js",
@@ -13,6 +13,7 @@
   "keywords": ["SQL", "SQL Builder", "Postgresql"],
   "author": "Amer Harb",
   "license": "ISC",
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.16.5",
     "@babel/preset-env": "^7.16.5",

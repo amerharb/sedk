@@ -1,8 +1,8 @@
 import {
-  Table,
   Condition,
   PostgresBinder,
 } from './models'
+import { Table } from './schema'
 import { TableNotFoundError } from './errors'
 import { BuilderData } from './builder'
 

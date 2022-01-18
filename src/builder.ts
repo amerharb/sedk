@@ -2,6 +2,8 @@ import {
   Database,
   Table,
   Column,
+} from './schema'
+import {
   Condition,
   Expression,
 } from './models'

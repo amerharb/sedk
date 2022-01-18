@@ -153,6 +153,8 @@ export class Expression {
       this.type = this.leftOperand.type
     } else if (typeof operatorOrNotLeft !== 'boolean' && operatorOrNotLeft !== undefined) {
       this.type = Expression.getResultExpressionType(this.leftOperand, operatorOrNotLeft, this.rightOperand)
+    } else {
+      throw new Error('Error while calculate Expression Type, failed to create object Expression')
     }
   }
 

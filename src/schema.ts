@@ -4,11 +4,13 @@ import {
   Expression,
   Operand,
   ExpressionType,
-  BooleanOperator,
-  NullOperator,
-  Operator,
-  TextOperator,
 } from './models'
+import {
+  NullOperator,
+  BooleanOperator,
+  TextOperator,
+  Operator,
+} from './operators'
 
 export class Database {
   private readonly version?: number

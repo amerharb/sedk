@@ -6,7 +6,7 @@ export {
   ArithmeticOperator,
   BooleanOperator,
   TextOperator,
-} from './models'
+} from './operators'
 export {
   ColumnNotFoundError,
   TableNotFoundError,

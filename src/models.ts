@@ -1,6 +1,14 @@
 import { InvalidExpressionError } from './errors'
 import { Binder, PrimitiveType } from './binder'
-import { BooleanColumn, NumberColumn , TextColumn } from './schema'
+import { BooleanColumn, NumberColumn, TextColumn } from './schema'
+import {
+  NullOperator,
+  BooleanOperator,
+  ArithmeticOperator,
+  TextOperator,
+  Operator,
+  Qualifier,
+} from './operators'
 
 export class Condition implements Expression {
   public readonly leftExpression: Expression
@@ -249,29 +257,6 @@ export enum ExpressionType {
   TEXT,
   BINDER,
 }
-
-// TODO: add other arithmetic operators
-export enum ArithmeticOperator {
-  ADD = '+',
-  SUB = '-',
-}
-
-export enum TextOperator {
-  CONCAT = '||',
-}
-
-// TODO: add other comparison operators
-export enum BooleanOperator {
-  Equal = '=',
-  GreaterThan = '>',
-}
-
-export enum NullOperator {
-  Is = 'IS',
-}
-
-export type Qualifier = NullOperator|BooleanOperator
-export type Operator = NullOperator|BooleanOperator|ArithmeticOperator|TextOperator
 
 export type PostgresBinder = {
   sql: string,

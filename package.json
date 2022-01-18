@@ -1,6 +1,6 @@
 {
   "name": "sedk-postgres",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Simple SQL builder and validator",
   "main": "dist/src/index.js",
   "scripts": {
@@ -10,7 +10,11 @@
     "lint": "eslint src/**/*.ts",
     "lint-fix": "eslint src/**/*.ts --fix"
   },
-  "keywords": ["SQL", "SQL Builder", "Postgresql"],
+  "keywords": [
+    "SQL",
+    "SQL Builder",
+    "Postgresql"
+  ],
   "author": "Amer Harb",
   "license": "ISC",
   "dependencies": {},

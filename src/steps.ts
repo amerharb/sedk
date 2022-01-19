@@ -35,6 +35,9 @@ export class Step {
       this.throwIfWherePartsInvalid()
       result += ` WHERE ${this.data.whereParts.join(' ')}`
     }
+
+    result += ';'
+
     return result
   }
 
@@ -193,12 +196,12 @@ class OrStep extends Step {
   }
 }
 
-//Aliases
 export enum LogicalOperator {
   AND = 'AND',
   OR = 'OR',
 }
 
+//Aliases
 const AND = LogicalOperator.AND
 const OR = LogicalOperator.OR
 

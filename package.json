@@ -5,7 +5,7 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "files": [
-    "dist"
+    "dist/src"
   ],
   "scripts": {
     "start": "tsc && node dist/src/index.js",
@@ -17,7 +17,9 @@
   "keywords": [
     "SQL",
     "SQL Builder",
-    "Postgresql"
+    "Postgresql",
+    "Postgres",
+    "sedk"
   ],
   "author": "Amer Harb",
   "license": "ISC",

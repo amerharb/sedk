@@ -196,12 +196,12 @@ class OrStep extends Step {
   }
 }
 
-//Aliases
 export enum LogicalOperator {
   AND = 'AND',
   OR = 'OR',
 }
 
+//Aliases
 const AND = LogicalOperator.AND
 const OR = LogicalOperator.OR
 

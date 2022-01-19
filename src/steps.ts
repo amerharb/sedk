@@ -35,6 +35,9 @@ export class Step {
       this.throwIfWherePartsInvalid()
       result += ` WHERE ${this.data.whereParts.join(' ')}`
     }
+
+    result += ';'
+
     return result
   }
 

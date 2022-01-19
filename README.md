@@ -1,6 +1,6 @@
-# SEDK-postgres
+# SEDK-postgres V0.4.5
 
-SEDK is a libaray that build SQL statement (Postgres Favoured) Or Postgres Binding Object using pre-defined database
+SEDK is a libaray that build SQL statement (Postgres flavour) Or Postgres Binding Object using a pre-defined database
 schema
 
 ### example

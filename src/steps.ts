@@ -1,13 +1,50 @@
-import {
-  Condition,
-  PostgresBinder,
-} from './models'
-import { Table } from './schema'
-import { TableNotFoundError } from './errors'
+import { Condition, Expression, PostgresBinder } from './models'
+import { Column, Table } from './schema'
+import { ColumnNotFoundError, TableNotFoundError } from './errors'
 import { BuilderData } from './builder'
 
-export class Step implements BaseStep{
+export type ColumnLike = Column|Expression
+
+export class Step implements BaseStep, RootStep, SelectStep, FromStep {
   constructor(protected data: BuilderData) {}
+
+  public select(...items: (ColumnLike|string|number|boolean)[]): SelectStep {
+    const columns = items.map(it => {
+      if (it instanceof Expression || it instanceof Column)
+        return it
+      else
+        return new Expression(it)
+    })
+    this.throwIfColumnsNotInDb(columns)
+    //Note: the cleanup needed as there is only one "select" step in the chain that we start with
+    this.cleanUp()
+    this.data.columns.push(...columns)
+    return this
+  }
+
+  public from(table: Table): FromStep {
+    this.throwIfTableNotInDb(table)
+    this.data.table = table
+
+    return this
+  }
+
+  public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereStep {
+    this.addWhereParts(cond1, op1, cond2, op2, cond3)
+    return this
+  }
+
+  public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): AndStep {
+    this.data.whereParts.push(AND)
+    this.addWhereParts(cond1, op1, cond2, op2, cond3)
+    return this
+  }
+
+  public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): OrStep {
+    this.data.whereParts.push(OR)
+    this.addWhereParts(cond1, op1, cond2, op2, cond3)
+    return this
+  }
 
   public getSQL(): string {
     const result = this.getStatement()
@@ -36,13 +73,13 @@ export class Step implements BaseStep{
       result += ` WHERE ${this.data.whereParts.join(' ')}`
     }
 
-    result += ';'
+    if (this.data.option.useSemicolonAtTheEnd)
+      result += ';'
 
     return result
   }
 
   public cleanUp() {
-    this.data.steps.length = 0
     this.data.whereParts.length = 0
     this.data.columns.length = 0
     this.data.table = undefined
@@ -53,7 +90,7 @@ export class Step implements BaseStep{
    * This function throws error if WhereParts Array where invalid
    * it check the number of open and close parentheses in the conditions
    */
-  protected throwIfWherePartsInvalid() {
+  private throwIfWherePartsInvalid() {
     let pCounter = 0
     for (let i = 0; i < this.data.whereParts.length; i++) {
       if (this.data.whereParts[i] === Parenthesis.Open) {
@@ -79,12 +116,51 @@ export class Step implements BaseStep{
       throw new Error('invalid conditions build, closing parentheses is more than opening ones')
   }
 
-  protected throwIfTableNotInDb(table: Table) {
+  private throwIfTableNotInDb(table: Table) {
     if (!this.data.dbSchema.isTableExist(table))
       throw new TableNotFoundError(`Table: ${table} not found`)
   }
 
-  protected addWhereParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
+  private throwIfColumnsNotInDb(columns: ColumnLike[]) {
+    for (const column of columns) {
+      if (column instanceof Expression) {
+        this.throwIfColumnsNotInDb(Step.getColumnsFromExpression(column))
+        continue
+      }
+      // TODO: move search function into database model
+      let found = false
+      //@formatter:off
+      COL:
+      //TODO: filter only the table in the current query
+      for (const table of this.data.dbSchema.getTables()) {
+        for (const col of table.getColumn()) {
+          if (column === col) {
+            found = true
+            break COL
+          }
+        }
+      }
+      //@formatter:on
+      if (!found)
+        throw new ColumnNotFoundError(`Column: ${column} not found`)
+    }
+  }
+
+  private static getColumnsFromExpression(expression: Expression): Column[] {
+    const columns: Column[] = []
+    if (expression.leftOperand.value instanceof Column)
+      columns.push(expression.leftOperand.value)
+    else if (expression.leftOperand.value instanceof Expression)
+      columns.push(...Step.getColumnsFromExpression(expression.leftOperand.value))
+
+    if (expression.rightOperand?.value instanceof Column)
+      columns.push(expression.rightOperand.value)
+    else if (expression.rightOperand?.value instanceof Expression)
+      columns.push(...Step.getColumnsFromExpression(expression.rightOperand.value))
+
+    return columns
+  }
+  private addWhereParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
     if (op1 === undefined && cond2 === undefined) {
       this.data.whereParts.push(cond1)
     } else if (op1 !== undefined && cond2 !== undefined) {
@@ -107,99 +183,48 @@ interface BaseStep {
   cleanUp(): void
 }
 
-export class SelectStep extends Step {
-  public from(table: Table): FromStep {
-    this.throwIfTableNotInDb(table)
-    this.data.table = table
-
-    const step = new FromStep(this.data)
-    this.data.steps.push(step)
-    return step
-  }
+export interface RootStep extends BaseStep {
+  select(...items: (ColumnLike|string|number|boolean)[]): SelectStep
 }
 
-class FromStep extends Step {
-  public where(condition: Condition): WhereStep
-  public where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
-  public where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
-  public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereStep {
-    this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    const step = new WhereStep(this.data)
-    this.data.steps.push(step)
-    return step
-  }
+export interface SelectStep extends BaseStep {
+  from(table: Table): FromStep
 }
 
-class WhereStep extends Step {
-  public and(condition: Condition): AndStep
-  public and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
-  public and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
-  public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): AndStep {
-    this.data.whereParts.push(AND)
-    this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    const step = new AndStep(this.data)
-    this.data.steps.push(step)
-    return step
-  }
-
-  public or(condition: Condition): OrStep
-  public or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
-  public or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
-  public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): OrStep {
-    this.data.whereParts.push(OR)
-    this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    const step = new OrStep(this.data)
-    this.data.steps.push(step)
-    return step
-  }
+interface FromStep extends BaseStep {
+  where(condition: Condition): WhereStep
+  where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
+  where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
 }
 
-class AndStep extends Step {
-  public and(condition: Condition): AndStep
-  public and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
-  public and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
-  public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): AndStep {
-    this.data.whereParts.push(AND)
-    this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    const step = new AndStep(this.data)
-    this.data.steps.push(step)
-    return step
-  }
+interface WhereStep extends Step {
+  and(condition: Condition): AndStep
+  and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
+  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
 
-  public or(condition: Condition): OrStep
-  public or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
-  public or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
-  public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): OrStep {
-    this.data.whereParts.push(OR)
-    this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    const step = new OrStep(this.data)
-    this.data.steps.push(step)
-    return step
-  }
+  or(condition: Condition): OrStep
+  or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
+  or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 }
 
-class OrStep extends Step {
-  public or(condition: Condition): OrStep
-  public or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
-  public or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
-  public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): OrStep {
-    this.data.whereParts.push(OR)
-    this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    const step = new OrStep(this.data)
-    this.data.steps.push(step)
-    return step
-  }
+interface AndStep extends Step {
+  and(condition: Condition): AndStep
+  and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
+  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
 
-  public and(condition: Condition): AndStep
-  public and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
-  public and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
-  public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): AndStep {
-    this.data.whereParts.push(AND)
-    this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    const step = new AndStep(this.data)
-    this.data.steps.push(step)
-    return step
-  }
+  or(condition: Condition): OrStep
+  or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
+  or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
+}
+
+interface OrStep extends Step {
+  or(condition: Condition): OrStep
+  or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
+  or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
+
+  and(condition: Condition): AndStep
+  and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
+  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
 }
 
 export enum LogicalOperator {

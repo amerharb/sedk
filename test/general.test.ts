@@ -49,7 +49,7 @@ describe('test from one table', () => {
     expect(actual).toEqual('SELECT col1 FROM testTable;')
   })
 
-  it('Produces [SELECT 1 FROM testTable]', () => {
+  it('Produces [SELECT 1 FROM testTable;]', () => {
     const actual = sql
       .select(e(1))
       .from(table)

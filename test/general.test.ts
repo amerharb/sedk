@@ -121,6 +121,16 @@ describe('test from one table', () => {
     expect(actual).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x';")
   })
 
+  it("Produces [SELECT col1, col2 FROM testTable WHERE col1 <> 'x';]", () => {
+    const actual = sql
+      .select(column1, column2)
+      .from(table)
+      .where(column1.ne('x'))
+      .getSQL()
+
+    expect(actual).toEqual("SELECT col1, col2 FROM testTable WHERE col1 <> 'x';")
+  })
+
   it('Produces [SELECT col1, col2 FROM testTable WHERE col1 = $1;]', () => {
     const actual = sql
       .select(column1, column2)
@@ -130,6 +140,21 @@ describe('test from one table', () => {
 
     const expected = {
       sql: 'SELECT col1, col2 FROM testTable WHERE col1 = $1;',
+      values: ['x'],
+    }
+
+    expect(actual).toEqual(expected)
+  })
+
+  it('Produces [SELECT col1, col2 FROM testTable WHERE col1 <> $1;]', () => {
+    const actual = sql
+      .select(column1, column2)
+      .from(table)
+      .where(column1.ne$('x'))
+      .getPostgresqlBinding()
+
+    const expected = {
+      sql: 'SELECT col1, col2 FROM testTable WHERE col1 <> $1;',
       values: ['x'],
     }
 
@@ -229,6 +254,16 @@ describe('test from one table', () => {
     expect(actual).toEqual('SELECT col1, col4 FROM testTable WHERE col1 IS NULL;')
   })
 
+  it('Produces [SELECT col1, col4 FROM testTable WHERE col1 IS NOT NULL;]', () => {
+    const actual = sql
+      .select(column1, column4)
+      .from(table)
+      .where(column1.ne(null))
+      .getSQL()
+
+    expect(actual).toEqual('SELECT col1, col4 FROM testTable WHERE col1 IS NOT NULL;')
+  })
+
   it('Produces [SELECT col1, col4 FROM testTable WHERE col4 IS $1;]', () => {
     const actual = sql
       .select(column1, column4)
@@ -238,6 +273,21 @@ describe('test from one table', () => {
 
     const expected = {
       sql: 'SELECT col1, col4 FROM testTable WHERE col4 IS $1;',
+      values: [null],
+    }
+
+    expect(actual).toEqual(expected)
+  })
+
+  it('Produces [SELECT col1, col4 FROM testTable WHERE col4 IS NOT $1;]', () => {
+    const actual = sql
+      .select(column1, column4)
+      .from(table)
+      .where(column4.ne$(null))
+      .getPostgresqlBinding()
+
+    const expected = {
+      sql: 'SELECT col1, col4 FROM testTable WHERE col4 IS NOT $1;',
       values: [null],
     }
 

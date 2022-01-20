@@ -167,6 +167,19 @@ export class TextColumn extends Column {
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
+  public ne(value: Expression): Condition
+  public ne(value: null|string|TextColumn): Condition
+  public ne(value: null|string|TextColumn|Expression): Condition {
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    return new Condition(new Expression(this), qualifier, new Expression(value))
+  }
+
+  public ne$(value: null|string): Condition {
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), qualifier, new Expression(binder))
+  }
+
   public concat(value: TextLike): Expression {
     return new Expression(this, TextOperator.CONCAT, value)
   }

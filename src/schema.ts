@@ -11,6 +11,11 @@ import {
   TextOperator,
   Operator,
 } from './operators'
+import {
+  BooleanLike,
+  NumberLike,
+  TextLike,
+} from './models'
 
 export class Database {
   private readonly version?: number
@@ -93,6 +98,17 @@ export class BooleanColumn extends Column implements Condition {
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
+  public ne(value: null|BooleanLike): Condition {
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    return new Condition(new Expression(this), qualifier, new Expression(value))
+  }
+
+  public ne$(value: null|boolean): Condition {
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), qualifier, new Expression(binder))
+  }
+
   public not(): Condition {
     return new Condition(new Expression(this, true))
   }
@@ -121,6 +137,24 @@ export class NumberColumn extends Column {
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
+  public ne(value: null|NumberLike): Condition
+  public ne(value1: NumberLike, op: Operator, value2: NumberLike): Condition
+  public ne(value1: null|NumberLike, op?: Operator, value2?: NumberLike): Condition {
+    if (op === undefined && value2 === undefined) {
+      const qualifier = value1 === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+      return new Condition(new Expression(this), qualifier, new Expression(value1))
+    } else if (op !== undefined && value2 !== undefined) {
+      return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(value1, op, value2))
+    }
+    throw new Error('not supported case')
+  }
+
+  public ne$(value: null|number): Condition {
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), qualifier, new Expression(binder))
+  }
+
   public gt(value: NumberLike): Condition {
     return new Condition(new Expression(this), ComparisonOperator.GreaterThan, new Expression(value))
   }
@@ -128,6 +162,33 @@ export class NumberColumn extends Column {
   public gt$(value: number): Condition {
     const binder = this.binderStore.add(value)
     return new Condition(new Expression(this), ComparisonOperator.GreaterThan, new Expression(binder))
+  }
+
+  public ge(value: NumberLike): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.GreaterOrEqual, new Expression(value))
+  }
+
+  public ge$(value: number): Condition {
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), ComparisonOperator.GreaterOrEqual, new Expression(binder))
+  }
+
+  public lt(value: NumberLike): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.LesserThan, new Expression(value))
+  }
+
+  public lt$(value: number): Condition {
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), ComparisonOperator.LesserThan, new Expression(binder))
+  }
+
+  public le(value: NumberLike): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(value))
+  }
+
+  public le$(value: number): Condition {
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
   }
 }
 
@@ -149,12 +210,20 @@ export class TextColumn extends Column {
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
+  public ne(value: Expression): Condition
+  public ne(value: null|string|TextColumn): Condition
+  public ne(value: null|string|TextColumn|Expression): Condition {
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    return new Condition(new Expression(this), qualifier, new Expression(value))
+  }
+
+  public ne$(value: null|string): Condition {
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), qualifier, new Expression(binder))
+  }
+
   public concat(value: TextLike): Expression {
     return new Expression(this, TextOperator.CONCAT, value)
   }
 }
-
-//TODO: include other value type like date-time
-export type BooleanLike = boolean|BooleanColumn
-export type NumberLike = number|NumberColumn
-export type TextLike = string|TextColumn

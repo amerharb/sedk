@@ -24,7 +24,6 @@ export class Condition implements Expression {
   constructor(leftExpression: Expression, operator: Qualifier, rightExpression: Expression)
   constructor(leftExpression: Expression, operator: Qualifier, rightExpression: Expression, notLeft: boolean, notRight: boolean)
   constructor(leftExpression: Expression, operator?: Qualifier, rightExpression?: Expression, notLeft?: boolean, notRight?: boolean) {
-    // TODO: validate if qualifier is valid for the "rightOperand" type, for example Greater or Lesser does not work with string
     this.leftOperand = new Operand(leftExpression, notLeft)
     this.operator = operator
     this.rightOperand = new Operand(rightExpression, notRight)
@@ -98,16 +97,16 @@ export class Operand {
       return ExpressionType.NOT_EXIST
     } else if (operandType === null) {
       return ExpressionType.NULL
-    } else if (operandType instanceof Expression) {
-      return operandType.type
-    } else if (operandType instanceof Binder) {
-      return ExpressionType.BINDER
     } else if (typeof operandType === 'boolean' || operandType instanceof BooleanColumn) {
       return ExpressionType.BOOLEAN
     } else if (typeof operandType === 'number' || operandType instanceof NumberColumn) {
       return ExpressionType.NUMBER
     } else if (typeof operandType === 'string' || operandType instanceof TextColumn) {
       return ExpressionType.TEXT
+    } else if (operandType instanceof Expression) {
+      return operandType.type
+    } else if (operandType instanceof Binder) {
+      return ExpressionType.BINDER
     }
     throw new Error('Operand type is not supported')
   }

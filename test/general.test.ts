@@ -518,6 +518,30 @@ describe('test from one table', () => {
     expect(actual).toEqual(expected)
   })
 
+  it('Produces [SELECT col1 FROM testTable WHERE col4 < 5;]', () => {
+    const actual = sql
+      .select(column1)
+      .from(table)
+      .where(column4.lt(5))
+      .getSQL()
+
+    expect(actual).toEqual('SELECT col1 FROM testTable WHERE col4 < 5;')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE col4 < $1;]', () => {
+    const actual = sql
+      .select(column1)
+      .from(table)
+      .where(column4.lt$(5))
+      .getPostgresqlBinding()
+
+    const expected = {
+      sql: 'SELECT col1 FROM testTable WHERE col4 < $1;',
+      values: [5],
+    }
+    expect(actual).toEqual(expected)
+  })
+
   it('Produces [SELECT col1 FROM testTable WHERE col1 = col2;]', () => {
     const actual = sql
       .select(column1)

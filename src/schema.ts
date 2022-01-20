@@ -158,6 +158,33 @@ export class NumberColumn extends Column {
     const binder = this.binderStore.add(value)
     return new Condition(new Expression(this), ComparisonOperator.GreaterThan, new Expression(binder))
   }
+
+  public ge(value: NumberLike): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.GreaterOrEqual, new Expression(value))
+  }
+
+  public ge$(value: number): Condition {
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), ComparisonOperator.GreaterOrEqual, new Expression(binder))
+  }
+
+  public lt(value: NumberLike): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.LesserThan, new Expression(value))
+  }
+
+  public lt$(value: number): Condition {
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), ComparisonOperator.LesserThan, new Expression(binder))
+  }
+
+  public le(value: NumberLike): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(value))
+  }
+
+  public le$(value: number): Condition {
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
+  }
 }
 
 export class TextColumn extends Column {

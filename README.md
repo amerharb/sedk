@@ -1,6 +1,6 @@
-# SEDK-postgres V0.4.5
+# SEDK-postgres V0.4.6
 
-SEDK is a libaray that build SQL statement (Postgres flavour) Or Postgres Binding Object using a pre-defined database
+SEDK is a library that build SQL statement with Postgres flavour Or Postgres Binding Object using a pre-defined database
 schema
 
 ### example
@@ -13,6 +13,9 @@ const name = new sedk.TextColumn("name")
 const age = new sedk.NumberColumn("age")
 const Employee = new sedk.Table('Employee', [name, age])
 const schema = new sedk.Database([Employee])
+
+//Aliases
+const AND = sedk.ArithmeticOperator.ADD
 
 // start to build your SQL & Binder
 const sql = new sedk.Builder(schema)

@@ -1,7 +1,10 @@
-// TODO: add other arithmetic operators
 export enum ArithmeticOperator {
   ADD = '+',
   SUB = '-',
+  MUL = '*',
+  DIV = '/',
+  MOD = '%',
+  EXP = '^',
 }
 
 export enum TextOperator {

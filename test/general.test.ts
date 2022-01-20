@@ -20,6 +20,10 @@ const AND = LogicalOperator.AND
 const OR = LogicalOperator.OR
 const ADD = ArithmeticOperator.ADD
 const SUB = ArithmeticOperator.SUB
+const MUL = ArithmeticOperator.MUL
+const DIV = ArithmeticOperator.DIV
+const MOD = ArithmeticOperator.MOD
+const EXP = ArithmeticOperator.EXP
 const CONCAT = TextOperator.CONCAT
 const GT = ComparisonOperator.GreaterThan
 
@@ -628,6 +632,46 @@ describe('test from one table', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT col1 FROM testTable WHERE col4 = (col5 - 1);')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE col4 = (col5 * 1);]', () => {
+    const actual = sql
+      .select(column1)
+      .from(table)
+      .where(column4.eq(column5, MUL, 1))
+      .getSQL()
+
+    expect(actual).toEqual('SELECT col1 FROM testTable WHERE col4 = (col5 * 1);')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE col4 = (col5 / 1);]', () => {
+    const actual = sql
+      .select(column1)
+      .from(table)
+      .where(column4.eq(column5, DIV, 1))
+      .getSQL()
+
+    expect(actual).toEqual('SELECT col1 FROM testTable WHERE col4 = (col5 / 1);')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE col4 = (col5 % 1);]', () => {
+    const actual = sql
+      .select(column1)
+      .from(table)
+      .where(column4.eq(column5, MOD, 1))
+      .getSQL()
+
+    expect(actual).toEqual('SELECT col1 FROM testTable WHERE col4 = (col5 % 1);')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE col4 = (col5 ^ 1);]', () => {
+    const actual = sql
+      .select(column1)
+      .from(table)
+      .where(column4.eq(column5, EXP, 1))
+      .getSQL()
+
+    expect(actual).toEqual('SELECT col1 FROM testTable WHERE col4 = (col5 ^ 1);')
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col4 = (1 + col5);]', () => {

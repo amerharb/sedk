@@ -115,6 +115,18 @@ export class NumberColumn extends Column {
     throw new Error('not supported case')
   }
 
+  public ne(value: null|NumberLike): Condition
+  public ne(value1: NumberLike, op: Operator, value2: NumberLike): Condition
+  public ne(value1: null|NumberLike, op?: Operator, value2?: NumberLike): Condition {
+    if (op === undefined && value2 === undefined) {
+      const qualifier = value1 === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+      return new Condition(new Expression(this), qualifier, new Expression(value1))
+    } else if (op !== undefined && value2 !== undefined) {
+      return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(value1, op, value2))
+    }
+    throw new Error('not supported case')
+  }
+
   public eq$(value: null|number): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     const binder = this.binderStore.add(value)

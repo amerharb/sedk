@@ -12,7 +12,7 @@ import {
   InvalidExpressionError,
   ArithmeticOperator,
   ComparisonOperator,
-  TextOperator
+  TextOperator,
 } from '../src'
 
 //Alias

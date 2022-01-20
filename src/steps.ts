@@ -6,7 +6,7 @@ import { Table } from './schema'
 import { TableNotFoundError } from './errors'
 import { BuilderData } from './builder'
 
-export class Step {
+export class Step implements BaseStep{
   constructor(protected data: BuilderData) {}
 
   public getSQL(): string {
@@ -99,6 +99,12 @@ export class Step {
       this.data.whereParts.push(Parenthesis.Close)
     }
   }
+}
+
+interface BaseStep {
+  getSQL(): string
+  getPostgresqlBinding(): PostgresBinder
+  cleanUp(): void
 }
 
 export class SelectStep extends Step {

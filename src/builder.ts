@@ -1,17 +1,7 @@
-import {
-  Database,
-  Table,
-  Column,
-} from './schema'
-import {
-  Condition,
-  Expression,
-} from './models'
-import { ColumnNotFoundError } from './errors'
+import { Database, Table } from './schema'
+import { Condition } from './models'
 import { BinderStore } from './binder'
-import { Step, SelectStep, Parenthesis, LogicalOperator } from './steps'
-
-type ColumnLike = Column|Expression
+import { Step, SelectStep, Parenthesis, LogicalOperator, ColumnLike } from './steps'
 
 export type BuilderData = {
   dbSchema: Database,
@@ -19,79 +9,43 @@ export type BuilderData = {
   table?: Table,
   columns: ColumnLike[],
   whereParts: (LogicalOperator|Condition|Parenthesis)[],
-  steps: Step[],
   binderStore: BinderStore,
+  option: BuilderOption,
+}
+
+export type BuilderOption = {
+  useSemicolonAtTheEnd?: boolean
 }
 
 export class Builder {
   private readonly data: BuilderData
   private rootStep: Step
 
-  constructor(database: Database) {
+  private static readonly defaultOption: BuilderOption = {
+    useSemicolonAtTheEnd: true,
+  }
+
+  constructor(database: Database, option?: BuilderOption) {
     this.data = {
       dbSchema: database,
       table: undefined,
       columns: [],
       whereParts: [],
-      steps: [],
       binderStore: BinderStore.getInstance(),
+      option: Builder.fillUndefinedOptionsWithDefault(option),
     }
     this.rootStep = new Step(this.data)
   }
 
   public select(...items: (ColumnLike|string|number|boolean)[]): SelectStep {
-    const columns = items.map(it => {
-      if (it instanceof Expression || it instanceof Column)
-        return it
-      else
-        return new Expression(it)
-    })
-    this.throwIfColumnsNotInDb(columns)
-    //Note: the cleanup needed as is one select in the chain also we start with it always
+    //Note: the cleanup needed as there is only one "select" step in the chain that we start with
     this.rootStep.cleanUp()
-    this.data.columns.push(...columns)
-    const step = new SelectStep(this.data)
-    this.data.steps.push(step)
-    return step
+    return this.rootStep.select(...items)
   }
 
-  private throwIfColumnsNotInDb(columns: ColumnLike[]) {
-    for (const column of columns) {
-      if (column instanceof Expression) {
-        this.throwIfColumnsNotInDb(Builder.getColumnsFromExpression(column))
-        continue
-      }
-      // TODO: move search function into database model
-      let found = false
-      //@formatter:off
-      COL:
-      //TODO: filter only the table in the current query
-      for (const table of this.data.dbSchema.getTables()) {
-        for (const col of table.getColumn()) {
-          if (column === col) {
-            found = true
-            break COL
-          }
-        }
-      }
-      //@formatter:on
-      if (!found)
-        throw new ColumnNotFoundError(`Column: ${column} not found`)
-    }
-  }
-
-  private static getColumnsFromExpression(expression: Expression): Column[] {
-    const columns: Column[] = []
-    if (expression.leftOperand.value instanceof Column)
-      columns.push(expression.leftOperand.value)
-    else if (expression.leftOperand.value instanceof Expression)
-      columns.push(...Builder.getColumnsFromExpression(expression.leftOperand.value))
-
-    if (expression.rightOperand?.value instanceof Column)
-      columns.push(expression.rightOperand.value)
-    else if (expression.rightOperand?.value instanceof Expression)
-      columns.push(...Builder.getColumnsFromExpression(expression.rightOperand.value))
-
-    return columns
+  private static fillUndefinedOptionsWithDefault(option?: BuilderOption): BuilderOption {
+    const result: BuilderOption = {}
+    result.useSemicolonAtTheEnd = option?.useSemicolonAtTheEnd ?? this.defaultOption.useSemicolonAtTheEnd
+    return result
   }
 }

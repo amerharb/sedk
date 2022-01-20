@@ -22,7 +22,7 @@ export class Builder {
   private rootStep: Step
 
   private static readonly defaultOption: BuilderOption = {
-    useSemicolonAtTheEnd: true
+    useSemicolonAtTheEnd: true,
   }
 
   constructor(database: Database, option?: BuilderOption) {
@@ -32,7 +32,7 @@ export class Builder {
       columns: [],
       whereParts: [],
       binderStore: BinderStore.getInstance(),
-      option: Builder.fillUndefinedOptionsWithDefault(option)
+      option: Builder.fillUndefinedOptionsWithDefault(option),
     }
     this.rootStep = new Step(this.data)
   }
@@ -44,7 +44,7 @@ export class Builder {
   }
 
   private static fillUndefinedOptionsWithDefault(option?: BuilderOption): BuilderOption {
-    const result:BuilderOption = {}
+    const result: BuilderOption = {}
     result.useSemicolonAtTheEnd = option?.useSemicolonAtTheEnd ?? this.defaultOption.useSemicolonAtTheEnd
     return result
   }

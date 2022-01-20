@@ -671,6 +671,16 @@ describe('test from one table', () => {
     expect(actual).toEqual('SELECT col1 FROM testTable WHERE col7 = TRUE;')
   })
 
+  it('Produces [SELECT col1 FROM testTable WHERE col7 <> TRUE;]', () => {
+    const actual = sql
+      .select(column1)
+      .from(table)
+      .where(column7.ne(true))
+      .getSQL()
+
+    expect(actual).toEqual('SELECT col1 FROM testTable WHERE col7 <> TRUE;')
+  })
+
   it('Produces [SELECT col1 FROM testTable WHERE col7 = $1;] for [$1=true]', () => {
     const actual = sql
       .select(column1)
@@ -686,6 +696,21 @@ describe('test from one table', () => {
     expect(actual).toEqual(expected)
   })
 
+  it('Produces [SELECT col1 FROM testTable WHERE col7 <> $1;] for [$1=true]', () => {
+    const actual = sql
+      .select(column1)
+      .from(table)
+      .where(column7.ne$(true))
+      .getPostgresqlBinding()
+
+    const expected = {
+      sql: 'SELECT col1 FROM testTable WHERE col7 <> $1;',
+      values: [true],
+    }
+
+    expect(actual).toEqual(expected)
+  })
+
   it('Produces [SELECT col1 FROM testTable WHERE col7 IS $1;] for [$1=null]', () => {
     const actual = sql
       .select(column1)
@@ -695,6 +720,21 @@ describe('test from one table', () => {
 
     const expected = {
       sql: 'SELECT col1 FROM testTable WHERE col7 IS $1;',
+      values: [null],
+    }
+
+    expect(actual).toEqual(expected)
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE col7 IS NOT $1;] for [$1=null]', () => {
+    const actual = sql
+      .select(column1)
+      .from(table)
+      .where(column7.ne$(null))
+      .getPostgresqlBinding()
+
+    const expected = {
+      sql: 'SELECT col1 FROM testTable WHERE col7 IS NOT $1;',
       values: [null],
     }
 
@@ -770,6 +810,16 @@ describe('test from one table', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT col1 FROM testTable WHERE col7 IS NULL;')
+  })
+
+  it('Produces [SELECT col1 FROM testTable WHERE col7 IS NOT NULL;]', () => {
+    const actual = sql
+      .select(column1)
+      .from(table)
+      .where(column7.ne(null))
+      .getSQL()
+
+    expect(actual).toEqual('SELECT col1 FROM testTable WHERE col7 IS NOT NULL;')
   })
 
   it('Produces [SELECT col1 FROM testTable WHERE col1 = (col2 || col3);]', () => {

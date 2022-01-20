@@ -93,6 +93,17 @@ export class BooleanColumn extends Column implements Condition {
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
+  public ne(value: null|BooleanLike): Condition {
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    return new Condition(new Expression(this), qualifier, new Expression(value))
+  }
+
+  public ne$(value: null|boolean): Condition {
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    const binder = this.binderStore.add(value)
+    return new Condition(new Expression(this), qualifier, new Expression(binder))
+  }
+
   public not(): Condition {
     return new Condition(new Expression(this, true))
   }

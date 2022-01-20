@@ -171,6 +171,20 @@ describe('test from one table', () => {
     expect(actual).toEqual('SELECT col1, col4 FROM testTable WHERE col4 <> 5;')
   })
 
+  it('Produces [SELECT col1, col4 FROM testTable WHERE col4 <> $1;]', () => {
+    const actual = sql
+      .select(column1, column4)
+      .from(table)
+      .where(column4.ne$(5))
+      .getPostgresqlBinding()
+
+    const expected = {
+      sql: 'SELECT col1, col4 FROM testTable WHERE col4 <> $1;',
+      values: [5],
+    }
+    expect(actual).toEqual(expected)
+  })
+
   it('Produces [SELECT col1, col4 FROM testTable WHERE col4 IS NULL;]', () => {
     const actual = sql
       .select(column1, column4)
@@ -189,6 +203,20 @@ describe('test from one table', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT col1, col4 FROM testTable WHERE col4 IS NOT NULL;')
+  })
+
+  it('Produces [SELECT col1, col4 FROM testTable WHERE col4 IS NOT $1;]', () => {
+    const actual = sql
+      .select(column1, column4)
+      .from(table)
+      .where(column4.ne$(null))
+      .getPostgresqlBinding()
+
+    const expected = {
+      sql: 'SELECT col1, col4 FROM testTable WHERE col4 IS NOT $1;',
+      values: [null],
+    }
+    expect(actual).toEqual(expected)
   })
 
   it('Produces [SELECT col1, col4 FROM testTable WHERE col1 IS NULL;]', () => {

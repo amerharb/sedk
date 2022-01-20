@@ -1,17 +1,19 @@
 import {
+  BooleanLike,
   Condition,
-  Expression,
+  Expression, NumberLike,
   OperandType,
-  TextBoolean,
+  TextBoolean, TextLike,
 } from './models'
 import {
   ComparisonOperator,
   Operator,
 } from './operators'
 
-//TODO: narrow the overload to the valid Expression only
 export function e(left: OperandType): Expression
-export function e(left: OperandType, operator: ComparisonOperator, right: OperandType|TextBoolean): Condition
+export function e(left: BooleanLike, operator: ComparisonOperator, right: BooleanLike|TextBoolean): Condition
+export function e(left: NumberLike, operator: ComparisonOperator, right: NumberLike): Condition
+export function e(left: TextLike, operator: ComparisonOperator, right: TextLike): Condition
 export function e(left: OperandType, operator: Operator, right: OperandType|TextBoolean): Expression
 export function e(left: OperandType, operator?: Operator, right?: OperandType): Expression {
   if (operator !== undefined && right !== undefined)

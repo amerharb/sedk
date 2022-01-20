@@ -11,6 +11,11 @@ import {
   TextOperator,
   Operator,
 } from './operators'
+import {
+  BooleanLike,
+  NumberLike,
+  TextLike,
+} from './models'
 
 export class Database {
   private readonly version?: number
@@ -222,8 +227,3 @@ export class TextColumn extends Column {
     return new Expression(this, TextOperator.CONCAT, value)
   }
 }
-
-//TODO: include other value type like date-time
-export type BooleanLike = boolean|BooleanColumn
-export type NumberLike = number|NumberColumn
-export type TextLike = string|TextColumn

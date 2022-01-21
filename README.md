@@ -1,6 +1,6 @@
 # SEDK-postgres V0.4.8
 
-SEDK is a library that build SQL statement with Postgres flavour or Postgres Binding Object using a pre-defined database
+SEDK is a library that build SQL statement with Postgres dialect or Postgres Binding Object using a pre-defined database
 schema
 
 ### example

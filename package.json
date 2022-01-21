@@ -8,6 +8,9 @@
     "dist/src/*.d.ts",
     "dist/src/*.js"
   ],
+  "homepage": "https://github.com/amerharb/sedk-postgres#readme",
+  "url": "https://github.com/amerharb/sedk-postgres/issues",
+  "email": "sedk@amerharb.com",
   "scripts": {
     "start": "tsc && node dist/src/index.js",
     "test": "jest",

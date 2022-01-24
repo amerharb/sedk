@@ -1,6 +1,6 @@
-# SEDK-postgres V0.4.7
+# SEDK-postgres V0.4.8
 
-SEDK is a library that build SQL statement with Postgres flavour Or Postgres Binding Object using a pre-defined database
+SEDK is a library that build SQL statement with Postgres dialect or Postgres Binding Object using a pre-defined database
 schema
 
 ### example
@@ -25,7 +25,7 @@ const stmt1 = sql.select(name, age).from(Employee).where(name.eq('John'), AND, a
 console.log(stmt1)
 // "SELECT name, age FROM Employee WHERE (name = 'John' AND age > 25);"
 
-// or also can be written aa
+// also it can be written as
 const stmt2 = sql.select(name, age).from(Employee).where(name.eq('John')).and(age.gt(25)).getSQL()
 console.log(stmt2)
 // "SELECT name, age FROM Employee WHERE name = 'John' AND age > 25;"

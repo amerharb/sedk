@@ -1,5 +1,5 @@
 export { Builder } from './builder'
-export { LogicalOperator } from './steps'
+export { LogicalOperator, ASTERISK } from './steps'
 export { e } from './functions'
 export {
   ComparisonOperator,

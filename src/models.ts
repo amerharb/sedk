@@ -1,5 +1,6 @@
 import { InvalidExpressionError } from './errors'
-import { Binder, PrimitiveType } from './binder'
+import { Binder } from './binder'
+import { PrimitiveType } from './steps'
 import { BooleanColumn, NumberColumn, TextColumn } from './schema'
 import {
   NullOperator,

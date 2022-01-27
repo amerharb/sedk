@@ -13,6 +13,7 @@ import {
   ArithmeticOperator,
   ComparisonOperator,
   TextOperator,
+  ASTERISK,
 } from '../src'
 
 //Alias
@@ -53,6 +54,15 @@ describe('test from one table', () => {
     expect(actual).toEqual('SELECT col1 FROM testTable;')
   })
 
+  it('Produces [SELECT * FROM testTable;]', () => {
+    const actual = sql
+      .select(ASTERISK)
+      .from(table)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT * FROM testTable;')
+  })
+
   it('Produces [SELECT 1 FROM testTable;]', () => {
     const actual = sql
       .select(e(1))
@@ -71,13 +81,13 @@ describe('test from one table', () => {
     expect(actual).toEqual("SELECT 'a' FROM testTable;")
   })
 
-  it("Produces [SELECT NULL, 'a', '*', 1, TRUE, FALSE, -5, 3.14 FROM testTable;]", () => {
+  it("Produces [SELECT *, NULL, 'a', '*', 1, TRUE, FALSE, -5, 3.14 FROM testTable;]", () => {
     const actual = sql
-      .select(null, 'a', '*', 1, true, false, -5, 3.14)
+      .select(ASTERISK, null, 'a', '*', 1, true, false, -5, 3.14)
       .from(table)
       .getSQL()
 
-    expect(actual).toEqual("SELECT NULL, 'a', '*', 1, TRUE, FALSE, -5, 3.14 FROM testTable;")
+    expect(actual).toEqual("SELECT *, NULL, 'a', '*', 1, TRUE, FALSE, -5, 3.14 FROM testTable;")
   })
 
   it("Produces [SELECT ('a' || 'b') FROM testTable;]", () => {

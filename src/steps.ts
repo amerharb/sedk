@@ -216,7 +216,7 @@ export interface SelectStep extends BaseStep {
   from(table: Table): FromStep
 }
 
-interface FromStep extends BaseStep {
+export interface FromStep extends BaseStep {
   where(condition: Condition): WhereStep
   where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
   where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep

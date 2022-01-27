@@ -4,10 +4,12 @@ import { BinderStore } from './binder'
 import {
   Step,
   SelectStep,
+  FromStep,
   Parenthesis,
   LogicalOperator,
   SelectItem,
   PrimitiveType,
+  ASTERISK,
 } from './steps'
 
 export type BuilderData = {
@@ -48,6 +50,12 @@ export class Builder {
     //Note: the cleanup needed as there is only one "select" step in the chain that we start with
     this.rootStep.cleanUp()
     return this.rootStep.select(...items)
+  }
+
+  public selectAstriskFrom(table: Table): FromStep {
+    //Note: the cleanup needed as there is only one "select" step in the chain that we start with
+    this.rootStep.cleanUp()
+    return this.rootStep.select(ASTERISK).from(table)
   }
 
   private static fillUndefinedOptionsWithDefault(option?: BuilderOption): BuilderOption {

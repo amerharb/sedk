@@ -5,6 +5,7 @@
 ### Added
 - Select step can include null value
 - Add Asterisk to Select step
+- Add selectAsteriskFrom function to Builder
 
 ## [0.4.9]  2022-01-27
 ### Fixed

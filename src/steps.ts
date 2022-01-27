@@ -105,7 +105,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep {
         pCounter--
 
       if (pCounter < 0) {// Close comes before Open
-        throw new Error('invalid conditions build, closing parentheses must not occur after Opening one')
+        throw new Error('invalid conditions build, closing parentheses must occur after Opening one')
       }
     }
 
@@ -197,7 +197,7 @@ interface FromStep extends BaseStep {
   where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
 }
 
-interface WhereStep extends Step {
+interface WhereStep extends BaseStep {
   and(condition: Condition): AndStep
   and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
@@ -207,7 +207,7 @@ interface WhereStep extends Step {
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 }
 
-interface AndStep extends Step {
+interface AndStep extends BaseStep {
   and(condition: Condition): AndStep
   and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
@@ -217,7 +217,7 @@ interface AndStep extends Step {
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 }
 
-interface OrStep extends Step {
+interface OrStep extends BaseStep {
   or(condition: Condition): OrStep
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep

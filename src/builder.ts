@@ -1,7 +1,14 @@
 import { Database, Table } from './schema'
 import { Condition } from './models'
 import { BinderStore } from './binder'
-import { Step, SelectStep, Parenthesis, LogicalOperator, ColumnLike } from './steps'
+import {
+  Step,
+  SelectStep,
+  Parenthesis,
+  LogicalOperator,
+  ColumnLike,
+  SelectItem,
+} from './steps'
 
 export type BuilderData = {
   dbSchema: Database,
@@ -37,7 +44,7 @@ export class Builder {
     this.rootStep = new Step(this.data)
   }
 
-  public select(...items: (ColumnLike|string|number|boolean)[]): SelectStep {
+  public select(...items: SelectItem[]): SelectStep {
     //Note: the cleanup needed as there is only one "select" step in the chain that we start with
     this.rootStep.cleanUp()
     return this.rootStep.select(...items)

@@ -4,11 +4,13 @@ import { ColumnNotFoundError, TableNotFoundError } from './errors'
 import { BuilderData } from './builder'
 
 export type ColumnLike = Column|Expression
+export type PrimitiveType = null|boolean|number|string
+export type SelectItem = ColumnLike|PrimitiveType
 
 export class Step implements BaseStep, RootStep, SelectStep, FromStep {
   constructor(protected data: BuilderData) {}
 
-  public select(...items: (ColumnLike|string|number|boolean)[]): SelectStep {
+  public select(...items: SelectItem[]): SelectStep {
     const columns = items.map(it => {
       if (it instanceof Expression || it instanceof Column)
         return it
@@ -184,7 +186,7 @@ interface BaseStep {
 }
 
 export interface RootStep extends BaseStep {
-  select(...items: (ColumnLike|string|number|boolean)[]): SelectStep
+  select(...items: SelectItem[]): SelectStep
 }
 
 export interface SelectStep extends BaseStep {

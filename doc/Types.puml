@@ -1,0 +1,46 @@
+@startmindmap
+
+<style>
+mindmapDiagram {
+  .primitive {
+    BackgroundColor lightgreen
+  }
+  .type {
+    BackgroundColor #lightblue
+  }
+  .class {
+    BackgroundColor #yellow
+  }
+  .null {
+    BackgroundColor #green
+  }
+}
+</style>
+
+* PrimitiveType <<type>>
+** null <<null>>
+** boolean <<primitive>>
+** number <<primitive>>
+** string <<primitive>>
+
+* SelectItem <<type>>
+** ColumnLike <<type>>
+*** Column <<class>>
+*** Expression <<class>>
+** Asterisk <<class>>
+
+* OperandType <<type>>
+** Expression <<class>>
+** ValueType <<type>>
+*** null <<null>>
+*** BooleanLike <<type>>
+**** boolean <<primitive>>
+**** BooleanColumn <<class>>
+*** NumberLike <<type>>
+**** number <<primitive>>
+**** NumberColumn <<class>>
+*** TextLike <<type>>
+**** string <<primitive>>
+**** TextColumn  <<class>>
+
+@endmindmap

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     contentScriptType="application/ecmascript" contentStyleType="text/css" height="756px" preserveAspectRatio="none"
+     style="width:630px;height:756px;background:#FFFFFF;" version="1.1" viewBox="0 0 630 756" width="630px"
+     zoomAndPan="magnify">
+    <defs>
+        <filter height="300%" id="fpw9ooom0kqrh" width="300%" x="-1" y="-1">
+            <feGaussianBlur result="blurOut" stdDeviation="2.0"/>
+            <feColorMatrix in="blurOut" result="blurOut2" type="matrix"
+                           values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/>
+            <feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/>
+            <feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/>
+        </filter>
+    </defs>
+    <g>
+        <rect fill="#ADD8E6" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="116" x="10" y="104.7324"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="92" x="20"
+              y="128.2676">PrimitiveType
+        </text>
+        <rect fill="#008000" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="50" x="176" y="20"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="26" x="186"
+              y="43.5352">null
+        </text>
+        <path d="M126,122.9766 L136,122.9766 C151,122.9766 151,38.2441 166,38.2441 L176,38.2441 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <rect fill="#90EE90" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="80" x="176" y="76.4883"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="186"
+              y="100.0234">boolean
+        </text>
+        <path d="M126,122.9766 L136,122.9766 C151,122.9766 151,94.7324 166,94.7324 L176,94.7324 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <rect fill="#90EE90" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="78" x="176" y="132.9766"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="186"
+              y="156.5117">number
+        </text>
+        <path d="M126,122.9766 L136,122.9766 C151,122.9766 151,151.2207 166,151.2207 L176,151.2207 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <rect fill="#90EE90" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="64" x="176" y="189.4648"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="40" x="186"
+              y="213">string
+        </text>
+        <path d="M126,122.9766 L136,122.9766 C151,122.9766 151,207.709 166,207.709 L176,207.709 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="94" x="10" y="288.3193"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="70" x="20"
+              y="311.8545">SelectItem
+        </text>
+        <rect fill="#ADD8E6" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="105" x="154" y="274.1973"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="81" x="164"
+              y="297.7324">ColumnLike
+        </text>
+        <rect fill="#FFFF00" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="78" x="309" y="245.9531"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="319"
+              y="269.4883">Column
+        </text>
+        <path d="M259,292.4414 L269,292.4414 C284,292.4414 284,264.1973 299,264.1973 L309,264.1973 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="100" x="309" y="302.4414"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="76" x="319"
+              y="325.9766">Expression
+        </text>
+        <path d="M259,292.4414 L269,292.4414 C284,292.4414 284,320.6855 299,320.6855 L309,320.6855 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <path d="M104,306.5635 L114,306.5635 C129,306.5635 129,292.4414 144,292.4414 L154,292.4414 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="79" x="154" y="330.6855"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="55" x="164"
+              y="354.2207">Asterisk
+        </text>
+        <path d="M104,306.5635 L114,306.5635 C129,306.5635 129,348.9297 144,348.9297 L154,348.9297 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="117" x="10" y="542.5166"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="93" x="20"
+              y="566.0518">OperandType
+        </text>
+        <rect fill="#FFFF00" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="100" x="177" y="486.0283"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="76" x="187"
+              y="509.5635">Expression
+        </text>
+        <path d="M127,560.7607 L137,560.7607 C152,560.7607 152,504.2725 167,504.2725 L177,504.2725 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="95" x="177" y="542.5166"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="71" x="187"
+              y="566.0518">ValueType
+        </text>
+        <rect fill="#008000" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="50" x="322" y="387.1738"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="26" x="332"
+              y="410.709">null
+        </text>
+        <path d="M272,560.7607 L282,560.7607 C297,560.7607 297,405.418 312,405.418 L322,405.418 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="106" x="322" y="443.6621"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="82" x="332"
+              y="467.1973">BooleanLike
+        </text>
+        <rect fill="#90EE90" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="80" x="478" y="415.418"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="488"
+              y="438.9531">boolean
+        </text>
+        <path d="M428,461.9063 L438,461.9063 C453,461.9063 453,433.6621 468,433.6621 L478,433.6621 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="133" x="478" y="471.9063"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="488"
+              y="495.4414">BooleanColumn
+        </text>
+        <path d="M428,461.9063 L438,461.9063 C453,461.9063 453,490.1504 468,490.1504 L478,490.1504 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <path d="M272,560.7607 L282,560.7607 C297,560.7607 297,461.9063 312,461.9063 L322,461.9063 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="106" x="322" y="556.6387"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="82" x="332"
+              y="580.1738">NumberLike
+        </text>
+        <rect fill="#90EE90" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="78" x="478" y="528.3945"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="488"
+              y="551.9297">number
+        </text>
+        <path d="M428,574.8828 L438,574.8828 C453,574.8828 453,546.6387 468,546.6387 L478,546.6387 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="133" x="478" y="584.8828"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="488"
+              y="608.418">NumberColumn
+        </text>
+        <path d="M428,574.8828 L438,574.8828 C453,574.8828 453,603.127 468,603.127 L478,603.127 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <path d="M272,560.7607 L282,560.7607 C297,560.7607 297,574.8828 312,574.8828 L322,574.8828 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="82" x="322" y="669.6152"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="58" x="332"
+              y="693.1504">TextLike
+        </text>
+        <rect fill="#90EE90" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="64" x="454" y="641.3711"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="40" x="464"
+              y="664.9063">string
+        </text>
+        <path d="M404,687.8594 L414,687.8594 C429,687.8594 429,659.6152 444,659.6152 L454,659.6152 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" filter="url(#fpw9ooom0kqrh)" height="36.4883" rx="12.5" ry="12.5"
+              style="stroke:#A80036;stroke-width:1.5;" width="113" x="454" y="697.8594"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="464"
+              y="721.3945">TextColumn
+        </text>
+        <path d="M404,687.8594 L414,687.8594 C429,687.8594 429,716.1035 444,716.1035 L454,716.1035 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <path d="M272,560.7607 L282,560.7607 C297,560.7607 297,687.8594 312,687.8594 L322,687.8594 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <path d="M127,560.7607 L137,560.7607 C152,560.7607 152,560.7607 167,560.7607 L177,560.7607 " fill="none"
+              style="stroke:#A80036;stroke-width:1.0;"/>
+        <!--MD5=[4d348b5789e607d4cc8c442fee2db680]
+        @startmindmap
+
+        <style>
+        mindmapDiagram {
+          .primitive {
+            BackgroundColor lightgreen
+          }
+          .type {
+            BackgroundColor #lightblue
+          }
+          .class {
+            BackgroundColor #yellow
+          }
+          .null {
+            BackgroundColor #green
+          }
+        }
+        </style>
+
+        * PrimitiveType <<type>>
+        ** null <<null>>
+        ** boolean <<primitive>>
+        ** number <<primitive>>
+        ** string <<primitive>>
+
+        * SelectItem <<type>>
+        ** ColumnLike <<type>>
+        *** Column <<class>>
+        *** Expression <<class>>
+        ** Asterisk <<class>>
+
+        * OperandType <<type>>
+        ** Expression <<class>>
+        ** ValueType <<type>>
+        *** null <<null>>
+        *** BooleanLike <<type>>
+        **** boolean <<primitive>>
+        **** BooleanColumn <<class>>
+        *** NumberLike <<type>>
+        **** number <<primitive>>
+        **** NumberColumn <<class>>
+        *** TextLike <<type>>
+        **** string <<primitive>>
+        **** TextColumn  <<class>>
+
+        @endmindmap
+
+        PlantUML version 1.2022.0(Tue Jan 11 17:16:42 CET 2022)
+        (GPL source distribution)
+        Java Runtime: OpenJDK Runtime Environment
+        JVM: OpenJDK 64-Bit Server VM
+        Default Encoding: UTF-8
+        Language: en
+        Country: GB
+        -->
+    </g>
+</svg>

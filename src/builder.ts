@@ -1,4 +1,4 @@
-import { Database, Table } from './schema'
+import { Column, Database, Table } from './schema'
 import { Condition } from './models'
 import { BinderStore } from './binder'
 import {
@@ -18,6 +18,7 @@ export type BuilderData = {
   table?: Table,
   selectItems: SelectItem[],
   whereParts: (LogicalOperator|Condition|Parenthesis)[],
+  orderByItems: Column[],
   binderStore: BinderStore,
   option: BuilderOption,
 }
@@ -40,6 +41,7 @@ export class Builder {
       table: undefined,
       selectItems: [],
       whereParts: [],
+      orderByItems: [],
       binderStore: BinderStore.getInstance(),
       option: Builder.fillUndefinedOptionsWithDefault(option),
     }

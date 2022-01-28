@@ -71,6 +71,15 @@ describe('test from one table', () => {
     expect(actual).toEqual('SELECT * FROM testTable;')
   })
 
+  it('Produces [SELECT * FROM testTable ORDER BY col1, col2;]', () => {
+    const actual = sql
+      .selectAstriskFrom(table)
+      .orderBy(column1, column2)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT * FROM testTable ORDER BY col1, col2;')
+  })
+
   it('Produces [SELECT 1 FROM testTable;]', () => {
     const actual = sql
       .select(e(1))

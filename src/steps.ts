@@ -27,7 +27,7 @@ class Asterisk {
 export const ASTERISK = Asterisk.getInstance()
 export type SelectItem = ColumnLike|Asterisk
 
-export class Step implements BaseStep, RootStep, SelectStep, FromStep {
+export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, OrStep, OrderByStep {
   constructor(protected data: BuilderData) {}
 
   public select(...items: (SelectItem|PrimitiveType)[]): SelectStep {
@@ -68,6 +68,11 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep {
     return this
   }
 
+  orderBy(...columns: Column[]): OrderByStep {
+    this.data.orderByItems.push(...columns)
+    return this
+  }
+
   public getSQL(): string {
     const result = this.getStatement()
     this.cleanUp()
@@ -95,6 +100,10 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep {
       result += ` WHERE ${this.data.whereParts.join(' ')}`
     }
 
+    if (this.data.orderByItems.length > 0) {
+      result += ` ORDER BY ${this.data.orderByItems.join(', ')}`
+    }
+
     if (this.data.option.useSemicolonAtTheEnd)
       result += ';'
 
@@ -102,8 +111,9 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep {
   }
 
   public cleanUp() {
-    this.data.whereParts.length = 0
     this.data.selectItems.length = 0
+    this.data.whereParts.length = 0
+    this.data.orderByItems.length = 0
     this.data.table = undefined
     this.data.binderStore.getValues() // when binder return the values its clean up
   }
@@ -220,6 +230,8 @@ export interface FromStep extends BaseStep {
   where(condition: Condition): WhereStep
   where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
   where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
+
+  orderBy(...columns: Column[]): OrderByStep
 }
 
 interface WhereStep extends BaseStep {
@@ -230,6 +242,8 @@ interface WhereStep extends BaseStep {
   or(condition: Condition): OrStep
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
+
+  orderBy(...columns: Column[]): OrderByStep
 }
 
 interface AndStep extends BaseStep {
@@ -240,6 +254,8 @@ interface AndStep extends BaseStep {
   or(condition: Condition): OrStep
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
+
+  orderBy(...columns: Column[]): OrderByStep
 }
 
 interface OrStep extends BaseStep {
@@ -250,6 +266,12 @@ interface OrStep extends BaseStep {
   and(condition: Condition): AndStep
   and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
+
+  orderBy(...columns: Column[]): OrderByStep
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface OrderByStep extends BaseStep {
 }
 
 export enum LogicalOperator {

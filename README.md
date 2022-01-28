@@ -1,4 +1,4 @@
-# SEDK-postgres V0.4.8
+# SEDK-postgres
 
 SEDK is a library that build SQL statement with Postgres dialect or Postgres Binding Object using a pre-defined database
 schema
@@ -40,3 +40,25 @@ console.log(bindObj)
 }
 */
 ```
+
+## What is New
+### Version: 0.5.0
+- Now you can add asterisk to Select step
+```typescript
+sql.select(ASTERISK).from(Employee).getSQL()
+// "SELECT * FROM Employee"
+```
+- Also asterisk can be added with from in one function
+```typescript
+sql.selectAsteriskFrom(Employee).getSQL()
+// "SELECT * FROM Employee"
+```
+
+- OrderBy step
+```typescript
+sql.select(ASTERISK).from(Employee).OrderBy(age).getSQL()
+// "SELECT * FROM Employee ORDER BY age"
+```
+current **orderBy** limitation
+- Only takes the column name without AS
+- Doesn't support ASC and DEC

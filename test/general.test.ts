@@ -13,6 +13,7 @@ import {
   ArithmeticOperator,
   ComparisonOperator,
   TextOperator,
+  ASTERISK,
 } from '../src'
 
 //Alias
@@ -53,6 +54,32 @@ describe('test from one table', () => {
     expect(actual).toEqual('SELECT col1 FROM testTable;')
   })
 
+  it('Produces [SELECT * FROM testTable;]', () => {
+    const actual = sql
+      .select(ASTERISK)
+      .from(table)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT * FROM testTable;')
+  })
+
+  it('Produces [SELECT * FROM testTable;] using selectAsteriskFrom()', () => {
+    const actual = sql
+      .selectAstriskFrom(table)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT * FROM testTable;')
+  })
+
+  it('Produces [SELECT * FROM testTable ORDER BY col1, col2;]', () => {
+    const actual = sql
+      .selectAstriskFrom(table)
+      .orderBy(column1, column2)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT * FROM testTable ORDER BY col1, col2;')
+  })
+
   it('Produces [SELECT 1 FROM testTable;]', () => {
     const actual = sql
       .select(e(1))
@@ -71,13 +98,13 @@ describe('test from one table', () => {
     expect(actual).toEqual("SELECT 'a' FROM testTable;")
   })
 
-  it("Produces [SELECT 'a', 1, TRUE FROM testTable;]", () => {
+  it("Produces [SELECT *, NULL, 'a', '*', 1, TRUE, FALSE, -5, 3.14 FROM testTable;]", () => {
     const actual = sql
-      .select('a', 1, true)
+      .select(ASTERISK, null, 'a', '*', 1, true, false, -5, 3.14)
       .from(table)
       .getSQL()
 
-    expect(actual).toEqual("SELECT 'a', 1, TRUE FROM testTable;")
+    expect(actual).toEqual("SELECT *, NULL, 'a', '*', 1, TRUE, FALSE, -5, 3.14 FROM testTable;")
   })
 
   it("Produces [SELECT ('a' || 'b') FROM testTable;]", () => {

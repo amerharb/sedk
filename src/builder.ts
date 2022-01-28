@@ -1,14 +1,24 @@
-import { Database, Table } from './schema'
+import { Column, Database, Table } from './schema'
 import { Condition } from './models'
 import { BinderStore } from './binder'
-import { Step, SelectStep, Parenthesis, LogicalOperator, ColumnLike } from './steps'
+import {
+  Step,
+  SelectStep,
+  FromStep,
+  Parenthesis,
+  LogicalOperator,
+  SelectItem,
+  PrimitiveType,
+  ASTERISK,
+} from './steps'
 
 export type BuilderData = {
   dbSchema: Database,
   //TODO: make table array ot another kind of collection object when we add leftOperand inner join step
   table?: Table,
-  columns: ColumnLike[],
+  selectItems: SelectItem[],
   whereParts: (LogicalOperator|Condition|Parenthesis)[],
+  orderByItems: Column[],
   binderStore: BinderStore,
   option: BuilderOption,
 }
@@ -29,18 +39,25 @@ export class Builder {
     this.data = {
       dbSchema: database,
       table: undefined,
-      columns: [],
+      selectItems: [],
       whereParts: [],
+      orderByItems: [],
       binderStore: BinderStore.getInstance(),
       option: Builder.fillUndefinedOptionsWithDefault(option),
     }
     this.rootStep = new Step(this.data)
   }
 
-  public select(...items: (ColumnLike|string|number|boolean)[]): SelectStep {
+  public select(...items: (SelectItem|PrimitiveType)[]): SelectStep {
     //Note: the cleanup needed as there is only one "select" step in the chain that we start with
     this.rootStep.cleanUp()
     return this.rootStep.select(...items)
+  }
+
+  public selectAstriskFrom(table: Table): FromStep {
+    //Note: the cleanup needed as there is only one "select" step in the chain that we start with
+    this.rootStep.cleanUp()
+    return this.rootStep.select(ASTERISK).from(table)
   }
 
   private static fillUndefinedOptionsWithDefault(option?: BuilderOption): BuilderOption {

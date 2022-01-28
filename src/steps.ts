@@ -4,21 +4,43 @@ import { ColumnNotFoundError, TableNotFoundError } from './errors'
 import { BuilderData } from './builder'
 
 export type ColumnLike = Column|Expression
+export type PrimitiveType = null|boolean|number|string
 
-export class Step implements BaseStep, RootStep, SelectStep, FromStep {
+class Asterisk {
+  private static instance: Asterisk
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private constructor() {}
+
+  public static getInstance(): Asterisk {
+    if (!Asterisk.instance) {
+      Asterisk.instance = new Asterisk()
+    }
+    return Asterisk.instance
+  }
+
+  public toString(): string {
+    return '*'
+  }
+}
+
+export const ASTERISK = Asterisk.getInstance()
+export type SelectItem = ColumnLike|Asterisk
+
+export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, OrStep, OrderByStep {
   constructor(protected data: BuilderData) {}
 
-  public select(...items: (ColumnLike|string|number|boolean)[]): SelectStep {
-    const columns = items.map(it => {
-      if (it instanceof Expression || it instanceof Column)
+  public select(...items: (SelectItem|PrimitiveType)[]): SelectStep {
+    const selectItems: SelectItem[] = items.map(it => {
+      if (it instanceof Expression || it instanceof Column || it instanceof Asterisk)
         return it
       else
         return new Expression(it)
     })
-    this.throwIfColumnsNotInDb(columns)
+    this.throwIfColumnsNotInDb(selectItems)
     //Note: the cleanup needed as there is only one "select" step in the chain that we start with
     this.cleanUp()
-    this.data.columns.push(...columns)
+    this.data.selectItems.push(...selectItems)
     return this
   }
 
@@ -46,6 +68,11 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep {
     return this
   }
 
+  orderBy(...columns: Column[]): OrderByStep {
+    this.data.orderByItems.push(...columns)
+    return this
+  }
+
   public getSQL(): string {
     const result = this.getStatement()
     this.cleanUp()
@@ -62,7 +89,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep {
   }
 
   private getStatement(): string {
-    let result = `SELECT ${this.data.columns.join(', ')}`
+    let result = `SELECT ${this.data.selectItems.join(', ')}`
 
     if (this.data.table) {
       result += ` FROM ${this.data.table}`
@@ -73,6 +100,10 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep {
       result += ` WHERE ${this.data.whereParts.join(' ')}`
     }
 
+    if (this.data.orderByItems.length > 0) {
+      result += ` ORDER BY ${this.data.orderByItems.join(', ')}`
+    }
+
     if (this.data.option.useSemicolonAtTheEnd)
       result += ';'
 
@@ -80,8 +111,9 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep {
   }
 
   public cleanUp() {
+    this.data.selectItems.length = 0
     this.data.whereParts.length = 0
-    this.data.columns.length = 0
+    this.data.orderByItems.length = 0
     this.data.table = undefined
     this.data.binderStore.getValues() // when binder return the values its clean up
   }
@@ -121,9 +153,11 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep {
       throw new TableNotFoundError(`Table: ${table} not found`)
   }
 
-  private throwIfColumnsNotInDb(columns: ColumnLike[]) {
+  private throwIfColumnsNotInDb(columns: (ColumnLike|Asterisk)[]) {
     for (const column of columns) {
-      if (column instanceof Expression) {
+      if (column instanceof Asterisk) {
+        continue
+      } else if (column instanceof Expression) {
         this.throwIfColumnsNotInDb(Step.getColumnsFromExpression(column))
         continue
       }
@@ -160,6 +194,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep {
 
     return columns
   }
+
   private addWhereParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
     if (op1 === undefined && cond2 === undefined) {
       this.data.whereParts.push(cond1)
@@ -184,17 +219,19 @@ interface BaseStep {
 }
 
 export interface RootStep extends BaseStep {
-  select(...items: (ColumnLike|string|number|boolean)[]): SelectStep
+  select(...items: SelectItem[]): SelectStep
 }
 
 export interface SelectStep extends BaseStep {
   from(table: Table): FromStep
 }
 
-interface FromStep extends BaseStep {
+export interface FromStep extends BaseStep {
   where(condition: Condition): WhereStep
   where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
   where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
+
+  orderBy(...columns: Column[]): OrderByStep
 }
 
 interface WhereStep extends BaseStep {
@@ -205,6 +242,8 @@ interface WhereStep extends BaseStep {
   or(condition: Condition): OrStep
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
+
+  orderBy(...columns: Column[]): OrderByStep
 }
 
 interface AndStep extends BaseStep {
@@ -215,6 +254,8 @@ interface AndStep extends BaseStep {
   or(condition: Condition): OrStep
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
+
+  orderBy(...columns: Column[]): OrderByStep
 }
 
 interface OrStep extends BaseStep {
@@ -225,6 +266,12 @@ interface OrStep extends BaseStep {
   and(condition: Condition): AndStep
   and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
+
+  orderBy(...columns: Column[]): OrderByStep
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface OrderByStep extends BaseStep {
 }
 
 export enum LogicalOperator {

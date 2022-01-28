@@ -1,3 +1,5 @@
+import { PrimitiveType } from './steps'
+
 export class BinderStore {
   private static instance: BinderStore
   private store: Binder[] = []
@@ -28,5 +30,3 @@ export class BinderStore {
 export class Binder {
   public constructor(public readonly no: number, public readonly value: PrimitiveType) {}
 }
-
-export type PrimitiveType = null|boolean|number|string

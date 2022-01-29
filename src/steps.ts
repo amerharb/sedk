@@ -26,6 +26,7 @@ class Asterisk {
 
 export const ASTERISK = Asterisk.getInstance()
 export type SelectItem = ColumnLike|Asterisk
+export type OrderByItem = Column //TODO: add also column aliases
 
 export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, OrStep, OrderByStep {
   constructor(protected data: BuilderData) {}
@@ -69,7 +70,14 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
   }
 
   orderBy(...columns: Column[]): OrderByStep {
-    this.data.orderByItems.push(...columns)
+    const orderByItemInfos: OrderByItemInfo[] = columns.map(it => {
+      const direction: OrderByDirection|undefined =
+        this.data.option.addAscAfterOrderByItem === 'always'
+          ? OrderByDirection.ASC
+          : undefined //TODO: support 'when specified' option
+      return new OrderByItemInfo(it, direction)
+    })
+    this.data.orderByItemInfos.push(...orderByItemInfos)
     return this
   }
 
@@ -100,15 +108,8 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
       result += ` WHERE ${this.data.whereParts.join(' ')}`
     }
 
-    if (this.data.orderByItems.length > 0) {
-      const orderByItemsString = this.data.orderByItems.map(it => {
-        if (this.data.option.addAscAfterOrderByItem === 'always') {
-          return `${it.toString()} ASC`
-        } else { //TODO: add case of 'when specified' when it is ready
-          return it.toString()
-        }
-      })
-      result += ` ORDER BY ${orderByItemsString.join(', ')}`
+    if (this.data.orderByItemInfos.length > 0) {
+      result += ` ORDER BY ${this.data.orderByItemInfos.join(', ')}`
     }
 
     if (this.data.option.useSemicolonAtTheEnd)
@@ -120,7 +121,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
   public cleanUp() {
     this.data.selectItems.length = 0
     this.data.whereParts.length = 0
-    this.data.orderByItems.length = 0
+    this.data.orderByItemInfos.length = 0
     this.data.table = undefined
     this.data.binderStore.getValues() // when binder return the values its clean up
   }
@@ -300,6 +301,26 @@ interface OrderByStep extends BaseStep {
 export enum LogicalOperator {
   AND = 'AND',
   OR = 'OR',
+}
+
+export class OrderByItemInfo {
+  constructor(
+    private readonly orderByItem: OrderByItem,
+    private readonly direction?: OrderByDirection,
+  ) {}
+
+  public toString(): string {
+    if (this.direction !== undefined) {
+      return `${this.orderByItem} ${this.direction}`
+    } else {
+      return this.orderByItem.toString()
+    }
+  }
+}
+
+enum OrderByDirection {
+  ASC = 'ASC',
+  DESC = 'DESC',
 }
 
 //Aliases

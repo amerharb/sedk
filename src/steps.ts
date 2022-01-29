@@ -69,22 +69,21 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
     return this
   }
 
-  orderBy(...orderByItemInfos: OrderByItemInfo[]): OrderByStep
-  orderBy(...columns: Column[]): OrderByStep
-  orderBy(...orderByItems: Column[]|OrderByItemInfo[]): OrderByStep {
+  orderBy(...orderByItems: (Column|OrderByItemInfo)[]): OrderByStep {
     if (orderByItems.length === 0) return this //TODO: throw error as order by should have at lease one item
-    if (Step.isOrderByItemInfoArray(orderByItems)) {
-      this.data.orderByItemInfos.push(...orderByItems)
-    } else {
-      const orderByItemInfos: OrderByItemInfo[] = orderByItems.map(it => {
-        const direction: OrderByDirection =
-          this.data.option.addAscAfterOrderByItem === 'always'
-            ? OrderByDirection.ASC
-            : OrderByDirection.NOT_EXIST //TODO: support 'when specified' option
-        return new OrderByItemInfo(it, direction)
-      })
-      this.data.orderByItemInfos.push(...orderByItemInfos)
-    }
+    orderByItems.forEach(it => {
+      if (it instanceof OrderByItemInfo) {
+        it.builderOption = this.data.option
+        console.log(it.builderOption)
+        this.data.orderByItemInfos.push(it)
+      } else { // it is Column
+        this.data.orderByItemInfos.push(new OrderByItemInfo(
+          it,
+          OrderByDirection.NOT_EXIST,
+          OrderByNullsPosition.NOT_EXIST,
+          this.data.option))
+      }
+    })
     return this
   }
 
@@ -210,10 +209,6 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
     return columns
   }
 
-  private static isOrderByItemInfoArray(arr: Column[]|OrderByItemInfo[]): arr is OrderByItemInfo[] {
-    return arr.length === 0 || arr[0] instanceof OrderByItemInfo
-  }
-
   private addWhereParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
     if (op1 === undefined && cond2 === undefined) {
       this.data.whereParts.push(cond1)
@@ -252,8 +247,7 @@ export interface FromStep extends BaseStep {
   where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
   where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
 
-  orderBy(...orderByItemInfos: OrderByItemInfo[]): OrderByStep
-  orderBy(...columns: Column[]): OrderByStep
+  orderBy(...orderByItems: (Column|OrderByItemInfo)[]): OrderByStep
 }
 
 interface WhereStep extends BaseStep {
@@ -265,8 +259,7 @@ interface WhereStep extends BaseStep {
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 
-  orderBy(...orderByItemInfos: OrderByItemInfo[]): OrderByStep
-  orderBy(...columns: Column[]): OrderByStep
+  orderBy(...orderByItems: (Column|OrderByItemInfo)[]): OrderByStep
 }
 
 interface AndStep extends BaseStep {
@@ -278,8 +271,7 @@ interface AndStep extends BaseStep {
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 
-  orderBy(...orderByItemInfos: OrderByItemInfo[]): OrderByStep
-  orderBy(...columns: Column[]): OrderByStep
+  orderBy(...orderByItems: (Column|OrderByItemInfo)[]): OrderByStep
 }
 
 interface OrStep extends BaseStep {
@@ -291,8 +283,7 @@ interface OrStep extends BaseStep {
   and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
 
-  orderBy(...orderByItemInfos: OrderByItemInfo[]): OrderByStep
-  orderBy(...columns: Column[]): OrderByStep
+  orderBy(...orderByItems: (Column|OrderByItemInfo)[]): OrderByStep
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -305,7 +296,6 @@ export enum LogicalOperator {
 }
 
 export class OrderByItemInfo {
-  private option?: BuilderOption
   public set builderOption(option: BuilderOption) {
     this.option = option
   }
@@ -314,6 +304,7 @@ export class OrderByItemInfo {
     private readonly orderByItem: OrderByItem,
     private readonly direction: OrderByDirection = OrderByDirection.NOT_EXIST,
     private readonly nullPosition: OrderByNullsPosition = OrderByNullsPosition.NOT_EXIST,
+    private option?: BuilderOption,
   ) {}
 
   public toString(): string {
@@ -327,7 +318,7 @@ export class OrderByItemInfo {
       case 'always':
         return OrderByDirection.ASC
       case 'never':
-        return  OrderByDirection.NOT_EXIST
+        return OrderByDirection.NOT_EXIST
       default:
         return this.direction
       }

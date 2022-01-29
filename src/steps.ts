@@ -308,7 +308,7 @@ export class OrderByItemInfo {
   constructor(
     private readonly orderByItem: OrderByItem,
     private readonly direction?: OrderByDirection,
-    private readonly nullPosition?: OrderByNullPosition,
+    private readonly nullPosition?: OrderByNullsPosition,
   ) {}
 
   public toString(): string {
@@ -326,9 +326,9 @@ enum OrderByDirection {
   DESC = 'DESC',
 }
 
-enum OrderByNullPosition {
-  NULL_FIRST = 'NULL FIRST',
-  NULL_LAST = 'NULL LAST',
+enum OrderByNullsPosition {
+  NULLS_FIRST = 'NULLS FIRST',
+  NULLS_LAST = 'NULLS LAST',
 }
 
 //Aliases

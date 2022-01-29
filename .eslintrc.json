@@ -24,6 +24,7 @@
       "warn", "always", {"objectsInObjects": false, "arraysInObjects": false}
     ],
     "no-empty-function": ["error", { "allow": ["constructors"] }],
-    "no-explicit-any": ["off"]
+    "no-explicit-any": ["off"],
+    "no-console": "warn"
   }
 }

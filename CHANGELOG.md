@@ -1,6 +1,10 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.5.1]  2022-01-29
+### fixed
+- typo in function name from "selectAstriskFrom" to "selectAsteriskFrom"
+
 ## [0.5.0]  2022-01-28
 ### Added
 - Select step can include null value

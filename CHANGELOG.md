@@ -3,8 +3,10 @@
 
 ## [0.6.0]  2022-01-29
 ### Added
-- enhance Option Object
+- enhance Builder Option Object
   - ASC for ORDER BY
+  - NULLS LAST for ORDER BY
+
 - orderBy Step can generate ASC, DESC, NULLS FIRST, NULLS LAST
 - 8 functions added to Column class to give OrderByItemInfo class
 - Column class knows its table

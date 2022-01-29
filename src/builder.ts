@@ -26,7 +26,8 @@ export type BuilderData = {
 
 export type BuilderOption = {
   useSemicolonAtTheEnd?: boolean
-  addAscAfterOrderByItem?: 'always'|'never'|'when specified'
+  addAscAfterOrderByItem?: 'always'|'never'|'when mentioned'
+  addNullsLastAfterOrderByItem?: 'always'|'never'|'when mentioned'
 }
 
 export class Builder {
@@ -35,7 +36,8 @@ export class Builder {
 
   private static readonly defaultOption: BuilderOption = {
     useSemicolonAtTheEnd: true,
-    addAscAfterOrderByItem: 'when specified',
+    addAscAfterOrderByItem: 'when mentioned',
+    addNullsLastAfterOrderByItem: 'when mentioned',
   }
 
   constructor(database: Database, option?: BuilderOption) {
@@ -67,6 +69,7 @@ export class Builder {
     const result: BuilderOption = {}
     result.useSemicolonAtTheEnd = option?.useSemicolonAtTheEnd ?? this.defaultOption.useSemicolonAtTheEnd
     result.addAscAfterOrderByItem = option?.addAscAfterOrderByItem ?? this.defaultOption.addAscAfterOrderByItem
+    result.addNullsLastAfterOrderByItem = option?.addNullsLastAfterOrderByItem ?? this.defaultOption.addNullsLastAfterOrderByItem
     return result
   }
 }

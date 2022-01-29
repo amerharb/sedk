@@ -308,7 +308,8 @@ export class OrderByItemInfo {
 
   public toString(): string {
     const direction = this.getDirectionFromOption()
-    return `${this.orderByItem}${direction}${this.nullPosition}`
+    const nullPosition = this.getNullLastFromOption()
+    return `${this.orderByItem}${direction}${nullPosition}`
   }
 
   private getDirectionFromOption(): OrderByDirection {
@@ -323,6 +324,21 @@ export class OrderByItemInfo {
       }
     } else {
       return this.direction
+    }
+  }
+
+  private getNullLastFromOption(): OrderByNullsPosition {
+    if (this.option !== undefined) {
+      switch (this.option.addNullsLastAfterOrderByItem) {
+      case 'always':
+        return OrderByNullsPosition.NULLS_LAST
+      case 'never':
+        return OrderByNullsPosition.NOT_EXIST
+      default:
+        return this.nullPosition
+      }
+    } else {
+      return this.nullPosition
     }
   }
 }

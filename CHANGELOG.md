@@ -1,6 +1,11 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.6.0]  2022-01-29
+### Added
+- enhance Option Object
+  - ASC for ORDER BY
+
 ## [0.5.1]  2022-01-29
 ### fixed
 - typo in function name from "selectAstriskFrom" to "selectAsteriskFrom"

@@ -25,6 +25,7 @@ export type BuilderData = {
 
 export type BuilderOption = {
   useSemicolonAtTheEnd?: boolean
+  addAscAfterOrderByItem?: 'always'|'never'|'when specified'
 }
 
 export class Builder {
@@ -33,6 +34,7 @@ export class Builder {
 
   private static readonly defaultOption: BuilderOption = {
     useSemicolonAtTheEnd: true,
+    addAscAfterOrderByItem: 'when specified',
   }
 
   constructor(database: Database, option?: BuilderOption) {
@@ -63,6 +65,7 @@ export class Builder {
   private static fillUndefinedOptionsWithDefault(option?: BuilderOption): BuilderOption {
     const result: BuilderOption = {}
     result.useSemicolonAtTheEnd = option?.useSemicolonAtTheEnd ?? this.defaultOption.useSemicolonAtTheEnd
+    result.addAscAfterOrderByItem = option?.addAscAfterOrderByItem ?? this.defaultOption.addAscAfterOrderByItem
     return result
   }
 }

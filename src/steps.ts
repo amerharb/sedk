@@ -101,7 +101,14 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
     }
 
     if (this.data.orderByItems.length > 0) {
-      result += ` ORDER BY ${this.data.orderByItems.join(', ')}`
+      const orderByItemsString = this.data.orderByItems.map(it => {
+        if (this.data.option.addAscAfterOrderByItem === 'always') {
+          return `${it.toString()} ASC`
+        } else { //TODO: add case of 'when specified' when it is ready
+          return it.toString()
+        }
+      })
+      result += ` ORDER BY ${orderByItemsString.join(', ')}`
     }
 
     if (this.data.option.useSemicolonAtTheEnd)
@@ -214,7 +221,9 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
 
 interface BaseStep {
   getSQL(): string
+
   getPostgresqlBinding(): PostgresBinder
+
   cleanUp(): void
 }
 
@@ -228,7 +237,9 @@ export interface SelectStep extends BaseStep {
 
 export interface FromStep extends BaseStep {
   where(condition: Condition): WhereStep
+
   where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
+
   where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
 
   orderBy(...columns: Column[]): OrderByStep
@@ -236,11 +247,15 @@ export interface FromStep extends BaseStep {
 
 interface WhereStep extends BaseStep {
   and(condition: Condition): AndStep
+
   and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
+
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
 
   or(condition: Condition): OrStep
+
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
+
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 
   orderBy(...columns: Column[]): OrderByStep
@@ -248,11 +263,15 @@ interface WhereStep extends BaseStep {
 
 interface AndStep extends BaseStep {
   and(condition: Condition): AndStep
+
   and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
+
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
 
   or(condition: Condition): OrStep
+
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
+
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 
   orderBy(...columns: Column[]): OrderByStep
@@ -260,11 +279,15 @@ interface AndStep extends BaseStep {
 
 interface OrStep extends BaseStep {
   or(condition: Condition): OrStep
+
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
+
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 
   and(condition: Condition): AndStep
+
   and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
+
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
 
   orderBy(...columns: Column[]): OrderByStep

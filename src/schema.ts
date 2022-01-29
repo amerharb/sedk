@@ -72,14 +72,37 @@ export abstract class Column {
 
   protected constructor(protected readonly columnName: string) {}
 
-  public asc = () => new OrderByItemInfo(this, OrderByDirection.ASC, OrderByNullsPosition.NOT_EXIST)
-  public desc = () => new OrderByItemInfo(this, OrderByDirection.DESC, OrderByNullsPosition.NOT_EXIST)
-  public nullsFirst = () => new OrderByItemInfo(this, OrderByDirection.NOT_EXIST, OrderByNullsPosition.NULLS_FIRST)
-  public nullsLast = () => new OrderByItemInfo(this, OrderByDirection.NOT_EXIST, OrderByNullsPosition.NULLS_LAST)
-  public ascNullsFirst = () => new OrderByItemInfo(this, OrderByDirection.ASC, OrderByNullsPosition.NULLS_FIRST)
-  public descNullsFirst = () => new OrderByItemInfo(this, OrderByDirection.DESC, OrderByNullsPosition.NULLS_FIRST)
-  public ascNullsLast = () => new OrderByItemInfo(this, OrderByDirection.ASC, OrderByNullsPosition.NULLS_LAST)
-  public descNullsLast = () => new OrderByItemInfo(this, OrderByDirection.DESC, OrderByNullsPosition.NULLS_LAST)
+  public get asc(): OrderByItemInfo {
+    return new OrderByItemInfo(this, OrderByDirection.ASC, OrderByNullsPosition.NOT_EXIST)
+  }
+
+  public get desc(): OrderByItemInfo {
+    return new OrderByItemInfo(this, OrderByDirection.DESC, OrderByNullsPosition.NOT_EXIST)
+  }
+
+  public get nullsFirst(): OrderByItemInfo {
+    return new OrderByItemInfo(this, OrderByDirection.NOT_EXIST, OrderByNullsPosition.NULLS_FIRST)
+  }
+
+  public get nullsLast(): OrderByItemInfo {
+    return new OrderByItemInfo(this, OrderByDirection.NOT_EXIST, OrderByNullsPosition.NULLS_LAST)
+  }
+
+  public get ascNullsFirst(): OrderByItemInfo {
+    return new OrderByItemInfo(this, OrderByDirection.ASC, OrderByNullsPosition.NULLS_FIRST)
+  }
+
+  public get descNullsFirst(): OrderByItemInfo {
+    return new OrderByItemInfo(this, OrderByDirection.DESC, OrderByNullsPosition.NULLS_FIRST)
+  }
+
+  public get ascNullsLast(): OrderByItemInfo {
+    return new OrderByItemInfo(this, OrderByDirection.ASC, OrderByNullsPosition.NULLS_LAST)
+  }
+
+  public get descNullsLast(): OrderByItemInfo {
+    return new OrderByItemInfo(this, OrderByDirection.DESC, OrderByNullsPosition.NULLS_LAST)
+  }
 
   public toString() {
     return this.columnName

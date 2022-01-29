@@ -74,7 +74,6 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
     orderByItems.forEach(it => {
       if (it instanceof OrderByItemInfo) {
         it.builderOption = this.data.option
-        console.log(it.builderOption)
         this.data.orderByItemInfos.push(it)
       } else { // it is Column
         this.data.orderByItemInfos.push(new OrderByItemInfo(

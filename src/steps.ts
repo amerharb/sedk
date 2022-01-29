@@ -77,10 +77,10 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
       this.data.orderByItemInfos.push(...orderByItems)
     } else {
       const orderByItemInfos: OrderByItemInfo[] = orderByItems.map(it => {
-        const direction: OrderByDirection|undefined =
+        const direction: OrderByDirection =
           this.data.option.addAscAfterOrderByItem === 'always'
             ? OrderByDirection.ASC
-            : undefined //TODO: support 'when specified' option
+            : OrderByDirection.NOT_EXIST //TODO: support 'when specified' option
         return new OrderByItemInfo(it, direction)
       })
       this.data.orderByItemInfos.push(...orderByItemInfos)
@@ -307,28 +307,25 @@ export enum LogicalOperator {
 export class OrderByItemInfo {
   constructor(
     private readonly orderByItem: OrderByItem,
-    private readonly direction?: OrderByDirection,
-    private readonly nullPosition?: OrderByNullsPosition,
+    private readonly direction: OrderByDirection = OrderByDirection.NOT_EXIST,
+    private readonly nullPosition: OrderByNullsPosition = OrderByNullsPosition.NOT_EXIST,
   ) {}
 
   public toString(): string {
-    const direction = this.direction === undefined
-      ? '' : ` ${this.direction}`
-    const nullPosition = this.nullPosition === undefined
-      ? '' : ` ${this.nullPosition}`
-
-    return `${this.orderByItem}${direction}${nullPosition}`
+    return `${this.orderByItem}${this.direction}${this.nullPosition}`
   }
 }
 
 enum OrderByDirection {
-  ASC = 'ASC',
-  DESC = 'DESC',
+  NOT_EXIST = '',
+  ASC = ' ASC', /** default in postgres */
+  DESC = ' DESC',
 }
 
 enum OrderByNullsPosition {
-  NULLS_FIRST = 'NULLS FIRST',
-  NULLS_LAST = 'NULLS LAST',
+  NOT_EXIST = '',
+  NULLS_FIRST = ' NULLS FIRST',
+  NULLS_LAST = ' NULLS LAST', /** default in postgres */
 }
 
 //Aliases

@@ -69,15 +69,22 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
     return this
   }
 
-  orderBy(...columns: Column[]): OrderByStep {
-    const orderByItemInfos: OrderByItemInfo[] = columns.map(it => {
-      const direction: OrderByDirection|undefined =
-        this.data.option.addAscAfterOrderByItem === 'always'
-          ? OrderByDirection.ASC
-          : undefined //TODO: support 'when specified' option
-      return new OrderByItemInfo(it, direction)
-    })
-    this.data.orderByItemInfos.push(...orderByItemInfos)
+  orderBy(...orderByItemInfos: OrderByItemInfo[]): OrderByStep
+  orderBy(...columns: Column[]): OrderByStep
+  orderBy(...orderByItems: Column[]|OrderByItemInfo[]): OrderByStep {
+    if (orderByItems.length === 0) return this //TODO: throw error as order by should have at lease one item
+    if (Step.isOrderByItemInfoArray(orderByItems)) {
+      this.data.orderByItemInfos.push(...orderByItems)
+    } else {
+      const orderByItemInfos: OrderByItemInfo[] = orderByItems.map(it => {
+        const direction: OrderByDirection|undefined =
+          this.data.option.addAscAfterOrderByItem === 'always'
+            ? OrderByDirection.ASC
+            : undefined //TODO: support 'when specified' option
+        return new OrderByItemInfo(it, direction)
+      })
+      this.data.orderByItemInfos.push(...orderByItemInfos)
+    }
     return this
   }
 
@@ -203,6 +210,10 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
     return columns
   }
 
+  private static isOrderByItemInfoArray(arr: Column[]|OrderByItemInfo[]): arr is OrderByItemInfo[] {
+    return arr.length === 0 || arr[0] instanceof OrderByItemInfo
+  }
+
   private addWhereParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
     if (op1 === undefined && cond2 === undefined) {
       this.data.whereParts.push(cond1)
@@ -238,59 +249,49 @@ export interface SelectStep extends BaseStep {
 
 export interface FromStep extends BaseStep {
   where(condition: Condition): WhereStep
-
   where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
-
   where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
 
+  orderBy(...orderByItemInfos: OrderByItemInfo[]): OrderByStep
   orderBy(...columns: Column[]): OrderByStep
 }
 
 interface WhereStep extends BaseStep {
   and(condition: Condition): AndStep
-
   and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
-
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
 
   or(condition: Condition): OrStep
-
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
-
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 
+  orderBy(...orderByItemInfos: OrderByItemInfo[]): OrderByStep
   orderBy(...columns: Column[]): OrderByStep
 }
 
 interface AndStep extends BaseStep {
   and(condition: Condition): AndStep
-
   and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
-
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
 
   or(condition: Condition): OrStep
-
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
-
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 
+  orderBy(...orderByItemInfos: OrderByItemInfo[]): OrderByStep
   orderBy(...columns: Column[]): OrderByStep
 }
 
 interface OrStep extends BaseStep {
   or(condition: Condition): OrStep
-
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
-
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 
   and(condition: Condition): AndStep
-
   and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
-
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
 
+  orderBy(...orderByItemInfos: OrderByItemInfo[]): OrderByStep
   orderBy(...columns: Column[]): OrderByStep
 }
 

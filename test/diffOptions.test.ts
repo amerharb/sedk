@@ -45,8 +45,8 @@ describe('test Options', () => {
     const sqlAlways = new Builder(db, { addAscAfterOrderByItem: 'always' })
     const sqlNever = new Builder(db, { addAscAfterOrderByItem: 'never' })
     const sqlWhenSpecified = new Builder(db, { addAscAfterOrderByItem: 'when specified' })
-    const sqlDefault = new Builder(db, { addAscAfterOrderByItem: 'when specified' })
-    it('Produces [SELECT col1 FROM testTable ORDER BY col1 ASC;]', () => {
+    const sqlDefault = new Builder(db)
+    it('Produces [SELECT col1 FROM testTable ORDER BY col1 ASC;] option(always)', () => {
       const actual = sqlAlways
         .select(column1)
         .from(table)
@@ -56,7 +56,7 @@ describe('test Options', () => {
       expect(actual).toEqual('SELECT col1 FROM testTable ORDER BY col1 ASC;')
     })
 
-    it('Produces [SELECT col1 FROM testTable ORDER BY col1;]', () => {
+    it('Produces [SELECT col1 FROM testTable ORDER BY col1;] option(never)', () => {
       const actual = sqlNever
         .select(column1)
         .from(table)
@@ -66,8 +66,27 @@ describe('test Options', () => {
       expect(actual).toEqual('SELECT col1 FROM testTable ORDER BY col1;')
     })
 
-    //TODO: fix this test case when Specified option supported
-    it('Produces [SELECT col1 FROM testTable ORDER BY col1;] (when specified)', () => {
+    it('Produces [SELECT col1 FROM testTable ORDER BY col1;] option(never) even asc mentioned', () => {
+      const actual = sqlNever
+        .select(column1)
+        .from(table)
+        .orderBy(column1.asc)
+        .getSQL()
+
+      expect(actual).toEqual('SELECT col1 FROM testTable ORDER BY col1;')
+    })
+
+    it('Produces [SELECT col1 FROM testTable ORDER BY col1 ASC;] option(when specified)', () => {
+      const actual = sqlWhenSpecified
+        .select(column1)
+        .from(table)
+        .orderBy(column1.asc)
+        .getSQL()
+
+      expect(actual).toEqual('SELECT col1 FROM testTable ORDER BY col1 ASC;')
+    })
+
+    it('Produces [SELECT col1 FROM testTable ORDER BY col1;] option(when specified)', () => {
       const actual = sqlWhenSpecified
         .select(column1)
         .from(table)
@@ -77,8 +96,7 @@ describe('test Options', () => {
       expect(actual).toEqual('SELECT col1 FROM testTable ORDER BY col1;')
     })
 
-    //TODO: fix this test case when Specified option supported
-    it('Produces [SELECT col1 FROM testTable ORDER BY col1;] (Default)', () => {
+    it('Produces [SELECT col1 FROM testTable ORDER BY col1;] option(Default)', () => {
       const actual = sqlDefault
         .select(column1)
         .from(table)
@@ -86,6 +104,16 @@ describe('test Options', () => {
         .getSQL()
 
       expect(actual).toEqual('SELECT col1 FROM testTable ORDER BY col1;')
+    })
+
+    it('Produces [SELECT col1 FROM testTable ORDER BY col1 ASC;] option(Default)', () => {
+      const actual = sqlDefault
+        .select(column1)
+        .from(table)
+        .orderBy(column1.asc)
+        .getSQL()
+
+      expect(actual).toEqual('SELECT col1 FROM testTable ORDER BY col1 ASC;')
     })
   })
 })

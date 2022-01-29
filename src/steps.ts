@@ -1,7 +1,7 @@
 import { Condition, Expression, PostgresBinder } from './models'
 import { Column, Table } from './schema'
 import { ColumnNotFoundError, TableNotFoundError } from './errors'
-import { BuilderData } from './builder'
+import { BuilderData, BuilderOption } from './builder'
 
 export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
@@ -305,6 +305,11 @@ export enum LogicalOperator {
 }
 
 export class OrderByItemInfo {
+  private option?: BuilderOption
+  public set builderOption(option: BuilderOption) {
+    this.option = option
+  }
+
   constructor(
     private readonly orderByItem: OrderByItem,
     private readonly direction: OrderByDirection = OrderByDirection.NOT_EXIST,
@@ -312,7 +317,23 @@ export class OrderByItemInfo {
   ) {}
 
   public toString(): string {
-    return `${this.orderByItem}${this.direction}${this.nullPosition}`
+    const direction = this.getDirectionFromOption()
+    return `${this.orderByItem}${direction}${this.nullPosition}`
+  }
+
+  private getDirectionFromOption(): OrderByDirection {
+    if (this.option !== undefined) {
+      switch (this.option.addAscAfterOrderByItem) {
+      case 'always':
+        return OrderByDirection.ASC
+      case 'never':
+        return  OrderByDirection.NOT_EXIST
+      default:
+        return this.direction
+      }
+    } else {
+      return this.direction
+    }
   }
 }
 

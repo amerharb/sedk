@@ -328,13 +328,13 @@ export class OrderByItemInfo {
   }
 }
 
-enum OrderByDirection {
+export enum OrderByDirection {
   NOT_EXIST = '',
   ASC = ' ASC', /** default in postgres */
   DESC = ' DESC',
 }
 
-enum OrderByNullsPosition {
+export enum OrderByNullsPosition {
   NOT_EXIST = '',
   NULLS_FIRST = ' NULLS FIRST',
   NULLS_LAST = ' NULLS LAST', /** default in postgres */

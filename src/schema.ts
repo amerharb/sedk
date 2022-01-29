@@ -1,5 +1,8 @@
 import { BinderStore } from './binder'
 import {
+  BooleanLike,
+  NumberLike,
+  TextLike,
   Condition,
   Expression,
   Operand,
@@ -12,10 +15,10 @@ import {
   Operator,
 } from './operators'
 import {
-  BooleanLike,
-  NumberLike,
-  TextLike,
-} from './models'
+  OrderByDirection,
+  OrderByItemInfo,
+  OrderByNullsPosition,
+} from './steps'
 
 export class Database {
   private readonly version?: number
@@ -65,12 +68,18 @@ export class Table {
 }
 
 export abstract class Column {
-  protected readonly columnName: string
   protected readonly binderStore = BinderStore.getInstance()
 
-  protected constructor(columnName: string) {
-    this.columnName = columnName
-  }
+  protected constructor(protected readonly columnName: string) {}
+
+  public asc = () => new OrderByItemInfo(this, OrderByDirection.ASC, OrderByNullsPosition.NOT_EXIST)
+  public desc = () => new OrderByItemInfo(this, OrderByDirection.DESC, OrderByNullsPosition.NOT_EXIST)
+  public nullsFirst = () => new OrderByItemInfo(this, OrderByDirection.NOT_EXIST, OrderByNullsPosition.NULLS_FIRST)
+  public nullsLast = () => new OrderByItemInfo(this, OrderByDirection.NOT_EXIST, OrderByNullsPosition.NULLS_LAST)
+  public ascNullsFirst = () => new OrderByItemInfo(this, OrderByDirection.ASC, OrderByNullsPosition.NULLS_FIRST)
+  public descNullsFirst = () => new OrderByItemInfo(this, OrderByDirection.DESC, OrderByNullsPosition.NULLS_FIRST)
+  public ascNullsLast = () => new OrderByItemInfo(this, OrderByDirection.ASC, OrderByNullsPosition.NULLS_LAST)
+  public descNullsLast = () => new OrderByItemInfo(this, OrderByDirection.DESC, OrderByNullsPosition.NULLS_LAST)
 
   public toString() {
     return this.columnName

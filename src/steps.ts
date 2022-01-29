@@ -307,20 +307,27 @@ export class OrderByItemInfo {
   constructor(
     private readonly orderByItem: OrderByItem,
     private readonly direction?: OrderByDirection,
+    private readonly nullPosition?: OrderByNullPosition,
   ) {}
 
   public toString(): string {
-    if (this.direction !== undefined) {
-      return `${this.orderByItem} ${this.direction}`
-    } else {
-      return this.orderByItem.toString()
-    }
+    const direction = this.direction === undefined
+      ? '' : ` ${this.direction}`
+    const nullPosition = this.nullPosition === undefined
+      ? '' : ` ${this.nullPosition}`
+
+    return `${this.orderByItem}${direction}${nullPosition}`
   }
 }
 
 enum OrderByDirection {
   ASC = 'ASC',
   DESC = 'DESC',
+}
+
+enum OrderByNullPosition {
+  NULL_FIRST = 'NULL FIRST',
+  NULL_LAST = 'NULL LAST',
 }
 
 //Aliases

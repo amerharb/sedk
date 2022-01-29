@@ -65,7 +65,7 @@ describe('test from one table', () => {
 
   it('Produces [SELECT * FROM testTable;] using selectAsteriskFrom()', () => {
     const actual = sql
-      .selectAstriskFrom(table)
+      .selectAsteriskFrom(table)
       .getSQL()
 
     expect(actual).toEqual('SELECT * FROM testTable;')
@@ -73,7 +73,7 @@ describe('test from one table', () => {
 
   it('Produces [SELECT * FROM testTable ORDER BY col1, col2;]', () => {
     const actual = sql
-      .selectAstriskFrom(table)
+      .selectAsteriskFrom(table)
       .orderBy(column1, column2)
       .getSQL()
 

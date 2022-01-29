@@ -5,6 +5,9 @@
 ### Added
 - enhance Option Object
   - ASC for ORDER BY
+- orderBy Step can generate ASC, DESC, NULLS FIRST, NULLS LAST
+- 8 functions added to Column class to give OrderByItemInfo class
+- Column class knows its table
 
 ## [0.5.1]  2022-01-29
 ### fixed

@@ -3,7 +3,7 @@
 SEDK is a library that build SQL statement with Postgres dialect or Postgres Binding Object using a pre-defined database
 schema
 
-### example
+### Example
 
 ```typescript
 import * as sedk from 'sedk-postgres'
@@ -44,9 +44,27 @@ console.log(bindObj)
 ## What is New
 ### Version: 0.6.0
 - OrderBy now support ASC, DESC, NULLS FIRST and NULLS LAST
-- Support DISTINCT and ALL clause after SELECT
+```typescript
+sql.selectAsteriskFrom(Employee).orderBy(name.asc, age.desc).getSQL()
+// "SELECT DISTINCT name, age FROM Employee ORDER BY name ASC, age DESC;"
+```
 
-## What is New
+- Support DISTINCT and ALL clause after SELECT
+```typescript
+sql.selectDistinct(name, age).from(Employee).getSQL()
+// or like
+sql.select(DISTINCT, name, age).from(Employee).getSQL()
+// "SELECT DISTINCT name, age FROM Employee;"
+```
+
+- New Builder Option
+```typescript
+{
+  addAscAfterOrderByItem?: 'always'|'never'|'when mentioned'
+  addNullsLastAfterOrderByItem?: 'always'|'never'|'when mentioned'
+}
+```
+
 ### Version: 0.5.0
 - Now you can add asterisk to Select step
 ```typescript

@@ -1,7 +1,7 @@
 import { Database, Table } from './schema'
 import { Condition } from './models'
 import { BinderStore } from './binder'
-import { ASTERISK } from './singletoneConstants'
+import { ASTERISK, Distinct, All } from './singletoneConstants'
 import {
   Step,
   SelectStep,
@@ -56,8 +56,23 @@ export class Builder {
     this.rootStep = new Step(this.data)
   }
 
-  public select(...items: (SelectItem|PrimitiveType)[]): SelectStep {
-    //Note: the cleanup needed as there is only one "select" step in the chain that we start with
+  public select(distinct: Distinct|All, ...items: (SelectItem|PrimitiveType)[]): SelectStep
+  public select(...items: (SelectItem|PrimitiveType)[]): SelectStep
+  public select(...items: (Distinct|All|SelectItem|PrimitiveType)[]): SelectStep {
+    if (items.length === 0) throw new Error('Select step must have at least one parameter')
+    if (items[0] instanceof Distinct) {
+      if (items.length === 1) throw new Error('Select step must have at least one parameter after DISTINCT')
+      this.rootStep.cleanUp()
+      items.shift() //remove first item the DISTINCT item
+      return this.rootStep.selectDistinct(...items)
+    }
+
+    if (items[0] instanceof All) {
+      this.rootStep.cleanUp()
+      items.shift() //remove first item the ALL item
+      return this.rootStep.selectAll(...items)
+    }
+
     this.rootStep.cleanUp()
     return this.rootStep.select(...items)
   }

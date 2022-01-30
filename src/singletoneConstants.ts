@@ -17,7 +17,7 @@ export class Asterisk {
 
 export const ASTERISK = Asterisk.getInstance()
 
-class Distinct {
+export class Distinct {
   private static instance: Distinct
 
   private constructor() {}
@@ -36,7 +36,7 @@ class Distinct {
 
 export const DISTINCT = Distinct.getInstance()
 
-class All {
+export class All {
   private static instance: All
 
   private constructor() {}

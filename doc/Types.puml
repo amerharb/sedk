@@ -14,6 +14,12 @@ mindmapDiagram {
   .null {
     BackgroundColor #green
   }
+  .enum {
+    BackgroundColor #violet
+  }
+  .enumItem {
+    BackgroundColor #pink
+  }
 }
 </style>
 
@@ -42,5 +48,27 @@ mindmapDiagram {
 *** TextLike <<type>>
 **** string <<primitive>>
 **** TextColumn  <<class>>
+
+* Operator <<type>>
+** ArithmeticOperator <<enum>>
+*** ADD = '+' <<enumItem>>
+*** SUB = '-' <<enumItem>>
+*** MUL = '*' <<enumItem>>
+*** DIV = '/' <<enumItem>>
+*** MOD = '%' <<enumItem>>
+*** EXP = '^' <<enumItem>>
+** TextOperator <<enum>>
+*** CONCAT = '||' <<enumItem>>
+** Qualifier <<type>>
+*** ComparisonOperator <<enum>>
+**** Equal = '=' <<enumItem>>
+**** NotEqual = '<>' <<enumItem>>
+**** GreaterThan = '>' <<enumItem>>
+**** GreaterOrEqual = '>=' <<enumItem>>
+**** LesserThan = '<' <<enumItem>>
+**** LesserOrEqual = '<=' <<enumItem>>
+*** NullOperator <<enum>>
+**** Is = 'IS' <<enumItem>>
+**** IsNot = 'IS NOT' <<enumItem>>
 
 @endmindmap

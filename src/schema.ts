@@ -1,5 +1,8 @@
 import { BinderStore } from './binder'
 import {
+  BooleanLike,
+  NumberLike,
+  TextLike,
   Condition,
   Expression,
   Operand,
@@ -12,10 +15,10 @@ import {
   Operator,
 } from './operators'
 import {
-  BooleanLike,
-  NumberLike,
-  TextLike,
-} from './models'
+  OrderByDirection,
+  OrderByItemInfo,
+  OrderByNullsPosition,
+} from './steps'
 
 export class Database {
   private readonly version?: number
@@ -52,6 +55,7 @@ export class Table {
 
   constructor(tableName: string, columns: Column[]) {
     this.tableName = tableName
+    columns.forEach(it => it.table = this)
     this.columns = columns
   }
 
@@ -65,11 +69,55 @@ export class Table {
 }
 
 export abstract class Column {
-  protected readonly columnName: string
   protected readonly binderStore = BinderStore.getInstance()
+  private mTable?: Table
 
-  protected constructor(columnName: string) {
-    this.columnName = columnName
+  protected constructor(protected readonly columnName: string) {}
+
+  public set table(table: Table) {
+    if (this.mTable === undefined)
+      this.mTable = table
+    else
+      throw new Error('Table can only be assigned one time')
+  }
+
+  public get table(): Table {
+    if (this.mTable === undefined)
+      throw new Error('Table was not assigned')
+
+    return this.mTable
+  }
+
+  public get asc(): OrderByItemInfo {
+    return new OrderByItemInfo(this, OrderByDirection.ASC, OrderByNullsPosition.NOT_EXIST)
+  }
+
+  public get desc(): OrderByItemInfo {
+    return new OrderByItemInfo(this, OrderByDirection.DESC, OrderByNullsPosition.NOT_EXIST)
+  }
+
+  public get nullsFirst(): OrderByItemInfo {
+    return new OrderByItemInfo(this, OrderByDirection.NOT_EXIST, OrderByNullsPosition.NULLS_FIRST)
+  }
+
+  public get nullsLast(): OrderByItemInfo {
+    return new OrderByItemInfo(this, OrderByDirection.NOT_EXIST, OrderByNullsPosition.NULLS_LAST)
+  }
+
+  public get ascNullsFirst(): OrderByItemInfo {
+    return new OrderByItemInfo(this, OrderByDirection.ASC, OrderByNullsPosition.NULLS_FIRST)
+  }
+
+  public get descNullsFirst(): OrderByItemInfo {
+    return new OrderByItemInfo(this, OrderByDirection.DESC, OrderByNullsPosition.NULLS_FIRST)
+  }
+
+  public get ascNullsLast(): OrderByItemInfo {
+    return new OrderByItemInfo(this, OrderByDirection.ASC, OrderByNullsPosition.NULLS_LAST)
+  }
+
+  public get descNullsLast(): OrderByItemInfo {
+    return new OrderByItemInfo(this, OrderByDirection.DESC, OrderByNullsPosition.NULLS_LAST)
   }
 
   public toString() {

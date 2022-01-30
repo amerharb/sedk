@@ -94,7 +94,11 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
   }
 
   private getStatement(): string {
-    let result = `SELECT${this.data.distinct} ${this.data.selectItems.join(', ')}`
+    let result = `SELECT${this.data.distinct}`
+
+    if (this.data.selectItems.length > 0) {
+      result += ` ${this.data.selectItems.join(', ')}`
+    }
 
     if (this.data.table) {
       result += ` FROM ${this.data.table}`

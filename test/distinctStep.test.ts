@@ -52,4 +52,38 @@ describe('test orderBy Step', () => {
 
     expect(actual).toEqual('SELECT ALL col1, col2 FROM testTable;')
   })
+
+  it('Produces [SELECT ALL FROM testTable;] only ALL is valid (as param)', () => {
+    const actual = sql
+      .select(ALL)
+      .from(table)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT ALL FROM testTable;')
+  })
+
+  it('Produces [SELECT ALL FROM testTable;] only ALL is valid (using selectAll())', () => {
+    const actual = sql
+      .selectAll()
+      .from(table)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT ALL FROM testTable;')
+  })
+
+  it('Throws error when param to select passed', () => {
+    function actual() {
+      sql.select().from(table)
+    }
+
+    expect(actual).toThrowError(/^Select step must have at least one parameter$/)
+  })
+
+  it('Throws error when no param to select passed after DISTINCT', () => {
+    function actual() {
+      sql.select(DISTINCT).from(table)
+    }
+
+    expect(actual).toThrow(/^Select step must have at least one parameter after DISTINCT$/)
+  })
 })

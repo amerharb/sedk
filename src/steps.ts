@@ -45,6 +45,16 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
     return this
   }
 
+  public selectDistinct(...items: (SelectItem|PrimitiveType)[]): SelectStep {
+    this.data.distinct = ' DISTINCT'
+    return this.select(...items)
+  }
+
+  public selectAll(...items: (SelectItem|PrimitiveType)[]): SelectStep {
+    this.data.distinct = ' ALL'
+    return this.select(...items)
+  }
+
   public from(table: Table): FromStep {
     this.throwIfTableNotInDb(table)
     this.data.table = table
@@ -102,7 +112,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
   }
 
   private getStatement(): string {
-    let result = `SELECT ${this.data.selectItems.join(', ')}`
+    let result = `SELECT${this.data.distinct} ${this.data.selectItems.join(', ')}`
 
     if (this.data.table) {
       result += ` FROM ${this.data.table}`
@@ -234,7 +244,9 @@ interface BaseStep {
 }
 
 export interface RootStep extends BaseStep {
-  select(...items: SelectItem[]): SelectStep
+  select(...items: (SelectItem|PrimitiveType)[]): SelectStep
+  selectDistinct(...items: (SelectItem|PrimitiveType)[]): SelectStep
+  selectAll(...items: (SelectItem|PrimitiveType)[]): SelectStep
 }
 
 export interface SelectStep extends BaseStep {

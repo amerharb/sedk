@@ -42,6 +42,11 @@ console.log(bindObj)
 ```
 
 ## What is New
+### Version: 0.6.0
+- OrderBy now support ASC, DESC, NULLS FIRST and NULLS LAST
+- Support DISTINCT and ALL clause after SELECT
+
+## What is New
 ### Version: 0.5.0
 - Now you can add asterisk to Select step
 ```typescript

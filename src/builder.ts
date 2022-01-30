@@ -11,6 +11,7 @@ import {
   PrimitiveType,
   ASTERISK,
   OrderByItemInfo,
+  RootStep,
 } from './steps'
 
 export type BuilderData = {
@@ -18,6 +19,7 @@ export type BuilderData = {
   //TODO: make table array ot another kind of collection object when we add leftOperand inner join step
   table?: Table,
   selectItems: SelectItem[],
+  distinct: ''|' DISTINCT'|' ALL'
   whereParts: (LogicalOperator|Condition|Parenthesis)[],
   orderByItemInfos: OrderByItemInfo[],
   binderStore: BinderStore,
@@ -32,7 +34,7 @@ export type BuilderOption = {
 
 export class Builder {
   private readonly data: BuilderData
-  private rootStep: Step
+  private rootStep: RootStep
 
   private static readonly defaultOption: BuilderOption = {
     useSemicolonAtTheEnd: true,
@@ -45,6 +47,7 @@ export class Builder {
       dbSchema: database,
       table: undefined,
       selectItems: [],
+      distinct: '',
       whereParts: [],
       orderByItemInfos: [],
       binderStore: BinderStore.getInstance(),
@@ -57,6 +60,18 @@ export class Builder {
     //Note: the cleanup needed as there is only one "select" step in the chain that we start with
     this.rootStep.cleanUp()
     return this.rootStep.select(...items)
+  }
+
+  public selectDistinct(...items: (SelectItem|PrimitiveType)[]): SelectStep {
+    //Note: the cleanup needed as there is only one "select" step in the chain that we start with
+    this.rootStep.cleanUp()
+    return this.rootStep.selectDistinct(...items)
+  }
+
+  public selectAll(...items: (SelectItem|PrimitiveType)[]): SelectStep {
+    //Note: the cleanup needed as there is only one "select" step in the chain that we start with
+    this.rootStep.cleanUp()
+    return this.rootStep.selectAll(...items)
   }
 
   public selectAsteriskFrom(table: Table): FromStep {

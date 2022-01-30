@@ -1,6 +1,7 @@
 import { Database, Table } from './schema'
 import { Condition } from './models'
 import { BinderStore } from './binder'
+import { ASTERISK } from './singletoneConstants'
 import {
   Step,
   SelectStep,
@@ -9,7 +10,6 @@ import {
   LogicalOperator,
   SelectItem,
   PrimitiveType,
-  ASTERISK,
   OrderByItemInfo,
   RootStep,
 } from './steps'

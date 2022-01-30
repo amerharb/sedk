@@ -2,29 +2,11 @@ import { Condition, Expression, PostgresBinder } from './models'
 import { Column, Table } from './schema'
 import { ColumnNotFoundError, TableNotFoundError } from './errors'
 import { BuilderData, BuilderOption } from './builder'
+import { Asterisk } from './singletoneConstants'
 
 export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
 
-class Asterisk {
-  private static instance: Asterisk
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private constructor() {}
-
-  public static getInstance(): Asterisk {
-    if (!Asterisk.instance) {
-      Asterisk.instance = new Asterisk()
-    }
-    return Asterisk.instance
-  }
-
-  public toString(): string {
-    return '*'
-  }
-}
-
-export const ASTERISK = Asterisk.getInstance()
 export type SelectItem = ColumnLike|Asterisk
 export type OrderByItem = Column //TODO: add also column aliases
 

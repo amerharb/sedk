@@ -1,7 +1,7 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.6.0]  2022-01-29
+## [0.6.0]  2022-01-30
 ### Added
 - enhance Builder Option Object
   - ASC for ORDER BY

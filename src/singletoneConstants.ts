@@ -1,7 +1,6 @@
 export class Asterisk {
   private static instance: Asterisk
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
   public static getInstance(): Asterisk {
@@ -15,12 +14,12 @@ export class Asterisk {
     return '*'
   }
 }
+
 export const ASTERISK = Asterisk.getInstance()
 
 class Distinct {
   private static instance: Distinct
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
   public static getInstance(): Distinct {
@@ -34,12 +33,12 @@ class Distinct {
     return 'DISTINCT'
   }
 }
+
 export const DISTINCT = Distinct.getInstance()
 
 class All {
   private static instance: All
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
   public static getInstance(): All {
@@ -53,4 +52,5 @@ class All {
     return 'ALL'
   }
 }
+
 export const ALL = All.getInstance()

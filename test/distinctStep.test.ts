@@ -3,8 +3,9 @@ import {
   Database,
   Table,
   TextColumn,
+  ALL,
+  DISTINCT,
 } from '../src'
-import { ALL, DISTINCT } from '../src/singletoneConstants'
 
 describe('test orderBy Step', () => {
   // database schema

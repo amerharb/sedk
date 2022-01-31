@@ -1,5 +1,5 @@
 export { Builder } from './builder'
-export { ASTERISK } from './singletoneConstants'
+export { ASTERISK, DISTINCT, ALL } from './singletoneConstants'
 export { LogicalOperator } from './steps'
 export { e } from './functions'
 export {

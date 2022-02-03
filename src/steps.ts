@@ -1,7 +1,8 @@
 import { Condition, Expression, PostgresBinder } from './models'
 import { Column, Table } from './schema'
 import { ColumnNotFoundError, TableNotFoundError } from './errors'
-import { BuilderData, BuilderOption } from './builder'
+import { BuilderData } from './builder'
+import { BuilderOption } from './options/options'
 import { Asterisk } from './singletoneConstants'
 
 export type ColumnLike = Column|Expression

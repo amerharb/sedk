@@ -10,8 +10,8 @@ describe('test Options', () => {
   const db = new Database([table], 1)
 
   describe('test Semicolon Option', () => {
-    const sqlWithoutSemicolon = new Builder(db, { useSemicolonAtTheEnd: false })
-    const sqlWithSemicolon = new Builder(db, { useSemicolonAtTheEnd: true })
+    const sqlWithoutSemicolon = new Builder(db, { $optionVersion: 1, useSemicolonAtTheEnd: false })
+    const sqlWithSemicolon = new Builder(db, { $optionVersion: 1, useSemicolonAtTheEnd: true })
     const sqlDefault = new Builder(db)
     it('Produces [SELECT 1 FROM testTable] without semicolon', () => {
       const actual = sqlWithoutSemicolon
@@ -42,9 +42,9 @@ describe('test Options', () => {
   })
 
   describe('test OrderBy ASC Option', () => {
-    const sqlAlways = new Builder(db, { addAscAfterOrderByItem: 'always' })
-    const sqlNever = new Builder(db, { addAscAfterOrderByItem: 'never' })
-    const sqlWhenMentioned = new Builder(db, { addAscAfterOrderByItem: 'when mentioned' })
+    const sqlAlways = new Builder(db, { $optionVersion: 1, addAscAfterOrderByItem: 'always' })
+    const sqlNever = new Builder(db, { $optionVersion: 1, addAscAfterOrderByItem: 'never' })
+    const sqlWhenMentioned = new Builder(db, { $optionVersion: 1, addAscAfterOrderByItem: 'when mentioned' })
     const sqlDefault = new Builder(db)
     it('Produces [SELECT col1 FROM testTable ORDER BY col1 ASC;] option(always)', () => {
       const actual = sqlAlways
@@ -118,9 +118,9 @@ describe('test Options', () => {
   })
 
   describe('test OrderBy NULLS LAST Option', () => {
-    const sqlAlways = new Builder(db, { addNullsLastAfterOrderByItem: 'always' })
-    const sqlNever = new Builder(db, { addNullsLastAfterOrderByItem: 'never' })
-    const sqlWhenMentioned = new Builder(db, { addNullsLastAfterOrderByItem: 'when mentioned' })
+    const sqlAlways = new Builder(db, { $optionVersion: 1, addNullsLastAfterOrderByItem: 'always' })
+    const sqlNever = new Builder(db, { $optionVersion: 1, addNullsLastAfterOrderByItem: 'never' })
+    const sqlWhenMentioned = new Builder(db, { $optionVersion: 1, addNullsLastAfterOrderByItem: 'when mentioned' })
     const sqlDefault = new Builder(db)
     it('Produces [SELECT col1 FROM testTable ORDER BY col1 NULLS LAST;] option(always)', () => {
       const actual = sqlAlways

@@ -13,6 +13,7 @@ import {
   OrderByItemInfo,
   RootStep,
 } from './steps'
+import { BuilderOption } from './options/options'
 
 export type BuilderData = {
   dbSchema: Database,
@@ -26,17 +27,12 @@ export type BuilderData = {
   option: BuilderOption,
 }
 
-export type BuilderOption = {
-  useSemicolonAtTheEnd?: boolean
-  addAscAfterOrderByItem?: 'always'|'never'|'when mentioned'
-  addNullsLastAfterOrderByItem?: 'always'|'never'|'when mentioned'
-}
-
 export class Builder {
   private readonly data: BuilderData
   private rootStep: RootStep
 
   private static readonly defaultOption: BuilderOption = {
+    $optionVersion: 1,
     useSemicolonAtTheEnd: true,
     addAscAfterOrderByItem: 'when mentioned',
     addNullsLastAfterOrderByItem: 'when mentioned',
@@ -96,7 +92,7 @@ export class Builder {
   }
 
   private static fillUndefinedOptionsWithDefault(option?: BuilderOption): BuilderOption {
-    const result: BuilderOption = {}
+    const result: BuilderOption = { $optionVersion: 1 }
     result.useSemicolonAtTheEnd = option?.useSemicolonAtTheEnd ?? this.defaultOption.useSemicolonAtTheEnd
     result.addAscAfterOrderByItem = option?.addAscAfterOrderByItem ?? this.defaultOption.addAscAfterOrderByItem
     result.addNullsLastAfterOrderByItem = option?.addNullsLastAfterOrderByItem ?? this.defaultOption.addNullsLastAfterOrderByItem

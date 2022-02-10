@@ -28,3 +28,14 @@ export function migrate(option: v2): BuilderOption {
     'add-default-clauses': addDefaultClauses,
   }
 }
+
+// WiP
+// export function getBuilderOptionSimilarity(option: unknown): number {
+//   if (option && typeof option === 'object') {
+//     if (Object.is(option, {})) return 1
+//     if ('use-semicolon-at-the-end' in option) {
+//       return 0.5
+//     }
+//   }
+//   return 0
+// }

@@ -18,3 +18,11 @@ export function getOption(option: AllBuilderOption): BuilderOption {
     throw new Error(`Builder option version ${option} is not supported`)
   }
 }
+
+// WiP
+// function getBestGuess(option: AllBuilderOption): number {
+//   if (v3.isBuilderOption(option)) return 3
+//   if (v2.isBuilderOption(option)) return 2
+//   if (v1.isBuilderOption(option)) return 1
+//   return 0
+// }

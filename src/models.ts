@@ -10,6 +10,7 @@ import {
   Operator,
   Qualifier,
 } from './operators'
+import { SelectItemInfo } from './select'
 
 export class Condition implements Expression {
   public readonly leftExpression: Expression
@@ -38,6 +39,10 @@ export class Condition implements Expression {
       return `${this.leftOperand} ${this.operator} ${this.rightOperand}`
     else
       return this.leftOperand.toString()
+  }
+
+  public as(alias: string): SelectItemInfo {
+    return new SelectItemInfo(this, alias)
   }
 
   public getColumns(): Column[] {
@@ -93,7 +98,7 @@ export class Operand {
       return `$${this.value.no}`
     } else if (typeof this.value === 'string') {
       // escape single quote by repeating it
-      const result = this.value.replace(/'/g, "''")
+      const result = this.value.replace(/'/g, '\'\'')
       return `'${result}'`
     } else if (typeof this.value === 'boolean') {
       return `${this.isNot ? 'NOT ' : ''}${this.value ? 'TRUE' : 'FALSE'}`
@@ -172,6 +177,10 @@ export class Expression {
       return `(${this.leftOperand} ${this.operator.toString()} ${this.rightOperand})`
     }
     return this.leftOperand.toString()
+  }
+
+  public as(alias: string): SelectItemInfo {
+    return new SelectItemInfo(this, alias)
   }
 
   public getColumns(): Column[] {

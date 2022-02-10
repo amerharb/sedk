@@ -89,6 +89,15 @@ describe('test from one table', () => {
     expect(actual).toEqual('SELECT 1 FROM testTable;')
   })
 
+  it('Produces [SELECT 1 AS One FROM testTable;]', () => {
+    const actual = sql
+      .select(e(1).as('One'))
+      .from(table)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT 1 AS One FROM testTable;')
+  })
+
   it("Produces [SELECT 'a' FROM testTable;]", () => {
     const actual = sql
       .select(e('a'))
@@ -125,6 +134,15 @@ describe('test from one table', () => {
     expect(actual).toEqual('SELECT (1 + (2 - 3)) FROM testTable;')
   })
 
+  it('Produces [SELECT (1 + (2 - 3)) AS Calc FROM testTable;]', () => {
+    const actual = sql
+      .select(e(1, ADD, e(2, SUB, 3)).as('Calc'))
+      .from(table)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT (1 + (2 - 3)) AS Calc FROM testTable;')
+  })
+
   describe('select literal values', () => {
     it('Produces [SELECT TRUE;]', () => {
       const actual = sql.select(e(true)).getSQL()
@@ -150,6 +168,16 @@ describe('test from one table', () => {
       .getSQL()
 
     expect(actual).toEqual("SELECT col1, col2 FROM testTable WHERE col1 = 'x';")
+  })
+
+  it("Produces [SELECT col1 AS C1, col2 AS C2 FROM testTable WHERE col1 = 'x';]", () => {
+    const actual = sql
+      .select(column1.as('C1'), column2.as('C2'))
+      .from(table)
+      .where(column1.eq('x'))
+      .getSQL()
+
+    expect(actual).toEqual("SELECT col1 AS C1, col2 AS C2 FROM testTable WHERE col1 = 'x';")
   })
 
   it("Produces [SELECT col1, col2 FROM testTable WHERE col1 <> 'x';]", () => {

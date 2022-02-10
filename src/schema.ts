@@ -19,6 +19,7 @@ import {
   OrderByItemInfo,
   OrderByNullsPosition,
 } from './orderBy'
+import { SelectItemInfo } from './select'
 
 export class Database {
   private readonly version?: number
@@ -86,6 +87,10 @@ export abstract class Column {
       throw new Error('Table was not assigned')
 
     return this.mTable
+  }
+
+  public as(alias: string): SelectItemInfo {
+    return new SelectItemInfo(this, alias)
   }
 
   public get asc(): OrderByItemInfo {

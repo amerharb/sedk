@@ -54,6 +54,15 @@ describe('test from one table', () => {
     expect(actual).toEqual('SELECT col1 FROM testTable;')
   })
 
+  it('Produces [SELECT col1 AS C1 FROM testTable;]', () => {
+    const actual = sql
+      .select(column1.as('C1'))
+      .from(table)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT col1 AS C1 FROM testTable;')
+  })
+
   it('Produces [SELECT * FROM testTable;]', () => {
     const actual = sql
       .select(ASTERISK)

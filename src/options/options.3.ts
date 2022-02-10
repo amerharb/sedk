@@ -24,7 +24,7 @@ export function migrate(option: v2): BuilderOption {
     }
   return {
     $optionVersion: 3,
-    'use-semicolon-at-the-end': option.useSemicolonAtTheEnd?'always':'when there is more than one statement',
+    'use-semicolon-at-the-end': option.useSemicolonAtTheEnd ? 'always' : 'when there is more than one statement',
     'add-default-clauses': addDefaultClauses,
   }
 }

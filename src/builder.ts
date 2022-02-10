@@ -10,9 +10,9 @@ import {
   LogicalOperator,
   SelectItem,
   PrimitiveType,
-  OrderByItemInfo,
   RootStep,
 } from './steps'
+import { OrderByItemInfo } from './orderBy'
 
 export type BuilderData = {
   dbSchema: Database,

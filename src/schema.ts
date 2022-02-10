@@ -18,7 +18,7 @@ import {
   OrderByDirection,
   OrderByItemInfo,
   OrderByNullsPosition,
-} from './steps'
+} from './orderBy'
 
 export class Database {
   private readonly version?: number

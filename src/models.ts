@@ -1,7 +1,7 @@
 import { InvalidExpressionError } from './errors'
 import { Binder } from './binder'
 import { PrimitiveType } from './steps'
-import { BooleanColumn, NumberColumn, TextColumn } from './schema'
+import { Column, BooleanColumn, NumberColumn, TextColumn } from './schema'
 import {
   NullOperator,
   ComparisonOperator,
@@ -38,6 +38,15 @@ export class Condition implements Expression {
       return `${this.leftOperand} ${this.operator} ${this.rightOperand}`
     else
       return this.leftOperand.toString()
+  }
+
+  public getColumns(): Column[] {
+    const columns: Column[] = []
+    columns.push(...this.leftExpression.getColumns())
+    if (this.rightExpression !== undefined)
+      columns.push(...this.rightExpression.getColumns())
+
+    return columns
   }
 }
 
@@ -163,6 +172,24 @@ export class Expression {
       return `(${this.leftOperand} ${this.operator.toString()} ${this.rightOperand})`
     }
     return this.leftOperand.toString()
+  }
+
+  public getColumns(): Column[] {
+    const columns: Column[] = []
+
+    const left = this.leftOperand.value
+    if (left instanceof Column)
+      columns.push(left)
+    else if (left instanceof Expression)
+      columns.push(...left.getColumns())
+
+    const right = this.rightOperand?.value
+    if (right instanceof Column)
+      columns.push(right)
+    else if (right instanceof Expression)
+      columns.push(...right.getColumns())
+
+    return columns
   }
 
   private static getResultExpressionType(left: Operand, operator: Operator, right: Operand): ExpressionType {

@@ -165,6 +165,10 @@ export class BooleanColumn extends Column implements Condition {
   public not(): Condition {
     return new Condition(new Expression(this, true))
   }
+
+  public getColumns(): Column[] {
+    return [this]
+  }
 }
 
 export class NumberColumn extends Column {

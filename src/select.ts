@@ -1,5 +1,7 @@
 import { BuilderOption } from './builder'
 import { SelectItem } from './steps'
+import { Column } from './schema'
+import { Expression } from './models'
 
 export class SelectItemInfo {
   public set builderOption(option: BuilderOption) {
@@ -11,6 +13,15 @@ export class SelectItemInfo {
     private readonly alias?: string,
     private option?: BuilderOption,
   ) {}
+
+  public getColumns(): Column[] {
+    if (this.selectItem instanceof Column) {
+      return [this.selectItem]
+    } else if (this.selectItem instanceof Expression) {
+      return this.selectItem.getColumns()
+    }
+    return []
+  }
 
   public toString(): string {
     if (this.alias !== undefined) {

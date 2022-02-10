@@ -1,5 +1,6 @@
 export class Asterisk {
   private static instance: Asterisk
+  private static readonly unique: unique symbol = Symbol()
 
   private constructor() {}
 

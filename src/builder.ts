@@ -13,12 +13,13 @@ import {
   RootStep,
 } from './steps'
 import { OrderByItemInfo } from './orderBy'
+import { SelectItemInfo } from './select'
 
 export type BuilderData = {
   dbSchema: Database,
   //TODO: make table array ot another kind of collection object when we add leftOperand inner join step
   table?: Table,
-  selectItems: SelectItem[],
+  selectItemInfos: SelectItemInfo[],
   distinct: ''|' DISTINCT'|' ALL'
   whereParts: (LogicalOperator|Condition|Parenthesis)[],
   orderByItemInfos: OrderByItemInfo[],
@@ -46,7 +47,7 @@ export class Builder {
     this.data = {
       dbSchema: database,
       table: undefined,
-      selectItems: [],
+      selectItemInfos: [],
       distinct: '',
       whereParts: [],
       orderByItemInfos: [],
@@ -57,24 +58,30 @@ export class Builder {
   }
 
   public select(distinct: Distinct|All, ...items: (SelectItem|PrimitiveType)[]): SelectStep
-  public select(...items: (SelectItem|PrimitiveType)[]): SelectStep
-  public select(...items: (Distinct|All|SelectItem|PrimitiveType)[]): SelectStep {
+  public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
+  public select(...items: (Distinct|All|SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
     if (items.length === 0) throw new Error('Select step must have at least one parameter')
     if (items[0] instanceof Distinct) {
       if (items.length === 1) throw new Error('Select step must have at least one parameter after DISTINCT')
       this.rootStep.cleanUp()
       items.shift() //remove first item the DISTINCT item
-      return this.rootStep.selectDistinct(...items)
+      //TODO: throw error if items contain another DISTINCT or ALL
+      const newItems = items as unknown[] as (SelectItemInfo|SelectItem|PrimitiveType)[]
+      return this.rootStep.selectDistinct(...newItems)
     }
 
     if (items[0] instanceof All) {
       this.rootStep.cleanUp()
       items.shift() //remove first item the ALL item
-      return this.rootStep.selectAll(...items)
+      //TODO: throw error if items contain another ALL or DISTINCT
+      const newItems = items as unknown[] as (SelectItemInfo|SelectItem|PrimitiveType)[]
+      return this.rootStep.selectAll(...newItems)
     }
 
     this.rootStep.cleanUp()
-    return this.rootStep.select(...items)
+    //TODO: throw error if items contain any ALL or DISTINCT
+    const newItems = items as unknown[] as (SelectItemInfo|SelectItem|PrimitiveType)[]
+    return this.rootStep.select(...newItems)
   }
 
   public selectDistinct(...items: (SelectItem|PrimitiveType)[]): SelectStep {

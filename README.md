@@ -46,7 +46,7 @@ console.log(bindObj)
 - Table & column name always has double quote around their names
 - Column can have an alias
 ```typescript
-sql.select(name, age.as('Employee Age')) .from(Employee).getSQL()
+sql.select(name, age.as('Employee Age')).from(Employee).getSQL()
 // SELECT "name", "age" AS "Employee Age" FROM "Employee";
 ```
 - New Builder Option
@@ -54,6 +54,11 @@ sql.select(name, age.as('Employee Age')) .from(Employee).getSQL()
 {
   addAsBeforeColumnAlias: 'always'|'never'
 }
+```
+- OrderBy Expression
+```typescript
+sql.selectAsteriskFrom(Employee).orderBy(e(age, ADD, salary)).getSQL()
+// SELECT * FROM "Employee" ORDER BY ("age" + "salary");
 ```
 
 ### Version: 0.6.0

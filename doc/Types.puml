@@ -37,6 +37,7 @@ mindmapDiagram {
 
 * OrderByItem <<type>>
 ** Column <<class>>
+** Expression <<class>>
 ** string <<primitive>>
 
 * OperandType <<type>>

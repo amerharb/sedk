@@ -1,10 +1,10 @@
 import {
-  Builder,
-  BooleanColumn,
   Database,
-  NumberColumn,
   Table,
+  BooleanColumn,
+  NumberColumn,
   TextColumn,
+  Builder,
   ArithmeticOperator,
   e,
 } from '../src'
@@ -33,6 +33,15 @@ describe('test orderBy Step', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT * FROM "testTable" ORDER BY "col1", "col2";')
+  })
+
+  it('Produces [SELECT * FROM "testTable" ORDER BY ("col4" + "col5");]', () => {
+    const actual = sql
+      .selectAsteriskFrom(table)
+      .orderBy(e(column4, ArithmeticOperator.ADD, column5))
+      .getSQL()
+
+    expect(actual).toEqual('SELECT * FROM "testTable" ORDER BY ("col4" + "col5");')
   })
 
   it('Produces [SELECT ("col4" + "col5") AS "Col:4+5" FROM "testTable" ORDER BY "Col:4+5";]', () => {

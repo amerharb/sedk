@@ -7,6 +7,7 @@
 - Column has as() function can be used to export SelectItemInfo
 - Expression also has as() function
 - Add new option `addAsBeforeColumnAlias?: 'always'|'never'`
+- OrderBy Expression
 ### Fixed
 - ASTERISK, DISTINCT & ALL uses Symbol for better identification
 - BuilderOption refactored by moving it to a new separate file

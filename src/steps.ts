@@ -11,7 +11,7 @@ export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
 
 export type SelectItem = ColumnLike|Asterisk
-export type OrderByItem = Column|string
+export type OrderByItem = Column|Expression|string
 
 export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, OrStep, OrderByStep {
   constructor(protected data: BuilderData) {}
@@ -75,6 +75,12 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
         it.builderOption = this.data.option
         this.data.orderByItemInfos.push(it)
       } else if (it instanceof Column) {
+        this.data.orderByItemInfos.push(new OrderByItemInfo(
+          it,
+          OrderByDirection.NOT_EXIST,
+          OrderByNullsPosition.NOT_EXIST,
+          this.data.option))
+      } else if (it instanceof Expression) {
         this.data.orderByItemInfos.push(new OrderByItemInfo(
           it,
           OrderByDirection.NOT_EXIST,

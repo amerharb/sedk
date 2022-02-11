@@ -45,6 +45,24 @@ describe('test orderBy Step', () => {
     expect(actual).toEqual('SELECT * FROM "testTable" ORDER BY "col1" DESC NULLS FIRST;')
   })
 
+  it('Produces [SELECT * FROM "testTable" ORDER BY col1 ASC;]', () => {
+    const actual = sql
+      .selectAsteriskFrom(table)
+      .orderBy(o(column1, OrderByDirection.DESC, OrderByNullsPosition.NULLS_FIRST))
+      .getSQL()
+
+    expect(actual).toEqual('SELECT * FROM "testTable" ORDER BY "col1" DESC NULLS FIRST;')
+  })
+
+  it('Produces [SELECT * FROM "testTable" ORDER BY ("col4" + "col5") DESC;]', () => {
+    const actual = sql
+      .selectAsteriskFrom(table)
+      .orderBy(o(e(column4, ArithmeticOperator.ADD, column5), OrderByDirection.DESC))
+      .getSQL()
+
+    expect(actual).toEqual('SELECT * FROM "testTable" ORDER BY ("col4" + "col5") DESC;')
+  })
+
   it('Produces [SELECT ("col4" + "col5") AS "Col:4+5" FROM "testTable" ORDER BY "Col:4+5";]', () => {
     const actual = sql
       .select(e(column4, ArithmeticOperator.ADD, column5).as('Col:4+5'))

@@ -1,13 +1,14 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.7.0]  2022-02-11
+## [0.7.0]  2022-02-12
 ### Added
 - Add SelectItemInfo that contain info about the SelectItem and the alias that it use
 - Column has as() function can be used to export SelectItemInfo
 - Expression also has as() function
 - Add new option `addAsBeforeColumnAlias?: 'always'|'never'`
 - OrderBy Expression
+- OrderBy helper function o() to create OrderByItemInfo class
 ### Fixed
 - ASTERISK, DISTINCT & ALL uses Symbol for better identification
 - BuilderOption refactored by moving it to a new separate file

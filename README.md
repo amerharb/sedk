@@ -60,6 +60,11 @@ sql.select(name, age.as('Employee Age')).from(Employee).getSQL()
 sql.selectAsteriskFrom(Employee).orderBy(e(age, ADD, salary)).getSQL()
 // SELECT * FROM "Employee" ORDER BY ("age" + "salary");
 ```
+- OrderBy using helper function o()
+```typescript
+sql.selectAsteriskFrom(Employee).orderBy(o(age, DESC, NULLS_FIRST)).getSQL()
+// SELECT * FROM "Employee" ORDER BY "age" DESC NULLS_FIRST;
+```
 
 ### Version: 0.6.0
 - OrderBy now support ASC, DESC, NULLS FIRST and NULLS LAST

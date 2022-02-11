@@ -98,8 +98,8 @@ export class Operand {
       return `$${this.value.no}`
     } else if (typeof this.value === 'string') {
       // escape single quote by repeating it
-      const result = this.value.replace(/'/g, '\'\'')
-      return `'${result}'`
+      const escapedValue = this.value.replace(/'/g, '\'\'')
+      return `'${escapedValue}'`
     } else if (typeof this.value === 'boolean') {
       return `${this.isNot ? 'NOT ' : ''}${this.value ? 'TRUE' : 'FALSE'}`
     } else {

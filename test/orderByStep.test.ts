@@ -1,13 +1,5 @@
-import {
-  Database,
-  Table,
-  BooleanColumn,
-  NumberColumn,
-  TextColumn,
-  Builder,
-  ArithmeticOperator,
-  e,
-} from '../src'
+import { ArithmeticOperator, BooleanColumn, Builder, Database, e, NumberColumn, o, Table, TextColumn } from '../src'
+import { OrderByDirection, OrderByNullsPosition } from '../src/orderBy'
 
 describe('test orderBy Step', () => {
   // database schema
@@ -42,6 +34,15 @@ describe('test orderBy Step', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT * FROM "testTable" ORDER BY ("col4" + "col5");')
+  })
+
+  it('Produces [SELECT * FROM "testTable" ORDER BY col1 DESC NULLS FIRST;]', () => {
+    const actual = sql
+      .selectAsteriskFrom(table)
+      .orderBy(o(column1, OrderByDirection.DESC, OrderByNullsPosition.NULLS_FIRST))
+      .getSQL()
+
+    expect(actual).toEqual('SELECT * FROM "testTable" ORDER BY "col1" DESC NULLS FIRST;')
   })
 
   it('Produces [SELECT ("col4" + "col5") AS "Col:4+5" FROM "testTable" ORDER BY "Col:4+5";]', () => {

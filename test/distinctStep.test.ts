@@ -18,40 +18,40 @@ describe('test orderBy Step', () => {
   const db = new Database([table], 1)
   const sql = new Builder(db)
 
-  it('Produces [SELECT DISTINCT col1, col2 FROM testTable;]', () => {
+  it('Produces [SELECT DISTINCT "col1", "col2" FROM testTable;]', () => {
     const actual = sql
       .selectDistinct(column1, column2)
       .from(table)
       .getSQL()
 
-    expect(actual).toEqual('SELECT DISTINCT col1, col2 FROM testTable;')
+    expect(actual).toEqual('SELECT DISTINCT "col1", "col2" FROM testTable;')
   })
 
-  it('Produces [SELECT ALL col1, col2 FROM testTable;]', () => {
+  it('Produces [SELECT ALL "col1", "col2" FROM testTable;]', () => {
     const actual = sql
       .selectAll(column1, column2)
       .from(table)
       .getSQL()
 
-    expect(actual).toEqual('SELECT ALL col1, col2 FROM testTable;')
+    expect(actual).toEqual('SELECT ALL "col1", "col2" FROM testTable;')
   })
 
-  it('Produces [SELECT DISTINCT col1, col2 FROM testTable;] using select first param', () => {
+  it('Produces [SELECT DISTINCT "col1", "col2" FROM testTable;] using select first param', () => {
     const actual = sql
       .select(DISTINCT, column1, column2)
       .from(table)
       .getSQL()
 
-    expect(actual).toEqual('SELECT DISTINCT col1, col2 FROM testTable;')
+    expect(actual).toEqual('SELECT DISTINCT "col1", "col2" FROM testTable;')
   })
 
-  it('Produces [SELECT ALL col1, col2 FROM testTable;] using select first param', () => {
+  it('Produces [SELECT ALL "col1", "col2" FROM testTable;] using select first param', () => {
     const actual = sql
       .select(ALL, column1, column2)
       .from(table)
       .getSQL()
 
-    expect(actual).toEqual('SELECT ALL col1, col2 FROM testTable;')
+    expect(actual).toEqual('SELECT ALL "col1", "col2" FROM testTable;')
   })
 
   it('Produces [SELECT ALL FROM testTable;] only ALL is valid (as param)', () => {

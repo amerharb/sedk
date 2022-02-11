@@ -2,6 +2,7 @@ import { BuilderOption } from './option'
 import { SelectItem } from './steps'
 import { Column } from './schema'
 import { Expression } from './models'
+import { escapeDoubleQuote } from './util'
 
 export class SelectItemInfo {
   public set builderOption(option: BuilderOption) {
@@ -26,7 +27,7 @@ export class SelectItemInfo {
   public toString(): string {
     if (this.alias !== undefined) {
       // escape double quote by repeating it
-      const escapedAlias = this.alias.replace(/"/g, '""')
+      const escapedAlias = escapeDoubleQuote(this.alias)
       const asString = (this.option?.addAsBeforeColumnAlias === 'always')
         ? ' AS' : ''
       return `${this.selectItem}${asString} "${escapedAlias}"`

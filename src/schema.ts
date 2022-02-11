@@ -20,6 +20,7 @@ import {
   OrderByNullsPosition,
 } from './orderBy'
 import { SelectItemInfo } from './select'
+import { escapeDoubleQuote } from './util'
 
 export class Database {
   private readonly version?: number
@@ -126,7 +127,7 @@ export abstract class Column {
   }
 
   public toString() {
-    return this.columnName
+    return `"${escapeDoubleQuote(this.columnName)}"`
   }
 }
 

@@ -20,7 +20,7 @@ export const ASTERISK = Asterisk.getInstance()
 
 export class Distinct {
   private static instance: Distinct
-  // private unique = Symbol()
+  private static readonly unique: unique symbol = Symbol()
 
   private constructor() {}
 
@@ -40,7 +40,7 @@ export const DISTINCT = Distinct.getInstance()
 
 export class All {
   private static instance: All
-  //  private unique = Symbol()
+  private static readonly unique: unique symbol = Symbol()
 
   private constructor() {}
 

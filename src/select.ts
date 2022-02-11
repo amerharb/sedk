@@ -27,7 +27,9 @@ export class SelectItemInfo {
     if (this.alias !== undefined) {
       // escape double quote by repeating it
       const escapedAlias = this.alias.replace(/"/g, '""')
-      return `${this.selectItem} AS "${escapedAlias}"`
+      const asString = (this.option?.addAsBeforeColumnAlias === 'always')
+        ? ' AS' : ''
+      return `${this.selectItem}${asString} "${escapedAlias}"`
     }
     return `${this.selectItem}`
   }

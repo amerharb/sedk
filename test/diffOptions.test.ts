@@ -192,4 +192,36 @@ describe('test Options', () => {
       expect(actual).toEqual('SELECT col1 FROM testTable ORDER BY col1 NULLS LAST;')
     })
   })
+
+  describe('test OrderBy NULLS LAST Option', () => {
+    const sqlAlways = new Builder(db, { addAsBeforeColumnAlias: 'always' })
+    const sqlNever = new Builder(db, { addAsBeforeColumnAlias: 'never' })
+    const sqlDefault = new Builder(db)
+    it('Produces [SELECT col1 AS "C1" FROM testTable;] option(always)', () => {
+      const actual = sqlAlways
+        .select(column1.as('C1'))
+        .from(table)
+        .getSQL()
+
+      expect(actual).toEqual('SELECT col1 AS "C1" FROM testTable;')
+    })
+
+    it('Produces [SELECT col1 FROM testTable;] option(never)', () => {
+      const actual = sqlNever
+        .select(column1.as('C1'))
+        .from(table)
+        .getSQL()
+
+      expect(actual).toEqual('SELECT col1 "C1" FROM testTable;')
+    })
+
+    it('Produces [SELECT col1 AS "C1" FROM testTable;] option(default)', () => {
+      const actual = sqlDefault
+        .select(column1.as('C1'))
+        .from(table)
+        .getSQL()
+
+      expect(actual).toEqual('SELECT col1 AS "C1" FROM testTable;')
+    })
+  })
 })

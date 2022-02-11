@@ -66,7 +66,7 @@ export class Table {
   }
 
   public toString() {
-    return this.tableName
+    return `"${escapeDoubleQuote(this.tableName)}"`
   }
 }
 

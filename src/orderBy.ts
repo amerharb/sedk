@@ -20,33 +20,33 @@ export class OrderByItemInfo {
   }
 
   private getDirectionFromOption(): OrderByDirection {
+    if (this.direction === OrderByDirection.DESC)
+      return OrderByDirection.DESC
+
     if (this.option !== undefined) {
       switch (this.option.addAscAfterOrderByItem) {
       case 'always':
         return OrderByDirection.ASC
       case 'never':
         return OrderByDirection.NOT_EXIST
-      default:
-        return this.direction
       }
-    } else {
-      return this.direction
     }
+    return this.direction
   }
 
   private getNullLastFromOption(): OrderByNullsPosition {
+    if (this.nullPosition === OrderByNullsPosition.NULLS_FIRST)
+      return OrderByNullsPosition.NULLS_FIRST
+
     if (this.option !== undefined) {
       switch (this.option.addNullsLastAfterOrderByItem) {
       case 'always':
         return OrderByNullsPosition.NULLS_LAST
       case 'never':
         return OrderByNullsPosition.NOT_EXIST
-      default:
-        return this.nullPosition
       }
-    } else {
-      return this.nullPosition
     }
+    return this.nullPosition
   }
 }
 

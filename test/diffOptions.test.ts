@@ -2,10 +2,11 @@ import { Builder, Database, Table, TextColumn } from '../src'
 
 describe('test Options', () => {
   const column1 = new TextColumn('col1')
+  const column2 = new TextColumn('col2')
 
   const table = new Table(
     'testTable',
-    [column1],
+    [column1, column2],
   )
   const db = new Database([table], 1)
 
@@ -64,6 +65,16 @@ describe('test Options', () => {
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
+    })
+
+    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1", "col2" DESC;] option(never)', () => {
+      const actual = sqlNever
+        .select(column1)
+        .from(table)
+        .orderBy(column1, column2.desc)
+        .getSQL()
+
+      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1", "col2" DESC;')
     })
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(never) even asc mentioned', () => {
@@ -140,6 +151,16 @@ describe('test Options', () => {
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
+    })
+
+    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" NULLS FIRST ;] option(never)', () => {
+      const actual = sqlNever
+        .select(column1)
+        .from(table)
+        .orderBy(column1.nullsFirst)
+        .getSQL()
+
+      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1" NULLS FIRST;')
     })
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(never) even nulls last mentioned', () => {

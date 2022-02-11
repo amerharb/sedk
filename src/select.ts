@@ -1,4 +1,4 @@
-import { BuilderOption } from './builder'
+import { BuilderOption } from './option'
 import { SelectItem } from './steps'
 import { Column } from './schema'
 import { Expression } from './models'

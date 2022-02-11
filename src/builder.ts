@@ -14,6 +14,7 @@ import {
 } from './steps'
 import { OrderByItemInfo } from './orderBy'
 import { SelectItemInfo } from './select'
+import { BuilderOption, fillUndefinedOptionsWithDefault } from './option'
 
 export type BuilderData = {
   dbSchema: Database,
@@ -27,21 +28,9 @@ export type BuilderData = {
   option: BuilderOption,
 }
 
-export type BuilderOption = {
-  useSemicolonAtTheEnd?: boolean
-  addAscAfterOrderByItem?: 'always'|'never'|'when mentioned'
-  addNullsLastAfterOrderByItem?: 'always'|'never'|'when mentioned'
-}
-
 export class Builder {
   private readonly data: BuilderData
   private rootStep: RootStep
-
-  private static readonly defaultOption: BuilderOption = {
-    useSemicolonAtTheEnd: true,
-    addAscAfterOrderByItem: 'when mentioned',
-    addNullsLastAfterOrderByItem: 'when mentioned',
-  }
 
   constructor(database: Database, option?: BuilderOption) {
     this.data = {
@@ -52,7 +41,7 @@ export class Builder {
       whereParts: [],
       orderByItemInfos: [],
       binderStore: BinderStore.getInstance(),
-      option: Builder.fillUndefinedOptionsWithDefault(option),
+      option: fillUndefinedOptionsWithDefault(option ?? {}),
     }
     this.rootStep = new Step(this.data)
   }
@@ -100,13 +89,5 @@ export class Builder {
     //Note: the cleanup needed as there is only one "select" step in the chain that we start with
     this.rootStep.cleanUp()
     return this.rootStep.select(ASTERISK).from(table)
-  }
-
-  private static fillUndefinedOptionsWithDefault(option?: BuilderOption): BuilderOption {
-    const result: BuilderOption = {}
-    result.useSemicolonAtTheEnd = option?.useSemicolonAtTheEnd ?? this.defaultOption.useSemicolonAtTheEnd
-    result.addAscAfterOrderByItem = option?.addAscAfterOrderByItem ?? this.defaultOption.addAscAfterOrderByItem
-    result.addNullsLastAfterOrderByItem = option?.addNullsLastAfterOrderByItem ?? this.defaultOption.addNullsLastAfterOrderByItem
-    return result
   }
 }

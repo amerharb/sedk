@@ -1,4 +1,4 @@
-import { BuilderOption } from './builder'
+import { BuilderOption } from './option'
 import { OrderByItem } from './steps'
 
 export class OrderByItemInfo {

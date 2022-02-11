@@ -25,7 +25,9 @@ export class SelectItemInfo {
 
   public toString(): string {
     if (this.alias !== undefined) {
-      return `${this.selectItem} AS ${this.alias}`
+      // escape double quote by repeating it
+      const escapedAlias = this.alias.replace(/"/g, '""')
+      return `${this.selectItem} AS "${escapedAlias}"`
     }
     return `${this.selectItem}`
   }

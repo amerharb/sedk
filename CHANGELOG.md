@@ -1,8 +1,18 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.7.0]  2022-02-11
+### Added
+- Add SelectItemInfo that contain info about the SelectItem and the alias that it use
+- Column has as() function can be used to export SelectItemInfo
+- Expression also has as() function
+- Add new option `addAsBeforeColumnAlias?: 'always'|'never'`
+### Fixed
+- ASTERISK, DISTINCT & ALL uses Symbol for better identification
+- BuilderOption refactored by moving it to a new separate file
+
 ## [0.6.1]  2022-01-31
-### fixed
+### Fixed
 - export DISTINCT & ALL 
 
 ## [0.6.0]  2022-01-30

@@ -5,12 +5,13 @@ import { BuilderData } from './builder'
 import { Asterisk } from './singletoneConstants'
 import { OrderByItemInfo, OrderByDirection, OrderByNullsPosition } from './orderBy'
 import { SelectItemInfo } from './select'
+import { escapeDoubleQuote } from './util'
 
 export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
 
 export type SelectItem = ColumnLike|Asterisk
-export type OrderByItem = Column
+export type OrderByItem = Column|string
 
 export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, OrStep, OrderByStep {
   constructor(protected data: BuilderData) {}
@@ -67,18 +68,30 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
     return this
   }
 
-  orderBy(...orderByItems: (Column|OrderByItemInfo)[]): OrderByStep {
+  orderBy(...orderByItems: (OrderByItem|OrderByItemInfo)[]): OrderByStep {
     if (orderByItems.length === 0) return this //TODO: throw error as order by should have at lease one item
     orderByItems.forEach(it => {
       if (it instanceof OrderByItemInfo) {
         it.builderOption = this.data.option
         this.data.orderByItemInfos.push(it)
-      } else { // it is Column
+      } else if (it instanceof Column) {
         this.data.orderByItemInfos.push(new OrderByItemInfo(
           it,
           OrderByDirection.NOT_EXIST,
           OrderByNullsPosition.NOT_EXIST,
           this.data.option))
+      } else { //it is a string
+        //look for the alias
+        if (this.data.selectItemInfos.find(info => info.alias === it)) {
+          this.data.orderByItemInfos.push(new OrderByItemInfo(
+            `"${escapeDoubleQuote(it)}"`,
+            OrderByDirection.NOT_EXIST,
+            OrderByNullsPosition.NOT_EXIST,
+            this.data.option))
+        } else {
+          throw new Error(`Alias ${it} is not exist, if this is a column, then it should be entered as Column class`)
+        }
+
       }
     })
     return this
@@ -216,11 +229,10 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
   }
 }
 
+//@formatter:off
 interface BaseStep {
   getSQL(): string
-
   getPostgresqlBinding(): PostgresBinder
-
   cleanUp(): void
 }
 
@@ -239,7 +251,7 @@ export interface FromStep extends BaseStep {
   where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
   where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
 
-  orderBy(...orderByItems: (Column|OrderByItemInfo)[]): OrderByStep
+  orderBy(...orderByItems: (OrderByItem|OrderByItemInfo)[]): OrderByStep
 }
 
 interface WhereStep extends BaseStep {
@@ -251,7 +263,7 @@ interface WhereStep extends BaseStep {
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 
-  orderBy(...orderByItems: (Column|OrderByItemInfo)[]): OrderByStep
+  orderBy(...orderByItems: (OrderByItem|OrderByItemInfo)[]): OrderByStep
 }
 
 interface AndStep extends BaseStep {
@@ -263,7 +275,7 @@ interface AndStep extends BaseStep {
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 
-  orderBy(...orderByItems: (Column|OrderByItemInfo)[]): OrderByStep
+  orderBy(...orderByItems: (OrderByItem|OrderByItemInfo)[]): OrderByStep
 }
 
 interface OrStep extends BaseStep {
@@ -275,12 +287,13 @@ interface OrStep extends BaseStep {
   and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
 
-  orderBy(...orderByItems: (Column|OrderByItemInfo)[]): OrderByStep
+  orderBy(...orderByItems: (OrderByItem|OrderByItemInfo)[]): OrderByStep
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface OrderByStep extends BaseStep {
 }
+//@formatter:on
 
 export enum LogicalOperator {
   AND = 'AND',

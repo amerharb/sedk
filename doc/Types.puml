@@ -35,6 +35,10 @@ mindmapDiagram {
 *** Expression <<class>>
 ** Asterisk <<class>>
 
+* OrderByItem <<type>>
+** Column <<class>>
+** string <<primitive>>
+
 * OperandType <<type>>
 ** Expression <<class>>
 ** ValueType <<type>>

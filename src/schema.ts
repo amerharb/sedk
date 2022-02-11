@@ -61,6 +61,15 @@ export class Table {
     this.columns = columns
   }
 
+  public getColumn(columnName: string): Column|null {
+    for (const col of this.columns) {
+      if (col.columnName === columnName) {
+        return col
+      }
+    }
+    return null
+  }
+
   public getColumns() {
     return this.columns
   }
@@ -74,7 +83,7 @@ export abstract class Column {
   protected readonly binderStore = BinderStore.getInstance()
   private mTable?: Table
 
-  protected constructor(protected readonly columnName: string) {}
+  protected constructor(public readonly columnName: string) {}
 
   public set table(table: Table) {
     if (this.mTable === undefined)

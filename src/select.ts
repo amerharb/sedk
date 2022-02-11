@@ -11,7 +11,7 @@ export class SelectItemInfo {
 
   constructor(
     private readonly selectItem: SelectItem,
-    private readonly alias?: string,
+    public readonly alias?: string,
     private option?: BuilderOption,
   ) {}
 

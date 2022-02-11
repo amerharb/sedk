@@ -5,8 +5,9 @@ import {
   NumberColumn,
   Table,
   TextColumn,
+  ArithmeticOperator,
+  e,
 } from '../src'
-
 
 describe('test orderBy Step', () => {
   // database schema
@@ -32,6 +33,28 @@ describe('test orderBy Step', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT * FROM "testTable" ORDER BY "col1", "col2";')
+  })
+
+  it('Produces [SELECT ("col4" + "col5") AS "Col:4+5" FROM "testTable" ORDER BY "Col:4+5";]', () => {
+    const actual = sql
+      .select(e(column4, ArithmeticOperator.ADD, column5).as('Col:4+5'))
+      .from(table)
+      .orderBy('Col:4+5')
+      .getSQL()
+
+    expect(actual).toEqual('SELECT ("col4" + "col5") AS "Col:4+5" FROM "testTable" ORDER BY "Col:4+5";')
+  })
+
+  it('Throws error when ORDER BY alias not exist', () => {
+    function actual() {
+      sql
+        .select(column1.as('A'))
+        .from(table)
+        .orderBy('B')
+        .getSQL()
+    }
+
+    expect(actual).toThrowError('Alias B is not exist, if this is a column, then it should be entered as Column class')
   })
 
   it('Produces [SELECT * FROM "testTable" ORDER BY "col1" ASC, "col2" DESC;]', () => {

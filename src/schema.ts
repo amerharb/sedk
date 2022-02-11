@@ -61,7 +61,7 @@ export class Table {
     this.columns = columns
   }
 
-  public getColumn() {
+  public getColumns() {
     return this.columns
   }
 

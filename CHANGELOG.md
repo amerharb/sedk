@@ -12,6 +12,7 @@
 - BuilderOption refactored by moving it to a new separate file
 - Column name always produced with double quote around them
 - Table name always produced with double quote around them
+- fix typo in Table class rename getColumn() to getColumns()
 
 ## [0.6.1]  2022-01-31
 ### Fixed

@@ -186,7 +186,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
       COL:
       //TODO: filter only the table in the current query
       for (const table of this.data.dbSchema.getTables()) {
-        for (const col of table.getColumn()) {
+        for (const col of table.getColumns()) {
           if (item === col) {
             found = true
             break COL

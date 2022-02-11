@@ -10,7 +10,7 @@ export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
 
 export type SelectItem = ColumnLike|Asterisk
-export type OrderByItem = Column|SelectItemInfo
+export type OrderByItem = Column
 
 export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, OrStep, OrderByStep {
   constructor(protected data: BuilderData) {}

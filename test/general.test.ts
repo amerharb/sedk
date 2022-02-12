@@ -45,6 +45,16 @@ describe('test from one table', () => {
   const db = new Database([table], 1)
   const sql = new Builder(db)
 
+  /* In Postgres it is ok to have FROM directly after SELECT */
+  it('Produces [SELECT FROM "testTable";]', () => {
+    const actual = sql
+      .select()
+      .from(table)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT FROM "testTable";')
+  })
+
   it('Produces [SELECT "col1" FROM "testTable";]', () => {
     const actual = sql
       .select(column1)

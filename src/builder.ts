@@ -49,9 +49,8 @@ export class Builder {
   public select(distinct: Distinct|All, ...items: (SelectItem|PrimitiveType)[]): SelectStep
   public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
   public select(...items: (Distinct|All|SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-    if (items.length === 0) throw new Error('Select step must have at least one parameter')
     if (items[0] instanceof Distinct) {
-      if (items.length === 1) throw new Error('Select step must have at least one parameter after DISTINCT')
+      if (items.length <= 1) throw new Error('Select step must have at least one parameter after DISTINCT')
       this.rootStep.cleanUp()
       items.shift() //remove first item the DISTINCT item
       //TODO: throw error if items contain another DISTINCT or ALL

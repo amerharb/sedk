@@ -18,6 +18,18 @@ describe('test orderBy Step', () => {
   const db = new Database([table], 1)
   const sql = new Builder(db)
 
+  /* In Postgres it is allowed to have FROM directly
+   after SELECT with or without ALL
+   */
+  it('Produces [SELECT ALL FROM "testTable";]', () => {
+    const actual = sql
+      .selectAll()
+      .from(table)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT ALL FROM "testTable";')
+  })
+
   it('Produces [SELECT DISTINCT "col1", "col2" FROM "testTable";]', () => {
     const actual = sql
       .selectDistinct(column1, column2)
@@ -70,21 +82,5 @@ describe('test orderBy Step', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT ALL FROM "testTable";')
-  })
-
-  it('Throws error when param to select passed', () => {
-    function actual() {
-      sql.select().from(table)
-    }
-
-    expect(actual).toThrowError(/^Select step must have at least one parameter$/)
-  })
-
-  it('Throws error when no param to select passed after DISTINCT', () => {
-    function actual() {
-      sql.select(DISTINCT).from(table)
-    }
-
-    expect(actual).toThrow(/^Select step must have at least one parameter after DISTINCT$/)
   })
 })

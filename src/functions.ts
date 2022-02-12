@@ -9,6 +9,8 @@ import {
   ComparisonOperator,
   Operator,
 } from './operators'
+import { OrderByDirection, OrderByItemInfo, OrderByNullsPosition } from './orderBy'
+import { OrderByItem } from './steps'
 
 export function e(left: OperandType): Expression
 export function e(left: BooleanLike, operator: ComparisonOperator, right: BooleanLike|TextBoolean): Condition
@@ -20,4 +22,8 @@ export function e(left: OperandType, operator?: Operator, right?: OperandType): 
     return new Expression(left, operator, right)
   else
     return new Expression(left)
+}
+
+export function o(alias: OrderByItem, direction?: OrderByDirection, nullsPosition?: OrderByNullsPosition): OrderByItemInfo {
+  return new OrderByItemInfo(alias, direction, nullsPosition)
 }

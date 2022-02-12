@@ -1,7 +1,7 @@
 import { InvalidExpressionError } from './errors'
 import { Binder } from './binder'
 import { PrimitiveType } from './steps'
-import { BooleanColumn, NumberColumn, TextColumn } from './schema'
+import { Column, BooleanColumn, NumberColumn, TextColumn } from './schema'
 import {
   NullOperator,
   ComparisonOperator,
@@ -10,6 +10,7 @@ import {
   Operator,
   Qualifier,
 } from './operators'
+import { SelectItemInfo } from './select'
 
 export class Condition implements Expression {
   public readonly leftExpression: Expression
@@ -38,6 +39,19 @@ export class Condition implements Expression {
       return `${this.leftOperand} ${this.operator} ${this.rightOperand}`
     else
       return this.leftOperand.toString()
+  }
+
+  public as(alias: string): SelectItemInfo {
+    return new SelectItemInfo(this, alias)
+  }
+
+  public getColumns(): Column[] {
+    const columns: Column[] = []
+    columns.push(...this.leftExpression.getColumns())
+    if (this.rightExpression !== undefined)
+      columns.push(...this.rightExpression.getColumns())
+
+    return columns
   }
 }
 
@@ -84,8 +98,8 @@ export class Operand {
       return `$${this.value.no}`
     } else if (typeof this.value === 'string') {
       // escape single quote by repeating it
-      const result = this.value.replace(/'/g, "''")
-      return `'${result}'`
+      const escapedValue = this.value.replace(/'/g, '\'\'')
+      return `'${escapedValue}'`
     } else if (typeof this.value === 'boolean') {
       return `${this.isNot ? 'NOT ' : ''}${this.value ? 'TRUE' : 'FALSE'}`
     } else {
@@ -163,6 +177,28 @@ export class Expression {
       return `(${this.leftOperand} ${this.operator.toString()} ${this.rightOperand})`
     }
     return this.leftOperand.toString()
+  }
+
+  public as(alias: string): SelectItemInfo {
+    return new SelectItemInfo(this, alias)
+  }
+
+  public getColumns(): Column[] {
+    const columns: Column[] = []
+
+    const left = this.leftOperand.value
+    if (left instanceof Column)
+      columns.push(left)
+    else if (left instanceof Expression)
+      columns.push(...left.getColumns())
+
+    const right = this.rightOperand?.value
+    if (right instanceof Column)
+      columns.push(right)
+    else if (right instanceof Expression)
+      columns.push(...right.getColumns())
+
+    return columns
   }
 
   private static getResultExpressionType(left: Operand, operator: Operator, right: Operand): ExpressionType {

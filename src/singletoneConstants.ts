@@ -1,5 +1,6 @@
 export class Asterisk {
   private static instance: Asterisk
+  private readonly unique: symbol = Symbol()
 
   private constructor() {}
 
@@ -19,6 +20,7 @@ export const ASTERISK = Asterisk.getInstance()
 
 export class Distinct {
   private static instance: Distinct
+  private readonly unique: symbol = Symbol()
 
   private constructor() {}
 
@@ -38,6 +40,7 @@ export const DISTINCT = Distinct.getInstance()
 
 export class All {
   private static instance: All
+  private readonly unique: symbol = Symbol()
 
   private constructor() {}
 

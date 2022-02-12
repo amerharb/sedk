@@ -26,6 +26,7 @@ module.exports = {
         'no-empty-function': ['error', { 'allow': ['constructors'] }],
         'no-explicit-any': ['off'],
         'no-console': 'warn',
+        'no-unused-private-class-members': ['off'],
       },
     },
   ],

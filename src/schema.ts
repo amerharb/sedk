@@ -18,7 +18,9 @@ import {
   OrderByDirection,
   OrderByItemInfo,
   OrderByNullsPosition,
-} from './steps'
+} from './orderBy'
+import { SelectItemInfo } from './select'
+import { escapeDoubleQuote } from './util'
 
 export class Database {
   private readonly version?: number
@@ -59,12 +61,21 @@ export class Table {
     this.columns = columns
   }
 
-  public getColumn() {
+  public getColumn(columnName: string): Column|null {
+    for (const col of this.columns) {
+      if (col.columnName === columnName) {
+        return col
+      }
+    }
+    return null
+  }
+
+  public getColumns() {
     return this.columns
   }
 
   public toString() {
-    return this.tableName
+    return `"${escapeDoubleQuote(this.tableName)}"`
   }
 }
 
@@ -72,7 +83,7 @@ export abstract class Column {
   protected readonly binderStore = BinderStore.getInstance()
   private mTable?: Table
 
-  protected constructor(protected readonly columnName: string) {}
+  protected constructor(public readonly columnName: string) {}
 
   public set table(table: Table) {
     if (this.mTable === undefined)
@@ -86,6 +97,10 @@ export abstract class Column {
       throw new Error('Table was not assigned')
 
     return this.mTable
+  }
+
+  public as(alias: string): SelectItemInfo {
+    return new SelectItemInfo(this, alias)
   }
 
   public get asc(): OrderByItemInfo {
@@ -121,7 +136,7 @@ export abstract class Column {
   }
 
   public toString() {
-    return this.columnName
+    return `"${escapeDoubleQuote(this.columnName)}"`
   }
 }
 
@@ -159,6 +174,10 @@ export class BooleanColumn extends Column implements Condition {
 
   public not(): Condition {
     return new Condition(new Expression(this, true))
+  }
+
+  public getColumns(): Column[] {
+    return [this]
   }
 }
 

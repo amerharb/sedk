@@ -23,25 +23,49 @@ const sql = new sedk.Builder(schema)
 
 const stmt1 = sql.select(name, age).from(Employee).where(name.eq('John'), AND, age.gt(25)).getSQL()
 console.log(stmt1)
-// "SELECT name, age FROM Employee WHERE (name = 'John' AND age > 25);"
+// SELECT "name", "age" FROM Employee WHERE ("name" = 'John' AND "age" > 25);
 
 // also it can be written as
 const stmt2 = sql.select(name, age).from(Employee).where(name.eq('John')).and(age.gt(25)).getSQL()
 console.log(stmt2)
-// "SELECT name, age FROM Employee WHERE name = 'John' AND age > 25;"
+// SELECT "name", "age" FROM Employee WHERE "name" = 'John' AND "age" > 25;
 
 
 const bindObj = sql.select(name, age).from(Employee).where(name.eq$('John'), AND, age.gt$(25)).getPostgresqlBinding()
 console.log(bindObj)
 /*
 {
-  sql: 'SELECT name, age FROM Employee WHERE (name = $1 AND age > $2);',
+  sql: 'SELECT "name", "age" FROM Employee WHERE ("name" = $1 AND "age" > $2);',
   values: ['john', 25],
 }
 */
 ```
 
 ## What is New
+### Version: 0.7.0
+- Table & column name always has double quote around their names
+- Column can have an alias
+```typescript
+sql.select(name, age.as('Employee Age')).from(Employee).getSQL()
+// SELECT "name", "age" AS "Employee Age" FROM "Employee";
+```
+- New Builder Option
+```typescript
+{
+  addAsBeforeColumnAlias: 'always'|'never'
+}
+```
+- OrderBy Expression
+```typescript
+sql.selectAsteriskFrom(Employee).orderBy(e(age, ADD, salary)).getSQL()
+// SELECT * FROM "Employee" ORDER BY ("age" + "salary");
+```
+- OrderBy using helper function o()
+```typescript
+sql.selectAsteriskFrom(Employee).orderBy(o(age, DESC, NULLS_FIRST)).getSQL()
+// SELECT * FROM "Employee" ORDER BY "age" DESC NULLS_FIRST;
+```
+
 ### Version: 0.6.0
 - OrderBy now support ASC, DESC, NULLS FIRST and NULLS LAST
 ```typescript
@@ -60,8 +84,8 @@ sql.select(DISTINCT, name, age).from(Employee).getSQL()
 - New Builder Option
 ```typescript
 {
-  addAscAfterOrderByItem?: 'always'|'never'|'when mentioned'
-  addNullsLastAfterOrderByItem?: 'always'|'never'|'when mentioned'
+  addAscAfterOrderByItem: 'always'|'never'|'when mentioned'
+  addNullsLastAfterOrderByItem: 'always'|'never'|'when mentioned'
 }
 ```
 

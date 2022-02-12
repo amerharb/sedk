@@ -1,29 +1,36 @@
 import { Condition, Expression, PostgresBinder } from './models'
 import { Column, Table } from './schema'
 import { ColumnNotFoundError, TableNotFoundError } from './errors'
-import { BuilderData, BuilderOption } from './builder'
+import { BuilderData } from './builder'
 import { Asterisk } from './singletoneConstants'
+import { OrderByItemInfo, OrderByDirection, OrderByNullsPosition } from './orderBy'
+import { SelectItemInfo } from './select'
+import { escapeDoubleQuote } from './util'
 
 export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
 
 export type SelectItem = ColumnLike|Asterisk
-export type OrderByItem = Column //TODO: add also column aliases
+export type OrderByItem = Column|Expression|string
 
 export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, OrStep, OrderByStep {
   constructor(protected data: BuilderData) {}
 
-  public select(...items: (SelectItem|PrimitiveType)[]): SelectStep {
-    const selectItems: SelectItem[] = items.map(it => {
-      if (it instanceof Expression || it instanceof Column || it instanceof Asterisk)
+  public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
+    const selectItemInfos: SelectItemInfo[] = items.map(it => {
+      if (it instanceof SelectItemInfo) {
+        it.builderOption = this.data.option
         return it
-      else
-        return new Expression(it)
+      } else if (it instanceof Expression || it instanceof Column || it instanceof Asterisk) {
+        return new SelectItemInfo(it, undefined, this.data.option)
+      } else {
+        return new SelectItemInfo(new Expression(it), undefined, this.data.option)
+      }
     })
-    this.throwIfColumnsNotInDb(selectItems)
+    this.throwIfColumnsNotInDb(selectItemInfos)
     //Note: the cleanup needed as there is only one "select" step in the chain that we start with
     this.cleanUp()
-    this.data.selectItems.push(...selectItems)
+    this.data.selectItemInfos.push(...selectItemInfos)
     return this
   }
 
@@ -61,18 +68,36 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
     return this
   }
 
-  orderBy(...orderByItems: (Column|OrderByItemInfo)[]): OrderByStep {
+  orderBy(...orderByItems: (OrderByItem|OrderByItemInfo)[]): OrderByStep {
     if (orderByItems.length === 0) return this //TODO: throw error as order by should have at lease one item
     orderByItems.forEach(it => {
       if (it instanceof OrderByItemInfo) {
         it.builderOption = this.data.option
         this.data.orderByItemInfos.push(it)
-      } else { // it is Column
+      } else if (it instanceof Column) {
         this.data.orderByItemInfos.push(new OrderByItemInfo(
           it,
           OrderByDirection.NOT_EXIST,
           OrderByNullsPosition.NOT_EXIST,
           this.data.option))
+      } else if (it instanceof Expression) {
+        this.data.orderByItemInfos.push(new OrderByItemInfo(
+          it,
+          OrderByDirection.NOT_EXIST,
+          OrderByNullsPosition.NOT_EXIST,
+          this.data.option))
+      } else { //it is a string
+        //look for the alias
+        if (this.data.selectItemInfos.find(info => info.alias === it)) {
+          this.data.orderByItemInfos.push(new OrderByItemInfo(
+            `"${escapeDoubleQuote(it)}"`,
+            OrderByDirection.NOT_EXIST,
+            OrderByNullsPosition.NOT_EXIST,
+            this.data.option))
+        } else {
+          throw new Error(`Alias ${it} is not exist, if this is a column, then it should be entered as Column class`)
+        }
+
       }
     })
     return this
@@ -96,8 +121,8 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
   private getStatement(): string {
     let result = `SELECT${this.data.distinct}`
 
-    if (this.data.selectItems.length > 0) {
-      result += ` ${this.data.selectItems.join(', ')}`
+    if (this.data.selectItemInfos.length > 0) {
+      result += ` ${this.data.selectItemInfos.join(', ')}`
     }
 
     if (this.data.table) {
@@ -120,7 +145,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
   }
 
   public cleanUp() {
-    this.data.selectItems.length = 0
+    this.data.selectItemInfos.length = 0
     this.data.whereParts.length = 0
     this.data.orderByItemInfos.length = 0
     this.data.table = undefined
@@ -162,22 +187,26 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
       throw new TableNotFoundError(`Table: ${table} not found`)
   }
 
-  private throwIfColumnsNotInDb(columns: (ColumnLike|Asterisk)[]) {
-    for (const column of columns) {
-      if (column instanceof Asterisk) {
+  private throwIfColumnsNotInDb(columns: (SelectItemInfo|ColumnLike|Asterisk)[]) {
+    for (const item of columns) {
+      if (item instanceof Asterisk) {
         continue
-      } else if (column instanceof Expression) {
-        this.throwIfColumnsNotInDb(Step.getColumnsFromExpression(column))
+      } else if (item instanceof Expression) {
+        this.throwIfColumnsNotInDb(item.getColumns())
+        continue
+      } else if (item instanceof SelectItemInfo) {
+        this.throwIfColumnsNotInDb(item.getColumns())
         continue
       }
+      // item is Column from here
       // TODO: move search function into database model
       let found = false
       //@formatter:off
       COL:
       //TODO: filter only the table in the current query
       for (const table of this.data.dbSchema.getTables()) {
-        for (const col of table.getColumn()) {
-          if (column === col) {
+        for (const col of table.getColumns()) {
+          if (item === col) {
             found = true
             break COL
           }
@@ -185,23 +214,8 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
       }
       //@formatter:on
       if (!found)
-        throw new ColumnNotFoundError(`Column: ${column} not found`)
+        throw new ColumnNotFoundError(`Column: ${item} not found`)
     }
-  }
-
-  private static getColumnsFromExpression(expression: Expression): Column[] {
-    const columns: Column[] = []
-    if (expression.leftOperand.value instanceof Column)
-      columns.push(expression.leftOperand.value)
-    else if (expression.leftOperand.value instanceof Expression)
-      columns.push(...Step.getColumnsFromExpression(expression.leftOperand.value))
-
-    if (expression.rightOperand?.value instanceof Column)
-      columns.push(expression.rightOperand.value)
-    else if (expression.rightOperand?.value instanceof Expression)
-      columns.push(...Step.getColumnsFromExpression(expression.rightOperand.value))
-
-    return columns
   }
 
   private addWhereParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
@@ -221,18 +235,17 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
   }
 }
 
+//@formatter:off
 interface BaseStep {
   getSQL(): string
-
   getPostgresqlBinding(): PostgresBinder
-
   cleanUp(): void
 }
 
 export interface RootStep extends BaseStep {
-  select(...items: (SelectItem|PrimitiveType)[]): SelectStep
-  selectDistinct(...items: (SelectItem|PrimitiveType)[]): SelectStep
-  selectAll(...items: (SelectItem|PrimitiveType)[]): SelectStep
+  select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
+  selectDistinct(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
+  selectAll(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
 }
 
 export interface SelectStep extends BaseStep {
@@ -244,7 +257,7 @@ export interface FromStep extends BaseStep {
   where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
   where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
 
-  orderBy(...orderByItems: (Column|OrderByItemInfo)[]): OrderByStep
+  orderBy(...orderByItems: (OrderByItem|OrderByItemInfo)[]): OrderByStep
 }
 
 interface WhereStep extends BaseStep {
@@ -256,7 +269,7 @@ interface WhereStep extends BaseStep {
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 
-  orderBy(...orderByItems: (Column|OrderByItemInfo)[]): OrderByStep
+  orderBy(...orderByItems: (OrderByItem|OrderByItemInfo)[]): OrderByStep
 }
 
 interface AndStep extends BaseStep {
@@ -268,7 +281,7 @@ interface AndStep extends BaseStep {
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 
-  orderBy(...orderByItems: (Column|OrderByItemInfo)[]): OrderByStep
+  orderBy(...orderByItems: (OrderByItem|OrderByItemInfo)[]): OrderByStep
 }
 
 interface OrStep extends BaseStep {
@@ -280,77 +293,17 @@ interface OrStep extends BaseStep {
   and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
 
-  orderBy(...orderByItems: (Column|OrderByItemInfo)[]): OrderByStep
+  orderBy(...orderByItems: (OrderByItem|OrderByItemInfo)[]): OrderByStep
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface OrderByStep extends BaseStep {
 }
+//@formatter:on
 
 export enum LogicalOperator {
   AND = 'AND',
   OR = 'OR',
-}
-
-export class OrderByItemInfo {
-  public set builderOption(option: BuilderOption) {
-    this.option = option
-  }
-
-  constructor(
-    private readonly orderByItem: OrderByItem,
-    private readonly direction: OrderByDirection = OrderByDirection.NOT_EXIST,
-    private readonly nullPosition: OrderByNullsPosition = OrderByNullsPosition.NOT_EXIST,
-    private option?: BuilderOption,
-  ) {}
-
-  public toString(): string {
-    const direction = this.getDirectionFromOption()
-    const nullPosition = this.getNullLastFromOption()
-    return `${this.orderByItem}${direction}${nullPosition}`
-  }
-
-  private getDirectionFromOption(): OrderByDirection {
-    if (this.option !== undefined) {
-      switch (this.option.addAscAfterOrderByItem) {
-      case 'always':
-        return OrderByDirection.ASC
-      case 'never':
-        return OrderByDirection.NOT_EXIST
-      default:
-        return this.direction
-      }
-    } else {
-      return this.direction
-    }
-  }
-
-  private getNullLastFromOption(): OrderByNullsPosition {
-    if (this.option !== undefined) {
-      switch (this.option.addNullsLastAfterOrderByItem) {
-      case 'always':
-        return OrderByNullsPosition.NULLS_LAST
-      case 'never':
-        return OrderByNullsPosition.NOT_EXIST
-      default:
-        return this.nullPosition
-      }
-    } else {
-      return this.nullPosition
-    }
-  }
-}
-
-export enum OrderByDirection {
-  NOT_EXIST = '',
-  ASC = ' ASC', /** default in postgres */
-  DESC = ' DESC',
-}
-
-export enum OrderByNullsPosition {
-  NOT_EXIST = '',
-  NULLS_FIRST = ' NULLS FIRST',
-  NULLS_LAST = ' NULLS LAST', /** default in postgres */
 }
 
 //Aliases

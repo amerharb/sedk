@@ -10,15 +10,17 @@ import {
   LogicalOperator,
   SelectItem,
   PrimitiveType,
-  OrderByItemInfo,
   RootStep,
 } from './steps'
+import { OrderByItemInfo } from './orderBy'
+import { SelectItemInfo } from './select'
+import { BuilderOption, fillUndefinedOptionsWithDefault } from './option'
 
 export type BuilderData = {
   dbSchema: Database,
   //TODO: make table array ot another kind of collection object when we add leftOperand inner join step
   table?: Table,
-  selectItems: SelectItem[],
+  selectItemInfos: SelectItemInfo[],
   distinct: ''|' DISTINCT'|' ALL'
   whereParts: (LogicalOperator|Condition|Parenthesis)[],
   orderByItemInfos: OrderByItemInfo[],
@@ -26,55 +28,48 @@ export type BuilderData = {
   option: BuilderOption,
 }
 
-export type BuilderOption = {
-  useSemicolonAtTheEnd?: boolean
-  addAscAfterOrderByItem?: 'always'|'never'|'when mentioned'
-  addNullsLastAfterOrderByItem?: 'always'|'never'|'when mentioned'
-}
-
 export class Builder {
   private readonly data: BuilderData
   private rootStep: RootStep
-
-  private static readonly defaultOption: BuilderOption = {
-    useSemicolonAtTheEnd: true,
-    addAscAfterOrderByItem: 'when mentioned',
-    addNullsLastAfterOrderByItem: 'when mentioned',
-  }
 
   constructor(database: Database, option?: BuilderOption) {
     this.data = {
       dbSchema: database,
       table: undefined,
-      selectItems: [],
+      selectItemInfos: [],
       distinct: '',
       whereParts: [],
       orderByItemInfos: [],
       binderStore: BinderStore.getInstance(),
-      option: Builder.fillUndefinedOptionsWithDefault(option),
+      option: fillUndefinedOptionsWithDefault(option ?? {}),
     }
     this.rootStep = new Step(this.data)
   }
 
   public select(distinct: Distinct|All, ...items: (SelectItem|PrimitiveType)[]): SelectStep
-  public select(...items: (SelectItem|PrimitiveType)[]): SelectStep
-  public select(...items: (Distinct|All|SelectItem|PrimitiveType)[]): SelectStep {
-    if (items.length === 0) throw new Error('Select step must have at least one parameter')
+  public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
+  public select(...items: (Distinct|All|SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
     if (items[0] instanceof Distinct) {
-      if (items.length === 1) throw new Error('Select step must have at least one parameter after DISTINCT')
+      if (items.length <= 1) throw new Error('Select step must have at least one parameter after DISTINCT')
       this.rootStep.cleanUp()
       items.shift() //remove first item the DISTINCT item
-      return this.rootStep.selectDistinct(...items)
+      //TODO: throw error if items contain another DISTINCT or ALL
+      const newItems = items as unknown[] as (SelectItemInfo|SelectItem|PrimitiveType)[]
+      return this.rootStep.selectDistinct(...newItems)
     }
 
     if (items[0] instanceof All) {
       this.rootStep.cleanUp()
       items.shift() //remove first item the ALL item
-      return this.rootStep.selectAll(...items)
+      //TODO: throw error if items contain another ALL or DISTINCT
+      const newItems = items as unknown[] as (SelectItemInfo|SelectItem|PrimitiveType)[]
+      return this.rootStep.selectAll(...newItems)
     }
 
     this.rootStep.cleanUp()
-    return this.rootStep.select(...items)
+    //TODO: throw error if items contain any ALL or DISTINCT
+    const newItems = items as unknown[] as (SelectItemInfo|SelectItem|PrimitiveType)[]
+    return this.rootStep.select(...newItems)
   }
 
   public selectDistinct(...items: (SelectItem|PrimitiveType)[]): SelectStep {
@@ -93,13 +88,5 @@ export class Builder {
     //Note: the cleanup needed as there is only one "select" step in the chain that we start with
     this.rootStep.cleanUp()
     return this.rootStep.select(ASTERISK).from(table)
-  }
-
-  private static fillUndefinedOptionsWithDefault(option?: BuilderOption): BuilderOption {
-    const result: BuilderOption = {}
-    result.useSemicolonAtTheEnd = option?.useSemicolonAtTheEnd ?? this.defaultOption.useSemicolonAtTheEnd
-    result.addAscAfterOrderByItem = option?.addAscAfterOrderByItem ?? this.defaultOption.addAscAfterOrderByItem
-    result.addNullsLastAfterOrderByItem = option?.addNullsLastAfterOrderByItem ?? this.defaultOption.addNullsLastAfterOrderByItem
-    return result
   }
 }

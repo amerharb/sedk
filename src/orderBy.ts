@@ -61,4 +61,3 @@ export enum OrderByNullsPosition {
   NULLS_FIRST = ' NULLS FIRST',
   NULLS_LAST = ' NULLS LAST', /** default in postgres */
 }
-

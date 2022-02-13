@@ -1,5 +1,22 @@
-import { ArithmeticOperator, BooleanColumn, Builder, Database, e, NumberColumn, o, Table, TextColumn } from '../src'
-import { OrderByDirection, OrderByNullsPosition } from '../src/orderBy'
+import {
+  Database,
+  Table,
+  BooleanColumn,
+  NumberColumn,
+  TextColumn,
+  ArithmeticOperator,
+  Builder,
+  e,
+  o,
+  OrderByDirection,
+  OrderByNullsPosition,
+} from '../src'
+
+/** Aliases */
+const ASC = OrderByDirection.ASC
+const DESC = OrderByDirection.DESC
+const NULLS_FIRST = OrderByNullsPosition.NULLS_FIRST
+const NULLS_LAST = OrderByNullsPosition.NULLS_LAST
 
 describe('test orderBy Step', () => {
   // database schema
@@ -110,5 +127,25 @@ describe('test orderBy Step', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT * FROM "testTable" ORDER BY "col1" ASC NULLS FIRST, "col2" DESC NULLS FIRST, "col3" ASC NULLS LAST, "col4" DESC NULLS LAST;')
+  })
+
+  it('Produces [SELECT "col1" AS "C1" FROM "testTable" ORDER BY "C1" DESC NULLS FIRST, "col2" ASC NULLS LAST;]', () => {
+    const actual = sql
+      .select(column1.as('C1'))
+      .from(table)
+      .orderBy('C1', DESC, NULLS_FIRST, column2, ASC, NULLS_LAST)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT "col1" AS "C1" FROM "testTable" ORDER BY "C1" DESC NULLS FIRST, "col2" ASC NULLS LAST;')
+  })
+
+  it('Produces [SELECT "col1" AS "C1" FROM "testTable" ORDER BY "C1" DESC, "col2" NULLS LAST;]', () => {
+    const actual = sql
+      .select(column1.as('C1'))
+      .from(table)
+      .orderBy('C1', DESC, column2, NULLS_LAST)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT "col1" AS "C1" FROM "testTable" ORDER BY "C1" DESC, "col2" NULLS LAST;')
   })
 })

@@ -69,38 +69,61 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
     return this
   }
 
-  orderBy(...orderByItems: (OrderByItem|OrderByItemInfo)[]): OrderByStep {
-    if (orderByItems.length === 0) return this //TODO: throw error as order by should have at lease one item
-    orderByItems.forEach(it => {
-      if (it instanceof OrderByItemInfo) {
+  orderBy(...orderByArgsElement: OrderByArgsElement[]): OrderByStep {
+    if (orderByArgsElement.length === 0) {
+      throw new Error('Order by should have at lease one item')
+    }
+    type StoreType = { orderByItem?: OrderByItem, direction?: OrderByDirection, nulllsPos?: OrderByNullsPosition }
+    const store: StoreType = { orderByItem: undefined, direction: undefined, nulllsPos: undefined }
+    const pushWhenOrderByDefined = () => {
+      if (store.orderByItem !== undefined) {
+        this.data.orderByItemInfos.push(new OrderByItemInfo(
+          store.orderByItem,
+          store.direction,
+          store.nulllsPos,
+          this.data.option,
+        ))
+        store.orderByItem = undefined
+        store.direction = undefined
+        store.nulllsPos = undefined
+      }
+    }
+
+    orderByArgsElement.forEach(it => {
+      if (it === OrderByDirection.ASC || it === OrderByDirection.DESC) {
+        if (store.orderByItem === undefined)
+          throw new Error(`${it} shouldn't come before column or alias name`)
+        if (store.direction !== undefined)
+          throw new Error(`${it} shouldn't come after "ASC" or "DESC"`)
+        store.direction = it
+      } else if (it === OrderByNullsPosition.NULLS_FIRST || it === OrderByNullsPosition.NULLS_LAST) {
+        if (store.orderByItem === undefined)
+          throw new Error(`${it} shouldn't come before column or alias name`)
+        if (store.nulllsPos !== undefined)
+          throw new Error(`${it} shouldn't come after "NULLS FIRST" or "NULLS LAST"`)
+        store.nulllsPos = it
+        pushWhenOrderByDefined()
+      } else if (it instanceof OrderByItemInfo) {
+        pushWhenOrderByDefined()
         it.builderOption = this.data.option
         this.data.orderByItemInfos.push(it)
       } else if (it instanceof Column) {
-        this.data.orderByItemInfos.push(new OrderByItemInfo(
-          it,
-          OrderByDirection.NOT_EXIST,
-          OrderByNullsPosition.NOT_EXIST,
-          this.data.option))
+        pushWhenOrderByDefined()
+        store.orderByItem = it
       } else if (it instanceof Expression) {
-        this.data.orderByItemInfos.push(new OrderByItemInfo(
-          it,
-          OrderByDirection.NOT_EXIST,
-          OrderByNullsPosition.NOT_EXIST,
-          this.data.option))
+        pushWhenOrderByDefined()
+        store.orderByItem = it
       } else { //it is a string
+        pushWhenOrderByDefined()
         //look for the alias
         if (this.data.selectItemInfos.find(info => info.alias === it)) {
-          this.data.orderByItemInfos.push(new OrderByItemInfo(
-            `"${escapeDoubleQuote(it)}"`,
-            OrderByDirection.NOT_EXIST,
-            OrderByNullsPosition.NOT_EXIST,
-            this.data.option))
+          store.orderByItem = `"${escapeDoubleQuote(it)}"`
         } else {
           throw new Error(`Alias ${it} is not exist, if this is a column, then it should be entered as Column class`)
         }
-
       }
     })
+    pushWhenOrderByDefined()
     return this
   }
 

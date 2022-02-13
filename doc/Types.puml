@@ -35,10 +35,20 @@ mindmapDiagram {
 *** Expression <<class>>
 ** Asterisk <<class>>
 
-* OrderByItem <<type>>
-** Column <<class>>
-** Expression <<class>>
-** string <<primitive>>
+* OrderByArgsElement <<type>>
+** OrderByNullsPosition <<enum>>
+*** NOT_EXIST <<enumItem>>
+*** NULLS_FIRST <<enumItem>>
+*** NULLS_LAST <<enumItem>>
+** OrderByDirection <<enum>>
+*** NOT_EXIST <<enumItem>>
+*** ASC <<enumItem>>
+*** DESC <<enumItem>>
+** OrderByItemInfo <<class>>
+** OrderByItem <<type>>
+*** Column <<class>>
+*** Expression <<class>>
+*** string <<primitive>>
 
 * OperandType <<type>>
 ** Expression <<class>>

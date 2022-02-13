@@ -42,6 +42,12 @@ console.log(bindObj)
 ```
 
 ## What is New
+### Version: 0.7.1
+- ASC, DESC, NULLS_FIRST and NULLS_LAST can be added in OrderBy step
+```typescript
+sql.selectAsteriskFrom(Employee).orderBy(column1, ASC, NULLS_FIRST).getSQL()
+// SELECT * FROM "Employee" ORDER BY "col1" ASC NULLS FIRST;;
+```
 ### Version: 0.7.0
 - Table & column name always has double quote around their names
 - Column can have an alias

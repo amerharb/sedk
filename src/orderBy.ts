@@ -1,5 +1,9 @@
 import { BuilderOption } from './option'
-import { OrderByItem } from './steps'
+import { Column } from './schema'
+import { Expression } from './models'
+
+export type OrderByItem = Column|Expression|string
+export type OrderByArgsElement = OrderByItemInfo|OrderByItem|OrderByDirection|OrderByNullsPosition
 
 export class OrderByItemInfo {
   public set builderOption(option: BuilderOption) {

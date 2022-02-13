@@ -3,7 +3,13 @@ import { Column, Table } from './schema'
 import { ColumnNotFoundError, TableNotFoundError } from './errors'
 import { BuilderData } from './builder'
 import { Asterisk } from './singletoneConstants'
-import { OrderByItemInfo, OrderByDirection, OrderByNullsPosition } from './orderBy'
+import {
+  OrderByItem,
+  OrderByItemInfo,
+  OrderByDirection,
+  OrderByNullsPosition,
+  OrderByArgsElement,
+} from './orderBy'
 import { SelectItemInfo } from './select'
 import { escapeDoubleQuote } from './util'
 
@@ -11,8 +17,6 @@ export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
 
 export type SelectItem = ColumnLike|Asterisk
-export type OrderByItem = Column|Expression|string
-export type OrderByArgsElement = OrderByItemInfo|OrderByItem|OrderByDirection|OrderByNullsPosition
 
 export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, OrStep, OrderByStep {
   constructor(protected data: BuilderData) {}

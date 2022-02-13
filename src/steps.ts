@@ -96,15 +96,15 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
     orderByArgsElement.forEach(it => {
       if (it === OrderByDirection.ASC || it === OrderByDirection.DESC) {
         if (store.orderByItem === undefined)
-          throw new Error(`${it} shouldn't come before column or alias name`)
+          throw new Error(`${it} expects to have column or alias before it`)
         if (store.direction !== undefined)
-          throw new Error(`${it} shouldn't come after "ASC" or "DESC"`)
+          throw new Error(`${it} shouldn't come after "ASC" or "DESC" without column or alias in between`)
         store.direction = it
       } else if (it === OrderByNullsPosition.NULLS_FIRST || it === OrderByNullsPosition.NULLS_LAST) {
         if (store.orderByItem === undefined)
-          throw new Error(`${it} shouldn't come before column or alias name`)
+          throw new Error(`${it} expects to have column or alias before it`)
         if (store.nulllsPos !== undefined)
-          throw new Error(`${it} shouldn't come after "NULLS FIRST" or "NULLS LAST"`)
+          throw new Error(`${it} shouldn't come directly after "NULLS FIRST" or "NULLS LAST" without column or alias in between`)
         store.nulllsPos = it
         pushWhenOrderByDefined()
       } else if (it instanceof OrderByItemInfo) {

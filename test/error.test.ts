@@ -12,12 +12,15 @@ import {
   ArithmeticOperator,
   ComparisonOperator,
   DISTINCT,
+  OrderByDirection,
+  OrderByNullsPosition,
 } from '../src'
-import { OrderByDirection, OrderByNullsPosition } from '../src/orderBy'
 
 //Alias
 const ADD = ArithmeticOperator.ADD
 const GT = ComparisonOperator.GreaterThan
+const DESC = OrderByDirection.DESC
+const NULLS_FIRST = OrderByNullsPosition.NULLS_FIRST
 
 describe('Throw desired Errors', () => {
   // database schema
@@ -88,21 +91,29 @@ describe('Throw desired Errors', () => {
     function actual() {
       sql
         .selectAsteriskFrom(table)
-        .orderBy(OrderByDirection.DESC, 'column1')
-
+        .orderBy(DESC, 'column1')
     }
 
-    expect(actual).toThrow(/^ DESC shouldn't come before column or alias name$/)
+    expect(actual).toThrow(/^ DESC expects to have column or alias before it$/)
   })
 
   it('Throws error when NULLS FIRST comes before alias or column', () => {
     function actual() {
       sql
         .selectAsteriskFrom(table)
-        .orderBy(OrderByNullsPosition.NULLS_FIRST, column1)
-
+        .orderBy(NULLS_FIRST, column1)
     }
 
-    expect(actual).toThrow(/^ NULLS FIRST shouldn't come before column or alias name$/)
+    expect(actual).toThrow(/^ NULLS FIRST expects to have column or alias before it$/)
+  })
+
+  it('Throws error when DESC come before column or alias name', () => {
+    function actual() {
+      sql
+        .selectAsteriskFrom(table)
+        .orderBy(column1, NULLS_FIRST, DESC)
+    }
+
+    expect(actual).toThrow(/^ DESC expects to have column or alias before it$/)
   })
 })

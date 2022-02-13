@@ -13,6 +13,7 @@ import {
   ComparisonOperator,
   DISTINCT,
 } from '../src'
+import { OrderByDirection, OrderByNullsPosition } from '../src/orderBy'
 
 //Alias
 const ADD = ArithmeticOperator.ADD
@@ -81,5 +82,27 @@ describe('Throw desired Errors', () => {
     }
 
     expect(actual).toThrow(/^Select step must have at least one parameter after DISTINCT$/)
+  })
+
+  it('Throws error when DESC comes before alias or column', () => {
+    function actual() {
+      sql
+        .selectAsteriskFrom(table)
+        .orderBy(OrderByDirection.DESC, 'column1')
+
+    }
+
+    expect(actual).toThrow(/^ DESC shouldn't come before column or alias name$/)
+  })
+
+  it('Throws error when NULLS FIRST comes before alias or column', () => {
+    function actual() {
+      sql
+        .selectAsteriskFrom(table)
+        .orderBy(OrderByNullsPosition.NULLS_FIRST, column1)
+
+    }
+
+    expect(actual).toThrow(/^ NULLS FIRST shouldn't come before column or alias name$/)
   })
 })

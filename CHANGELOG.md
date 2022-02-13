@@ -1,6 +1,10 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.7.1]  2022-02-13
+### Added
+- flex arg for OrderBy step, now you can add DESC, ASC, NULLS_FIRST... as argument with columns and aliases
+
 ## [0.7.0]  2022-02-12
 ### Added
 - Add SelectItemInfo that contain info about the SelectItem and the alias that it use

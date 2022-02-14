@@ -11,8 +11,12 @@ import {
   ComparisonOperator,
   Operator,
 } from './operators'
-import { OrderByDirection, OrderByItemInfo, OrderByNullsPosition } from './orderBy'
-import { OrderByItem } from './orderBy'
+import {
+  OrderByDirection,
+  OrderByNullsPosition,
+  OrderByItem,
+  OrderByItemInfo,
+} from './orderBy'
 
 export function e(left: OperandType): Expression
 export function e(left: BooleanLike, operator: ComparisonOperator, right: BooleanLike|TextBoolean): Condition

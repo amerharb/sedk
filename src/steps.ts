@@ -133,14 +133,14 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
 
   public limit(n: number): LimitStep {
     if (n < 0)
-      throw new Error(`Invalid limit value ${n}, only zero and positive number are allowed `)
+      throw new Error(`Invalid limit value ${n}, negative numbers are not allowed`)
     this.data.limit = n
     return this
   }
 
   public offset(n: number): OffsetStep {
     if (n < 0)
-      throw new Error(`Invalid offset value ${n}, only zero and positive number are allowed `)
+      throw new Error(`Invalid offset value ${n}, negative numbers are not allowed`)
     this.data.offset = n
     return this
   }

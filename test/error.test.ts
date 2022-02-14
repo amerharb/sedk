@@ -12,6 +12,10 @@ import {
   ArithmeticOperator,
   ComparisonOperator,
   DISTINCT,
+  ASC,
+  DESC,
+  NULLS_FIRST,
+  NULLS_LAST,
 } from '../src'
 
 //Alias
@@ -81,5 +85,65 @@ describe('Throw desired Errors', () => {
     }
 
     expect(actual).toThrow(/^Select step must have at least one parameter after DISTINCT$/)
+  })
+
+  it('Throws error when ORDER BY has no param', () => {
+    function actual() {
+      sql
+        .selectAsteriskFrom(table)
+        .orderBy()
+    }
+
+    expect(actual).toThrow(/^Order by should have at lease one item$/)
+  })
+
+  it('Throws error when DESC comes before alias or column', () => {
+    function actual() {
+      sql
+        .selectAsteriskFrom(table)
+        .orderBy(DESC, 'column1')
+    }
+
+    expect(actual).toThrow(/^ DESC expects to have column or alias before it$/)
+  })
+
+  it('Throws error when NULLS FIRST comes before alias or column', () => {
+    function actual() {
+      sql
+        .selectAsteriskFrom(table)
+        .orderBy(NULLS_FIRST, column1)
+    }
+
+    expect(actual).toThrow(/^ NULLS FIRST expects to have column or alias before it$/)
+  })
+
+  it('Throws error when DESC come before column or alias name', () => {
+    function actual() {
+      sql
+        .selectAsteriskFrom(table)
+        .orderBy(column1, NULLS_FIRST, DESC)
+    }
+
+    expect(actual).toThrow(/^ DESC expects to have column or alias before it$/)
+  })
+
+  it('Throws error when NULLS_LAST comes directly after NULLS_FIRST', () => {
+    function actual() {
+      sql
+        .selectAsteriskFrom(table)
+        .orderBy(column1, NULLS_FIRST, NULLS_LAST)
+    }
+
+    expect(actual).toThrow(/^ NULLS LAST expects to have column or alias before it$/)
+  })
+
+  it('Throws error when DESC comes directly after ASC', () => {
+    function actual() {
+      sql
+        .selectAsteriskFrom(table)
+        .orderBy(column1, ASC, DESC)
+    }
+
+    expect(actual).toThrow(/^ DESC shouldn't come after "ASC" or "DESC" without column or alias in between$/)
   })
 })

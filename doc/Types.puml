@@ -3,13 +3,19 @@
 <style>
 mindmapDiagram {
   .primitive {
-    BackgroundColor lightgreen
+    BackgroundColor #lightgreen
   }
   .type {
     BackgroundColor #lightblue
   }
+  .abstractClass {
+    BackgroundColor #Gold
+  }
+  .singleToneClass {
+    BackgroundColor #GoldenRod
+  }
   .class {
-    BackgroundColor #yellow
+    BackgroundColor #Yellow
   }
   .null {
     BackgroundColor #green
@@ -35,10 +41,20 @@ mindmapDiagram {
 *** Expression <<class>>
 ** Asterisk <<class>>
 
-* OrderByItem <<type>>
-** Column <<class>>
-** Expression <<class>>
-** string <<primitive>>
+* OrderByArgsElement <<type>>
+** OrderByNullsPosition <<abstractClass>>
+*** NULLS_POSITION_NOT_EXIST <<singleToneClass>>
+*** NULLS_FIRST <<singleToneClass>>
+*** NULLS_LAST <<singleToneClass>>
+** OrderByDirection <<abstractClass>>
+*** DIRECTION_NOT_EXIST <<singleToneClass>>
+*** ASC <<singleToneClass>>
+*** DESC <<singleToneClass>>
+** OrderByItemInfo <<class>>
+** OrderByItem <<type>>
+*** Column <<class>>
+*** Expression <<class>>
+*** string <<primitive>>
 
 * OperandType <<type>>
 ** Expression <<class>>

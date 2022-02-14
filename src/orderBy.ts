@@ -1,5 +1,9 @@
 import { BuilderOption } from './option'
-import { OrderByItem } from './steps'
+import { Column } from './schema'
+import { Expression } from './models'
+
+export type OrderByItem = Column|Expression|string
+export type OrderByArgsElement = OrderByItemInfo|OrderByItem|OrderByDirection|OrderByNullsPosition
 
 export class OrderByItemInfo {
   public set builderOption(option: BuilderOption) {
@@ -8,8 +12,8 @@ export class OrderByItemInfo {
 
   constructor(
     private readonly orderByItem: OrderByItem,
-    private readonly direction: OrderByDirection = OrderByDirection.NOT_EXIST,
-    private readonly nullPosition: OrderByNullsPosition = OrderByNullsPosition.NOT_EXIST,
+    private readonly direction: OrderByDirection = DIRECTION_NOT_EXIST,
+    private readonly nullPosition: OrderByNullsPosition = NULLS_POSITION_NOT_EXIST,
     private option?: BuilderOption,
   ) {}
 
@@ -20,45 +24,156 @@ export class OrderByItemInfo {
   }
 
   private getDirectionFromOption(): OrderByDirection {
-    if (this.direction === OrderByDirection.DESC)
-      return OrderByDirection.DESC
+    if (this.direction === DESC)
+      return DESC
 
     if (this.option !== undefined) {
       switch (this.option.addAscAfterOrderByItem) {
       case 'always':
-        return OrderByDirection.ASC
+        return ASC
       case 'never':
-        return OrderByDirection.NOT_EXIST
+        return DIRECTION_NOT_EXIST
       }
     }
     return this.direction
   }
 
   private getNullLastFromOption(): OrderByNullsPosition {
-    if (this.nullPosition === OrderByNullsPosition.NULLS_FIRST)
-      return OrderByNullsPosition.NULLS_FIRST
+    if (this.nullPosition === NULLS_FIRST)
+      return NULLS_FIRST
 
     if (this.option !== undefined) {
       switch (this.option.addNullsLastAfterOrderByItem) {
       case 'always':
-        return OrderByNullsPosition.NULLS_LAST
+        return NULLS_LAST
       case 'never':
-        return OrderByNullsPosition.NOT_EXIST
+        return NULLS_POSITION_NOT_EXIST
       }
     }
     return this.nullPosition
   }
 }
 
-export enum OrderByDirection {
-  NOT_EXIST = '',
-  ASC = ' ASC', /** default in postgres */
-  DESC = ' DESC',
+export abstract class OrderByDirection {}
+
+export class DirectionNotExist extends OrderByDirection{
+  private static instance: DirectionNotExist
+  private readonly unique: symbol = Symbol()
+
+  private constructor() {super()}
+
+  public static getInstance(): DirectionNotExist {
+    if (!DirectionNotExist.instance) {
+      DirectionNotExist.instance = new DirectionNotExist()
+    }
+    return DirectionNotExist.instance
+  }
+
+  public toString(): string {
+    return ''
+  }
 }
 
-export enum OrderByNullsPosition {
-  NOT_EXIST = '',
-  NULLS_FIRST = ' NULLS FIRST',
-  NULLS_LAST = ' NULLS LAST', /** default in postgres */
+export const DIRECTION_NOT_EXIST = DirectionNotExist.getInstance()
+
+export class Asc extends OrderByDirection{
+  private static instance: Asc
+  private readonly unique: symbol = Symbol()
+
+  private constructor() {super()}
+
+  public static getInstance(): Asc {
+    if (!Asc.instance) {
+      Asc.instance = new Asc()
+    }
+    return Asc.instance
+  }
+
+  public toString(): string {
+    return ' ASC'
+  }
 }
 
+export const ASC = Asc.getInstance()
+
+export class Desc extends OrderByDirection{
+  private static instance: Desc
+  private readonly unique: symbol = Symbol()
+
+  private constructor() {super()}
+
+  public static getInstance(): Desc {
+    if (!Desc.instance) {
+      Desc.instance = new Desc()
+    }
+    return Desc.instance
+  }
+
+  public toString(): string {
+    return ' DESC'
+  }
+}
+
+export const DESC = Desc.getInstance()
+
+export abstract class OrderByNullsPosition {}
+
+export class NullsPositionNotExist extends OrderByNullsPosition{
+  private static instance: NullsPositionNotExist
+  private readonly unique: symbol = Symbol()
+
+  private constructor() {super()}
+
+  public static getInstance(): NullsPositionNotExist {
+    if (!NullsPositionNotExist.instance) {
+      NullsPositionNotExist.instance = new NullsPositionNotExist()
+    }
+    return NullsPositionNotExist.instance
+  }
+
+  public toString(): string {
+    return ''
+  }
+}
+
+export const NULLS_POSITION_NOT_EXIST = NullsPositionNotExist.getInstance()
+
+export class NullsFirst extends OrderByNullsPosition{
+  private static instance: NullsFirst
+  private readonly unique: symbol = Symbol()
+
+  private constructor() {super()}
+
+  public static getInstance(): NullsFirst {
+    if (!NullsFirst.instance) {
+      NullsFirst.instance = new NullsFirst()
+    }
+    return NullsFirst.instance
+  }
+
+  public toString(): string {
+    return ' NULLS FIRST'
+  }
+}
+
+export const NULLS_FIRST = NullsFirst.getInstance()
+
+export class NullsLast extends OrderByNullsPosition{
+  private static instance: NullsLast
+  private readonly unique: symbol = Symbol()
+
+  private constructor() {super()}
+
+  public static getInstance(): NullsLast {
+    if (!NullsLast.instance) {
+      NullsLast.instance = new NullsLast()
+    }
+    return NullsLast.instance
+  }
+
+  public toString(): string {
+    return ' NULLS LAST'
+  }
+}
+
+export const NULLS_LAST = NullsLast.getInstance()

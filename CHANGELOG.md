@@ -1,11 +1,11 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.7.1]  2022-02-13
+## [0.7.1]  2022-02-14
 ### Added
 - Flex arg for OrderBy step, now you can add DESC, ASC, NULLS_FIRST... as argument with columns and aliases
-- Convert OrderByDirection enum to classes
-- Convert OrderByNullsPosition enum to classes
+### Fixed
+- Convert OrderByDirection & OrderByNullsPosition enum into classes to avoid mistakes when enum counted as string
 
 ## [0.7.0]  2022-02-12
 ### Added

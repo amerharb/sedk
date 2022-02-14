@@ -8,13 +8,12 @@ import {
   Builder,
   e,
   o,
-  OrderByDirection,
+  ASC,
+  DESC,
   OrderByNullsPosition,
 } from '../src'
 
 /** Aliases */
-const ASC = OrderByDirection.ASC
-const DESC = OrderByDirection.DESC
 const NULLS_FIRST = OrderByNullsPosition.NULLS_FIRST
 const NULLS_LAST = OrderByNullsPosition.NULLS_LAST
 
@@ -56,7 +55,7 @@ describe('test orderBy Step', () => {
   it('Produces [SELECT * FROM "testTable" ORDER BY col1 DESC NULLS FIRST;]', () => {
     const actual = sql
       .selectAsteriskFrom(table)
-      .orderBy(o(column1, OrderByDirection.DESC, OrderByNullsPosition.NULLS_FIRST))
+      .orderBy(o(column1, DESC, OrderByNullsPosition.NULLS_FIRST))
       .getSQL()
 
     expect(actual).toEqual('SELECT * FROM "testTable" ORDER BY "col1" DESC NULLS FIRST;')
@@ -65,7 +64,7 @@ describe('test orderBy Step', () => {
   it('Produces [SELECT * FROM "testTable" ORDER BY col1 ASC;]', () => {
     const actual = sql
       .selectAsteriskFrom(table)
-      .orderBy(o(column1, OrderByDirection.DESC, OrderByNullsPosition.NULLS_FIRST))
+      .orderBy(o(column1, DESC, OrderByNullsPosition.NULLS_FIRST))
       .getSQL()
 
     expect(actual).toEqual('SELECT * FROM "testTable" ORDER BY "col1" DESC NULLS FIRST;')
@@ -74,7 +73,7 @@ describe('test orderBy Step', () => {
   it('Produces [SELECT * FROM "testTable" ORDER BY ("col4" + "col5") DESC;]', () => {
     const actual = sql
       .selectAsteriskFrom(table)
-      .orderBy(o(e(column4, ArithmeticOperator.ADD, column5), OrderByDirection.DESC))
+      .orderBy(o(e(column4, ArithmeticOperator.ADD, column5), DESC))
       .getSQL()
 
     expect(actual).toEqual('SELECT * FROM "testTable" ORDER BY ("col4" + "col5") DESC;')
@@ -147,5 +146,15 @@ describe('test orderBy Step', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" AS "C1" FROM "testTable" ORDER BY "C1" DESC, "col2" NULLS LAST;')
+  })
+
+  it('Produces [SELECT "col1" AS " DESC" FROM "testTable" ORDER BY " DESC";]', () => {
+    const actual = sql
+      .select(column1.as(' DESC'))
+      .from(table)
+      .orderBy(' DESC')
+      .getSQL()
+
+    expect(actual).toEqual('SELECT "col1" AS " DESC" FROM "testTable" ORDER BY " DESC";')
   })
 })

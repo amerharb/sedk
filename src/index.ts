@@ -20,4 +20,10 @@ export {
   NumberColumn,
   TextColumn,
 } from './schema'
-export { OrderByDirection, OrderByNullsPosition } from './orderBy'
+export {
+  OrderByDirection,
+  DIRECTION_NOT_EXIST,
+  ASC,
+  DESC,
+  OrderByNullsPosition,
+} from './orderBy'

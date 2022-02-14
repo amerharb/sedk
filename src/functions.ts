@@ -1,16 +1,18 @@
 import {
   BooleanLike,
+  NumberLike,
+  TextLike,
   Condition,
-  Expression, NumberLike,
+  Expression,
   OperandType,
-  TextBoolean, TextLike,
+  TextBoolean,
 } from './models'
 import {
   ComparisonOperator,
   Operator,
 } from './operators'
 import { OrderByDirection, OrderByItemInfo, OrderByNullsPosition } from './orderBy'
-import { OrderByItem } from './steps'
+import { OrderByItem } from './orderBy'
 
 export function e(left: OperandType): Expression
 export function e(left: BooleanLike, operator: ComparisonOperator, right: BooleanLike|TextBoolean): Condition

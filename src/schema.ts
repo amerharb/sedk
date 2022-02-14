@@ -15,7 +15,9 @@ import {
   Operator,
 } from './operators'
 import {
-  OrderByDirection,
+  DIRECTION_NOT_EXIST,
+  ASC,
+  DESC,
   OrderByItemInfo,
   OrderByNullsPosition,
 } from './orderBy'
@@ -104,35 +106,35 @@ export abstract class Column {
   }
 
   public get asc(): OrderByItemInfo {
-    return new OrderByItemInfo(this, OrderByDirection.ASC, OrderByNullsPosition.NOT_EXIST)
+    return new OrderByItemInfo(this, ASC, OrderByNullsPosition.NOT_EXIST)
   }
 
   public get desc(): OrderByItemInfo {
-    return new OrderByItemInfo(this, OrderByDirection.DESC, OrderByNullsPosition.NOT_EXIST)
+    return new OrderByItemInfo(this, DESC, OrderByNullsPosition.NOT_EXIST)
   }
 
   public get nullsFirst(): OrderByItemInfo {
-    return new OrderByItemInfo(this, OrderByDirection.NOT_EXIST, OrderByNullsPosition.NULLS_FIRST)
+    return new OrderByItemInfo(this, DIRECTION_NOT_EXIST, OrderByNullsPosition.NULLS_FIRST)
   }
 
   public get nullsLast(): OrderByItemInfo {
-    return new OrderByItemInfo(this, OrderByDirection.NOT_EXIST, OrderByNullsPosition.NULLS_LAST)
+    return new OrderByItemInfo(this, DIRECTION_NOT_EXIST, OrderByNullsPosition.NULLS_LAST)
   }
 
   public get ascNullsFirst(): OrderByItemInfo {
-    return new OrderByItemInfo(this, OrderByDirection.ASC, OrderByNullsPosition.NULLS_FIRST)
+    return new OrderByItemInfo(this, ASC, OrderByNullsPosition.NULLS_FIRST)
   }
 
   public get descNullsFirst(): OrderByItemInfo {
-    return new OrderByItemInfo(this, OrderByDirection.DESC, OrderByNullsPosition.NULLS_FIRST)
+    return new OrderByItemInfo(this, DESC, OrderByNullsPosition.NULLS_FIRST)
   }
 
   public get ascNullsLast(): OrderByItemInfo {
-    return new OrderByItemInfo(this, OrderByDirection.ASC, OrderByNullsPosition.NULLS_LAST)
+    return new OrderByItemInfo(this, ASC, OrderByNullsPosition.NULLS_LAST)
   }
 
   public get descNullsLast(): OrderByItemInfo {
-    return new OrderByItemInfo(this, OrderByDirection.DESC, OrderByNullsPosition.NULLS_LAST)
+    return new OrderByItemInfo(this, DESC, OrderByNullsPosition.NULLS_LAST)
   }
 
   public toString() {

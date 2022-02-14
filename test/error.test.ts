@@ -12,15 +12,14 @@ import {
   ArithmeticOperator,
   ComparisonOperator,
   DISTINCT,
-  OrderByDirection,
+  ASC,
+  DESC,
   OrderByNullsPosition,
 } from '../src'
 
 //Alias
 const ADD = ArithmeticOperator.ADD
 const GT = ComparisonOperator.GreaterThan
-const ASC = OrderByDirection.ASC
-const DESC = OrderByDirection.DESC
 const NULLS_FIRST = OrderByNullsPosition.NULLS_FIRST
 const NULLS_LAST = OrderByNullsPosition.NULLS_LAST
 

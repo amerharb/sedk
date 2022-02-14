@@ -3,7 +3,8 @@
 
 ## [0.7.1]  2022-02-13
 ### Added
-- flex arg for OrderBy step, now you can add DESC, ASC, NULLS_FIRST... as argument with columns and aliases
+- Flex arg for OrderBy step, now you can add DESC, ASC, NULLS_FIRST... as argument with columns and aliases
+- Convert OrderByDirection enum to classes
 
 ## [0.7.0]  2022-02-12
 ### Added

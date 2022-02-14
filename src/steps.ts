@@ -94,7 +94,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
     }
 
     orderByArgsElement.forEach(it => {
-      if (it === OrderByDirection.ASC || it === OrderByDirection.DESC) {
+      if (it instanceof OrderByDirection) {
         if (store.orderByItem === undefined)
           throw new Error(`${it} expects to have column or alias before it`)
         if (store.direction !== undefined)
@@ -285,7 +285,7 @@ export interface FromStep extends BaseStep {
   where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
   where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
 
-  orderBy(...orderByItems: (OrderByItem|OrderByItemInfo)[]): OrderByStep
+  orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
 }
 
 interface WhereStep extends BaseStep {

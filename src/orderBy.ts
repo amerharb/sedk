@@ -12,7 +12,7 @@ export class OrderByItemInfo {
 
   constructor(
     private readonly orderByItem: OrderByItem,
-    private readonly direction: OrderByDirection = OrderByDirection.NOT_EXIST,
+    private readonly direction: OrderByDirection = DIRECTION_NOT_EXIST,
     private readonly nullPosition: OrderByNullsPosition = OrderByNullsPosition.NOT_EXIST,
     private option?: BuilderOption,
   ) {}
@@ -24,15 +24,15 @@ export class OrderByItemInfo {
   }
 
   private getDirectionFromOption(): OrderByDirection {
-    if (this.direction === OrderByDirection.DESC)
-      return OrderByDirection.DESC
+    if (this.direction === DESC)
+      return DESC
 
     if (this.option !== undefined) {
       switch (this.option.addAscAfterOrderByItem) {
       case 'always':
-        return OrderByDirection.ASC
+        return ASC
       case 'never':
-        return OrderByDirection.NOT_EXIST
+        return DIRECTION_NOT_EXIST
       }
     }
     return this.direction
@@ -54,11 +54,67 @@ export class OrderByItemInfo {
   }
 }
 
-export enum OrderByDirection {
-  NOT_EXIST = '',
-  ASC = ' ASC', /** default in postgres */
-  DESC = ' DESC',
+export abstract class OrderByDirection {}
+
+export class DirectionNotExist extends OrderByDirection{
+  private static instance: DirectionNotExist
+  private readonly unique: symbol = Symbol()
+
+  private constructor() {super()}
+
+  public static getInstance(): DirectionNotExist {
+    if (!DirectionNotExist.instance) {
+      DirectionNotExist.instance = new DirectionNotExist()
+    }
+    return DirectionNotExist.instance
+  }
+
+  public toString(): string {
+    return ''
+  }
 }
+
+export const DIRECTION_NOT_EXIST = DirectionNotExist.getInstance()
+
+export class Asc extends OrderByDirection{
+  private static instance: Asc
+  private readonly unique: symbol = Symbol()
+
+  private constructor() {super()}
+
+  public static getInstance(): Asc {
+    if (!Asc.instance) {
+      Asc.instance = new Asc()
+    }
+    return Asc.instance
+  }
+
+  public toString(): string {
+    return ' ASC'
+  }
+}
+
+export const ASC = Asc.getInstance()
+
+export class Desc extends OrderByDirection{
+  private static instance: Desc
+  private readonly unique: symbol = Symbol()
+
+  private constructor() {super()}
+
+  public static getInstance(): Desc {
+    if (!Desc.instance) {
+      Desc.instance = new Desc()
+    }
+    return Desc.instance
+  }
+
+  public toString(): string {
+    return ' DESC'
+  }
+}
+
+export const DESC = Desc.getInstance()
 
 export enum OrderByNullsPosition {
   NOT_EXIST = '',

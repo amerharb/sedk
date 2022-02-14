@@ -10,12 +10,9 @@ import {
   o,
   ASC,
   DESC,
-  OrderByNullsPosition,
+  NULLS_FIRST,
+  NULLS_LAST,
 } from '../src'
-
-/** Aliases */
-const NULLS_FIRST = OrderByNullsPosition.NULLS_FIRST
-const NULLS_LAST = OrderByNullsPosition.NULLS_LAST
 
 describe('test orderBy Step', () => {
   // database schema
@@ -55,7 +52,7 @@ describe('test orderBy Step', () => {
   it('Produces [SELECT * FROM "testTable" ORDER BY col1 DESC NULLS FIRST;]', () => {
     const actual = sql
       .selectAsteriskFrom(table)
-      .orderBy(o(column1, DESC, OrderByNullsPosition.NULLS_FIRST))
+      .orderBy(o(column1, DESC, NULLS_FIRST))
       .getSQL()
 
     expect(actual).toEqual('SELECT * FROM "testTable" ORDER BY "col1" DESC NULLS FIRST;')
@@ -64,7 +61,7 @@ describe('test orderBy Step', () => {
   it('Produces [SELECT * FROM "testTable" ORDER BY col1 ASC;]', () => {
     const actual = sql
       .selectAsteriskFrom(table)
-      .orderBy(o(column1, DESC, OrderByNullsPosition.NULLS_FIRST))
+      .orderBy(o(column1, DESC, NULLS_FIRST))
       .getSQL()
 
     expect(actual).toEqual('SELECT * FROM "testTable" ORDER BY "col1" DESC NULLS FIRST;')
@@ -156,5 +153,15 @@ describe('test orderBy Step', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" AS " DESC" FROM "testTable" ORDER BY " DESC";')
+  })
+
+  it('Produces [SELECT "col1" AS " NULLS FIRST" FROM "testTable" ORDER BY " NULLS FIRST";]', () => {
+    const actual = sql
+      .select(column1.as(' NULLS FIRST'))
+      .from(table)
+      .orderBy(' NULLS FIRST')
+      .getSQL()
+
+    expect(actual).toEqual('SELECT "col1" AS " NULLS FIRST" FROM "testTable" ORDER BY " NULLS FIRST";')
   })
 })

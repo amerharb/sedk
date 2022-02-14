@@ -14,14 +14,13 @@ import {
   DISTINCT,
   ASC,
   DESC,
-  OrderByNullsPosition,
+  NULLS_FIRST,
+  NULLS_LAST,
 } from '../src'
 
 //Alias
 const ADD = ArithmeticOperator.ADD
 const GT = ComparisonOperator.GreaterThan
-const NULLS_FIRST = OrderByNullsPosition.NULLS_FIRST
-const NULLS_LAST = OrderByNullsPosition.NULLS_LAST
 
 describe('Throw desired Errors', () => {
   // database schema

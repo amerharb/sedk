@@ -100,7 +100,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
         if (store.direction !== undefined)
           throw new Error(`${it} shouldn't come after "ASC" or "DESC" without column or alias in between`)
         store.direction = it
-      } else if (it === OrderByNullsPosition.NULLS_FIRST || it === OrderByNullsPosition.NULLS_LAST) {
+      } else if (it instanceof OrderByNullsPosition) {
         if (store.orderByItem === undefined)
           throw new Error(`${it} expects to have column or alias before it`)
         if (store.nulllsPos !== undefined)

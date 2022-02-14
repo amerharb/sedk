@@ -26,4 +26,7 @@ export {
   ASC,
   DESC,
   OrderByNullsPosition,
+  NULLS_POSITION_NOT_EXIST,
+  NULLS_FIRST,
+  NULLS_LAST,
 } from './orderBy'

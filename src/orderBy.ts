@@ -13,7 +13,7 @@ export class OrderByItemInfo {
   constructor(
     private readonly orderByItem: OrderByItem,
     private readonly direction: OrderByDirection = DIRECTION_NOT_EXIST,
-    private readonly nullPosition: OrderByNullsPosition = OrderByNullsPosition.NOT_EXIST,
+    private readonly nullPosition: OrderByNullsPosition = NULLS_POSITION_NOT_EXIST,
     private option?: BuilderOption,
   ) {}
 
@@ -39,15 +39,15 @@ export class OrderByItemInfo {
   }
 
   private getNullLastFromOption(): OrderByNullsPosition {
-    if (this.nullPosition === OrderByNullsPosition.NULLS_FIRST)
-      return OrderByNullsPosition.NULLS_FIRST
+    if (this.nullPosition === NULLS_FIRST)
+      return NULLS_FIRST
 
     if (this.option !== undefined) {
       switch (this.option.addNullsLastAfterOrderByItem) {
       case 'always':
-        return OrderByNullsPosition.NULLS_LAST
+        return NULLS_LAST
       case 'never':
-        return OrderByNullsPosition.NOT_EXIST
+        return NULLS_POSITION_NOT_EXIST
       }
     }
     return this.nullPosition
@@ -116,8 +116,64 @@ export class Desc extends OrderByDirection{
 
 export const DESC = Desc.getInstance()
 
-export enum OrderByNullsPosition {
-  NOT_EXIST = '',
-  NULLS_FIRST = ' NULLS FIRST',
-  NULLS_LAST = ' NULLS LAST', /** default in postgres */
+export abstract class OrderByNullsPosition {}
+
+export class NullsPositionNotExist extends OrderByNullsPosition{
+  private static instance: NullsPositionNotExist
+  private readonly unique: symbol = Symbol()
+
+  private constructor() {super()}
+
+  public static getInstance(): NullsPositionNotExist {
+    if (!NullsPositionNotExist.instance) {
+      NullsPositionNotExist.instance = new NullsPositionNotExist()
+    }
+    return NullsPositionNotExist.instance
+  }
+
+  public toString(): string {
+    return ''
+  }
 }
+
+export const NULLS_POSITION_NOT_EXIST = NullsPositionNotExist.getInstance()
+
+export class NullsFirst extends OrderByNullsPosition{
+  private static instance: NullsFirst
+  private readonly unique: symbol = Symbol()
+
+  private constructor() {super()}
+
+  public static getInstance(): NullsFirst {
+    if (!NullsFirst.instance) {
+      NullsFirst.instance = new NullsFirst()
+    }
+    return NullsFirst.instance
+  }
+
+  public toString(): string {
+    return ' NULLS FIRST'
+  }
+}
+
+export const NULLS_FIRST = NullsFirst.getInstance()
+
+export class NullsLast extends OrderByNullsPosition{
+  private static instance: NullsLast
+  private readonly unique: symbol = Symbol()
+
+  private constructor() {super()}
+
+  public static getInstance(): NullsLast {
+    if (!NullsLast.instance) {
+      NullsLast.instance = new NullsLast()
+    }
+    return NullsLast.instance
+  }
+
+  public toString(): string {
+    return ' NULLS LAST'
+  }
+}
+
+export const NULLS_LAST = NullsLast.getInstance()

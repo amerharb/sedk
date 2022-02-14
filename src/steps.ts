@@ -18,7 +18,8 @@ export type PrimitiveType = null|boolean|number|string
 
 export type SelectItem = ColumnLike|Asterisk
 
-export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, OrStep, OrderByStep {
+export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
+  OrStep, OrderByStep, LimitStep, OffsetStep {
   constructor(protected data: BuilderData) {}
 
   public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
@@ -52,7 +53,6 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
   public from(table: Table): FromStep {
     this.throwIfTableNotInDb(table)
     this.data.table = table
-
     return this
   }
 
@@ -131,6 +131,20 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
     return this
   }
 
+  public limit(n: number): LimitStep {
+    if (n < 0)
+      throw new Error(`Invalid limit value ${n}, only zero and positive number are allowed `)
+    this.data.limit = n
+    return this
+  }
+
+  public offset(n: number): OffsetStep {
+    if (n < 0)
+      throw new Error(`Invalid offset value ${n}, only zero and positive number are allowed `)
+    this.data.offset = n
+    return this
+  }
+
   public getSQL(): string {
     const result = this.getStatement()
     this.cleanUp()
@@ -164,6 +178,14 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep, 
 
     if (this.data.orderByItemInfos.length > 0) {
       result += ` ORDER BY ${this.data.orderByItemInfos.join(', ')}`
+    }
+
+    if (this.data.limit !== undefined) {
+      result += ` LIMIT ${this.data.limit}`
+    }
+
+    if (this.data.offset !== undefined) {
+      result += ` OFFSET ${this.data.offset}`
     }
 
     if (this.data.option.useSemicolonAtTheEnd)
@@ -286,6 +308,8 @@ export interface FromStep extends BaseStep {
   where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
 
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
+  limit(n: number): LimitStep
+  offset(n: number): OffsetStep
 }
 
 interface WhereStep extends BaseStep {
@@ -297,7 +321,9 @@ interface WhereStep extends BaseStep {
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 
-  orderBy(...orderByItems: (OrderByItem|OrderByItemInfo)[]): OrderByStep
+  orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
+  limit(n: number): LimitStep
+  offset(n: number): OffsetStep
 }
 
 interface AndStep extends BaseStep {
@@ -309,7 +335,9 @@ interface AndStep extends BaseStep {
   or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 
-  orderBy(...orderByItems: (OrderByItem|OrderByItemInfo)[]): OrderByStep
+  orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
+  limit(n: number): LimitStep
+  offset(n: number): OffsetStep
 }
 
 interface OrStep extends BaseStep {
@@ -321,12 +349,23 @@ interface OrStep extends BaseStep {
   and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
 
-  orderBy(...orderByItems: (OrderByItem|OrderByItemInfo)[]): OrderByStep
+  orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
+  limit(n: number): LimitStep
+  offset(n: number): OffsetStep
+}
+
+interface OrderByStep extends BaseStep {
+  limit(n: number): LimitStep
+  offset(n: number): OffsetStep
+}
+
+interface LimitStep extends BaseStep {
+  offset(n: number): OffsetStep
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface OrderByStep extends BaseStep {
-}
+interface OffsetStep extends BaseStep {}
+
 //@formatter:on
 
 export enum LogicalOperator {

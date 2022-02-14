@@ -24,6 +24,8 @@ export type BuilderData = {
   distinct: ''|' DISTINCT'|' ALL'
   whereParts: (LogicalOperator|Condition|Parenthesis)[],
   orderByItemInfos: OrderByItemInfo[],
+  limit?: number,
+  offset?: number,
   binderStore: BinderStore,
   option: BuilderOption,
 }

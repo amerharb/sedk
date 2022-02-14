@@ -1031,4 +1031,14 @@ describe('test from one table', () => {
 
     expect(actual).toEqual("SELECT \"col1\" FROM \"testTable\" WHERE \"col1\" = (\"col2\" || 'something');")
   })
+
+  it('Produces [SELECT * FROM "testTable" LIMIT 50 OFFSET 10;]', () => {
+    const actual = sql
+      .selectAsteriskFrom(table)
+      .limit(50)
+      .offset(10)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT * FROM "testTable" LIMIT 50 OFFSET 10;')
+  })
 })

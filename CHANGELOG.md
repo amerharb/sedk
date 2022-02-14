@@ -1,6 +1,10 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.8.0]  2022-02-15
+### Added
+- Add LIMIT and OFFSET steps
+
 ## [0.7.1]  2022-02-14
 ### Added
 - Flex arg for OrderBy step, now you can add DESC, ASC, NULLS_FIRST... as argument with columns and aliases

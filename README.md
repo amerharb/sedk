@@ -42,6 +42,13 @@ console.log(bindObj)
 ```
 
 ## What is New
+### Version: 0.8.0
+- LIMIT & OFFSET steps
+```typescript
+sql.selectAsteriskFrom(Employee).limit(50).offset(10).getSQL()
+// SELECT * FROM "Employee" LIMIT 50 OFFSET 10;;
+```
+
 ### Version: 0.7.1
 - ASC, DESC, NULLS_FIRST and NULLS_LAST can be added in OrderBy step
 ```typescript

@@ -19,9 +19,10 @@ import { BuilderOption, fillUndefinedOptionsWithDefault } from './option'
 export type BuilderData = {
   dbSchema: Database,
   option: BuilderOption,
-  //TODO: make table array ot another kind of collection object when we add leftOperand inner join step
-  table?: Table,
+  /** Below data used to generate SQL statment */
   selectItemInfos: SelectItemInfo[],
+  //TODO: make table "FromItemInfo" array
+  table?: Table,
   distinct: ''|' DISTINCT'|' ALL'
   whereParts: (LogicalOperator|Condition|Parenthesis)[],
   orderByItemInfos: OrderByItemInfo[],

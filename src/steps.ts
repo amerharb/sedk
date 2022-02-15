@@ -199,6 +199,8 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
     this.data.table = undefined
     this.data.whereParts.length = 0
     this.data.orderByItemInfos.length = 0
+    this.data.limit = undefined
+    this.data.offset = undefined
     this.data.binderStore.getValues() // when binder return the values its clean up
   }
 

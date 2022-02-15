@@ -195,10 +195,10 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
   }
 
   public cleanUp() {
+    this.data.table = undefined
     this.data.selectItemInfos.length = 0
     this.data.whereParts.length = 0
     this.data.orderByItemInfos.length = 0
-    this.data.table = undefined
     this.data.binderStore.getValues() // when binder return the values its clean up
   }
 

@@ -18,6 +18,7 @@ import { BuilderOption, fillUndefinedOptionsWithDefault } from './option'
 
 export type BuilderData = {
   dbSchema: Database,
+  option: BuilderOption,
   //TODO: make table array ot another kind of collection object when we add leftOperand inner join step
   table?: Table,
   selectItemInfos: SelectItemInfo[],
@@ -27,7 +28,6 @@ export type BuilderData = {
   limit?: number,
   offset?: number,
   binderStore: BinderStore,
-  option: BuilderOption,
 }
 
 export class Builder {

@@ -72,6 +72,29 @@ describe('Test LIMIT and OFFSET Steps', () => {
     expect(actual).toEqual(expected)
   })
 
+  it('Produces [SELECT * FROM "testTable" LIMIT NULL;]', () => {
+    const actual = sql
+      .selectAsteriskFrom(table)
+      .limit(null)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT * FROM "testTable" LIMIT NULL;')
+  })
+
+  it('Produces [SELECT * FROM "testTable" LIMIT $1;] ($1 = null)', () => {
+    const actual = sql
+      .selectAsteriskFrom(table)
+      .limit$(null)
+      .getBinds()
+
+    const expected = {
+      sql: 'SELECT * FROM "testTable" LIMIT $1;',
+      values: [null],
+    }
+
+    expect(actual).toEqual(expected)
+  })
+
   it('Produces [SELECT * FROM "testTable" OFFSET 10;]', () => {
     const actual = sql
       .selectAsteriskFrom(table)

@@ -1043,6 +1043,21 @@ describe('test from one table', () => {
       expect(actual).toEqual('SELECT * FROM "testTable" LIMIT 50 OFFSET 10;')
     })
 
+    it('Produces [SELECT * FROM "testTable" LIMIT $1 OFFSET $2;]', () => {
+      const actual = sql
+        .selectAsteriskFrom(table)
+        .limit$(50)
+        .offset$(10)
+        .getBinds()
+
+      const expected = {
+        sql: 'SELECT * FROM "testTable" LIMIT $1 OFFSET $2;',
+        values: [50, 10],
+      }
+
+      expect(actual).toEqual(expected)
+    })
+
     it('Produces [SELECT * FROM "testTable" LIMIT 50;]', () => {
       const actual = sql
         .selectAsteriskFrom(table)

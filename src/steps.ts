@@ -144,18 +144,14 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
   }
 
   public getSQL(): string {
-    const result = this.getStatement()
-    this.cleanUp()
-    return result
+    return this.getStatement()
   }
 
   public getPostgresqlBinding(): PostgresBinder {
-    const result = {
+    return  {
       sql: this.getStatement(),
       values: this.data.binderStore.getValues(),
     }
-    this.cleanUp()
-    return result
   }
 
   private getStatement(): string {
@@ -200,7 +196,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
     this.data.orderByItemInfos.length = 0
     this.data.limit = undefined
     this.data.offset = undefined
-    this.data.binderStore.getValues() // when binder return the values its clean up
+    this.data.binderStore.cleanUp()
   }
 
   /**

@@ -21,9 +21,11 @@ export class BinderStore {
   }
 
   public getValues(): PrimitiveType[] {
-    const result = this.store.map(it => it.value)
+    return this.store.map(it => it.value)
+  }
+
+  public cleanUp() {
     this.store.length = 0
-    return result
   }
 }
 

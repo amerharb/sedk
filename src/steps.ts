@@ -12,6 +12,7 @@ import {
 } from './orderBy'
 import { SelectItemInfo } from './select'
 import { escapeDoubleQuote } from './util'
+import { Binder } from './binder'
 
 export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
@@ -136,6 +137,14 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
     return this
   }
 
+  public limit$(n: number): LimitStep {
+    if (n < 0)
+      throw new Error(`Invalid limit value ${n}, negative numbers are not allowed`)
+
+    this.data.limit = this.data.binderStore.add(n)
+    return this
+  }
+
   public offset(n: number): OffsetStep {
     if (n < 0)
       throw new Error(`Invalid offset value ${n}, negative numbers are not allowed`)
@@ -148,7 +157,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
   }
 
   public getBinds(): PostgresBinder {
-    return  {
+    return {
       sql: this.getStatement(),
       values: this.data.binderStore.getValues(),
     }
@@ -175,7 +184,11 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
     }
 
     if (this.data.limit !== undefined) {
-      result += ` LIMIT ${this.data.limit}`
+      if (this.data.limit instanceof Binder) {
+        result += ` LIMIT $${this.data.limit.no}`
+      } else {
+        result += ` LIMIT ${this.data.limit}`
+      }
     }
 
     if (this.data.offset !== undefined) {
@@ -306,6 +319,7 @@ export interface FromStep extends BaseStep {
 
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: number): LimitStep
+  limit$(n: number): LimitStep
   offset(n: number): OffsetStep
 }
 
@@ -320,6 +334,7 @@ interface WhereStep extends BaseStep {
 
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: number): LimitStep
+  limit$(n: number): LimitStep
   offset(n: number): OffsetStep
 }
 
@@ -334,6 +349,7 @@ interface AndStep extends BaseStep {
 
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: number): LimitStep
+  limit$(n: number): LimitStep
   offset(n: number): OffsetStep
 }
 
@@ -348,11 +364,13 @@ interface OrStep extends BaseStep {
 
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: number): LimitStep
+  limit$(n: number): LimitStep
   offset(n: number): OffsetStep
 }
 
 interface OrderByStep extends BaseStep {
   limit(n: number): LimitStep
+  limit$(n: number): LimitStep
   offset(n: number): OffsetStep
 }
 

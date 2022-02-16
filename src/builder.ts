@@ -1,6 +1,6 @@
 import { Database, Table } from './schema'
 import { Condition } from './models'
-import { BinderStore } from './binder'
+import { Binder, BinderStore } from './binder'
 import { ASTERISK, Distinct, All } from './singletoneConstants'
 import {
   Step,
@@ -26,7 +26,7 @@ export type BuilderData = {
   distinct: ''|' DISTINCT'|' ALL'
   whereParts: (LogicalOperator|Condition|Parenthesis)[],
   orderByItemInfos: OrderByItemInfo[],
-  limit?: number,
+  limit?: number|Binder,
   offset?: number,
   binderStore: BinderStore,
 }

@@ -34,8 +34,6 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
       }
     })
     this.throwIfColumnsNotInDb(selectItemInfos)
-    //Note: the cleanup needed as there is only one "select" step in the chain that we start with
-    this.cleanUp()
     this.data.selectItemInfos.push(...selectItemInfos)
     return this
   }
@@ -196,6 +194,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
 
   public cleanUp() {
     this.data.selectItemInfos.length = 0
+    this.data.distinct = ''
     this.data.table = undefined
     this.data.whereParts.length = 0
     this.data.orderByItemInfos.length = 0

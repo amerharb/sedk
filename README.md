@@ -31,7 +31,7 @@ console.log(stmt2)
 // SELECT "name", "age" FROM Employee WHERE "name" = 'John' AND "age" > 25;
 
 
-const bindObj = sql.select(name, age).from(Employee).where(name.eq$('John'), AND, age.gt$(25)).getPostgresqlBinding()
+const bindObj = sql.select(name, age).from(Employee).where(name.eq$('John'), AND, age.gt$(25)).getBinds()
 console.log(bindObj)
 /*
 {

@@ -6,7 +6,8 @@
 - Add LIMIT and OFFSET steps
 ### Breaking Changes
 - cleanUp() only called when select step called from builder
-- cleanUp() never call automatically when calling getSQL() or getPostgresBinding()
+- cleanUp() never call automatically when calling getSQL() or getPostgresqlBinding()
+- rename getPostgresqlBinding() to getBinds()
 
 ## [0.7.1]  2022-02-14
 ### Added

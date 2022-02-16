@@ -147,7 +147,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
     return this.getStatement()
   }
 
-  public getPostgresqlBinding(): PostgresBinder {
+  public getBinds(): PostgresBinder {
     return  {
       sql: this.getStatement(),
       values: this.data.binderStore.getValues(),
@@ -285,7 +285,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
 //@formatter:off
 interface BaseStep {
   getSQL(): string
-  getPostgresqlBinding(): PostgresBinder
+  getBinds(): PostgresBinder
   cleanUp(): void
 }
 

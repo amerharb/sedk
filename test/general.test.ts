@@ -214,7 +214,7 @@ describe('test from one table', () => {
       .select(column1, column2)
       .from(table)
       .where(column1.eq$('x'))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1", "col2" FROM "testTable" WHERE "col1" = $1;',
@@ -229,7 +229,7 @@ describe('test from one table', () => {
       .select(column1, column2)
       .from(table)
       .where(column1.ne$('x'))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1", "col2" FROM "testTable" WHERE "col1" <> $1;',
@@ -254,7 +254,7 @@ describe('test from one table', () => {
       .select(column1, column4)
       .from(table)
       .where(column4.eq$(5))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1", "col4" FROM "testTable" WHERE "col4" = $1;',
@@ -279,7 +279,7 @@ describe('test from one table', () => {
       .select(column1, column4)
       .from(table)
       .where(column4.ne$(5))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1", "col4" FROM "testTable" WHERE "col4" <> $1;',
@@ -313,7 +313,7 @@ describe('test from one table', () => {
       .select(column1, column4)
       .from(table)
       .where(column4.ne$(null))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1", "col4" FROM "testTable" WHERE "col4" IS NOT $1;',
@@ -347,7 +347,7 @@ describe('test from one table', () => {
       .select(column1, column4)
       .from(table)
       .where(column4.eq$(null))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1", "col4" FROM "testTable" WHERE "col4" IS $1;',
@@ -362,7 +362,7 @@ describe('test from one table', () => {
       .select(column1, column4)
       .from(table)
       .where(column4.ne$(null))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1", "col4" FROM "testTable" WHERE "col4" IS NOT $1;',
@@ -377,7 +377,7 @@ describe('test from one table', () => {
       .select(column1, column4)
       .from(table)
       .where(column1.eq$(null))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1", "col4" FROM "testTable" WHERE "col1" IS $1;',
@@ -402,7 +402,7 @@ describe('test from one table', () => {
       .select(column1, column2)
       .from(table)
       .where(column1.eq$('x'), AND, column2.eq$('y'))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1", "col2" FROM "testTable" WHERE ( "col1" = $1 AND "col2" = $2 );',
@@ -562,7 +562,7 @@ describe('test from one table', () => {
       .from(table)
       .where(column1.eq$('x'))
       .or(column2.eq$('y'), AND, column3.eq$('z'), AND, column4.eq$(5))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "testTable" WHERE "col1" = $1 OR ( "col2" = $2 AND "col3" = $3 AND "col4" = $4 );',
@@ -587,7 +587,7 @@ describe('test from one table', () => {
       .select(column1)
       .from(table)
       .where(column4.gt$(5))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "testTable" WHERE "col4" > $1;',
@@ -611,7 +611,7 @@ describe('test from one table', () => {
       .select(column1)
       .from(table)
       .where(column4.lt$(5))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "testTable" WHERE "col4" < $1;',
@@ -635,7 +635,7 @@ describe('test from one table', () => {
       .select(column1)
       .from(table)
       .where(column4.ge$(5))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "testTable" WHERE "col4" >= $1;',
@@ -659,7 +659,7 @@ describe('test from one table', () => {
       .select(column1)
       .from(table)
       .where(column4.le$(5))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "testTable" WHERE "col4" <= $1;',
@@ -876,7 +876,7 @@ describe('test from one table', () => {
       .select(column1)
       .from(table)
       .where(column7.eq$(true))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "testTable" WHERE "col7" = $1;',
@@ -891,7 +891,7 @@ describe('test from one table', () => {
       .select(column1)
       .from(table)
       .where(column7.ne$(true))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "testTable" WHERE "col7" <> $1;',
@@ -906,7 +906,7 @@ describe('test from one table', () => {
       .select(column1)
       .from(table)
       .where(column7.eq$(null))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "testTable" WHERE "col7" IS $1;',
@@ -921,7 +921,7 @@ describe('test from one table', () => {
       .select(column1)
       .from(table)
       .where(column7.ne$(null))
-      .getPostgresqlBinding()
+      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "testTable" WHERE "col7" IS NOT $1;',

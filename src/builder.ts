@@ -27,7 +27,7 @@ export type BuilderData = {
   whereParts: (LogicalOperator|Condition|Parenthesis)[],
   orderByItemInfos: OrderByItemInfo[],
   limit?: number|Binder,
-  offset?: number,
+  offset?: number|Binder,
   binderStore: BinderStore,
 }
 

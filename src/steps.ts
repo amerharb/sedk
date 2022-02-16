@@ -131,24 +131,34 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
   }
 
   public limit(n: number): LimitStep {
-    if (n < 0)
+    if (n < 0) {
       throw new Error(`Invalid limit value ${n}, negative numbers are not allowed`)
+    }
     this.data.limit = n
     return this
   }
 
   public limit$(n: number): LimitStep {
-    if (n < 0)
+    if (n < 0) {
       throw new Error(`Invalid limit value ${n}, negative numbers are not allowed`)
-
+    }
     this.data.limit = this.data.binderStore.add(n)
     return this
   }
 
   public offset(n: number): OffsetStep {
-    if (n < 0)
+    if (n < 0) {
       throw new Error(`Invalid offset value ${n}, negative numbers are not allowed`)
+    }
     this.data.offset = n
+    return this
+  }
+
+  public offset$(n: number): OffsetStep {
+    if (n < 0) {
+      throw new Error(`Invalid offset value ${n}, negative numbers are not allowed`)
+    }
+    this.data.offset = this.data.binderStore.add(n)
     return this
   }
 
@@ -192,7 +202,11 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
     }
 
     if (this.data.offset !== undefined) {
-      result += ` OFFSET ${this.data.offset}`
+      if (this.data.offset instanceof Binder) {
+        result += ` OFFSET $${this.data.offset.no}`
+      }else {
+        result += ` OFFSET ${this.data.offset}`
+      }
     }
 
     if (this.data.option.useSemicolonAtTheEnd)
@@ -321,6 +335,7 @@ export interface FromStep extends BaseStep {
   limit(n: number): LimitStep
   limit$(n: number): LimitStep
   offset(n: number): OffsetStep
+  offset$(n: number): OffsetStep
 }
 
 interface WhereStep extends BaseStep {
@@ -336,6 +351,7 @@ interface WhereStep extends BaseStep {
   limit(n: number): LimitStep
   limit$(n: number): LimitStep
   offset(n: number): OffsetStep
+  offset$(n: number): OffsetStep
 }
 
 interface AndStep extends BaseStep {
@@ -351,6 +367,7 @@ interface AndStep extends BaseStep {
   limit(n: number): LimitStep
   limit$(n: number): LimitStep
   offset(n: number): OffsetStep
+  offset$(n: number): OffsetStep
 }
 
 interface OrStep extends BaseStep {
@@ -366,16 +383,19 @@ interface OrStep extends BaseStep {
   limit(n: number): LimitStep
   limit$(n: number): LimitStep
   offset(n: number): OffsetStep
+  offset$(n: number): OffsetStep
 }
 
 interface OrderByStep extends BaseStep {
   limit(n: number): LimitStep
   limit$(n: number): LimitStep
   offset(n: number): OffsetStep
+  offset$(n: number): OffsetStep
 }
 
 interface LimitStep extends BaseStep {
   offset(n: number): OffsetStep
+  offset$(n: number): OffsetStep
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

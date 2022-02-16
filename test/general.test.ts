@@ -1074,5 +1074,19 @@ describe('test from one table', () => {
 
       expect(actual).toEqual('SELECT * FROM "testTable" OFFSET 10;')
     })
+
+    it('Produces [SELECT * FROM "testTable" OFFSET $1;]', () => {
+      const actual = sql
+        .selectAsteriskFrom(table)
+        .offset$(10)
+        .getBinds()
+
+      const expected = {
+        sql: 'SELECT * FROM "testTable" OFFSET $1;',
+        values: [10],
+      }
+
+      expect(actual).toEqual(expected)
+    })
   })
 })

@@ -12,7 +12,6 @@ import {
 } from './orderBy'
 import { SelectItemInfo } from './select'
 import { escapeDoubleQuote } from './util'
-import { Binder } from './binder'
 
 export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
@@ -196,19 +195,13 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
     if (this.data.limit !== undefined) {
       if (this.data.limit === null) {
         result += ' LIMIT NULL'
-      } else if (this.data.limit instanceof Binder) {
-        result += ` LIMIT $${this.data.limit.no}`
       } else {
         result += ` LIMIT ${this.data.limit}`
       }
     }
 
     if (this.data.offset !== undefined) {
-      if (this.data.offset instanceof Binder) {
-        result += ` OFFSET $${this.data.offset.no}`
-      }else {
-        result += ` OFFSET ${this.data.offset}`
-      }
+      result += ` OFFSET ${this.data.offset}`
     }
 
     if (this.data.option.useSemicolonAtTheEnd)

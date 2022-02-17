@@ -95,7 +95,7 @@ export class Operand {
     if (this.value === null) {
       return 'NULL'
     } else if (this.value instanceof Binder) {
-      return `$${this.value.no}`
+      return `${this.value}`
     } else if (typeof this.value === 'string') {
       // escape single quote by repeating it
       const escapedValue = this.value.replace(/'/g, '\'\'')

@@ -30,5 +30,12 @@ export class BinderStore {
 }
 
 export class Binder {
-  public constructor(public readonly no: number, public readonly value: PrimitiveType) {}
+  public constructor(
+    public readonly no: number,
+    public readonly value: PrimitiveType
+  ) {}
+
+  public toString(): string {
+    return `$${this.no}`
+  }
 }

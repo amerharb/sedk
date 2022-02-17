@@ -26,7 +26,7 @@ export type BuilderData = {
   distinct: ''|' DISTINCT'|' ALL'
   whereParts: (LogicalOperator|Condition|Parenthesis)[],
   orderByItemInfos: OrderByItemInfo[],
-  limit?: null|number|Binder,
+  limit?: null|number|Binder|All,
   offset?: number|Binder,
   binderStore: BinderStore,
 }

@@ -5,6 +5,7 @@ import {
   NumberColumn,
   Table,
   TextColumn,
+  ALL,
 } from '../src'
 
 describe('Test LIMIT and OFFSET Steps', () => {
@@ -79,6 +80,15 @@ describe('Test LIMIT and OFFSET Steps', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT * FROM "testTable" LIMIT NULL;')
+  })
+
+  it('Produces [SELECT * FROM "testTable" LIMIT ALL;]', () => {
+    const actual = sql
+      .selectAsteriskFrom(table)
+      .limit(ALL)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT * FROM "testTable" LIMIT ALL;')
   })
 
   it('Produces [SELECT * FROM "testTable" LIMIT $1;] ($1 = null)', () => {

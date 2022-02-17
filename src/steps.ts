@@ -2,7 +2,7 @@ import { Condition, Expression, PostgresBinder } from './models'
 import { Column, Table } from './schema'
 import { ColumnNotFoundError, TableNotFoundError } from './errors'
 import { BuilderData } from './builder'
-import { Asterisk } from './singletoneConstants'
+import { All, Asterisk } from './singletoneConstants'
 import {
   OrderByItem,
   OrderByItemInfo,
@@ -130,7 +130,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
     return this
   }
 
-  public limit(n: null|number): LimitStep {
+  public limit(n: null|number|All): LimitStep {
     if (typeof n === 'number' && n < 0) {
       throw new Error(`Invalid limit value ${n}, negative numbers are not allowed`)
     }
@@ -334,7 +334,7 @@ export interface FromStep extends BaseStep {
   where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
 
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
-  limit(n: null|number): LimitStep
+  limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
   offset(n: number): OffsetStep
   offset$(n: number): OffsetStep
@@ -350,7 +350,7 @@ interface WhereStep extends BaseStep {
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
-  limit(n: null|number): LimitStep
+  limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
   offset(n: number): OffsetStep
   offset$(n: number): OffsetStep
@@ -366,7 +366,7 @@ interface AndStep extends BaseStep {
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
 
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
-  limit(n: null|number): LimitStep
+  limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
   offset(n: number): OffsetStep
   offset$(n: number): OffsetStep
@@ -382,14 +382,14 @@ interface OrStep extends BaseStep {
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
 
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
-  limit(n: null|number): LimitStep
+  limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
   offset(n: number): OffsetStep
   offset$(n: number): OffsetStep
 }
 
 interface OrderByStep extends BaseStep {
-  limit(n: null|number): LimitStep
+  limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
   offset(n: number): OffsetStep
   offset$(n: number): OffsetStep

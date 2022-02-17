@@ -31,22 +31,37 @@ console.log(stmt2)
 // SELECT "name", "age" FROM Employee WHERE "name" = 'John' AND "age" > 25;
 
 
-const bindObj = sql.select(name, age).from(Employee).where(name.eq$('John'), AND, age.gt$(25)).getPostgresqlBinding()
+const bindObj = sql.select(name, age).from(Employee).where(name.eq$('John'), AND, age.gt$(25)).getBinds()
 console.log(bindObj)
 /*
 {
   sql: 'SELECT "name", "age" FROM Employee WHERE ("name" = $1 AND "age" > $2);',
   values: ['john', 25],
 }
-*/
+ */
 ```
 
 ## What is New
+### Version: 0.8.0
+- LIMIT & OFFSET steps
+```typescript
+sql.selectAsteriskFrom(Employee).limit(50).offset(10).getSQL()
+// SELECT * FROM "Employee" LIMIT 50 OFFSET 10;
+
+sql.selectAsteriskFrom(Employee).limit$(50).offset$(10).getBinds()
+/*
+{
+  sql: 'SELECT * FROM "Employee" LIMIT $1 OFFSET $2',
+  values: [50, 10],
+}
+ */
+```
+
 ### Version: 0.7.1
 - ASC, DESC, NULLS_FIRST and NULLS_LAST can be added in OrderBy step
 ```typescript
 sql.selectAsteriskFrom(Employee).orderBy(column1, ASC, NULLS_FIRST).getSQL()
-// SELECT * FROM "Employee" ORDER BY "col1" ASC NULLS FIRST;;
+// SELECT * FROM "Employee" ORDER BY "col1" ASC NULLS FIRST;
 ```
 ### Version: 0.7.0
 - Table & column name always has double quote around their names

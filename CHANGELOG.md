@@ -1,6 +1,15 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.8.0]  2022-02-16
+### Added
+- Add LIMIT and OFFSET steps
+- Add LIMIT$ and OFFSET& for binds values
+### Breaking Changes
+- cleanUp() only called when select step called from builder
+- cleanUp() never call automatically when calling getSQL() or getPostgresqlBinding()
+- rename getPostgresqlBinding() to getBinds()
+
 ## [0.7.1]  2022-02-14
 ### Added
 - Flex arg for OrderBy step, now you can add DESC, ASC, NULLS_FIRST... as argument with columns and aliases

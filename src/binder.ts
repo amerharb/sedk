@@ -21,12 +21,21 @@ export class BinderStore {
   }
 
   public getValues(): PrimitiveType[] {
-    const result = this.store.map(it => it.value)
+    return this.store.map(it => it.value)
+  }
+
+  public cleanUp() {
     this.store.length = 0
-    return result
   }
 }
 
 export class Binder {
-  public constructor(public readonly no: number, public readonly value: PrimitiveType) {}
+  public constructor(
+    public readonly no: number,
+    public readonly value: PrimitiveType
+  ) {}
+
+  public toString(): string {
+    return `$${this.no}`
+  }
 }

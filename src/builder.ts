@@ -1,6 +1,6 @@
 import { Database, Table } from './schema'
 import { Condition } from './models'
-import { BinderStore } from './binder'
+import { Binder, BinderStore } from './binder'
 import { ASTERISK, Distinct, All } from './singletoneConstants'
 import {
   Step,
@@ -18,14 +18,17 @@ import { BuilderOption, fillUndefinedOptionsWithDefault } from './option'
 
 export type BuilderData = {
   dbSchema: Database,
-  //TODO: make table array ot another kind of collection object when we add leftOperand inner join step
-  table?: Table,
+  option: BuilderOption,
+  /** Below data used to generate SQL statment */
   selectItemInfos: SelectItemInfo[],
+  //TODO: make table "FromItemInfo" array
+  table?: Table,
   distinct: ''|' DISTINCT'|' ALL'
   whereParts: (LogicalOperator|Condition|Parenthesis)[],
   orderByItemInfos: OrderByItemInfo[],
+  limit?: null|number|Binder|All,
+  offset?: number|Binder,
   binderStore: BinderStore,
-  option: BuilderOption,
 }
 
 export class Builder {

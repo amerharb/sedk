@@ -146,4 +146,24 @@ describe('Throw desired Errors', () => {
 
     expect(actual).toThrow(/^ DESC shouldn't come after "ASC" or "DESC" without column or alias in between$/)
   })
+
+  it('Throws error when LIMIT step has negative number', () => {
+    function actual() {
+      sql
+        .selectAsteriskFrom(table)
+        .limit(-1)
+    }
+
+    expect(actual).toThrow(/^Invalid limit value -1, negative numbers are not allowed$/)
+  })
+
+  it('Throws error when OFFSET step has negative number', () => {
+    function actual() {
+      sql
+        .selectAsteriskFrom(table)
+        .offset(-1)
+    }
+
+    expect(actual).toThrow(/^Invalid offset value -1, negative numbers are not allowed$/)
+  })
 })

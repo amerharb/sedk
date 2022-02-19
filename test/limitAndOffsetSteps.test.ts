@@ -1,7 +1,7 @@
 import {
   Builder,
   BooleanColumn,
-  Database,
+  Schema,
   NumberColumn,
   Table,
   TextColumn,
@@ -22,8 +22,8 @@ describe('Test LIMIT and OFFSET Steps', () => {
     'testTable',
     [column1, column2, column3, column4, column5, column6, column7, column8],
   )
-  const db = new Database([table], 1)
-  const sql = new Builder(db)
+  const schema = new Schema([table])
+  const sql = new Builder(schema)
 
   it('Produces [SELECT * FROM "testTable" LIMIT 50 OFFSET 10;]', () => {
     const actual = sql

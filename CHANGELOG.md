@@ -1,7 +1,15 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.8.0]  2022-02-16
+## [0.8.1]  2022-02-19
+### Breaking Changes
+- restructure Database schema classes
+  - remove version no
+  - rename class Database to Schema
+  - tables now belong to Schema
+  - create class Database that contain several schemas
+
+## [0.8.0]  2022-02-17
 ### Added
 - Add LIMIT and OFFSET steps
 - Add LIMIT$ and OFFSET& for binds values

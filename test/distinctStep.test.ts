@@ -1,6 +1,6 @@
 import {
   Builder,
-  Database,
+  Schema,
   Table,
   TextColumn,
   ALL,
@@ -15,8 +15,8 @@ describe('test orderBy Step', () => {
     'testTable',
     [column1, column2],
   )
-  const db = new Database([table], 1)
-  const sql = new Builder(db)
+  const schema = new Schema([table])
+  const sql = new Builder(schema)
 
   /* In Postgres it is allowed to have FROM directly
    after SELECT with or without ALL

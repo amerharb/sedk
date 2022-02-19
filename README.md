@@ -12,7 +12,7 @@ import * as sedk from 'sedk-postgres'
 const name = new sedk.TextColumn("name")
 const age = new sedk.NumberColumn("age")
 const Employee = new sedk.Table('Employee', [name, age])
-const schema = new sedk.Database([Employee])
+const schema = new sedk.Schema([Employee])
 
 //Aliases
 const AND = sedk.LogicalOperator.AND

@@ -27,17 +27,26 @@ import { SelectItemInfo } from './select'
 import { escapeDoubleQuote } from './util'
 
 export class Database {
-  private readonly version?: number
-  private readonly tables: Table[]
+  constructor(private readonly schemas: Schema[]) {}
 
-  constructor(tables: Table[], version?: number) {
-    this.tables = tables
-    this.version = version
+  public getSchemas(): Schema[] {
+    return this.schemas
   }
 
-  public getVersion(): number|undefined {
-    return this.version
+  public isSchemaExist(schema: Schema): boolean {
+    let found = false
+    for (const s of this.schemas) {
+      if (schema === s) {
+        found = true
+        break
+      }
+    }
+    return found
   }
+}
+
+export class Schema {
+  constructor(private readonly tables: Table[]) {}
 
   public getTables(): Table[] {
     return this.tables

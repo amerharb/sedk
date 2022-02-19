@@ -2,7 +2,7 @@ import {
   Builder,
   BooleanColumn,
   ColumnNotFoundError,
-  Database,
+  Schema,
   e,
   LogicalOperator,
   NumberColumn,
@@ -42,8 +42,8 @@ describe('test from one table', () => {
     'testTable',
     [column1, column2, column3, column4, column5, column6, column7, column8],
   )
-  const db = new Database([table], 1)
-  const sql = new Builder(db)
+  const schema = new Schema([table])
+  const sql = new Builder(schema)
 
   /* In Postgres it is ok to have FROM directly after SELECT */
   it('Produces [SELECT FROM "testTable";]', () => {

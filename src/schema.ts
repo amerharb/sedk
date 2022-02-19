@@ -26,16 +26,21 @@ import {
 import { SelectItemInfo } from './select'
 import { escapeDoubleQuote } from './util'
 
+type DatabaseObj = {
+  version: number
+  schemas: Schema[]
+}
+
 export class Database {
-  constructor(private readonly schemas: Schema[]) {}
+  constructor(private readonly data: DatabaseObj) {}
 
   public getSchemas(): Schema[] {
-    return this.schemas
+    return this.data.schemas
   }
 
   public isSchemaExist(schema: Schema): boolean {
     let found = false
-    for (const s of this.schemas) {
+    for (const s of this.data.schemas) {
       if (schema === s) {
         found = true
         break
@@ -45,16 +50,23 @@ export class Database {
   }
 }
 
+type SchemaObj = {
+  schemaName: string
+  tables: Table[]
+}
+
 export class Schema {
-  constructor(private readonly tables: Table[]) {}
+  constructor(private readonly data: SchemaObj) {
+    data.tables.forEach(it => it.schema = this)
+  }
 
   public getTables(): Table[] {
-    return this.tables
+    return this.data.tables
   }
 
   public isTableExist(table: Table): boolean {
     let found = false
-    for (const t of this.tables) {
+    for (const t of this.data.tables) {
       if (table === t) {
         found = true
         break
@@ -64,18 +76,34 @@ export class Schema {
   }
 }
 
-export class Table {
-  private readonly tableName: string
-  private readonly columns: Column[]
+type TableObj = {
+  tableName: string
+  columns: Column[]
+}
 
-  constructor(tableName: string, columns: Column[]) {
-    this.tableName = tableName
-    columns.forEach(it => it.table = this)
-    this.columns = columns
+export class Table {
+  private mSchema?: Schema
+
+  constructor(private readonly data: TableObj) {
+    data.columns.forEach(it => it.table = this)
+  }
+
+  public set schema(schema: Schema) {
+    if (this.mSchema === undefined)
+      this.mSchema = schema
+    else
+      throw new Error('Schema can only be assigned one time')
+  }
+
+  public get schema(): Schema {
+    if (this.mSchema === undefined)
+      throw new Error('Table was not assigned')
+
+    return this.mSchema
   }
 
   public getColumn(columnName: string): Column|null {
-    for (const col of this.columns) {
+    for (const col of this.data.columns) {
       if (col.columnName === columnName) {
         return col
       }
@@ -84,19 +112,24 @@ export class Table {
   }
 
   public getColumns() {
-    return this.columns
+    return this.data.columns
   }
 
   public toString() {
-    return `"${escapeDoubleQuote(this.tableName)}"`
+    return `"${escapeDoubleQuote(this.data.tableName)}"`
   }
 }
 
-export abstract class Column {
+type ColumnObj = {
+  columnName: string
+  type: 'Number'|'Text'|'Boolean'
+}
+
+abstract class Column {
   protected readonly binderStore = BinderStore.getInstance()
   private mTable?: Table
 
-  protected constructor(public readonly columnName: string) {}
+  protected constructor(public readonly data: ColumnObj) {}
 
   public set table(table: Table) {
     if (this.mTable === undefined)
@@ -110,6 +143,10 @@ export abstract class Column {
       throw new Error('Table was not assigned')
 
     return this.mTable
+  }
+
+  public get columnName(): string {
+    return this.data.columnName
   }
 
   public as(alias: string): SelectItemInfo {
@@ -149,7 +186,7 @@ export abstract class Column {
   }
 
   public toString() {
-    return `"${escapeDoubleQuote(this.columnName)}"`
+    return `"${escapeDoubleQuote(this.data.columnName)}"`
   }
 }
 
@@ -159,8 +196,8 @@ export class BooleanColumn extends Column implements Condition {
   public readonly leftOperand: Operand = this.leftExpression.leftOperand
   public readonly type: ExpressionType = ExpressionType.BOOLEAN
 
-  constructor(columnName: string) {
-    super(columnName)
+  constructor(data: ColumnObj) {
+    super(data)
   }
 
   public eq(value: null|BooleanLike): Condition {
@@ -195,8 +232,8 @@ export class BooleanColumn extends Column implements Condition {
 }
 
 export class NumberColumn extends Column {
-  constructor(columnName: string) {
-    super(columnName)
+  constructor(data: ColumnObj) {
+    super(data)
   }
 
   public eq(value: null|NumberLike): Condition
@@ -272,9 +309,9 @@ export class NumberColumn extends Column {
   }
 }
 
-export class TextColumn extends Column {
-  constructor(columnName: string) {
-    super(columnName)
+class TextColumn extends Column {
+  constructor(data: ColumnObj) {
+    super(data)
   }
 
   public eq(value: Expression): Condition
@@ -305,5 +342,16 @@ export class TextColumn extends Column {
 
   public concat(value: TextLike): Expression {
     return new Expression(this, TextOperator.CONCAT, value)
+  }
+}
+
+export function c(data: ColumnObj): Column {
+  switch (data.type) {
+  case 'Boolean':
+    return new BooleanColumn(data)
+  case 'Number':
+    return new NumberColumn(data)
+  case 'Text':
+    return new TextColumn(data)
   }
 }

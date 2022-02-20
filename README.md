@@ -19,7 +19,7 @@ const database = new sedk.Database({ version: 1, schemas: [schema] })
 const AND = sedk.LogicalOperator.AND
 
 // start to build your SQL & Binder
-const sql = new sedk.Builder(schema)
+const sql = new sedk.Builder(database)
 
 const stmt1 = sql.select(name, age).from(Employee).where(name.eq('John'), AND, age.gt(25)).getSQL()
 console.log(stmt1)

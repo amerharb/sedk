@@ -21,7 +21,7 @@ module.exports = {
         'quotes': ['warn', 'single', { 'avoidEscape': true }],
         'semi': ['warn', 'never'],
         'object-curly-spacing': [
-          'warn', 'always', { 'objectsInObjects': false, 'arraysInObjects': false },
+          'warn', 'always', { 'objectsInObjects': false, 'arraysInObjects': true },
         ],
         'no-empty-function': ['error', { 'allow': ['constructors'] }],
         'no-explicit-any': ['off'],

@@ -1,5 +1,12 @@
 // database schema
-import { BooleanColumn, Database, NumberColumn, Schema, Table, TextColumn } from '../src'
+import {
+  Database,
+  Schema,
+  Table,
+  BooleanColumn,
+  NumberColumn,
+  TextColumn,
+} from '../src'
 
 export const column1 = new TextColumn({ name: 'col1' })
 export const column2 = new TextColumn({ name: 'col2' })

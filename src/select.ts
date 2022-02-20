@@ -1,6 +1,6 @@
 import { BuilderOption } from './option'
 import { SelectItem } from './steps'
-import { Column } from './schema'
+import { Column } from './database'
 import { Expression } from './models'
 import { escapeDoubleQuote } from './util'
 

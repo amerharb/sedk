@@ -1,5 +1,5 @@
 import { Condition, Expression, PostgresBinder } from './models'
-import { Column, Table } from './schema'
+import { Column, Table } from './database'
 import { ColumnNotFoundError, TableNotFoundError } from './errors'
 import { BuilderData } from './builder'
 import { All, Asterisk } from './singletoneConstants'

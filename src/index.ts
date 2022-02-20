@@ -20,7 +20,7 @@ export {
   BooleanColumn,
   NumberColumn,
   TextColumn,
-} from './schema'
+} from './database'
 export {
   OrderByDirection,
   DIRECTION_NOT_EXIST,

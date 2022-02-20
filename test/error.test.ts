@@ -49,7 +49,7 @@ describe('Throw desired Errors', () => {
   })
 
   it('Throws error when table not exist', () => {
-    const wrongTable = new Table({ tableName: 'wrongTable', columns: [new TextColumn({ name: 'anyColumn' })] })
+    const wrongTable = new Table({ name: 'wrongTable', columns: [new TextColumn({ name: 'anyColumn' })] })
 
     function actual() {
       sql.select(column1).from(wrongTable)

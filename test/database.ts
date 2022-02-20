@@ -10,8 +10,8 @@ export const column6 = new NumberColumn({ name: 'col6' })
 export const column7 = new BooleanColumn({ name: 'col7' })
 export const column8 = new BooleanColumn({ name: 'col8' })
 export const table = new Table({
-  tableName: 'testTable',
+  name: 'testTable',
   columns: [column1, column2, column3, column4, column5, column6, column7, column8],
 })
-export const schema = new Schema({ schemaName: 'public', tables: [table] })
+export const schema = new Schema({ name: 'public', tables: [table] })
 export const database = new Database({ version: 1, schemas: [schema] })

@@ -62,7 +62,7 @@ export class Database {
 }
 
 type SchemaObj = {
-  schemaName: string
+  name: string
   tables: Table[]
 }
 
@@ -88,7 +88,7 @@ export class Schema {
 }
 
 type TableObj = {
-  tableName: string
+  name: string
   columns: Column[]
 }
 
@@ -127,7 +127,7 @@ export class Table {
   }
 
   public toString() {
-    return `"${escapeDoubleQuote(this.data.tableName)}"`
+    return `"${escapeDoubleQuote(this.data.name)}"`
   }
 }
 

@@ -14,12 +14,13 @@ export {
   InvalidExpressionError,
 } from './errors'
 export {
+  Database,
   Schema,
   Table,
   BooleanColumn,
   NumberColumn,
   TextColumn,
-} from './schema'
+} from './database'
 export {
   OrderByDirection,
   DIRECTION_NOT_EXIST,

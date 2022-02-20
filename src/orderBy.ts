@@ -1,5 +1,5 @@
 import { BuilderOption } from './option'
-import { Column } from './schema'
+import { Column } from './database'
 import { Expression } from './models'
 
 export type OrderByItem = Column|Expression|string

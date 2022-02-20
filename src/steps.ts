@@ -252,7 +252,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
   }
 
   private throwIfTableNotInDb(table: Table) {
-    if (!this.data.schema.isTableExist(table))
+    if (!this.data.database.isTableExist(table))
       throw new TableNotFoundError(`Table: ${table} not found`)
   }
 
@@ -268,15 +268,17 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
         continue
       }
       // item is Column from here
-      if (this.data.schema.getTables().find(it  => {
-        try {
-          return it === item.table
-        } catch (err) {
-          //TODO: change here when this error got it's own class
-          if (err instanceof Error && err.message === 'Table was not assigned')
-            return false
-        }
-      }) === undefined) { // currently, there is only one table in the query
+      if (this.data.database.getSchemas().find(schema => {
+        return schema.getTables().find(table => {
+          try {
+            return table === item.table
+          } catch (err) {
+            //TODO: change here when this error got it's own class
+            if (err instanceof Error && err.message === 'Table was not assigned')
+              return false
+          }
+        })
+      }) === undefined) {
         throw new ColumnNotFoundError(`Column: ${item} not found in database`)
       }
     }

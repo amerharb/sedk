@@ -1,19 +1,16 @@
-import { Builder, Schema, Table, TextColumn } from '../src'
+import { Builder } from '../src'
+import {
+  database,
+  table,
+  column1,
+  column2,
+} from './database'
 
 describe('test Options', () => {
-  const column1 = new TextColumn('col1')
-  const column2 = new TextColumn('col2')
-
-  const table = new Table(
-    'testTable',
-    [column1, column2],
-  )
-  const schema = new Schema([table])
-
   describe('test Semicolon Option', () => {
-    const sqlWithoutSemicolon = new Builder(schema, { useSemicolonAtTheEnd: false })
-    const sqlWithSemicolon = new Builder(schema, { useSemicolonAtTheEnd: true })
-    const sqlDefault = new Builder(schema)
+    const sqlWithoutSemicolon = new Builder(database, { useSemicolonAtTheEnd: false })
+    const sqlWithSemicolon = new Builder(database, { useSemicolonAtTheEnd: true })
+    const sqlDefault = new Builder(database)
     it('Produces [SELECT 1 FROM "testTable"] without semicolon', () => {
       const actual = sqlWithoutSemicolon
         .select(1)
@@ -43,10 +40,10 @@ describe('test Options', () => {
   })
 
   describe('test OrderBy ASC Option', () => {
-    const sqlAlways = new Builder(schema, { addAscAfterOrderByItem: 'always' })
-    const sqlNever = new Builder(schema, { addAscAfterOrderByItem: 'never' })
-    const sqlWhenMentioned = new Builder(schema, { addAscAfterOrderByItem: 'when mentioned' })
-    const sqlDefault = new Builder(schema)
+    const sqlAlways = new Builder(database, { addAscAfterOrderByItem: 'always' })
+    const sqlNever = new Builder(database, { addAscAfterOrderByItem: 'never' })
+    const sqlWhenMentioned = new Builder(database, { addAscAfterOrderByItem: 'when mentioned' })
+    const sqlDefault = new Builder(database)
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;] option(always)', () => {
       const actual = sqlAlways
         .select(column1)
@@ -129,10 +126,10 @@ describe('test Options', () => {
   })
 
   describe('test OrderBy NULLS LAST Option', () => {
-    const sqlAlways = new Builder(schema, { addNullsLastAfterOrderByItem: 'always' })
-    const sqlNever = new Builder(schema, { addNullsLastAfterOrderByItem: 'never' })
-    const sqlWhenMentioned = new Builder(schema, { addNullsLastAfterOrderByItem: 'when mentioned' })
-    const sqlDefault = new Builder(schema)
+    const sqlAlways = new Builder(database, { addNullsLastAfterOrderByItem: 'always' })
+    const sqlNever = new Builder(database, { addNullsLastAfterOrderByItem: 'never' })
+    const sqlWhenMentioned = new Builder(database, { addNullsLastAfterOrderByItem: 'when mentioned' })
+    const sqlDefault = new Builder(database)
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" NULLS LAST;] option(always)', () => {
       const actual = sqlAlways
         .select(column1)
@@ -215,9 +212,9 @@ describe('test Options', () => {
   })
 
   describe('test SelectItems AS Option', () => {
-    const sqlAlways = new Builder(schema, { addAsBeforeColumnAlias: 'always' })
-    const sqlNever = new Builder(schema, { addAsBeforeColumnAlias: 'never' })
-    const sqlDefault = new Builder(schema)
+    const sqlAlways = new Builder(database, { addAsBeforeColumnAlias: 'always' })
+    const sqlNever = new Builder(database, { addAsBeforeColumnAlias: 'never' })
+    const sqlDefault = new Builder(database)
     it('Produces [SELECT "col1" AS "C1" FROM "testTable";] option(always)', () => {
       const actual = sqlAlways
         .select(column1.as('C1'))

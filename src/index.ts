@@ -19,7 +19,7 @@ export {
   Table,
   BooleanColumn,
   NumberColumn,
-  c,
+  TextColumn,
 } from './schema'
 export {
   OrderByDirection,

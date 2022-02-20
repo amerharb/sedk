@@ -48,6 +48,17 @@ export class Database {
     }
     return found
   }
+
+  public isTableExist(table: Table): boolean {
+    let found = false
+    for (const schema of this.data.schemas) {
+      if (schema.isTableExist(table)) {
+        found = true
+        break
+      }
+    }
+    return found
+  }
 }
 
 type SchemaObj = {
@@ -122,10 +133,9 @@ export class Table {
 
 type ColumnObj = {
   columnName: string
-  type: 'Number'|'Text'|'Boolean'
 }
 
-abstract class Column {
+export abstract class Column {
   protected readonly binderStore = BinderStore.getInstance()
   private mTable?: Table
 
@@ -309,7 +319,7 @@ export class NumberColumn extends Column {
   }
 }
 
-class TextColumn extends Column {
+export class TextColumn extends Column {
   constructor(data: ColumnObj) {
     super(data)
   }
@@ -342,16 +352,5 @@ class TextColumn extends Column {
 
   public concat(value: TextLike): Expression {
     return new Expression(this, TextOperator.CONCAT, value)
-  }
-}
-
-export function c(data: ColumnObj): Column {
-  switch (data.type) {
-  case 'Boolean':
-    return new BooleanColumn(data)
-  case 'Number':
-    return new NumberColumn(data)
-  case 'Text':
-    return new TextColumn(data)
   }
 }

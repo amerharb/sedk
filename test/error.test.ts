@@ -1,10 +1,7 @@
 import {
   Builder,
-  BooleanColumn,
   ColumnNotFoundError,
-  Schema,
   e,
-  NumberColumn,
   Table,
   TableNotFoundError,
   TextColumn,
@@ -17,27 +14,19 @@ import {
   NULLS_FIRST,
   NULLS_LAST,
 } from '../src'
+import {
+  database,
+  table,
+  column1,
+  column3,
+} from './database'
 
 //Alias
 const ADD = ArithmeticOperator.ADD
 const GT = ComparisonOperator.GreaterThan
 
 describe('Throw desired Errors', () => {
-  // database schema
-  const column1 = new TextColumn('col1')
-  const column2 = new TextColumn('col2')
-  const column3 = new TextColumn('col3')
-  const column4 = new NumberColumn('col4')
-  const column5 = new NumberColumn('col5')
-  const column6 = new NumberColumn('col6')
-  const column7 = new BooleanColumn('col7')
-  const column8 = new BooleanColumn('col8')
-  const table = new Table(
-    'testTable',
-    [column1, column2, column3, column4, column5, column6, column7, column8],
-  )
-  const schema = new Schema([table])
-  const sql = new Builder(schema)
+  const sql = new Builder(database)
 
   it('Throws error when add invalid operator', () => {
     function actual() {
@@ -49,7 +38,7 @@ describe('Throw desired Errors', () => {
   })
 
   it('Throws error when column not exist', () => {
-    const wrongColumn = new TextColumn('wrongColumn')
+    const wrongColumn = new TextColumn({ columnName: 'wrongColumn' })
 
     function actual() {
       sql.select(column1, wrongColumn, column3)
@@ -60,7 +49,7 @@ describe('Throw desired Errors', () => {
   })
 
   it('Throws error when table not exist', () => {
-    const wrongTable = new Table('wrongTable', [new TextColumn('anyColumn')])
+    const wrongTable = new Table({ tableName: 'wrongTable', columns: [new TextColumn({ columnName: 'anyColumn' })] })
 
     function actual() {
       sql.select(column1).from(wrongTable)

@@ -1,4 +1,4 @@
-import { Schema, Table } from './schema'
+import { Database, Table } from './schema'
 import { Condition } from './models'
 import { Binder, BinderStore } from './binder'
 import { ASTERISK, Distinct, All } from './singletoneConstants'
@@ -17,7 +17,7 @@ import { SelectItemInfo } from './select'
 import { BuilderOption, fillUndefinedOptionsWithDefault } from './option'
 
 export type BuilderData = {
-  schema: Schema,
+  database: Database,
   option: BuilderOption,
   /** Below data used to generate SQL statment */
   selectItemInfos: SelectItemInfo[],
@@ -35,9 +35,9 @@ export class Builder {
   private readonly data: BuilderData
   private rootStep: RootStep
 
-  constructor(database: Schema, option?: BuilderOption) {
+  constructor(database: Database, option?: BuilderOption) {
     this.data = {
-      schema: database,
+      database: database,
       table: undefined,
       selectItemInfos: [],
       distinct: '',

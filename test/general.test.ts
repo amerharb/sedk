@@ -774,7 +774,7 @@ describe('test from one table', () => {
     })
 
     it('Throws error when column not exist', () => {
-      const wrongColumn = new TextColumn({ columnName: 'wrongColumn' })
+      const wrongColumn = new TextColumn({ name: 'wrongColumn' })
 
       function actual() {
         sql.select(column1, wrongColumn, column3)
@@ -785,7 +785,7 @@ describe('test from one table', () => {
     })
 
     it('Throws error when table not exist', () => {
-      const wrongTable = new Table({ tableName: 'wrongTable', columns: [new TextColumn({ columnName: 'anyColumn' })] })
+      const wrongTable = new Table({ tableName: 'wrongTable', columns: [new TextColumn({ name: 'anyColumn' })] })
 
       function actual() {
         sql.select(column1).from(wrongTable)

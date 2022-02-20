@@ -132,7 +132,7 @@ export class Table {
 }
 
 type ColumnObj = {
-  columnName: string
+  name: string
 }
 
 export abstract class Column {
@@ -156,7 +156,7 @@ export abstract class Column {
   }
 
   public get columnName(): string {
-    return this.data.columnName
+    return this.data.name
   }
 
   public as(alias: string): SelectItemInfo {
@@ -196,7 +196,7 @@ export abstract class Column {
   }
 
   public toString() {
-    return `"${escapeDoubleQuote(this.data.columnName)}"`
+    return `"${escapeDoubleQuote(this.data.name)}"`
   }
 }
 

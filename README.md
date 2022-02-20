@@ -9,11 +9,11 @@ schema
 import * as sedk from 'sedk-postgres'
 
 //define the schema
-export const name = new sedk.TextColumn({ name: 'col7' })
-export const age = new sedk.NumberColumn({ name: 'col8' })
-export const Employee = new sedk.Table({ name: 'Employee', columns: [name, age] })
-export const schema = new sedk.Schema({ name: 'public', tables: [Employee] })
-export const database = new sedk.Database({ version: 1, schemas: [schema] })
+const name = new sedk.TextColumn({ name: 'col7' })
+const age = new sedk.NumberColumn({ name: 'col8' })
+const Employee = new sedk.Table({ name: 'Employee', columns: [name, age] })
+const schema = new sedk.Schema({ name: 'public', tables: [Employee] })
+const database = new sedk.Database({ version: 1, schemas: [schema] })
 
 //Aliases
 const AND = sedk.LogicalOperator.AND

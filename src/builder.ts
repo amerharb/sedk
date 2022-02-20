@@ -15,6 +15,7 @@ import {
 import { OrderByItemInfo } from './orderBy'
 import { SelectItemInfo } from './select'
 import { BuilderOption, fillUndefinedOptionsWithDefault } from './option'
+import { MoreThanOneDistinctOrAllError } from './errors'
 
 export type BuilderData = {
   database: Database,
@@ -56,7 +57,7 @@ export class Builder {
       if (items.length <= 1) throw new Error('Select step must have at least one parameter after DISTINCT')
       this.rootStep.cleanUp()
       items.shift() //remove first item the DISTINCT item
-      //TODO: throw error if items contain another DISTINCT or ALL
+      Builder.throwIfMoreThanOneDistinctOrAll(items)
       const newItems = items as unknown[] as (SelectItemInfo|SelectItem|PrimitiveType)[]
       return this.rootStep.selectDistinct(...newItems)
     }
@@ -64,13 +65,13 @@ export class Builder {
     if (items[0] instanceof All) {
       this.rootStep.cleanUp()
       items.shift() //remove first item the ALL item
-      //TODO: throw error if items contain another ALL or DISTINCT
+      Builder.throwIfMoreThanOneDistinctOrAll(items)
       const newItems = items as unknown[] as (SelectItemInfo|SelectItem|PrimitiveType)[]
       return this.rootStep.selectAll(...newItems)
     }
 
     this.rootStep.cleanUp()
-    //TODO: throw error if items contain any ALL or DISTINCT
+    Builder.throwIfMoreThanOneDistinctOrAll(items)
     const newItems = items as unknown[] as (SelectItemInfo|SelectItem|PrimitiveType)[]
     return this.rootStep.select(...newItems)
   }
@@ -91,5 +92,12 @@ export class Builder {
     //Note: the cleanup needed as there is only one "select" step in the chain that we start with
     this.rootStep.cleanUp()
     return this.rootStep.select(ASTERISK).from(table)
+  }
+
+  private static throwIfMoreThanOneDistinctOrAll(items: (Distinct|All|SelectItemInfo|SelectItem|PrimitiveType)[]) {
+    items.forEach(it => {
+      if (it instanceof Distinct || it instanceof All)
+        throw new MoreThanOneDistinctOrAllError('You can not have more than one DISTINCT or ALL')
+    })
   }
 }

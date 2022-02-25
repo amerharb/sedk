@@ -67,7 +67,7 @@ export class Database {
 }
 
 type SchemaObj = {
-  name: string
+  name?: string
   tables: Table[]
 }
 

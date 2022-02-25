@@ -20,7 +20,7 @@ import { MoreThanOneDistinctOrAllError } from './errors'
 export type BuilderData = {
   database: Database,
   option: BuilderOption,
-  /** Below data used to generate SQL statment */
+  /** Below data used to generate SQL statement */
   selectItemInfos: SelectItemInfo[],
   //TODO: make table "FromItemInfo" array
   table?: Table,
@@ -66,13 +66,13 @@ export class Builder {
       this.rootStep.cleanUp()
       items.shift() //remove first item the ALL item
       Builder.throwIfMoreThanOneDistinctOrAll(items)
-      const newItems = items as unknown[] as (SelectItemInfo|SelectItem|PrimitiveType)[]
+      const newItems = items as (SelectItemInfo|SelectItem|PrimitiveType)[]
       return this.rootStep.selectAll(...newItems)
     }
 
     this.rootStep.cleanUp()
     Builder.throwIfMoreThanOneDistinctOrAll(items)
-    const newItems = items as unknown[] as (SelectItemInfo|SelectItem|PrimitiveType)[]
+    const newItems = items as (SelectItemInfo|SelectItem|PrimitiveType)[]
     return this.rootStep.select(...newItems)
   }
 

@@ -42,6 +42,9 @@ console.log(bindObj)
 ```
 
 ## What is New
+### Version: 0.8.1
+- database schema include definition for schema and database class separately
+
 ### Version: 0.8.0
 - LIMIT & OFFSET steps
 ```typescript

@@ -1,43 +1,34 @@
 import {
-  Builder,
-  BooleanColumn,
-  ColumnNotFoundError,
-  Database,
-  e,
-  NumberColumn,
-  Table,
-  TableNotFoundError,
-  TextColumn,
   InvalidExpressionError,
+  ColumnNotFoundError,
+  TableNotFoundError,
+  MoreThanOneDistinctOrAllError,
+  Builder,
+  e,
+  Table,
+  TextColumn,
   ArithmeticOperator,
   ComparisonOperator,
   DISTINCT,
+  ALL,
   ASC,
   DESC,
   NULLS_FIRST,
   NULLS_LAST,
 } from '../src'
+import {
+  database,
+  table,
+  column1,
+  column3,
+} from './database'
 
 //Alias
 const ADD = ArithmeticOperator.ADD
 const GT = ComparisonOperator.GreaterThan
 
 describe('Throw desired Errors', () => {
-  // database schema
-  const column1 = new TextColumn('col1')
-  const column2 = new TextColumn('col2')
-  const column3 = new TextColumn('col3')
-  const column4 = new NumberColumn('col4')
-  const column5 = new NumberColumn('col5')
-  const column6 = new NumberColumn('col6')
-  const column7 = new BooleanColumn('col7')
-  const column8 = new BooleanColumn('col8')
-  const table = new Table(
-    'testTable',
-    [column1, column2, column3, column4, column5, column6, column7, column8],
-  )
-  const db = new Database([table], 1)
-  const sql = new Builder(db)
+  const sql = new Builder(database)
 
   it('Throws error when add invalid operator', () => {
     function actual() {
@@ -49,7 +40,7 @@ describe('Throw desired Errors', () => {
   })
 
   it('Throws error when column not exist', () => {
-    const wrongColumn = new TextColumn('wrongColumn')
+    const wrongColumn = new TextColumn({ name: 'wrongColumn' })
 
     function actual() {
       sql.select(column1, wrongColumn, column3)
@@ -60,7 +51,7 @@ describe('Throw desired Errors', () => {
   })
 
   it('Throws error when table not exist', () => {
-    const wrongTable = new Table('wrongTable', [new TextColumn('anyColumn')])
+    const wrongTable = new Table({ name: 'wrongTable', columns: [new TextColumn({ name: 'anyColumn' })] })
 
     function actual() {
       sql.select(column1).from(wrongTable)
@@ -85,6 +76,45 @@ describe('Throw desired Errors', () => {
     }
 
     expect(actual).toThrow(/^Select step must have at least one parameter after DISTINCT$/)
+  })
+
+  it('Throws error when more than one DISTINCT passed', () => {
+    function actual() {
+      // @ts-ignore
+      sql.select(DISTINCT, DISTINCT, column1).from(table)
+    }
+
+    expect(actual).toThrow(/^You can not have more than one DISTINCT or ALL$/)
+    expect(actual).toThrow(MoreThanOneDistinctOrAllError)
+  })
+
+  it('Throws error when more than one ALL passed', () => {
+    function actual() {
+      // @ts-ignore
+      sql.select(ALL, ALL, column1).from(table)
+    }
+
+    expect(actual).toThrow(/^You can not have more than one DISTINCT or ALL$/)
+    expect(actual).toThrow(MoreThanOneDistinctOrAllError)
+  })
+
+  it('Throws error when DISTINCT and ALL passed', () => {
+    // @ts-ignore
+    function actual1() { sql.select(ALL, column1, DISTINCT).from(table) }
+
+    // @ts-ignore
+    function actual2() { sql.select(ALL, DISTINCT, column1).from(table) }
+
+    // @ts-ignore
+    function actual3() { sql.select(DISTINCT, ALL, column1).from(table) }
+
+    // @ts-ignore
+    function actual4() { sql.select(DISTINCT, column1, ALL).from(table) }
+
+    [actual1, actual2, actual3, actual4].forEach(actual => {
+      expect(actual).toThrow(/^You can not have more than one DISTINCT or ALL$/)
+      expect(actual).toThrow(MoreThanOneDistinctOrAllError)
+    })
   })
 
   it('Throws error when ORDER BY has no param', () => {

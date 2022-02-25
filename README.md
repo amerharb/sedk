@@ -9,39 +9,42 @@ schema
 import * as sedk from 'sedk-postgres'
 
 //define the schema
-const name = new sedk.TextColumn("name")
-const age = new sedk.NumberColumn("age")
-const Employee = new sedk.Table('Employee', [name, age])
-const schema = new sedk.Database([Employee])
+const name = new sedk.TextColumn({ name: 'col7' })
+const age = new sedk.NumberColumn({ name: 'col8' })
+const Employee = new sedk.Table({ name: 'Employee', columns: [name, age] })
+const schema = new sedk.Schema({ name: 'public', tables: [Employee] })
+const database = new sedk.Database({ version: 1, schemas: [schema] })
 
 //Aliases
 const AND = sedk.LogicalOperator.AND
 
-
 // start to build your SQL & Binder
-const sql = new sedk.Builder(schema)
+const sql = new sedk.Builder(database)
 
 const stmt1 = sql.select(name, age).from(Employee).where(name.eq('John'), AND, age.gt(25)).getSQL()
 console.log(stmt1)
-// SELECT "name", "age" FROM Employee WHERE ("name" = 'John' AND "age" > 25);
+// SELECT "name", "age" FROM "Employee" WHERE ("name" = 'John' AND "age" > 25);
 
 // also it can be written as
 const stmt2 = sql.select(name, age).from(Employee).where(name.eq('John')).and(age.gt(25)).getSQL()
 console.log(stmt2)
-// SELECT "name", "age" FROM Employee WHERE "name" = 'John' AND "age" > 25;
+// SELECT "name", "age" FROM "Employee" WHERE "name" = 'John' AND "age" > 25;
 
 
 const bindObj = sql.select(name, age).from(Employee).where(name.eq$('John'), AND, age.gt$(25)).getBinds()
 console.log(bindObj)
 /*
 {
-  sql: 'SELECT "name", "age" FROM Employee WHERE ("name" = $1 AND "age" > $2);',
+  sql: 'SELECT "name", "age" FROM "Employee" WHERE ("name" = $1 AND "age" > $2);',
   values: ['john', 25],
 }
  */
 ```
 
 ## What is New
+### Version: 0.8.1
+- database schema include definition for schema and database class separately
+
 ### Version: 0.8.0
 - LIMIT & OFFSET steps
 ```typescript

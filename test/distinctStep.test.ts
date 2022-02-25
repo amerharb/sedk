@@ -1,22 +1,18 @@
 import {
   Builder,
-  Database,
-  Table,
-  TextColumn,
   ALL,
   DISTINCT,
 } from '../src'
+import {
+  database,
+  table,
+  column1,
+  column2,
+} from './database'
+
 
 describe('test orderBy Step', () => {
-  // database schema
-  const column1 = new TextColumn('col1')
-  const column2 = new TextColumn('col2')
-  const table = new Table(
-    'testTable',
-    [column1, column2],
-  )
-  const db = new Database([table], 1)
-  const sql = new Builder(db)
+  const sql = new Builder(database)
 
   /* In Postgres it is allowed to have FROM directly
    after SELECT with or without ALL

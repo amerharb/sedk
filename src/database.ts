@@ -26,47 +26,107 @@ import {
 import { SelectItemInfo } from './select'
 import { escapeDoubleQuote } from './util'
 
+type DatabaseObj = {
+  version?: number
+  schemas: Schema[]
+}
+
 export class Database {
-  private readonly version?: number
-  private readonly tables: Table[]
+  constructor(private readonly data: DatabaseObj) {}
 
-  constructor(tables: Table[], version?: number) {
-    this.tables = tables
-    this.version = version
+  public getSchemas(): Schema[] {
+    return this.data.schemas
   }
 
-  public getVersion(): number|undefined {
-    return this.version
-  }
-
-  public getTables(): Table[] {
-    return this.tables
+  public isSchemaExist(schema: Schema): boolean {
+    for (const s of this.data.schemas) {
+      if (schema === s) {
+        return true
+      }
+    }
+    return false
   }
 
   public isTableExist(table: Table): boolean {
-    let found = false
-    for (const t of this.tables) {
-      if (table === t) {
-        found = true
-        break
+    for (const schema of this.data.schemas) {
+      if (schema.isTableExist(table)) {
+        return true
       }
     }
-    return found
+    return false
+  }
+
+  public isColumnExist(column: Column): boolean {
+    for (const schema of this.data.schemas) {
+      if (schema.isColumnExist(column)) {
+        return true
+      }
+    }
+    return false
   }
 }
 
-export class Table {
-  private readonly tableName: string
-  private readonly columns: Column[]
+type SchemaObj = {
+  name?: string
+  tables: Table[]
+}
 
-  constructor(tableName: string, columns: Column[]) {
-    this.tableName = tableName
-    columns.forEach(it => it.table = this)
-    this.columns = columns
+export class Schema {
+  constructor(private readonly data: SchemaObj) {
+    data.tables.forEach(it => it.schema = this)
+  }
+
+  public getTables(): Table[] {
+    return this.data.tables
+  }
+
+  public isTableExist(table: Table): boolean {
+    for (const t of this.data.tables) {
+      if (table === t) {
+        return true
+      }
+    }
+    return false
+  }
+
+  public isColumnExist(column: Column): boolean {
+    for (const table of this.data.tables) {
+      if (table.isColumnExist(column)) {
+        return true
+      }
+    }
+    return false
+  }
+}
+
+type TableObj = {
+  name: string
+  columns: Column[]
+}
+
+export class Table {
+  private mSchema?: Schema
+
+  constructor(private readonly data: TableObj) {
+    data.columns.forEach(it => it.table = this)
+  }
+
+  public set schema(schema: Schema) {
+    if (this.mSchema === undefined)
+      this.mSchema = schema
+    else
+      throw new Error('Schema can only be assigned one time')
+  }
+
+  public get schema(): Schema {
+    if (this.mSchema === undefined)
+      throw new Error('Table was not assigned')
+
+    return this.mSchema
   }
 
   public getColumn(columnName: string): Column|null {
-    for (const col of this.columns) {
+    for (const col of this.data.columns) {
       if (col.columnName === columnName) {
         return col
       }
@@ -74,20 +134,33 @@ export class Table {
     return null
   }
 
+  public isColumnExist(column: Column): boolean {
+    for (const col of this.data.columns) {
+      if (col === column) {
+        return true
+      }
+    }
+    return false
+  }
+
   public getColumns() {
-    return this.columns
+    return this.data.columns
   }
 
   public toString() {
-    return `"${escapeDoubleQuote(this.tableName)}"`
+    return `"${escapeDoubleQuote(this.data.name)}"`
   }
+}
+
+type ColumnObj = {
+  name: string
 }
 
 export abstract class Column {
   protected readonly binderStore = BinderStore.getInstance()
   private mTable?: Table
 
-  protected constructor(public readonly columnName: string) {}
+  protected constructor(public readonly data: ColumnObj) {}
 
   public set table(table: Table) {
     if (this.mTable === undefined)
@@ -101,6 +174,10 @@ export abstract class Column {
       throw new Error('Table was not assigned')
 
     return this.mTable
+  }
+
+  public get columnName(): string {
+    return this.data.name
   }
 
   public as(alias: string): SelectItemInfo {
@@ -140,7 +217,7 @@ export abstract class Column {
   }
 
   public toString() {
-    return `"${escapeDoubleQuote(this.columnName)}"`
+    return `"${escapeDoubleQuote(this.data.name)}"`
   }
 }
 
@@ -150,8 +227,8 @@ export class BooleanColumn extends Column implements Condition {
   public readonly leftOperand: Operand = this.leftExpression.leftOperand
   public readonly type: ExpressionType = ExpressionType.BOOLEAN
 
-  constructor(columnName: string) {
-    super(columnName)
+  constructor(data: ColumnObj) {
+    super(data)
   }
 
   public eq(value: null|BooleanLike): Condition {
@@ -186,8 +263,8 @@ export class BooleanColumn extends Column implements Condition {
 }
 
 export class NumberColumn extends Column {
-  constructor(columnName: string) {
-    super(columnName)
+  constructor(data: ColumnObj) {
+    super(data)
   }
 
   public eq(value: null|NumberLike): Condition
@@ -264,8 +341,8 @@ export class NumberColumn extends Column {
 }
 
 export class TextColumn extends Column {
-  constructor(columnName: string) {
-    super(columnName)
+  constructor(data: ColumnObj) {
+    super(data)
   }
 
   public eq(value: Expression): Condition

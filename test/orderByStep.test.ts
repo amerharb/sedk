@@ -1,9 +1,4 @@
 import {
-  Database,
-  Table,
-  BooleanColumn,
-  NumberColumn,
-  TextColumn,
   ArithmeticOperator,
   Builder,
   e,
@@ -13,23 +8,18 @@ import {
   NULLS_FIRST,
   NULLS_LAST,
 } from '../src'
+import {
+  database,
+  table,
+  column1,
+  column2,
+  column3,
+  column4,
+  column5,
+} from './database'
 
 describe('test orderBy Step', () => {
-  // database schema
-  const column1 = new TextColumn('col1')
-  const column2 = new TextColumn('col2')
-  const column3 = new TextColumn('col3')
-  const column4 = new NumberColumn('col4')
-  const column5 = new NumberColumn('col5')
-  const column6 = new NumberColumn('col6')
-  const column7 = new BooleanColumn('col7')
-  const column8 = new BooleanColumn('col8')
-  const table = new Table(
-    'testTable',
-    [column1, column2, column3, column4, column5, column6, column7, column8],
-  )
-  const db = new Database([table], 1)
-  const sql = new Builder(db)
+  const sql = new Builder(database)
 
   it('Produces [SELECT * FROM "testTable" ORDER BY "col1", "col2";]', () => {
     const actual = sql

@@ -1,14 +1,16 @@
 import {
-  Builder,
+  InvalidExpressionError,
   ColumnNotFoundError,
+  TableNotFoundError,
+  MoreThanOneDistinctOrAllError,
+  Builder,
   e,
   Table,
-  TableNotFoundError,
   TextColumn,
-  InvalidExpressionError,
   ArithmeticOperator,
   ComparisonOperator,
   DISTINCT,
+  ALL,
   ASC,
   DESC,
   NULLS_FIRST,
@@ -74,6 +76,45 @@ describe('Throw desired Errors', () => {
     }
 
     expect(actual).toThrow(/^Select step must have at least one parameter after DISTINCT$/)
+  })
+
+  it('Throws error when more than one DISTINCT passed', () => {
+    function actual() {
+      // @ts-ignore
+      sql.select(DISTINCT, DISTINCT, column1).from(table)
+    }
+
+    expect(actual).toThrow(/^You can not have more than one DISTINCT or ALL$/)
+    expect(actual).toThrow(MoreThanOneDistinctOrAllError)
+  })
+
+  it('Throws error when more than one ALL passed', () => {
+    function actual() {
+      // @ts-ignore
+      sql.select(ALL, ALL, column1).from(table)
+    }
+
+    expect(actual).toThrow(/^You can not have more than one DISTINCT or ALL$/)
+    expect(actual).toThrow(MoreThanOneDistinctOrAllError)
+  })
+
+  it('Throws error when DISTINCT and ALL passed', () => {
+    // @ts-ignore
+    function actual1() { sql.select(ALL, column1, DISTINCT).from(table) }
+
+    // @ts-ignore
+    function actual2() { sql.select(ALL, DISTINCT, column1).from(table) }
+
+    // @ts-ignore
+    function actual3() { sql.select(DISTINCT, ALL, column1).from(table) }
+
+    // @ts-ignore
+    function actual4() { sql.select(DISTINCT, column1, ALL).from(table) }
+
+    [actual1, actual2, actual3, actual4].forEach(actual => {
+      expect(actual).toThrow(/^You can not have more than one DISTINCT or ALL$/)
+      expect(actual).toThrow(MoreThanOneDistinctOrAllError)
+    })
   })
 
   it('Throws error when ORDER BY has no param', () => {

@@ -12,6 +12,7 @@ export {
   ColumnNotFoundError,
   TableNotFoundError,
   InvalidExpressionError,
+  MoreThanOneDistinctOrAllError,
 } from './errors'
 export {
   Database,

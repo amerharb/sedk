@@ -39,30 +39,35 @@ export class Database {
   }
 
   public isSchemaExist(schema: Schema): boolean {
-    let found = false
     for (const s of this.data.schemas) {
       if (schema === s) {
-        found = true
-        break
+        return true
       }
     }
-    return found
+    return false
   }
 
   public isTableExist(table: Table): boolean {
-    let found = false
     for (const schema of this.data.schemas) {
       if (schema.isTableExist(table)) {
-        found = true
-        break
+        return true
       }
     }
-    return found
+    return false
+  }
+
+  public isColumnExist(column: Column): boolean {
+    for (const schema of this.data.schemas) {
+      if (schema.isColumnExist(column)) {
+        return true
+      }
+    }
+    return false
   }
 }
 
 type SchemaObj = {
-  name: string
+  name?: string
   tables: Table[]
 }
 
@@ -76,14 +81,21 @@ export class Schema {
   }
 
   public isTableExist(table: Table): boolean {
-    let found = false
     for (const t of this.data.tables) {
       if (table === t) {
-        found = true
-        break
+        return true
       }
     }
-    return found
+    return false
+  }
+
+  public isColumnExist(column: Column): boolean {
+    for (const table of this.data.tables) {
+      if (table.isColumnExist(column)) {
+        return true
+      }
+    }
+    return false
   }
 }
 
@@ -120,6 +132,15 @@ export class Table {
       }
     }
     return null
+  }
+
+  public isColumnExist(column: Column): boolean {
+    for (const col of this.data.columns) {
+      if (col === column) {
+        return true
+      }
+    }
+    return false
   }
 
   public getColumns() {

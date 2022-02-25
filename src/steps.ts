@@ -268,17 +268,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
         continue
       }
       // item is Column from here
-      if (this.data.database.getSchemas().find(schema => {
-        return schema.getTables().find(table => {
-          try {
-            return table === item.table
-          } catch (err) {
-            //TODO: change here when this error got it's own class
-            if (err instanceof Error && err.message === 'Table was not assigned')
-              return false
-          }
-        })
-      }) === undefined) {
+      if (!this.data.database.isColumnExist(item)) {
         throw new ColumnNotFoundError(`Column: ${item} not found in database`)
       }
     }

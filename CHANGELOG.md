@@ -1,6 +1,10 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.8.2]  2022-02-27
+### Fix
+- Mistake in README.md
+
 ## [0.8.1]  2022-02-25
 ### Added
 - in test folder add schema in separate folder

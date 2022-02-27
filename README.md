@@ -9,8 +9,8 @@ schema
 import * as sedk from 'sedk-postgres'
 
 //define the schema
-const name = new sedk.TextColumn({ name: 'col7' })
-const age = new sedk.NumberColumn({ name: 'col8' })
+const name = new sedk.TextColumn({ name: 'name' })
+const age = new sedk.NumberColumn({ name: 'age' })
 const Employee = new sedk.Table({ name: 'Employee', columns: [name, age] })
 const schema = new sedk.Schema({ name: 'public', tables: [Employee] })
 const database = new sedk.Database({ version: 1, schemas: [schema] })

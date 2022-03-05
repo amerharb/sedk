@@ -12,7 +12,7 @@ import * as sedk from 'sedk-postgres'
 const name = new sedk.TextColumn({ name: 'name' })
 const age = new sedk.NumberColumn({ name: 'age' })
 const Employee = new sedk.Table({ name: 'Employee', columns: { name, age } })
-const schema = new sedk.Schema({ name: 'public', tables: [Employee] })
+const schema = new sedk.Schema({ name: 'public', tables: { Employee } })
 const database = new sedk.Database({ version: 1, schemas: [schema] })
 
 //Aliases
@@ -45,16 +45,18 @@ console.log(bindObj)
 
 ### Version: 0.8.2
 
-- Column as defined now as an object instead of array when defined Table class, so column can be called by its name from
-  property "columns" (or just "c") for easy access
+- Columns defined now as an object in Table class instead of array, so column can be called by its name from property "
+  columns" (or just "c") for easy access
 
 ```typescript
 const name = new sedk.TextColumn({ name: 'name' })
 const age = new sedk.NumberColumn({ name: 'age' })
 const Employee = new sedk.Table({ name: 'Employee', columns: { name, age } })
-console.log(Employee.c.name)
-console.log(Employee.c.age)
+console.log(Employee.c.name.columnName) // print: name
+console.log(Employee.c.age.columnName) // print: age
 ```
+
+- Table defined now as an object in Schema class instead of array
 
 ### Version: 0.8.1
 

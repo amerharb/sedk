@@ -66,22 +66,55 @@ export class Database {
   }
 }
 
-type SchemaObj = {
-  name?: string
-  tables: Table[]
+type TablesObj = {
+  [tableName: string]: Table
 }
 
-export class Schema {
-  constructor(private readonly data: SchemaObj) {
-    data.tables.forEach(it => it.schema = this)
+type SchemaObj<T extends TablesObj> = {
+  name?: string
+  tables: T
+}
+
+export class Schema<T extends TablesObj = TablesObj> {
+  private mDatabase?: Database
+  private readonly mTables: T
+  private readonly tableArray: readonly Table[]
+
+  constructor(private readonly data: SchemaObj<T>) {
+    this.mTables = data.tables
+    const tableArray: Table[] = []
+    Object.values(data.tables).forEach(it => {
+      tableArray.push(it)
+      it.schema = this
+    })
+    this.tableArray = tableArray
   }
 
-  public getTables(): Table[] {
-    return this.data.tables
+  public set database(database: Database) {
+    if (this.mDatabase === undefined)
+      this.mDatabase = database
+    else
+      throw new Error('Database can only be assigned one time')
+  }
+
+  public get database(): Database {
+    if (this.mDatabase === undefined)
+      throw new Error('Database is undefined')
+
+    return this.mDatabase
+  }
+
+  public get tables(): T {
+    return this.mTables
+  }
+
+  /** Alias to get tables() */
+  public get t(): T {
+    return this.tables
   }
 
   public isTableExist(table: Table): boolean {
-    for (const t of this.data.tables) {
+    for (const t of this.tableArray) {
       if (table === t) {
         return true
       }
@@ -90,7 +123,7 @@ export class Schema {
   }
 
   public isColumnExist(column: Column): boolean {
-    for (const table of this.data.tables) {
+    for (const table of this.tableArray) {
       if (table.isColumnExist(column)) {
         return true
       }
@@ -132,7 +165,7 @@ export class Table<C extends ColumnsObj = ColumnsObj> {
 
   public get schema(): Schema {
     if (this.mSchema === undefined)
-      throw new Error('Table was not assigned')
+      throw new Error('Table is undefined')
 
     return this.mSchema
   }
@@ -141,7 +174,8 @@ export class Table<C extends ColumnsObj = ColumnsObj> {
     return this.mColumns
   }
 
-  public get c(): C { //Alias to get columns()
+  /** Alias to get columns() */
+  public get c(): C {
     return this.columns
   }
 

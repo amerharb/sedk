@@ -6,6 +6,7 @@
 - Mistake in README.md
 ### Breaking Changes
 - Add columns as generic to Table class
+- Add tables as generic to Schema class
 
 ## [0.8.1]  2022-02-25
 ### Added

@@ -2,10 +2,9 @@ import {
   Builder,
   ALL,
 } from '../src'
-import {
-  database,
-  table,
-} from './database'
+import { database } from './database'
+//Alias
+const table = database.s.public.t.testTable
 
 describe('Test LIMIT and OFFSET Steps', () => {
   const sql = new Builder(database)

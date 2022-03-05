@@ -7,6 +7,7 @@
 ### Breaking Changes
 - Add columns as generic to Table class
 - Add tables as generic to Schema class
+- Add schemas as generic to Database class
 
 ## [0.8.1]  2022-02-25
 ### Added

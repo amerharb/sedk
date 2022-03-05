@@ -26,20 +26,40 @@ import {
 import { SelectItemInfo } from './select'
 import { escapeDoubleQuote } from './util'
 
-type DatabaseObj = {
-  version?: number
-  schemas: Schema[]
+type SchemasObj = {
+  [schemaName: string]: Schema
 }
 
-export class Database {
-  constructor(private readonly data: DatabaseObj) {}
+type DatabaseObj<S extends SchemasObj> = {
+  version?: number
+  schemas: S
+}
 
-  public getSchemas(): Schema[] {
-    return this.data.schemas
+export class Database<S extends SchemasObj = SchemasObj> {
+  private readonly mSchemas: S
+  private readonly schemaArray: readonly Schema[]
+
+  constructor(private readonly data: DatabaseObj<S>) {
+    this.mSchemas = data.schemas
+    const schemaArray: Schema[] = []
+    Object.values(data.schemas).forEach(it => {
+      schemaArray.push(it)
+      it.database = this
+    })
+    this.schemaArray = schemaArray
+  }
+
+  public get schemas(): S {
+    return this.mSchemas
+  }
+
+  /** Alias to get schemas() */
+  public get s(): S {
+    return this.schemas
   }
 
   public isSchemaExist(schema: Schema): boolean {
-    for (const s of this.data.schemas) {
+    for (const s of this.schemaArray) {
       if (schema === s) {
         return true
       }
@@ -48,7 +68,7 @@ export class Database {
   }
 
   public isTableExist(table: Table): boolean {
-    for (const schema of this.data.schemas) {
+    for (const schema of this.schemaArray) {
       if (schema.isTableExist(table)) {
         return true
       }
@@ -57,7 +77,7 @@ export class Database {
   }
 
   public isColumnExist(column: Column): boolean {
-    for (const schema of this.data.schemas) {
+    for (const schema of this.schemaArray) {
       if (schema.isColumnExist(column)) {
         return true
       }

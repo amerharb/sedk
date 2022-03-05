@@ -103,7 +103,7 @@ sql.select(name, age.as('Employee Age')).from(Employee).getSQL()
 
 ```typescript
 {
-  addAsBeforeColumnAlias: 'always' | 'never'
+  addAsBeforeColumnAlias: 'always'|'never'
 }
 ```
 
@@ -143,8 +143,8 @@ sql.select(DISTINCT, name, age).from(Employee).getSQL()
 
 ```typescript
 {
-  addAscAfterOrderByItem: 'always' | 'never' | 'when mentioned'
-  addNullsLastAfterOrderByItem: 'always' | 'never' | 'when mentioned'
+  addAscAfterOrderByItem: 'always'|'never'|'when mentioned'
+  addNullsLastAfterOrderByItem: 'always'|'never'|'when mentioned'
 }
 ```
 

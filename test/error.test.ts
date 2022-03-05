@@ -16,16 +16,14 @@ import {
   NULLS_FIRST,
   NULLS_LAST,
 } from '../src'
-import {
-  database,
-  table,
-  column1,
-  column3,
-} from './database'
+import { database } from './database'
 
 //Alias
 const ADD = ArithmeticOperator.ADD
 const GT = ComparisonOperator.GreaterThan
+const table = database.s.public.t.testTable
+const column1 = database.s.public.t.testTable.c.column1
+const column3 = database.s.public.t.testTable.c.column3
 
 describe('Throw desired Errors', () => {
   const sql = new Builder(database)

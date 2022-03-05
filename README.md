@@ -11,7 +11,7 @@ import * as sedk from 'sedk-postgres'
 //define the schema
 const name = new sedk.TextColumn({ name: 'name' })
 const age = new sedk.NumberColumn({ name: 'age' })
-const Employee = new sedk.Table({ name: 'Employee', columns: [name, age] })
+const Employee = new sedk.Table({ name: 'Employee', columns: { name, age } })
 const schema = new sedk.Schema({ name: 'public', tables: [Employee] })
 const database = new sedk.Database({ version: 1, schemas: [schema] })
 
@@ -42,11 +42,28 @@ console.log(bindObj)
 ```
 
 ## What is New
+
+### Version: 0.8.2
+
+- Column as defined now as an object instead of array when defined Table class, so column can be called by its name from
+  property "columns" (or just "c") for easy access
+
+```typescript
+const name = new sedk.TextColumn({ name: 'name' })
+const age = new sedk.NumberColumn({ name: 'age' })
+const Employee = new sedk.Table({ name: 'Employee', columns: { name, age } })
+console.log(Employee.c.name)
+console.log(Employee.c.age)
+```
+
 ### Version: 0.8.1
+
 - database schema include definition for schema and database class separately
 
 ### Version: 0.8.0
+
 - LIMIT & OFFSET steps
+
 ```typescript
 sql.selectAsteriskFrom(Employee).limit(50).offset(10).getSQL()
 // SELECT * FROM "Employee" LIMIT 50 OFFSET 10;
@@ -61,43 +78,57 @@ sql.selectAsteriskFrom(Employee).limit$(50).offset$(10).getBinds()
 ```
 
 ### Version: 0.7.1
+
 - ASC, DESC, NULLS_FIRST and NULLS_LAST can be added in OrderBy step
+
 ```typescript
 sql.selectAsteriskFrom(Employee).orderBy(column1, ASC, NULLS_FIRST).getSQL()
 // SELECT * FROM "Employee" ORDER BY "col1" ASC NULLS FIRST;
 ```
+
 ### Version: 0.7.0
+
 - Table & column name always has double quote around their names
 - Column can have an alias
+
 ```typescript
 sql.select(name, age.as('Employee Age')).from(Employee).getSQL()
 // SELECT "name", "age" AS "Employee Age" FROM "Employee";
 ```
+
 - New Builder Option
+
 ```typescript
 {
-  addAsBeforeColumnAlias: 'always'|'never'
+  addAsBeforeColumnAlias: 'always' | 'never'
 }
 ```
+
 - OrderBy Expression
+
 ```typescript
 sql.selectAsteriskFrom(Employee).orderBy(e(age, ADD, salary)).getSQL()
 // SELECT * FROM "Employee" ORDER BY ("age" + "salary");
 ```
+
 - OrderBy using helper function o()
+
 ```typescript
 sql.selectAsteriskFrom(Employee).orderBy(o(age, DESC, NULLS_FIRST)).getSQL()
 // SELECT * FROM "Employee" ORDER BY "age" DESC NULLS_FIRST;
 ```
 
 ### Version: 0.6.0
+
 - OrderBy now support ASC, DESC, NULLS FIRST and NULLS LAST
+
 ```typescript
 sql.selectAsteriskFrom(Employee).orderBy(name.asc, age.desc).getSQL()
 // "SELECT DISTINCT name, age FROM Employee ORDER BY name ASC, age DESC;"
 ```
 
 - Support DISTINCT and ALL clause after SELECT
+
 ```typescript
 sql.selectDistinct(name, age).from(Employee).getSQL()
 // or like
@@ -106,30 +137,38 @@ sql.select(DISTINCT, name, age).from(Employee).getSQL()
 ```
 
 - New Builder Option
+
 ```typescript
 {
-  addAscAfterOrderByItem: 'always'|'never'|'when mentioned'
-  addNullsLastAfterOrderByItem: 'always'|'never'|'when mentioned'
+  addAscAfterOrderByItem: 'always' | 'never' | 'when mentioned'
+  addNullsLastAfterOrderByItem: 'always' | 'never' | 'when mentioned'
 }
 ```
 
 ### Version: 0.5.0
+
 - Now you can add asterisk to Select step
+
 ```typescript
 sql.select(ASTERISK).from(Employee).getSQL()
 // "SELECT * FROM Employee"
 ```
+
 - Also asterisk can be added with from in one function
+
 ```typescript
 sql.selectAsteriskFrom(Employee).getSQL()
 // "SELECT * FROM Employee"
 ```
 
 - OrderBy step
+
 ```typescript
 sql.select(ASTERISK).from(Employee).OrderBy(age).getSQL()
 // "SELECT * FROM Employee ORDER BY age"
 ```
+
 current **orderBy** limitation
+
 - Only takes the column name without AS
 - Doesn't support ASC and DEC

@@ -99,16 +99,28 @@ export class Schema {
   }
 }
 
-type TableObj = {
-  name: string
-  columns: Column[]
+type ColumnsObj = {
+  [columnName: string]: Column
 }
 
-export class Table {
-  private mSchema?: Schema
+type TableObj<C extends ColumnsObj> = {
+  name: string
+  columns: C
+}
 
-  constructor(private readonly data: TableObj) {
-    data.columns.forEach(it => it.table = this)
+export class Table<C extends ColumnsObj = ColumnsObj> {
+  private mSchema?: Schema
+  private readonly mColumns: C
+  private readonly columnArray: readonly Column[]
+
+  constructor(private readonly data: TableObj<C>) {
+    this.mColumns = data.columns
+    const columnArray: Column[] = []
+    Object.values(data.columns).forEach(it => {
+      columnArray.push(it)
+      it.table = this
+    })
+    this.columnArray = columnArray
   }
 
   public set schema(schema: Schema) {
@@ -125,8 +137,16 @@ export class Table {
     return this.mSchema
   }
 
+  public get columns(): C {
+    return this.mColumns
+  }
+
+  public get c(): C { //Alias to get columns()
+    return this.columns
+  }
+
   public getColumn(columnName: string): Column|null {
-    for (const col of this.data.columns) {
+    for (const col of this.columnArray) {
       if (col.columnName === columnName) {
         return col
       }
@@ -135,7 +155,7 @@ export class Table {
   }
 
   public isColumnExist(column: Column): boolean {
-    for (const col of this.data.columns) {
+    for (const col of this.columnArray) {
       if (col === column) {
         return true
       }

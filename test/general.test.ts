@@ -12,18 +12,7 @@ import {
   TextOperator,
   ASTERISK,
 } from '../src'
-import {
-  database,
-  table,
-  column1,
-  column2,
-  column3,
-  column4,
-  column5,
-  column6,
-  column7,
-  column8,
-} from './database'
+import { database } from './database'
 
 //Alias
 const AND = LogicalOperator.AND
@@ -36,6 +25,15 @@ const MOD = ArithmeticOperator.MOD
 const EXP = ArithmeticOperator.EXP
 const CONCAT = TextOperator.CONCAT
 const GT = ComparisonOperator.GreaterThan
+const table = database.s.public.t.testTable
+const column1 = database.s.public.t.testTable.c.column1
+const column2 = database.s.public.t.testTable.c.column2
+const column3 = database.s.public.t.testTable.c.column3
+const column4 = database.s.public.t.testTable.c.column4
+const column5 = database.s.public.t.testTable.c.column5
+const column6 = database.s.public.t.testTable.c.column6
+const column7 = database.s.public.t.testTable.c.column7
+const column8 = database.s.public.t.testTable.c.column8
 
 describe('test from one table', () => {
   const sql = new Builder(database)
@@ -785,7 +783,10 @@ describe('test from one table', () => {
     })
 
     it('Throws error when table not exist', () => {
-      const wrongTable = new Table({ name: 'wrongTable', columns: [new TextColumn({ name: 'anyColumn' })] })
+      const wrongTable = new Table({
+        name: 'wrongTable',
+        columns: { anyColumn: new TextColumn({ name: 'anyColumn' }) },
+      })
 
       function actual() {
         sql.select(column1).from(wrongTable)

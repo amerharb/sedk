@@ -8,15 +8,14 @@ import {
   NULLS_FIRST,
   NULLS_LAST,
 } from '../src'
-import {
-  database,
-  table,
-  column1,
-  column2,
-  column3,
-  column4,
-  column5,
-} from './database'
+import { database } from './database'
+//Alias
+const table = database.s.public.t.testTable
+const column1 = database.s.public.t.testTable.c.column1
+const column2 = database.s.public.t.testTable.c.column2
+const column3 = database.s.public.t.testTable.c.column3
+const column4 = database.s.public.t.testTable.c.column4
+const column5 = database.s.public.t.testTable.c.column5
 
 describe('test orderBy Step', () => {
   const sql = new Builder(database)

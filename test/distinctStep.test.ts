@@ -3,12 +3,11 @@ import {
   ALL,
   DISTINCT,
 } from '../src'
-import {
-  database,
-  table,
-  column1,
-  column2,
-} from './database'
+import { database } from './database'
+//Alias
+const table = database.s.public.t.testTable
+const column1 = database.s.public.t.testTable.c.column1
+const column2 = database.s.public.t.testTable.c.column2
 
 
 describe('test orderBy Step', () => {

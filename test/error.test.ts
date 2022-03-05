@@ -16,16 +16,14 @@ import {
   NULLS_FIRST,
   NULLS_LAST,
 } from '../src'
-import {
-  database,
-  table,
-  column1,
-  column3,
-} from './database'
+import { database } from './database'
 
 //Alias
 const ADD = ArithmeticOperator.ADD
 const GT = ComparisonOperator.GreaterThan
+const table = database.s.public.t.testTable
+const column1 = database.s.public.t.testTable.c.column1
+const column3 = database.s.public.t.testTable.c.column3
 
 describe('Throw desired Errors', () => {
   const sql = new Builder(database)
@@ -51,7 +49,7 @@ describe('Throw desired Errors', () => {
   })
 
   it('Throws error when table not exist', () => {
-    const wrongTable = new Table({ name: 'wrongTable', columns: [new TextColumn({ name: 'anyColumn' })] })
+    const wrongTable = new Table({ name: 'wrongTable', columns: { anyColumn: new TextColumn({ name: 'anyColumn' }) } })
 
     function actual() {
       sql.select(column1).from(wrongTable)

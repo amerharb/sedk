@@ -1,6 +1,14 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.8.2]  2022-03-05
+### Fix
+- Mistake in README.md
+### Breaking Changes
+- Add columns as generic to Table class
+- Add tables as generic to Schema class
+- Add schemas as generic to Database class
+
 ## [0.8.1]  2022-02-25
 ### Added
 - in test folder add schema in separate folder

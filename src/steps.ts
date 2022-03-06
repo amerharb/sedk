@@ -340,6 +340,7 @@ interface WhereStep extends BaseStep {
   or(left: Condition, operator: LogicalOperator, right: Condition): WhereOrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereOrStep
 
+  groupBy(...groupByItems: Column[]): GroupByStep
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
@@ -356,6 +357,7 @@ interface WhereAndStep extends BaseStep {
   or(left: Condition, operator: LogicalOperator, right: Condition): WhereOrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereOrStep
 
+  groupBy(...groupByItems: Column[]): GroupByStep
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
@@ -372,6 +374,7 @@ interface WhereOrStep extends BaseStep {
   and(left: Condition, operator: LogicalOperator, right: Condition): WhereAndStep
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereAndStep
 
+  groupBy(...groupByItems: Column[]): GroupByStep
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep

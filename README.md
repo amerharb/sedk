@@ -8,24 +8,24 @@ schema
 ```typescript
 import * as sedk from 'sedk-postgres'
 
-//define the schema
+// Schema definition
 const name = new sedk.TextColumn({ name: 'name' })
 const age = new sedk.NumberColumn({ name: 'age' })
 const Employee = new sedk.Table({ name: 'Employee', columns: { name, age } })
 const publicSchema = new sedk.Schema({ name: 'public', tables: { Employee } })
 const database = new sedk.Database({ version: 1, schema: { public: publicSchema } })
 
-//Aliases
+// Aliases
 const AND = sedk.LogicalOperator.AND
 
-// start to build your SQL & Binder
+// Start to build SQL & Binder
 const sql = new sedk.Builder(database)
 
 const stmt1 = sql.select(name, age).from(Employee).where(name.eq('John'), AND, age.gt(25)).getSQL()
 console.log(stmt1)
 // SELECT "name", "age" FROM "Employee" WHERE ("name" = 'John' AND "age" > 25);
 
-// also it can be written as
+// Also it can be written as
 const stmt2 = sql.select(name, age).from(Employee).where(name.eq('John')).and(age.gt(25)).getSQL()
 console.log(stmt2)
 // SELECT "name", "age" FROM "Employee" WHERE "name" = 'John' AND "age" > 25;

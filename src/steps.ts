@@ -18,7 +18,7 @@ export type PrimitiveType = null|boolean|number|string
 
 export type SelectItem = ColumnLike|Asterisk
 
-export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
+export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndStep,
   WhereOrStep, OrderByStep, LimitStep, OffsetStep {
   constructor(protected data: BuilderData) {}
 
@@ -59,7 +59,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
     return this
   }
 
-  public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): AndStep {
+  public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereAndStep {
     this.data.whereParts.push(AND)
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
     return this
@@ -321,9 +321,9 @@ export interface FromStep extends BaseStep {
 }
 
 interface WhereStep extends BaseStep {
-  and(condition: Condition): AndStep
-  and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
-  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
+  and(condition: Condition): WhereAndStep
+  and(left: Condition, operator: LogicalOperator, right: Condition): WhereAndStep
+  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereAndStep
 
   or(condition: Condition): WhereOrStep
   or(left: Condition, operator: LogicalOperator, right: Condition): WhereOrStep
@@ -336,10 +336,10 @@ interface WhereStep extends BaseStep {
   offset$(n: number): OffsetStep
 }
 
-interface AndStep extends BaseStep {
-  and(condition: Condition): AndStep
-  and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
-  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
+interface WhereAndStep extends BaseStep {
+  and(condition: Condition): WhereAndStep
+  and(left: Condition, operator: LogicalOperator, right: Condition): WhereAndStep
+  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereAndStep
 
   or(condition: Condition): WhereOrStep
   or(left: Condition, operator: LogicalOperator, right: Condition): WhereOrStep
@@ -357,9 +357,9 @@ interface WhereOrStep extends BaseStep {
   or(left: Condition, operator: LogicalOperator, right: Condition): WhereOrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereOrStep
 
-  and(condition: Condition): AndStep
-  and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
-  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
+  and(condition: Condition): WhereAndStep
+  and(left: Condition, operator: LogicalOperator, right: Condition): WhereAndStep
+  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereAndStep
 
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: null|number|All): LimitStep

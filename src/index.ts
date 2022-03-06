@@ -18,10 +18,12 @@ export {
   Database,
   Schema,
   Table,
+} from './database'
+export {
   BooleanColumn,
   NumberColumn,
   TextColumn,
-} from './database'
+} from './columns'
 export {
   OrderByDirection,
   DIRECTION_NOT_EXIST,

@@ -1,4 +1,5 @@
-import { Column, Database, Table } from './database'
+import { Database, Table } from './database'
+import { Column } from './columns'
 import { Condition } from './models'
 import { Binder, BinderStore } from './binder'
 import { ASTERISK, Distinct, All } from './singletoneConstants'

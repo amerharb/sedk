@@ -1,7 +1,7 @@
 import { InvalidExpressionError } from './errors'
 import { Binder } from './binder'
 import { PrimitiveType } from './steps'
-import { Column, BooleanColumn, NumberColumn, TextColumn } from './database'
+import { Column, BooleanColumn, NumberColumn, TextColumn } from './columns'
 import {
   NullOperator,
   ComparisonOperator,

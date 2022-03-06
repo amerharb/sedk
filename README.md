@@ -43,6 +43,10 @@ console.log(bindObj)
 
 ## What is New
 
+### Version: 0.9.0
+
+- Add GroupBy Step
+
 ### Version: 0.8.2
 
 - Columns defined now as an object in Table class instead of array, so column can be called by its name from property "

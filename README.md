@@ -171,7 +171,7 @@ sql.selectAsteriskFrom(Employee).getSQL()
 - OrderBy step
 
 ```typescript
-sql.select(ASTERISK).from(Employee).OrderBy(age).getSQL()
+sql.select(ASTERISK).from(Employee).orderBy(age).getSQL()
 // "SELECT * FROM Employee ORDER BY age"
 ```
 

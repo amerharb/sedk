@@ -19,7 +19,7 @@ export type PrimitiveType = null|boolean|number|string
 export type SelectItem = ColumnLike|Asterisk
 
 export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndStep,
-  WhereOrStep, OrderByStep, LimitStep, OffsetStep {
+  WhereOrStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
   constructor(protected data: BuilderData) {}
 
   public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
@@ -71,7 +71,12 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndS
     return this
   }
 
-  orderBy(...orderByArgsElement: OrderByArgsElement[]): OrderByStep {
+  public groupBy(...groupByItems: Column[]): GroupByStep {
+    this.data.groupByItems.push(...groupByItems)
+    return this
+  }
+
+  public orderBy(...orderByArgsElement: OrderByArgsElement[]): OrderByStep {
     if (orderByArgsElement.length === 0) {
       throw new Error('Order by should have at lease one item')
     }
@@ -186,6 +191,10 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndS
     if (this.data.whereParts.length > 0) {
       this.throwIfWherePartsInvalid()
       result += ` WHERE ${this.data.whereParts.join(' ')}`
+    }
+
+    if (this.data.groupByItems.length > 0) {
+      result += ` GROUP BY ${this.data.groupByItems.join(' ')}`
     }
 
     if (this.data.orderByItemInfos.length > 0) {
@@ -313,6 +322,7 @@ export interface FromStep extends BaseStep {
   where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
   where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
 
+  groupBy(...groupByItems: Column[]): GroupByStep
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
@@ -361,6 +371,14 @@ interface WhereOrStep extends BaseStep {
   and(left: Condition, operator: LogicalOperator, right: Condition): WhereAndStep
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereAndStep
 
+  orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
+  limit(n: null|number|All): LimitStep
+  limit$(n: null|number): LimitStep
+  offset(n: number): OffsetStep
+  offset$(n: number): OffsetStep
+}
+
+interface GroupByStep extends BaseStep {
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep

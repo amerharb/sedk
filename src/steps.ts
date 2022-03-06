@@ -194,7 +194,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndS
     }
 
     if (this.data.groupByItems.length > 0) {
-      result += ` GROUP BY ${this.data.groupByItems.join(' ')}`
+      result += ` GROUP BY ${this.data.groupByItems.join(', ')}`
     }
 
     if (this.data.orderByItemInfos.length > 0) {
@@ -224,6 +224,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndS
     this.data.distinct = ''
     this.data.table = undefined
     this.data.whereParts.length = 0
+    this.data.groupByItems.length = 0
     this.data.orderByItemInfos.length = 0
     this.data.limit = undefined
     this.data.offset = undefined
@@ -400,7 +401,6 @@ interface LimitStep extends BaseStep {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface OffsetStep extends BaseStep {}
-
 //@formatter:on
 
 export enum LogicalOperator {

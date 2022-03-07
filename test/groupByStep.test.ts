@@ -1,4 +1,4 @@
-import { Builder } from '../src'
+import { Builder, f } from '../src'
 import { database } from './database'
 
 //Alias
@@ -6,6 +6,9 @@ const table = database.s.public.t.testTable
 const column1 = database.s.public.t.testTable.c.column1
 const column2 = database.s.public.t.testTable.c.column2
 const column3 = database.s.public.t.testTable.c.column3
+const column4 = database.s.public.t.testTable.c.column4
+const column5 = database.s.public.t.testTable.c.column5
+const column6 = database.s.public.t.testTable.c.column6
 
 describe('test groupBy Step', () => {
   const sql = new Builder(database)
@@ -63,5 +66,35 @@ describe('test groupBy Step', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col2" = \'a\' OR "col3" = \'b\' GROUP BY "col1";')
+  })
+
+  it('Produces [SELECT SUM("col4"), SUM(1) FROM "testTable" GROUP BY "col2";]', () => {
+    const actual = sql
+      .select(f.sum(column4), f.sum(1))
+      .from(table)
+      .groupBy(column2)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT SUM("col4"), SUM(1) FROM "testTable" GROUP BY "col2";')
+  })
+
+  it('Produces [SELECT SUM("col4"), AVG("col5") FROM "testTable" GROUP BY "col2";]', () => {
+    const actual = sql
+      .select(f.sum(column4), f.avg(column5))
+      .from(table)
+      .groupBy(column2)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT SUM("col4"), AVG("col5") FROM "testTable" GROUP BY "col2";')
+  })
+
+  it('Produces [SELECT COUNT("col4"), MAX("col5"), MIN("col6") FROM "testTable" GROUP BY "col2";]', () => {
+    const actual = sql
+      .select(f.count(column4), f.max(column5), f.min(column6))
+      .from(table)
+      .groupBy(column2)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT COUNT("col4"), MAX("col5"), MIN("col6") FROM "testTable" GROUP BY "col2";')
   })
 })

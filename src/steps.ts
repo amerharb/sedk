@@ -13,11 +13,12 @@ import {
 } from './orderBy'
 import { SelectItemInfo } from './select'
 import { escapeDoubleQuote } from './util'
+import { AggregateFunction } from './aggregateFunction'
 
 export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
 
-export type SelectItem = ColumnLike|Asterisk
+export type SelectItem = ColumnLike|AggregateFunction|Asterisk
 
 export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndStep,
   WhereOrStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
@@ -28,7 +29,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndS
       if (it instanceof SelectItemInfo) {
         it.builderOption = this.data.option
         return it
-      } else if (it instanceof Expression || it instanceof Column || it instanceof Asterisk) {
+      } else if (it instanceof Expression || it instanceof Column || it instanceof AggregateFunction || it instanceof Asterisk) {
         return new SelectItemInfo(it, undefined, this.data.option)
       } else {
         return new SelectItemInfo(new Expression(it), undefined, this.data.option)

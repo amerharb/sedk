@@ -17,6 +17,7 @@ import {
   OrderByItem,
   OrderByItemInfo,
 } from './orderBy'
+import { AggregateFunction, AggregateFunctionEnum } from './aggregateFunction'
 
 export function e(left: OperandType): Expression
 export function e(left: BooleanLike, operator: ComparisonOperator, right: BooleanLike|TextBoolean): Condition
@@ -32,4 +33,22 @@ export function e(left: OperandType, operator?: Operator, right?: OperandType): 
 
 export function o(alias: OrderByItem, direction?: OrderByDirection, nullsPosition?: OrderByNullsPosition): OrderByItemInfo {
   return new OrderByItemInfo(alias, direction, nullsPosition)
+}
+
+export const f = {
+  sum: (column: NumberLike): AggregateFunction => {
+    return new AggregateFunction(AggregateFunctionEnum.SUM, column)
+  },
+  avg: (column: NumberLike): AggregateFunction => {
+    return new AggregateFunction(AggregateFunctionEnum.AVG, column)
+  },
+  count: (column: NumberLike): AggregateFunction => {
+    return new AggregateFunction(AggregateFunctionEnum.COUNT, column)
+  },
+  max: (column: NumberLike): AggregateFunction => {
+    return new AggregateFunction(AggregateFunctionEnum.MAX, column)
+  },
+  min: (column: NumberLike): AggregateFunction => {
+    return new AggregateFunction(AggregateFunctionEnum.MIN, column)
+  },
 }

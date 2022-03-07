@@ -9,9 +9,9 @@ export enum AggregateFunctionEnum {
 }
 
 export class AggregateFunction {
-  constructor(public readonly funcName: AggregateFunctionEnum, public readonly param: NumberLike) {}
+  constructor(private readonly funcName: AggregateFunctionEnum, private readonly numberLike: NumberLike) {}
 
   public toString(): string {
-    return `${this.funcName}(${this.param})`
+    return `${this.funcName}(${this.numberLike})`
   }
 }

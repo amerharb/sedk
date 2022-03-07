@@ -47,6 +47,16 @@ console.log(bindObj)
 
 - Add GroupBy Step
 
+```typescript
+sql.select(name, f.avg(age).as('Employee Age Avrage')).from(Employee).groupBy(name).getSQL()
+// SELECT "name", AVG("age") AS "Employee Age Avrage" FROM "Employee" GROUP BY "name";
+```
+or you can use 
+```typescript
+sql.select(name, age.avg.as('Employee Age Avrage')).from(Employee).groupBy(name).getSQL()
+// SELECT "name", AVG("age") AS "Employee Age Avrage" FROM "Employee" GROUP BY "name";
+```
+
 ### Version: 0.8.2
 
 - Columns defined now as an object in Table class instead of array, so column can be called by its name from property "
@@ -107,7 +117,7 @@ sql.select(name, age.as('Employee Age')).from(Employee).getSQL()
 
 ```typescript
 {
-  addAsBeforeColumnAlias: 'always'|'never'
+  addAsBeforeColumnAlias: 'always' | 'never'
 }
 ```
 
@@ -147,8 +157,8 @@ sql.select(DISTINCT, name, age).from(Employee).getSQL()
 
 ```typescript
 {
-  addAscAfterOrderByItem: 'always'|'never'|'when mentioned'
-  addNullsLastAfterOrderByItem: 'always'|'never'|'when mentioned'
+  addAscAfterOrderByItem: 'always' | 'never' | 'when mentioned'
+  addNullsLastAfterOrderByItem: 'always' | 'never' | 'when mentioned'
 }
 ```
 

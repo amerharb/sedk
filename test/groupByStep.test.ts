@@ -107,4 +107,18 @@ describe('test groupBy Step', () => {
 
     expect(actual).toEqual('SELECT SUM("col4"), AVG("col4"), COUNT("col4"), MAX("col4"), MIN("col4") FROM "testTable" GROUP BY "col2";')
   })
+
+  it('Produces [SELECT SUM("col4") AS "SUM_OF_COL4", SUM(1) AS "SUM_OF_1", SUM(col5) AS "SUM_OF_COL5" FROM "testTable" GROUP BY "col1";]', () => {
+    const actual = sql
+      .select(
+        f.sum(column4).as('SUM_OF_COL4'),
+        f.sum(1).as('SUM_OF_1'),
+        column5.sum.as('SUM_OF_COL5'),
+      )
+      .from(table)
+      .groupBy(column2)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT SUM("col4") AS "SUM_OF_COL4", SUM(1) AS "SUM_OF_1", SUM("col5") AS "SUM_OF_COL5" FROM "testTable" GROUP BY "col2";')
+  })
 })

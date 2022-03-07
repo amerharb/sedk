@@ -1,4 +1,5 @@
 import { NumberLike } from './models'
+import { SelectItemInfo } from './select'
 
 export enum AggregateFunctionEnum {
   SUM = 'SUM',
@@ -10,6 +11,10 @@ export enum AggregateFunctionEnum {
 
 export class AggregateFunction {
   constructor(private readonly funcName: AggregateFunctionEnum, private readonly numberLike: NumberLike) {}
+
+  public as(alias: string): SelectItemInfo {
+    return new SelectItemInfo(this, alias)
+  }
 
   public toString(): string {
     return `${this.funcName}(${this.numberLike})`

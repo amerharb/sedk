@@ -97,4 +97,14 @@ describe('test groupBy Step', () => {
 
     expect(actual).toEqual('SELECT COUNT("col4"), MAX("col5"), MIN("col6") FROM "testTable" GROUP BY "col2";')
   })
+
+  it('Produces [SELECT SUM("col4"), AVG("col4"), COUNT("col4"), MAX("col4"), MIN("col4") FROM "testTable" GROUP BY "col2";]', () => {
+    const actual = sql
+      .select(column4.sum, column4.avg, column4.count, column4.max, column4.min)
+      .from(table)
+      .groupBy(column2)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT SUM("col4"), AVG("col4"), COUNT("col4"), MAX("col4"), MIN("col4") FROM "testTable" GROUP BY "col2";')
+  })
 })

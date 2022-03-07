@@ -26,6 +26,7 @@ import {
   NULLS_LAST,
 } from './orderBy'
 import { SelectItemInfo } from './select'
+import { AggregateFunction, AggregateFunctionEnum } from './aggregateFunction'
 
 type ColumnObj = {
   name: string
@@ -212,6 +213,26 @@ export class NumberColumn extends Column {
   public le$(value: number): Condition {
     const binder = this.binderStore.add(value)
     return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
+  }
+
+  public get sum(): AggregateFunction {
+    return new AggregateFunction(AggregateFunctionEnum.SUM, this)
+  }
+
+  public get avg(): AggregateFunction {
+    return new AggregateFunction(AggregateFunctionEnum.AVG, this)
+  }
+
+  public get count(): AggregateFunction {
+    return new AggregateFunction(AggregateFunctionEnum.COUNT, this)
+  }
+
+  public get max(): AggregateFunction {
+    return new AggregateFunction(AggregateFunctionEnum.MAX, this)
+  }
+
+  public get min(): AggregateFunction {
+    return new AggregateFunction(AggregateFunctionEnum.MIN, this)
   }
 }
 

@@ -1,4 +1,4 @@
-import { NumberLike } from './models'
+import { Expression, ExpressionType } from './models'
 import { SelectItemInfo } from './select'
 
 export enum AggregateFunctionEnum {
@@ -10,13 +10,16 @@ export enum AggregateFunctionEnum {
 }
 
 export class AggregateFunction {
-  constructor(private readonly funcName: AggregateFunctionEnum, private readonly numberLike: NumberLike) {}
+  constructor(private readonly funcName: AggregateFunctionEnum, private readonly expression: Expression) {
+    if (expression.type !== ExpressionType.NUMBER)
+      throw new Error('Expression Type must be number in aggregate function')
+  }
 
   public as(alias: string): SelectItemInfo {
     return new SelectItemInfo(this, alias)
   }
 
   public toString(): string {
-    return `${this.funcName}(${this.numberLike})`
+    return `${this.funcName}(${this.expression.toString(false)})`
   }
 }

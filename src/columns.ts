@@ -216,23 +216,23 @@ export class NumberColumn extends Column {
   }
 
   public get sum(): AggregateFunction {
-    return new AggregateFunction(AggregateFunctionEnum.SUM, this)
+    return new AggregateFunction(AggregateFunctionEnum.SUM, new Expression(this))
   }
 
   public get avg(): AggregateFunction {
-    return new AggregateFunction(AggregateFunctionEnum.AVG, this)
+    return new AggregateFunction(AggregateFunctionEnum.AVG, new Expression(this))
   }
 
   public get count(): AggregateFunction {
-    return new AggregateFunction(AggregateFunctionEnum.COUNT, this)
+    return new AggregateFunction(AggregateFunctionEnum.COUNT, new Expression(this))
   }
 
   public get max(): AggregateFunction {
-    return new AggregateFunction(AggregateFunctionEnum.MAX, this)
+    return new AggregateFunction(AggregateFunctionEnum.MAX, new Expression(this))
   }
 
   public get min(): AggregateFunction {
-    return new AggregateFunction(AggregateFunctionEnum.MIN, this)
+    return new AggregateFunction(AggregateFunctionEnum.MIN, new Expression(this))
   }
 }
 

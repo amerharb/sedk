@@ -1,7 +1,8 @@
-import { Builder, f } from '../src'
+import { Builder, f, e, ArithmeticOperator } from '../src'
 import { database } from './database'
 
 //Alias
+const ADD = ArithmeticOperator.ADD
 const table = database.s.public.t.testTable
 const column1 = database.s.public.t.testTable.c.column1
 const column2 = database.s.public.t.testTable.c.column2
@@ -120,5 +121,25 @@ describe('test groupBy Step', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT SUM("col4") AS "SUM_OF_COL4", SUM(1) AS "SUM_OF_1", SUM("col5") AS "SUM_OF_COL5" FROM "testTable" GROUP BY "col2";')
+  })
+
+  it('Produces [SELECT SUM("col4" + "col5") FROM "testTable" GROUP BY "col1";]', () => {
+    const actual = sql
+      .select(f.sum(e(column4, ADD, column5)))
+      .from(table)
+      .groupBy(column1)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT SUM("col4" + "col5") FROM "testTable" GROUP BY "col1";')
+  })
+
+  it('Produces [SELECT SUM("col4" + 1) FROM "testTable" GROUP BY "col1";]', () => {
+    const actual = sql
+      .select(f.sum(e(column4, ADD, 1)))
+      .from(table)
+      .groupBy(column1)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT SUM("col4" + 1) FROM "testTable" GROUP BY "col1";')
   })
 })

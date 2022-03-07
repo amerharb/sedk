@@ -172,9 +172,12 @@ export class Expression {
     }
   }
 
-  public toString(): string {
+  public toString(withOuterBracket: boolean = true): string {
     if (this.operator !== undefined && this.rightOperand !== undefined) {
-      return `(${this.leftOperand} ${this.operator.toString()} ${this.rightOperand})`
+      const stmt =  `${this.leftOperand} ${this.operator.toString()} ${this.rightOperand}`
+      if (withOuterBracket)
+        return `(${stmt})`
+      return stmt
     }
     return this.leftOperand.toString()
   }

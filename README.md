@@ -46,6 +46,7 @@ console.log(bindObj)
 ### Version: 0.9.0
 
 - Add GroupBy Step
+- Add aggregated functions: sum(), avg(), count(), max() and min()
 
 ```typescript
 sql.select(name, f.avg(age).as('Employee Age Avrage')).from(Employee).groupBy(name).getSQL()

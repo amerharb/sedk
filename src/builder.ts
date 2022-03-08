@@ -1,4 +1,5 @@
 import { Database, Table } from './database'
+import { Column } from './columns'
 import { Condition } from './models'
 import { Binder, BinderStore } from './binder'
 import { ASTERISK, Distinct, All } from './singletoneConstants'
@@ -26,6 +27,7 @@ export type BuilderData = {
   table?: Table,
   distinct: ''|' DISTINCT'|' ALL'
   whereParts: (LogicalOperator|Condition|Parenthesis)[],
+  groupByItems: Column[],
   orderByItemInfos: OrderByItemInfo[],
   limit?: null|number|Binder|All,
   offset?: number|Binder,
@@ -43,6 +45,7 @@ export class Builder {
       selectItemInfos: [],
       distinct: '',
       whereParts: [],
+      groupByItems: [],
       orderByItemInfos: [],
       binderStore: BinderStore.getInstance(),
       option: fillUndefinedOptionsWithDefault(option ?? {}),

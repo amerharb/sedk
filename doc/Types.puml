@@ -36,6 +36,7 @@ mindmapDiagram {
 ** string <<primitive>>
 
 * SelectItem <<type>>
+** Aggregate Function <<class>>
 ** ColumnLike <<type>>
 *** Column <<class>>
 *** Expression <<class>>

@@ -1,7 +1,7 @@
 export { Builder } from './builder'
 export { ASTERISK, DISTINCT, ALL } from './singletoneConstants'
 export { LogicalOperator } from './steps'
-export { e, o } from './functions'
+export { e, o, f } from './functions'
 export {
   ComparisonOperator,
   ArithmeticOperator,
@@ -18,10 +18,12 @@ export {
   Database,
   Schema,
   Table,
+} from './database'
+export {
   BooleanColumn,
   NumberColumn,
   TextColumn,
-} from './database'
+} from './columns'
 export {
   OrderByDirection,
   DIRECTION_NOT_EXIST,

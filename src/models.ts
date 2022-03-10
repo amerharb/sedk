@@ -151,16 +151,14 @@ export class Expression {
   constructor(leftOperandType: OperandType, operator: Operator, rightOperandType: OperandType)
   constructor(leftOperandType: OperandType, operator: Operator, rightOperandType: OperandType, notLeft: boolean, notRight: boolean)
   constructor(leftOperandType: OperandType|Binder, operatorOrNotLeft?: boolean|Operator, rightOperandType?: OperandType, notLeft?: boolean, notRight?: boolean) {
-    if (typeof operatorOrNotLeft === 'boolean')
+    if (typeof operatorOrNotLeft === 'boolean') {
       this.leftOperand = new Operand(leftOperandType, operatorOrNotLeft)
-    else
-      this.leftOperand = new Operand(leftOperandType, notLeft)
-
-    if (typeof operatorOrNotLeft !== 'boolean') {
-      this.operator = operatorOrNotLeft
-    } else {
       this.operator = undefined
+    } else {
+      this.leftOperand = new Operand(leftOperandType, notLeft)
+      this.operator = operatorOrNotLeft
     }
+
     this.rightOperand = new Operand(rightOperandType, notRight)
 
     if (this.rightOperand.type === ExpressionType.NOT_EXIST) {
@@ -174,7 +172,7 @@ export class Expression {
 
   public toString(withOuterBracket: boolean = true): string {
     if (this.operator !== undefined && this.rightOperand !== undefined) {
-      const stmt =  `${this.leftOperand} ${this.operator.toString()} ${this.rightOperand}`
+      const stmt = `${this.leftOperand} ${this.operator.toString()} ${this.rightOperand}`
       if (withOuterBracket)
         return `(${stmt})`
       return stmt

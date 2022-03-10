@@ -4,7 +4,6 @@ export class BinderStore {
   private static instance: BinderStore
   private store: Binder[] = []
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
   public static getInstance(): BinderStore {

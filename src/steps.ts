@@ -404,7 +404,6 @@ interface LimitStep extends BaseStep {
   offset$(n: number): OffsetStep
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface OffsetStep extends BaseStep {}
 //@formatter:on
 

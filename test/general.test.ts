@@ -37,6 +37,7 @@ const column8 = database.s.public.t.testTable.c.column8
 
 describe('test from one table', () => {
   const sql = new Builder(database)
+  afterEach(() => { sql.cleanUp() })
 
   /* In Postgres it is ok to have FROM directly after SELECT */
   it('Produces [SELECT FROM "testTable";]', () => {
@@ -161,6 +162,20 @@ describe('test from one table', () => {
       expect(actual).toEqual('SELECT TRUE;')
     })
 
+    it('Produces [SELECT FALSE;]', () => {
+      const actual = sql.select(e(false)).getSQL()
+      expect(actual).toEqual('SELECT FALSE;')
+    })
+
+    it('Produces [SELECT \'A\';]', () => {
+      const actual = sql.select(e('A')).getSQL()
+      expect(actual).toEqual('SELECT \'A\';')
+    })
+
+    it('Produces [SELECT -1;]', () => {
+      const actual = sql.select(e(-1)).getSQL()
+      expect(actual).toEqual('SELECT -1;')
+    })
   })
 
   it('Produces [SELECT "col1", "col2" FROM "testTable";]', () => {

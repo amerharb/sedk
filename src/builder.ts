@@ -58,7 +58,6 @@ export class Builder {
   public select(...items: (Distinct|All|SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
     if (items[0] instanceof Distinct) {
       if (items.length <= 1) throw new Error('Select step must have at least one parameter after DISTINCT')
-      this.rootStep.cleanUp()
       items.shift() //remove first item the DISTINCT item
       Builder.throwIfMoreThanOneDistinctOrAll(items)
       const newItems = items as unknown[] as (SelectItemInfo|SelectItem|PrimitiveType)[]
@@ -66,35 +65,31 @@ export class Builder {
     }
 
     if (items[0] instanceof All) {
-      this.rootStep.cleanUp()
       items.shift() //remove first item the ALL item
       Builder.throwIfMoreThanOneDistinctOrAll(items)
       const newItems = items as (SelectItemInfo|SelectItem|PrimitiveType)[]
       return this.rootStep.selectAll(...newItems)
     }
 
-    this.rootStep.cleanUp()
     Builder.throwIfMoreThanOneDistinctOrAll(items)
     const newItems = items as (SelectItemInfo|SelectItem|PrimitiveType)[]
     return this.rootStep.select(...newItems)
   }
 
   public selectDistinct(...items: (SelectItem|PrimitiveType)[]): SelectStep {
-    //Note: the cleanup needed as there is only one "select" step in the chain that we start with
-    this.rootStep.cleanUp()
     return this.rootStep.selectDistinct(...items)
   }
 
   public selectAll(...items: (SelectItem|PrimitiveType)[]): SelectStep {
-    //Note: the cleanup needed as there is only one "select" step in the chain that we start with
-    this.rootStep.cleanUp()
     return this.rootStep.selectAll(...items)
   }
 
   public selectAsteriskFrom(table: Table): FromStep {
-    //Note: the cleanup needed as there is only one "select" step in the chain that we start with
-    this.rootStep.cleanUp()
     return this.rootStep.select(ASTERISK).from(table)
+  }
+
+  public cleanUp(): void {
+    this.rootStep.cleanUp()
   }
 
   private static throwIfMoreThanOneDistinctOrAll(items: (Distinct|All|SelectItemInfo|SelectItem|PrimitiveType)[]) {

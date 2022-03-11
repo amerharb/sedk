@@ -88,8 +88,9 @@ export class Builder {
     return this.rootStep.select(ASTERISK).from(table)
   }
 
-  public cleanUp(): void {
+  public cleanUp(): Builder {
     this.rootStep.cleanUp()
+    return this
   }
 
   private static throwIfMoreThanOneDistinctOrAll(items: (Distinct|All|SelectItemInfo|SelectItem|PrimitiveType)[]) {

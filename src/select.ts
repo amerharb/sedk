@@ -3,6 +3,7 @@ import { SelectItem } from './steps'
 import { Column } from './columns'
 import { Expression } from './models'
 import { escapeDoubleQuote } from './util'
+import { BinderStore } from './binder'
 
 export class SelectItemInfo {
   public set builderOption(option: BuilderOption) {
@@ -24,15 +25,15 @@ export class SelectItemInfo {
     return []
   }
 
-  public toString(): string {
+  public getStmt(data: { binderStore: BinderStore }): string {
     if (this.alias !== undefined) {
       // escape double quote by repeating it
       const escapedAlias = escapeDoubleQuote(this.alias)
       const asString = (this.option?.addAsBeforeColumnAlias === 'always')
         ? ' AS' : ''
-      return `${this.selectItem}${asString} "${escapedAlias}"`
+      return `${this.selectItem.getStmt(data)}${asString} "${escapedAlias}"`
     }
-    return `${this.selectItem}`
+    return `${this.selectItem.getStmt(data)}`
   }
 
 }

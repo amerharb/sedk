@@ -1,22 +1,15 @@
 import { PrimitiveType } from './steps'
 
 export class BinderStore {
-  private static instance: BinderStore
   private store: Binder[] = []
 
-  private constructor() {}
-
-  public static getInstance(): BinderStore {
-    if (!BinderStore.instance) {
-      BinderStore.instance = new BinderStore()
+  public add(binder: Binder): void {
+    if (binder.no !== undefined) {
+      throw new Error('This binder already stored')
     }
-    return BinderStore.instance
-  }
 
-  public add(value: PrimitiveType): Binder {
-    const binder = new Binder(this.store.length + 1, value)
+    binder.no = this.store.length + 1
     this.store.push(binder)
-    return binder
   }
 
   public getValues(): PrimitiveType[] {
@@ -29,12 +22,28 @@ export class BinderStore {
 }
 
 export class Binder {
+  private mNo?: number = undefined
+
   public constructor(
-    public readonly no: number,
-    public readonly value: PrimitiveType
+    public readonly value: PrimitiveType,
   ) {}
 
+  public set no(no: number|undefined) {
+    if (this.mNo !== undefined) {
+      throw new Error('This Binder already has a number')
+    }
+    this.mNo = no
+  }
+
+  public get no(): number|undefined {
+    return this.mNo
+  }
+
   public toString(): string {
+    return this.getStmt()
+  }
+
+  public getStmt(): string {
     return `$${this.no}`
   }
 }

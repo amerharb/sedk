@@ -1,6 +1,6 @@
 import { Table } from './database'
 import { escapeDoubleQuote } from './util'
-import { BinderStore } from './binder'
+import { Binder } from './binder'
 import {
   BooleanLike,
   NumberLike,
@@ -33,7 +33,6 @@ type ColumnObj = {
 }
 
 export abstract class Column {
-  protected readonly binderStore = BinderStore.getInstance()
   private mTable?: Table
 
   protected constructor(public readonly data: ColumnObj) {}
@@ -52,7 +51,7 @@ export abstract class Column {
     return this.mTable
   }
 
-  public get columnName(): string {
+  public get name(): string {
     return this.data.name
   }
 
@@ -92,7 +91,7 @@ export abstract class Column {
     return new OrderByItemInfo(this, DESC, NULLS_LAST)
   }
 
-  public toString() {
+  public getStmt() {
     return `"${escapeDoubleQuote(this.data.name)}"`
   }
 }
@@ -114,7 +113,7 @@ export class BooleanColumn extends Column implements Condition {
 
   public eq$(value: null|boolean): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
-    const binder = this.binderStore.add(value)
+    const binder = new Binder(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
@@ -125,7 +124,7 @@ export class BooleanColumn extends Column implements Condition {
 
   public ne$(value: null|boolean): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
-    const binder = this.binderStore.add(value)
+    const binder = new Binder(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
@@ -157,7 +156,7 @@ export class NumberColumn extends Column {
 
   public eq$(value: null|number): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
-    const binder = this.binderStore.add(value)
+    const binder = new Binder(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
@@ -175,7 +174,7 @@ export class NumberColumn extends Column {
 
   public ne$(value: null|number): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
-    const binder = this.binderStore.add(value)
+    const binder = new Binder(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
@@ -184,7 +183,7 @@ export class NumberColumn extends Column {
   }
 
   public gt$(value: number): Condition {
-    const binder = this.binderStore.add(value)
+    const binder = new Binder(value)
     return new Condition(new Expression(this), ComparisonOperator.GreaterThan, new Expression(binder))
   }
 
@@ -193,7 +192,7 @@ export class NumberColumn extends Column {
   }
 
   public ge$(value: number): Condition {
-    const binder = this.binderStore.add(value)
+    const binder = new Binder(value)
     return new Condition(new Expression(this), ComparisonOperator.GreaterOrEqual, new Expression(binder))
   }
 
@@ -202,7 +201,7 @@ export class NumberColumn extends Column {
   }
 
   public lt$(value: number): Condition {
-    const binder = this.binderStore.add(value)
+    const binder = new Binder(value)
     return new Condition(new Expression(this), ComparisonOperator.LesserThan, new Expression(binder))
   }
 
@@ -211,7 +210,7 @@ export class NumberColumn extends Column {
   }
 
   public le$(value: number): Condition {
-    const binder = this.binderStore.add(value)
+    const binder = new Binder(value)
     return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
   }
 
@@ -250,7 +249,7 @@ export class TextColumn extends Column {
 
   public eq$(value: null|string): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
-    const binder = this.binderStore.add(value)
+    const binder = new Binder(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
@@ -263,7 +262,7 @@ export class TextColumn extends Column {
 
   public ne$(value: null|string): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
-    const binder = this.binderStore.add(value)
+    const binder = new Binder(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 

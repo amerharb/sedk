@@ -1,5 +1,5 @@
 import { Database, Table } from './database'
-import { Column } from './columns'
+import { BooleanColumn, Column } from './columns'
 import { Condition } from './models'
 import { Binder, BinderStore } from './binder'
 import { ASTERISK, Distinct, All } from './singletoneConstants'
@@ -26,7 +26,7 @@ export type BuilderData = {
   //TODO: make table "FromItemInfo" array
   table?: Table,
   distinct: ''|' DISTINCT'|' ALL'
-  whereParts: (LogicalOperator|Condition|Parenthesis)[],
+  whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
   groupByItems: Column[],
   orderByItemInfos: OrderByItemInfo[],
   limit?: null|number|Binder|All,
@@ -47,7 +47,7 @@ export class Builder {
       whereParts: [],
       groupByItems: [],
       orderByItemInfos: [],
-      binderStore: BinderStore.getInstance(),
+      binderStore: new BinderStore(),
       option: fillUndefinedOptionsWithDefault(option ?? {}),
     }
     this.rootStep = new Step(this.data)

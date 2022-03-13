@@ -5,8 +5,10 @@
 ### Added
 - Add GroupBy step
 - Add GroupBy aggregated functions
+- Add "$()" function that give binder directly from primitive type
 ### Breaking Changes
 - Add new function cleanUp() that need to be called manually before start building a new query
+- property "columnName" in Column class renamed to "name"
 
 ## [0.8.2]  2022-03-05
 ### Fix

@@ -1,5 +1,5 @@
 import { InvalidExpressionError } from './errors'
-import { Binder } from './binder'
+import { Binder, BinderStore } from './binder'
 import { PrimitiveType } from './steps'
 import { Column, BooleanColumn, NumberColumn, TextColumn } from './columns'
 import {
@@ -34,11 +34,11 @@ export class Condition implements Expression {
     this.rightExpression = rightExpression
   }
 
-  public toString(): string {
+  public getStmt(data: { binderStore: BinderStore }): string {
     if (this.operator !== undefined && this.rightOperand !== undefined)
-      return `${this.leftOperand} ${this.operator} ${this.rightOperand}`
+      return `${this.leftOperand.getStmt(data)} ${this.operator} ${this.rightOperand.getStmt(data)}`
     else
-      return this.leftOperand.toString()
+      return this.leftOperand.getStmt(data)
   }
 
   public as(alias: string): SelectItemInfo {
@@ -91,17 +91,24 @@ export class Operand {
     this.isNot = Operand.getNotValueOrThrow(isNot, this.type)
   }
 
-  public toString(): string {
+  public getStmt(data: { binderStore: BinderStore }): string {
     if (this.value === null) {
       return 'NULL'
     } else if (this.value instanceof Binder) {
-      return `${this.value}`
+      if (this.value.no === undefined) {
+        data.binderStore.add(this.value)
+      }
+      return `${this.value.getStmt()}`
     } else if (typeof this.value === 'string') {
       // escape single quote by repeating it
       const escapedValue = this.value.replace(/'/g, '\'\'')
       return `'${escapedValue}'`
     } else if (typeof this.value === 'boolean') {
       return `${this.isNot ? 'NOT ' : ''}${this.value ? 'TRUE' : 'FALSE'}`
+    } else if (this.value instanceof Expression) {
+      return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt(data)}`
+    } else if (this.value instanceof Column) {
+      return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt()}`
     } else {
       return `${this.isNot ? 'NOT ' : ''}${this.value}`
     }
@@ -170,14 +177,17 @@ export class Expression {
     }
   }
 
-  public toString(withOuterBracket: boolean = true): string {
+  public getStmt(data: { binderStore: BinderStore, withOuterBracket?: boolean }): string {
+    if (data.withOuterBracket === undefined) {
+      data.withOuterBracket = true
+    }
     if (this.operator !== undefined && this.rightOperand !== undefined) {
-      const stmt = `${this.leftOperand} ${this.operator.toString()} ${this.rightOperand}`
-      if (withOuterBracket)
+      const stmt = `${this.leftOperand.getStmt(data)} ${this.operator.toString()} ${this.rightOperand.getStmt(data)}`
+      if (data.withOuterBracket)
         return `(${stmt})`
       return stmt
     }
-    return this.leftOperand.toString()
+    return this.leftOperand.getStmt(data)
   }
 
   public as(alias: string): SelectItemInfo {
@@ -213,6 +223,11 @@ export class Expression {
 
       if (((left.type === ExpressionType.TEXT && isTextNumber(left.value)) && right.type === ExpressionType.NUMBER)
         || (left.type === ExpressionType.NUMBER && (right.type === ExpressionType.TEXT && isTextNumber(right.value))))
+        return ExpressionType.NUMBER
+
+      // TODO: check if the binder has number value
+      if (((left.type === ExpressionType.BINDER/* && typeof left.value === 'number'*/) && right.type === ExpressionType.NUMBER)
+        || (left.type === ExpressionType.NUMBER && (right.type === ExpressionType.BINDER /*&& typeof right.value.leftOperand.value === 'number'*/)))
         return ExpressionType.NUMBER
 
       this.throwInvalidTypeError(left.type, operator, right.type)

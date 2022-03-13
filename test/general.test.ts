@@ -2,6 +2,7 @@ import {
   Builder,
   ColumnNotFoundError,
   e,
+  $,
   LogicalOperator,
   Table,
   TableNotFoundError,
@@ -100,6 +101,48 @@ describe('test from one table', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT 1 FROM "testTable";')
+  })
+
+  it('Produces [SELECT (1 + $1) FROM "testTable";]', () => {
+    const actual = sql
+      .select(e(1, ADD, $(5)))
+      .from(table)
+      .getBinds()
+
+    const expected = {
+      sql: 'SELECT (1 + $1) FROM "testTable";',
+      values: [5],
+    }
+
+    expect(actual).toEqual(expected)
+  })
+
+  it('Produces [SELECT $1 FROM "testTable";]', () => {
+    const actual = sql
+      .select($(5))
+      .from(table)
+      .getBinds()
+
+    const expected = {
+      sql: 'SELECT $1 FROM "testTable";',
+      values: [5],
+    }
+
+    expect(actual).toEqual(expected)
+  })
+
+  it('Produces [SELECT $1, $2, $3, $4 FROM "testTable";]', () => {
+    const actual = sql
+      .select($(null), $(true), $(1), $('a'))
+      .from(table)
+      .getBinds()
+
+    const expected = {
+      sql: 'SELECT $1, $2, $3, $4 FROM "testTable";',
+      values: [null, true, 1, 'a'],
+    }
+
+    expect(actual).toEqual(expected)
   })
 
   it('Produces [SELECT 1 AS "One" FROM "testTable";]', () => {

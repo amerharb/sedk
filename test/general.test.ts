@@ -1,12 +1,8 @@
 import {
   Builder,
-  ColumnNotFoundError,
   e,
+  $,
   LogicalOperator,
-  Table,
-  TableNotFoundError,
-  TextColumn,
-  InvalidExpressionError,
   ArithmeticOperator,
   ComparisonOperator,
   TextOperator,
@@ -37,6 +33,7 @@ const column8 = database.s.public.t.testTable.c.column8
 
 describe('test from one table', () => {
   const sql = new Builder(database)
+  afterEach(() => { sql.cleanUp() })
 
   /* In Postgres it is ok to have FROM directly after SELECT */
   it('Produces [SELECT FROM "testTable";]', () => {
@@ -101,6 +98,48 @@ describe('test from one table', () => {
     expect(actual).toEqual('SELECT 1 FROM "testTable";')
   })
 
+  it('Produces [SELECT (1 + $1) FROM "testTable";]', () => {
+    const actual = sql
+      .select(e(1, ADD, $(5)))
+      .from(table)
+      .getBinds()
+
+    const expected = {
+      sql: 'SELECT (1 + $1) FROM "testTable";',
+      values: [5],
+    }
+
+    expect(actual).toEqual(expected)
+  })
+
+  it('Produces [SELECT $1 FROM "testTable";]', () => {
+    const actual = sql
+      .select($(5))
+      .from(table)
+      .getBinds()
+
+    const expected = {
+      sql: 'SELECT $1 FROM "testTable";',
+      values: [5],
+    }
+
+    expect(actual).toEqual(expected)
+  })
+
+  it('Produces [SELECT $1, $2, $3, $4 FROM "testTable";]', () => {
+    const actual = sql
+      .select($(null), $(true), $(1), $('a'))
+      .from(table)
+      .getBinds()
+
+    const expected = {
+      sql: 'SELECT $1, $2, $3, $4 FROM "testTable";',
+      values: [null, true, 1, 'a'],
+    }
+
+    expect(actual).toEqual(expected)
+  })
+
   it('Produces [SELECT 1 AS "One" FROM "testTable";]', () => {
     const actual = sql
       .select(e(1).as('One'))
@@ -161,6 +200,40 @@ describe('test from one table', () => {
       expect(actual).toEqual('SELECT TRUE;')
     })
 
+    it('Produces [SELECT FALSE;]', () => {
+      const actual = sql.select(e(false)).getSQL()
+      expect(actual).toEqual('SELECT FALSE;')
+    })
+
+    it('Produces [SELECT TRUE;] without e() function', () => {
+      const actual = sql.select(true).getSQL()
+      expect(actual).toEqual('SELECT TRUE;')
+    })
+
+    it('Produces [SELECT FALSE;] without e() function', () => {
+      const actual = sql.select(false).getSQL()
+      expect(actual).toEqual('SELECT FALSE;')
+    })
+
+    it('Produces [SELECT \'A\';]', () => {
+      const actual = sql.select(e('A')).getSQL()
+      expect(actual).toEqual('SELECT \'A\';')
+    })
+
+    it('Produces [SELECT \'A\';] without e() function', () => {
+      const actual = sql.select('A').getSQL()
+      expect(actual).toEqual('SELECT \'A\';')
+    })
+
+    it('Produces [SELECT -1;]', () => {
+      const actual = sql.select(e(-1)).getSQL()
+      expect(actual).toEqual('SELECT -1;')
+    })
+
+    it('Produces [SELECT -1;] without e() function', () => {
+      const actual = sql.select(-1).getSQL()
+      expect(actual).toEqual('SELECT -1;')
+    })
   })
 
   it('Produces [SELECT "col1", "col2" FROM "testTable";]', () => {
@@ -759,51 +832,6 @@ describe('test from one table', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col4" = (1 + 1);')
-  })
-
-  describe('Throw desired Errors', () => {
-    it('Throws error when add invalid operator', () => {
-      function actual() {
-        sql.select(e(1, GT, 'f'))
-      }
-
-      expect(actual).toThrowError('You can not have "NUMBER" and "TEXT" with operator ">"')
-      expect(actual).toThrowError(InvalidExpressionError)
-    })
-
-    it('Throws error when column not exist', () => {
-      const wrongColumn = new TextColumn({ name: 'wrongColumn' })
-
-      function actual() {
-        sql.select(column1, wrongColumn, column3)
-      }
-
-      expect(actual).toThrowError('Column: "wrongColumn" not found')
-      expect(actual).toThrowError(ColumnNotFoundError)
-    })
-
-    it('Throws error when table not exist', () => {
-      const wrongTable = new Table({
-        name: 'wrongTable',
-        columns: { anyColumn: new TextColumn({ name: 'anyColumn' }) },
-      })
-
-      function actual() {
-        sql.select(column1).from(wrongTable)
-      }
-
-      expect(actual).toThrowError('Table: "wrongTable" not found')
-      expect(actual).toThrowError(TableNotFoundError)
-    })
-
-    it('Throws error if number added to text', () => {
-      function actual() {
-        sql.select(e(1, ADD, 'a')).getSQL()
-      }
-
-      expect(actual).toThrowError('You can not have "NUMBER" and "TEXT" with operator "+"')
-      expect(actual).toThrowError(InvalidExpressionError)
-    })
   })
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" > "col5";]', () => {

@@ -1,6 +1,7 @@
 import { BuilderOption } from './option'
-import { Column } from './database'
+import { Column } from './columns'
 import { Expression } from './models'
+import { BinderStore } from './binder'
 
 export type OrderByItem = Column|Expression|string
 export type OrderByArgsElement = OrderByItemInfo|OrderByItem|OrderByDirection|OrderByNullsPosition
@@ -17,10 +18,14 @@ export class OrderByItemInfo {
     private option?: BuilderOption,
   ) {}
 
-  public toString(): string {
+  public getStmt(data: {binderStore: BinderStore}): string {
     const direction = this.getDirectionFromOption()
     const nullPosition = this.getNullLastFromOption()
-    return `${this.orderByItem}${direction}${nullPosition}`
+    const orderByString = (this.orderByItem instanceof Column || this.orderByItem instanceof Expression)
+      ? this.orderByItem.getStmt(data)
+      : this.orderByItem
+
+    return `${orderByString}${direction}${nullPosition}`
   }
 
   private getDirectionFromOption(): OrderByDirection {

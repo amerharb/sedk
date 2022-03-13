@@ -43,6 +43,13 @@ describe('test Options', () => {
     const sqlNever = new Builder(database, { addAscAfterOrderByItem: 'never' })
     const sqlWhenMentioned = new Builder(database, { addAscAfterOrderByItem: 'when mentioned' })
     const sqlDefault = new Builder(database)
+    afterEach(() => {
+      sqlAlways.cleanUp()
+      sqlNever.cleanUp()
+      sqlWhenMentioned.cleanUp()
+      sqlDefault.cleanUp()
+    })
+
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;] option(always)', () => {
       const actual = sqlAlways
         .select(column1)
@@ -129,6 +136,13 @@ describe('test Options', () => {
     const sqlNever = new Builder(database, { addNullsLastAfterOrderByItem: 'never' })
     const sqlWhenMentioned = new Builder(database, { addNullsLastAfterOrderByItem: 'when mentioned' })
     const sqlDefault = new Builder(database)
+    afterEach(() => {
+      sqlAlways.cleanUp()
+      sqlNever.cleanUp()
+      sqlWhenMentioned.cleanUp()
+      sqlDefault.cleanUp()
+    })
+
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" NULLS LAST;] option(always)', () => {
       const actual = sqlAlways
         .select(column1)

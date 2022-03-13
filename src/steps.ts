@@ -1,5 +1,6 @@
 import { Condition, Expression, PostgresBinder } from './models'
-import { Column, Table } from './database'
+import { BooleanColumn, Column } from './columns'
+import { Table } from './database'
 import { ColumnNotFoundError, TableNotFoundError } from './errors'
 import { BuilderData } from './builder'
 import { All, Asterisk } from './singletoneConstants'
@@ -12,14 +13,16 @@ import {
 } from './orderBy'
 import { SelectItemInfo } from './select'
 import { escapeDoubleQuote } from './util'
+import { AggregateFunction } from './aggregateFunction'
+import { Binder } from './binder'
 
 export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
 
-export type SelectItem = ColumnLike|Asterisk
+export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 
-export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
-  OrStep, OrderByStep, LimitStep, OffsetStep {
+export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndStep,
+  WhereOrStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
   constructor(protected data: BuilderData) {}
 
   public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
@@ -27,7 +30,12 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
       if (it instanceof SelectItemInfo) {
         it.builderOption = this.data.option
         return it
-      } else if (it instanceof Expression || it instanceof Column || it instanceof Asterisk) {
+      } else if (it instanceof Expression || it instanceof Column || it instanceof AggregateFunction || it instanceof Asterisk) {
+        return new SelectItemInfo(it, undefined, this.data.option)
+      } else if (it instanceof Binder) {
+        if (it.no === undefined) {
+          this.data.binderStore.add(it)
+        }
         return new SelectItemInfo(it, undefined, this.data.option)
       } else {
         return new SelectItemInfo(new Expression(it), undefined, this.data.option)
@@ -59,19 +67,24 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
     return this
   }
 
-  public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): AndStep {
+  public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereAndStep {
     this.data.whereParts.push(AND)
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
     return this
   }
 
-  public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): OrStep {
+  public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereOrStep {
     this.data.whereParts.push(OR)
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
     return this
   }
 
-  orderBy(...orderByArgsElement: OrderByArgsElement[]): OrderByStep {
+  public groupBy(...groupByItems: Column[]): GroupByStep {
+    this.data.groupByItems.push(...groupByItems)
+    return this
+  }
+
+  public orderBy(...orderByArgsElement: OrderByArgsElement[]): OrderByStep {
     if (orderByArgsElement.length === 0) {
       throw new Error('Order by should have at lease one item')
     }
@@ -141,7 +154,9 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
     if (typeof n === 'number' && n < 0) {
       throw new Error(`Invalid limit value ${n}, negative numbers are not allowed`)
     }
-    this.data.limit = this.data.binderStore.add(n)
+    const binder = new Binder(n)
+    this.data.binderStore.add(binder)
+    this.data.limit = binder
     return this
   }
 
@@ -157,7 +172,9 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
     if (n < 0) {
       throw new Error(`Invalid offset value ${n}, negative numbers are not allowed`)
     }
-    this.data.offset = this.data.binderStore.add(n)
+    const binder = new Binder(n)
+    this.data.binderStore.add(binder)
+    this.data.offset = binder
     return this
   }
 
@@ -176,20 +193,38 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
     let result = `SELECT${this.data.distinct}`
 
     if (this.data.selectItemInfos.length > 0) {
-      result += ` ${this.data.selectItemInfos.join(', ')}`
+      const selectPartsString = this.data.selectItemInfos.map(it => {
+        return it.getStmt({ binderStore: this.data.binderStore })
+      })
+      result += ` ${selectPartsString.join(', ')}`
     }
 
     if (this.data.table) {
-      result += ` FROM ${this.data.table}`
+      result += ` FROM ${this.data.table.getStmt()}`
     }
 
     if (this.data.whereParts.length > 0) {
       this.throwIfWherePartsInvalid()
-      result += ` WHERE ${this.data.whereParts.join(' ')}`
+      const wherePartsString = this.data.whereParts.map(it => {
+        if (it instanceof Condition || it instanceof Expression) {
+          return it.getStmt(this.data)
+        } else if (it instanceof BooleanColumn) {
+          return it.getStmt()
+        }
+        return it.toString()
+      })
+      result += ` WHERE ${wherePartsString.join(' ')}`
+    }
+
+    if (this.data.groupByItems.length > 0) {
+      result += ` GROUP BY ${this.data.groupByItems.map(it => it.getStmt()).join(', ')}`
     }
 
     if (this.data.orderByItemInfos.length > 0) {
-      result += ` ORDER BY ${this.data.orderByItemInfos.join(', ')}`
+      const orderByPartsString = this.data.orderByItemInfos.map(it => {
+        return it.getStmt({ binderStore: this.data.binderStore })
+      })
+      result += ` ORDER BY ${orderByPartsString.join(', ')}`
     }
 
     if (this.data.limit !== undefined) {
@@ -215,6 +250,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
     this.data.distinct = ''
     this.data.table = undefined
     this.data.whereParts.length = 0
+    this.data.groupByItems.length = 0
     this.data.orderByItemInfos.length = 0
     this.data.limit = undefined
     this.data.offset = undefined
@@ -253,7 +289,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
 
   private throwIfTableNotInDb(table: Table) {
     if (!this.data.database.isTableExist(table))
-      throw new TableNotFoundError(`Table: ${table} not found`)
+      throw new TableNotFoundError(`Table: "${table.name}" not found`)
   }
 
   private throwIfColumnsNotInDb(columns: (SelectItemInfo|ColumnLike|Asterisk)[]) {
@@ -269,7 +305,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, AndStep,
       }
       // item is Column from here
       if (!this.data.database.isColumnExist(item)) {
-        throw new ColumnNotFoundError(`Column: ${item} not found in database`)
+        throw new ColumnNotFoundError(`Column: "${item.name}" not found in database`)
       }
     }
   }
@@ -313,6 +349,7 @@ export interface FromStep extends BaseStep {
   where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
   where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
 
+  groupBy(...groupByItems: Column[]): GroupByStep
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
@@ -321,14 +358,15 @@ export interface FromStep extends BaseStep {
 }
 
 interface WhereStep extends BaseStep {
-  and(condition: Condition): AndStep
-  and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
-  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
+  and(condition: Condition): WhereAndStep
+  and(left: Condition, operator: LogicalOperator, right: Condition): WhereAndStep
+  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereAndStep
 
-  or(condition: Condition): OrStep
-  or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
-  or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
+  or(condition: Condition): WhereOrStep
+  or(left: Condition, operator: LogicalOperator, right: Condition): WhereOrStep
+  or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereOrStep
 
+  groupBy(...groupByItems: Column[]): GroupByStep
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
@@ -336,15 +374,16 @@ interface WhereStep extends BaseStep {
   offset$(n: number): OffsetStep
 }
 
-interface AndStep extends BaseStep {
-  and(condition: Condition): AndStep
-  and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
-  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
+interface WhereAndStep extends BaseStep {
+  and(condition: Condition): WhereAndStep
+  and(left: Condition, operator: LogicalOperator, right: Condition): WhereAndStep
+  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereAndStep
 
-  or(condition: Condition): OrStep
-  or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
-  or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
+  or(condition: Condition): WhereOrStep
+  or(left: Condition, operator: LogicalOperator, right: Condition): WhereOrStep
+  or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereOrStep
 
+  groupBy(...groupByItems: Column[]): GroupByStep
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
@@ -352,15 +391,24 @@ interface AndStep extends BaseStep {
   offset$(n: number): OffsetStep
 }
 
-interface OrStep extends BaseStep {
-  or(condition: Condition): OrStep
-  or(left: Condition, operator: LogicalOperator, right: Condition): OrStep
-  or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OrStep
+interface WhereOrStep extends BaseStep {
+  or(condition: Condition): WhereOrStep
+  or(left: Condition, operator: LogicalOperator, right: Condition): WhereOrStep
+  or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereOrStep
 
-  and(condition: Condition): AndStep
-  and(left: Condition, operator: LogicalOperator, right: Condition): AndStep
-  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): AndStep
+  and(condition: Condition): WhereAndStep
+  and(left: Condition, operator: LogicalOperator, right: Condition): WhereAndStep
+  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereAndStep
 
+  groupBy(...groupByItems: Column[]): GroupByStep
+  orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
+  limit(n: null|number|All): LimitStep
+  limit$(n: null|number): LimitStep
+  offset(n: number): OffsetStep
+  offset$(n: number): OffsetStep
+}
+
+interface GroupByStep extends BaseStep {
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
@@ -380,9 +428,7 @@ interface LimitStep extends BaseStep {
   offset$(n: number): OffsetStep
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface OffsetStep extends BaseStep {}
-
 //@formatter:on
 
 export enum LogicalOperator {

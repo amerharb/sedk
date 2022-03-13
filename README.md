@@ -8,24 +8,24 @@ schema
 ```typescript
 import * as sedk from 'sedk-postgres'
 
-//define the schema
+// Schema definition
 const name = new sedk.TextColumn({ name: 'name' })
 const age = new sedk.NumberColumn({ name: 'age' })
 const Employee = new sedk.Table({ name: 'Employee', columns: { name, age } })
 const publicSchema = new sedk.Schema({ name: 'public', tables: { Employee } })
 const database = new sedk.Database({ version: 1, schema: { public: publicSchema } })
 
-//Aliases
+// Aliases
 const AND = sedk.LogicalOperator.AND
 
-// start to build your SQL & Binder
+// Start to build SQL & Binder
 const sql = new sedk.Builder(database)
 
 const stmt1 = sql.select(name, age).from(Employee).where(name.eq('John'), AND, age.gt(25)).getSQL()
 console.log(stmt1)
 // SELECT "name", "age" FROM "Employee" WHERE ("name" = 'John' AND "age" > 25);
 
-// also it can be written as
+// Also it can be written as
 const stmt2 = sql.select(name, age).from(Employee).where(name.eq('John')).and(age.gt(25)).getSQL()
 console.log(stmt2)
 // SELECT "name", "age" FROM "Employee" WHERE "name" = 'John' AND "age" > 25;
@@ -43,6 +43,23 @@ console.log(bindObj)
 
 ## What is New
 
+### Version: 0.9.0
+
+- Add GroupBy Step
+- Add aggregated functions: sum(), avg(), count(), max() and min()
+
+```typescript
+sql.select(name, f.avg(age).as('Employee Age Avrage')).from(Employee).groupBy(name).getSQL()
+// SELECT "name", AVG("age") AS "Employee Age Avrage" FROM "Employee" GROUP BY "name";
+```
+
+or you can use
+
+```typescript
+sql.select(name, age.avg.as('Employee Age Avrage')).from(Employee).groupBy(name).getSQL()
+// SELECT "name", AVG("age") AS "Employee Age Avrage" FROM "Employee" GROUP BY "name";
+```
+
 ### Version: 0.8.2
 
 - Columns defined now as an object in Table class instead of array, so column can be called by its name from property "
@@ -52,8 +69,8 @@ console.log(bindObj)
 const name = new sedk.TextColumn({ name: 'name' })
 const age = new sedk.NumberColumn({ name: 'age' })
 const Employee = new sedk.Table({ name: 'Employee', columns: { name, age } })
-console.log(Employee.c.name.columnName) // print: name
-console.log(Employee.c.age.columnName) // print: age
+console.log(Employee.c.name.name) // print: name
+console.log(Employee.c.age.name) // print: age
 ```
 
 - Table defined now as an object in Schema class instead of array
@@ -167,7 +184,7 @@ sql.selectAsteriskFrom(Employee).getSQL()
 - OrderBy step
 
 ```typescript
-sql.select(ASTERISK).from(Employee).OrderBy(age).getSQL()
+sql.select(ASTERISK).from(Employee).orderBy(age).getSQL()
 // "SELECT * FROM Employee ORDER BY age"
 ```
 

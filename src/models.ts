@@ -114,21 +114,29 @@ export class Operand {
     }
   }
 
-  private static getExpressionType(operandType?: OperandType|Binder): ExpressionType {
-    if (operandType === undefined) {
+  private static getExpressionType(operand?: OperandType|Binder): ExpressionType {
+    if (operand === undefined) {
       return ExpressionType.NOT_EXIST
-    } else if (operandType === null) {
+    } else if (operand === null) {
       return ExpressionType.NULL
-    } else if (typeof operandType === 'boolean' || operandType instanceof BooleanColumn) {
+    } else if (typeof operand === 'boolean' || operand instanceof BooleanColumn) {
       return ExpressionType.BOOLEAN
-    } else if (typeof operandType === 'number' || operandType instanceof NumberColumn) {
+    } else if (typeof operand === 'number' || operand instanceof NumberColumn) {
       return ExpressionType.NUMBER
-    } else if (typeof operandType === 'string' || operandType instanceof TextColumn) {
+    } else if (typeof operand === 'string' || operand instanceof TextColumn) {
       return ExpressionType.TEXT
-    } else if (operandType instanceof Expression) {
-      return operandType.type
-    } else if (operandType instanceof Binder) {
-      return ExpressionType.BINDER
+    } else if (operand instanceof Expression) {
+      return operand.type
+    } else if (operand instanceof Binder) {
+      if (operand.value === null) {
+        return ExpressionType.NULL
+      } else if (typeof operand.value === 'boolean') {
+        return ExpressionType.BOOLEAN
+      } else if (typeof operand.value === 'number') {
+        return ExpressionType.NUMBER
+      } else if (typeof operand.value === 'string') {
+        return ExpressionType.TEXT
+      }
     }
     throw new Error('Operand type is not supported')
   }
@@ -225,11 +233,6 @@ export class Expression {
         || (left.type === ExpressionType.NUMBER && (right.type === ExpressionType.TEXT && isTextNumber(right.value))))
         return ExpressionType.NUMBER
 
-      // TODO: check if the binder has number value
-      if (((left.type === ExpressionType.BINDER/* && typeof left.value === 'number'*/) && right.type === ExpressionType.NUMBER)
-        || (left.type === ExpressionType.NUMBER && (right.type === ExpressionType.BINDER /*&& typeof right.value.leftOperand.value === 'number'*/)))
-        return ExpressionType.NUMBER
-
       this.throwInvalidTypeError(left.type, operator, right.type)
     }
 
@@ -309,7 +312,6 @@ export enum ExpressionType {
   BOOLEAN,
   NUMBER,
   TEXT,
-  BINDER,
 }
 
 export type PostgresBinder = {

@@ -205,13 +205,33 @@ describe('test from one table', () => {
       expect(actual).toEqual('SELECT FALSE;')
     })
 
+    it('Produces [SELECT TRUE;] without e() function', () => {
+      const actual = sql.select(true).getSQL()
+      expect(actual).toEqual('SELECT TRUE;')
+    })
+
+    it('Produces [SELECT FALSE;] without e() function', () => {
+      const actual = sql.select(false).getSQL()
+      expect(actual).toEqual('SELECT FALSE;')
+    })
+
     it('Produces [SELECT \'A\';]', () => {
       const actual = sql.select(e('A')).getSQL()
       expect(actual).toEqual('SELECT \'A\';')
     })
 
+    it('Produces [SELECT \'A\';] without e() function', () => {
+      const actual = sql.select('A').getSQL()
+      expect(actual).toEqual('SELECT \'A\';')
+    })
+
     it('Produces [SELECT -1;]', () => {
       const actual = sql.select(e(-1)).getSQL()
+      expect(actual).toEqual('SELECT -1;')
+    })
+
+    it('Produces [SELECT -1;] without e() function', () => {
+      const actual = sql.select(-1).getSQL()
       expect(actual).toEqual('SELECT -1;')
     })
   })

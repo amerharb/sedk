@@ -1,5 +1,5 @@
 import { Condition, Expression, PostgresBinder } from './models'
-import { Column } from './columns'
+import { BooleanColumn, Column } from './columns'
 import { Table } from './database'
 import { ColumnNotFoundError, TableNotFoundError } from './errors'
 import { BuilderData } from './builder'
@@ -14,11 +14,12 @@ import {
 import { SelectItemInfo } from './select'
 import { escapeDoubleQuote } from './util'
 import { AggregateFunction } from './aggregateFunction'
+import { Binder } from './binder'
 
 export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
 
-export type SelectItem = ColumnLike|AggregateFunction|Asterisk
+export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 
 export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndStep,
   WhereOrStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
@@ -30,6 +31,11 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndS
         it.builderOption = this.data.option
         return it
       } else if (it instanceof Expression || it instanceof Column || it instanceof AggregateFunction || it instanceof Asterisk) {
+        return new SelectItemInfo(it, undefined, this.data.option)
+      } else if (it instanceof Binder) {
+        if (it.no === undefined) {
+          this.data.binderStore.add(it)
+        }
         return new SelectItemInfo(it, undefined, this.data.option)
       } else {
         return new SelectItemInfo(new Expression(it), undefined, this.data.option)
@@ -148,7 +154,9 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndS
     if (typeof n === 'number' && n < 0) {
       throw new Error(`Invalid limit value ${n}, negative numbers are not allowed`)
     }
-    this.data.limit = this.data.binderStore.add(n)
+    const binder = new Binder(n)
+    this.data.binderStore.add(binder)
+    this.data.limit = binder
     return this
   }
 
@@ -164,7 +172,9 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndS
     if (n < 0) {
       throw new Error(`Invalid offset value ${n}, negative numbers are not allowed`)
     }
-    this.data.offset = this.data.binderStore.add(n)
+    const binder = new Binder(n)
+    this.data.binderStore.add(binder)
+    this.data.offset = binder
     return this
   }
 
@@ -183,24 +193,38 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndS
     let result = `SELECT${this.data.distinct}`
 
     if (this.data.selectItemInfos.length > 0) {
-      result += ` ${this.data.selectItemInfos.join(', ')}`
+      const selectPartsString = this.data.selectItemInfos.map(it => {
+        return it.getStmt({ binderStore: this.data.binderStore })
+      })
+      result += ` ${selectPartsString.join(', ')}`
     }
 
     if (this.data.table) {
-      result += ` FROM ${this.data.table}`
+      result += ` FROM ${this.data.table.getStmt()}`
     }
 
     if (this.data.whereParts.length > 0) {
       this.throwIfWherePartsInvalid()
-      result += ` WHERE ${this.data.whereParts.join(' ')}`
+      const wherePartsString = this.data.whereParts.map(it => {
+        if (it instanceof Condition || it instanceof Expression) {
+          return it.getStmt(this.data)
+        } else if (it instanceof BooleanColumn) {
+          return it.getStmt()
+        }
+        return it.toString()
+      })
+      result += ` WHERE ${wherePartsString.join(' ')}`
     }
 
     if (this.data.groupByItems.length > 0) {
-      result += ` GROUP BY ${this.data.groupByItems.join(', ')}`
+      result += ` GROUP BY ${this.data.groupByItems.map(it => it.getStmt()).join(', ')}`
     }
 
     if (this.data.orderByItemInfos.length > 0) {
-      result += ` ORDER BY ${this.data.orderByItemInfos.join(', ')}`
+      const orderByPartsString = this.data.orderByItemInfos.map(it => {
+        return it.getStmt({ binderStore: this.data.binderStore })
+      })
+      result += ` ORDER BY ${orderByPartsString.join(', ')}`
     }
 
     if (this.data.limit !== undefined) {
@@ -265,7 +289,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndS
 
   private throwIfTableNotInDb(table: Table) {
     if (!this.data.database.isTableExist(table))
-      throw new TableNotFoundError(`Table: ${table} not found`)
+      throw new TableNotFoundError(`Table: "${table.name}" not found`)
   }
 
   private throwIfColumnsNotInDb(columns: (SelectItemInfo|ColumnLike|Asterisk)[]) {
@@ -281,7 +305,7 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndS
       }
       // item is Column from here
       if (!this.data.database.isColumnExist(item)) {
-        throw new ColumnNotFoundError(`Column: ${item} not found in database`)
+        throw new ColumnNotFoundError(`Column: "${item.name}" not found in database`)
       }
     }
   }
@@ -404,7 +428,6 @@ interface LimitStep extends BaseStep {
   offset$(n: number): OffsetStep
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface OffsetStep extends BaseStep {}
 //@formatter:on
 

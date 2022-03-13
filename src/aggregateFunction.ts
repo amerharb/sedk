@@ -1,5 +1,6 @@
 import { Expression, ExpressionType } from './models'
 import { SelectItemInfo } from './select'
+import { BinderStore } from './binder'
 
 export enum AggregateFunctionEnum {
   SUM = 'SUM',
@@ -19,7 +20,8 @@ export class AggregateFunction {
     return new SelectItemInfo(this, alias)
   }
 
-  public toString(): string {
-    return `${this.funcName}(${this.expression.toString(false)})`
+  public getStmt(data: { binderStore: BinderStore }): string {
+    const expressionData = { ...data, withOuterBracket: false }
+    return `${this.funcName}(${this.expression.getStmt(expressionData)})`
   }
 }

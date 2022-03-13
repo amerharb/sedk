@@ -11,8 +11,12 @@ export class Asterisk {
     return Asterisk.instance
   }
 
-  public toString(): string {
+  public getStmt(): string {
     return '*'
+  }
+
+  public toString(): string {
+    return this.getStmt()
   }
 }
 

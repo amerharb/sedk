@@ -69,8 +69,8 @@ sql.select(name, age.avg.as('Employee Age Avrage')).from(Employee).groupBy(name)
 const name = new sedk.TextColumn({ name: 'name' })
 const age = new sedk.NumberColumn({ name: 'age' })
 const Employee = new sedk.Table({ name: 'Employee', columns: { name, age } })
-console.log(Employee.c.name.columnName) // print: name
-console.log(Employee.c.age.columnName) // print: age
+console.log(Employee.c.name.name) // print: name
+console.log(Employee.c.age.name) // print: age
 ```
 
 - Table defined now as an object in Schema class instead of array

@@ -1,5 +1,5 @@
 import { InvalidExpressionError } from './errors'
-import { Binder } from './binder'
+import { Binder, BinderStore } from './binder'
 import { PrimitiveType } from './steps'
 import { Column, BooleanColumn, NumberColumn, TextColumn } from './columns'
 import {
@@ -34,11 +34,11 @@ export class Condition implements Expression {
     this.rightExpression = rightExpression
   }
 
-  public toString(): string {
+  public getStmt(data: { binderStore: BinderStore }): string {
     if (this.operator !== undefined && this.rightOperand !== undefined)
-      return `${this.leftOperand} ${this.operator} ${this.rightOperand}`
+      return `${this.leftOperand.getStmt(data)} ${this.operator} ${this.rightOperand.getStmt(data)}`
     else
-      return this.leftOperand.toString()
+      return this.leftOperand.getStmt(data)
   }
 
   public as(alias: string): SelectItemInfo {
@@ -91,37 +91,52 @@ export class Operand {
     this.isNot = Operand.getNotValueOrThrow(isNot, this.type)
   }
 
-  public toString(): string {
+  public getStmt(data: { binderStore: BinderStore }): string {
     if (this.value === null) {
       return 'NULL'
     } else if (this.value instanceof Binder) {
-      return `${this.value}`
+      if (this.value.no === undefined) {
+        data.binderStore.add(this.value)
+      }
+      return `${this.value.getStmt()}`
     } else if (typeof this.value === 'string') {
       // escape single quote by repeating it
       const escapedValue = this.value.replace(/'/g, '\'\'')
       return `'${escapedValue}'`
     } else if (typeof this.value === 'boolean') {
       return `${this.isNot ? 'NOT ' : ''}${this.value ? 'TRUE' : 'FALSE'}`
+    } else if (this.value instanceof Expression) {
+      return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt(data)}`
+    } else if (this.value instanceof Column) {
+      return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt()}`
     } else {
       return `${this.isNot ? 'NOT ' : ''}${this.value}`
     }
   }
 
-  private static getExpressionType(operandType?: OperandType|Binder): ExpressionType {
-    if (operandType === undefined) {
+  private static getExpressionType(operand?: OperandType|Binder): ExpressionType {
+    if (operand === undefined) {
       return ExpressionType.NOT_EXIST
-    } else if (operandType === null) {
+    } else if (operand === null) {
       return ExpressionType.NULL
-    } else if (typeof operandType === 'boolean' || operandType instanceof BooleanColumn) {
+    } else if (typeof operand === 'boolean' || operand instanceof BooleanColumn) {
       return ExpressionType.BOOLEAN
-    } else if (typeof operandType === 'number' || operandType instanceof NumberColumn) {
+    } else if (typeof operand === 'number' || operand instanceof NumberColumn) {
       return ExpressionType.NUMBER
-    } else if (typeof operandType === 'string' || operandType instanceof TextColumn) {
+    } else if (typeof operand === 'string' || operand instanceof TextColumn) {
       return ExpressionType.TEXT
-    } else if (operandType instanceof Expression) {
-      return operandType.type
-    } else if (operandType instanceof Binder) {
-      return ExpressionType.BINDER
+    } else if (operand instanceof Expression) {
+      return operand.type
+    } else if (operand instanceof Binder) {
+      if (operand.value === null) {
+        return ExpressionType.NULL
+      } else if (typeof operand.value === 'boolean') {
+        return ExpressionType.BOOLEAN
+      } else if (typeof operand.value === 'number') {
+        return ExpressionType.NUMBER
+      } else if (typeof operand.value === 'string') {
+        return ExpressionType.TEXT
+      }
     }
     throw new Error('Operand type is not supported')
   }
@@ -151,16 +166,14 @@ export class Expression {
   constructor(leftOperandType: OperandType, operator: Operator, rightOperandType: OperandType)
   constructor(leftOperandType: OperandType, operator: Operator, rightOperandType: OperandType, notLeft: boolean, notRight: boolean)
   constructor(leftOperandType: OperandType|Binder, operatorOrNotLeft?: boolean|Operator, rightOperandType?: OperandType, notLeft?: boolean, notRight?: boolean) {
-    if (typeof operatorOrNotLeft === 'boolean')
+    if (typeof operatorOrNotLeft === 'boolean') {
       this.leftOperand = new Operand(leftOperandType, operatorOrNotLeft)
-    else
-      this.leftOperand = new Operand(leftOperandType, notLeft)
-
-    if (typeof operatorOrNotLeft !== 'boolean') {
-      this.operator = operatorOrNotLeft
-    } else {
       this.operator = undefined
+    } else {
+      this.leftOperand = new Operand(leftOperandType, notLeft)
+      this.operator = operatorOrNotLeft
     }
+
     this.rightOperand = new Operand(rightOperandType, notRight)
 
     if (this.rightOperand.type === ExpressionType.NOT_EXIST) {
@@ -172,14 +185,17 @@ export class Expression {
     }
   }
 
-  public toString(withOuterBracket: boolean = true): string {
+  public getStmt(data: { binderStore: BinderStore, withOuterBracket?: boolean }): string {
+    if (data.withOuterBracket === undefined) {
+      data.withOuterBracket = true
+    }
     if (this.operator !== undefined && this.rightOperand !== undefined) {
-      const stmt =  `${this.leftOperand} ${this.operator.toString()} ${this.rightOperand}`
-      if (withOuterBracket)
+      const stmt = `${this.leftOperand.getStmt(data)} ${this.operator.toString()} ${this.rightOperand.getStmt(data)}`
+      if (data.withOuterBracket)
         return `(${stmt})`
       return stmt
     }
-    return this.leftOperand.toString()
+    return this.leftOperand.getStmt(data)
   }
 
   public as(alias: string): SelectItemInfo {
@@ -296,7 +312,6 @@ export enum ExpressionType {
   BOOLEAN,
   NUMBER,
   TEXT,
-  BINDER,
 }
 
 export type PostgresBinder = {

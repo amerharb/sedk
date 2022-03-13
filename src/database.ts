@@ -165,6 +165,10 @@ export class Table<C extends ColumnsObj = ColumnsObj> {
     return this.mSchema
   }
 
+  public get name(): string {
+    return this.data.name
+  }
+
   public get columns(): C {
     return this.mColumns
   }
@@ -176,7 +180,7 @@ export class Table<C extends ColumnsObj = ColumnsObj> {
 
   public getColumn(columnName: string): Column|null {
     for (const col of this.columnArray) {
-      if (col.columnName === columnName) {
+      if (col.name === columnName) {
         return col
       }
     }
@@ -196,7 +200,7 @@ export class Table<C extends ColumnsObj = ColumnsObj> {
     return this.data.columns
   }
 
-  public toString() {
+  public getStmt() {
     return `"${escapeDoubleQuote(this.data.name)}"`
   }
 }

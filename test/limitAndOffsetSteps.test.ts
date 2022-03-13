@@ -8,6 +8,7 @@ const table = database.s.public.t.testTable
 
 describe('Test LIMIT and OFFSET Steps', () => {
   const sql = new Builder(database)
+  afterEach(() => { sql.cleanUp() })
 
   it('Produces [SELECT * FROM "testTable" LIMIT 50 OFFSET 10;]', () => {
     const actual = sql

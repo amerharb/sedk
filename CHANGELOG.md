@@ -1,7 +1,7 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.9.0]  2022-03-11
+## [0.9.0]  2022-03-14
 ### Added
 - Add GroupBy step
 - Add GroupBy aggregated functions

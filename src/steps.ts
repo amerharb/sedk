@@ -88,19 +88,19 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndS
     if (orderByArgsElement.length === 0) {
       throw new Error('Order by should have at lease one item')
     }
-    type StoreType = { orderByItem?: OrderByItem, direction?: OrderByDirection, nulllsPos?: OrderByNullsPosition }
-    const store: StoreType = { orderByItem: undefined, direction: undefined, nulllsPos: undefined }
+    type StoreType = { orderByItem?: OrderByItem, direction?: OrderByDirection, nullsPos?: OrderByNullsPosition }
+    const store: StoreType = { orderByItem: undefined, direction: undefined, nullsPos: undefined }
     const pushWhenOrderByDefined = () => {
       if (store.orderByItem !== undefined) {
         this.data.orderByItemInfos.push(new OrderByItemInfo(
           store.orderByItem,
           store.direction,
-          store.nulllsPos,
+          store.nullsPos,
           this.data.option,
         ))
         store.orderByItem = undefined
         store.direction = undefined
-        store.nulllsPos = undefined
+        store.nullsPos = undefined
       }
     }
 
@@ -114,9 +114,9 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndS
       } else if (it instanceof OrderByNullsPosition) {
         if (store.orderByItem === undefined)
           throw new Error(`${it} expects to have column or alias before it`)
-        if (store.nulllsPos !== undefined)
+        if (store.nullsPos !== undefined)
           throw new Error(`${it} shouldn't come directly after "NULLS FIRST" or "NULLS LAST" without column or alias in between`)
-        store.nulllsPos = it
+        store.nullsPos = it
         pushWhenOrderByDefined()
       } else if (it instanceof OrderByItemInfo) {
         pushWhenOrderByDefined()

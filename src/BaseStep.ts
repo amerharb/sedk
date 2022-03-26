@@ -79,6 +79,7 @@ export class BaseStep {
     this.data.table = undefined
     this.data.whereParts.length = 0
     this.data.groupByItems.length = 0
+    this.data.havingParts.length = 0
     this.data.orderByItemInfos.length = 0
     this.data.limit = undefined
     this.data.offset = undefined
@@ -98,6 +99,22 @@ export class BaseStep {
         this.data.whereParts.push(cond3)
       }
       this.data.whereParts.push(Parenthesis.Close)
+    }
+  }
+
+  protected addHavingParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
+    if (op1 === undefined && cond2 === undefined) {
+      this.data.havingParts.push(cond1)
+    } else if (op1 !== undefined && cond2 !== undefined) {
+      this.data.havingParts.push(Parenthesis.Open)
+      this.data.havingParts.push(cond1)
+      this.data.havingParts.push(op1)
+      this.data.havingParts.push(cond2)
+      if (op2 !== undefined && cond3 !== undefined) {
+        this.data.havingParts.push(op2)
+        this.data.havingParts.push(cond3)
+      }
+      this.data.havingParts.push(Parenthesis.Close)
     }
   }
 

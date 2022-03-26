@@ -17,6 +17,7 @@ import { AggregateFunction } from './aggregateFunction'
 import { Binder } from './binder'
 import { BaseStep } from './BaseStep'
 import { WhereStep } from './WhereStep'
+import { HavingStep } from './HavingStep'
 
 export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
@@ -75,6 +76,11 @@ export class Step extends BaseStep implements RootStep, SelectStep, FromStep, Gr
   public groupBy(...groupByItems: Column[]): GroupByStep {
     this.data.groupByItems.push(...groupByItems)
     return this
+  }
+
+  public having(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): HavingStep {
+    this.addHavingParts(cond1, op1, cond2, op2, cond3)
+    return new HavingStep(this.data)
   }
 
   public orderBy(...orderByArgsElement: OrderByArgsElement[]): OrderByStep {
@@ -254,6 +260,7 @@ export interface WhereOrStep extends BaseStep {
 }
 
 export interface GroupByStep extends BaseStep {
+  having(condition: Condition): HavingStep
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
@@ -261,7 +268,27 @@ export interface GroupByStep extends BaseStep {
   offset$(n: number): OffsetStep
 }
 
-interface OrderByStep extends BaseStep {
+export interface HavingOrStep extends BaseStep {
+  and(condition: Condition): HavingAndStep
+  or(condition: Condition): HavingOrStep
+  orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
+  limit(n: null|number|All): LimitStep
+  limit$(n: null|number): LimitStep
+  offset(n: number): OffsetStep
+  offset$(n: number): OffsetStep
+}
+
+export interface HavingAndStep extends BaseStep {
+  and(condition: Condition): HavingAndStep
+  or(condition: Condition): HavingOrStep
+  orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
+  limit(n: null|number|All): LimitStep
+  limit$(n: null|number): LimitStep
+  offset(n: number): OffsetStep
+  offset$(n: number): OffsetStep
+}
+
+export interface OrderByStep extends BaseStep {
   limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
   offset(n: number): OffsetStep

@@ -29,6 +29,7 @@ export type BuilderData = { //TODO: move type to separate file
   distinct: ''|' DISTINCT'|' ALL'
   whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
   groupByItems: Column[],
+  havingParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
   orderByItemInfos: OrderByItemInfo[],
   limit?: null|number|Binder|All,
   offset?: number|Binder,
@@ -47,6 +48,7 @@ export class Builder {
       distinct: '',
       whereParts: [],
       groupByItems: [],
+      havingParts: [],
       orderByItemInfos: [],
       binderStore: new BinderStore(),
       option: fillUndefinedOptionsWithDefault(option ?? {}),

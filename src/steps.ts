@@ -1,5 +1,5 @@
-import { Condition, Expression, PostgresBinder } from './models'
-import { BooleanColumn, Column } from './columns'
+import { Condition, Expression } from './models'
+import { Column } from './columns'
 import { Table } from './database'
 import { ColumnNotFoundError, TableNotFoundError } from './errors'
 import { BuilderData } from './builder'
@@ -15,140 +15,13 @@ import { SelectItemInfo } from './select'
 import { escapeDoubleQuote } from './util'
 import { AggregateFunction } from './aggregateFunction'
 import { Binder } from './binder'
+import { BaseStep } from './BaseStep'
+import { WhereStep } from './WhereStep'
 
 export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
 
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
-
-class BaseStep {
-  constructor(protected data: BuilderData) {}
-
-  public getSQL(): string {
-    return this.getStatement()
-  }
-
-  public getBinds(): PostgresBinder {
-    return {
-      sql: this.getStatement(),
-      values: this.data.binderStore.getValues(),
-    }
-  }
-
-  private getStatement(): string {
-    let result = `SELECT${this.data.distinct}`
-
-    if (this.data.selectItemInfos.length > 0) {
-      const selectPartsString = this.data.selectItemInfos.map(it => {
-        return it.getStmt({ binderStore: this.data.binderStore })
-      })
-      result += ` ${selectPartsString.join(', ')}`
-    }
-
-    if (this.data.table) {
-      result += ` FROM ${this.data.table.getStmt()}`
-    }
-
-    if (this.data.whereParts.length > 0) {
-      this.throwIfWherePartsInvalid()
-      const wherePartsString = this.data.whereParts.map(it => {
-        if (it instanceof Condition || it instanceof Expression) {
-          return it.getStmt(this.data)
-        } else if (it instanceof BooleanColumn) {
-          return it.getStmt()
-        }
-        return it.toString()
-      })
-      result += ` WHERE ${wherePartsString.join(' ')}`
-    }
-
-    if (this.data.groupByItems.length > 0) {
-      result += ` GROUP BY ${this.data.groupByItems.map(it => it.getStmt()).join(', ')}`
-    }
-
-    if (this.data.orderByItemInfos.length > 0) {
-      const orderByPartsString = this.data.orderByItemInfos.map(it => {
-        return it.getStmt({ binderStore: this.data.binderStore })
-      })
-      result += ` ORDER BY ${orderByPartsString.join(', ')}`
-    }
-
-    if (this.data.limit !== undefined) {
-      if (this.data.limit === null) {
-        result += ' LIMIT NULL'
-      } else {
-        result += ` LIMIT ${this.data.limit}`
-      }
-    }
-
-    if (this.data.offset !== undefined) {
-      result += ` OFFSET ${this.data.offset}`
-    }
-
-    if (this.data.option.useSemicolonAtTheEnd)
-      result += ';'
-
-    return result
-  }
-
-  public cleanUp() {
-    this.data.selectItemInfos.length = 0
-    this.data.distinct = ''
-    this.data.table = undefined
-    this.data.whereParts.length = 0
-    this.data.groupByItems.length = 0
-    this.data.orderByItemInfos.length = 0
-    this.data.limit = undefined
-    this.data.offset = undefined
-    this.data.binderStore.cleanUp()
-  }
-
-  protected addWhereParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
-    if (op1 === undefined && cond2 === undefined) {
-      this.data.whereParts.push(cond1)
-    } else if (op1 !== undefined && cond2 !== undefined) {
-      this.data.whereParts.push(Parenthesis.Open)
-      this.data.whereParts.push(cond1)
-      this.data.whereParts.push(op1)
-      this.data.whereParts.push(cond2)
-      if (op2 !== undefined && cond3 !== undefined) {
-        this.data.whereParts.push(op2)
-        this.data.whereParts.push(cond3)
-      }
-      this.data.whereParts.push(Parenthesis.Close)
-    }
-  }
-
-  /**
-   * This function throws error if WhereParts Array where invalid
-   * it check the number of open and close parentheses in the conditions
-   */
-  private throwIfWherePartsInvalid() {
-    let pCounter = 0
-    for (let i = 0; i < this.data.whereParts.length; i++) {
-      if (this.data.whereParts[i] === Parenthesis.Open) {
-        pCounter++
-        if (i < this.data.whereParts.length - 1)
-          if (this.data.whereParts[i + 1] === Parenthesis.Close) {
-            throw new Error('invalid conditions build, empty parenthesis is not allowed')
-          }
-      }
-
-      if (this.data.whereParts[i] === Parenthesis.Close)
-        pCounter--
-
-      if (pCounter < 0) {// Close comes before Open
-        throw new Error('invalid conditions build, closing parentheses must occur after Opening one')
-      }
-    }
-
-    if (pCounter > 0) // Opening more than closing
-      throw new Error('invalid conditions build, opening parentheses is more than closing ones')
-
-    if (pCounter < 0) // Closing more than opening
-      throw new Error('invalid conditions build, closing parentheses is more than opening ones')
-  }
-}
 
 export class Step extends BaseStep implements RootStep, SelectStep, FromStep, GroupByStep,
   OrderByStep, LimitStep, OffsetStep {
@@ -322,70 +195,6 @@ export class Step extends BaseStep implements RootStep, SelectStep, FromStep, Gr
   }
 }
 
-class WhereStep extends BaseStep {
-  constructor(protected data: BuilderData) { super(data) }
-
-  public and(condition: Condition): WhereAndStep
-  public and(left: Condition, operator: LogicalOperator, right: Condition): WhereAndStep
-  public and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereAndStep
-  public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereAndStep {
-    this.data.whereParts.push(AND)
-    this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    return this
-  }
-
-  public or(condition: Condition): WhereOrStep
-  public or(left: Condition, operator: LogicalOperator, right: Condition): WhereOrStep
-  public or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereOrStep
-  public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereOrStep {
-    this.data.whereParts.push(OR)
-    this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    return this
-  }
-
-  public groupBy(...groupByItems: Column[]): GroupByStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.groupBy(...groupByItems)
-  }
-
-  public orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.orderBy(...orderByItems)
-  }
-
-  public limit(n: null|number|All): LimitStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.limit(n)
-  }
-
-  public limit$(n: null|number): LimitStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.limit$(n)
-  }
-
-  public offset(n: number): OffsetStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.offset(n)
-  }
-
-  public offset$(n: number): OffsetStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.offset$(n)
-  }
-}
-
 //@formatter:off
 export interface RootStep extends BaseStep {
   select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
@@ -410,7 +219,7 @@ export interface FromStep extends BaseStep {
   offset$(n: number): OffsetStep
 }
 
-interface WhereAndStep extends BaseStep {
+export interface WhereAndStep extends BaseStep {
   and(condition: Condition): WhereAndStep
   and(left: Condition, operator: LogicalOperator, right: Condition): WhereAndStep
   and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereAndStep
@@ -427,7 +236,7 @@ interface WhereAndStep extends BaseStep {
   offset$(n: number): OffsetStep
 }
 
-interface WhereOrStep extends BaseStep {
+export interface WhereOrStep extends BaseStep {
   or(condition: Condition): WhereOrStep
   or(left: Condition, operator: LogicalOperator, right: Condition): WhereOrStep
   or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereOrStep
@@ -444,7 +253,7 @@ interface WhereOrStep extends BaseStep {
   offset$(n: number): OffsetStep
 }
 
-interface GroupByStep extends BaseStep {
+export interface GroupByStep extends BaseStep {
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
@@ -459,22 +268,18 @@ interface OrderByStep extends BaseStep {
   offset$(n: number): OffsetStep
 }
 
-interface LimitStep extends BaseStep {
+export interface LimitStep extends BaseStep {
   offset(n: number): OffsetStep
   offset$(n: number): OffsetStep
 }
 
-interface OffsetStep extends BaseStep {}
+export interface OffsetStep extends BaseStep {}
 //@formatter:on
 
 export enum LogicalOperator {
   AND = 'AND',
   OR = 'OR',
 }
-
-//Aliases
-const AND = LogicalOperator.AND
-const OR = LogicalOperator.OR
 
 export enum Parenthesis {
   Open = '(',

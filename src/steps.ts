@@ -275,20 +275,36 @@ export interface GroupByStep extends BaseStep {
 
 export interface HavingOrStep extends BaseStep {
   or(condition: Condition): HavingOrStep
+  or(left: Condition, operator: LogicalOperator, right: Condition): HavingOrStep
+  or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): HavingOrStep
+
   and(condition: Condition): HavingAndStep
+  and(left: Condition, operator: LogicalOperator, right: Condition): HavingOrStep
+  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): HavingOrStep
+
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
+
   limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
+
   offset(n: number): OffsetStep
   offset$(n: number): OffsetStep
 }
 
 export interface HavingAndStep extends BaseStep {
   and(condition: Condition): HavingAndStep
+  and(left: Condition, operator: LogicalOperator, right: Condition): HavingOrStep
+  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): HavingOrStep
+
   or(condition: Condition): HavingOrStep
+  or(left: Condition, operator: LogicalOperator, right: Condition): HavingOrStep
+  or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): HavingOrStep
+
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
+
   limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
+
   offset(n: number): OffsetStep
   offset$(n: number): OffsetStep
 }

@@ -21,9 +21,122 @@ export type PrimitiveType = null|boolean|number|string
 
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 
-export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndStep,
-  WhereOrStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
+class BaseStep {
   constructor(protected data: BuilderData) {}
+
+  public getSQL(): string {
+    return this.getStatement()
+  }
+
+  public getBinds(): PostgresBinder {
+    return {
+      sql: this.getStatement(),
+      values: this.data.binderStore.getValues(),
+    }
+  }
+
+  private getStatement(): string {
+    let result = `SELECT${this.data.distinct}`
+
+    if (this.data.selectItemInfos.length > 0) {
+      const selectPartsString = this.data.selectItemInfos.map(it => {
+        return it.getStmt({ binderStore: this.data.binderStore })
+      })
+      result += ` ${selectPartsString.join(', ')}`
+    }
+
+    if (this.data.table) {
+      result += ` FROM ${this.data.table.getStmt()}`
+    }
+
+    if (this.data.whereParts.length > 0) {
+      this.throwIfWherePartsInvalid()
+      const wherePartsString = this.data.whereParts.map(it => {
+        if (it instanceof Condition || it instanceof Expression) {
+          return it.getStmt(this.data)
+        } else if (it instanceof BooleanColumn) {
+          return it.getStmt()
+        }
+        return it.toString()
+      })
+      result += ` WHERE ${wherePartsString.join(' ')}`
+    }
+
+    if (this.data.groupByItems.length > 0) {
+      result += ` GROUP BY ${this.data.groupByItems.map(it => it.getStmt()).join(', ')}`
+    }
+
+    if (this.data.orderByItemInfos.length > 0) {
+      const orderByPartsString = this.data.orderByItemInfos.map(it => {
+        return it.getStmt({ binderStore: this.data.binderStore })
+      })
+      result += ` ORDER BY ${orderByPartsString.join(', ')}`
+    }
+
+    if (this.data.limit !== undefined) {
+      if (this.data.limit === null) {
+        result += ' LIMIT NULL'
+      } else {
+        result += ` LIMIT ${this.data.limit}`
+      }
+    }
+
+    if (this.data.offset !== undefined) {
+      result += ` OFFSET ${this.data.offset}`
+    }
+
+    if (this.data.option.useSemicolonAtTheEnd)
+      result += ';'
+
+    return result
+  }
+
+  public cleanUp() {
+    this.data.selectItemInfos.length = 0
+    this.data.distinct = ''
+    this.data.table = undefined
+    this.data.whereParts.length = 0
+    this.data.groupByItems.length = 0
+    this.data.orderByItemInfos.length = 0
+    this.data.limit = undefined
+    this.data.offset = undefined
+    this.data.binderStore.cleanUp()
+  }
+
+  /**
+   * This function throws error if WhereParts Array where invalid
+   * it check the number of open and close parentheses in the conditions
+   */
+  private throwIfWherePartsInvalid() {
+    let pCounter = 0
+    for (let i = 0; i < this.data.whereParts.length; i++) {
+      if (this.data.whereParts[i] === Parenthesis.Open) {
+        pCounter++
+        if (i < this.data.whereParts.length - 1)
+          if (this.data.whereParts[i + 1] === Parenthesis.Close) {
+            throw new Error('invalid conditions build, empty parenthesis is not allowed')
+          }
+      }
+
+      if (this.data.whereParts[i] === Parenthesis.Close)
+        pCounter--
+
+      if (pCounter < 0) {// Close comes before Open
+        throw new Error('invalid conditions build, closing parentheses must occur after Opening one')
+      }
+    }
+
+    if (pCounter > 0) // Opening more than closing
+      throw new Error('invalid conditions build, opening parentheses is more than closing ones')
+
+    if (pCounter < 0) // Closing more than opening
+      throw new Error('invalid conditions build, closing parentheses is more than opening ones')
+  }
+}
+
+export class Step extends BaseStep implements RootStep, SelectStep, FromStep, WhereAndStep,
+  WhereOrStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
+  constructor(protected data: BuilderData) { super(data) }
 
   public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
     const selectItemInfos: SelectItemInfo[] = items.map(it => {
@@ -178,115 +291,6 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndS
     return this
   }
 
-  public getSQL(): string {
-    return this.getStatement()
-  }
-
-  public getBinds(): PostgresBinder {
-    return {
-      sql: this.getStatement(),
-      values: this.data.binderStore.getValues(),
-    }
-  }
-
-  private getStatement(): string {
-    let result = `SELECT${this.data.distinct}`
-
-    if (this.data.selectItemInfos.length > 0) {
-      const selectPartsString = this.data.selectItemInfos.map(it => {
-        return it.getStmt({ binderStore: this.data.binderStore })
-      })
-      result += ` ${selectPartsString.join(', ')}`
-    }
-
-    if (this.data.table) {
-      result += ` FROM ${this.data.table.getStmt()}`
-    }
-
-    if (this.data.whereParts.length > 0) {
-      this.throwIfWherePartsInvalid()
-      const wherePartsString = this.data.whereParts.map(it => {
-        if (it instanceof Condition || it instanceof Expression) {
-          return it.getStmt(this.data)
-        } else if (it instanceof BooleanColumn) {
-          return it.getStmt()
-        }
-        return it.toString()
-      })
-      result += ` WHERE ${wherePartsString.join(' ')}`
-    }
-
-    if (this.data.groupByItems.length > 0) {
-      result += ` GROUP BY ${this.data.groupByItems.map(it => it.getStmt()).join(', ')}`
-    }
-
-    if (this.data.orderByItemInfos.length > 0) {
-      const orderByPartsString = this.data.orderByItemInfos.map(it => {
-        return it.getStmt({ binderStore: this.data.binderStore })
-      })
-      result += ` ORDER BY ${orderByPartsString.join(', ')}`
-    }
-
-    if (this.data.limit !== undefined) {
-      if (this.data.limit === null) {
-        result += ' LIMIT NULL'
-      } else {
-        result += ` LIMIT ${this.data.limit}`
-      }
-    }
-
-    if (this.data.offset !== undefined) {
-      result += ` OFFSET ${this.data.offset}`
-    }
-
-    if (this.data.option.useSemicolonAtTheEnd)
-      result += ';'
-
-    return result
-  }
-
-  public cleanUp() {
-    this.data.selectItemInfos.length = 0
-    this.data.distinct = ''
-    this.data.table = undefined
-    this.data.whereParts.length = 0
-    this.data.groupByItems.length = 0
-    this.data.orderByItemInfos.length = 0
-    this.data.limit = undefined
-    this.data.offset = undefined
-    this.data.binderStore.cleanUp()
-  }
-
-  /**
-   * This function throws error if WhereParts Array where invalid
-   * it check the number of open and close parentheses in the conditions
-   */
-  private throwIfWherePartsInvalid() {
-    let pCounter = 0
-    for (let i = 0; i < this.data.whereParts.length; i++) {
-      if (this.data.whereParts[i] === Parenthesis.Open) {
-        pCounter++
-        if (i < this.data.whereParts.length - 1)
-          if (this.data.whereParts[i + 1] === Parenthesis.Close) {
-            throw new Error('invalid conditions build, empty parenthesis is not allowed')
-          }
-      }
-
-      if (this.data.whereParts[i] === Parenthesis.Close)
-        pCounter--
-
-      if (pCounter < 0) {// Close comes before Open
-        throw new Error('invalid conditions build, closing parentheses must occur after Opening one')
-      }
-    }
-
-    if (pCounter > 0) // Opening more than closing
-      throw new Error('invalid conditions build, opening parentheses is more than closing ones')
-
-    if (pCounter < 0) // Closing more than opening
-      throw new Error('invalid conditions build, closing parentheses is more than opening ones')
-  }
-
   private throwIfTableNotInDb(table: Table) {
     if (!this.data.database.isTableExist(table))
       throw new TableNotFoundError(`Table: "${table.name}" not found`)
@@ -328,12 +332,6 @@ export class Step implements BaseStep, RootStep, SelectStep, FromStep, WhereAndS
 }
 
 //@formatter:off
-interface BaseStep {
-  getSQL(): string
-  getBinds(): PostgresBinder
-  cleanUp(): void
-}
-
 export interface RootStep extends BaseStep {
   select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
   selectDistinct(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep

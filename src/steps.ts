@@ -103,6 +103,22 @@ class BaseStep {
     this.data.binderStore.cleanUp()
   }
 
+  protected addWhereParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
+    if (op1 === undefined && cond2 === undefined) {
+      this.data.whereParts.push(cond1)
+    } else if (op1 !== undefined && cond2 !== undefined) {
+      this.data.whereParts.push(Parenthesis.Open)
+      this.data.whereParts.push(cond1)
+      this.data.whereParts.push(op1)
+      this.data.whereParts.push(cond2)
+      if (op2 !== undefined && cond3 !== undefined) {
+        this.data.whereParts.push(op2)
+        this.data.whereParts.push(cond3)
+      }
+      this.data.whereParts.push(Parenthesis.Close)
+    }
+  }
+
   /**
    * This function throws error if WhereParts Array where invalid
    * it check the number of open and close parentheses in the conditions
@@ -134,9 +150,12 @@ class BaseStep {
   }
 }
 
-export class Step extends BaseStep implements RootStep, SelectStep, FromStep, WhereAndStep,
-  WhereOrStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
-  constructor(protected data: BuilderData) { super(data) }
+export class Step extends BaseStep implements RootStep, SelectStep, FromStep, GroupByStep,
+  OrderByStep, LimitStep, OffsetStep {
+  constructor(protected data: BuilderData) {
+    super(data)
+    data.step = this
+  }
 
   public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
     const selectItemInfos: SelectItemInfo[] = items.map(it => {
@@ -177,19 +196,7 @@ export class Step extends BaseStep implements RootStep, SelectStep, FromStep, Wh
 
   public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereStep {
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    return this
-  }
-
-  public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereAndStep {
-    this.data.whereParts.push(AND)
-    this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    return this
-  }
-
-  public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereOrStep {
-    this.data.whereParts.push(OR)
-    this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    return this
+    return new WhereStep(this.data)
   }
 
   public groupBy(...groupByItems: Column[]): GroupByStep {
@@ -313,21 +320,69 @@ export class Step extends BaseStep implements RootStep, SelectStep, FromStep, Wh
       }
     }
   }
+}
 
-  private addWhereParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
-    if (op1 === undefined && cond2 === undefined) {
-      this.data.whereParts.push(cond1)
-    } else if (op1 !== undefined && cond2 !== undefined) {
-      this.data.whereParts.push(Parenthesis.Open)
-      this.data.whereParts.push(cond1)
-      this.data.whereParts.push(op1)
-      this.data.whereParts.push(cond2)
-      if (op2 !== undefined && cond3 !== undefined) {
-        this.data.whereParts.push(op2)
-        this.data.whereParts.push(cond3)
-      }
-      this.data.whereParts.push(Parenthesis.Close)
+class WhereStep extends BaseStep {
+  constructor(protected data: BuilderData) { super(data) }
+
+  public and(condition: Condition): WhereAndStep
+  public and(left: Condition, operator: LogicalOperator, right: Condition): WhereAndStep
+  public and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereAndStep
+  public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereAndStep {
+    this.data.whereParts.push(AND)
+    this.addWhereParts(cond1, op1, cond2, op2, cond3)
+    return this
+  }
+
+  public or(condition: Condition): WhereOrStep
+  public or(left: Condition, operator: LogicalOperator, right: Condition): WhereOrStep
+  public or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereOrStep
+  public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereOrStep {
+    this.data.whereParts.push(OR)
+    this.addWhereParts(cond1, op1, cond2, op2, cond3)
+    return this
+  }
+
+  public groupBy(...groupByItems: Column[]): GroupByStep {
+    if (this.data.step === undefined) {
+      throw new Error('Step property in builder data is not initialized')
     }
+    return this.data.step.groupBy(...groupByItems)
+  }
+
+  public orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep {
+    if (this.data.step === undefined) {
+      throw new Error('Step property in builder data is not initialized')
+    }
+    return this.data.step.orderBy(...orderByItems)
+  }
+
+  public limit(n: null|number|All): LimitStep {
+    if (this.data.step === undefined) {
+      throw new Error('Step property in builder data is not initialized')
+    }
+    return this.data.step.limit(n)
+  }
+
+  public limit$(n: null|number): LimitStep {
+    if (this.data.step === undefined) {
+      throw new Error('Step property in builder data is not initialized')
+    }
+    return this.data.step.limit$(n)
+  }
+
+  public offset(n: number): OffsetStep {
+    if (this.data.step === undefined) {
+      throw new Error('Step property in builder data is not initialized')
+    }
+    return this.data.step.offset(n)
+  }
+
+  public offset$(n: number): OffsetStep {
+    if (this.data.step === undefined) {
+      throw new Error('Step property in builder data is not initialized')
+    }
+    return this.data.step.offset$(n)
   }
 }
 
@@ -346,23 +401,6 @@ export interface FromStep extends BaseStep {
   where(condition: Condition): WhereStep
   where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
   where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
-
-  groupBy(...groupByItems: Column[]): GroupByStep
-  orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
-  limit(n: null|number|All): LimitStep
-  limit$(n: null|number): LimitStep
-  offset(n: number): OffsetStep
-  offset$(n: number): OffsetStep
-}
-
-interface WhereStep extends BaseStep {
-  and(condition: Condition): WhereAndStep
-  and(left: Condition, operator: LogicalOperator, right: Condition): WhereAndStep
-  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereAndStep
-
-  or(condition: Condition): WhereOrStep
-  or(left: Condition, operator: LogicalOperator, right: Condition): WhereOrStep
-  or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereOrStep
 
   groupBy(...groupByItems: Column[]): GroupByStep
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep

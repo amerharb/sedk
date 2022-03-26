@@ -35,6 +35,58 @@ describe('Test LIMIT and OFFSET Steps', () => {
     expect(actual).toEqual(expected)
   })
 
+  describe('LIMIT and OFFSET after Where Step', () => {
+    it('Produces [SELECT * FROM "testTable" WHERE "col1" = \'a\' LIMIT 50;]', () => {
+      const actual = sql
+        .selectAsteriskFrom(table)
+        .where(table.c.column1.eq('a'))
+        .limit(50)
+        .getSQL()
+
+      expect(actual).toEqual('SELECT * FROM "testTable" WHERE "col1" = \'a\' LIMIT 50;')
+    })
+
+    it('Produces [SELECT * FROM "testTable" WHERE "col1" = \'a\' OFFSET 10;]', () => {
+      const actual = sql
+        .selectAsteriskFrom(table)
+        .where(table.c.column1.eq('a'))
+        .offset(10)
+        .getSQL()
+
+      expect(actual).toEqual('SELECT * FROM "testTable" WHERE "col1" = \'a\' OFFSET 10;')
+    })
+
+    it('Produces [SELECT * FROM "testTable" WHERE "col1" = \'a\' LIMIT $1;]', () => {
+      const actual = sql
+        .selectAsteriskFrom(table)
+        .where(table.c.column1.eq('a'))
+        .limit$(50)
+        .getBinds()
+
+      const expected = {
+        sql: 'SELECT * FROM "testTable" WHERE "col1" = \'a\' LIMIT $1;',
+        values: [50],
+      }
+
+      expect(actual).toEqual(expected)
+    })
+
+    it('Produces [SELECT * FROM "testTable" WHERE "col1" = \'a\' OFFSET $1;]', () => {
+      const actual = sql
+        .selectAsteriskFrom(table)
+        .where(table.c.column1.eq('a'))
+        .offset$(10)
+        .getBinds()
+
+      const expected = {
+        sql: 'SELECT * FROM "testTable" WHERE "col1" = \'a\' OFFSET $1;',
+        values: [10],
+      }
+
+      expect(actual).toEqual(expected)
+    })
+  })
+
   it('Produces [SELECT * FROM "testTable" LIMIT 50;]', () => {
     const actual = sql
       .selectAsteriskFrom(table)

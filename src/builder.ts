@@ -18,7 +18,8 @@ import { SelectItemInfo } from './select'
 import { BuilderOption, fillUndefinedOptionsWithDefault } from './option'
 import { MoreThanOneDistinctOrAllError } from './errors'
 
-export type BuilderData = {
+export type BuilderData = { //TODO: move type to separate file
+  step?: Step,
   database: Database,
   option: BuilderOption,
   /** Below data used to generate SQL statement */

@@ -12,14 +12,13 @@ import {
   SelectItem,
   PrimitiveType,
   RootStep,
-} from './steps/steps'
+} from './steps'
 import { OrderByItemInfo } from './orderBy'
 import { SelectItemInfo } from './select'
 import { BuilderOption, fillUndefinedOptionsWithDefault } from './option'
 import { MoreThanOneDistinctOrAllError } from './errors'
 
-export type BuilderData = { //TODO: move type to separate file
-  step?: Step,
+export type BuilderData = {
   database: Database,
   option: BuilderOption,
   /** Below data used to generate SQL statement */
@@ -29,7 +28,6 @@ export type BuilderData = { //TODO: move type to separate file
   distinct: ''|' DISTINCT'|' ALL'
   whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
   groupByItems: Column[],
-  havingParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
   orderByItemInfos: OrderByItemInfo[],
   limit?: null|number|Binder|All,
   offset?: number|Binder,
@@ -48,7 +46,6 @@ export class Builder {
       distinct: '',
       whereParts: [],
       groupByItems: [],
-      havingParts: [],
       orderByItemInfos: [],
       binderStore: new BinderStore(),
       option: fillUndefinedOptionsWithDefault(option ?? {}),

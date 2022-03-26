@@ -43,6 +43,17 @@ console.log(bindObj)
 
 ## What is New
 
+### Version: 0.10.0
+
+- Add Having Step
+- Add And and Or Steps for Having Step
+####Limitation
+- Currently Having Step can only be used with Where conditions, aggregate function condition to be added later
+```typescript
+sql.select(name, f.avg(age).as('Employee Age Avrage')).from(Employee).groupBy(name).having(name.eq('John')).getSQL()
+// SELECT "name", AVG("age") AS "Employee Age Avrage" FROM "Employee" GROUP BY "name" HAVING "name" = 'John';
+```
+
 ### Version: 0.9.0
 
 - Add GroupBy Step

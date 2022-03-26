@@ -3,7 +3,8 @@
 
 ## [0.10.0]  2022-03-26
 ### Changes
-- BaseStep is a class now that Step inherate from it
+- BaseStep is a class now that Step inherits from it
+- Refactored the code write BaseStep, WhereStep and HaveStep in separate files
 ### Added
 - Add HavingBy step
 

@@ -261,16 +261,21 @@ export interface WhereOrStep extends BaseStep {
 
 export interface GroupByStep extends BaseStep {
   having(condition: Condition): HavingStep
+  having(left: Condition, operator: LogicalOperator, right: Condition): HavingStep
+  having(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): HavingStep
+
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
+
   limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep
+
   offset(n: number): OffsetStep
   offset$(n: number): OffsetStep
 }
 
 export interface HavingOrStep extends BaseStep {
-  and(condition: Condition): HavingAndStep
   or(condition: Condition): HavingOrStep
+  and(condition: Condition): HavingAndStep
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
   limit(n: null|number|All): LimitStep
   limit$(n: null|number): LimitStep

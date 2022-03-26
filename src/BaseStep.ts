@@ -48,6 +48,19 @@ export class BaseStep {
       result += ` GROUP BY ${this.data.groupByItems.map(it => it.getStmt()).join(', ')}`
     }
 
+    if (this.data.havingParts.length > 0) {
+      //TODO: check if havingParts are valid create this.throwIfHavingPartsInvalid()
+      const havingPartsString = this.data.havingParts.map(it => {
+        if (it instanceof Condition || it instanceof Expression) {
+          return it.getStmt(this.data)
+        } else if (it instanceof BooleanColumn) {
+          return it.getStmt()
+        }
+        return it.toString()
+      })
+      result += ` HAVING ${havingPartsString.join(' ')}`
+    }
+
     if (this.data.orderByItemInfos.length > 0) {
       const orderByPartsString = this.data.orderByItemInfos.map(it => {
         return it.getStmt({ binderStore: this.data.binderStore })

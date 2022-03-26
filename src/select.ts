@@ -1,5 +1,5 @@
 import { BuilderOption } from './option'
-import { SelectItem } from './steps'
+import { SelectItem } from './steps/steps'
 import { Column } from './columns'
 import { Expression } from './models'
 import { escapeDoubleQuote } from './util'

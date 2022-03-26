@@ -43,6 +43,17 @@ console.log(bindObj)
 
 ## What is New
 
+### Version: 0.10.0
+
+- Add Having Step
+- Add And and Or Steps for Having Step
+####Limitation
+- Currently Having Step can only be used with Where conditions, aggregate function condition to be added later
+```typescript
+sql.select(name, f.avg(age).as('Employee Age Avrage')).from(Employee).groupBy(name).having(name.eq('John')).getSQL()
+// SELECT "name", AVG("age") AS "Employee Age Avrage" FROM "Employee" GROUP BY "name" HAVING "name" = 'John';
+```
+
 ### Version: 0.9.0
 
 - Add GroupBy Step
@@ -59,7 +70,16 @@ or you can use
 sql.select(name, age.avg.as('Employee Age Avrage')).from(Employee).groupBy(name).getSQL()
 // SELECT "name", AVG("age") AS "Employee Age Avrage" FROM "Employee" GROUP BY "name";
 ```
-
+- Add "$()" function that give binder directly from primitive type
+```typescript
+sql.select($(99)).from(Employee).getBinds()
+/*
+{
+  sql: 'SELECT $1 FROM "Employee";',
+  values: [99],
+}
+ */
+```
 ### Version: 0.8.2
 
 - Columns defined now as an object in Table class instead of array, so column can be called by its name from property "

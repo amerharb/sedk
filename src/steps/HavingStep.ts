@@ -1,8 +1,8 @@
 import { BaseStep } from './BaseStep'
-import { BuilderData } from './builder'
-import { Condition } from './models'
-import { OrderByArgsElement } from './orderBy'
-import { All } from './singletoneConstants'
+import { BuilderData } from '../builder'
+import { Condition } from '../models'
+import { OrderByArgsElement } from '../orderBy'
+import { All } from '../singletoneConstants'
 import { LimitStep, LogicalOperator, OffsetStep, OrderByStep, HavingAndStep, HavingOrStep } from './steps'
 
 export class HavingStep extends BaseStep {

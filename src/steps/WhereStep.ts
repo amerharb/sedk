@@ -1,9 +1,9 @@
 import { BaseStep } from './BaseStep'
-import { BuilderData } from './builder'
-import { Condition } from './models'
-import { Column } from './columns'
-import { OrderByArgsElement } from './orderBy'
-import { All } from './singletoneConstants'
+import { BuilderData } from '../builder'
+import { Condition } from '../models'
+import { Column } from '../columns'
+import { OrderByArgsElement } from '../orderBy'
+import { All } from '../singletoneConstants'
 import { GroupByStep, LimitStep, LogicalOperator, OffsetStep, OrderByStep, WhereAndStep, WhereOrStep } from './steps'
 
 export class WhereStep extends BaseStep {

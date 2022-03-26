@@ -1,20 +1,20 @@
-import { Condition, Expression } from './models'
-import { Column } from './columns'
-import { Table } from './database'
-import { ColumnNotFoundError, TableNotFoundError } from './errors'
-import { BuilderData } from './builder'
-import { All, Asterisk } from './singletoneConstants'
+import { Condition, Expression } from '../models'
+import { Column } from '../columns'
+import { Table } from '../database'
+import { ColumnNotFoundError, TableNotFoundError } from '../errors'
+import { BuilderData } from '../builder'
+import { All, Asterisk } from '../singletoneConstants'
 import {
   OrderByItem,
   OrderByItemInfo,
   OrderByDirection,
   OrderByNullsPosition,
   OrderByArgsElement,
-} from './orderBy'
-import { SelectItemInfo } from './select'
-import { escapeDoubleQuote } from './util'
-import { AggregateFunction } from './aggregateFunction'
-import { Binder } from './binder'
+} from '../orderBy'
+import { SelectItemInfo } from '../select'
+import { escapeDoubleQuote } from '../util'
+import { AggregateFunction } from '../aggregateFunction'
+import { Binder } from '../binder'
 import { BaseStep } from './BaseStep'
 import { WhereStep } from './WhereStep'
 import { HavingStep } from './HavingStep'

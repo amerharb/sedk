@@ -12,7 +12,7 @@ import {
   SelectItem,
   PrimitiveType,
   RootStep,
-} from './steps'
+} from './steps/steps'
 import { OrderByItemInfo } from './orderBy'
 import { SelectItemInfo } from './select'
 import { BuilderOption, fillUndefinedOptionsWithDefault } from './option'

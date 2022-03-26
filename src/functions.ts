@@ -21,7 +21,7 @@ import {
 import { AggregateFunction, AggregateFunctionEnum } from './aggregateFunction'
 import { NumberColumn } from './columns'
 import { Binder } from './binder'
-import { PrimitiveType } from './steps'
+import { PrimitiveType } from './steps/steps'
 
 export function e(left: OperandType): Expression
 export function e(left: BooleanLike, operator: ComparisonOperator, right: BooleanLike|TextBoolean): Condition

@@ -1,16 +1,6 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.10.0]  2022-03-26
-### Changes
-- BaseStep is a class now that Step inherits from it
-- Rename `OrStep` and `AndStep` to `WhereOrStep` and `WhereAndStep`
-- Make WhereStep a class instead of Interface, do the same with HavingStep, so we won't have conflict with `Or` and `And` functions
-- Refactored the code write BaseStep, WhereStep and HaveStep in separate files
-### Added
-- Add HavingStep class
-- Add HavingOrStep and HavingAndStep classes
-
 ## [0.9.0]  2022-03-14
 ### Added
 - Add GroupBy step

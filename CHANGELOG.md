@@ -1,8 +1,9 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.10.1]  2022-03-26
+## [0.10.1]  2022-03-29
 ### Changes
+- rename "column?" to "col?" in unit test
 ### Added
 
 ## [0.10.0]  2022-03-26

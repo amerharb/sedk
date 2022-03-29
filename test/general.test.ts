@@ -22,14 +22,14 @@ const EXP = ArithmeticOperator.EXP
 const CONCAT = TextOperator.CONCAT
 const GT = ComparisonOperator.GreaterThan
 const table = database.s.public.t.testTable
-const column1 = database.s.public.t.testTable.c.column1
-const column2 = database.s.public.t.testTable.c.column2
-const column3 = database.s.public.t.testTable.c.column3
-const column4 = database.s.public.t.testTable.c.column4
-const column5 = database.s.public.t.testTable.c.column5
-const column6 = database.s.public.t.testTable.c.column6
-const column7 = database.s.public.t.testTable.c.column7
-const column8 = database.s.public.t.testTable.c.column8
+const col1 = database.s.public.t.testTable.c.col1
+const col2 = database.s.public.t.testTable.c.col2
+const col3 = database.s.public.t.testTable.c.col3
+const col4 = database.s.public.t.testTable.c.col4
+const col5 = database.s.public.t.testTable.c.col5
+const col6 = database.s.public.t.testTable.c.col6
+const col7 = database.s.public.t.testTable.c.col7
+const col8 = database.s.public.t.testTable.c.col8
 
 describe('test from one table', () => {
   const sql = new Builder(database)
@@ -47,7 +47,7 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable";]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
       .getSQL()
 
@@ -56,7 +56,7 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" AS "C1" FROM "testTable";]', () => {
     const actual = sql
-      .select(column1.as('C1'))
+      .select(col1.as('C1'))
       .from(table)
       .getSQL()
 
@@ -65,7 +65,7 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" AS "C""1" FROM "testTable";] (escape double quote)', () => {
     const actual = sql
-      .select(column1.as('C"1'))
+      .select(col1.as('C"1'))
       .from(table)
       .getSQL()
 
@@ -238,7 +238,7 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable";]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
       .getSQL()
 
@@ -247,9 +247,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable" WHERE "col1" = \'x\';]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
-      .where(column1.eq('x'))
+      .where(col1.eq('x'))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col2" FROM "testTable" WHERE "col1" = \'x\';')
@@ -257,9 +257,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" AS "C1", "col2" AS "C2" FROM "testTable" WHERE "col1" = \'x\';]', () => {
     const actual = sql
-      .select(column1.as('C1'), column2.as('C2'))
+      .select(col1.as('C1'), col2.as('C2'))
       .from(table)
-      .where(column1.eq('x'))
+      .where(col1.eq('x'))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" AS "C1", "col2" AS "C2" FROM "testTable" WHERE "col1" = \'x\';')
@@ -267,9 +267,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable" WHERE "col1" <> \'x\';]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
-      .where(column1.ne('x'))
+      .where(col1.ne('x'))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col2" FROM "testTable" WHERE "col1" <> \'x\';')
@@ -277,9 +277,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable" WHERE "col1" = $1;]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
-      .where(column1.eq$('x'))
+      .where(col1.eq$('x'))
       .getBinds()
 
     const expected = {
@@ -292,9 +292,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable" WHERE "col1" <> $1;]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
-      .where(column1.ne$('x'))
+      .where(col1.ne$('x'))
       .getBinds()
 
     const expected = {
@@ -307,9 +307,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col4" FROM "testTable" WHERE "col4" = 5;]', () => {
     const actual = sql
-      .select(column1, column4)
+      .select(col1, col4)
       .from(table)
-      .where(column4.eq(5))
+      .where(col4.eq(5))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col4" FROM "testTable" WHERE "col4" = 5;')
@@ -317,9 +317,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col4" FROM "testTable" WHERE "col4" = $1;]', () => {
     const actual = sql
-      .select(column1, column4)
+      .select(col1, col4)
       .from(table)
-      .where(column4.eq$(5))
+      .where(col4.eq$(5))
       .getBinds()
 
     const expected = {
@@ -332,9 +332,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col4" FROM "testTable" WHERE "col4" <> 5;]', () => {
     const actual = sql
-      .select(column1, column4)
+      .select(col1, col4)
       .from(table)
-      .where(column4.ne(5))
+      .where(col4.ne(5))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col4" FROM "testTable" WHERE "col4" <> 5;')
@@ -342,9 +342,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col4" FROM "testTable" WHERE "col4" <> $1;]', () => {
     const actual = sql
-      .select(column1, column4)
+      .select(col1, col4)
       .from(table)
-      .where(column4.ne$(5))
+      .where(col4.ne$(5))
       .getBinds()
 
     const expected = {
@@ -356,9 +356,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col4" FROM "testTable" WHERE "col4" IS NULL;]', () => {
     const actual = sql
-      .select(column1, column4)
+      .select(col1, col4)
       .from(table)
-      .where(column4.eq(null))
+      .where(col4.eq(null))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col4" FROM "testTable" WHERE "col4" IS NULL;')
@@ -366,9 +366,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col4" FROM "testTable" WHERE "col4" IS NOT NULL;]', () => {
     const actual = sql
-      .select(column1, column4)
+      .select(col1, col4)
       .from(table)
-      .where(column4.ne(null))
+      .where(col4.ne(null))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col4" FROM "testTable" WHERE "col4" IS NOT NULL;')
@@ -376,9 +376,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col4" FROM "testTable" WHERE "col4" IS NOT $1;]', () => {
     const actual = sql
-      .select(column1, column4)
+      .select(col1, col4)
       .from(table)
-      .where(column4.ne$(null))
+      .where(col4.ne$(null))
       .getBinds()
 
     const expected = {
@@ -390,9 +390,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col4" FROM "testTable" WHERE "col1" IS NULL;]', () => {
     const actual = sql
-      .select(column1, column4)
+      .select(col1, col4)
       .from(table)
-      .where(column1.eq(null))
+      .where(col1.eq(null))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col4" FROM "testTable" WHERE "col1" IS NULL;')
@@ -400,9 +400,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col4" FROM "testTable" WHERE "col1" IS NOT NULL;]', () => {
     const actual = sql
-      .select(column1, column4)
+      .select(col1, col4)
       .from(table)
-      .where(column1.ne(null))
+      .where(col1.ne(null))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col4" FROM "testTable" WHERE "col1" IS NOT NULL;')
@@ -410,9 +410,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col4" FROM "testTable" WHERE "col4" IS $1;]', () => {
     const actual = sql
-      .select(column1, column4)
+      .select(col1, col4)
       .from(table)
-      .where(column4.eq$(null))
+      .where(col4.eq$(null))
       .getBinds()
 
     const expected = {
@@ -425,9 +425,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col4" FROM "testTable" WHERE "col4" IS NOT $1;]', () => {
     const actual = sql
-      .select(column1, column4)
+      .select(col1, col4)
       .from(table)
-      .where(column4.ne$(null))
+      .where(col4.ne$(null))
       .getBinds()
 
     const expected = {
@@ -440,9 +440,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col4" FROM "testTable" WHERE "col1" IS $1;]', () => {
     const actual = sql
-      .select(column1, column4)
+      .select(col1, col4)
       .from(table)
-      .where(column1.eq$(null))
+      .where(col1.eq$(null))
       .getBinds()
 
     const expected = {
@@ -455,9 +455,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable" WHERE ( "col1" = \'x\' AND "col2" = \'y\' );]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
-      .where(column1.eq('x'), AND, column2.eq('y'))
+      .where(col1.eq('x'), AND, col2.eq('y'))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col2" FROM "testTable" WHERE ( "col1" = \'x\' AND "col2" = \'y\' );')
@@ -465,9 +465,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable" WHERE ( "col1" = $1 AND "col2" = $2 );]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
-      .where(column1.eq$('x'), AND, column2.eq$('y'))
+      .where(col1.eq$('x'), AND, col2.eq$('y'))
       .getBinds()
 
     const expected = {
@@ -480,9 +480,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable" WHERE ( "col1" = \'x\' OR "col2" = \'y\' );]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
-      .where(column1.eq('x'), OR, column2.eq('y'))
+      .where(col1.eq('x'), OR, col2.eq('y'))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col2" FROM "testTable" WHERE ( "col1" = \'x\' OR "col2" = \'y\' );')
@@ -490,10 +490,10 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable" WHERE "col1" = \'x\' AND "col2" = \'y\';]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
-      .where(column1.eq('x'))
-      .and(column2.eq('y'))
+      .where(col1.eq('x'))
+      .and(col2.eq('y'))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col2" FROM "testTable" WHERE "col1" = \'x\' AND "col2" = \'y\';')
@@ -501,10 +501,10 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable" WHERE ( "col1" = \'x\' OR "col2" = \'y\' ) AND "col3" = \'z\';]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
-      .where(column1.eq('x'), OR, column2.eq('y'))
-      .and(column3.eq('z'))
+      .where(col1.eq('x'), OR, col2.eq('y'))
+      .and(col3.eq('z'))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col2" FROM "testTable" WHERE ( "col1" = \'x\' OR "col2" = \'y\' ) AND "col3" = \'z\';')
@@ -512,10 +512,10 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable" WHERE "col1" = \'x\' OR "col2" = \'y\';]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
-      .where(column1.eq('x'))
-      .or(column2.eq('y'))
+      .where(col1.eq('x'))
+      .or(col2.eq('y'))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col2" FROM "testTable" WHERE "col1" = \'x\' OR "col2" = \'y\';')
@@ -523,10 +523,10 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable" WHERE ( "col1" = \'x\' AND "col2" = \'y\' ) OR "col3" = \'z\';]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
-      .where(column1.eq('x'), AND, column2.eq('y'))
-      .or(column3.eq('z'))
+      .where(col1.eq('x'), AND, col2.eq('y'))
+      .or(col3.eq('z'))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col2" FROM "testTable" WHERE ( "col1" = \'x\' AND "col2" = \'y\' ) OR "col3" = \'z\';')
@@ -534,11 +534,11 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable" WHERE ( "col1" = \'x\' AND "col2" = \'y\' ) AND "col3" = \'z1\' OR "col3" = \'z2\';]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
-      .where(column1.eq('x'), AND, column2.eq('y'))
-      .and(column3.eq('z1'))
-      .or(column3.eq('z2'))
+      .where(col1.eq('x'), AND, col2.eq('y'))
+      .and(col3.eq('z1'))
+      .or(col3.eq('z2'))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col2" FROM "testTable" WHERE ( "col1" = \'x\' AND "col2" = \'y\' ) AND "col3" = \'z1\' OR "col3" = \'z2\';')
@@ -546,11 +546,11 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable" WHERE "col1" = \'x\' AND "col2" = \'y\' AND "col3" = \'z\';]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
-      .where(column1.eq('x'))
-      .and(column2.eq('y'))
-      .and(column3.eq('z'))
+      .where(col1.eq('x'))
+      .and(col2.eq('y'))
+      .and(col3.eq('z'))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col2" FROM "testTable" WHERE "col1" = \'x\' AND "col2" = \'y\' AND "col3" = \'z\';')
@@ -558,11 +558,11 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable" WHERE "col1" = \'x\' OR "col2" = \'y\' OR "col3" = \'z\';]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
-      .where(column1.eq('x'))
-      .or(column2.eq('y'))
-      .or(column3.eq('z'))
+      .where(col1.eq('x'))
+      .or(col2.eq('y'))
+      .or(col3.eq('z'))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col2" FROM "testTable" WHERE "col1" = \'x\' OR "col2" = \'y\' OR "col3" = \'z\';')
@@ -570,10 +570,10 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable" WHERE "col1" = \'x1  x2\' AND ( "col2" = \'y\' OR "col3" = \'z\' );]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
-      .where(column1.eq('x1  x2'))
-      .and(column2.eq('y'), OR, column3.eq('z'))
+      .where(col1.eq('x1  x2'))
+      .and(col2.eq('y'), OR, col3.eq('z'))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col2" FROM "testTable" WHERE "col1" = \'x1  x2\' AND ( "col2" = \'y\' OR "col3" = \'z\' );')
@@ -581,10 +581,10 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1", "col2" FROM "testTable" WHERE "col1" = \'x1  x2\' OR ( "col2" = \'y\' AND "col3" = \'z\' );]', () => {
     const actual = sql
-      .select(column1, column2)
+      .select(col1, col2)
       .from(table)
-      .where(column1.eq('x1  x2'))
-      .or(column2.eq('y'), AND, column3.eq('z'))
+      .where(col1.eq('x1  x2'))
+      .or(col2.eq('y'), AND, col3.eq('z'))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1", "col2" FROM "testTable" WHERE "col1" = \'x1  x2\' OR ( "col2" = \'y\' AND "col3" = \'z\' );')
@@ -592,9 +592,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE ( "col1" = \'x\' AND "col2" = \'y\' OR "col4" = 5 );]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column1.eq('x'), AND, column2.eq('y'), OR, column4.eq(5))
+      .where(col1.eq('x'), AND, col2.eq('y'), OR, col4.eq(5))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE ( "col1" = \'x\' AND "col2" = \'y\' OR "col4" = 5 );')
@@ -602,10 +602,10 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col1" = \'x\' AND ( "col2" = \'y\' OR "col3" = \'z\' OR "col4" = 5 );]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column1.eq('x'))
-      .and(column2.eq('y'), OR, column3.eq('z'), OR, column4.eq(5))
+      .where(col1.eq('x'))
+      .and(col2.eq('y'), OR, col3.eq('z'), OR, col4.eq(5))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col1" = \'x\' AND ( "col2" = \'y\' OR "col3" = \'z\' OR "col4" = 5 );')
@@ -613,10 +613,10 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col1" = \'x\' OR ( "col2" = \'y\' AND "col3" = \'z\' AND "col4" = 5 );]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column1.eq('x'))
-      .or(column2.eq('y'), AND, column3.eq('z'), AND, column4.eq(5))
+      .where(col1.eq('x'))
+      .or(col2.eq('y'), AND, col3.eq('z'), AND, col4.eq(5))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col1" = \'x\' OR ( "col2" = \'y\' AND "col3" = \'z\' AND "col4" = 5 );')
@@ -624,10 +624,10 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col1" = $1 OR ( "col2" = $2 AND "col3" = $3 AND "col4" = $4 );]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column1.eq$('x'))
-      .or(column2.eq$('y'), AND, column3.eq$('z'), AND, column4.eq$(5))
+      .where(col1.eq$('x'))
+      .or(col2.eq$('y'), AND, col3.eq$('z'), AND, col4.eq$(5))
       .getBinds()
 
     const expected = {
@@ -640,9 +640,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" > 5;]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.gt(5))
+      .where(col4.gt(5))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col4" > 5;')
@@ -650,9 +650,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" > $1;]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.gt$(5))
+      .where(col4.gt$(5))
       .getBinds()
 
     const expected = {
@@ -664,9 +664,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" < 5;]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.lt(5))
+      .where(col4.lt(5))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col4" < 5;')
@@ -674,9 +674,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" < $1;]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.lt$(5))
+      .where(col4.lt$(5))
       .getBinds()
 
     const expected = {
@@ -688,9 +688,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" >= 5;]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.ge(5))
+      .where(col4.ge(5))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col4" >= 5;')
@@ -698,9 +698,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" >= $1;]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.ge$(5))
+      .where(col4.ge$(5))
       .getBinds()
 
     const expected = {
@@ -712,9 +712,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" <= 5;]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.le(5))
+      .where(col4.le(5))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col4" <= 5;')
@@ -722,9 +722,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" <= $1;]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.le$(5))
+      .where(col4.le$(5))
       .getBinds()
 
     const expected = {
@@ -736,9 +736,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col1" = "col2";]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column1.eq(column2))
+      .where(col1.eq(col2))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col1" = "col2";')
@@ -746,9 +746,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" = ("col5" + "col6");]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.eq(column5, ADD, column6))
+      .where(col4.eq(col5, ADD, col6))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col4" = ("col5" + "col6");')
@@ -756,9 +756,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" = ("col5" - "col6");]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.eq(column5, SUB, column6))
+      .where(col4.eq(col5, SUB, col6))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col4" = ("col5" - "col6");')
@@ -766,9 +766,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" = ("col5" - 1);]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.eq(column5, SUB, 1))
+      .where(col4.eq(col5, SUB, 1))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col4" = ("col5" - 1);')
@@ -776,9 +776,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" = ("col5" * 1);]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.eq(column5, MUL, 1))
+      .where(col4.eq(col5, MUL, 1))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col4" = ("col5" * 1);')
@@ -786,9 +786,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" = ("col5" / 1);]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.eq(column5, DIV, 1))
+      .where(col4.eq(col5, DIV, 1))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col4" = ("col5" / 1);')
@@ -796,9 +796,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" = ("col5" % 1);]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.eq(column5, MOD, 1))
+      .where(col4.eq(col5, MOD, 1))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col4" = ("col5" % 1);')
@@ -806,9 +806,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" = ("col5" ^ 1);]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.eq(column5, EXP, 1))
+      .where(col4.eq(col5, EXP, 1))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col4" = ("col5" ^ 1);')
@@ -816,9 +816,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" = (1 + "col5");]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.eq(1, ADD, column5))
+      .where(col4.eq(1, ADD, col5))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col4" = (1 + "col5");')
@@ -826,9 +826,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" = (1 + 1);]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.eq(1, ADD, 1))
+      .where(col4.eq(1, ADD, 1))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col4" = (1 + 1);')
@@ -836,9 +836,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" > "col5";]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.gt(column5))
+      .where(col4.gt(col5))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col4" > "col5";')
@@ -846,9 +846,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE ("col7" > \'tru\');]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(e(column7, GT, 'tru'))
+      .where(e(col7, GT, 'tru'))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE ("col7" > \'tru\');')
@@ -856,9 +856,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col4" = "col5";]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column4.eq(column5))
+      .where(col4.eq(col5))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col4" = "col5";')
@@ -867,9 +867,9 @@ describe('test from one table', () => {
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col2" = \'value contain single quote \'\' and more \'\'\'\' , \'\'\';]', () => {
     const stringContainSingleQuote = 'value contain single quote \' and more \'\' , \''
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column2.eq(stringContainSingleQuote))
+      .where(col2.eq(stringContainSingleQuote))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col2" = \'value contain single quote \'\' and more \'\'\'\' , \'\'\';')
@@ -877,9 +877,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col7" = TRUE;]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column7.eq(true))
+      .where(col7.eq(true))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col7" = TRUE;')
@@ -887,9 +887,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col7" <> TRUE;]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column7.ne(true))
+      .where(col7.ne(true))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col7" <> TRUE;')
@@ -897,9 +897,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col7" = $1;] for [$1=true]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column7.eq$(true))
+      .where(col7.eq$(true))
       .getBinds()
 
     const expected = {
@@ -912,9 +912,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col7" <> $1;] for [$1=true]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column7.ne$(true))
+      .where(col7.ne$(true))
       .getBinds()
 
     const expected = {
@@ -927,9 +927,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col7" IS $1;] for [$1=null]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column7.eq$(null))
+      .where(col7.eq$(null))
       .getBinds()
 
     const expected = {
@@ -942,9 +942,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col7" IS NOT $1;] for [$1=null]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column7.ne$(null))
+      .where(col7.ne$(null))
       .getBinds()
 
     const expected = {
@@ -957,9 +957,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col7";]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column7)
+      .where(col7)
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col7";')
@@ -967,9 +967,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE NOT "col7";]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column7.not())
+      .where(col7.not())
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE NOT "col7";')
@@ -977,9 +977,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE (NOT "col7" OR NOT "col8");]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column7.not(), OR, column8.not())
+      .where(col7.not(), OR, col8.not())
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE ( NOT "col7" OR NOT "col8" );')
@@ -987,10 +987,10 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE NOT "col7" AND NOT "col8";]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column7.not())
-      .and(column8.not())
+      .where(col7.not())
+      .and(col8.not())
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE NOT "col7" AND NOT "col8";')
@@ -998,9 +998,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col7" = FALSE;]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column7.eq(false))
+      .where(col7.eq(false))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col7" = FALSE;')
@@ -1008,9 +1008,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col7" = "col8";]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column7.eq(column8))
+      .where(col7.eq(col8))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col7" = "col8";')
@@ -1018,9 +1018,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col7" IS NULL;]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column7.eq(null))
+      .where(col7.eq(null))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col7" IS NULL;')
@@ -1028,9 +1028,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col7" IS NOT NULL;]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column7.ne(null))
+      .where(col7.ne(null))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col7" IS NOT NULL;')
@@ -1038,9 +1038,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col1" = ("col2" || "col3");]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column1.eq(column2.concat(column3)))
+      .where(col1.eq(col2.concat(col3)))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col1" = ("col2" || "col3");')
@@ -1048,9 +1048,9 @@ describe('test from one table', () => {
 
   it('Produces [SELECT "col1" FROM "testTable" WHERE "col1" = ("col2" || \'something\');]', () => {
     const actual = sql
-      .select(column1)
+      .select(col1)
       .from(table)
-      .where(column1.eq(column2.concat('something')))
+      .where(col1.eq(col2.concat('something')))
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" WHERE "col1" = ("col2" || \'something\');')

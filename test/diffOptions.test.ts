@@ -2,8 +2,8 @@ import { Builder } from '../src'
 import { database } from './database'
 //Alias
 const table = database.s.public.t.testTable
-const column1 = database.s.public.t.testTable.c.column1
-const column2 = database.s.public.t.testTable.c.column2
+const col1 = database.s.public.t.testTable.c.col1
+const col2 = database.s.public.t.testTable.c.col2
 
 describe('test Options', () => {
   describe('test Semicolon Option', () => {
@@ -52,9 +52,9 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;] option(always)', () => {
       const actual = sqlAlways
-        .select(column1)
+        .select(col1)
         .from(table)
-        .orderBy(column1)
+        .orderBy(col1)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;')
@@ -62,9 +62,9 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(never)', () => {
       const actual = sqlNever
-        .select(column1)
+        .select(col1)
         .from(table)
-        .orderBy(column1)
+        .orderBy(col1)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
@@ -72,9 +72,9 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1", "col2" DESC;] option(never)', () => {
       const actual = sqlNever
-        .select(column1)
+        .select(col1)
         .from(table)
-        .orderBy(column1, column2.desc)
+        .orderBy(col1, col2.desc)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1", "col2" DESC;')
@@ -82,9 +82,9 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(never) even asc mentioned', () => {
       const actual = sqlNever
-        .select(column1)
+        .select(col1)
         .from(table)
-        .orderBy(column1.asc)
+        .orderBy(col1.asc)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
@@ -92,9 +92,9 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;] option(when mentioned)', () => {
       const actual = sqlWhenMentioned
-        .select(column1)
+        .select(col1)
         .from(table)
-        .orderBy(column1.asc)
+        .orderBy(col1.asc)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;')
@@ -102,9 +102,9 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(when mentioned)', () => {
       const actual = sqlWhenMentioned
-        .select(column1)
+        .select(col1)
         .from(table)
-        .orderBy(column1)
+        .orderBy(col1)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
@@ -112,9 +112,9 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(Default)', () => {
       const actual = sqlDefault
-        .select(column1)
+        .select(col1)
         .from(table)
-        .orderBy(column1)
+        .orderBy(col1)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
@@ -122,9 +122,9 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;] option(Default)', () => {
       const actual = sqlDefault
-        .select(column1)
+        .select(col1)
         .from(table)
-        .orderBy(column1.asc)
+        .orderBy(col1.asc)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;')
@@ -145,9 +145,9 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" NULLS LAST;] option(always)', () => {
       const actual = sqlAlways
-        .select(column1)
+        .select(col1)
         .from(table)
-        .orderBy(column1)
+        .orderBy(col1)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1" NULLS LAST;')
@@ -155,9 +155,9 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(never)', () => {
       const actual = sqlNever
-        .select(column1)
+        .select(col1)
         .from(table)
-        .orderBy(column1)
+        .orderBy(col1)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
@@ -165,9 +165,9 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" NULLS FIRST ;] option(never)', () => {
       const actual = sqlNever
-        .select(column1)
+        .select(col1)
         .from(table)
-        .orderBy(column1.nullsFirst)
+        .orderBy(col1.nullsFirst)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1" NULLS FIRST;')
@@ -175,9 +175,9 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(never) even nulls last mentioned', () => {
       const actual = sqlNever
-        .select(column1)
+        .select(col1)
         .from(table)
-        .orderBy(column1.nullsLast)
+        .orderBy(col1.nullsLast)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
@@ -185,9 +185,9 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;] option(when mentioned)', () => {
       const actual = sqlWhenMentioned
-        .select(column1)
+        .select(col1)
         .from(table)
-        .orderBy(column1.asc)
+        .orderBy(col1.asc)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;')
@@ -195,9 +195,9 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(when mentioned)', () => {
       const actual = sqlWhenMentioned
-        .select(column1)
+        .select(col1)
         .from(table)
-        .orderBy(column1)
+        .orderBy(col1)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
@@ -205,9 +205,9 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(Default)', () => {
       const actual = sqlDefault
-        .select(column1)
+        .select(col1)
         .from(table)
-        .orderBy(column1)
+        .orderBy(col1)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
@@ -215,9 +215,9 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" NULLS LAST;] option(Default)', () => {
       const actual = sqlDefault
-        .select(column1)
+        .select(col1)
         .from(table)
-        .orderBy(column1.nullsLast)
+        .orderBy(col1.nullsLast)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1" NULLS LAST;')
@@ -230,7 +230,7 @@ describe('test Options', () => {
     const sqlDefault = new Builder(database)
     it('Produces [SELECT "col1" AS "C1" FROM "testTable";] option(always)', () => {
       const actual = sqlAlways
-        .select(column1.as('C1'))
+        .select(col1.as('C1'))
         .from(table)
         .getSQL()
 
@@ -239,7 +239,7 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" FROM "testTable";] option(never)', () => {
       const actual = sqlNever
-        .select(column1.as('C1'))
+        .select(col1.as('C1'))
         .from(table)
         .getSQL()
 
@@ -248,7 +248,7 @@ describe('test Options', () => {
 
     it('Produces [SELECT "col1" AS "C1" FROM "testTable";] option(default)', () => {
       const actual = sqlDefault
-        .select(column1.as('C1'))
+        .select(col1.as('C1'))
         .from(table)
         .getSQL()
 

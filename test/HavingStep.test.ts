@@ -5,10 +5,10 @@ import { database } from './database'
 const AND = LogicalOperator.AND
 const OR = LogicalOperator.OR
 const table = database.s.public.t.testTable
-const col1 = database.s.public.t.testTable.c.col1
-const col2 = database.s.public.t.testTable.c.col2
-const col3 = database.s.public.t.testTable.c.col3
-const col4 = database.s.public.t.testTable.c.col4
+const col1 = table.c.col1
+const col2 = table.c.col2
+const col3 = table.c.col3
+const col4 = table.c.col4
 
 describe('test groupBy Step', () => {
   const sql = new Builder(database)

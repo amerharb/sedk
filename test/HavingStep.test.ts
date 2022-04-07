@@ -146,4 +146,31 @@ describe('test groupBy Step', () => {
 
     expect(actual).toEqual(expected)
   })
+
+  it('Produces [SELECT "col1" FROM "testTable" GROUP BY "col1" HAVING SUM("col5") <> 5;]', () => {
+    const actual = sql
+      .select(col1)
+      .from(table)
+      .groupBy(col1)
+      .having(col5.count.ne(5))
+      .getSQL()
+
+    expect(actual).toEqual('SELECT "col1" FROM "testTable" GROUP BY "col1" HAVING COUNT("col5") <> 5;')
+  })
+
+  it('Produces [SELECT "col1" FROM "testTable" GROUP BY "col1" HAVING AVG("col4") > $1;]', () => {
+    const actual = sql
+      .select(col1)
+      .from(table)
+      .groupBy(col1)
+      .having(col4.avg.gt$(4))
+      .getBinds()
+
+    const expected = {
+      sql: 'SELECT "col1" FROM "testTable" GROUP BY "col1" HAVING AVG("col4") > $1;',
+      values: [4],
+    }
+
+    expect(actual).toEqual(expected)
+  })
 })

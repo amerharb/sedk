@@ -5,6 +5,8 @@
 ### Changes
 - rename "column?" to "col?" in unit test
 - refactor group by aggregate functions
+- refactor all change getStmt arg to BuilderData
+- add Condition functions (eq, ne, gt...etc) to AggregateFunction
 
 ### Added
 

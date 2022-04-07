@@ -35,7 +35,7 @@ type ColumnObj = {
 export abstract class Column {
   private mTable?: Table
 
-  protected constructor(public readonly data: ColumnObj) {}
+  protected constructor(protected readonly data: ColumnObj) {}
 
   public set table(table: Table) {
     if (this.mTable === undefined)

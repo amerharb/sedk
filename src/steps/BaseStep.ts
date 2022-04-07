@@ -3,7 +3,7 @@ import { Condition, Expression, PostgresBinder } from '../models'
 import { BooleanColumn } from '../columns'
 import { LogicalOperator, Parenthesis } from './steps'
 
-export class BaseStep {
+export abstract class BaseStep {
   constructor(protected data: BuilderData) {}
 
   public getSQL(): string {

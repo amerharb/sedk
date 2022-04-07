@@ -130,4 +130,20 @@ describe('test groupBy Step', () => {
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" GROUP BY "col1" HAVING SUM("col5") = 5;')
   })
+
+  it('Produces [SELECT "col1" FROM "testTable" GROUP BY "col1" HAVING SUM("col4") = $1;]', () => {
+    const actual = sql
+      .select(col1)
+      .from(table)
+      .groupBy(col1)
+      .having(col4.sum.eq$(4))
+      .getBinds()
+
+    const expected = {
+      sql: 'SELECT "col1" FROM "testTable" GROUP BY "col1" HAVING SUM("col4") = $1;',
+      values: [4],
+    }
+
+    expect(actual).toEqual(expected)
+  })
 })

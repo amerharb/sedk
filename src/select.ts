@@ -3,7 +3,7 @@ import { SelectItem } from './steps/steps'
 import { Column } from './columns'
 import { Expression } from './models'
 import { escapeDoubleQuote } from './util'
-import { BinderStore } from './binder'
+import { BuilderData } from './builder'
 
 export class SelectItemInfo {
   public set builderOption(option: BuilderOption) {
@@ -25,7 +25,7 @@ export class SelectItemInfo {
     return []
   }
 
-  public getStmt(data: { binderStore: BinderStore }): string {
+  public getStmt(data: BuilderData): string {
     if (this.alias !== undefined) {
       // escape double quote by repeating it
       const escapedAlias = escapeDoubleQuote(this.alias)

@@ -1,5 +1,5 @@
 import { InvalidExpressionError } from './errors'
-import { Binder, BinderStore } from './binder'
+import { Binder } from './binder'
 import { PrimitiveType } from './steps/steps'
 import { Column, BooleanColumn, NumberColumn, TextColumn } from './columns'
 import {
@@ -11,6 +11,7 @@ import {
   Qualifier,
 } from './operators'
 import { SelectItemInfo } from './select'
+import { BuilderData } from './builder'
 
 export class Condition implements Expression {
   public readonly leftExpression: Expression
@@ -34,7 +35,7 @@ export class Condition implements Expression {
     this.rightExpression = rightExpression
   }
 
-  public getStmt(data: { binderStore: BinderStore }): string {
+  public getStmt(data: BuilderData): string {
     if (this.operator !== undefined && this.rightOperand !== undefined)
       return `${this.leftOperand.getStmt(data)} ${this.operator} ${this.rightOperand.getStmt(data)}`
     else
@@ -91,7 +92,7 @@ export class Operand {
     this.isNot = Operand.getNotValueOrThrow(isNot, this.type)
   }
 
-  public getStmt(data: { binderStore: BinderStore }): string {
+  public getStmt(data: BuilderData): string {
     if (this.value === null) {
       return 'NULL'
     } else if (this.value instanceof Binder) {
@@ -185,13 +186,13 @@ export class Expression {
     }
   }
 
-  public getStmt(data: { binderStore: BinderStore, withOuterBracket?: boolean }): string {
-    if (data.withOuterBracket === undefined) {
-      data.withOuterBracket = true
-    }
+  public getStmt(
+    data: BuilderData,
+    option: { withOuterBracket: boolean } = { withOuterBracket: true },
+  ): string {
     if (this.operator !== undefined && this.rightOperand !== undefined) {
       const stmt = `${this.leftOperand.getStmt(data)} ${this.operator.toString()} ${this.rightOperand.getStmt(data)}`
-      if (data.withOuterBracket)
+      if (option.withOuterBracket)
         return `(${stmt})`
       return stmt
     }

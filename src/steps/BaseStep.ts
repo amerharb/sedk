@@ -22,7 +22,7 @@ export class BaseStep {
 
     if (this.data.selectItemInfos.length > 0) {
       const selectPartsString = this.data.selectItemInfos.map(it => {
-        return it.getStmt({ binderStore: this.data.binderStore })
+        return it.getStmt(this.data)
       })
       result += ` ${selectPartsString.join(', ')}`
     }
@@ -63,7 +63,7 @@ export class BaseStep {
 
     if (this.data.orderByItemInfos.length > 0) {
       const orderByPartsString = this.data.orderByItemInfos.map(it => {
-        return it.getStmt({ binderStore: this.data.binderStore })
+        return it.getStmt(this.data)
       })
       result += ` ORDER BY ${orderByPartsString.join(', ')}`
     }

@@ -113,8 +113,10 @@ export class Operand {
       return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt(data)}`
     } else if (this.value instanceof Column) {
       return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt()}`
-    } else {
+    } else if (typeof this.value === 'number') {
       return `${this.isNot ? 'NOT ' : ''}${this.value}`
+    } else { // value here is undefined
+      return `${this.isNot ? 'NOT' : ''}`
     }
   }
 

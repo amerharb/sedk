@@ -12,6 +12,7 @@ import {
 } from './operators'
 import { SelectItemInfo } from './select'
 import { BuilderData } from './builder'
+import { AggregateFunction } from './aggregateFunction'
 
 export class Condition implements Expression {
   public readonly leftExpression: Expression
@@ -61,7 +62,7 @@ export type BooleanLike = boolean|BooleanColumn
 export type NumberLike = number|NumberColumn
 export type TextLike = string|TextColumn
 export type ValueType = null|BooleanLike|NumberLike|TextLike
-export type OperandType = ValueType|Expression
+export type OperandType = ValueType|AggregateFunction|Expression
 
 const booleanArray: readonly string[] = ['t', 'tr', 'tru', 'true', 'f', 'fa', 'fal', 'fals', 'false']
 type TextBooleanSmallLetter = typeof booleanArray[number]
@@ -106,6 +107,8 @@ export class Operand {
       return `'${escapedValue}'`
     } else if (typeof this.value === 'boolean') {
       return `${this.isNot ? 'NOT ' : ''}${this.value ? 'TRUE' : 'FALSE'}`
+    } else if (this.value instanceof AggregateFunction) {
+      return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt(data)}`
     } else if (this.value instanceof Expression) {
       return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt(data)}`
     } else if (this.value instanceof Column) {
@@ -126,6 +129,8 @@ export class Operand {
       return ExpressionType.NUMBER
     } else if (typeof operand === 'string' || operand instanceof TextColumn) {
       return ExpressionType.TEXT
+    } else if (operand instanceof AggregateFunction) {
+      return ExpressionType.NUMBER
     } else if (operand instanceof Expression) {
       return operand.type
     } else if (operand instanceof Binder) {

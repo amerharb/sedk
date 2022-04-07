@@ -1,4 +1,4 @@
-import { Builder, LogicalOperator } from '../src'
+import { Builder, LogicalOperator, f } from '../src'
 import { database } from './database'
 
 //Alias
@@ -106,5 +106,16 @@ describe('test groupBy Step', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" GROUP BY "col1" HAVING "col1" = \'a\' AND "col2" = \'b\' OR "col3" = \'c\';')
+  })
+
+  it('Produces [SELECT "col1" FROM "testTable" GROUP BY "col1" HAVING SUM("col4") = 4;]', () => {
+    const actual = sql
+      .select(col1)
+      .from(table)
+      .groupBy(col1)
+      .having(f.sum(col4).eq(4))
+      .getSQL()
+
+    expect(actual).toEqual('SELECT "col1" FROM "testTable" GROUP BY "col1" HAVING SUM("col4") = 4;')
   })
 })

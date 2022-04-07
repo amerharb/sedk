@@ -1,6 +1,7 @@
-import { Expression, ExpressionType } from './models'
+import { Condition, Expression, ExpressionType } from './models'
 import { SelectItemInfo } from './select'
 import { BuilderData } from './builder'
+import { ComparisonOperator } from './operators'
 
 export enum AggregateFunctionEnum {
   SUM = 'SUM',
@@ -18,6 +19,10 @@ export class AggregateFunction {
 
   public as(alias: string): SelectItemInfo {
     return new SelectItemInfo(this, alias)
+  }
+
+  public eq(value: number): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(value))
   }
 
   public getStmt(data: BuilderData): string {

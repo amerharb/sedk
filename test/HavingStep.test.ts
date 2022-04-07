@@ -9,6 +9,7 @@ const col1 = table.c.col1
 const col2 = table.c.col2
 const col3 = table.c.col3
 const col4 = table.c.col4
+const col5 = table.c.col5
 
 describe('test groupBy Step', () => {
   const sql = new Builder(database)
@@ -117,5 +118,16 @@ describe('test groupBy Step', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT "col1" FROM "testTable" GROUP BY "col1" HAVING SUM("col4") = 4;')
+  })
+
+  it('Produces [SELECT "col1" FROM "testTable" GROUP BY "col1" HAVING SUM("col5") = 5;]', () => {
+    const actual = sql
+      .select(col1)
+      .from(table)
+      .groupBy(col1)
+      .having(col5.sum.eq(5))
+      .getSQL()
+
+    expect(actual).toEqual('SELECT "col1" FROM "testTable" GROUP BY "col1" HAVING SUM("col5") = 5;')
   })
 })

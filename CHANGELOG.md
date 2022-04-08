@@ -7,8 +7,11 @@
 - refactor group by aggregate functions
 - refactor all change getStmt arg to BuilderData
 - add Condition functions (eq, ne, gt...etc) to AggregateFunction
+- Move Expression into Expression.ts file
+- Move Condition into Condition.ts file
 
 ### Added
+- Having step can contain aggregate function condition
 
 ## [0.10.0]  2022-03-26
 ### Changes

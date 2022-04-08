@@ -1,5 +1,7 @@
 import { BuilderData } from '../builder'
-import { Condition, Expression, PostgresBinder } from '../models'
+import { Condition } from '../expressions/Condition'
+import { PostgresBinder } from '../models'
+import { Expression } from '../expressions/Expression'
 import { BooleanColumn } from '../columns'
 import { LogicalOperator } from '../operators'
 

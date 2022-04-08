@@ -2,11 +2,11 @@ import {
   BooleanLike,
   NumberLike,
   TextLike,
-  Condition,
-  Expression,
   OperandType,
   TextBoolean,
 } from './models'
+import { Expression } from './expressions/Expression'
+import { Condition } from './expressions/Condition'
 import {
   ArithmeticOperator,
   ComparisonOperator,

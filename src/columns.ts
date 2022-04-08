@@ -5,11 +5,10 @@ import {
   BooleanLike,
   NumberLike,
   TextLike,
-  Condition,
-  Expression,
   Operand,
-  ExpressionType,
 } from './models'
+import { Condition } from './expressions/Condition'
+import { Expression, ExpressionType } from './expressions/Expression'
 import {
   NullOperator,
   ComparisonOperator,

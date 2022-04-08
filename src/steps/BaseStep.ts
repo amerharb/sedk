@@ -1,7 +1,7 @@
 import { BuilderData } from '../builder'
 import { Condition, Expression, PostgresBinder } from '../models'
 import { BooleanColumn } from '../columns'
-import { LogicalOperator } from './steps'
+import { LogicalOperator } from '../operators'
 
 export enum Parenthesis {
   Open = '(',

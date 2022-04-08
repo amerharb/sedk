@@ -5,7 +5,7 @@ import { Column } from '../columns'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import { GroupByStep, LimitStep, OffsetStep, OrderByStep, WhereAndStep, WhereOrStep } from './stepInterfaces'
-import { LogicalOperator } from './steps'
+import { LogicalOperator } from '../operators'
 
 export class WhereStep extends BaseStep {
   constructor(protected data: BuilderData) { super(data) }

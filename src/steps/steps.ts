@@ -18,8 +18,8 @@ import { Binder } from '../binder'
 import { BaseStep } from './BaseStep'
 import { WhereStep } from './WhereStep'
 import { HavingStep } from './HavingStep'
-import { RootStep, SelectStep, FromStep, GroupByStep, OrderByStep, LimitStep, OffsetStep }
-  from './stepInterfaces'
+import { RootStep, SelectStep, FromStep, GroupByStep, OrderByStep, LimitStep, OffsetStep } from './stepInterfaces'
+import { LogicalOperator } from '../operators'
 
 export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
@@ -201,9 +201,4 @@ export class Step extends BaseStep implements RootStep, SelectStep, FromStep, Gr
       }
     }
   }
-}
-
-export enum LogicalOperator {
-  AND = 'AND',
-  OR = 'OR',
 }

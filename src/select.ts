@@ -1,7 +1,7 @@
 import { BuilderOption } from './option'
 import { SelectItem } from './steps/Step'
 import { Column } from './columns'
-import { Expression } from './expressions/Expression'
+import { Expression } from './models/Expression'
 import { escapeDoubleQuote } from './util'
 import { BuilderData } from './builder'
 

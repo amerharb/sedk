@@ -1,7 +1,7 @@
 import { PrimitiveType } from './steps/Step'
 import { BooleanColumn, NumberColumn, TextColumn } from './columns'
 import { AggregateFunction } from './aggregateFunction'
-import { Expression } from './expressions/Expression'
+import { Expression } from './models/Expression'
 
 //TODO: include other value type like date-time
 export type BooleanLike = boolean|BooleanColumn

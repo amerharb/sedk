@@ -1,5 +1,5 @@
-import { Condition } from './expressions/Condition'
-import { Expression, ExpressionType } from './expressions/Expression'
+import { Condition } from './models/Condition'
+import { Expression, ExpressionType } from './models/Expression'
 import { SelectItemInfo } from './select'
 import { BuilderData } from './builder'
 import { ComparisonOperator } from './operators'

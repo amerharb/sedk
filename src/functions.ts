@@ -5,8 +5,8 @@ import {
   OperandType,
   TextBoolean,
 } from './models'
-import { Expression } from './expressions/Expression'
-import { Condition } from './expressions/Condition'
+import { Expression } from './models/Expression'
+import { Condition } from './models/Condition'
 import {
   ArithmeticOperator,
   ComparisonOperator,

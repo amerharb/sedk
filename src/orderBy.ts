@@ -1,6 +1,6 @@
 import { BuilderOption } from './option'
 import { Column } from './columns'
-import { Expression } from './expressions/Expression'
+import { Expression } from './models/Expression'
 import { BuilderData } from './builder'
 
 export type OrderByItem = Column|Expression|string

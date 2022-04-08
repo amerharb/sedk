@@ -2,9 +2,9 @@ import { Table } from './database'
 import { escapeDoubleQuote } from './util'
 import { Binder } from './binder'
 import { BooleanLike, NumberLike, TextLike } from './models'
-import { Operand } from './expressions/Operand'
-import { Condition } from './expressions/Condition'
-import { Expression, ExpressionType } from './expressions/Expression'
+import { Operand } from './models/Operand'
+import { Condition } from './models/Condition'
+import { Expression, ExpressionType } from './models/Expression'
 import {
   NullOperator,
   ComparisonOperator,

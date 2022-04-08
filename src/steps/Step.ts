@@ -1,5 +1,5 @@
-import { Condition } from '../expressions/Condition'
-import { Expression } from '../expressions/Expression'
+import { Condition } from '../models/Condition'
+import { Expression } from '../models/Expression'
 import { Column } from '../columns'
 import { Table } from '../database'
 import { ColumnNotFoundError, TableNotFoundError } from '../errors'

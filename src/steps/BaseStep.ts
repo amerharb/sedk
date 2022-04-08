@@ -1,7 +1,7 @@
 import { BuilderData } from '../builder'
-import { Condition } from '../expressions/Condition'
+import { Condition } from '../models/Condition'
 import { PostgresBinder } from '../models'
-import { Expression } from '../expressions/Expression'
+import { Expression } from '../models/Expression'
 import { BooleanColumn } from '../columns'
 import { LogicalOperator } from '../operators'
 

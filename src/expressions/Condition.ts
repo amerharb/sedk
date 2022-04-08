@@ -3,7 +3,7 @@ import { Qualifier } from '../operators'
 import { BuilderData } from '../builder'
 import { SelectItemInfo } from '../select'
 import { Column } from '../columns'
-import { Operand } from '../models'
+import { Operand } from './Operand'
 
 export class Condition implements Expression {
   public readonly leftExpression: Expression

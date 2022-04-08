@@ -1,6 +1,6 @@
 import { Database, Table } from './database'
 import { BooleanColumn, Column } from './columns'
-import { Condition } from './models'
+import { Condition } from './expressions/Condition'
 import { Binder, BinderStore } from './binder'
 import { ASTERISK, Distinct, All } from './singletoneConstants'
 import { SelectStep, FromStep, RootStep } from './steps/stepInterfaces'

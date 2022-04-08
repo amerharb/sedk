@@ -9,6 +9,7 @@
 - add Condition functions (eq, ne, gt...etc) to AggregateFunction
 - Move Expression into Expression.ts file
 - Move Condition into Condition.ts file
+- Move Operand class into Operand.ts file
 
 ### Added
 - Having step can contain aggregate function condition

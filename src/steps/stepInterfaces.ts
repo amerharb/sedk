@@ -1,7 +1,7 @@
 import { BaseStep } from './BaseStep'
 import { SelectItemInfo } from '../select'
 import { Table } from '../database'
-import { Condition } from '../models'
+import { Condition } from '../expressions/Condition'
 import { WhereStep } from './WhereStep'
 import { Column } from '../columns'
 import { OrderByArgsElement } from '../orderBy'

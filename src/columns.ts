@@ -1,12 +1,8 @@
 import { Table } from './database'
 import { escapeDoubleQuote } from './util'
 import { Binder } from './binder'
-import {
-  BooleanLike,
-  NumberLike,
-  TextLike,
-  Operand,
-} from './models'
+import { BooleanLike, NumberLike, TextLike } from './models'
+import { Operand } from './expressions/Operand'
 import { Condition } from './expressions/Condition'
 import { Expression, ExpressionType } from './expressions/Expression'
 import {

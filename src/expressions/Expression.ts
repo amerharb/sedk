@@ -4,7 +4,8 @@ import { BuilderData } from '../builder'
 import { SelectItemInfo } from '../select'
 import { Column } from '../columns'
 import { InvalidExpressionError } from '../errors'
-import { isTextBoolean, isTextNumber, Operand, OperandType } from '../models'
+import { Operand } from './operand'
+import { isTextBoolean, isTextNumber, OperandType } from '../models'
 
 export enum ExpressionType {
   NOT_EXIST,

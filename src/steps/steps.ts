@@ -207,8 +207,3 @@ export enum LogicalOperator {
   AND = 'AND',
   OR = 'OR',
 }
-
-export enum Parenthesis {
-  Open = '(',
-  Close = ')',
-}

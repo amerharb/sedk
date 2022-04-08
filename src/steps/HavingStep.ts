@@ -3,7 +3,8 @@ import { BuilderData } from '../builder'
 import { Condition } from '../models'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
-import { LimitStep, LogicalOperator, OffsetStep, OrderByStep, HavingAndStep, HavingOrStep } from './steps'
+import { LogicalOperator } from './steps'
+import { LimitStep, OffsetStep, OrderByStep, HavingAndStep, HavingOrStep } from './stepInterfaces'
 
 export class HavingStep extends BaseStep {
   constructor(protected data: BuilderData) { super(data) }

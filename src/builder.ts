@@ -3,16 +3,9 @@ import { BooleanColumn, Column } from './columns'
 import { Condition } from './models'
 import { Binder, BinderStore } from './binder'
 import { ASTERISK, Distinct, All } from './singletoneConstants'
-import {
-  Step,
-  SelectStep,
-  FromStep,
-  Parenthesis,
-  LogicalOperator,
-  SelectItem,
-  PrimitiveType,
-  RootStep,
-} from './steps/steps'
+import { SelectStep, FromStep, RootStep } from './steps/stepInterfaces'
+import { Step, PrimitiveType, LogicalOperator, SelectItem } from './steps/steps'
+import { Parenthesis } from './steps/BaseStep'
 import { OrderByItemInfo } from './orderBy'
 import { SelectItemInfo } from './select'
 import { BuilderOption, fillUndefinedOptionsWithDefault } from './option'

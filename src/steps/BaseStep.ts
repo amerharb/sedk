@@ -1,7 +1,12 @@
 import { BuilderData } from '../builder'
 import { Condition, Expression, PostgresBinder } from '../models'
 import { BooleanColumn } from '../columns'
-import { LogicalOperator, Parenthesis } from './steps'
+import { LogicalOperator } from './steps'
+
+export enum Parenthesis {
+  Open = '(',
+  Close = ')',
+}
 
 export abstract class BaseStep {
   constructor(protected data: BuilderData) {}

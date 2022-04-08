@@ -1,15 +1,10 @@
 import { Table } from './database'
 import { escapeDoubleQuote } from './util'
 import { Binder } from './binder'
-import {
-  BooleanLike,
-  NumberLike,
-  TextLike,
-  Condition,
-  Expression,
-  Operand,
-  ExpressionType,
-} from './models'
+import { BooleanLike, NumberLike, TextLike } from './models/types'
+import { Operand } from './models/Operand'
+import { Condition } from './models/Condition'
+import { Expression, ExpressionType } from './models/Expression'
 import {
   NullOperator,
   ComparisonOperator,
@@ -25,17 +20,19 @@ import {
   NULLS_FIRST,
   NULLS_LAST,
 } from './orderBy'
-import { SelectItemInfo } from './select'
+import { SelectItemInfo } from './SelectItemInfo'
 import { AggregateFunction, AggregateFunctionEnum } from './aggregateFunction'
+import { IStatementGiver } from './models/IStatementGiver'
+import { BuilderData } from './builder'
 
 type ColumnObj = {
   name: string
 }
 
-export abstract class Column {
+export abstract class Column implements IStatementGiver {
   private mTable?: Table
 
-  protected constructor(public readonly data: ColumnObj) {}
+  protected constructor(protected readonly data: ColumnObj) {}
 
   public set table(table: Table) {
     if (this.mTable === undefined)
@@ -91,8 +88,16 @@ export abstract class Column {
     return new OrderByItemInfo(this, DESC, NULLS_LAST)
   }
 
-  public getStmt() {
-    return `"${escapeDoubleQuote(this.data.name)}"`
+  public getStmt(data: BuilderData): string {
+    if (this.mTable === undefined)
+      throw new Error('Column is undefined')
+
+    const tableName = (
+      data.option.addTableName === 'always'
+      //TODO: change table checking when builder is able to handle multiple tables
+      || (data.option.addTableName === 'when two tables or more' && data.table !== this.table)
+    ) ? `"${escapeDoubleQuote(this.table.name)}".` : ''
+    return `${tableName}"${escapeDoubleQuote(this.data.name)}"`
   }
 }
 

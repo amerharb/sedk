@@ -1,9 +1,10 @@
 import { BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
-import { Condition } from '../models'
+import { Condition } from '../models/Condition'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
-import { LimitStep, LogicalOperator, OffsetStep, OrderByStep, HavingAndStep, HavingOrStep } from './steps'
+import { LogicalOperator } from '../operators'
+import { LimitStep, OffsetStep, OrderByStep, HavingAndStep, HavingOrStep } from './stepInterfaces'
 
 export class HavingStep extends BaseStep {
   constructor(protected data: BuilderData) { super(data) }

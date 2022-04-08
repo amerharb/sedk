@@ -1,5 +1,7 @@
 import { escapeDoubleQuote } from './util'
 import { Column } from './columns'
+import { IStatementGiver } from './models/IStatementGiver'
+import { BuilderData } from './builder'
 
 type SchemasObj = {
   [schemaName: string]: Schema
@@ -99,6 +101,10 @@ export class Schema<T extends TablesObj = TablesObj> {
     return this.mDatabase
   }
 
+  public get name(): string {
+    return this.data.name ?? 'public'
+  }
+
   public get tables(): T {
     return this.mTables
   }
@@ -136,7 +142,7 @@ type TableObj<C extends ColumnsObj> = {
   columns: C
 }
 
-export class Table<C extends ColumnsObj = ColumnsObj> {
+export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver {
   private mSchema?: Schema
   private readonly mColumns: C
   private readonly columnArray: readonly Column[]
@@ -200,7 +206,16 @@ export class Table<C extends ColumnsObj = ColumnsObj> {
     return this.data.columns
   }
 
-  public getStmt() {
-    return `"${escapeDoubleQuote(this.data.name)}"`
+  public getStmt(data: BuilderData): string {
+    if (this.mSchema === undefined)
+      throw new Error('Table is undefined')
+
+    const schemaName = (
+      this.mSchema.name !== 'public'
+      || data.option.addPublicSchemaName === 'always'
+      // TODO: read from all tables when builder add more than one table
+      || (data.option.addPublicSchemaName === 'when other schema mentioned' && data.table?.schema.name !== 'public')
+    ) ? `"${escapeDoubleQuote(this.mSchema.name)}".` : ''
+    return `${schemaName}"${escapeDoubleQuote(this.data.name)}"`
   }
 }

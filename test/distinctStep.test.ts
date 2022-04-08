@@ -6,8 +6,8 @@ import {
 import { database } from './database'
 //Alias
 const table = database.s.public.t.testTable
-const column1 = database.s.public.t.testTable.c.column1
-const column2 = database.s.public.t.testTable.c.column2
+const col1 = database.s.public.t.testTable.c.col1
+const col2 = database.s.public.t.testTable.c.col2
 
 
 describe('test orderBy Step', () => {
@@ -28,7 +28,7 @@ describe('test orderBy Step', () => {
 
   it('Produces [SELECT DISTINCT "col1", "col2" FROM "testTable";]', () => {
     const actual = sql
-      .selectDistinct(column1, column2)
+      .selectDistinct(col1, col2)
       .from(table)
       .getSQL()
 
@@ -37,7 +37,7 @@ describe('test orderBy Step', () => {
 
   it('Produces [SELECT ALL "col1", "col2" FROM "testTable";]', () => {
     const actual = sql
-      .selectAll(column1, column2)
+      .selectAll(col1, col2)
       .from(table)
       .getSQL()
 
@@ -46,7 +46,7 @@ describe('test orderBy Step', () => {
 
   it('Produces [SELECT DISTINCT "col1", "col2" FROM "testTable";] using select first param', () => {
     const actual = sql
-      .select(DISTINCT, column1, column2)
+      .select(DISTINCT, col1, col2)
       .from(table)
       .getSQL()
 
@@ -55,7 +55,7 @@ describe('test orderBy Step', () => {
 
   it('Produces [SELECT ALL "col1", "col2" FROM "testTable";] using select first param', () => {
     const actual = sql
-      .select(ALL, column1, column2)
+      .select(ALL, col1, col2)
       .from(table)
       .getSQL()
 

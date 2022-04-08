@@ -1,11 +1,12 @@
 import { BuilderOption } from './option'
-import { SelectItem } from './steps/steps'
+import { SelectItem } from './steps/Step'
 import { Column } from './columns'
-import { Expression } from './models'
+import { Expression } from './models/Expression'
 import { escapeDoubleQuote } from './util'
-import { BinderStore } from './binder'
+import { BuilderData } from './builder'
+import { IStatementGiver } from './models/IStatementGiver'
 
-export class SelectItemInfo {
+export class SelectItemInfo implements IStatementGiver{
   public set builderOption(option: BuilderOption) {
     this.option = option
   }
@@ -25,7 +26,7 @@ export class SelectItemInfo {
     return []
   }
 
-  public getStmt(data: { binderStore: BinderStore }): string {
+  public getStmt(data: BuilderData): string {
     if (this.alias !== undefined) {
       // escape double quote by repeating it
       const escapedAlias = escapeDoubleQuote(this.alias)

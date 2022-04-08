@@ -1,9 +1,16 @@
 import { BuilderData } from '../builder'
-import { Condition, Expression, PostgresBinder } from '../models'
+import { Condition } from '../models/Condition'
+import { PostgresBinder } from '../models/types'
+import { Expression } from '../models/Expression'
 import { BooleanColumn } from '../columns'
-import { LogicalOperator, Parenthesis } from './steps'
+import { LogicalOperator } from '../operators'
 
-export class BaseStep {
+export enum Parenthesis {
+  Open = '(',
+  Close = ')',
+}
+
+export abstract class BaseStep {
   constructor(protected data: BuilderData) {}
 
   public getSQL(): string {
@@ -22,13 +29,13 @@ export class BaseStep {
 
     if (this.data.selectItemInfos.length > 0) {
       const selectPartsString = this.data.selectItemInfos.map(it => {
-        return it.getStmt({ binderStore: this.data.binderStore })
+        return it.getStmt(this.data)
       })
       result += ` ${selectPartsString.join(', ')}`
     }
 
     if (this.data.table) {
-      result += ` FROM ${this.data.table.getStmt()}`
+      result += ` FROM ${this.data.table.getStmt(this.data)}`
     }
 
     if (this.data.whereParts.length > 0) {
@@ -37,7 +44,7 @@ export class BaseStep {
         if (it instanceof Condition || it instanceof Expression) {
           return it.getStmt(this.data)
         } else if (it instanceof BooleanColumn) {
-          return it.getStmt()
+          return it.getStmt(this.data)
         }
         return it.toString()
       })
@@ -45,7 +52,7 @@ export class BaseStep {
     }
 
     if (this.data.groupByItems.length > 0) {
-      result += ` GROUP BY ${this.data.groupByItems.map(it => it.getStmt()).join(', ')}`
+      result += ` GROUP BY ${this.data.groupByItems.map(it => it.getStmt(this.data)).join(', ')}`
     }
 
     if (this.data.havingParts.length > 0) {
@@ -54,7 +61,7 @@ export class BaseStep {
         if (it instanceof Condition || it instanceof Expression) {
           return it.getStmt(this.data)
         } else if (it instanceof BooleanColumn) {
-          return it.getStmt()
+          return it.getStmt(this.data)
         }
         return it.toString()
       })
@@ -63,7 +70,7 @@ export class BaseStep {
 
     if (this.data.orderByItemInfos.length > 0) {
       const orderByPartsString = this.data.orderByItemInfos.map(it => {
-        return it.getStmt({ binderStore: this.data.binderStore })
+        return it.getStmt(this.data)
       })
       result += ` ORDER BY ${orderByPartsString.join(', ')}`
     }

@@ -1,6 +1,26 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.10.1]  2022-04-08
+### Changes
+- Rename "column?" to "col?" in unit test
+- Refactor group by aggregate functions
+- Refactor all change getStmt arg to BuilderData
+- Add Condition functions (eq, ne, gt...etc) to AggregateFunction
+- Move Expression into Expression.ts file
+- Move Condition into Condition.ts file
+- Move Operand class into Operand.ts file
+- Rename models to types and move it inside models folder
+- Rename file select.ts to SelectItemInfo.ts
+- Add IStatementGiver Interface
+- Add option addPublicSchemaName to Builder Option
+- Add Builder data to Table getStmt
+- Add option addTableName to Builder Option
+- Add Builder data to Column getStmt
+
+### Added
+- Having step can contain aggregate function condition
+
 ## [0.10.0]  2022-03-26
 ### Changes
 - BaseStep is a class now that Step inherits from it

@@ -1,12 +1,13 @@
 import { BuilderOption } from './option'
 import { Column } from './columns'
-import { Expression } from './models'
-import { BinderStore } from './binder'
+import { Expression } from './models/Expression'
+import { BuilderData } from './builder'
+import { IStatementGiver } from './models/IStatementGiver'
 
 export type OrderByItem = Column|Expression|string
 export type OrderByArgsElement = OrderByItemInfo|OrderByItem|OrderByDirection|OrderByNullsPosition
 
-export class OrderByItemInfo {
+export class OrderByItemInfo implements IStatementGiver{
   public set builderOption(option: BuilderOption) {
     this.option = option
   }
@@ -18,7 +19,7 @@ export class OrderByItemInfo {
     private option?: BuilderOption,
   ) {}
 
-  public getStmt(data: {binderStore: BinderStore}): string {
+  public getStmt(data: BuilderData): string {
     const direction = this.getDirectionFromOption()
     const nullPosition = this.getNullLastFromOption()
     const orderByString = (this.orderByItem instanceof Column || this.orderByItem instanceof Expression)

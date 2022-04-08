@@ -1,6 +1,6 @@
 export { Builder } from './builder'
 export { ASTERISK, DISTINCT, ALL } from './singletoneConstants'
-export { LogicalOperator } from './steps/steps'
+export { LogicalOperator } from './operators'
 export { e, o, f, $ } from './functions'
 export {
   ComparisonOperator,

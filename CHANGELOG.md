@@ -11,6 +11,7 @@
 - Move Condition into Condition.ts file
 - Move Operand class into Operand.ts file
 - Rename models to types and move it inside models folder
+- Rename file select.ts to SelectItemInfo.ts
 
 ### Added
 - Having step can contain aggregate function condition

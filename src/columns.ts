@@ -1,7 +1,7 @@
 import { Table } from './database'
 import { escapeDoubleQuote } from './util'
 import { Binder } from './binder'
-import { BooleanLike, NumberLike, TextLike } from './models'
+import { BooleanLike, NumberLike, TextLike } from './models/types'
 import { Operand } from './models/Operand'
 import { Condition } from './models/Condition'
 import { Expression, ExpressionType } from './models/Expression'

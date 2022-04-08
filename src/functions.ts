@@ -4,7 +4,7 @@ import {
   TextLike,
   OperandType,
   TextBoolean,
-} from './models'
+} from './models/types'
 import { Expression } from './models/Expression'
 import { Condition } from './models/Condition'
 import {

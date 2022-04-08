@@ -5,7 +5,7 @@ import { SelectItemInfo } from '../select'
 import { Column } from '../columns'
 import { InvalidExpressionError } from '../errors'
 import { Operand } from './operand'
-import { isTextBoolean, isTextNumber, OperandType } from '../models'
+import { isTextBoolean, isTextNumber, OperandType } from './types'
 
 export enum ExpressionType {
   NOT_EXIST,

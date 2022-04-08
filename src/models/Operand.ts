@@ -3,7 +3,7 @@ import { Expression, ExpressionType } from './Expression'
 import { BuilderData } from '../builder'
 import { AggregateFunction } from '../aggregateFunction'
 import { BooleanColumn, Column, NumberColumn, TextColumn } from '../columns'
-import { OperandType } from '../models'
+import { OperandType } from './types'
 
 export class Operand {
   public value?: OperandType|Binder

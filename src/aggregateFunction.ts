@@ -1,6 +1,6 @@
 import { Condition } from './models/Condition'
 import { Expression, ExpressionType } from './models/Expression'
-import { SelectItemInfo } from './select'
+import { SelectItemInfo } from './SelectItemInfo'
 import { BuilderData } from './builder'
 import { ComparisonOperator } from './operators'
 import { Binder } from './binder'

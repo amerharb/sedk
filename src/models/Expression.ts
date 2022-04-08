@@ -1,7 +1,7 @@
 import { ArithmeticOperator, ComparisonOperator, NullOperator, Operator, TextOperator } from '../operators'
 import { Binder } from '../binder'
 import { BuilderData } from '../builder'
-import { SelectItemInfo } from '../select'
+import { SelectItemInfo } from '../SelectItemInfo'
 import { Column } from '../columns'
 import { InvalidExpressionError } from '../errors'
 import { Operand } from './operand'

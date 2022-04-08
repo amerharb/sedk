@@ -1,5 +1,5 @@
 import { BaseStep } from './BaseStep'
-import { SelectItemInfo } from '../select'
+import { SelectItemInfo } from '../SelectItemInfo'
 import { Table } from '../database'
 import { Condition } from '../models/Condition'
 import { WhereStep } from './WhereStep'

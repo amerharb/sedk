@@ -20,7 +20,7 @@ import {
   NULLS_FIRST,
   NULLS_LAST,
 } from './orderBy'
-import { SelectItemInfo } from './select'
+import { SelectItemInfo } from './SelectItemInfo'
 import { AggregateFunction, AggregateFunctionEnum } from './aggregateFunction'
 
 type ColumnObj = {

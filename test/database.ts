@@ -29,5 +29,16 @@ export const database = new Database({
         }),
       },
     }),
+    schema1: new Schema({
+      name: 'schema1',
+      tables: {
+        table1: new Table({
+          name: 'table1',
+          columns: {
+            col1: new TextColumn({ name: 'col1' }),
+          },
+        }),
+      },
+    }),
   },
 })

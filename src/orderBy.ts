@@ -2,11 +2,12 @@ import { BuilderOption } from './option'
 import { Column } from './columns'
 import { Expression } from './models/Expression'
 import { BuilderData } from './builder'
+import { IStatementGiver } from './models/IStatementGiver'
 
 export type OrderByItem = Column|Expression|string
 export type OrderByArgsElement = OrderByItemInfo|OrderByItem|OrderByDirection|OrderByNullsPosition
 
-export class OrderByItemInfo {
+export class OrderByItemInfo implements IStatementGiver{
   public set builderOption(option: BuilderOption) {
     this.option = option
   }

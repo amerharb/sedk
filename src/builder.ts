@@ -8,7 +8,7 @@ import { Step, PrimitiveType, SelectItem } from './steps/Step'
 import { LogicalOperator } from './operators'
 import { Parenthesis } from './steps/BaseStep'
 import { OrderByItemInfo } from './orderBy'
-import { SelectItemInfo } from './select'
+import { SelectItemInfo } from './SelectItemInfo'
 import { BuilderOption, fillUndefinedOptionsWithDefault } from './option'
 import { MoreThanOneDistinctOrAllError } from './errors'
 

@@ -1,11 +1,12 @@
 import { Expression, ExpressionType } from './Expression'
 import { Qualifier } from '../operators'
 import { BuilderData } from '../builder'
-import { SelectItemInfo } from '../select'
+import { SelectItemInfo } from '../SelectItemInfo'
 import { Column } from '../columns'
 import { Operand } from './Operand'
+import { IStatementGiver } from './IStatementGiver'
 
-export class Condition implements Expression {
+export class Condition implements Expression, IStatementGiver {
   public readonly leftExpression: Expression
   public readonly operator?: Qualifier
   public readonly rightExpression?: Expression

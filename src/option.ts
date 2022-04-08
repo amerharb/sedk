@@ -3,6 +3,8 @@ export type BuilderOption = {
   addAscAfterOrderByItem?: 'always'|'never'|'when mentioned'
   addNullsLastAfterOrderByItem?: 'always'|'never'|'when mentioned'
   addAsBeforeColumnAlias?: 'always'|'never'
+  addPublicSchemaName?: 'always'|'never'|'when other schema mentioned'
+  addTableName?: 'always'|'when two tables or more' //TODO: add more options like 'when needed' and 'when conflict'
 }
 
 const defaultOption: BuilderOption = {
@@ -10,6 +12,8 @@ const defaultOption: BuilderOption = {
   addAscAfterOrderByItem: 'when mentioned',
   addNullsLastAfterOrderByItem: 'when mentioned',
   addAsBeforeColumnAlias: 'always',
+  addPublicSchemaName: 'never',
+  addTableName: 'when two tables or more',
 }
 Object.freeze(defaultOption)
 
@@ -19,5 +23,7 @@ export function fillUndefinedOptionsWithDefault(option: BuilderOption): BuilderO
   result.addAscAfterOrderByItem = option.addAscAfterOrderByItem ?? defaultOption.addAscAfterOrderByItem
   result.addNullsLastAfterOrderByItem = option.addNullsLastAfterOrderByItem ?? defaultOption.addNullsLastAfterOrderByItem
   result.addAsBeforeColumnAlias = option.addAsBeforeColumnAlias ?? defaultOption.addAsBeforeColumnAlias
+  result.addPublicSchemaName = option.addPublicSchemaName ?? defaultOption.addPublicSchemaName
+  result.addTableName = option.addTableName ?? defaultOption.addTableName
   return result
 }

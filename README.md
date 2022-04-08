@@ -49,6 +49,12 @@ console.log(bindObj)
 sql.select(name, f.avg(age).as('Employee Age Avrage')).from(Employee).groupBy(name).having(f.avg(age).gt(40)).getSQL()
 // SELECT "name", AVG("age") AS "Employee Age Avrage" FROM "Employee" GROUP BY "name" HAVING AVG("age") > 40;
 ```
+- New option added
+```typescript
+{
+  addPublicSchemaName: 'always'|'never'|'when other schema mentioned'
+}
+```
 ### Version: 0.10.0
 
 - Add Having Step

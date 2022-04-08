@@ -1,9 +1,10 @@
 import { Condition } from './models/Condition'
 import { Expression, ExpressionType } from './models/Expression'
-import { SelectItemInfo } from './select'
+import { SelectItemInfo } from './SelectItemInfo'
 import { BuilderData } from './builder'
 import { ComparisonOperator } from './operators'
 import { Binder } from './binder'
+import { IStatementGiver } from './models/IStatementGiver'
 
 export enum AggregateFunctionEnum {
   SUM = 'SUM',
@@ -13,7 +14,7 @@ export enum AggregateFunctionEnum {
   MIN = 'MIN',
 }
 
-export class AggregateFunction {
+export class AggregateFunction implements IStatementGiver{
   constructor(private readonly funcName: AggregateFunctionEnum, private readonly expression: Expression) {
     if (expression.type !== ExpressionType.NUMBER)
       throw new Error('Expression Type must be number in aggregate function')

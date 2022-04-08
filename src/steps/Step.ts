@@ -12,7 +12,7 @@ import {
   OrderByNullsPosition,
   OrderByArgsElement,
 } from '../orderBy'
-import { SelectItemInfo } from '../select'
+import { SelectItemInfo } from '../SelectItemInfo'
 import { escapeDoubleQuote } from '../util'
 import { AggregateFunction } from '../aggregateFunction'
 import { Binder } from '../binder'

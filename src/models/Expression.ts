@@ -1,11 +1,12 @@
 import { ArithmeticOperator, ComparisonOperator, NullOperator, Operator, TextOperator } from '../operators'
 import { Binder } from '../binder'
 import { BuilderData } from '../builder'
-import { SelectItemInfo } from '../select'
+import { SelectItemInfo } from '../SelectItemInfo'
 import { Column } from '../columns'
 import { InvalidExpressionError } from '../errors'
 import { Operand } from './operand'
 import { isTextBoolean, isTextNumber, OperandType } from './types'
+import { IStatementGiver } from './IStatementGiver'
 
 export enum ExpressionType {
   NOT_EXIST,
@@ -15,7 +16,7 @@ export enum ExpressionType {
   TEXT,
 }
 
-export class Expression {
+export class Expression implements IStatementGiver {
   public readonly leftOperand: Operand
   public readonly operator?: Operator
   public readonly rightOperand?: Operand

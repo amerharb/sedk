@@ -7,7 +7,7 @@ import { Column } from '../columns'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import { HavingStep } from './HavingStep'
-import { PrimitiveType, SelectItem } from './steps'
+import { PrimitiveType, SelectItem } from './Step'
 import { LogicalOperator } from '../operators'
 
 export interface RootStep extends BaseStep {

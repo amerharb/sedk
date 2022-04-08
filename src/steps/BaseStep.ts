@@ -44,7 +44,7 @@ export abstract class BaseStep {
         if (it instanceof Condition || it instanceof Expression) {
           return it.getStmt(this.data)
         } else if (it instanceof BooleanColumn) {
-          return it.getStmt()
+          return it.getStmt(this.data)
         }
         return it.toString()
       })
@@ -52,7 +52,7 @@ export abstract class BaseStep {
     }
 
     if (this.data.groupByItems.length > 0) {
-      result += ` GROUP BY ${this.data.groupByItems.map(it => it.getStmt()).join(', ')}`
+      result += ` GROUP BY ${this.data.groupByItems.map(it => it.getStmt(this.data)).join(', ')}`
     }
 
     if (this.data.havingParts.length > 0) {
@@ -61,7 +61,7 @@ export abstract class BaseStep {
         if (it instanceof Condition || it instanceof Expression) {
           return it.getStmt(this.data)
         } else if (it instanceof BooleanColumn) {
-          return it.getStmt()
+          return it.getStmt(this.data)
         }
         return it.toString()
       })

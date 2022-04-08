@@ -4,8 +4,9 @@ import { Column } from './columns'
 import { Expression } from './models/Expression'
 import { escapeDoubleQuote } from './util'
 import { BuilderData } from './builder'
+import { IStatementGiver } from './models/IStatementGiver'
 
-export class SelectItemInfo {
+export class SelectItemInfo implements IStatementGiver{
   public set builderOption(option: BuilderOption) {
     this.option = option
   }

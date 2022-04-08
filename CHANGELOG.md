@@ -12,6 +12,7 @@
 - Move Operand class into Operand.ts file
 - Rename models to types and move it inside models folder
 - Rename file select.ts to SelectItemInfo.ts
+- Add IStatementGiver Interface
 
 ### Added
 - Having step can contain aggregate function condition

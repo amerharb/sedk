@@ -4,8 +4,9 @@ import { BuilderData } from '../builder'
 import { AggregateFunction } from '../aggregateFunction'
 import { BooleanColumn, Column, NumberColumn, TextColumn } from '../columns'
 import { OperandType } from './types'
+import { IStatementGiver } from './IStatementGiver'
 
-export class Operand {
+export class Operand implements IStatementGiver {
   public value?: OperandType|Binder
   public type: ExpressionType
   public isNot: boolean

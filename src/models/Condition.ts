@@ -4,8 +4,9 @@ import { BuilderData } from '../builder'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { Column } from '../columns'
 import { Operand } from './Operand'
+import { IStatementGiver } from './IStatementGiver'
 
-export class Condition implements Expression {
+export class Condition implements Expression, IStatementGiver {
   public readonly leftExpression: Expression
   public readonly operator?: Qualifier
   public readonly rightExpression?: Expression

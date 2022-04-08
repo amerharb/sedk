@@ -35,7 +35,7 @@ export abstract class BaseStep {
     }
 
     if (this.data.table) {
-      result += ` FROM ${this.data.table.getStmt()}`
+      result += ` FROM ${this.data.table.getStmt(this.data)}`
     }
 
     if (this.data.whereParts.length > 0) {

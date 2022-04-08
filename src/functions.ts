@@ -2,11 +2,11 @@ import {
   BooleanLike,
   NumberLike,
   TextLike,
-  Condition,
-  Expression,
   OperandType,
   TextBoolean,
-} from './models'
+} from './models/types'
+import { Expression } from './models/Expression'
+import { Condition } from './models/Condition'
 import {
   ArithmeticOperator,
   ComparisonOperator,
@@ -21,7 +21,7 @@ import {
 import { AggregateFunction, AggregateFunctionEnum } from './aggregateFunction'
 import { NumberColumn } from './columns'
 import { Binder } from './binder'
-import { PrimitiveType } from './steps/steps'
+import { PrimitiveType } from './steps/Step'
 
 export function e(left: OperandType): Expression
 export function e(left: BooleanLike, operator: ComparisonOperator, right: BooleanLike|TextBoolean): Condition
@@ -55,37 +55,29 @@ export function $(value: PrimitiveType): Binder {
 
 export const f = {
   sum: (column: Expression|NumberLike): AggregateFunction => {
-    if (column instanceof NumberColumn || typeof column === 'number')
-      return new AggregateFunction(AggregateFunctionEnum.SUM, new Expression(column))
-    else
-      return new AggregateFunction(AggregateFunctionEnum.SUM, column)
+    return aggregateFunction(AggregateFunctionEnum.SUM, column)
   },
 
   avg: (column: Expression|NumberLike): AggregateFunction => {
-    if (column instanceof NumberColumn || typeof column === 'number')
-      return new AggregateFunction(AggregateFunctionEnum.AVG, new Expression(column))
-    else
-      return new AggregateFunction(AggregateFunctionEnum.AVG, column)
+    return aggregateFunction(AggregateFunctionEnum.AVG, column)
   },
 
   count: (column: Expression|NumberLike): AggregateFunction => {
-    if (column instanceof NumberColumn || typeof column === 'number')
-      return new AggregateFunction(AggregateFunctionEnum.COUNT, new Expression(column))
-    else
-      return new AggregateFunction(AggregateFunctionEnum.COUNT, column)
+    return aggregateFunction(AggregateFunctionEnum.COUNT, column)
   },
 
   max: (column: Expression|NumberLike): AggregateFunction => {
-    if (column instanceof NumberColumn || typeof column === 'number')
-      return new AggregateFunction(AggregateFunctionEnum.MAX, new Expression(column))
-    else
-      return new AggregateFunction(AggregateFunctionEnum.MAX, column)
+    return aggregateFunction(AggregateFunctionEnum.MAX, column)
   },
 
   min: (column: Expression|NumberLike): AggregateFunction => {
-    if (column instanceof NumberColumn || typeof column === 'number')
-      return new AggregateFunction(AggregateFunctionEnum.MIN, new Expression(column))
-    else
-      return new AggregateFunction(AggregateFunctionEnum.MIN, column)
+    return aggregateFunction(AggregateFunctionEnum.MIN, column)
   },
+}
+
+function aggregateFunction(functionName: AggregateFunctionEnum, column: Expression|NumberLike): AggregateFunction {
+  if (column instanceof NumberColumn || typeof column === 'number')
+    return new AggregateFunction(functionName, new Expression(column))
+  else
+    return new AggregateFunction(functionName, column)
 }

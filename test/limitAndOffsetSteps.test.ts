@@ -40,7 +40,7 @@ describe('Test LIMIT and OFFSET Steps', () => {
     it('Produces [SELECT * FROM "testTable" WHERE "col1" = \'a\' LIMIT 50;]', () => {
       const actual = sql
         .selectAsteriskFrom(table)
-        .where(table.c.column1.eq('a'))
+        .where(table.c.col1.eq('a'))
         .limit(50)
         .getSQL()
 
@@ -50,7 +50,7 @@ describe('Test LIMIT and OFFSET Steps', () => {
     it('Produces [SELECT * FROM "testTable" WHERE "col1" = \'a\' OFFSET 10;]', () => {
       const actual = sql
         .selectAsteriskFrom(table)
-        .where(table.c.column1.eq('a'))
+        .where(table.c.col1.eq('a'))
         .offset(10)
         .getSQL()
 
@@ -60,7 +60,7 @@ describe('Test LIMIT and OFFSET Steps', () => {
     it('Produces [SELECT * FROM "testTable" WHERE "col1" = \'a\' LIMIT $1;]', () => {
       const actual = sql
         .selectAsteriskFrom(table)
-        .where(table.c.column1.eq('a'))
+        .where(table.c.col1.eq('a'))
         .limit$(50)
         .getBinds()
 
@@ -75,7 +75,7 @@ describe('Test LIMIT and OFFSET Steps', () => {
     it('Produces [SELECT * FROM "testTable" WHERE "col1" = \'a\' OFFSET $1;]', () => {
       const actual = sql
         .selectAsteriskFrom(table)
-        .where(table.c.column1.eq('a'))
+        .where(table.c.col1.eq('a'))
         .offset$(10)
         .getBinds()
 
@@ -91,10 +91,10 @@ describe('Test LIMIT and OFFSET Steps', () => {
   describe('LIMIT and OFFSET after Having Step', () => {
     it('Produces [SELECT "col1", SUM("col4") FROM "testTable" GROUP BY "col1" HAVING SUM("col1") = \'a\' LIMIT 50;]', () => {
       const actual = sql
-        .select(table.c.column1, table.c.column4.sum)
+        .select(table.c.col1, table.c.col4.sum)
         .from(table)
-        .groupBy(table.c.column1)
-        .having(table.c.column1.eq('a') )
+        .groupBy(table.c.col1)
+        .having(table.c.col1.eq('a') )
         .limit(50)
         .getSQL()
 
@@ -103,10 +103,10 @@ describe('Test LIMIT and OFFSET Steps', () => {
 
     it('Produces [SELECT "col1", SUM("col4") FROM "testTable" GROUP BY "col1" HAVING "col1" = \'a\' OFFSET 10;]', () => {
       const actual = sql
-        .select(table.c.column1, table.c.column4.sum)
+        .select(table.c.col1, table.c.col4.sum)
         .from(table)
-        .groupBy(table.c.column1)
-        .having(table.c.column1.eq('a') )
+        .groupBy(table.c.col1)
+        .having(table.c.col1.eq('a') )
         .offset(10)
         .getSQL()
 
@@ -115,10 +115,10 @@ describe('Test LIMIT and OFFSET Steps', () => {
 
     it('Produces [SELECT "col1", SUM("col4") FROM "testTable" GROUP BY "col1" HAVING "col1" = \'a\' LIMIT $1;]', () => {
       const actual = sql
-        .select(table.c.column1, table.c.column4.sum)
+        .select(table.c.col1, table.c.col4.sum)
         .from(table)
-        .groupBy(table.c.column1)
-        .having(table.c.column1.eq('a') )
+        .groupBy(table.c.col1)
+        .having(table.c.col1.eq('a') )
         .limit$(50)
         .getBinds()
 
@@ -132,10 +132,10 @@ describe('Test LIMIT and OFFSET Steps', () => {
 
     it('Produces [SELECT "col1", SUM("col4") FROM "testTable" GROUP BY "col1" HAVING "col1" = \'a\' OFFSET $1;]', () => {
       const actual = sql
-        .select(table.c.column1, table.c.column4.sum)
+        .select(table.c.col1, table.c.col4.sum)
         .from(table)
-        .groupBy(table.c.column1)
-        .having(table.c.column1.eq('a') )
+        .groupBy(table.c.col1)
+        .having(table.c.col1.eq('a') )
         .offset$(10)
         .getBinds()
 

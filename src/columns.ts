@@ -1,15 +1,10 @@
 import { Table } from './database'
 import { escapeDoubleQuote } from './util'
 import { Binder } from './binder'
-import {
-  BooleanLike,
-  NumberLike,
-  TextLike,
-  Condition,
-  Expression,
-  Operand,
-  ExpressionType,
-} from './models'
+import { BooleanLike, NumberLike, TextLike } from './models/types'
+import { Operand } from './models/Operand'
+import { Condition } from './models/Condition'
+import { Expression, ExpressionType } from './models/Expression'
 import {
   NullOperator,
   ComparisonOperator,
@@ -35,7 +30,7 @@ type ColumnObj = {
 export abstract class Column {
   private mTable?: Table
 
-  protected constructor(public readonly data: ColumnObj) {}
+  protected constructor(protected readonly data: ColumnObj) {}
 
   public set table(table: Table) {
     if (this.mTable === undefined)

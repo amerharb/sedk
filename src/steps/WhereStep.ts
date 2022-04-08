@@ -1,10 +1,11 @@
 import { BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
-import { Condition } from '../models'
+import { Condition } from '../models/Condition'
 import { Column } from '../columns'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
-import { GroupByStep, LimitStep, LogicalOperator, OffsetStep, OrderByStep, WhereAndStep, WhereOrStep } from './steps'
+import { GroupByStep, LimitStep, OffsetStep, OrderByStep, WhereAndStep, WhereOrStep } from './stepInterfaces'
+import { LogicalOperator } from '../operators'
 
 export class WhereStep extends BaseStep {
   constructor(protected data: BuilderData) { super(data) }

@@ -25,5 +25,10 @@ export enum NullOperator {
   IsNot = 'IS NOT',
 }
 
+export enum LogicalOperator {
+  AND = 'AND',
+  OR = 'OR',
+}
+
 export type Qualifier = NullOperator|ComparisonOperator
 export type Operator = NullOperator|ComparisonOperator|ArithmeticOperator|TextOperator

@@ -22,8 +22,8 @@ import { database } from './database'
 const ADD = ArithmeticOperator.ADD
 const GT = ComparisonOperator.GreaterThan
 const table = database.s.public.t.testTable
-const column1 = database.s.public.t.testTable.c.column1
-const column3 = database.s.public.t.testTable.c.column3
+const col1 = database.s.public.t.testTable.c.col1
+const col3 = database.s.public.t.testTable.c.col3
 
 describe('Throw desired Errors', () => {
   const sql = new Builder(database)
@@ -41,7 +41,7 @@ describe('Throw desired Errors', () => {
     const wrongColumn = new TextColumn({ name: 'wrongColumn' })
 
     function actual() {
-      sql.select(column1, wrongColumn, column3)
+      sql.select(col1, wrongColumn, col3)
     }
 
     expect(actual).toThrowError('Column: "wrongColumn" not found')
@@ -52,7 +52,7 @@ describe('Throw desired Errors', () => {
     const wrongTable = new Table({ name: 'wrongTable', columns: { anyColumn: new TextColumn({ name: 'anyColumn' }) } })
 
     function actual() {
-      sql.select(column1).from(wrongTable)
+      sql.select(col1).from(wrongTable)
     }
 
     expect(actual).toThrowError('Table: "wrongTable" not found')
@@ -79,7 +79,7 @@ describe('Throw desired Errors', () => {
   it('Throws error when more than one DISTINCT passed', () => {
     function actual() {
       // @ts-ignore
-      sql.select(DISTINCT, DISTINCT, column1).from(table)
+      sql.select(DISTINCT, DISTINCT, col1).from(table)
     }
 
     expect(actual).toThrow(/^You can not have more than one DISTINCT or ALL$/)
@@ -89,7 +89,7 @@ describe('Throw desired Errors', () => {
   it('Throws error when more than one ALL passed', () => {
     function actual() {
       // @ts-ignore
-      sql.select(ALL, ALL, column1).from(table)
+      sql.select(ALL, ALL, col1).from(table)
     }
 
     expect(actual).toThrow(/^You can not have more than one DISTINCT or ALL$/)
@@ -98,16 +98,16 @@ describe('Throw desired Errors', () => {
 
   it('Throws error when DISTINCT and ALL passed', () => {
     // @ts-ignore
-    function actual1() { sql.select(ALL, column1, DISTINCT).from(table) }
+    function actual1() { sql.select(ALL, col1, DISTINCT).from(table) }
 
     // @ts-ignore
-    function actual2() { sql.select(ALL, DISTINCT, column1).from(table) }
+    function actual2() { sql.select(ALL, DISTINCT, col1).from(table) }
 
     // @ts-ignore
-    function actual3() { sql.select(DISTINCT, ALL, column1).from(table) }
+    function actual3() { sql.select(DISTINCT, ALL, col1).from(table) }
 
     // @ts-ignore
-    function actual4() { sql.select(DISTINCT, column1, ALL).from(table) }
+    function actual4() { sql.select(DISTINCT, col1, ALL).from(table) }
 
     [actual1, actual2, actual3, actual4].forEach(actual => {
       expect(actual).toThrow(/^You can not have more than one DISTINCT or ALL$/)
@@ -129,7 +129,7 @@ describe('Throw desired Errors', () => {
     function actual() {
       sql
         .selectAsteriskFrom(table)
-        .orderBy(DESC, 'column1')
+        .orderBy(DESC, 'col1')
     }
 
     expect(actual).toThrow(/^ DESC expects to have column or alias before it$/)
@@ -139,7 +139,7 @@ describe('Throw desired Errors', () => {
     function actual() {
       sql
         .selectAsteriskFrom(table)
-        .orderBy(NULLS_FIRST, column1)
+        .orderBy(NULLS_FIRST, col1)
     }
 
     expect(actual).toThrow(/^ NULLS FIRST expects to have column or alias before it$/)
@@ -149,7 +149,7 @@ describe('Throw desired Errors', () => {
     function actual() {
       sql
         .selectAsteriskFrom(table)
-        .orderBy(column1, NULLS_FIRST, DESC)
+        .orderBy(col1, NULLS_FIRST, DESC)
     }
 
     expect(actual).toThrow(/^ DESC expects to have column or alias before it$/)
@@ -159,7 +159,7 @@ describe('Throw desired Errors', () => {
     function actual() {
       sql
         .selectAsteriskFrom(table)
-        .orderBy(column1, NULLS_FIRST, NULLS_LAST)
+        .orderBy(col1, NULLS_FIRST, NULLS_LAST)
     }
 
     expect(actual).toThrow(/^ NULLS LAST expects to have column or alias before it$/)
@@ -169,7 +169,7 @@ describe('Throw desired Errors', () => {
     function actual() {
       sql
         .selectAsteriskFrom(table)
-        .orderBy(column1, ASC, DESC)
+        .orderBy(col1, ASC, DESC)
     }
 
     expect(actual).toThrow(/^ DESC shouldn't come after "ASC" or "DESC" without column or alias in between$/)

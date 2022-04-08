@@ -15,6 +15,8 @@
 - Add IStatementGiver Interface
 - Add option addPublicSchemaName to Builder Option
 - Add Builder data to Table getStmt
+- Add option addTableName to Builder Option
+- Add Builder data to Column getStmt
 
 ### Added
 - Having step can contain aggregate function condition

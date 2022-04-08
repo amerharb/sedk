@@ -1,7 +1,7 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.10.1]  2022-04-01
+## [0.10.1]  2022-04-08
 ### Changes
 - rename "column?" to "col?" in unit test
 - refactor group by aggregate functions

@@ -35,10 +35,7 @@ export abstract class BaseStep {
     }
 
     if (this.data.fromItemInfos.length > 0) {
-      const fromPartsString = this.data.fromItemInfos.map(it => {
-        return it.getStmt(this.data)
-      })
-      result += ` FROM ${fromPartsString.join(', ')}`
+      result += ` FROM ${this.data.fromItemInfos.map(it => it.getStmt(this.data)).join('')}`
     }
 
     if (this.data.whereParts.length > 0) {

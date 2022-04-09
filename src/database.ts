@@ -214,7 +214,7 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver
       this.mSchema.name !== 'public'
       || data.option.addPublicSchemaName === 'always'
       || (data.option.addPublicSchemaName === 'when other schema mentioned'
-        && data.fromItemInfos.some(it => it.schema.name !== 'public'))
+        && data.fromItemInfos.some(it => it.table.schema.name !== 'public'))
     ) ? `"${escapeDoubleQuote(this.mSchema.name)}".` : ''
     return `${schemaName}"${escapeDoubleQuote(this.data.name)}"`
   }

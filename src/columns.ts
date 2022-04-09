@@ -95,7 +95,7 @@ export abstract class Column implements IStatementGiver {
     const tableName = (
       data.option.addTableName === 'always'
       || (data.option.addTableName === 'when two tables or more'
-        && data.fromItemInfos.some(it => it !== this.table))
+        && data.fromItemInfos.some(it => it.table !== this.table))
     ) ? `"${escapeDoubleQuote(this.table.name)}".` : ''
     return `${tableName}"${escapeDoubleQuote(this.data.name)}"`
   }

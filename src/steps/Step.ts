@@ -5,13 +5,7 @@ import { Table } from '../database'
 import { ColumnNotFoundError, TableNotFoundError } from '../errors'
 import { BuilderData } from '../builder'
 import { All, Asterisk } from '../singletoneConstants'
-import {
-  OrderByItem,
-  OrderByItemInfo,
-  OrderByDirection,
-  OrderByNullsPosition,
-  OrderByArgsElement,
-} from '../orderBy'
+import { OrderByArgsElement, OrderByDirection, OrderByItem, OrderByItemInfo, OrderByNullsPosition } from '../orderBy'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { escapeDoubleQuote } from '../util'
 import { AggregateFunction } from '../aggregateFunction'
@@ -19,8 +13,9 @@ import { Binder } from '../binder'
 import { BaseStep } from './BaseStep'
 import { WhereStep } from './WhereStep'
 import { HavingStep } from './HavingStep'
-import { RootStep, SelectStep, FromStep, GroupByStep, OrderByStep, LimitStep, OffsetStep } from './stepInterfaces'
+import { FromStep, GroupByStep, LimitStep, OffsetStep, OrderByStep, RootStep, SelectStep } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
+import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
 
 export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
@@ -66,10 +61,19 @@ export class Step extends BaseStep implements RootStep, SelectStep, FromStep, Gr
   }
 
   public from(...tables: Table[]): FromStep {
+    if (tables.length === 0)
+      throw new Error('No tables specified')
+
     tables.forEach(table => {
       this.throwIfTableNotInDb(table)
     })
-    this.data.fromItemInfos.push(...tables)
+
+    const itemInfos: FromItemInfo[] = []
+    itemInfos.push(new FromItemInfo(tables[0], FromItemRelation.NO_RELATION))
+    for (let i = 1; i < tables.length; i++) {
+      itemInfos.push(new FromItemInfo(tables[i], FromItemRelation.COMMA))
+    }
+    this.data.fromItemInfos.push(...itemInfos)
     return this
   }
 

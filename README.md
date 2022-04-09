@@ -42,20 +42,39 @@ console.log(bindObj)
 
 ## What is New
 
+### Version: 0.11.0
+- Select Step can have more than one table
+```typescript
+sql.select(Employee.c.name.as('Employee Name'), Manager.c.name.as('Manager Name')).from(Employee, Manager).getSQL()
+// SELECT "Employee"."name" AS "Employee Name", "Manager"."name" AS "Manager Name"  FROM "Employee", "Manager";
+```
+```
+- New option added
+
+```typescript
+{
+  addAsBeforeTableAlias: 'always'|'never'
+}
+```
+
 ### Version: 0.10.1
 
 - Remove the limitation of version 0.10.0, Having step can contain aggregate function condition like:
+
 ```typescript
 sql.select(name, f.avg(age).as('Employee Age Avrage')).from(Employee).groupBy(name).having(f.avg(age).gt(40)).getSQL()
 // SELECT "name", AVG("age") AS "Employee Age Avrage" FROM "Employee" GROUP BY "name" HAVING AVG("age") > 40;
 ```
+
 - New option added
+
 ```typescript
 {
   addPublicSchemaName: 'always'|'never'|'when other schema mentioned'
   addTableName: 'always'|'when two tables or more'
 }
 ```
+
 ### Version: 0.10.0
 
 - Add Having Step

@@ -19,7 +19,7 @@ export type BuilderData = { //TODO: move type to separate file
   /** Below data used to generate SQL statement */
   selectItemInfos: SelectItemInfo[],
   //TODO: make table "FromItemInfo" array
-  table?: Table,
+  tables: Table[],
   distinct: ''|' DISTINCT'|' ALL'
   whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
   groupByItems: Column[],
@@ -37,7 +37,7 @@ export class Builder {
   constructor(database: Database, option?: BuilderOption) {
     this.data = {
       database: database,
-      table: undefined,
+      tables: [],
       selectItemInfos: [],
       distinct: '',
       whereParts: [],

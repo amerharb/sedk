@@ -65,9 +65,11 @@ export class Step extends BaseStep implements RootStep, SelectStep, FromStep, Gr
     return this.select(...items)
   }
 
-  public from(table: Table): FromStep {
-    this.throwIfTableNotInDb(table)
-    this.data.table = table
+  public from(...tables: Table[]): FromStep {
+    tables.forEach(table => {
+      this.throwIfTableNotInDb(table)
+    })
+    this.data.tables.push(...tables)
     return this
   }
 
@@ -181,7 +183,7 @@ export class Step extends BaseStep implements RootStep, SelectStep, FromStep, Gr
   }
 
   private throwIfTableNotInDb(table: Table) {
-    if (!this.data.database.isTableExist(table))
+    if (!this.data.database.hasTable(table))
       throw new TableNotFoundError(`Table: "${table.name}" not found`)
   }
 
@@ -197,7 +199,7 @@ export class Step extends BaseStep implements RootStep, SelectStep, FromStep, Gr
         continue
       }
       // item is Column from here
-      if (!this.data.database.isColumnExist(item)) {
+      if (!this.data.database.hasColumn(item)) {
         throw new ColumnNotFoundError(`Column: "${item.name}" not found in database`)
       }
     }

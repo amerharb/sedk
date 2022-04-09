@@ -34,8 +34,11 @@ export abstract class BaseStep {
       result += ` ${selectPartsString.join(', ')}`
     }
 
-    if (this.data.table) {
-      result += ` FROM ${this.data.table.getStmt(this.data)}`
+    if (this.data.tables.length > 0) {
+      const fromPartsString = this.data.tables.map(it => {
+        return it.getStmt(this.data)
+      })
+      result += ` FROM ${fromPartsString.join(', ')}`
     }
 
     if (this.data.whereParts.length > 0) {
@@ -96,7 +99,7 @@ export abstract class BaseStep {
   public cleanUp() {
     this.data.selectItemInfos.length = 0
     this.data.distinct = ''
-    this.data.table = undefined
+    this.data.tables.length = 0
     this.data.whereParts.length = 0
     this.data.groupByItems.length = 0
     this.data.havingParts.length = 0

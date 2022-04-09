@@ -44,7 +44,7 @@ export class Database<S extends SchemasObj = SchemasObj> {
     return false
   }
 
-  public isTableExist(table: Table): boolean {
+  public hasTable(table: Table): boolean {
     for (const schema of this.schemaArray) {
       if (schema.isTableExist(table)) {
         return true
@@ -53,7 +53,7 @@ export class Database<S extends SchemasObj = SchemasObj> {
     return false
   }
 
-  public isColumnExist(column: Column): boolean {
+  public hasColumn(column: Column): boolean {
     for (const schema of this.schemaArray) {
       if (schema.isColumnExist(column)) {
         return true
@@ -213,8 +213,8 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver
     const schemaName = (
       this.mSchema.name !== 'public'
       || data.option.addPublicSchemaName === 'always'
-      // TODO: read from all tables when builder add more than one table
-      || (data.option.addPublicSchemaName === 'when other schema mentioned' && data.table?.schema.name !== 'public')
+      || (data.option.addPublicSchemaName === 'when other schema mentioned'
+        && data.tables.some(it => it.schema.name !== 'public'))
     ) ? `"${escapeDoubleQuote(this.mSchema.name)}".` : ''
     return `${schemaName}"${escapeDoubleQuote(this.data.name)}"`
   }

@@ -53,6 +53,7 @@ sql.select(name, f.avg(age).as('Employee Age Avrage')).from(Employee).groupBy(na
 ```typescript
 {
   addPublicSchemaName: 'always'|'never'|'when other schema mentioned'
+  addTableName: 'always'|'when two tables or more'
 }
 ```
 ### Version: 0.10.0

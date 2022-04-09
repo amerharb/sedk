@@ -7,7 +7,8 @@
 
 ### Added
 - From step can take more than one table
-- option addAsBeforeTableAlias to Builder Option
+- Builder option addAsBeforeTableAlias to Builder Option
+- AliasedTable class, table can be aliased
 
 ## [0.10.1]  2022-04-08
 ### Changes

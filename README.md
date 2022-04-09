@@ -46,8 +46,12 @@ console.log(bindObj)
 - Select Step can have more than one table
 ```typescript
 sql.select(Employee.c.name.as('Employee Name'), Manager.c.name.as('Manager Name')).from(Employee, Manager).getSQL()
-// SELECT "Employee"."name" AS "Employee Name", "Manager"."name" AS "Manager Name"  FROM "Employee", "Manager";
+// SELECT "Employee"."name" AS "Employee Name", "Manager"."name" AS "Manager Name" FROM "Employee", "Manager";
 ```
+- Table can be aliased
+```typescript
+sql.select(name).from(Employee.as('All Employees')).getSQL()
+// SELECT "name" FROM "Employee" AS "All Employees";
 ```
 - New option added
 

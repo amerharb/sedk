@@ -44,6 +44,12 @@ export const database = new Database({
             col1: new TextColumn({ name: 'col1' }),
           },
         }),
+        table2: new Table({
+          name: 'table2',
+          columns: {
+            col1: new TextColumn({ name: 'col1' }),
+          },
+        }),
       },
     }),
   },

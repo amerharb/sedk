@@ -81,8 +81,8 @@ export class Builder {
     return this.rootStep.selectAll(...items)
   }
 
-  public selectAsteriskFrom(table: Table): FromStep {
-    return this.rootStep.select(ASTERISK).from(table)
+  public selectAsteriskFrom(...tables: Table[]): FromStep {
+    return this.rootStep.select(ASTERISK).from(...tables)
   }
 
   public cleanUp(): Builder {

@@ -19,7 +19,7 @@ export interface RootStep extends BaseStep {
 }
 
 export interface SelectStep extends BaseStep {
-  from(table: Table): FromStep
+  from(...tables: Table[]): FromStep
 }
 
 export interface FromStep extends BaseStep {

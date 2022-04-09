@@ -336,7 +336,7 @@ describe('test Options', () => {
     })
   })
 
-  describe('test addPublicSchemaName Option', () => {
+  describe('test addTableName Option', () => {
     const sqlAlways = new Builder(database, { addTableName: 'always' })
     const sqlWhen = new Builder(database, { addTableName: 'when two tables or more' })
     const sqlDefault = new Builder(database)

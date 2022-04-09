@@ -267,74 +267,65 @@ describe('test Options', () => {
   })
 
   describe('test addPublicSchemaName Option', () => {
-    const sqlAlways = new Builder(database, { addPublicSchemaName: 'always' })
-    const sqlWhen = new Builder(database, { addPublicSchemaName: 'when other schema mentioned' })
-    const sqlNever = new Builder(database, { addPublicSchemaName: 'never' })
-    const sqlDefault = new Builder(database)
+    describe('Option: always', () => {
+      const sql = new Builder(database, { addPublicSchemaName: 'always' })
+      afterEach(() => { sql.cleanUp() })
 
-    afterEach(() => {
-      sqlAlways.cleanUp()
-      sqlWhen.cleanUp()
-      sqlNever.cleanUp()
-      sqlDefault.cleanUp()
+      it('Produces [SELECT "col1" FROM "public"."testTable";]', () => {
+        const actual = sql
+          .select(col1)
+          .from(testTable)
+          .getSQL()
+
+        expect(actual).toEqual('SELECT "col1" FROM "public"."testTable";')
+      })
     })
 
-    it('Produces [SELECT "col1" FROM "public"."testTable";] option(always)', () => {
-      const actual = sqlAlways
-        .select(col1)
-        .from(testTable)
-        .getSQL()
+    describe('Option: when other schema mentioned', () => {
+      const sql = new Builder(database, { addPublicSchemaName: 'when other schema mentioned' })
+      afterEach(() => { sql.cleanUp() })
 
-      expect(actual).toEqual('SELECT "col1" FROM "public"."testTable";')
+      it('Produces [SELECT "col2", "col1" FROM "public"."testTable", "schema1"."table1";', () => {
+        const actual = sql
+          .select(testTable.c.col2, table1.c.col1)
+          .from(testTable, table1)
+          .getSQL()
+
+        expect(actual).toEqual('SELECT "testTable"."col2", "table1"."col1" FROM "public"."testTable", "schema1"."table1";')
+      })
     })
 
-    it('Produces [SELECT "col1" FROM "testTable";] option(when)', () => {
-      //TODO: add another table to this test when builder takes more than one table
-      const actual = sqlWhen
-        .select(col1)
-        .from(testTable)
-        .getSQL()
+    describe('Option: never', () => {
+      const sql = new Builder(database, { addPublicSchemaName: 'never' })
+      afterEach(() => { sql.cleanUp() })
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable";')
+      it('Produces [SELECT "public"."table2"."col1", "schema1"."table2"."col1" FROM "table2", "schema1"."table2";]', () => {
+        const actual = sql
+          .select(
+            database.s.public.t.table2.c.col1,
+            database.s.schema1.t.table2.c.col1,
+          )
+          .from(
+            database.s.public.t.table2,
+            database.s.schema1.t.table2,
+          )
+          .getSQL()
+
+        expect(actual).toEqual('SELECT "public"."table2"."col1", "schema1"."table2"."col1" FROM "table2", "schema1"."table2";')
+      })
+
+      it('Produces [SELECT "col1" FROM "schema1"."table1";]', () => {
+        const actual = sql
+          .select(table1.c.col1)
+          .from(table1)
+          .getSQL()
+
+        expect(actual).toEqual('SELECT "col1" FROM "schema1"."table1";')
+      })
     })
-
-    it('Produces [SELECT "col1" FROM "testTable";] option(never)', () => {
-      //TODO: add another table to this test when builder takes more than one table
-      const actual = sqlNever
-        .select(col1)
-        .from(testTable)
-        .getSQL()
-
-      expect(actual).toEqual('SELECT "col1" FROM "testTable";')
-    })
-
-
-    it('Produces [SELECT "col1" FROM "schema1"."table1";] option(never)', () => {
-      const actual = sqlNever
-        .select(table1.c.col1)
-        .from(table1)
-        .getSQL()
-
-      expect(actual).toEqual('SELECT "col1" FROM "schema1"."table1";')
-    })
-
-    it('Produces [SELECT "col1" FROM "testTable";] option(default)', () => {
-      //TODO: add another table to this test when builder takes more than one table
-      const actual = sqlDefault
-        .select(col1)
-        .from(testTable)
-        .getSQL()
-
-      expect(actual).toEqual('SELECT "col1" FROM "testTable";')
-    })
-
-    it('Produces [SELECT "col1" FROM "schema1"."table1";] option(default)', () => {
-      const actual = sqlDefault
-        .select(table1.c.col1)
-        .from(table1)
-        .getSQL()
-
-      expect(actual).toEqual('SELECT "col1" FROM "schema1"."table1";')
+    describe('Option: default', () => {
+      const sql = new Builder(database)
+      afterEach(() => { sql.cleanUp() })
     })
   })
 

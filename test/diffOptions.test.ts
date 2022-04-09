@@ -394,4 +394,45 @@ describe('test Options', () => {
       expect(actual).toEqual('SELECT "testTable"."col1", "table2"."col1" FROM "testTable", "table2";')
     })
   })
+
+  describe('test addAsBeforeTableAlias Option', () => {
+    describe('Option: always', () => {
+      const sqlAlways = new Builder(database, { addAsBeforeTableAlias: 'always' })
+      afterEach(() => { sqlAlways.cleanUp() })
+      it('Produces [SELECT "testTable"."col1" FROM "testTable" AS "TEST Table";]', () => {
+        const actual = sqlAlways
+          .select(col1)
+          .from(testTable.as('TEST Table'))
+          .getSQL()
+
+        expect(actual).toEqual('SELECT "col1" FROM "testTable" AS "TEST Table";')
+      })
+    })
+
+    describe('Option: never', () => {
+      const sqlNever = new Builder(database, { addAsBeforeTableAlias: 'never' })
+      afterEach(() => { sqlNever.cleanUp() })
+      it('Produces [SELECT "testTable"."col1" FROM "testTable" "TEST Table";]', () => {
+        const actual = sqlNever
+          .select(col1)
+          .from(testTable.as('TEST Table'))
+          .getSQL()
+
+        expect(actual).toEqual('SELECT "col1" FROM "testTable" "TEST Table";')
+      })
+    })
+
+    describe('Option: default', () => {
+      const sqlDefault = new Builder(database)
+      afterEach(() => { sqlDefault.cleanUp() })
+      it('Produces [SELECT "testTable"."col1" FROM "testTable" AS "TEST Table";]', () => {
+        const actual = sqlDefault
+          .select(col1)
+          .from(testTable.as('TEST Table'))
+          .getSQL()
+
+        expect(actual).toEqual('SELECT "col1" FROM "testTable" AS "TEST Table";')
+      })
+    })
+  })
 })

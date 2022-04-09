@@ -1,6 +1,6 @@
 import { BaseStep } from './BaseStep'
 import { SelectItemInfo } from '../SelectItemInfo'
-import { Table } from '../database'
+import { AliasedTable, Table } from '../database'
 import { Condition } from '../models/Condition'
 import { WhereStep } from './WhereStep'
 import { Column } from '../columns'
@@ -19,7 +19,7 @@ export interface RootStep extends BaseStep {
 }
 
 export interface SelectStep extends BaseStep {
-  from(...tables: Table[]): FromStep
+  from(...tables: (Table|AliasedTable)[]): FromStep
 }
 
 export interface FromStep extends BaseStep {

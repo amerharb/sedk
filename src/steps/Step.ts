@@ -1,7 +1,7 @@
 import { Condition } from '../models/Condition'
 import { Expression } from '../models/Expression'
 import { Column } from '../columns'
-import { Table } from '../database'
+import { AliasedTable, Table } from '../database'
 import { ColumnNotFoundError, TableNotFoundError } from '../errors'
 import { BuilderData } from '../builder'
 import { All, Asterisk } from '../singletoneConstants'
@@ -60,18 +60,37 @@ export class Step extends BaseStep implements RootStep, SelectStep, FromStep, Gr
     return this.select(...items)
   }
 
-  public from(...tables: Table[]): FromStep {
+  public from(...tables: (Table|AliasedTable)[]): FromStep {
     if (tables.length === 0)
       throw new Error('No tables specified')
 
+    function getTable(tableOrAliasedTable: Table|AliasedTable): Table {
+      if (tableOrAliasedTable instanceof Table)
+        return tableOrAliasedTable
+      else
+        return tableOrAliasedTable.table
+    }
+
     tables.forEach(table => {
-      this.throwIfTableNotInDb(table)
+      this.throwIfTableNotInDb(getTable(table))
     })
 
     const itemInfos: FromItemInfo[] = []
-    itemInfos.push(new FromItemInfo(tables[0], FromItemRelation.NO_RELATION))
+
+    itemInfos.push(new FromItemInfo(
+      getTable(tables[0]),
+      FromItemRelation.NO_RELATION,
+      tables[0] instanceof AliasedTable ? tables[0].alias : undefined,
+    ))
+
     for (let i = 1; i < tables.length; i++) {
-      itemInfos.push(new FromItemInfo(tables[i], FromItemRelation.COMMA))
+      const it = tables[i]
+      const alias = it instanceof AliasedTable ? it.alias : undefined
+      itemInfos.push(new FromItemInfo(
+        getTable(it),
+        FromItemRelation.COMMA,
+        alias,
+      ))
     }
     this.data.fromItemInfos.push(...itemInfos)
     return this

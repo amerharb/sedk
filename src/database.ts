@@ -175,6 +175,10 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver
     return this.data.name
   }
 
+  public as(alias: string): AliasedTable {
+    return new AliasedTable(this, alias)
+  }
+
   public get columns(): C {
     return this.mColumns
   }
@@ -218,4 +222,8 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver
     ) ? `"${escapeDoubleQuote(this.mSchema.name)}".` : ''
     return `${schemaName}"${escapeDoubleQuote(this.data.name)}"`
   }
+}
+
+export class AliasedTable {
+  constructor(public readonly table: Table, public readonly alias: string) {}
 }

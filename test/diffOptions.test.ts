@@ -4,6 +4,8 @@ import { database } from './database'
 const testTable = database.s.public.t.testTable
 const col1 = database.s.public.t.testTable.c.col1
 const col2 = database.s.public.t.testTable.c.col2
+const table2 = database.s.public.t.table2
+const table2col1 = database.s.public.t.table2.c.col1
 const table1 = database.s.schema1.t.table1
 
 describe('test Options', () => {
@@ -357,13 +359,21 @@ describe('test Options', () => {
     })
 
     it('Produces [SELECT "col1" FROM "testTable";] option(when)', () => {
-      //TODO: add another table to this test when builder takes more than one table
       const actual = sqlWhen
         .select(col1)
         .from(testTable)
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable";')
+    })
+
+    it('Produces [SELECT "testTable"."col1", "table2"."col1" FROM "testTable", "table2";] option(when)', () => {
+      const actual = sqlWhen
+        .select(col1, table2col1)
+        .from(testTable, table2)
+        .getSQL()
+
+      expect(actual).toEqual('SELECT "testTable"."col1", "table2"."col1" FROM "testTable", "table2";')
     })
 
     it('Produces [SELECT "col1" FROM "testTable";] option(default)', () => {
@@ -373,6 +383,15 @@ describe('test Options', () => {
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "testTable";')
+    })
+
+    it('Produces [SELECT "testTable"."col1", "table2"."col1" FROM "testTable", "table2";] option(default)', () => {
+      const actual = sqlDefault
+        .select(col1, table2col1)
+        .from(testTable, table2)
+        .getSQL()
+
+      expect(actual).toEqual('SELECT "testTable"."col1", "table2"."col1" FROM "testTable", "table2";')
     })
   })
 })

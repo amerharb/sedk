@@ -69,7 +69,7 @@ export class Step extends BaseStep implements RootStep, SelectStep, FromStep, Gr
     tables.forEach(table => {
       this.throwIfTableNotInDb(table)
     })
-    this.data.tables.push(...tables)
+    this.data.fromItemInfos.push(...tables)
     return this
   }
 

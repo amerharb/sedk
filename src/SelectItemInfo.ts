@@ -1,4 +1,3 @@
-import { BuilderOption } from './option'
 import { SelectItem } from './steps/Step'
 import { Column } from './columns'
 import { Expression } from './models/Expression'
@@ -7,14 +6,9 @@ import { BuilderData } from './builder'
 import { IStatementGiver } from './models/IStatementGiver'
 
 export class SelectItemInfo implements IStatementGiver{
-  public set builderOption(option: BuilderOption) {
-    this.option = option
-  }
-
   constructor(
     private readonly selectItem: SelectItem,
     public readonly alias?: string,
-    private option?: BuilderOption,
   ) {}
 
   public getColumns(): Column[] {
@@ -30,7 +24,7 @@ export class SelectItemInfo implements IStatementGiver{
     if (this.alias !== undefined) {
       // escape double quote by repeating it
       const escapedAlias = escapeDoubleQuote(this.alias)
-      const asString = (this.option?.addAsBeforeColumnAlias === 'always')
+      const asString = (data.option?.addAsBeforeColumnAlias === 'always')
         ? ' AS' : ''
       return `${this.selectItem.getStmt(data)}${asString} "${escapedAlias}"`
     }

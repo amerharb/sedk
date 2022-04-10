@@ -43,17 +43,16 @@ export class Step extends BaseStep
   public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
     const selectItemInfos: SelectItemInfo[] = items.map(it => {
       if (it instanceof SelectItemInfo) {
-        it.builderOption = this.data.option
         return it
       } else if (it instanceof Expression || it instanceof Column || it instanceof AggregateFunction || it instanceof Asterisk) {
-        return new SelectItemInfo(it, undefined, this.data.option)
+        return new SelectItemInfo(it, undefined)
       } else if (it instanceof Binder) {
         if (it.no === undefined) {
           this.data.binderStore.add(it)
         }
-        return new SelectItemInfo(it, undefined, this.data.option)
+        return new SelectItemInfo(it, undefined)
       } else {
-        return new SelectItemInfo(new Expression(it), undefined, this.data.option)
+        return new SelectItemInfo(new Expression(it), undefined)
       }
     })
     this.throwIfColumnsNotInDb(selectItemInfos)

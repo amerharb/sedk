@@ -48,6 +48,11 @@ console.log(bindObj)
 sql.select(Employee.c.name.as('Employee Name'), Manager.c.name.as('Manager Name')).from(Employee, Manager).getSQL()
 // SELECT "Employee"."name" AS "Employee Name", "Manager"."name" AS "Manager Name" FROM "Employee", "Manager";
 ```
+- CrossJoin Step can have more than one table
+```typescript
+sql.select(Employee.c.name, Manager.c.name).from(Employee).crossJoin( Manager).getSQL()
+// SELECT "Employee"."name", "Manager"."name" FROM "Employee" CROSS JOIN "Manager";
+```
 - Table can be aliased
 ```typescript
 sql.select(name).from(Employee.as('All Employees')).getSQL()

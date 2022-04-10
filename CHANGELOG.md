@@ -1,7 +1,7 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.11.0]  2022-04-09
+## [0.11.0]  2022-04-10
 ### Changes
 - table data builder change to array of FromItemInfo
 
@@ -9,6 +9,7 @@
 - From step can take more than one table
 - Builder option addAsBeforeTableAlias to Builder Option
 - AliasedTable class, table can be aliased
+- CrossJoin Step
 
 ## [0.10.1]  2022-04-08
 ### Changes

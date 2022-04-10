@@ -107,34 +107,26 @@ export abstract class BaseStep {
   }
 
   protected addWhereParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
-    if (op1 === undefined && cond2 === undefined) {
-      this.data.whereParts.push(cond1)
-    } else if (op1 !== undefined && cond2 !== undefined) {
-      this.data.whereParts.push(Parenthesis.Open)
-      this.data.whereParts.push(cond1)
-      this.data.whereParts.push(op1)
-      this.data.whereParts.push(cond2)
-      if (op2 !== undefined && cond3 !== undefined) {
-        this.data.whereParts.push(op2)
-        this.data.whereParts.push(cond3)
-      }
-      this.data.whereParts.push(Parenthesis.Close)
-    }
+    BaseStep.addConditionParts(this.data.whereParts, cond1, op1, cond2, op2, cond3)
   }
 
   protected addHavingParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
+    BaseStep.addConditionParts(this.data.havingParts, cond1, op1, cond2, op2, cond3)
+  }
+
+  private static addConditionParts(conditionArray:(LogicalOperator|Condition|Parenthesis|BooleanColumn)[], cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
     if (op1 === undefined && cond2 === undefined) {
-      this.data.havingParts.push(cond1)
+      conditionArray.push(cond1)
     } else if (op1 !== undefined && cond2 !== undefined) {
-      this.data.havingParts.push(Parenthesis.Open)
-      this.data.havingParts.push(cond1)
-      this.data.havingParts.push(op1)
-      this.data.havingParts.push(cond2)
+      conditionArray.push(Parenthesis.Open)
+      conditionArray.push(cond1)
+      conditionArray.push(op1)
+      conditionArray.push(cond2)
       if (op2 !== undefined && cond3 !== undefined) {
-        this.data.havingParts.push(op2)
-        this.data.havingParts.push(cond3)
+        conditionArray.push(op2)
+        conditionArray.push(cond3)
       }
-      this.data.havingParts.push(Parenthesis.Close)
+      conditionArray.push(Parenthesis.Close)
     }
   }
 

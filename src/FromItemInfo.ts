@@ -12,7 +12,7 @@ export enum FromItemRelation {
   // RIGHT_JOIN,
   // INNER_JOIN,
   // FULL_JOIN,
-  // CROSS_JOIN,
+  CROSS_JOIN = ' CROSS JOIN ',
 }
 export class FromItemInfo implements IStatementGiver{
   constructor(

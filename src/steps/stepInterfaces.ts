@@ -23,6 +23,30 @@ export interface SelectStep extends BaseStep {
 }
 
 export interface FromStep extends BaseStep {
+  crossJoin(table: Table): CrossJoinStep
+
+  where(condition: Condition): WhereStep
+
+  where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
+
+  where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
+
+  groupBy(...groupByItems: Column[]): GroupByStep
+
+  orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
+
+  limit(n: null|number|All): LimitStep
+
+  limit$(n: null|number): LimitStep
+
+  offset(n: number): OffsetStep
+
+  offset$(n: number): OffsetStep
+}
+
+export interface CrossJoinStep extends BaseStep {
+  crossJoin(table: Table): CrossJoinStep
+
   where(condition: Condition): WhereStep
 
   where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep

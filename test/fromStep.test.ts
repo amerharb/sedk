@@ -34,4 +34,34 @@ describe('Test From Step', () => {
       })
     })
   })
+
+  describe('Multi Tables CROSS JOIN separated', () => {
+    const sql = new Builder(database)
+    afterEach(() => { sql.cleanUp() })
+    describe('Two Tables', () => {
+      it('Produces [SELECT "testTable"."col1", "table2"."col1" FROM "testTable" CROSS JOIN "table2";]', () => {
+        const actual = sql
+          .select(col1, table2col1)
+          .from(testTable)
+          .crossJoin(table2)
+          .getSQL()
+
+        expect(actual).toEqual('SELECT "testTable"."col1", "table2"."col1" FROM "testTable" CROSS JOIN "table2";')
+      })
+    })
+
+    describe('Three Tables', () => {
+      it('Produces [SELECT "testTable"."col1", "table2"."col1", "table1"."col1" FROM "testTable" CROSS JOIN "table2" CROSS JOIN "schema1"."table1";]', () => {
+        const actual = sql
+          .select(col1, table2col1, table1col1)
+          .from(testTable)
+          .crossJoin(table2)
+          .crossJoin(table1)
+          .getSQL()
+
+        expect(actual).toEqual('SELECT "testTable"."col1", "table2"."col1", "table1"."col1"'
+          + ' FROM "testTable" CROSS JOIN "table2" CROSS JOIN "schema1"."table1";')
+      })
+    })
+  })
 })

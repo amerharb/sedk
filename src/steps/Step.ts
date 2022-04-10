@@ -13,7 +13,16 @@ import { Binder } from '../binder'
 import { BaseStep } from './BaseStep'
 import { WhereStep } from './WhereStep'
 import { HavingStep } from './HavingStep'
-import { FromStep, GroupByStep, LimitStep, OffsetStep, OrderByStep, RootStep, SelectStep } from './stepInterfaces'
+import {
+  RootStep,
+  SelectStep,
+  FromStep,
+  CrossJoinStep,
+  GroupByStep,
+  OrderByStep,
+  LimitStep,
+  OffsetStep,
+} from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
 
@@ -22,8 +31,8 @@ export type PrimitiveType = null|boolean|number|string
 
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 
-export class Step extends BaseStep implements RootStep, SelectStep, FromStep, GroupByStep,
-  OrderByStep, LimitStep, OffsetStep {
+export class Step extends BaseStep
+  implements RootStep, SelectStep, FromStep, CrossJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
   constructor(protected data: BuilderData) {
     super(data)
     data.step = this
@@ -64,21 +73,14 @@ export class Step extends BaseStep implements RootStep, SelectStep, FromStep, Gr
     if (tables.length === 0)
       throw new Error('No tables specified')
 
-    function getTable(tableOrAliasedTable: Table|AliasedTable): Table {
-      if (tableOrAliasedTable instanceof Table)
-        return tableOrAliasedTable
-      else
-        return tableOrAliasedTable.table
-    }
-
     tables.forEach(table => {
-      this.throwIfTableNotInDb(getTable(table))
+      this.throwIfTableNotInDb(Step.getTable(table))
     })
 
     const itemInfos: FromItemInfo[] = []
 
     itemInfos.push(new FromItemInfo(
-      getTable(tables[0]),
+      Step.getTable(tables[0]),
       FromItemRelation.NO_RELATION,
       tables[0] instanceof AliasedTable ? tables[0].alias : undefined,
     ))
@@ -87,13 +89,32 @@ export class Step extends BaseStep implements RootStep, SelectStep, FromStep, Gr
       const it = tables[i]
       const alias = it instanceof AliasedTable ? it.alias : undefined
       itemInfos.push(new FromItemInfo(
-        getTable(it),
+        Step.getTable(it),
         FromItemRelation.COMMA,
         alias,
       ))
     }
     this.data.fromItemInfos.push(...itemInfos)
     return this
+  }
+
+  public crossJoin(table: Table|AliasedTable): CrossJoinStep {
+    this.throwIfTableNotInDb(Step.getTable(table))
+
+    this.data.fromItemInfos.push(new FromItemInfo(
+      Step.getTable(table),
+      FromItemRelation.CROSS_JOIN,
+      table instanceof AliasedTable ? table.alias : undefined,
+    ))
+
+    return this
+  }
+
+  private static getTable(tableOrAliasedTable: Table|AliasedTable): Table {
+    if (tableOrAliasedTable instanceof Table)
+      return tableOrAliasedTable
+    else
+      return tableOrAliasedTable.table
   }
 
   public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereStep {

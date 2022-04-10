@@ -6,12 +6,11 @@ import { Table } from './database'
 export enum FromItemRelation {
   NO_RELATION = '',
   COMMA = ', ',
-  // TODO: to be implemented
-  // JOIN,
-  // LEFT_JOIN,
-  // RIGHT_JOIN,
-  // INNER_JOIN,
-  // FULL_JOIN,
+  JOIN = ' JOIN ',
+  LEFT_JOIN = ' LEFT JOIN ',
+  RIGHT_JOIN = ' RIGHT JOIN ',
+  INNER_JOIN = ' INNER JOIN ',
+  FULL_OUTER_JOIN = ' FULL OUTER JOIN ',
   CROSS_JOIN = ' CROSS JOIN ',
 }
 export class FromItemInfo implements IStatementGiver{

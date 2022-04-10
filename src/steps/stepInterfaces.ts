@@ -2,6 +2,7 @@ import { BaseStep } from './BaseStep'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { AliasedTable, Table } from '../database'
 import { Condition } from '../models/Condition'
+import { OnStep } from './OnStep'
 import { WhereStep } from './WhereStep'
 import { Column } from '../columns'
 import { OrderByArgsElement } from '../orderBy'
@@ -22,8 +23,18 @@ export interface SelectStep extends BaseStep {
   from(...tables: (Table|AliasedTable)[]): FromStep
 }
 
-interface AfterFromSteps extends BaseStep, OrderByStep {
+export interface IAfterFromSteps extends BaseStep, OrderByStep {
   crossJoin(table: Table): CrossJoinStep
+
+  join(table: Table): JoinStep
+
+  leftJoin(table: Table): LeftJoinStep
+
+  rightJoin(table: Table): RightJoinStep
+
+  innerJoin(table: Table): InnerJoinStep
+
+  fullOuterJoin(table: Table): FullOuterJoinStep
 
   where(condition: Condition): WhereStep
 
@@ -36,9 +47,27 @@ interface AfterFromSteps extends BaseStep, OrderByStep {
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
 }
 
-export interface FromStep extends BaseStep, AfterFromSteps {}
+export interface FromStep extends BaseStep, IAfterFromSteps {}
 
-export interface CrossJoinStep extends BaseStep, AfterFromSteps {}
+export interface CrossJoinStep extends BaseStep, IAfterFromSteps {}
+
+interface IJoinStep extends IAfterFromSteps {
+  on(condition: Condition): OnStep
+}
+
+export interface JoinStep extends IJoinStep {}
+
+export interface LeftJoinStep extends IJoinStep {}
+
+export interface RightJoinStep extends IJoinStep {}
+
+export interface InnerJoinStep extends IJoinStep {}
+
+export interface FullOuterJoinStep extends IJoinStep {}
+
+export interface OnOrStep extends OnStep {}
+
+export interface OnAndStep extends OnStep {}
 
 export interface WhereOrStep extends WhereStep {}
 

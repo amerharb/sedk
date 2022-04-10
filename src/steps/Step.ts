@@ -21,10 +21,11 @@ import {
   GroupByStep,
   OrderByStep,
   LimitStep,
-  OffsetStep,
+  OffsetStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep, FullOuterJoinStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
+import { OnStep } from './OnStep'
 
 export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
@@ -32,7 +33,8 @@ export type PrimitiveType = null|boolean|number|string
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 
 export class Step extends BaseStep
-  implements RootStep, SelectStep, FromStep, CrossJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
+  implements RootStep, SelectStep, FromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
+    FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
   constructor(protected data: BuilderData) {
     super(data)
     data.step = this
@@ -108,6 +110,36 @@ export class Step extends BaseStep
     ))
 
     return this
+  }
+
+  public join(table: Table): JoinStep {
+    //TODO: write implementation
+    return this
+  }
+
+  public leftJoin(table: Table): LeftJoinStep {
+    //TODO: write implementation
+    return this
+  }
+
+  public rightJoin(table: Table): RightJoinStep {
+    //TODO: write implementation
+    return this
+  }
+
+  public innerJoin(table: Table): InnerJoinStep {
+    //TODO: write implementation
+    return this
+  }
+
+  public fullOuterJoin(table: Table): FullOuterJoinStep {
+    //TODO: write implementation
+    return this
+  }
+
+  public on(condition: Condition): OnStep {
+    //TODO: write implementation
+    return new OnStep(this.data)
   }
 
   private static getTable(tableOrAliasedTable: Table|AliasedTable): Table {

@@ -4,18 +4,10 @@ import { Condition } from '../models/Condition'
 import { Column } from '../columns'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
-import {
-  AfterWhereStep,
-  GroupByStep,
-  LimitStep,
-  OffsetStep,
-  OrderByStep,
-  WhereAndStep,
-  WhereOrStep,
-} from './stepInterfaces'
+import { GroupByStep, LimitStep, OffsetStep, OrderByStep, WhereAndStep, WhereOrStep } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 
-export class WhereStep extends BaseStep implements AfterWhereStep {
+export class WhereStep extends BaseStep {
   constructor(protected data: BuilderData) { super(data) }
 
   public and(condition: Condition): WhereAndStep

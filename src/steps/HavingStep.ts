@@ -4,9 +4,9 @@ import { Condition } from '../models/Condition'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import { LogicalOperator } from '../operators'
-import { LimitStep, OffsetStep, OrderByStep, HavingAndStep, HavingOrStep, AfterHavingStep } from './stepInterfaces'
+import { LimitStep, OffsetStep, OrderByStep, HavingAndStep, HavingOrStep } from './stepInterfaces'
 
-export class HavingStep extends BaseStep implements AfterHavingStep {
+export class HavingStep extends BaseStep {
   constructor(protected data: BuilderData) { super(data) }
 
   public and(condition: Condition): HavingAndStep

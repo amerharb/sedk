@@ -22,7 +22,7 @@ export interface SelectStep extends BaseStep {
   from(...tables: (Table|AliasedTable)[]): FromStep
 }
 
-interface AfterFromSteps extends BaseStep {
+interface AfterFromSteps extends BaseStep, OrderByStep {
   crossJoin(table: Table): CrossJoinStep
 
   where(condition: Condition): WhereStep
@@ -34,51 +34,17 @@ interface AfterFromSteps extends BaseStep {
   groupBy(...groupByItems: Column[]): GroupByStep
 
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
-
-  limit(n: null|number|All): LimitStep
-
-  limit$(n: null|number): LimitStep
-
-  offset(n: number): OffsetStep
-
-  offset$(n: number): OffsetStep
 }
 
 export interface FromStep extends BaseStep, AfterFromSteps {}
 
 export interface CrossJoinStep extends BaseStep, AfterFromSteps {}
 
-export interface AfterWhereStep extends BaseStep {
-  or(condition: Condition): WhereOrStep
+export interface WhereOrStep extends WhereStep {}
 
-  or(left: Condition, operator: LogicalOperator, right: Condition): WhereOrStep
+export interface WhereAndStep extends WhereStep {}
 
-  or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereOrStep
-
-  and(condition: Condition): WhereAndStep
-
-  and(left: Condition, operator: LogicalOperator, right: Condition): WhereAndStep
-
-  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereAndStep
-
-  groupBy(...groupByItems: Column[]): GroupByStep
-
-  orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
-
-  limit(n: null|number|All): LimitStep
-
-  limit$(n: null|number): LimitStep
-
-  offset(n: number): OffsetStep
-
-  offset$(n: number): OffsetStep
-}
-
-export interface WhereOrStep extends BaseStep, AfterWhereStep {}
-
-export interface WhereAndStep extends BaseStep, AfterWhereStep {}
-
-export interface GroupByStep extends BaseStep {
+export interface GroupByStep extends BaseStep, OrderByStep {
   having(condition: Condition): HavingStep
 
   having(left: Condition, operator: LogicalOperator, right: Condition): HavingStep
@@ -86,55 +52,19 @@ export interface GroupByStep extends BaseStep {
   having(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): HavingStep
 
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
+}
 
+export interface HavingOrStep extends HavingStep {}
+
+export interface HavingAndStep extends HavingStep {}
+
+export interface OrderByStep extends BaseStep, LimitStep {
   limit(n: null|number|All): LimitStep
 
   limit$(n: null|number): LimitStep
-
-  offset(n: number): OffsetStep
-
-  offset$(n: number): OffsetStep
 }
 
-export interface AfterHavingStep extends BaseStep {
-  or(condition: Condition): HavingOrStep
-
-  or(left: Condition, operator: LogicalOperator, right: Condition): HavingOrStep
-
-  or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): HavingOrStep
-
-  and(condition: Condition): HavingAndStep
-
-  and(left: Condition, operator: LogicalOperator, right: Condition): HavingOrStep
-
-  and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): HavingOrStep
-
-  orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
-
-  limit(n: null|number|All): LimitStep
-
-  limit$(n: null|number): LimitStep
-
-  offset(n: number): OffsetStep
-
-  offset$(n: number): OffsetStep
-}
-
-export interface HavingOrStep extends BaseStep, AfterHavingStep {}
-
-export interface HavingAndStep extends BaseStep, AfterHavingStep {}
-
-export interface OrderByStep extends BaseStep {
-  limit(n: null|number|All): LimitStep
-
-  limit$(n: null|number): LimitStep
-
-  offset(n: number): OffsetStep
-
-  offset$(n: number): OffsetStep
-}
-
-export interface LimitStep extends BaseStep {
+export interface LimitStep extends BaseStep, OffsetStep {
   offset(n: number): OffsetStep
 
   offset$(n: number): OffsetStep

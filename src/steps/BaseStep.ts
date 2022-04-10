@@ -143,17 +143,18 @@ export abstract class BaseStep {
    * it check the number of open and close parentheses in the conditions
    */
   private throwIfWherePartsInvalid() {
+    const conditionsArray = this.data.whereParts
     let pCounter = 0
-    for (let i = 0; i < this.data.whereParts.length; i++) {
-      if (this.data.whereParts[i] === Parenthesis.Open) {
+    for (let i = 0; i < conditionsArray.length; i++) {
+      if (conditionsArray[i] === Parenthesis.Open) {
         pCounter++
-        if (i < this.data.whereParts.length - 1)
-          if (this.data.whereParts[i + 1] === Parenthesis.Close) {
+        if (i < conditionsArray.length - 1)
+          if (conditionsArray[i + 1] === Parenthesis.Close) {
             throw new Error('invalid conditions build, empty parenthesis is not allowed')
           }
       }
 
-      if (this.data.whereParts[i] === Parenthesis.Close)
+      if (conditionsArray[i] === Parenthesis.Close)
         pCounter--
 
       if (pCounter < 0) {// Close comes before Open

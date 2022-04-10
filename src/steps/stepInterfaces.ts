@@ -51,7 +51,7 @@ export interface FromStep extends BaseStep, IAfterFromSteps {}
 
 export interface CrossJoinStep extends BaseStep, IAfterFromSteps {}
 
-interface IJoinStep extends IAfterFromSteps {
+interface IJoinStep extends BaseStep {
   on(condition: Condition): OnStep
 }
 

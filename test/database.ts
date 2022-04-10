@@ -14,8 +14,8 @@ export const database = new Database({
     public: new Schema({
       name: 'public',
       tables: {
-        testTable: new Table({
-          name: 'testTable',
+        table1: new Table({
+          name: 'table1',
           columns: {
             col1: new TextColumn({ name: 'col1' }),
             col2: new TextColumn({ name: 'col2' }),

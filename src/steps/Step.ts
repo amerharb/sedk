@@ -1,17 +1,11 @@
 import { Condition } from '../models/Condition'
 import { Expression } from '../models/Expression'
 import { Column } from '../columns'
-import { Table } from '../database'
+import { AliasedTable, Table } from '../database'
 import { ColumnNotFoundError, TableNotFoundError } from '../errors'
 import { BuilderData } from '../builder'
 import { All, Asterisk } from '../singletoneConstants'
-import {
-  OrderByItem,
-  OrderByItemInfo,
-  OrderByDirection,
-  OrderByNullsPosition,
-  OrderByArgsElement,
-} from '../orderBy'
+import { OrderByArgsElement, OrderByDirection, OrderByItem, OrderByItemInfo, OrderByNullsPosition } from '../orderBy'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { escapeDoubleQuote } from '../util'
 import { AggregateFunction } from '../aggregateFunction'
@@ -19,16 +13,26 @@ import { Binder } from '../binder'
 import { BaseStep } from './BaseStep'
 import { WhereStep } from './WhereStep'
 import { HavingStep } from './HavingStep'
-import { RootStep, SelectStep, FromStep, GroupByStep, OrderByStep, LimitStep, OffsetStep } from './stepInterfaces'
+import {
+  RootStep,
+  SelectStep,
+  FromStep,
+  CrossJoinStep,
+  GroupByStep,
+  OrderByStep,
+  LimitStep,
+  OffsetStep,
+} from './stepInterfaces'
 import { LogicalOperator } from '../operators'
+import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
 
 export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
 
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 
-export class Step extends BaseStep implements RootStep, SelectStep, FromStep, GroupByStep,
-  OrderByStep, LimitStep, OffsetStep {
+export class Step extends BaseStep
+  implements RootStep, SelectStep, FromStep, CrossJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
   constructor(protected data: BuilderData) {
     super(data)
     data.step = this
@@ -65,10 +69,52 @@ export class Step extends BaseStep implements RootStep, SelectStep, FromStep, Gr
     return this.select(...items)
   }
 
-  public from(table: Table): FromStep {
-    this.throwIfTableNotInDb(table)
-    this.data.table = table
+  public from(...tables: (Table|AliasedTable)[]): FromStep {
+    if (tables.length === 0)
+      throw new Error('No tables specified')
+
+    tables.forEach(table => {
+      this.throwIfTableNotInDb(Step.getTable(table))
+    })
+
+    const itemInfos: FromItemInfo[] = []
+
+    itemInfos.push(new FromItemInfo(
+      Step.getTable(tables[0]),
+      FromItemRelation.NO_RELATION,
+      tables[0] instanceof AliasedTable ? tables[0].alias : undefined,
+    ))
+
+    for (let i = 1; i < tables.length; i++) {
+      const it = tables[i]
+      const alias = it instanceof AliasedTable ? it.alias : undefined
+      itemInfos.push(new FromItemInfo(
+        Step.getTable(it),
+        FromItemRelation.COMMA,
+        alias,
+      ))
+    }
+    this.data.fromItemInfos.push(...itemInfos)
     return this
+  }
+
+  public crossJoin(table: Table|AliasedTable): CrossJoinStep {
+    this.throwIfTableNotInDb(Step.getTable(table))
+
+    this.data.fromItemInfos.push(new FromItemInfo(
+      Step.getTable(table),
+      FromItemRelation.CROSS_JOIN,
+      table instanceof AliasedTable ? table.alias : undefined,
+    ))
+
+    return this
+  }
+
+  private static getTable(tableOrAliasedTable: Table|AliasedTable): Table {
+    if (tableOrAliasedTable instanceof Table)
+      return tableOrAliasedTable
+    else
+      return tableOrAliasedTable.table
   }
 
   public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereStep {
@@ -181,7 +227,7 @@ export class Step extends BaseStep implements RootStep, SelectStep, FromStep, Gr
   }
 
   private throwIfTableNotInDb(table: Table) {
-    if (!this.data.database.isTableExist(table))
+    if (!this.data.database.hasTable(table))
       throw new TableNotFoundError(`Table: "${table.name}" not found`)
   }
 
@@ -197,7 +243,7 @@ export class Step extends BaseStep implements RootStep, SelectStep, FromStep, Gr
         continue
       }
       // item is Column from here
-      if (!this.data.database.isColumnExist(item)) {
+      if (!this.data.database.hasColumn(item)) {
         throw new ColumnNotFoundError(`Column: "${item.name}" not found in database`)
       }
     }

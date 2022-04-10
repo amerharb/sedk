@@ -90,14 +90,19 @@ export abstract class Column implements IStatementGiver {
 
   public getStmt(data: BuilderData): string {
     if (this.mTable === undefined)
-      throw new Error('Column is undefined')
+      throw new Error('Table of this column is undefined')
+
+    const schemaName = data.fromItemInfos.some(it => (it.table !== this.table && it.table.name === this.table.name))
+      ? `"${escapeDoubleQuote(this.table.schema.name)}".`
+      : ''
 
     const tableName = (
       data.option.addTableName === 'always'
-      //TODO: change table checking when builder is able to handle multiple tables
-      || (data.option.addTableName === 'when two tables or more' && data.table !== this.table)
+      || (data.option.addTableName === 'when two tables or more'
+        && data.fromItemInfos.some(it => it.table !== this.table))
     ) ? `"${escapeDoubleQuote(this.table.name)}".` : ''
-    return `${tableName}"${escapeDoubleQuote(this.data.name)}"`
+
+    return `${schemaName}${tableName}"${escapeDoubleQuote(this.data.name)}"`
   }
 }
 

@@ -11,6 +11,7 @@ import { OrderByItemInfo } from './orderBy'
 import { SelectItemInfo } from './SelectItemInfo'
 import { BuilderOption, fillUndefinedOptionsWithDefault } from './option'
 import { MoreThanOneDistinctOrAllError } from './errors'
+import { FromItemInfo } from './FromItemInfo'
 
 export type BuilderData = { //TODO: move type to separate file
   step?: Step,
@@ -18,8 +19,7 @@ export type BuilderData = { //TODO: move type to separate file
   option: BuilderOption,
   /** Below data used to generate SQL statement */
   selectItemInfos: SelectItemInfo[],
-  //TODO: make table "FromItemInfo" array
-  table?: Table,
+  fromItemInfos: FromItemInfo[],
   distinct: ''|' DISTINCT'|' ALL'
   whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
   groupByItems: Column[],
@@ -37,7 +37,7 @@ export class Builder {
   constructor(database: Database, option?: BuilderOption) {
     this.data = {
       database: database,
-      table: undefined,
+      fromItemInfos: [],
       selectItemInfos: [],
       distinct: '',
       whereParts: [],
@@ -81,8 +81,8 @@ export class Builder {
     return this.rootStep.selectAll(...items)
   }
 
-  public selectAsteriskFrom(table: Table): FromStep {
-    return this.rootStep.select(ASTERISK).from(table)
+  public selectAsteriskFrom(...tables: Table[]): FromStep {
+    return this.rootStep.select(ASTERISK).from(...tables)
   }
 
   public cleanUp(): Builder {

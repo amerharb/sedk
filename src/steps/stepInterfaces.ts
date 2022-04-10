@@ -1,6 +1,6 @@
 import { BaseStep } from './BaseStep'
 import { SelectItemInfo } from '../SelectItemInfo'
-import { Table } from '../database'
+import { AliasedTable, Table } from '../database'
 import { Condition } from '../models/Condition'
 import { WhereStep } from './WhereStep'
 import { Column } from '../columns'
@@ -19,10 +19,34 @@ export interface RootStep extends BaseStep {
 }
 
 export interface SelectStep extends BaseStep {
-  from(table: Table): FromStep
+  from(...tables: (Table|AliasedTable)[]): FromStep
 }
 
 export interface FromStep extends BaseStep {
+  crossJoin(table: Table): CrossJoinStep
+
+  where(condition: Condition): WhereStep
+
+  where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
+
+  where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
+
+  groupBy(...groupByItems: Column[]): GroupByStep
+
+  orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
+
+  limit(n: null|number|All): LimitStep
+
+  limit$(n: null|number): LimitStep
+
+  offset(n: number): OffsetStep
+
+  offset$(n: number): OffsetStep
+}
+
+export interface CrossJoinStep extends BaseStep {
+  crossJoin(table: Table): CrossJoinStep
+
   where(condition: Condition): WhereStep
 
   where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep

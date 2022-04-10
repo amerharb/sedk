@@ -59,6 +59,7 @@ mindmapDiagram {
 
 * OperandType <<type>>
 ** Expression <<class>>
+** AggregateFunction <<class>>
 ** ValueType <<type>>
 *** null <<null>>
 *** BooleanLike <<type>>
@@ -93,4 +94,28 @@ mindmapDiagram {
 **** Is = 'IS' <<enumItem>>
 **** IsNot = 'IS NOT' <<enumItem>>
 
+* NullOperator <<enum>>
+** Is = 'IS' <<enumItem>>
+** IsNot = 'IS NOT' <<enumItem>>
+
+* LogicalOperator <<enum>>
+** AND = 'AND' <<enumItem>>
+** OR = 'OR' <<enumItem>>
+
+* ExpressionType <<enum>>
+** NOT_EXIST <<enumItem>>
+** NULL <<enumItem>>
+** BOOLEAN <<enumItem>>
+** NUMBER <<enumItem>>
+** TEXT <<enumItem>>
+
+* FromItemRelation <<enum>>
+** NO_RELATION = ''
+** COMMA = ', '
+** JOIN = ' JOIN '
+** LEFT_JOIN = ' LEFT JOIN '
+** RIGHT_JOIN = ' RIGHT JOIN '
+** INNER_JOIN = ' INNER JOIN '
+** FULL_JOIN = ' FULL JOIN '
+** CROSS_JOIN = ' CROSS JOIN '
 @endmindmap

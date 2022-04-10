@@ -41,10 +41,6 @@ export class OnStep extends BaseStep implements IAfterFromSteps {
     return this
   }
 
-  private static throwStepPropertyNotInitializedError(): never {
-    throw new Error('Step property in builder data is not initialized')
-  }
-
   public crossJoin(table: Table): CrossJoinStep{
     if (this.data.step === undefined) {
       OnStep.throwStepPropertyNotInitializedError()
@@ -92,50 +88,54 @@ export class OnStep extends BaseStep implements IAfterFromSteps {
   where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
   public where(left: Condition, operator?: LogicalOperator, right?: Condition): WhereStep {
     if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
+      OnStep.throwStepPropertyNotInitializedError()
     }
     return this.data.step.where(left, operator, right)
   }
 
   public groupBy(...groupByItems: Column[]): GroupByStep {
     if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
+      OnStep.throwStepPropertyNotInitializedError()
     }
     return this.data.step.groupBy(...groupByItems)
   }
 
   public orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep {
     if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
+      OnStep.throwStepPropertyNotInitializedError()
     }
     return this.data.step.orderBy(...orderByItems)
   }
 
   public limit(n: null|number|All): LimitStep {
     if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
+      OnStep.throwStepPropertyNotInitializedError()
     }
     return this.data.step.limit(n)
   }
 
   public limit$(n: null|number): LimitStep {
     if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
+      OnStep.throwStepPropertyNotInitializedError()
     }
     return this.data.step.limit$(n)
   }
 
   public offset(n: number): OffsetStep {
     if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
+      OnStep.throwStepPropertyNotInitializedError()
     }
     return this.data.step.offset(n)
   }
 
   public offset$(n: number): OffsetStep {
     if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
+      OnStep.throwStepPropertyNotInitializedError()
     }
     return this.data.step.offset$(n)
+  }
+
+  private static throwStepPropertyNotInitializedError(): never {
+    throw new Error('Step property in builder data is not initialized')
   }
 }

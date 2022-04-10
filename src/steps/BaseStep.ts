@@ -10,12 +10,6 @@ export enum Parenthesis {
   Close = ')',
 }
 
-enum ConditionType {
-  WherePart,
-  HavingPart,
-  OnPart,
-}
-
 export abstract class BaseStep {
   constructor(protected data: BuilderData) {}
 
@@ -45,7 +39,7 @@ export abstract class BaseStep {
     }
 
     if (this.data.whereParts.length > 0) {
-      this.throwIfConditionPartsInvalid(ConditionType.WherePart)
+      BaseStep.throwIfConditionPartsInvalid(this.data.whereParts)
       const wherePartsString = this.data.whereParts.map(it => {
         if (it instanceof Condition || it instanceof Expression) {
           return it.getStmt(this.data)
@@ -62,7 +56,7 @@ export abstract class BaseStep {
     }
 
     if (this.data.havingParts.length > 0) {
-      this.throwIfConditionPartsInvalid(ConditionType.HavingPart)
+      BaseStep.throwIfConditionPartsInvalid(this.data.havingParts)
       const havingPartsString = this.data.havingParts.map(it => {
         if (it instanceof Condition || it instanceof Expression) {
           return it.getStmt(this.data)
@@ -148,8 +142,7 @@ export abstract class BaseStep {
    * This function throws error if WhereParts Array where invalid
    * it check the number of open and close parentheses in the conditions
    */
-  private throwIfConditionPartsInvalid(conditionType: ConditionType) {
-    const conditionsArray = this.getCondtionArray(conditionType)
+  private static throwIfConditionPartsInvalid(conditionsArray: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[]) {
     let pCounter = 0
     for (let i = 0; i < conditionsArray.length; i++) {
       if (conditionsArray[i] === Parenthesis.Open) {
@@ -173,21 +166,6 @@ export abstract class BaseStep {
 
     if (pCounter < 0) // Closing more than opening
       throw new Error('invalid conditions build, closing parentheses is more than opening ones')
-  }
-
-  private getCondtionArray(conditionType: ConditionType): (LogicalOperator|Condition|Parenthesis|BooleanColumn)[] {
-    switch (conditionType) {
-    case ConditionType.WherePart:
-      return this.data.whereParts
-    case ConditionType.HavingPart:
-      return this.data.havingParts
-    case ConditionType.OnPart:
-      // TODO: write implementation
-      // return this.data.onParts
-      throw new Error('On Parts are not implemented yet')
-    default:
-      throw new Error('Invalid condition type')
-    }
   }
 }
 

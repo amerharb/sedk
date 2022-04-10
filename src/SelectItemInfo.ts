@@ -30,5 +30,4 @@ export class SelectItemInfo implements IStatementGiver{
     }
     return `${this.selectItem.getStmt(data)}`
   }
-
 }

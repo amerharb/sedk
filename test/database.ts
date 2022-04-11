@@ -31,6 +31,7 @@ export const database = new Database({
           name: 'table2',
           columns: {
             col1: new TextColumn({ name: 'col1' }),
+            col2: new TextColumn({ name: 'col2' }),
           },
         }),
       },

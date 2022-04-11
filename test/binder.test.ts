@@ -2,7 +2,7 @@ import { Builder, $ } from '../src'
 import { database } from './database'
 
 //Alias
-const table = database.s.public.t.testTable
+const table = database.s.public.t.table1
 
 describe('test from one table', () => {
   const sql1 = new Builder(database)
@@ -12,7 +12,7 @@ describe('test from one table', () => {
     sql2.cleanUp()
   })
 
-  it('Produces [SELECT $1 FROM "testTable";] 2 binds at the same time', () => {
+  it('Produces [SELECT $1 FROM "table1";] 2 binds at the same time', () => {
     const actual1 = sql1
       .select($(1))
       .from(table)
@@ -21,12 +21,12 @@ describe('test from one table', () => {
       .from(table)
 
     const expected1 = {
-      sql: 'SELECT $1 FROM "testTable";',
+      sql: 'SELECT $1 FROM "table1";',
       values: [1],
     }
 
     const expected2 = {
-      sql: 'SELECT $1 FROM "testTable";',
+      sql: 'SELECT $1 FROM "table1";',
       values: [2],
     }
 

@@ -1,9 +1,9 @@
 import { Builder } from '../src'
 import { database } from './database'
 //Alias
-const testTable = database.s.public.t.testTable
-const col1 = database.s.public.t.testTable.c.col1
-const col2 = database.s.public.t.testTable.c.col2
+const publicTable1 = database.s.public.t.table1
+const col1 = database.s.public.t.table1.c.col1
+const col2 = database.s.public.t.table1.c.col2
 const table2 = database.s.public.t.table2
 const table2col1 = database.s.public.t.table2.c.col1
 const table1 = database.s.schema1.t.table1
@@ -13,31 +13,31 @@ describe('test Options', () => {
     const sqlWithoutSemicolon = new Builder(database, { useSemicolonAtTheEnd: false })
     const sqlWithSemicolon = new Builder(database, { useSemicolonAtTheEnd: true })
     const sqlDefault = new Builder(database)
-    it('Produces [SELECT 1 FROM "testTable"] without semicolon', () => {
+    it('Produces [SELECT 1 FROM "table1"] without semicolon', () => {
       const actual = sqlWithoutSemicolon
         .select(1)
-        .from(testTable)
+        .from(publicTable1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT 1 FROM "testTable"')
+      expect(actual).toEqual('SELECT 1 FROM "table1"')
     })
 
-    it('Produces [SELECT 1 FROM "testTable"] without semicolon;', () => {
+    it('Produces [SELECT 1 FROM "table1"] without semicolon;', () => {
       const actual = sqlWithSemicolon
         .select(1)
-        .from(testTable)
+        .from(publicTable1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT 1 FROM "testTable";')
+      expect(actual).toEqual('SELECT 1 FROM "table1";')
     })
 
-    it('Produces [SELECT 1 FROM "testTable"] without semicolon; (default)', () => {
+    it('Produces [SELECT 1 FROM "table1"] without semicolon; (default)', () => {
       const actual = sqlDefault
         .select(1)
-        .from(testTable)
+        .from(publicTable1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT 1 FROM "testTable";')
+      expect(actual).toEqual('SELECT 1 FROM "table1";')
     })
   })
 
@@ -53,84 +53,84 @@ describe('test Options', () => {
       sqlDefault.cleanUp()
     })
 
-    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;] option(always)', () => {
+    it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1" ASC;] option(always)', () => {
       const actual = sqlAlways
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .orderBy(col1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;')
+      expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1" ASC;')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(never)', () => {
+    it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1";] option(never)', () => {
       const actual = sqlNever
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .orderBy(col1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
+      expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1";')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1", "col2" DESC;] option(never)', () => {
+    it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1", "col2" DESC;] option(never)', () => {
       const actual = sqlNever
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .orderBy(col1, col2.desc)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1", "col2" DESC;')
+      expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1", "col2" DESC;')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(never) even asc mentioned', () => {
+    it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1";] option(never) even asc mentioned', () => {
       const actual = sqlNever
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .orderBy(col1.asc)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
+      expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1";')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;] option(when mentioned)', () => {
+    it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1" ASC;] option(when mentioned)', () => {
       const actual = sqlWhenMentioned
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .orderBy(col1.asc)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;')
+      expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1" ASC;')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(when mentioned)', () => {
+    it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1";] option(when mentioned)', () => {
       const actual = sqlWhenMentioned
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .orderBy(col1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
+      expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1";')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(Default)', () => {
+    it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1";] option(Default)', () => {
       const actual = sqlDefault
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .orderBy(col1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
+      expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1";')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;] option(Default)', () => {
+    it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1" ASC;] option(Default)', () => {
       const actual = sqlDefault
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .orderBy(col1.asc)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;')
+      expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1" ASC;')
     })
   })
 
@@ -146,84 +146,84 @@ describe('test Options', () => {
       sqlDefault.cleanUp()
     })
 
-    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" NULLS LAST;] option(always)', () => {
+    it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1" NULLS LAST;] option(always)', () => {
       const actual = sqlAlways
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .orderBy(col1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1" NULLS LAST;')
+      expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1" NULLS LAST;')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(never)', () => {
+    it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1";] option(never)', () => {
       const actual = sqlNever
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .orderBy(col1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
+      expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1";')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" NULLS FIRST ;] option(never)', () => {
+    it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1" NULLS FIRST ;] option(never)', () => {
       const actual = sqlNever
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .orderBy(col1.nullsFirst)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1" NULLS FIRST;')
+      expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1" NULLS FIRST;')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(never) even nulls last mentioned', () => {
+    it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1";] option(never) even nulls last mentioned', () => {
       const actual = sqlNever
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .orderBy(col1.nullsLast)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
+      expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1";')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;] option(when mentioned)', () => {
+    it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1" ASC;] option(when mentioned)', () => {
       const actual = sqlWhenMentioned
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .orderBy(col1.asc)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1" ASC;')
+      expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1" ASC;')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(when mentioned)', () => {
+    it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1";] option(when mentioned)', () => {
       const actual = sqlWhenMentioned
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .orderBy(col1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
+      expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1";')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1";] option(Default)', () => {
+    it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1";] option(Default)', () => {
       const actual = sqlDefault
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .orderBy(col1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1";')
+      expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1";')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable" ORDER BY "col1" NULLS LAST;] option(Default)', () => {
+    it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1" NULLS LAST;] option(Default)', () => {
       const actual = sqlDefault
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .orderBy(col1.nullsLast)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable" ORDER BY "col1" NULLS LAST;')
+      expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1" NULLS LAST;')
     })
   })
 
@@ -238,31 +238,31 @@ describe('test Options', () => {
       sqlDefault.cleanUp()
     })
 
-    it('Produces [SELECT "col1" AS "C1" FROM "testTable";] option(always)', () => {
+    it('Produces [SELECT "col1" AS "C1" FROM "table1";] option(always)', () => {
       const actual = sqlAlways
         .select(col1.as('C1'))
-        .from(testTable)
+        .from(publicTable1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" AS "C1" FROM "testTable";')
+      expect(actual).toEqual('SELECT "col1" AS "C1" FROM "table1";')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable";] option(never)', () => {
+    it('Produces [SELECT "col1" FROM "table1";] option(never)', () => {
       const actual = sqlNever
         .select(col1.as('C1'))
-        .from(testTable)
+        .from(publicTable1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" "C1" FROM "testTable";')
+      expect(actual).toEqual('SELECT "col1" "C1" FROM "table1";')
     })
 
-    it('Produces [SELECT "col1" AS "C1" FROM "testTable";] option(default)', () => {
+    it('Produces [SELECT "col1" AS "C1" FROM "table1";] option(default)', () => {
       const actual = sqlDefault
         .select(col1.as('C1'))
-        .from(testTable)
+        .from(publicTable1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" AS "C1" FROM "testTable";')
+      expect(actual).toEqual('SELECT "col1" AS "C1" FROM "table1";')
     })
   })
 
@@ -271,13 +271,13 @@ describe('test Options', () => {
       const sql = new Builder(database, { addPublicSchemaName: 'always' })
       afterEach(() => { sql.cleanUp() })
 
-      it('Produces [SELECT "col1" FROM "public"."testTable";]', () => {
+      it('Produces [SELECT "col1" FROM "public"."table1";]', () => {
         const actual = sql
           .select(col1)
-          .from(testTable)
+          .from(publicTable1)
           .getSQL()
 
-        expect(actual).toEqual('SELECT "col1" FROM "public"."testTable";')
+        expect(actual).toEqual('SELECT "col1" FROM "public"."table1";')
       })
     })
 
@@ -285,13 +285,13 @@ describe('test Options', () => {
       const sql = new Builder(database, { addPublicSchemaName: 'when other schema mentioned' })
       afterEach(() => { sql.cleanUp() })
 
-      it('Produces [SELECT "col2", "col1" FROM "public"."testTable", "schema1"."table1";', () => {
+      it('Produces [SELECT "public"."table1"."col2", "schema1"."table1"."col1" FROM "public"."table1", "schema1"."table1";', () => {
         const actual = sql
-          .select(testTable.c.col2, table1.c.col1)
-          .from(testTable, table1)
+          .select(publicTable1.c.col2, table1.c.col1)
+          .from(publicTable1, table1)
           .getSQL()
 
-        expect(actual).toEqual('SELECT "testTable"."col2", "table1"."col1" FROM "public"."testTable", "schema1"."table1";')
+        expect(actual).toEqual('SELECT "public"."table1"."col2", "schema1"."table1"."col1" FROM "public"."table1", "schema1"."table1";')
       })
     })
 
@@ -364,49 +364,49 @@ describe('test Options', () => {
       sqlDefault.cleanUp()
     })
 
-    it('Produces [SELECT "testTable"."col1" FROM "testTable";] option(always)', () => {
+    it('Produces [SELECT "table1"."col1" FROM "table1";] option(always)', () => {
       const actual = sqlAlways
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "testTable"."col1" FROM "testTable";')
+      expect(actual).toEqual('SELECT "table1"."col1" FROM "table1";')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable";] option(when)', () => {
+    it('Produces [SELECT "col1" FROM "table1";] option(when)', () => {
       const actual = sqlWhen
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable";')
+      expect(actual).toEqual('SELECT "col1" FROM "table1";')
     })
 
-    it('Produces [SELECT "testTable"."col1", "table2"."col1" FROM "testTable", "table2";] option(when)', () => {
+    it('Produces [SELECT "table1"."col1", "table2"."col1" FROM "table1", "table2";] option(when)', () => {
       const actual = sqlWhen
         .select(col1, table2col1)
-        .from(testTable, table2)
+        .from(publicTable1, table2)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "testTable"."col1", "table2"."col1" FROM "testTable", "table2";')
+      expect(actual).toEqual('SELECT "table1"."col1", "table2"."col1" FROM "table1", "table2";')
     })
 
-    it('Produces [SELECT "col1" FROM "testTable";] option(default)', () => {
+    it('Produces [SELECT "col1" FROM "table1";] option(default)', () => {
       const actual = sqlDefault
         .select(col1)
-        .from(testTable)
+        .from(publicTable1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "testTable";')
+      expect(actual).toEqual('SELECT "col1" FROM "table1";')
     })
 
-    it('Produces [SELECT "testTable"."col1", "table2"."col1" FROM "testTable", "table2";] option(default)', () => {
+    it('Produces [SELECT "table1"."col1", "table2"."col1" FROM "table1", "table2";] option(default)', () => {
       const actual = sqlDefault
         .select(col1, table2col1)
-        .from(testTable, table2)
+        .from(publicTable1, table2)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "testTable"."col1", "table2"."col1" FROM "testTable", "table2";')
+      expect(actual).toEqual('SELECT "table1"."col1", "table2"."col1" FROM "table1", "table2";')
     })
   })
 
@@ -414,39 +414,39 @@ describe('test Options', () => {
     describe('Option: always', () => {
       const sqlAlways = new Builder(database, { addAsBeforeTableAlias: 'always' })
       afterEach(() => { sqlAlways.cleanUp() })
-      it('Produces [SELECT "testTable"."col1" FROM "testTable" AS "TEST Table";]', () => {
+      it('Produces [SELECT "table1"."col1" FROM "table1" AS "TEST Table";]', () => {
         const actual = sqlAlways
           .select(col1)
-          .from(testTable.as('TEST Table'))
+          .from(publicTable1.as('TEST Table'))
           .getSQL()
 
-        expect(actual).toEqual('SELECT "col1" FROM "testTable" AS "TEST Table";')
+        expect(actual).toEqual('SELECT "col1" FROM "table1" AS "TEST Table";')
       })
     })
 
     describe('Option: never', () => {
       const sqlNever = new Builder(database, { addAsBeforeTableAlias: 'never' })
       afterEach(() => { sqlNever.cleanUp() })
-      it('Produces [SELECT "testTable"."col1" FROM "testTable" "TEST Table";]', () => {
+      it('Produces [SELECT "table1"."col1" FROM "table1" "TEST Table";]', () => {
         const actual = sqlNever
           .select(col1)
-          .from(testTable.as('TEST Table'))
+          .from(publicTable1.as('TEST Table'))
           .getSQL()
 
-        expect(actual).toEqual('SELECT "col1" FROM "testTable" "TEST Table";')
+        expect(actual).toEqual('SELECT "col1" FROM "table1" "TEST Table";')
       })
     })
 
     describe('Option: default', () => {
       const sqlDefault = new Builder(database)
       afterEach(() => { sqlDefault.cleanUp() })
-      it('Produces [SELECT "testTable"."col1" FROM "testTable" AS "TEST Table";]', () => {
+      it('Produces [SELECT "table1"."col1" FROM "table1" AS "TEST Table";]', () => {
         const actual = sqlDefault
           .select(col1)
-          .from(testTable.as('TEST Table'))
+          .from(publicTable1.as('TEST Table'))
           .getSQL()
 
-        expect(actual).toEqual('SELECT "col1" FROM "testTable" AS "TEST Table";')
+        expect(actual).toEqual('SELECT "col1" FROM "table1" AS "TEST Table";')
       })
     })
   })

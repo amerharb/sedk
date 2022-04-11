@@ -9,14 +9,14 @@ import { LogicalOperator } from './operators'
 import { Parenthesis } from './steps/BaseStep'
 import { OrderByItemInfo } from './orderBy'
 import { SelectItemInfo } from './SelectItemInfo'
-import { BuilderOption, fillUndefinedOptionsWithDefault } from './option'
+import { BuilderOption, BuilderOptionRequired, fillUndefinedOptionsWithDefault } from './option'
 import { MoreThanOneDistinctOrAllError } from './errors'
 import { FromItemInfo } from './FromItemInfo'
 
-export type BuilderData = { //TODO: move type to separate file
+export type BuilderData = {
   step?: Step,
   database: Database,
-  option: BuilderOption,
+  option: BuilderOptionRequired,
   /** Below data used to generate SQL statement */
   selectItemInfos: SelectItemInfo[],
   fromItemInfos: FromItemInfo[],

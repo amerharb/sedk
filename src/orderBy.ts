@@ -1,4 +1,3 @@
-import { BuilderOption } from './option'
 import { Column } from './columns'
 import { Expression } from './models/Expression'
 import { BuilderData } from './builder'
@@ -8,20 +7,15 @@ export type OrderByItem = Column|Expression|string
 export type OrderByArgsElement = OrderByItemInfo|OrderByItem|OrderByDirection|OrderByNullsPosition
 
 export class OrderByItemInfo implements IStatementGiver{
-  public set builderOption(option: BuilderOption) {
-    this.option = option
-  }
-
   constructor(
     private readonly orderByItem: OrderByItem,
     private readonly direction: OrderByDirection = DIRECTION_NOT_EXIST,
     private readonly nullPosition: OrderByNullsPosition = NULLS_POSITION_NOT_EXIST,
-    private option?: BuilderOption,
   ) {}
 
   public getStmt(data: BuilderData): string {
-    const direction = this.getDirectionFromOption()
-    const nullPosition = this.getNullLastFromOption()
+    const direction = this.getDirectionFromOption(data)
+    const nullPosition = this.getNullLastFromOption(data)
     const orderByString = (this.orderByItem instanceof Column || this.orderByItem instanceof Expression)
       ? this.orderByItem.getStmt(data)
       : this.orderByItem
@@ -29,12 +23,12 @@ export class OrderByItemInfo implements IStatementGiver{
     return `${orderByString}${direction}${nullPosition}`
   }
 
-  private getDirectionFromOption(): OrderByDirection {
+  private getDirectionFromOption(data: BuilderData): OrderByDirection {
     if (this.direction === DESC)
       return DESC
 
-    if (this.option !== undefined) {
-      switch (this.option.addAscAfterOrderByItem) {
+    if (data.option !== undefined) {
+      switch (data.option.addAscAfterOrderByItem) {
       case 'always':
         return ASC
       case 'never':
@@ -44,12 +38,12 @@ export class OrderByItemInfo implements IStatementGiver{
     return this.direction
   }
 
-  private getNullLastFromOption(): OrderByNullsPosition {
+  private getNullLastFromOption(data: BuilderData): OrderByNullsPosition {
     if (this.nullPosition === NULLS_FIRST)
       return NULLS_FIRST
 
-    if (this.option !== undefined) {
-      switch (this.option.addNullsLastAfterOrderByItem) {
+    if (data.option !== undefined) {
+      switch (data.option.addNullsLastAfterOrderByItem) {
       case 'always':
         return NULLS_LAST
       case 'never':

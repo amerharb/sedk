@@ -21,9 +21,9 @@ import { database } from './database'
 //Alias
 const ADD = ArithmeticOperator.ADD
 const GT = ComparisonOperator.GreaterThan
-const table = database.s.public.t.testTable
-const col1 = database.s.public.t.testTable.c.col1
-const col3 = database.s.public.t.testTable.c.col3
+const table = database.s.public.t.table1
+const col1 = database.s.public.t.table1.c.col1
+const col3 = database.s.public.t.table1.c.col3
 
 describe('Throw desired Errors', () => {
   const sql = new Builder(database)

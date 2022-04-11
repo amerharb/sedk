@@ -21,10 +21,11 @@ import {
   GroupByStep,
   OrderByStep,
   LimitStep,
-  OffsetStep,
+  OffsetStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep, FullOuterJoinStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
+import { OnStep } from './OnStep'
 
 export type ColumnLike = Column|Expression
 export type PrimitiveType = null|boolean|number|string
@@ -32,7 +33,8 @@ export type PrimitiveType = null|boolean|number|string
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 
 export class Step extends BaseStep
-  implements RootStep, SelectStep, FromStep, CrossJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
+  implements RootStep, SelectStep, FromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
+    FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
   constructor(protected data: BuilderData) {
     super(data)
     data.step = this
@@ -41,17 +43,16 @@ export class Step extends BaseStep
   public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
     const selectItemInfos: SelectItemInfo[] = items.map(it => {
       if (it instanceof SelectItemInfo) {
-        it.builderOption = this.data.option
         return it
       } else if (it instanceof Expression || it instanceof Column || it instanceof AggregateFunction || it instanceof Asterisk) {
-        return new SelectItemInfo(it, undefined, this.data.option)
+        return new SelectItemInfo(it, undefined)
       } else if (it instanceof Binder) {
         if (it.no === undefined) {
           this.data.binderStore.add(it)
         }
-        return new SelectItemInfo(it, undefined, this.data.option)
+        return new SelectItemInfo(it, undefined)
       } else {
-        return new SelectItemInfo(new Expression(it), undefined, this.data.option)
+        return new SelectItemInfo(new Expression(it), undefined)
       }
     })
     this.throwIfColumnsNotInDb(selectItemInfos)
@@ -77,37 +78,54 @@ export class Step extends BaseStep
       this.throwIfTableNotInDb(Step.getTable(table))
     })
 
-    const itemInfos: FromItemInfo[] = []
-
-    itemInfos.push(new FromItemInfo(
-      Step.getTable(tables[0]),
-      FromItemRelation.NO_RELATION,
-      tables[0] instanceof AliasedTable ? tables[0].alias : undefined,
-    ))
-
-    for (let i = 1; i < tables.length; i++) {
-      const it = tables[i]
-      const alias = it instanceof AliasedTable ? it.alias : undefined
-      itemInfos.push(new FromItemInfo(
-        Step.getTable(it),
-        FromItemRelation.COMMA,
-        alias,
-      ))
+    for (let i = 0; i < tables.length; i++) {
+      this.addFromItemInfo(tables[i], i === 0 ? FromItemRelation.NO_RELATION : FromItemRelation.COMMA)
     }
-    this.data.fromItemInfos.push(...itemInfos)
     return this
   }
 
   public crossJoin(table: Table|AliasedTable): CrossJoinStep {
-    this.throwIfTableNotInDb(Step.getTable(table))
+    this.addFromItemInfo(table, FromItemRelation.CROSS_JOIN)
+    return this
+  }
 
+  public join(table: Table|AliasedTable): JoinStep {
+    this.addFromItemInfo(table, FromItemRelation.JOIN)
+    return this
+  }
+
+  public leftJoin(table: Table|AliasedTable): LeftJoinStep {
+    this.addFromItemInfo(table, FromItemRelation.LEFT_JOIN)
+    return this
+  }
+
+  public rightJoin(table: Table|AliasedTable): RightJoinStep {
+    this.addFromItemInfo(table, FromItemRelation.RIGHT_JOIN)
+    return this
+  }
+
+  public innerJoin(table: Table|AliasedTable): InnerJoinStep {
+    this.addFromItemInfo(table, FromItemRelation.INNER_JOIN)
+    return this
+  }
+
+  public fullOuterJoin(table: Table|AliasedTable): FullOuterJoinStep {
+    this.addFromItemInfo(table, FromItemRelation.FULL_OUTER_JOIN)
+    return this
+  }
+
+  private addFromItemInfo(table: Table|AliasedTable, relation: FromItemRelation) {
+    this.throwIfTableNotInDb(Step.getTable(table))
     this.data.fromItemInfos.push(new FromItemInfo(
       Step.getTable(table),
-      FromItemRelation.CROSS_JOIN,
+      relation,
       table instanceof AliasedTable ? table.alias : undefined,
     ))
+  }
 
-    return this
+  public on(condition: Condition): OnStep {
+    this.data.fromItemInfos[this.data.fromItemInfos.length - 1].addFirstCondition(condition)
+    return new OnStep(this.data)
   }
 
   private static getTable(tableOrAliasedTable: Table|AliasedTable): Table {
@@ -144,7 +162,6 @@ export class Step extends BaseStep
           store.orderByItem,
           store.direction,
           store.nullsPos,
-          this.data.option,
         ))
         store.orderByItem = undefined
         store.direction = undefined
@@ -168,7 +185,6 @@ export class Step extends BaseStep
         pushWhenOrderByDefined()
       } else if (it instanceof OrderByItemInfo) {
         pushWhenOrderByDefined()
-        it.builderOption = this.data.option
         this.data.orderByItemInfos.push(it)
       } else if (it instanceof Column) {
         pushWhenOrderByDefined()

@@ -8,7 +8,9 @@ export type BuilderOption = {
   addAsBeforeTableAlias?: 'always'|'never'
 }
 
-const defaultOption: BuilderOption = {
+export type BuilderOptionRequired = Required<BuilderOption>
+
+const defaultOption: BuilderOptionRequired = {
   useSemicolonAtTheEnd: true,
   addAscAfterOrderByItem: 'when mentioned',
   addNullsLastAfterOrderByItem: 'when mentioned',
@@ -19,14 +21,14 @@ const defaultOption: BuilderOption = {
 }
 Object.freeze(defaultOption)
 
-export function fillUndefinedOptionsWithDefault(option: BuilderOption): BuilderOption {
-  const result: BuilderOption = {}
-  result.useSemicolonAtTheEnd = option.useSemicolonAtTheEnd ?? defaultOption.useSemicolonAtTheEnd
-  result.addAscAfterOrderByItem = option.addAscAfterOrderByItem ?? defaultOption.addAscAfterOrderByItem
-  result.addNullsLastAfterOrderByItem = option.addNullsLastAfterOrderByItem ?? defaultOption.addNullsLastAfterOrderByItem
-  result.addAsBeforeColumnAlias = option.addAsBeforeColumnAlias ?? defaultOption.addAsBeforeColumnAlias
-  result.addPublicSchemaName = option.addPublicSchemaName ?? defaultOption.addPublicSchemaName
-  result.addTableName = option.addTableName ?? defaultOption.addTableName
-  result.addAsBeforeTableAlias = option.addAsBeforeTableAlias ?? defaultOption.addAsBeforeTableAlias
-  return result
+export function fillUndefinedOptionsWithDefault(option: BuilderOption): BuilderOptionRequired {
+  return {
+    useSemicolonAtTheEnd: option.useSemicolonAtTheEnd ?? defaultOption.useSemicolonAtTheEnd,
+    addAscAfterOrderByItem: option.addAscAfterOrderByItem ?? defaultOption.addAscAfterOrderByItem,
+    addNullsLastAfterOrderByItem: option.addNullsLastAfterOrderByItem ?? defaultOption.addNullsLastAfterOrderByItem,
+    addAsBeforeColumnAlias: option.addAsBeforeColumnAlias ?? defaultOption.addAsBeforeColumnAlias,
+    addPublicSchemaName: option.addPublicSchemaName ?? defaultOption.addPublicSchemaName,
+    addTableName: option.addTableName ?? defaultOption.addTableName,
+    addAsBeforeTableAlias: option.addAsBeforeTableAlias ?? defaultOption.addAsBeforeTableAlias,
+  }
 }

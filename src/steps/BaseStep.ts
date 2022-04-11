@@ -41,9 +41,7 @@ export abstract class BaseStep {
     if (this.data.whereParts.length > 0) {
       BaseStep.throwIfConditionPartsInvalid(this.data.whereParts)
       const wherePartsString = this.data.whereParts.map(it => {
-        if (it instanceof Condition || it instanceof Expression) {
-          return it.getStmt(this.data)
-        } else if (it instanceof BooleanColumn) {
+        if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
           return it.getStmt(this.data)
         }
         return it.toString()
@@ -58,9 +56,7 @@ export abstract class BaseStep {
     if (this.data.havingParts.length > 0) {
       BaseStep.throwIfConditionPartsInvalid(this.data.havingParts)
       const havingPartsString = this.data.havingParts.map(it => {
-        if (it instanceof Condition || it instanceof Expression) {
-          return it.getStmt(this.data)
-        } else if (it instanceof BooleanColumn) {
+        if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
           return it.getStmt(this.data)
         }
         return it.toString()
@@ -114,7 +110,7 @@ export abstract class BaseStep {
     BaseStep.addConditionParts(this.data.havingParts, cond1, op1, cond2, op2, cond3)
   }
 
-  private static addConditionParts(conditionArray:(LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
+  private static addConditionParts(conditionArray: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
     cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
     if (op1 === undefined && cond2 === undefined) {
       conditionArray.push(cond1)

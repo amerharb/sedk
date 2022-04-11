@@ -162,7 +162,6 @@ export class Step extends BaseStep
           store.orderByItem,
           store.direction,
           store.nullsPos,
-          this.data.option,
         ))
         store.orderByItem = undefined
         store.direction = undefined
@@ -186,7 +185,6 @@ export class Step extends BaseStep
         pushWhenOrderByDefined()
       } else if (it instanceof OrderByItemInfo) {
         pushWhenOrderByDefined()
-        it.builderOption = this.data.option
         this.data.orderByItemInfos.push(it)
       } else if (it instanceof Column) {
         pushWhenOrderByDefined()

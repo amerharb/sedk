@@ -8,17 +8,9 @@ export type BuilderOption = {
   addAsBeforeTableAlias?: 'always'|'never'
 }
 
-export type BuilderOptionStrict = {
-  useSemicolonAtTheEnd: boolean
-  addAscAfterOrderByItem: 'always'|'never'|'when mentioned'
-  addNullsLastAfterOrderByItem: 'always'|'never'|'when mentioned'
-  addAsBeforeColumnAlias: 'always'|'never'
-  addPublicSchemaName: 'always'|'never'|'when other schema mentioned'
-  addTableName: 'always'|'when two tables or more'
-  addAsBeforeTableAlias: 'always'|'never'
-}
+export type BuilderOptionRequired = Required<BuilderOption>
 
-const defaultOption: BuilderOptionStrict = {
+const defaultOption: BuilderOptionRequired = {
   useSemicolonAtTheEnd: true,
   addAscAfterOrderByItem: 'when mentioned',
   addNullsLastAfterOrderByItem: 'when mentioned',
@@ -29,7 +21,7 @@ const defaultOption: BuilderOptionStrict = {
 }
 Object.freeze(defaultOption)
 
-export function fillUndefinedOptionsWithDefault(option: BuilderOption): BuilderOptionStrict {
+export function fillUndefinedOptionsWithDefault(option: BuilderOption): BuilderOptionRequired {
   return {
     useSemicolonAtTheEnd: option.useSemicolonAtTheEnd ?? defaultOption.useSemicolonAtTheEnd,
     addAscAfterOrderByItem: option.addAscAfterOrderByItem ?? defaultOption.addAscAfterOrderByItem,

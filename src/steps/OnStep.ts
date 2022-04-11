@@ -1,7 +1,7 @@
-import { BaseStep } from './BaseStep'
+import { BaseStep, Parenthesis } from './BaseStep'
 import { BuilderData } from '../builder'
 import { Condition } from '../models/Condition'
-import { Column } from '../columns'
+import { BooleanColumn, Column } from '../columns'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import {
@@ -21,23 +21,13 @@ import { Table } from '../database'
 export class OnStep extends BaseStep implements IAfterFromSteps {
   constructor(protected data: BuilderData) { super(data) }
 
-  public or(condition: Condition): OnOrStep
-  public or(left: Condition, operator: LogicalOperator, right: Condition): OnOrStep
-  public or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OnOrStep
-  public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): OnOrStep {
-    // TODO: wirte implementation
-    // this.data.whereParts.push(LogicalOperator.OR)
-    // this.addWhereParts(cond1, op1, cond2, op2, cond3)
+  public or(condition: Condition): OnOrStep {
+    this.data.fromItemInfos[this.data.fromItemInfos.length - 1].addOrCondition(condition)
     return this
   }
 
-  public and(condition: Condition): OnAndStep
-  public and(left: Condition, operator: LogicalOperator, right: Condition): OnAndStep
-  public and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): OnAndStep
-  public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): OnAndStep {
-    // TODO: wirte implementation
-    // this.data.whereParts.push(LogicalOperator.AND)
-    // this.addWhereParts(cond1, op1, cond2, op2, cond3)
+  public and(condition: Condition): OnAndStep {
+    this.data.fromItemInfos[this.data.fromItemInfos.length - 1].addAndCondition(condition)
     return this
   }
 

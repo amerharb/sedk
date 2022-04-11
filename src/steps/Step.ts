@@ -124,7 +124,7 @@ export class Step extends BaseStep
   }
 
   public on(condition: Condition): OnStep {
-    this.data.fromItemInfos[this.data.fromItemInfos.length - 1].addCondition(condition)
+    this.data.fromItemInfos[this.data.fromItemInfos.length - 1].addFirstCondition(condition)
     return new OnStep(this.data)
   }
 

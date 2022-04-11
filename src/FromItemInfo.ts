@@ -30,7 +30,15 @@ export class FromItemInfo implements IStatementGiver{
     return this.fromItem
   }
 
-  public addCondition(condition: Condition) {
+  public addOrCondition(condition: Condition) {
+    this.onParts.push(LogicalOperator.OR, condition)
+  }
+
+  public addAndCondition(condition: Condition) {
+    this.onParts.push(LogicalOperator.AND, condition)
+  }
+
+  public addFirstCondition(condition: Condition) {
     this.onParts.push(condition)
   }
 

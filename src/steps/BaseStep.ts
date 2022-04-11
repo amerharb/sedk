@@ -114,7 +114,8 @@ export abstract class BaseStep {
     BaseStep.addConditionParts(this.data.havingParts, cond1, op1, cond2, op2, cond3)
   }
 
-  private static addConditionParts(conditionArray:(LogicalOperator|Condition|Parenthesis|BooleanColumn)[], cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
+  private static addConditionParts(conditionArray:(LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
+    cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
     if (op1 === undefined && cond2 === undefined) {
       conditionArray.push(cond1)
     } else if (op1 !== undefined && cond2 !== undefined) {

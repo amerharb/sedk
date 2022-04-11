@@ -14,8 +14,8 @@ export const database = new Database({
     public: new Schema({
       name: 'public',
       tables: {
-        testTable: new Table({
-          name: 'testTable',
+        table1: new Table({
+          name: 'table1',
           columns: {
             col1: new TextColumn({ name: 'col1' }),
             col2: new TextColumn({ name: 'col2' }),
@@ -27,6 +27,13 @@ export const database = new Database({
             col8: new BooleanColumn({ name: 'col8' }),
           },
         }),
+        table2: new Table({
+          name: 'table2',
+          columns: {
+            col1: new TextColumn({ name: 'col1' }),
+            col2: new TextColumn({ name: 'col2' }),
+          },
+        }),
       },
     }),
     schema1: new Schema({
@@ -34,6 +41,12 @@ export const database = new Database({
       tables: {
         table1: new Table({
           name: 'table1',
+          columns: {
+            col1: new TextColumn({ name: 'col1' }),
+          },
+        }),
+        table2: new Table({
+          name: 'table2',
           columns: {
             col1: new TextColumn({ name: 'col1' }),
           },

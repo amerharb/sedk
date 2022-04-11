@@ -34,16 +34,14 @@ export abstract class BaseStep {
       result += ` ${selectPartsString.join(', ')}`
     }
 
-    if (this.data.table) {
-      result += ` FROM ${this.data.table.getStmt(this.data)}`
+    if (this.data.fromItemInfos.length > 0) {
+      result += ` FROM ${this.data.fromItemInfos.map(it => it.getStmt(this.data)).join('')}`
     }
 
     if (this.data.whereParts.length > 0) {
-      this.throwIfWherePartsInvalid()
+      BaseStep.throwIfConditionPartsInvalid(this.data.whereParts)
       const wherePartsString = this.data.whereParts.map(it => {
-        if (it instanceof Condition || it instanceof Expression) {
-          return it.getStmt(this.data)
-        } else if (it instanceof BooleanColumn) {
+        if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
           return it.getStmt(this.data)
         }
         return it.toString()
@@ -56,11 +54,9 @@ export abstract class BaseStep {
     }
 
     if (this.data.havingParts.length > 0) {
-      //TODO: check if havingParts are valid create this.throwIfHavingPartsInvalid()
+      BaseStep.throwIfConditionPartsInvalid(this.data.havingParts)
       const havingPartsString = this.data.havingParts.map(it => {
-        if (it instanceof Condition || it instanceof Expression) {
-          return it.getStmt(this.data)
-        } else if (it instanceof BooleanColumn) {
+        if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
           return it.getStmt(this.data)
         }
         return it.toString()
@@ -96,7 +92,7 @@ export abstract class BaseStep {
   public cleanUp() {
     this.data.selectItemInfos.length = 0
     this.data.distinct = ''
-    this.data.table = undefined
+    this.data.fromItemInfos.length = 0
     this.data.whereParts.length = 0
     this.data.groupByItems.length = 0
     this.data.havingParts.length = 0
@@ -107,34 +103,27 @@ export abstract class BaseStep {
   }
 
   protected addWhereParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
-    if (op1 === undefined && cond2 === undefined) {
-      this.data.whereParts.push(cond1)
-    } else if (op1 !== undefined && cond2 !== undefined) {
-      this.data.whereParts.push(Parenthesis.Open)
-      this.data.whereParts.push(cond1)
-      this.data.whereParts.push(op1)
-      this.data.whereParts.push(cond2)
-      if (op2 !== undefined && cond3 !== undefined) {
-        this.data.whereParts.push(op2)
-        this.data.whereParts.push(cond3)
-      }
-      this.data.whereParts.push(Parenthesis.Close)
-    }
+    BaseStep.addConditionParts(this.data.whereParts, cond1, op1, cond2, op2, cond3)
   }
 
   protected addHavingParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
+    BaseStep.addConditionParts(this.data.havingParts, cond1, op1, cond2, op2, cond3)
+  }
+
+  private static addConditionParts(conditionArray: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
+    cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
     if (op1 === undefined && cond2 === undefined) {
-      this.data.havingParts.push(cond1)
+      conditionArray.push(cond1)
     } else if (op1 !== undefined && cond2 !== undefined) {
-      this.data.havingParts.push(Parenthesis.Open)
-      this.data.havingParts.push(cond1)
-      this.data.havingParts.push(op1)
-      this.data.havingParts.push(cond2)
+      conditionArray.push(Parenthesis.Open)
+      conditionArray.push(cond1)
+      conditionArray.push(op1)
+      conditionArray.push(cond2)
       if (op2 !== undefined && cond3 !== undefined) {
-        this.data.havingParts.push(op2)
-        this.data.havingParts.push(cond3)
+        conditionArray.push(op2)
+        conditionArray.push(cond3)
       }
-      this.data.havingParts.push(Parenthesis.Close)
+      conditionArray.push(Parenthesis.Close)
     }
   }
 
@@ -142,18 +131,18 @@ export abstract class BaseStep {
    * This function throws error if WhereParts Array where invalid
    * it check the number of open and close parentheses in the conditions
    */
-  private throwIfWherePartsInvalid() {
+  private static throwIfConditionPartsInvalid(conditionsArray: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[]) {
     let pCounter = 0
-    for (let i = 0; i < this.data.whereParts.length; i++) {
-      if (this.data.whereParts[i] === Parenthesis.Open) {
+    for (let i = 0; i < conditionsArray.length; i++) {
+      if (conditionsArray[i] === Parenthesis.Open) {
         pCounter++
-        if (i < this.data.whereParts.length - 1)
-          if (this.data.whereParts[i + 1] === Parenthesis.Close) {
+        if (i < conditionsArray.length - 1)
+          if (conditionsArray[i + 1] === Parenthesis.Close) {
             throw new Error('invalid conditions build, empty parenthesis is not allowed')
           }
       }
 
-      if (this.data.whereParts[i] === Parenthesis.Close)
+      if (conditionsArray[i] === Parenthesis.Close)
         pCounter--
 
       if (pCounter < 0) {// Close comes before Open

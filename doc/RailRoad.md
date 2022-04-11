@@ -3,11 +3,15 @@ RailRoad diagram generated using https://www.bottlecaps.de/rr/ui
 
 ### Steps Grammar: 
 ```
-SEDK ::= Builder ( ( 'SELECT' | 'SELECT_ALL' | 'SELECT_DISTINCT' ) 'FROM' | 'SELECT_ASTERISK_FROM' ) 
+SQL ::=  
 
-( 'WHERE' ( 'AND' | 'OR' )* )? 
+  ( ( ( 'SELECT' | 'SELECT_ALL' | 'SELECT_DISTINCT' ) ( 'FROM' ) ) | ( 'SELECT_ASTERISK_FROM' ) )
 
-( 'GROUPBY' ('HAVING' ( 'AND' | 'OR' )*)? )? 
+  ( ( ( 'JOIN' | 'LEFT_JOIN' | 'RIGHT_JOIN' | 'INNER_JOIN' | 'FULL_OUTER_JOIN' ) 'ON' ( 'AND' | 'OR' )* ) | ( 'CROSS_JOIN' ) )*
 
-'ORDER BY'? 'LIMIT'? 'OFFSET'?
+  ( 'WHERE' ( 'AND' | 'OR' )* )? 
+
+  ( 'GROUPBY' ('HAVING' ( 'AND' | 'OR' )*)? )? 
+
+  'ORDER BY'? 'LIMIT'? 'OFFSET'?
 ```

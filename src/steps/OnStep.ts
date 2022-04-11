@@ -1,18 +1,12 @@
-import { BaseStep, Parenthesis } from './BaseStep'
+import { BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
 import { Condition } from '../models/Condition'
-import { BooleanColumn, Column } from '../columns'
+import { Column } from '../columns'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import {
-  CrossJoinStep, FullOuterJoinStep,
-  GroupByStep,
-  IAfterFromSteps, InnerJoinStep, JoinStep, LeftJoinStep,
-  LimitStep,
-  OffsetStep,
-  OnAndStep,
-  OnOrStep,
-  OrderByStep, RightJoinStep,
+  CrossJoinStep, FullOuterJoinStep, GroupByStep, IAfterFromSteps, InnerJoinStep, JoinStep, LeftJoinStep,
+  LimitStep, OffsetStep, OnAndStep, OnOrStep, OrderByStep, RightJoinStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { WhereStep } from './WhereStep'
@@ -31,7 +25,7 @@ export class OnStep extends BaseStep implements IAfterFromSteps {
     return this
   }
 
-  public crossJoin(table: Table): CrossJoinStep{
+  public crossJoin(table: Table): CrossJoinStep {
     if (this.data.step === undefined) {
       OnStep.throwStepPropertyNotInitializedError()
     }

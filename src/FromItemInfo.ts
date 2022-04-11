@@ -18,8 +18,10 @@ export enum FromItemRelation {
   FULL_OUTER_JOIN = ' FULL OUTER JOIN ',
   CROSS_JOIN = ' CROSS JOIN ',
 }
-export class FromItemInfo implements IStatementGiver{
+
+export class FromItemInfo implements IStatementGiver {
   private readonly onParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
+
   constructor(
     public readonly fromItem: Table,
     public readonly relation: FromItemRelation = FromItemRelation.COMMA,
@@ -53,14 +55,12 @@ export class FromItemInfo implements IStatementGiver{
     return `${this.relation}${this.fromItem.getStmt(data)}${this.getOnPartString(data)}`
   }
 
-  private getOnPartString(data: BuilderData): string{
+  private getOnPartString(data: BuilderData): string {
     if (this.onParts.length === 0) {
       return ''
     }
     const onPartsString = this.onParts.map(it => {
-      if (it instanceof Condition || it instanceof Expression) {
-        return it.getStmt(data)
-      } else if (it instanceof BooleanColumn) {
+      if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
         return it.getStmt(data)
       }
       return it.toString()

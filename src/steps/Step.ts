@@ -14,13 +14,7 @@ import { BaseStep } from './BaseStep'
 import { WhereStep } from './WhereStep'
 import { HavingStep } from './HavingStep'
 import {
-  RootStep,
-  SelectStep,
-  FromStep,
-  CrossJoinStep,
-  GroupByStep,
-  OrderByStep,
-  LimitStep,
+  RootStep, SelectStep, FromStep, CrossJoinStep, GroupByStep, OrderByStep, LimitStep,
   OffsetStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep, FullOuterJoinStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'

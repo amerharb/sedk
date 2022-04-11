@@ -43,7 +43,7 @@ console.log(bindObj)
 ## What is New
 
 ### Version: 0.11.0
-- Select Step can have more than one table
+- From Step can have more than one table
 ```typescript
 sql.select(Employee.c.name.as('Employee Name'), Manager.c.name.as('Manager Name')).from(Employee, Manager).getSQL()
 // SELECT "Employee"."name" AS "Employee Name", "Manager"."name" AS "Manager Name" FROM "Employee", "Manager";

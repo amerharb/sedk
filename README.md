@@ -59,11 +59,15 @@ sql.select(name).from(Employee.as('All Employees')).getSQL()
 // SELECT "name" FROM "Employee" AS "All Employees";
 ```
 - New option added
-
 ```typescript
 {
   addAsBeforeTableAlias: 'always'|'never'
 }
+```
+- Join, Left Join, Right Join, Inner Join and Full Outer Join Steps has been added
+```typescript
+sql.selectAsteriskFrom(Employee).leftJoin(Manager).on(Employee.c.name.eq(Manager.c.name)).getSQL()
+// SELECT * FROM "Employee" LEFT JOIN "Manager" ON "Employee"."name" = "Manager"."name";
 ```
 
 ### Version: 0.10.1

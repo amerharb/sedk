@@ -110,12 +110,12 @@ mindmapDiagram {
 ** TEXT <<enumItem>>
 
 * FromItemRelation <<enum>>
-** NO_RELATION = ''
-** COMMA = ', '
-** JOIN = ' JOIN '
-** LEFT_JOIN = ' LEFT JOIN '
-** RIGHT_JOIN = ' RIGHT JOIN '
-** INNER_JOIN = ' INNER JOIN '
-** FULL_JOIN = ' FULL JOIN '
-** CROSS_JOIN = ' CROSS JOIN '
+** NO_RELATION = '' <<enumItem>>
+** COMMA = ', ' <<enumItem>>
+** JOIN = ' JOIN ' <<enumItem>>
+** LEFT_JOIN = ' LEFT JOIN ' <<enumItem>>
+** RIGHT_JOIN = ' RIGHT JOIN ' <<enumItem>>
+** INNER_JOIN = ' INNER JOIN ' <<enumItem>>
+** FULL_JOIN = ' FULL JOIN ' <<enumItem>>
+** CROSS_JOIN = ' CROSS JOIN ' <<enumItem>>
 @endmindmap

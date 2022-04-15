@@ -59,8 +59,6 @@ console.log(bindObj)
 ### Version: 0.11.1
 - Change package.json files to include sub folders
 
-## What is New
-
 ### Version: 0.11.0
 
 - From Step can have more than one table

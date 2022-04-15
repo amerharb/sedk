@@ -56,6 +56,10 @@ console.log(bindObj)
 ```
 
 ## What is New
+### Version: 0.11.1
+- Change package.json files to include sub folders
+
+## What is New
 
 ### Version: 0.11.0
 

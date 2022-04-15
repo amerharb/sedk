@@ -1,6 +1,10 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.11.1]  2022-04-15
+### Fixed
+- Change package.json files to include sub folders
+
 ## [0.11.0]  2022-04-11
 ### Changes
 - Table data builder change to array of FromItemInfo

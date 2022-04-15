@@ -7,14 +7,29 @@ SEDK is a SQL builder library for Postgres dialect that support binding Object u
 ```typescript
 import * as sedk from 'sedk-postgres'
 
-// Schema definition
-const name = new sedk.TextColumn({ name: 'name' })
-const age = new sedk.NumberColumn({ name: 'age' })
-const Employee = new sedk.Table({ name: 'Employee', columns: { name, age } })
-const publicSchema = new sedk.Schema({ name: 'public', tables: { Employee } })
-const database = new sedk.Database({ version: 1, schema: { public: publicSchema } })
+// Schema definition (practicly defined in one seperate file for the whole project)
+export const database = new Database({
+  version: 1,
+  schemas: {
+    public: new Schema({
+      name: 'public',
+      tables: {
+        Employee: new Table({
+          name: 'Employee',
+          columns: {
+            name: new TextColumn({ name: 'name' }),
+            age: new NumberColumn({ name: 'age' }),
+          },
+        }),
+      },
+    }),
+  },
+})
 
 // Aliases
+const Employee = database.s.public.t.Employee
+const name = Employee.c.name
+const age = Employee.c.age
 const AND = sedk.LogicalOperator.AND
 
 // Start to build SQL & Binder
@@ -41,30 +56,44 @@ console.log(bindObj)
 ```
 
 ## What is New
+### Version: 0.11.1
+- Change package.json files to include sub folders
+
+## What is New
 
 ### Version: 0.11.0
-- Select Step can have more than one table
+
+- From Step can have more than one table
+
 ```typescript
 sql.select(Employee.c.name.as('Employee Name'), Manager.c.name.as('Manager Name')).from(Employee, Manager).getSQL()
 // SELECT "Employee"."name" AS "Employee Name", "Manager"."name" AS "Manager Name" FROM "Employee", "Manager";
 ```
+
 - CrossJoin Step can have more than one table
+
 ```typescript
-sql.select(Employee.c.name, Manager.c.name).from(Employee).crossJoin( Manager).getSQL()
+sql.select(Employee.c.name, Manager.c.name).from(Employee).crossJoin(Manager).getSQL()
 // SELECT "Employee"."name", "Manager"."name" FROM "Employee" CROSS JOIN "Manager";
 ```
+
 - Table can be aliased
+
 ```typescript
 sql.select(name).from(Employee.as('All Employees')).getSQL()
 // SELECT "name" FROM "Employee" AS "All Employees";
 ```
+
 - New option added
+
 ```typescript
 {
-  addAsBeforeTableAlias: 'always'|'never'
+  addAsBeforeTableAlias: 'always' | 'never'
 }
 ```
+
 - Join, Left Join, Right Join, Inner Join and Full Outer Join Steps has been added
+
 ```typescript
 sql.selectAsteriskFrom(Employee).leftJoin(Manager).on(Employee.c.name.eq(Manager.c.name)).getSQL()
 // SELECT * FROM "Employee" LEFT JOIN "Manager" ON "Employee"."name" = "Manager"."name";
@@ -83,8 +112,8 @@ sql.select(name, f.avg(age).as('Employee Age Avrage')).from(Employee).groupBy(na
 
 ```typescript
 {
-  addPublicSchemaName: 'always'|'never'|'when other schema mentioned'
-  addTableName: 'always'|'when two tables or more'
+  addPublicSchemaName: 'always' | 'never' | 'when other schema mentioned'
+  addTableName: 'always' | 'when two tables or more'
 }
 ```
 
@@ -191,7 +220,7 @@ sql.select(name, age.as('Employee Age')).from(Employee).getSQL()
 
 ```typescript
 {
-  addAsBeforeColumnAlias: 'always'|'never'
+  addAsBeforeColumnAlias: 'always' | 'never'
 }
 ```
 
@@ -231,8 +260,8 @@ sql.select(DISTINCT, name, age).from(Employee).getSQL()
 
 ```typescript
 {
-  addAscAfterOrderByItem: 'always'|'never'|'when mentioned'
-  addNullsLastAfterOrderByItem: 'always'|'never'|'when mentioned'
+  addAscAfterOrderByItem: 'always' | 'never' | 'when mentioned'
+  addNullsLastAfterOrderByItem: 'always' | 'never' | 'when mentioned'
 }
 ```
 

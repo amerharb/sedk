@@ -29,7 +29,7 @@ type ColumnObj = {
   name: string
 }
 
-export abstract class Column implements IStatementGiver {
+export abstract class Column<A = never, B = never> implements IStatementGiver {
   private mTable?: Table
 
   protected constructor(protected readonly data: ColumnObj) {}
@@ -88,6 +88,10 @@ export abstract class Column implements IStatementGiver {
     return new OrderByItemInfo(this, DESC, NULLS_LAST)
   }
 
+  public abstract eq(value: A): Condition
+
+  public abstract eq$(value: B): Condition
+
   public getStmt(data: BuilderData): string {
     if (this.mTable === undefined)
       throw new Error('Table of this column is undefined')
@@ -106,11 +110,16 @@ export abstract class Column implements IStatementGiver {
   }
 }
 
-export class BooleanColumn extends Column implements Condition {
-  // implement Condition
+export class BooleanColumn extends Column<null|BooleanLike, null|boolean> implements Condition {
+  // START implement Condition
   public readonly leftExpression: Expression = new Expression(this)
   public readonly leftOperand: Operand = this.leftExpression.leftOperand
   public readonly type: ExpressionType = ExpressionType.BOOLEAN
+
+  public getColumns(): Column<null|BooleanLike, null|boolean>[] {
+    return [this]
+  }
+  // END implement Condition
 
   constructor(data: ColumnObj) {
     super(data)
@@ -141,13 +150,9 @@ export class BooleanColumn extends Column implements Condition {
   public not(): Condition {
     return new Condition(new Expression(this, true))
   }
-
-  public getColumns(): Column[] {
-    return [this]
-  }
 }
 
-export class NumberColumn extends Column {
+export class NumberColumn extends Column<null|NumberLike, null|number> {
   constructor(data: ColumnObj) {
     super(data)
   }
@@ -245,7 +250,7 @@ export class NumberColumn extends Column {
   }
 }
 
-export class TextColumn extends Column {
+export class TextColumn extends Column<null|TextLike, null|string> {
   constructor(data: ColumnObj) {
     super(data)
   }

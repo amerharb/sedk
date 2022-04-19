@@ -4,8 +4,6 @@
 ## [0.11.3]  2022-04-19
 ### fix
 - Version mistake in package.json
-
-## [0.11.2]  2022-04-19
 ### Changes
 - Deprecate PostgresBinder Type and getBinder() function
 - Add SelectItemInfo to select method

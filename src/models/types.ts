@@ -28,6 +28,9 @@ export function isTextNumber(text: unknown): text is number {
   return false
 }
 
+/**
+ * @deprecated
+ */
 export type PostgresBinder = {
   sql: string,
   values: PrimitiveType[]

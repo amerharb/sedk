@@ -1,6 +1,11 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.11.2]  2022-04-15
+### Changes
+- Deprecate PostgresBinder Type and getBinder() function
+- Add SelectItemInfo to select method
+
 ## [0.11.1]  2022-04-15
 ### Fixed
 - Change package.json files to include sub folders

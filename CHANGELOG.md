@@ -2,8 +2,9 @@
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
 ## [0.11.2]  2022-04-15
-### Fixed
-- make eq and eq$ takes generaic type from parent class Column
+### Changes
+- create eq and eq$ function at parent class Column level
+- Deprecate PostgresBinder Type and getBinder() function
 
 ## [0.11.1]  2022-04-15
 ### Fixed

@@ -50,7 +50,7 @@ export class Builder {
     this.rootStep = new Step(this.data)
   }
 
-  public select(distinct: Distinct|All, ...items: (SelectItem|PrimitiveType)[]): SelectStep
+  public select(distinct: Distinct|All, ...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
   public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
   public select(...items: (Distinct|All|SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
     if (items[0] instanceof Distinct) {
@@ -73,11 +73,11 @@ export class Builder {
     return this.rootStep.select(...newItems)
   }
 
-  public selectDistinct(...items: (SelectItem|PrimitiveType)[]): SelectStep {
+  public selectDistinct(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
     return this.rootStep.selectDistinct(...items)
   }
 
-  public selectAll(...items: (SelectItem|PrimitiveType)[]): SelectStep {
+  public selectAll(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
     return this.rootStep.selectAll(...items)
   }
 

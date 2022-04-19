@@ -1,5 +1,5 @@
 import { escapeDoubleQuote } from './util'
-import { Column } from './columns'
+import { BooleanColumn, Column, NumberColumn, TextColumn } from './columns'
 import { IStatementGiver } from './models/IStatementGiver'
 import { BuilderData } from './builder'
 
@@ -134,7 +134,7 @@ export class Schema<T extends TablesObj = TablesObj> {
 }
 
 type ColumnsObj = {
-  [columnName: string]: Column
+  [columnName: string]: BooleanColumn|NumberColumn|TextColumn
 }
 
 type TableObj<C extends ColumnsObj> = {

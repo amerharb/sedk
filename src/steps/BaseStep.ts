@@ -4,6 +4,7 @@ import { PostgresBinder } from '../models/types'
 import { Expression } from '../models/Expression'
 import { BooleanColumn } from '../columns'
 import { LogicalOperator } from '../operators'
+import { PrimitiveType } from './Step'
 
 export enum Parenthesis {
   Open = '(',
@@ -17,11 +18,18 @@ export abstract class BaseStep {
     return this.getStatement()
   }
 
+  /**
+   * @deprecated user getSQL() for sql value and getValues() for values
+   */
   public getBinds(): PostgresBinder {
     return {
       sql: this.getStatement(),
       values: this.data.binderStore.getValues(),
     }
+  }
+
+  public getBindValues(): PrimitiveType[] {
+    return [...this.data.binderStore.getValues()]
   }
 
   private getStatement(): string {

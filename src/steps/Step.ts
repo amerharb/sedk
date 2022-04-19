@@ -54,12 +54,12 @@ export class Step extends BaseStep
     return this
   }
 
-  public selectDistinct(...items: (SelectItem|PrimitiveType)[]): SelectStep {
+  public selectDistinct(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
     this.data.distinct = ' DISTINCT'
     return this.select(...items)
   }
 
-  public selectAll(...items: (SelectItem|PrimitiveType)[]): SelectStep {
+  public selectAll(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
     this.data.distinct = ' ALL'
     return this.select(...items)
   }

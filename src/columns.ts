@@ -10,6 +10,7 @@ import {
   ComparisonOperator,
   TextOperator,
   Operator,
+  BitwiseOperator,
 } from './operators'
 import {
   OrderByItemInfo,
@@ -223,6 +224,33 @@ export class NumberColumn extends Column {
   public le$(value: number): Condition {
     const binder = new Binder(value)
     return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
+  }
+
+  public bitwiseAnd(value: number): Expression {
+    return new Expression(this, BitwiseOperator.BitwiseAnd, value)
+  }
+
+  public bitwiseAnd$(value: number): Expression {
+    const binder = new Binder(value)
+    return new Expression(this, BitwiseOperator.BitwiseAnd, new Expression(binder))
+  }
+
+  public bitwiseOr(value: number): Expression {
+    return new Expression(this, BitwiseOperator.BitwiseOr, value)
+  }
+
+  public bitwiseOr$(value: number): Expression {
+    const binder = new Binder(value)
+    return new Expression(this, BitwiseOperator.BitwiseOr, new Expression(binder))
+  }
+
+  public bitwiseXor(value: number): Expression {
+    return new Expression(this, BitwiseOperator.BitwiseXor, value)
+  }
+
+  public bitwiseXor$(value: number): Expression {
+    const binder = new Binder(value)
+    return new Expression(this, BitwiseOperator.BitwiseXor, new Expression(binder))
   }
 
   public get sum(): AggregateFunction {

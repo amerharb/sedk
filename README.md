@@ -56,8 +56,15 @@ console.log(bindObj)
 ```
 
 ## What is New
-### Version: 0.11.2
-- 
+### Version: 0.11.4
+-   Add bitwise operation support `&`, `|` and `#`
+```typescript
+sql.selectAsteriskFrom(Employee).where(Employee.c.age.bitwiseAnd(1).eq(0)).getSQL()
+// SELECT * FROM "Employee" WHERE "age" & 1 = 0;
+```
+
+### Version: 0.11.3
+- Fix some bugs
 
 ### Version: 0.11.1
 - Change package.json files to include sub folders

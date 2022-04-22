@@ -7,6 +7,12 @@ export enum ArithmeticOperator {
   EXP = '^',
 }
 
+export enum BitwiseOperator {
+  BitwiseOr = '|',
+  BitwiseAnd = '&',
+  BitwiseXor = '#',
+}
+
 export enum TextOperator {
   CONCAT = '||',
 }
@@ -31,4 +37,4 @@ export enum LogicalOperator {
 }
 
 export type Qualifier = NullOperator|ComparisonOperator
-export type Operator = NullOperator|ComparisonOperator|ArithmeticOperator|TextOperator
+export type Operator = Qualifier|ArithmeticOperator|BitwiseOperator|TextOperator

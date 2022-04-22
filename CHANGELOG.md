@@ -2,6 +2,8 @@
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
 ## [0.11.4]  2022-04-20
+### Added
+- suport bitwise operations in `&`, `|` and `#` 
 
 ## [0.11.3]  2022-04-19
 ### fix

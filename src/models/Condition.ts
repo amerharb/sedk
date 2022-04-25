@@ -1,10 +1,11 @@
 import { Expression, ExpressionType } from './Expression'
-import { Qualifier } from '../operators'
+import { ComparisonOperator, NullOperator, Qualifier } from '../operators'
 import { BuilderData } from '../builder'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { Column } from '../columns'
 import { Operand } from './Operand'
 import { IStatementGiver } from './IStatementGiver'
+import { Binder } from '../binder'
 
 export class Condition implements Expression, IStatementGiver {
   public readonly leftExpression: Expression
@@ -37,6 +38,18 @@ export class Condition implements Expression, IStatementGiver {
 
   public as(alias: string): SelectItemInfo {
     return new SelectItemInfo(this, alias)
+  }
+
+  //TODO: support other values types
+  public eq(value: null|number): Condition {
+    const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
+    return new Condition(this, qualifier, new Expression(value))
+  }
+
+  public eq$(value: null|number): Condition {
+    const binder = new Binder(value)
+    const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
+    return new Condition(this, qualifier, new Expression(binder))
   }
 
   public getColumns(): Column[] {

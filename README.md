@@ -45,14 +45,11 @@ console.log(stmt2)
 // SELECT "name", "age" FROM "Employee" WHERE "name" = 'John' AND "age" > 25;
 
 
-const bindObj = sql.select(name, age).from(Employee).where(name.eq$('John'), AND, age.gt$(25)).getBinds()
-console.log(bindObj)
-/*
-{
-  sql: 'SELECT "name", "age" FROM "Employee" WHERE ("name" = $1 AND "age" > $2);',
-  values: ['john', 25],
-}
- */
+const lastStep = sql.select(name, age).from(Employee).where(name.eq$('John'), AND, age.gt$(25))
+console.log(lastStep.getSQL())
+// SELECT "name", "age" FROM "Employee" WHERE ("name" = $1 AND "age" > $2);
+console.log(lastStep.getBindValues())
+//  ['john', 25]
 ```
 
 ## What is New
@@ -61,6 +58,12 @@ console.log(bindObj)
 ```typescript
 sql.selectAsteriskFrom(Employee).where(Employee.c.age.bitwiseAnd(1).eq(0)).getSQL()
 // SELECT * FROM "Employee" WHERE "age" & 1 = 0;
+```
+also can be added with binder values
+```typescript
+sql.selectAsteriskFrom(Employee).where(Employee.c.age.bitwiseAnd$(1).eq$(0))
+    .getSQL() // SQL: SELECT * FROM "Employee" WHERE "age" & $1 = $2;
+    .getBindValues() // VALUES: [1, 0];
 ```
 
 ### Version: 0.11.3

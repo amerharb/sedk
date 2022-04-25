@@ -17,9 +17,33 @@ describe('Bitwise Operators', () => {
 
       expect(actual).toEqual('SELECT * FROM "table1" WHERE ("col4" & 1) = 0;')
     })
+    it('Produces [SELECT * FROM "table1" WHERE ("col1" & $1) = 0;]', () => {
+      const actual = sql
+        .selectAsteriskFrom(table)
+        .where(col4.bitwiseAnd$(1).eq(0))
+
+      expect(actual.getSQL()).toEqual('SELECT * FROM "table1" WHERE ("col4" & $1) = 0;')
+      expect(actual.getBindValues()).toEqual([1])
+    })
+    it('Produces [SELECT * FROM "table1" WHERE ("col1" & $1) = $2;]', () => {
+      const actual = sql
+        .selectAsteriskFrom(table)
+        .where(col4.bitwiseAnd$(1).eq$(0))
+
+      expect(actual.getSQL()).toEqual('SELECT * FROM "table1" WHERE ("col4" & $1) = $2;')
+      expect(actual.getBindValues()).toEqual([1, 0])
+    })
   })
 
   describe('bitwise OR', () => {
+    it('Produces [SELECT * FROM "table1" WHERE ("col1" | 1) = 0;]', () => {
+      const actual = sql
+        .selectAsteriskFrom(table)
+        .where(col4.bitwiseOr(1).eq(0))
+        .getSQL()
+
+      expect(actual).toEqual('SELECT * FROM "table1" WHERE ("col4" | 1) = 0;')
+    })
     it('Produces [SELECT * FROM "table1" WHERE ("col1" | 1) = 0;]', () => {
       const actual = sql
         .selectAsteriskFrom(table)

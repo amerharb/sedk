@@ -78,6 +78,12 @@ export class Expression implements IStatementGiver {
     return new Condition(this, qualifier, new Expression(value))
   }
 
+  public eq$(value: null|number): Condition {
+    const binder = new Binder(value)
+    const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
+    return new Condition(this, qualifier, new Expression(binder))
+  }
+
   public getColumns(): Column[] {
     const columns: Column[] = []
 

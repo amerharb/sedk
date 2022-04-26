@@ -55,15 +55,9 @@ export class Expression implements IStatementGiver {
     }
   }
 
-  public getStmt(
-    data: BuilderData,
-    option: { withOuterBracket: boolean } = { withOuterBracket: true },
-  ): string {
+  public getStmt(data: BuilderData): string {
     if (this.operator !== undefined && this.rightOperand !== undefined) {
-      const stmt = `${this.leftOperand.getStmt(data)} ${this.operator.toString()} ${this.rightOperand.getStmt(data)}`
-      if (option.withOuterBracket)
-        return `(${stmt})`
-      return stmt
+      return `(${this.leftOperand.getStmt(data)} ${this.operator.toString()} ${this.rightOperand.getStmt(data)})`
     }
     return this.leftOperand.getStmt(data)
   }

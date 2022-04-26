@@ -18,7 +18,7 @@ import {
   OrderByItem,
   OrderByItemInfo,
 } from './orderBy'
-import { AggregateFunction, AggregateFunctionEnum } from './aggregateFunction'
+import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
 import { NumberColumn } from './columns'
 import { Binder } from './binder'
 import { PrimitiveType } from './steps/Step'

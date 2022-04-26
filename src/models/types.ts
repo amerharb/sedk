@@ -1,6 +1,6 @@
 import { PrimitiveType } from '../steps/Step'
 import { BooleanColumn, NumberColumn, TextColumn } from '../columns'
-import { AggregateFunction } from '../aggregateFunction'
+import { AggregateFunction } from '../AggregateFunction'
 import { Expression } from './Expression'
 
 //TODO: include other value type like date-time

@@ -10,6 +10,7 @@ const col2 = table.c.col2
 const col3 = table.c.col3
 const col4 = table.c.col4
 const col5 = table.c.col5
+const col6 = table.c.col6
 
 describe('test groupBy Step', () => {
   const sql = new Builder(database)
@@ -130,6 +131,20 @@ describe('test groupBy Step', () => {
         .getSQL()
 
       expect(actual).toEqual('SELECT "col1" FROM "table1" GROUP BY "col1" HAVING COUNT("col5") <> 5;')
+    })
+
+    it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING COUNT("col4") > 4 AND AVG("col5") >= 5 AND MAX("col6") < 6 OR MIN("col6") <= 7;]', () => {
+      const actual = sql
+        .select(col1)
+        .from(table)
+        .groupBy(col1)
+        .having(col4.count.gt(4))
+        .and(col5.avg.ge(5))
+        .and(col6.max.lt(6))
+        .or(col6.min.le(7))
+        .getSQL()
+
+      expect(actual).toEqual('SELECT "col1" FROM "table1" GROUP BY "col1" HAVING COUNT("col4") > 4 AND AVG("col5") >= 5 AND MAX("col6") < 6 OR MIN("col6") <= 7;')
     })
 
   })

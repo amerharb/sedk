@@ -177,7 +177,25 @@ describe('test groupBy Step', () => {
       expect(actual.getSQL()).toEqual(expectedSql)
       expect(actual.getBindValues()).toEqual(expectedValues)
     })
+    it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING COUNT("col4") > $1 AND SUM("col5") <> $2 AND AVG("col5") >= $3 AND MAX("col6") < $4 OR MIN("col6") <= $5;]', () => {
+      const actual = sql
+        .select(col1)
+        .from(table)
+        .groupBy(col1)
+        .having(col4.count.gt$(4))
+        .and(col5.sum.ne$(0))
+        .and(col5.avg.ge$(5))
+        .and(col6.max.lt$(6))
+        .or(col6.min.le$(7))
+
+      const expectedSql = 'SELECT "col1" FROM "table1" GROUP BY "col1" HAVING COUNT("col4") > $1 AND SUM("col5") <> $2 AND AVG("col5") >= $3 AND MAX("col6") < $4 OR MIN("col6") <= $5;'
+      const expectedValues = [4, 0, 5, 6, 7]
+
+      expect(actual.getSQL()).toEqual(expectedSql)
+      expect(actual.getBindValues()).toEqual(expectedValues)
+    })
   })
+
   describe('different steps after', () => {
     it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' ORDER BY "col1";]', () => {
       const actual = sql

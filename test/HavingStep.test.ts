@@ -12,7 +12,7 @@ const col4 = table.c.col4
 const col5 = table.c.col5
 const col6 = table.c.col6
 
-describe('test groupBy Step', () => {
+describe('test having step', () => {
   const sql = new Builder(database)
   afterEach(() => { sql.cleanUp() })
 

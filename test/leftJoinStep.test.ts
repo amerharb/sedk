@@ -7,10 +7,10 @@ const table1Col2 = database.s.public.t.table1.c.col2
 const table2 = database.s.public.t.table2
 const table2Col1 = database.s.public.t.table2.c.col1
 
-describe('Test LEFT JOIN Step', () => {
+describe('test leftJoin step', () => {
   const sql = new Builder(database)
   afterEach(() => { sql.cleanUp() })
-  describe('Basic left join', () => {
+  describe('basic left join', () => {
     it('Produces [SELECT * FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1";]', () => {
       const actual = sql
         .selectAsteriskFrom(table1)

@@ -14,7 +14,7 @@ import {
   ASC,
   DESC,
   NULLS_FIRST,
-  NULLS_LAST,
+  NULLS_LAST, f,
 } from '../src'
 import { database } from './database'
 
@@ -193,5 +193,18 @@ describe('Throw desired Errors', () => {
     }
 
     expect(actual).toThrow(/^Invalid offset value -1, negative numbers are not allowed$/)
+  })
+
+  it('Throws error "Expression Type must be number in aggregate function"', () => {
+    function actual() {
+      sql
+        .select(col1)
+        .from(table)
+        .groupBy(col1)
+        .having(f.sum(e('text')).eq(4))
+        .getSQL()
+    }
+
+    expect(actual).toThrow(/^Expression Type must be number in aggregate function$/)
   })
 })

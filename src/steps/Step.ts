@@ -150,7 +150,7 @@ export class Step extends BaseStep
     }
     type StoreType = { orderByItem?: OrderByItem, direction?: OrderByDirection, nullsPos?: OrderByNullsPosition }
     const store: StoreType = { orderByItem: undefined, direction: undefined, nullsPos: undefined }
-    const pushWhenOrderByDefined = () => {
+    const pushWhenOrderByItemDefined = () => {
       if (store.orderByItem !== undefined) {
         this.data.orderByItemInfos.push(new OrderByItemInfo(
           store.orderByItem,
@@ -176,18 +176,18 @@ export class Step extends BaseStep
         if (store.nullsPos !== undefined)
           throw new Error(`${it} shouldn't come directly after "NULLS FIRST" or "NULLS LAST" without column or alias in between`)
         store.nullsPos = it
-        pushWhenOrderByDefined()
+        pushWhenOrderByItemDefined()
       } else if (it instanceof OrderByItemInfo) {
-        pushWhenOrderByDefined()
+        pushWhenOrderByItemDefined()
         this.data.orderByItemInfos.push(it)
       } else if (it instanceof Column) {
-        pushWhenOrderByDefined()
+        pushWhenOrderByItemDefined()
         store.orderByItem = it
       } else if (it instanceof Expression) {
-        pushWhenOrderByDefined()
+        pushWhenOrderByItemDefined()
         store.orderByItem = it
       } else { //it is a string
-        pushWhenOrderByDefined()
+        pushWhenOrderByItemDefined()
         //look for the alias
         if (this.data.selectItemInfos.find(info => info.alias === it)) {
           store.orderByItem = `"${escapeDoubleQuote(it)}"`
@@ -196,7 +196,7 @@ export class Step extends BaseStep
         }
       }
     })
-    pushWhenOrderByDefined()
+    pushWhenOrderByItemDefined()
     return this
   }
 

@@ -163,4 +163,17 @@ describe('test groupBy Step', () => {
       expect(actual.getBindValues()).toEqual(expectedValues)
     })
   })
+  describe('different steps after', () => {
+    it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' ORDER BY "col1";]', () => {
+      const actual = sql
+        .select(col1)
+        .from(table)
+        .groupBy(col1)
+        .having(col1.eq('a'))
+        .orderBy(col1)
+        .getSQL()
+
+      expect(actual).toEqual('SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' ORDER BY "col1";')
+    })
+  })
 })

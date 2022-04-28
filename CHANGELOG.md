@@ -3,7 +3,8 @@
 
 ## [0.11.4]  2022-04-20
 ### Added
-- suport bitwise operations in `&`, `|` and `#` 
+- Support bitwise operations in `&`, `|` and `#` 
+- Unit test for On step 
 
 ## [0.11.3]  2022-04-19
 ### fix

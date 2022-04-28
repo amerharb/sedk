@@ -7,8 +7,8 @@ import {
   DESC,
   NULLS_FIRST,
   NULLS_LAST,
-} from '../src'
-import { database } from './database'
+} from '../../src'
+import { database } from '../database'
 //Alias
 const table = database.s.public.t.table1
 const col1 = database.s.public.t.table1.c.col1
@@ -28,6 +28,16 @@ describe('test orderBy Step', () => {
       .getSQL()
 
     expect(actual).toEqual('SELECT * FROM "table1" ORDER BY "col1", "col2";')
+  })
+
+  it('Produces [SELECT * FROM "table1" WHERE col4 = 1 ORDER BY "col1", "col2";]', () => {
+    const actual = sql
+      .selectAsteriskFrom(table)
+      .where(col4.eq(1))
+      .orderBy(col1, col2)
+      .getSQL()
+
+    expect(actual).toEqual('SELECT * FROM "table1" WHERE "col4" = 1 ORDER BY "col1", "col2";')
   })
 
   it('Produces [SELECT * FROM "table1" ORDER BY ("col4" + "col5");]', () => {

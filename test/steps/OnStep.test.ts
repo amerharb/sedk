@@ -1,6 +1,6 @@
-import { Builder } from '../src'
-import { database } from './database'
-import { OnStep } from '../src/steps/OnStep'
+import { Builder } from '../../src'
+import { database } from '../database'
+import { OnStep } from '../../src/steps/OnStep'
 
 //Alias
 const table1 = database.s.public.t.table1

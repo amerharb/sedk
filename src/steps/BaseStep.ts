@@ -146,7 +146,7 @@ export abstract class BaseStep {
         pCounter++
         if (i < conditionsArray.length - 1)
           if (conditionsArray[i + 1] === Parenthesis.Close) {
-            throw new Error('invalid conditions build, empty parenthesis is not allowed')
+            throw new Error('invalid conditions build, empty parentheses are not allowed')
           }
       }
 
@@ -154,15 +154,15 @@ export abstract class BaseStep {
         pCounter--
 
       if (pCounter < 0) {// Close comes before Open
-        throw new Error('invalid conditions build, closing parentheses must occur after Opening one')
+        throw new Error('invalid conditions build, closing parenthesis must occur after Opening one')
       }
     }
 
     if (pCounter > 0) // Opening more than closing
-      throw new Error('invalid conditions build, opening parentheses is more than closing ones')
+      throw new Error('invalid conditions build, opening parentheses are more than closing ones')
 
     if (pCounter < 0) // Closing more than opening
-      throw new Error('invalid conditions build, closing parentheses is more than opening ones')
+      throw new Error('invalid conditions build, closing parentheses are more than opening ones')
   }
 }
 

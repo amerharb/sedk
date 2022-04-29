@@ -35,7 +35,7 @@ describe('test from one table', () => {
   const sql = new Builder(database)
   afterEach(() => { sql.cleanUp() })
 
-  /* In Postgres it is ok to have FROM directly after SELECT */
+  /** In Postgres it is ok to have FROM directly after SELECT */
   it('Produces [SELECT FROM "table1";]', () => {
     const actual = sql
       .select()
@@ -102,42 +102,39 @@ describe('test from one table', () => {
     const actual = sql
       .select(e(1, ADD, $(5)))
       .from(table)
-      .getBinds()
 
     const expected = {
       sql: 'SELECT (1 + $1) FROM "table1";',
       values: [5],
     }
-
-    expect(actual).toEqual(expected)
+    expect(actual.getSQL()).toEqual(expected.sql)
+    expect(actual.getBindValues()).toEqual(expected.values)
   })
 
   it('Produces [SELECT $1 FROM "table1";]', () => {
     const actual = sql
       .select($(5))
       .from(table)
-      .getBinds()
 
     const expected = {
       sql: 'SELECT $1 FROM "table1";',
       values: [5],
     }
-
-    expect(actual).toEqual(expected)
+    expect(actual.getSQL()).toEqual(expected.sql)
+    expect(actual.getBindValues()).toEqual(expected.values)
   })
 
   it('Produces [SELECT $1, $2, $3, $4 FROM "table1";]', () => {
     const actual = sql
       .select($(null), $(true), $(1), $('a'))
       .from(table)
-      .getBinds()
 
     const expected = {
       sql: 'SELECT $1, $2, $3, $4 FROM "table1";',
       values: [null, true, 1, 'a'],
     }
-
-    expect(actual).toEqual(expected)
+    expect(actual.getSQL()).toEqual(expected.sql)
+    expect(actual.getBindValues()).toEqual(expected.values)
   })
 
   it('Produces [SELECT 1 AS "One" FROM "table1";]', () => {
@@ -281,14 +278,13 @@ describe('test from one table', () => {
         .select(col1, col2)
         .from(table)
         .where(col1.eq$('x'))
-        .getBinds()
 
       const expected = {
         sql: 'SELECT "col1", "col2" FROM "table1" WHERE "col1" = $1;',
         values: ['x'],
       }
-
-      expect(actual).toEqual(expected)
+      expect(actual.getSQL()).toEqual(expected.sql)
+      expect(actual.getBindValues()).toEqual(expected.values)
     })
 
     it('Produces [SELECT "col1", "col2" FROM "table1" WHERE "col1" <> $1;]', () => {
@@ -296,14 +292,13 @@ describe('test from one table', () => {
         .select(col1, col2)
         .from(table)
         .where(col1.ne$('x'))
-        .getBinds()
 
       const expected = {
         sql: 'SELECT "col1", "col2" FROM "table1" WHERE "col1" <> $1;',
         values: ['x'],
       }
-
-      expect(actual).toEqual(expected)
+      expect(actual.getSQL()).toEqual(expected.sql)
+      expect(actual.getBindValues()).toEqual(expected.values)
     })
 
     it('Produces [SELECT "col1", "col4" FROM "table1" WHERE "col4" = 5;]', () => {
@@ -321,14 +316,13 @@ describe('test from one table', () => {
         .select(col1, col4)
         .from(table)
         .where(col4.eq$(5))
-        .getBinds()
 
       const expected = {
         sql: 'SELECT "col1", "col4" FROM "table1" WHERE "col4" = $1;',
         values: [5],
       }
-
-      expect(actual).toEqual(expected)
+      expect(actual.getSQL()).toEqual(expected.sql)
+      expect(actual.getBindValues()).toEqual(expected.values)
     })
 
     it('Produces [SELECT "col1", "col4" FROM "table1" WHERE "col4" <> 5;]', () => {
@@ -346,13 +340,13 @@ describe('test from one table', () => {
         .select(col1, col4)
         .from(table)
         .where(col4.ne$(5))
-        .getBinds()
 
       const expected = {
         sql: 'SELECT "col1", "col4" FROM "table1" WHERE "col4" <> $1;',
         values: [5],
       }
-      expect(actual).toEqual(expected)
+      expect(actual.getSQL()).toEqual(expected.sql)
+      expect(actual.getBindValues()).toEqual(expected.values)
     })
 
     it('Produces [SELECT "col1", "col4" FROM "table1" WHERE "col4" IS NULL;]', () => {
@@ -410,14 +404,13 @@ describe('test from one table', () => {
         .select(col1, col4)
         .from(table)
         .where(col4.eq$(null))
-        .getBinds()
 
       const expected = {
         sql: 'SELECT "col1", "col4" FROM "table1" WHERE "col4" IS $1;',
         values: [null],
       }
-
-      expect(actual).toEqual(expected)
+      expect(actual.getSQL()).toEqual(expected.sql)
+      expect(actual.getBindValues()).toEqual(expected.values)
     })
 
     it('Produces [SELECT "col1", "col4" FROM "table1" WHERE "col4" IS NOT $1;]', () => {
@@ -425,14 +418,13 @@ describe('test from one table', () => {
         .select(col1, col4)
         .from(table)
         .where(col4.ne$(null))
-        .getBinds()
 
       const expected = {
         sql: 'SELECT "col1", "col4" FROM "table1" WHERE "col4" IS NOT $1;',
         values: [null],
       }
-
-      expect(actual).toEqual(expected)
+      expect(actual.getSQL()).toEqual(expected.values)
+      expect(actual.getBindValues()).toEqual(expected.values)
     })
 
     it('Produces [SELECT "col1", "col4" FROM "table1" WHERE "col1" IS $1;]', () => {
@@ -440,14 +432,13 @@ describe('test from one table', () => {
         .select(col1, col4)
         .from(table)
         .where(col1.eq$(null))
-        .getBinds()
 
       const expected = {
         sql: 'SELECT "col1", "col4" FROM "table1" WHERE "col1" IS $1;',
         values: [null],
       }
-
-      expect(actual).toEqual(expected)
+      expect(actual.getSQL()).toEqual(expected.sql)
+      expect(actual.getBindValues()).toEqual(expected.values)
     })
 
     it('Produces [SELECT "col1", "col2" FROM "table1" WHERE ( "col1" = \'x\' AND "col2" = \'y\' );]', () => {
@@ -465,14 +456,13 @@ describe('test from one table', () => {
         .select(col1, col2)
         .from(table)
         .where(col1.eq$('x'), AND, col2.eq$('y'))
-        .getBinds()
 
       const expected = {
         sql: 'SELECT "col1", "col2" FROM "table1" WHERE ( "col1" = $1 AND "col2" = $2 );',
         values: ['x', 'y'],
       }
-
-      expect(actual).toEqual(expected)
+      expect(actual.getSQL()).toEqual(expected.sql)
+      expect(actual.getBindValues()).toEqual(expected.values)
     })
 
     it('Produces [SELECT "col1", "col2" FROM "table1" WHERE ( "col1" = \'x\' OR "col2" = \'y\' );]', () => {
@@ -626,14 +616,13 @@ describe('test from one table', () => {
       .from(table)
       .where(col1.eq$('x'))
       .or(col2.eq$('y'), AND, col3.eq$('z'), AND, col4.eq$(5))
-      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "table1" WHERE "col1" = $1 OR ( "col2" = $2 AND "col3" = $3 AND "col4" = $4 );',
       values: ['x', 'y', 'z', 5],
     }
-
-    expect(actual).toEqual(expected)
+    expect(actual.getSQL()).toEqual(expected.sql)
+    expect(actual.getBindValues()).toEqual(expected.values)
   })
 
   it('Produces [SELECT "col1" FROM "table1" WHERE "col4" > 5;]', () => {
@@ -651,13 +640,13 @@ describe('test from one table', () => {
       .select(col1)
       .from(table)
       .where(col4.gt$(5))
-      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "table1" WHERE "col4" > $1;',
       values: [5],
     }
-    expect(actual).toEqual(expected)
+    expect(actual.getSQL()).toEqual(expected.sql)
+    expect(actual.getBindValues()).toEqual(expected.values)
   })
 
   it('Produces [SELECT "col1" FROM "table1" WHERE "col4" < 5;]', () => {
@@ -675,13 +664,13 @@ describe('test from one table', () => {
       .select(col1)
       .from(table)
       .where(col4.lt$(5))
-      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "table1" WHERE "col4" < $1;',
       values: [5],
     }
-    expect(actual).toEqual(expected)
+    expect(actual.getSQL()).toEqual(expected.sql)
+    expect(actual.getBindValues()).toEqual(expected.values)
   })
 
   it('Produces [SELECT "col1" FROM "table1" WHERE "col4" >= 5;]', () => {
@@ -699,13 +688,13 @@ describe('test from one table', () => {
       .select(col1)
       .from(table)
       .where(col4.ge$(5))
-      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "table1" WHERE "col4" >= $1;',
       values: [5],
     }
-    expect(actual).toEqual(expected)
+    expect(actual.getSQL()).toEqual(expected.sql)
+    expect(actual.getBindValues()).toEqual(expected.values)
   })
 
   it('Produces [SELECT "col1" FROM "table1" WHERE "col4" <= 5;]', () => {
@@ -723,13 +712,13 @@ describe('test from one table', () => {
       .select(col1)
       .from(table)
       .where(col4.le$(5))
-      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "table1" WHERE "col4" <= $1;',
       values: [5],
     }
-    expect(actual).toEqual(expected)
+    expect(actual.getSQL()).toEqual(expected.sql)
+    expect(actual.getBindValues()).toEqual(expected.values)
   })
 
   it('Produces [SELECT "col1" FROM "table1" WHERE "col1" = "col2";]', () => {
@@ -898,14 +887,13 @@ describe('test from one table', () => {
       .select(col1)
       .from(table)
       .where(col7.eq$(true))
-      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "table1" WHERE "col7" = $1;',
       values: [true],
     }
-
-    expect(actual).toEqual(expected)
+    expect(actual.getSQL()).toEqual(expected.sql)
+    expect(actual.getBindValues()).toEqual(expected.values)
   })
 
   it('Produces [SELECT "col1" FROM "table1" WHERE "col7" <> $1;] for [$1=true]', () => {
@@ -913,14 +901,13 @@ describe('test from one table', () => {
       .select(col1)
       .from(table)
       .where(col7.ne$(true))
-      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "table1" WHERE "col7" <> $1;',
       values: [true],
     }
-
-    expect(actual).toEqual(expected)
+    expect(actual.getSQL()).toEqual(expected.sql)
+    expect(actual.getBindValues()).toEqual(expected.values)
   })
 
   it('Produces [SELECT "col1" FROM "table1" WHERE "col7" IS $1;] for [$1=null]', () => {
@@ -928,14 +915,13 @@ describe('test from one table', () => {
       .select(col1)
       .from(table)
       .where(col7.eq$(null))
-      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "table1" WHERE "col7" IS $1;',
       values: [null],
     }
-
-    expect(actual).toEqual(expected)
+    expect(actual.getSQL()).toEqual(expected.sql)
+    expect(actual.getBindValues()).toEqual(expected.values)
   })
 
   it('Produces [SELECT "col1" FROM "table1" WHERE "col7" IS NOT $1;] for [$1=null]', () => {
@@ -943,14 +929,13 @@ describe('test from one table', () => {
       .select(col1)
       .from(table)
       .where(col7.ne$(null))
-      .getBinds()
 
     const expected = {
       sql: 'SELECT "col1" FROM "table1" WHERE "col7" IS NOT $1;',
       values: [null],
     }
-
-    expect(actual).toEqual(expected)
+    expect(actual.getSQL()).toEqual(expected.sql)
+    expect(actual.getBindValues()).toEqual(expected.values)
   })
 
   it('Produces [SELECT "col1" FROM "table1" WHERE "col7";]', () => {

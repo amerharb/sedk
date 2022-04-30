@@ -1,4 +1,11 @@
-import { ArithmeticOperator, ComparisonOperator, NullOperator, Operator, TextOperator } from '../operators'
+import {
+  ArithmeticOperator,
+  BitwiseOperator,
+  ComparisonOperator,
+  NullOperator,
+  Operator,
+  TextOperator,
+} from '../operators'
 import { Binder } from '../binder'
 import { BuilderData } from '../builder'
 import { SelectItemInfo } from '../SelectItemInfo'
@@ -7,6 +14,7 @@ import { InvalidExpressionError } from '../errors'
 import { Operand } from './operand'
 import { isTextBoolean, isTextNumber, OperandType } from './types'
 import { IStatementGiver } from './IStatementGiver'
+import { Condition } from './Condition'
 
 export enum ExpressionType {
   NOT_EXIST,
@@ -47,21 +55,27 @@ export class Expression implements IStatementGiver {
     }
   }
 
-  public getStmt(
-    data: BuilderData,
-    option: { withOuterBracket: boolean } = { withOuterBracket: true },
-  ): string {
+  public getStmt(data: BuilderData): string {
     if (this.operator !== undefined && this.rightOperand !== undefined) {
-      const stmt = `${this.leftOperand.getStmt(data)} ${this.operator.toString()} ${this.rightOperand.getStmt(data)}`
-      if (option.withOuterBracket)
-        return `(${stmt})`
-      return stmt
+      return `(${this.leftOperand.getStmt(data)} ${this.operator.toString()} ${this.rightOperand.getStmt(data)})`
     }
     return this.leftOperand.getStmt(data)
   }
 
   public as(alias: string): SelectItemInfo {
     return new SelectItemInfo(this, alias)
+  }
+
+  //TODO: support other values types
+  public eq(value: null|number): Condition {
+    const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
+    return new Condition(this, qualifier, new Expression(value))
+  }
+
+  public eq$(value: null|number): Condition {
+    const binder = new Binder(value)
+    const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
+    return new Condition(this, qualifier, new Expression(binder))
   }
 
   public getColumns(): Column[] {
@@ -93,6 +107,14 @@ export class Expression implements IStatementGiver {
 
       if (((left.type === ExpressionType.TEXT && isTextNumber(left.value)) && right.type === ExpressionType.NUMBER)
         || (left.type === ExpressionType.NUMBER && (right.type === ExpressionType.TEXT && isTextNumber(right.value))))
+        return ExpressionType.NUMBER
+
+      this.throwInvalidTypeError(left.type, operator, right.type)
+    }
+
+    if (this.isBitwiseOperator(operator)) {
+      //TODO: currently it support only number type, need include text that contain bits
+      if (left.type === ExpressionType.NUMBER && right.type === ExpressionType.NUMBER)
         return ExpressionType.NUMBER
 
       this.throwInvalidTypeError(left.type, operator, right.type)
@@ -149,6 +171,10 @@ export class Expression implements IStatementGiver {
 
   private static isArithmeticOperator(operator: Operator): boolean {
     return Object.values(ArithmeticOperator).includes(operator as ArithmeticOperator)
+  }
+
+  private static isBitwiseOperator(operator: Operator): boolean {
+    return Object.values(BitwiseOperator).includes(operator as BitwiseOperator)
   }
 
   private static isTextOperator(operator: Operator): boolean {

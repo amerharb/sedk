@@ -10,6 +10,7 @@ import {
   ComparisonOperator,
   TextOperator,
   Operator,
+  BitwiseOperator,
 } from './operators'
 import {
   OrderByItemInfo,
@@ -21,7 +22,7 @@ import {
   NULLS_LAST,
 } from './orderBy'
 import { SelectItemInfo } from './SelectItemInfo'
-import { AggregateFunction, AggregateFunctionEnum } from './aggregateFunction'
+import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
 import { IStatementGiver } from './models/IStatementGiver'
 import { BuilderData } from './builder'
 
@@ -121,12 +122,12 @@ export class BooleanColumn extends Column implements Condition {
     super(data)
   }
 
-  public eq(value: null|BooleanLike): Condition {
+  public eq(value: null|BooleanLike|number): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }
 
-  public eq$(value: null|boolean): Condition {
+  public eq$(value: null|boolean|number): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     const binder = new Binder(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))
@@ -223,6 +224,33 @@ export class NumberColumn extends Column {
   public le$(value: number): Condition {
     const binder = new Binder(value)
     return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
+  }
+
+  public bitwiseAnd(value: number): Expression {
+    return new Expression(this, BitwiseOperator.BitwiseAnd, value)
+  }
+
+  public bitwiseAnd$(value: number): Expression {
+    const binder = new Binder(value)
+    return new Expression(this, BitwiseOperator.BitwiseAnd, new Expression(binder))
+  }
+
+  public bitwiseOr(value: number): Expression {
+    return new Expression(this, BitwiseOperator.BitwiseOr, value)
+  }
+
+  public bitwiseOr$(value: number): Expression {
+    const binder = new Binder(value)
+    return new Expression(this, BitwiseOperator.BitwiseOr, new Expression(binder))
+  }
+
+  public bitwiseXor(value: number): Expression {
+    return new Expression(this, BitwiseOperator.BitwiseXor, value)
+  }
+
+  public bitwiseXor$(value: number): Expression {
+    const binder = new Binder(value)
+    return new Expression(this, BitwiseOperator.BitwiseXor, new Expression(binder))
   }
 
   public get sum(): AggregateFunction {

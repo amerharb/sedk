@@ -1,17 +1,18 @@
 import { Expression, ExpressionType } from './Expression'
-import { Qualifier } from '../operators'
+import { ComparisonOperator, NullOperator, Qualifier } from '../operators'
 import { BuilderData } from '../builder'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { Column } from '../columns'
 import { Operand } from './Operand'
 import { IStatementGiver } from './IStatementGiver'
+import { Binder } from '../binder'
 
 export class Condition implements Expression, IStatementGiver {
   public readonly leftExpression: Expression
   public readonly operator?: Qualifier
   public readonly rightExpression?: Expression
 
-  //Implement Expression
+  // Implement Expression
   public readonly leftOperand: Operand
   public readonly rightOperand?: Operand
   public readonly type: ExpressionType = ExpressionType.BOOLEAN
@@ -35,10 +36,25 @@ export class Condition implements Expression, IStatementGiver {
       return this.leftOperand.getStmt(data)
   }
 
+  // Implement Expression, We don't really need it
   public as(alias: string): SelectItemInfo {
     return new SelectItemInfo(this, alias)
   }
 
+  // Implement Expression, We don't really need it
+  public eq(value: null|number): Condition {
+    const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
+    return new Condition(this, qualifier, new Expression(value))
+  }
+
+  // Implement Expression, We don't really need it
+  public eq$(value: null|number): Condition {
+    const binder = new Binder(value)
+    const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
+    return new Condition(this, qualifier, new Expression(binder))
+  }
+
+  // Implement Expression, but still good to keep it
   public getColumns(): Column[] {
     const columns: Column[] = []
     columns.push(...this.leftExpression.getColumns())

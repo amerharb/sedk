@@ -5,6 +5,7 @@ import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import { LogicalOperator } from '../operators'
 import { LimitStep, OffsetStep, OrderByStep, HavingAndStep, HavingOrStep } from './stepInterfaces'
+import { returnStepOrThrow } from '../util'
 
 export class HavingStep extends BaseStep {
   constructor(protected data: BuilderData) { super(data) }
@@ -28,37 +29,22 @@ export class HavingStep extends BaseStep {
   }
 
   public orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.orderBy(...orderByItems)
+    return returnStepOrThrow(this.data.step).orderBy(...orderByItems)
   }
 
   public limit(n: null|number|All): LimitStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.limit(n)
+    return returnStepOrThrow(this.data.step).limit(n)
   }
 
   public limit$(n: null|number): LimitStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.limit$(n)
+    return returnStepOrThrow(this.data.step).limit$(n)
   }
 
   public offset(n: number): OffsetStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.offset(n)
+    return returnStepOrThrow(this.data.step).offset(n)
   }
 
   public offset$(n: number): OffsetStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.offset$(n)
+    return returnStepOrThrow(this.data.step).offset$(n)
   }
 }

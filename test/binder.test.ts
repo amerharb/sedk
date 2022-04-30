@@ -4,7 +4,7 @@ import { database } from './database'
 //Alias
 const table = database.s.public.t.table1
 
-describe('test from one table', () => {
+describe('Test binder with multi builders', () => {
   const sql1 = new Builder(database)
   const sql2 = new Builder(database)
   afterEach(() => {
@@ -20,17 +20,9 @@ describe('test from one table', () => {
       .select($(2))
       .from(table)
 
-    const expected1 = {
-      sql: 'SELECT $1 FROM "table1";',
-      values: [1],
-    }
-
-    const expected2 = {
-      sql: 'SELECT $1 FROM "table1";',
-      values: [2],
-    }
-
-    expect(actual1.getBinds()).toEqual(expected1)
-    expect(actual2.getBinds()).toEqual(expected2)
+    expect(actual1.getSQL()).toEqual('SELECT $1 FROM "table1";')
+    expect(actual1.getBindValues()).toEqual([1])
+    expect(actual2.getSQL()).toEqual('SELECT $1 FROM "table1";')
+    expect(actual2.getBindValues()).toEqual([2])
   })
 })

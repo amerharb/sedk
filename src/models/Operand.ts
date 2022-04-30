@@ -1,7 +1,7 @@
 import { Binder } from '../binder'
 import { Expression, ExpressionType } from './Expression'
 import { BuilderData } from '../builder'
-import { AggregateFunction } from '../aggregateFunction'
+import { AggregateFunction } from '../AggregateFunction'
 import { BooleanColumn, Column, NumberColumn, TextColumn } from '../columns'
 import { OperandType } from './types'
 import { IStatementGiver } from './IStatementGiver'

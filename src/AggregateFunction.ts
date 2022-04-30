@@ -73,6 +73,8 @@ export class AggregateFunction implements IStatementGiver{
   }
 
   public getStmt(data: BuilderData): string {
-    return `${this.funcName}(${this.expression.getStmt(data, { withOuterBracket: false })})`
+    if (this.expression.rightOperand === undefined || this.expression.rightOperand.type === ExpressionType.NOT_EXIST)
+      return `${this.funcName}(${this.expression.getStmt(data)})`
+    return `${this.funcName}${this.expression.getStmt(data)}`
   }
 }

@@ -22,7 +22,7 @@ import {
   NULLS_LAST,
 } from './orderBy'
 import { SelectItemInfo } from './SelectItemInfo'
-import { AggregateFunction, AggregateFunctionEnum } from './aggregateFunction'
+import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
 import { IStatementGiver } from './models/IStatementGiver'
 import { BuilderData } from './builder'
 

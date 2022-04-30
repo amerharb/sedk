@@ -12,7 +12,7 @@ export class Condition implements Expression, IStatementGiver {
   public readonly operator?: Qualifier
   public readonly rightExpression?: Expression
 
-  //Implement Expression
+  // Implement Expression
   public readonly leftOperand: Operand
   public readonly rightOperand?: Operand
   public readonly type: ExpressionType = ExpressionType.BOOLEAN
@@ -36,22 +36,25 @@ export class Condition implements Expression, IStatementGiver {
       return this.leftOperand.getStmt(data)
   }
 
+  // Implement Expression, We don't really need it
   public as(alias: string): SelectItemInfo {
     return new SelectItemInfo(this, alias)
   }
 
-  //TODO: support other values types
+  // Implement Expression, We don't really need it
   public eq(value: null|number): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     return new Condition(this, qualifier, new Expression(value))
   }
 
+  // Implement Expression, We don't really need it
   public eq$(value: null|number): Condition {
     const binder = new Binder(value)
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     return new Condition(this, qualifier, new Expression(binder))
   }
 
+  // Implement Expression, but still good to keep it
   public getColumns(): Column[] {
     const columns: Column[] = []
     columns.push(...this.leftExpression.getColumns())

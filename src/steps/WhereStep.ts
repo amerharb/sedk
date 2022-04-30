@@ -6,6 +6,7 @@ import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import { GroupByStep, LimitStep, OffsetStep, OrderByStep, WhereAndStep, WhereOrStep } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
+import { returnStepOrThrow } from '../util'
 
 export class WhereStep extends BaseStep {
   constructor(protected data: BuilderData) { super(data) }
@@ -29,44 +30,26 @@ export class WhereStep extends BaseStep {
   }
 
   public groupBy(...groupByItems: Column[]): GroupByStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.groupBy(...groupByItems)
+    return returnStepOrThrow(this.data.step).groupBy(...groupByItems)
   }
 
   public orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.orderBy(...orderByItems)
+    return returnStepOrThrow(this.data.step).orderBy(...orderByItems)
   }
 
   public limit(n: null|number|All): LimitStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.limit(n)
+    return returnStepOrThrow(this.data.step).limit(n)
   }
 
   public limit$(n: null|number): LimitStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.limit$(n)
+    return returnStepOrThrow(this.data.step).limit$(n)
   }
 
   public offset(n: number): OffsetStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.offset(n)
+    return returnStepOrThrow(this.data.step).offset(n)
   }
 
   public offset$(n: number): OffsetStep {
-    if (this.data.step === undefined) {
-      throw new Error('Step property in builder data is not initialized')
-    }
-    return this.data.step.offset$(n)
+    return returnStepOrThrow(this.data.step).offset$(n)
   }
 }

@@ -14,16 +14,16 @@ import {
   ASC,
   DESC,
   NULLS_FIRST,
-  NULLS_LAST,
+  NULLS_LAST, f,
 } from '../src'
 import { database } from './database'
 
 //Alias
 const ADD = ArithmeticOperator.ADD
 const GT = ComparisonOperator.GreaterThan
-const table = database.s.public.t.table1
-const col1 = database.s.public.t.table1.c.col1
-const col3 = database.s.public.t.table1.c.col3
+const table1 = database.s.public.t.table1
+const col1 = table1.c.col1
+const col3 = table1.c.col3
 
 describe('Throw desired Errors', () => {
   const sql = new Builder(database)
@@ -48,7 +48,7 @@ describe('Throw desired Errors', () => {
     expect(actual).toThrowError(ColumnNotFoundError)
   })
 
-  it('Throws error when table not exist', () => {
+  it('Throws error when table1 not exist', () => {
     const wrongTable = new Table({ name: 'wrongTable', columns: { anyColumn: new TextColumn({ name: 'anyColumn' }) } })
 
     function actual() {
@@ -70,7 +70,7 @@ describe('Throw desired Errors', () => {
 
   it('Throws error when no param to select passed after DISTINCT', () => {
     function actual() {
-      sql.select(DISTINCT).from(table)
+      sql.select(DISTINCT).from(table1)
     }
 
     expect(actual).toThrow(/^Select step must have at least one parameter after DISTINCT$/)
@@ -79,7 +79,7 @@ describe('Throw desired Errors', () => {
   it('Throws error when more than one DISTINCT passed', () => {
     function actual() {
       // @ts-ignore
-      sql.select(DISTINCT, DISTINCT, col1).from(table)
+      sql.select(DISTINCT, DISTINCT, col1).from(table1)
     }
 
     expect(actual).toThrow(/^You can not have more than one DISTINCT or ALL$/)
@@ -89,7 +89,7 @@ describe('Throw desired Errors', () => {
   it('Throws error when more than one ALL passed', () => {
     function actual() {
       // @ts-ignore
-      sql.select(ALL, ALL, col1).from(table)
+      sql.select(ALL, ALL, col1).from(table1)
     }
 
     expect(actual).toThrow(/^You can not have more than one DISTINCT or ALL$/)
@@ -98,16 +98,16 @@ describe('Throw desired Errors', () => {
 
   it('Throws error when DISTINCT and ALL passed', () => {
     // @ts-ignore
-    function actual1() { sql.select(ALL, col1, DISTINCT).from(table) }
+    function actual1() { sql.select(ALL, col1, DISTINCT).from(table1) }
 
     // @ts-ignore
-    function actual2() { sql.select(ALL, DISTINCT, col1).from(table) }
+    function actual2() { sql.select(ALL, DISTINCT, col1).from(table1) }
 
     // @ts-ignore
-    function actual3() { sql.select(DISTINCT, ALL, col1).from(table) }
+    function actual3() { sql.select(DISTINCT, ALL, col1).from(table1) }
 
     // @ts-ignore
-    function actual4() { sql.select(DISTINCT, col1, ALL).from(table) }
+    function actual4() { sql.select(DISTINCT, col1, ALL).from(table1) }
 
     [actual1, actual2, actual3, actual4].forEach(actual => {
       expect(actual).toThrow(/^You can not have more than one DISTINCT or ALL$/)
@@ -118,7 +118,7 @@ describe('Throw desired Errors', () => {
   it('Throws error when ORDER BY has no param', () => {
     function actual() {
       sql
-        .selectAsteriskFrom(table)
+        .selectAsteriskFrom(table1)
         .orderBy()
     }
 
@@ -128,7 +128,7 @@ describe('Throw desired Errors', () => {
   it('Throws error when DESC comes before alias or column', () => {
     function actual() {
       sql
-        .selectAsteriskFrom(table)
+        .selectAsteriskFrom(table1)
         .orderBy(DESC, 'col1')
     }
 
@@ -138,7 +138,7 @@ describe('Throw desired Errors', () => {
   it('Throws error when NULLS FIRST comes before alias or column', () => {
     function actual() {
       sql
-        .selectAsteriskFrom(table)
+        .selectAsteriskFrom(table1)
         .orderBy(NULLS_FIRST, col1)
     }
 
@@ -148,7 +148,7 @@ describe('Throw desired Errors', () => {
   it('Throws error when DESC come before column or alias name', () => {
     function actual() {
       sql
-        .selectAsteriskFrom(table)
+        .selectAsteriskFrom(table1)
         .orderBy(col1, NULLS_FIRST, DESC)
     }
 
@@ -158,7 +158,7 @@ describe('Throw desired Errors', () => {
   it('Throws error when NULLS_LAST comes directly after NULLS_FIRST', () => {
     function actual() {
       sql
-        .selectAsteriskFrom(table)
+        .selectAsteriskFrom(table1)
         .orderBy(col1, NULLS_FIRST, NULLS_LAST)
     }
 
@@ -168,7 +168,7 @@ describe('Throw desired Errors', () => {
   it('Throws error when DESC comes directly after ASC', () => {
     function actual() {
       sql
-        .selectAsteriskFrom(table)
+        .selectAsteriskFrom(table1)
         .orderBy(col1, ASC, DESC)
     }
 
@@ -178,7 +178,7 @@ describe('Throw desired Errors', () => {
   it('Throws error when LIMIT step has negative number', () => {
     function actual() {
       sql
-        .selectAsteriskFrom(table)
+        .selectAsteriskFrom(table1)
         .limit(-1)
     }
 
@@ -188,10 +188,23 @@ describe('Throw desired Errors', () => {
   it('Throws error when OFFSET step has negative number', () => {
     function actual() {
       sql
-        .selectAsteriskFrom(table)
+        .selectAsteriskFrom(table1)
         .offset(-1)
     }
 
     expect(actual).toThrow(/^Invalid offset value -1, negative numbers are not allowed$/)
+  })
+
+  it('Throws error "Expression Type must be number in aggregate function"', () => {
+    function actual() {
+      sql
+        .select(col1)
+        .from(table1)
+        .groupBy(col1)
+        .having(f.sum(e('text')).eq(4))
+        .getSQL()
+    }
+
+    expect(actual).toThrow(/^Expression Type must be number in aggregate function$/)
   })
 })

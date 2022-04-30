@@ -18,7 +18,7 @@ module.exports = {
       rules: {
         'indent': ['error', 2],
         'linebreak-style': ['error', 'unix'],
-        'quotes': ['warn', 'single', { 'avoidEscape': true }],
+        'quotes': ['warn', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': true }],
         'semi': ['warn', 'never'],
         'object-curly-spacing': [
           'warn', 'always', { 'objectsInObjects': true, 'arraysInObjects': true },

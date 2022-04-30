@@ -3,7 +3,6 @@ import {
   NumberLike,
   TextLike,
   OperandType,
-  TextBoolean,
 } from './models/types'
 import { Expression } from './models/Expression'
 import { Condition } from './models/Condition'
@@ -18,16 +17,16 @@ import {
   OrderByItem,
   OrderByItemInfo,
 } from './orderBy'
-import { AggregateFunction, AggregateFunctionEnum } from './aggregateFunction'
+import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
 import { NumberColumn } from './columns'
 import { Binder } from './binder'
 import { PrimitiveType } from './steps/Step'
 
 export function e(left: OperandType): Expression
-export function e(left: BooleanLike, operator: ComparisonOperator, right: BooleanLike|TextBoolean): Condition
+export function e(left: BooleanLike, operator: ComparisonOperator, right: BooleanLike): Condition
 export function e(left: NumberLike|Binder, operator: ArithmeticOperator, right: NumberLike|Binder): Expression
 export function e(left: TextLike, operator: ComparisonOperator, right: TextLike): Condition
-export function e(left: OperandType, operator: Operator, right: OperandType|TextBoolean): Expression
+export function e(left: OperandType, operator: Operator, right: OperandType): Expression
 export function e(left: OperandType|Binder, operator?: Operator, right?: OperandType|Binder): Expression {
   const l = left instanceof Binder ? new Expression(left) : left
   if (operator !== undefined && right !== undefined) {

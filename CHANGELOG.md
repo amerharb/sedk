@@ -1,9 +1,14 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.11.4]  2022-04-20
+## [0.11.4]  2022-04-30
 ### Added
-- suport bitwise operations in `&`, `|` and `#` 
+- Support bitwise operations in `&`, `|` and `#` 
+- Unit test for On step and more coverage
+### Changes
+- use backtick instead of single quote in unit test files
+### Breaking Changes
+- Remove deprecated function `getBinds()` and type `PostgresBinder`
 
 ## [0.11.3]  2022-04-19
 ### fix

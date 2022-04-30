@@ -43,7 +43,7 @@ describe('test leftJoin step', () => {
   })
 
   describe('Different steps after left join', () => {
-    it('Produces [SELECT * FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1" WHERE "table1"."col1" = \'a\';;]', () => {
+    it(`Produces [SELECT * FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1" WHERE "table1"."col1" = 'a';]`, () => {
       const actual = sql
         .selectAsteriskFrom(table1)
         .leftJoin(table2)
@@ -51,7 +51,7 @@ describe('test leftJoin step', () => {
         .where(table1Col1.eq('a'))
         .getSQL()
 
-      expect(actual).toEqual('SELECT * FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1" WHERE "table1"."col1" = \'a\';')
+      expect(actual).toEqual(`SELECT * FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1" WHERE "table1"."col1" = 'a';`)
     })
 
     it('Produces [SELECT * FROM "table1" LEFT JOIN "table2" GROUP BY "table1"."col2";]', () => {

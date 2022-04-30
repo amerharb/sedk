@@ -37,34 +37,34 @@ describe('Test LIMIT and OFFSET Steps', () => {
   })
 
   describe('LIMIT and OFFSET after Where Step', () => {
-    it('Produces [SELECT * FROM "table1" WHERE "col1" = \'a\' LIMIT 50;]', () => {
+    it(`Produces [SELECT * FROM "table1" WHERE "col1" = 'a' LIMIT 50;]`, () => {
       const actual = sql
         .selectAsteriskFrom(table)
         .where(table.c.col1.eq('a'))
         .limit(50)
         .getSQL()
 
-      expect(actual).toEqual('SELECT * FROM "table1" WHERE "col1" = \'a\' LIMIT 50;')
+      expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col1" = 'a' LIMIT 50;`)
     })
 
-    it('Produces [SELECT * FROM "table1" WHERE "col1" = \'a\' OFFSET 10;]', () => {
+    it(`Produces [SELECT * FROM "table1" WHERE "col1" = 'a' OFFSET 10;]`, () => {
       const actual = sql
         .selectAsteriskFrom(table)
         .where(table.c.col1.eq('a'))
         .offset(10)
         .getSQL()
 
-      expect(actual).toEqual('SELECT * FROM "table1" WHERE "col1" = \'a\' OFFSET 10;')
+      expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col1" = 'a' OFFSET 10;`)
     })
 
-    it('Produces [SELECT * FROM "table1" WHERE "col1" = \'a\' LIMIT $1;]', () => {
+    it( `Produces [SELECT * FROM "table1" WHERE "col1" = 'a' LIMIT $1;]`, () => {
       const actual = sql
         .selectAsteriskFrom(table)
         .where(table.c.col1.eq('a'))
         .limit$(50)
 
       const expected = {
-        sql: 'SELECT * FROM "table1" WHERE "col1" = \'a\' LIMIT $1;',
+        sql: `SELECT * FROM "table1" WHERE "col1" = 'a' LIMIT $1;`,
         values: [50],
       }
 
@@ -72,14 +72,14 @@ describe('Test LIMIT and OFFSET Steps', () => {
       expect(actual.getBindValues()).toEqual(expected.values)
     })
 
-    it('Produces [SELECT * FROM "table1" WHERE "col1" = \'a\' OFFSET $1;]', () => {
+    it(`Produces [SELECT * FROM "table1" WHERE "col1" = 'a' OFFSET $1;]`, () => {
       const actual = sql
         .selectAsteriskFrom(table)
         .where(table.c.col1.eq('a'))
         .offset$(10)
 
       const expected = {
-        sql: 'SELECT * FROM "table1" WHERE "col1" = \'a\' OFFSET $1;',
+        sql: `SELECT * FROM "table1" WHERE "col1" = 'a' OFFSET $1;`,
         values: [10],
       }
 
@@ -89,7 +89,7 @@ describe('Test LIMIT and OFFSET Steps', () => {
   })
 
   describe('LIMIT and OFFSET after Having Step', () => {
-    it('Produces [SELECT "col1", SUM("col4") FROM "table1" GROUP BY "col1" HAVING SUM("col1") = \'a\' LIMIT 50;]', () => {
+    it(`Produces [SELECT "col1", SUM("col4") FROM "table1" GROUP BY "col1" HAVING SUM("col1") = 'a' LIMIT 50;]`, () => {
       const actual = sql
         .select(table.c.col1, table.c.col4.sum)
         .from(table)
@@ -98,10 +98,10 @@ describe('Test LIMIT and OFFSET Steps', () => {
         .limit(50)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1", SUM("col4") FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' LIMIT 50;')
+      expect(actual).toEqual(`SELECT "col1", SUM("col4") FROM "table1" GROUP BY "col1" HAVING "col1" = 'a' LIMIT 50;`)
     })
 
-    it('Produces [SELECT "col1", SUM("col4") FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' OFFSET 10;]', () => {
+    it(`Produces [SELECT "col1", SUM("col4") FROM "table1" GROUP BY "col1" HAVING "col1" = 'a' OFFSET 10;]`, () => {
       const actual = sql
         .select(table.c.col1, table.c.col4.sum)
         .from(table)
@@ -110,10 +110,10 @@ describe('Test LIMIT and OFFSET Steps', () => {
         .offset(10)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1", SUM("col4") FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' OFFSET 10;')
+      expect(actual).toEqual(`SELECT "col1", SUM("col4") FROM "table1" GROUP BY "col1" HAVING "col1" = 'a' OFFSET 10;`)
     })
 
-    it('Produces [SELECT "col1", SUM("col4") FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' LIMIT $1;]', () => {
+    it(`Produces [SELECT "col1", SUM("col4") FROM "table1" GROUP BY "col1" HAVING "col1" = 'a' LIMIT $1;]`, () => {
       const actual = sql
         .select(table.c.col1, table.c.col4.sum)
         .from(table)
@@ -122,7 +122,7 @@ describe('Test LIMIT and OFFSET Steps', () => {
         .limit$(50)
 
       const expected = {
-        sql: 'SELECT "col1", SUM("col4") FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' LIMIT $1;',
+        sql: `SELECT "col1", SUM("col4") FROM "table1" GROUP BY "col1" HAVING "col1" = 'a' LIMIT $1;`,
         values: [50],
       }
 
@@ -130,7 +130,7 @@ describe('Test LIMIT and OFFSET Steps', () => {
       expect(actual.getBindValues()).toEqual(expected.values)
     })
 
-    it('Produces [SELECT "col1", SUM("col4") FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' OFFSET $1;]', () => {
+    it(`Produces [SELECT "col1", SUM("col4") FROM "table1" GROUP BY "col1" HAVING "col1" = 'a' OFFSET $1;]`, () => {
       const actual = sql
         .select(table.c.col1, table.c.col4.sum)
         .from(table)
@@ -139,7 +139,7 @@ describe('Test LIMIT and OFFSET Steps', () => {
         .offset$(10)
 
       const expected = {
-        sql: 'SELECT "col1", SUM("col4") FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' OFFSET $1;',
+        sql: `SELECT "col1", SUM("col4") FROM "table1" GROUP BY "col1" HAVING "col1" = 'a' OFFSET $1;`,
         values: [10],
       }
 

@@ -17,7 +17,7 @@ describe('test having step', () => {
   afterEach(() => { sql.cleanUp() })
 
   describe('test getSQL() without binders', () => {
-    it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\';]', () => {
+    it(`Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = 'a';]`, () => {
       const actual = sql
         .select(col1)
         .from(table)
@@ -25,10 +25,10 @@ describe('test having step', () => {
         .having(col1.eq('a'))
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\';')
+      expect(actual).toEqual(`SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = 'a';`)
     })
 
-    it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING ( "col1" = \'a\' AND "col2" = \'b\' );]', () => {
+    it(`Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING ( "col1" = \'a\' AND "col2" = 'b' );]`, () => {
       const actual = sql
         .select(col1)
         .from(table)
@@ -36,10 +36,10 @@ describe('test having step', () => {
         .having(col1.eq('a'), AND, col2.eq('b'))
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "table1" GROUP BY "col1" HAVING ( "col1" = \'a\' AND "col2" = \'b\' );')
+      expect(actual).toEqual(`SELECT "col1" FROM "table1" GROUP BY "col1" HAVING ( "col1" = \'a\' AND "col2" = 'b' );`)
     })
 
-    it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING ( "col1" = \'a\' AND "col2" = \'b\' OR "col3" = \'c\' );]', () => {
+    it(`Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING ( "col1" = \'a\' AND "col2" = \'b\' OR "col3" = 'c' );]`, () => {
       const actual = sql
         .select(col1)
         .from(table)
@@ -47,10 +47,10 @@ describe('test having step', () => {
         .having(col1.eq('a'), AND, col2.eq('b'), OR, col3.eq('c'))
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "table1" GROUP BY "col1" HAVING ( "col1" = \'a\' AND "col2" = \'b\' OR "col3" = \'c\' );')
+      expect(actual).toEqual(`SELECT "col1" FROM "table1" GROUP BY "col1" HAVING ( "col1" = \'a\' AND "col2" = \'b\' OR "col3" = 'c' );`)
     })
 
-    it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' AND "col2" = \'b\';]', () => {
+    it(`Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' AND "col2" = 'b';]`, () => {
       const actual = sql
         .select(col1)
         .from(table)
@@ -59,10 +59,10 @@ describe('test having step', () => {
         .and(col2.eq('b'))
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' AND "col2" = \'b\';')
+      expect(actual).toEqual(`SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' AND "col2" = 'b';`)
     })
 
-    it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' AND ( "col2" = \'b\' OR "col3" = \'c\' );]', () => {
+    it(`Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' AND ( "col2" = \'b\' OR "col3" = 'c' );]`, () => {
       const actual = sql
         .select(col1)
         .from(table)
@@ -71,10 +71,10 @@ describe('test having step', () => {
         .and(col2.eq('b'), OR, col3.eq('c'))
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' AND ( "col2" = \'b\' OR "col3" = \'c\' );')
+      expect(actual).toEqual(`SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' AND ( "col2" = \'b\' OR "col3" = 'c' );`)
     })
 
-    it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' AND ( "col2" = \'b\' OR "col3" = \'c\' AND "col4" = 4 );]', () => {
+    it(`Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' AND ( "col2" = \'b\' OR "col3" = 'c' AND "col4" = 4 );]`, () => {
       const actual = sql
         .select(col1)
         .from(table)
@@ -83,10 +83,10 @@ describe('test having step', () => {
         .and(col2.eq('b'), OR, col3.eq('c'), AND, col4.eq(4))
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' AND ( "col2" = \'b\' OR "col3" = \'c\' AND "col4" = 4 );')
+      expect(actual).toEqual(`SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' AND ( "col2" = \'b\' OR "col3" = 'c' AND "col4" = 4 );`)
     })
 
-    it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' OR ( "col2" = \'b\' OR "col3" = \'c\' AND "col4" = 4 );]', () => {
+    it(`Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' OR ( "col2" = \'b\' OR "col3" = 'c' AND "col4" = 4 );]`, () => {
       const actual = sql
         .select(col1)
         .from(table)
@@ -95,10 +95,10 @@ describe('test having step', () => {
         .or(col2.eq('b'), OR, col3.eq('c'), AND, col4.eq(4))
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' OR ( "col2" = \'b\' OR "col3" = \'c\' AND "col4" = 4 );')
+      expect(actual).toEqual(`SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' OR ( "col2" = \'b\' OR "col3" = 'c' AND "col4" = 4 );`)
     })
 
-    it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' AND "col2" = \'b\' OR "col3" = \'c\';]', () => {
+    it(`Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' AND "col2" = \'b\' OR "col3" = 'c';]`, () => {
       const actual = sql
         .select(col1)
         .from(table)
@@ -108,7 +108,7 @@ describe('test having step', () => {
         .or(col3.eq('c'))
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' AND "col2" = \'b\' OR "col3" = \'c\';')
+      expect(actual).toEqual(`SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' AND "col2" = \'b\' OR "col3" = 'c';`)
     })
 
     it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING SUM("col4") = 4;]', () => {
@@ -197,7 +197,7 @@ describe('test having step', () => {
   })
 
   describe('different steps after', () => {
-    it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' ORDER BY "col1";]', () => {
+    it(`Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = 'a' ORDER BY "col1";]`, () => {
       const actual = sql
         .select(col1)
         .from(table)
@@ -206,7 +206,7 @@ describe('test having step', () => {
         .orderBy(col1)
         .getSQL()
 
-      expect(actual).toEqual('SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = \'a\' ORDER BY "col1";')
+      expect(actual).toEqual(`SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = 'a' ORDER BY "col1";`)
     })
   })
 })

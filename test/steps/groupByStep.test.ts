@@ -35,7 +35,7 @@ describe('test groupBy Step', () => {
     expect(actual).toEqual('SELECT "col1", "col2" FROM "table1" GROUP BY "col1", "col2";')
   })
 
-  it('Produces [SELECT "col1" FROM "table1" WHERE "col2" = \'a\' GROUP BY "col1";]', () => {
+  it(`Produces [SELECT "col1" FROM "table1" WHERE "col2" = 'a' GROUP BY "col1";]`, () => {
     const actual = sql
       .select(col1)
       .from(table)
@@ -43,10 +43,10 @@ describe('test groupBy Step', () => {
       .groupBy(col1)
       .getSQL()
 
-    expect(actual).toEqual('SELECT "col1" FROM "table1" WHERE "col2" = \'a\' GROUP BY "col1";')
+    expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE "col2" = 'a' GROUP BY "col1";`)
   })
 
-  it('Produces [SELECT "col1" FROM "table1" WHERE "col2" = \'a\' AND "col3" = \'b\' GROUP BY "col1";]', () => {
+  it(`Produces [SELECT "col1" FROM "table1" WHERE "col2" = \'a\' AND "col3" = 'b' GROUP BY "col1";]`, () => {
     const actual = sql
       .select(col1)
       .from(table)
@@ -55,10 +55,10 @@ describe('test groupBy Step', () => {
       .groupBy(col1)
       .getSQL()
 
-    expect(actual).toEqual('SELECT "col1" FROM "table1" WHERE "col2" = \'a\' AND "col3" = \'b\' GROUP BY "col1";')
+    expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE "col2" = \'a\' AND "col3" = 'b' GROUP BY "col1";`)
   })
 
-  it('Produces [SELECT "col1" FROM "table1" WHERE "col2" = \'a\' OR "col3" = \'b\' GROUP BY "col1";]', () => {
+  it(`Produces [SELECT "col1" FROM "table1" WHERE "col2" = \'a\' OR "col3" = 'b' GROUP BY "col1";]`, () => {
     const actual = sql
       .select(col1)
       .from(table)
@@ -67,7 +67,7 @@ describe('test groupBy Step', () => {
       .groupBy(col1)
       .getSQL()
 
-    expect(actual).toEqual('SELECT "col1" FROM "table1" WHERE "col2" = \'a\' OR "col3" = \'b\' GROUP BY "col1";')
+    expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE "col2" = \'a\' OR "col3" = 'b' GROUP BY "col1";`)
   })
 
   it('Produces [SELECT SUM("col4"), SUM(1) FROM "table1" GROUP BY "col2";]', () => {

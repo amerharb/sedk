@@ -11,7 +11,7 @@ describe('Test CROSS JOIN Step', () => {
   const sql = new Builder(database)
   afterEach(() => { sql.cleanUp() })
   describe('Diffreant steps after cross join', () => {
-    it('Produces [SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" WHERE "table1"."col1" = \'a\';;]', () => {
+    it(`Produces [SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" WHERE "table1"."col1" = 'a';]`, () => {
       const actual = sql
         .select(col1)
         .from(table1)
@@ -19,7 +19,7 @@ describe('Test CROSS JOIN Step', () => {
         .where(col1.eq('a'))
         .getSQL()
 
-      expect(actual).toEqual('SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" WHERE "table1"."col1" = \'a\';')
+      expect(actual).toEqual(`SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" WHERE "table1"."col1" = 'a';`)
     })
 
     it('Produces [SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" GROUP BY "table1"."col2";]', () => {

@@ -1,4 +1,3 @@
-import { PrimitiveType } from '../steps/Step'
 import { BooleanColumn, NumberColumn, TextColumn } from '../columns'
 import { AggregateFunction } from '../AggregateFunction'
 import { Expression } from './Expression'
@@ -26,12 +25,4 @@ export function isTextNumber(text: unknown): text is number {
     return numberRegex.test(text)
   }
   return false
-}
-
-/**
- * @deprecated
- */
-export type PostgresBinder = {
-  sql: string,
-  values: PrimitiveType[]
 }

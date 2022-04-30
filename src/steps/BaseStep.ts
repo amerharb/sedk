@@ -1,6 +1,5 @@
 import { BuilderData } from '../builder'
 import { Condition } from '../models/Condition'
-import { PostgresBinder } from '../models/types'
 import { Expression } from '../models/Expression'
 import { BooleanColumn } from '../columns'
 import { LogicalOperator } from '../operators'
@@ -16,16 +15,6 @@ export abstract class BaseStep {
 
   public getSQL(): string {
     return this.getStatement()
-  }
-
-  /**
-   * @deprecated user getSQL() for sql value and getValues() for values
-   */
-  public getBinds(): PostgresBinder {
-    return {
-      sql: this.getStatement(),
-      values: this.data.binderStore.getValues(),
-    }
   }
 
   public getBindValues(): PrimitiveType[] {

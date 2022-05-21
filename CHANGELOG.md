@@ -1,6 +1,10 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.11.5]  2022-05-21
+### Changes
+- validate if there is more than one WHERE step
+
 ## [0.11.4]  2022-04-30
 ### Added
 - Support bitwise operations in `&`, `|` and `#` 

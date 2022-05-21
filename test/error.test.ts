@@ -25,6 +25,7 @@ const GT = ComparisonOperator.GreaterThan
 const table1 = database.s.public.t.table1
 const col1 = table1.c.col1
 const col3 = table1.c.col3
+const table2 = database.s.public.t.table2
 
 describe('Throw desired Errors', () => {
   const sql = new Builder(database)
@@ -39,6 +40,24 @@ describe('Throw desired Errors', () => {
       fromStep.where(col1.eq('x1'))
       // second Where Step, should throw
       fromStep.where(col1.eq('x2'))
+    }
+
+    expect(actual).toThrowError('WHERE step already specified')
+    expect(actual).toThrowError(MoreThanOneWhereStepError)
+  })
+
+  it('Throws error when 2 WHERE steps added after ON step', () => {
+    function actual() {
+      const fromStep = sql
+        .select(col1)
+        .from(table1)
+        .leftJoin(table2)
+        .on(col1.eq(table2.c.col1))
+
+      // first Where Step
+      fromStep.where(col3.eq('x1'))
+      // second Where Step, should throw
+      fromStep.where(col3.eq('x2'))
     }
 
     expect(actual).toThrowError('WHERE step already specified')

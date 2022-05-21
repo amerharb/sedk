@@ -13,6 +13,7 @@ export {
   TableNotFoundError,
   InvalidExpressionError,
   MoreThanOneDistinctOrAllError,
+  MoreThanOneWhereStepError,
 } from './errors'
 export {
   Database,

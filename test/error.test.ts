@@ -3,6 +3,7 @@ import {
   ColumnNotFoundError,
   TableNotFoundError,
   MoreThanOneDistinctOrAllError,
+  MoreThanOneWhereStepError,
   Builder,
   e,
   Table,
@@ -41,6 +42,7 @@ describe('Throw desired Errors', () => {
     }
 
     expect(actual).toThrowError('WHERE step already specified')
+    expect(actual).toThrowError(MoreThanOneWhereStepError)
   })
 
   it('Throws error when add invalid operator', () => {

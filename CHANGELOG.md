@@ -1,6 +1,12 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.11.6]  2022-05-24
+### Fixed
+- Rebuild to fix a bug not founding Operand file
+### Added
+- Add LICENSE file
+
 ## [0.11.5]  2022-05-21
 ### Changes
 - validate if there is more than one WHERE step

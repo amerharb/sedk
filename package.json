@@ -6,7 +6,8 @@
   "types": "dist/src/index.d.ts",
   "files": [
     "dist/src/**/*.d.ts",
-    "dist/src/**/*.js"
+    "dist/src/**/*.js",
+    "LICENSE"
   ],
   "homepage": "https://github.com/amerharb/sedk-postgres#readme",
   "url": "https://github.com/amerharb/sedk-postgres/issues",

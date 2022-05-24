@@ -53,6 +53,9 @@ console.log(lastStep.getBindValues())
 ```
 
 ## What is New
+### Version: 0.11.5
+- Throw error in case of adding more than one WHERE step
+
 ### Version: 0.11.4
 -   Add bitwise operation support `&`, `|` and `#`
 ```typescript

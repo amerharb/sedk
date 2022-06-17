@@ -113,8 +113,11 @@ export class Expression implements IStatementGiver {
     }
 
     if (this.isBitwiseOperator(operator)) {
-      //TODO: currently it support only number type, need include text that contain bits
       if (left.type === ExpressionType.NUMBER && right.type === ExpressionType.NUMBER)
+        return ExpressionType.NUMBER
+
+      if (left.type === ExpressionType.NUMBER && (right.type === ExpressionType.TEXT && isTextNumber(right.value))
+        || right.type === ExpressionType.NUMBER && (left.type === ExpressionType.TEXT && isTextNumber(left.value)))
         return ExpressionType.NUMBER
 
       this.throwInvalidTypeError(left.type, operator, right.type)

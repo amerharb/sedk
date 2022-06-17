@@ -1,6 +1,12 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.11.7]  2022-05-24
+### Fixed
+- Update Jest version to 28.1.1 to fix unit test error message
+### Added
+- bitwise operator can accept both number and string that contains number
+
 ## [0.11.6]  2022-05-24
 ### Fixed
 - Rebuild to fix a bug not founding Operand file

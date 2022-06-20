@@ -53,6 +53,14 @@ console.log(lastStep.getBindValues())
 ```
 
 ## What is New
+### Version: 0.12.0
+- Support Date Column
+```typescript
+const dob = new Date(Date.UTC(1979, 10, 14))
+sql.selectAsteriskFrom(Employee).where(Employee.c.birthday.eq(dob)).getSQL();
+// SELECT * FROM "Employee" WHERE "birthday" = '1979-11-14T00:00:00.000Z'
+```
+
 ### Version: 0.11.7
 - Bitwise operator accept string that contain
 - upgrade development dependencies

@@ -53,6 +53,10 @@ console.log(lastStep.getBindValues())
 ```
 
 ## What is New
+### Version: 0.11.7
+- Bitwise operator accept string that contain
+- upgrade development dependencies
+
 ### Version: 0.11.6
 - Fix Typescsript build error "Operand file not found"
 - Add ISC license file

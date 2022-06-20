@@ -330,8 +330,8 @@ export class DateColumn extends Column {
   }
 
   public ne(value: Expression): Condition
-  public ne(value: null|Date|TextColumn): Condition
-  public ne(value: null|Date|TextColumn|Expression): Condition {
+  public ne(value: null|Date|DateColumn): Condition
+  public ne(value: null|Date|DateColumn|Expression): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }

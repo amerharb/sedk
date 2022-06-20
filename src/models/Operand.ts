@@ -5,6 +5,7 @@ import { AggregateFunction } from '../AggregateFunction'
 import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../columns'
 import { OperandType } from './types'
 import { IStatementGiver } from './IStatementGiver'
+import { escapeSingleQuote } from '../util'
 
 export class Operand implements IStatementGiver {
   public value?: OperandType|Binder
@@ -26,9 +27,7 @@ export class Operand implements IStatementGiver {
       }
       return `${this.value.getStmt()}`
     } else if (typeof this.value === 'string') {
-      // escape single quote by repeating it
-      const escapedValue = this.value.replace(/'/g, '\'\'')
-      return `'${escapedValue}'`
+      return `'${escapeSingleQuote(this.value)}'`
     } else if (typeof this.value === 'boolean') {
       return `${this.isNot ? 'NOT ' : ''}${this.value ? 'TRUE' : 'FALSE'}`
     } else if (this.value instanceof AggregateFunction) {
@@ -40,7 +39,7 @@ export class Operand implements IStatementGiver {
     } else if (typeof this.value === 'number') {
       return `${this.isNot ? 'NOT ' : ''}${this.value}`
     } else if (this.value instanceof Date) {
-      return `${this.isNot ? 'NOT ' : ''}${this.value.toISOString()}`
+      return `${this.isNot ? 'NOT ' : ''}'${escapeSingleQuote(this.value.toISOString())}'`
     } else { // value here is undefined
       return `${this.isNot ? 'NOT' : ''}`
     }

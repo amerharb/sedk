@@ -24,6 +24,7 @@ export {
   BooleanColumn,
   NumberColumn,
   TextColumn,
+  DateColumn,
 } from './columns'
 export {
   OrderByDirection,

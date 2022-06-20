@@ -6,6 +6,7 @@ import {
   BooleanColumn,
   NumberColumn,
   TextColumn,
+  DateColumn,
 } from '../src'
 
 export const database = new Database({
@@ -25,6 +26,8 @@ export const database = new Database({
             col6: new NumberColumn({ name: 'col6' }),
             col7: new BooleanColumn({ name: 'col7' }),
             col8: new BooleanColumn({ name: 'col8' }),
+            col9: new DateColumn({ name: 'col9' }),
+            col10: new DateColumn({ name: 'col10' }),
           },
         }),
         table2: new Table({

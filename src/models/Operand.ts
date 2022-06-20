@@ -2,7 +2,7 @@ import { Binder } from '../binder'
 import { Expression, ExpressionType } from './Expression'
 import { BuilderData } from '../builder'
 import { AggregateFunction } from '../AggregateFunction'
-import { BooleanColumn, Column, NumberColumn, TextColumn } from '../columns'
+import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../columns'
 import { OperandType } from './types'
 import { IStatementGiver } from './IStatementGiver'
 
@@ -39,6 +39,8 @@ export class Operand implements IStatementGiver {
       return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt(data)}`
     } else if (typeof this.value === 'number') {
       return `${this.isNot ? 'NOT ' : ''}${this.value}`
+    } else if (this.value instanceof Date) {
+      return `${this.isNot ? 'NOT ' : ''}${this.value.toISOString()}`
     } else { // value here is undefined
       return `${this.isNot ? 'NOT' : ''}`
     }
@@ -55,6 +57,8 @@ export class Operand implements IStatementGiver {
       return ExpressionType.NUMBER
     } else if (typeof operand === 'string' || operand instanceof TextColumn) {
       return ExpressionType.TEXT
+    } else if (operand instanceof Date || operand instanceof DateColumn) {
+      return ExpressionType.DATE
     } else if (operand instanceof AggregateFunction) {
       return ExpressionType.NUMBER
     } else if (operand instanceof Expression) {
@@ -68,6 +72,8 @@ export class Operand implements IStatementGiver {
         return ExpressionType.NUMBER
       } else if (typeof operand.value === 'string') {
         return ExpressionType.TEXT
+      } else if (operand.value instanceof Date) {
+        return ExpressionType.DATE
       }
     }
     throw new Error('Operand type is not supported')

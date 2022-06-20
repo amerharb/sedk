@@ -34,11 +34,16 @@ mindmapDiagram {
 ** boolean <<primitive>>
 ** number <<primitive>>
 ** string <<primitive>>
+** Date <<class>>
 
 * SelectItem <<type>>
 ** Aggregate Function <<class>>
 ** ColumnLike <<type>>
 *** Column <<class>>
+**** ColumnBoolean <<class>>
+**** ColumnNumber <<class>>
+**** ColumnText <<class>>
+**** ColumnDate <<class>>
 *** Expression <<class>>
 ** Asterisk <<class>>
 
@@ -71,6 +76,9 @@ mindmapDiagram {
 *** TextLike <<type>>
 **** string <<primitive>>
 **** TextColumn  <<class>>
+*** DateLike <<type>>
+**** Date <<class>>
+**** DateColumn  <<class>>
 
 * Operator <<type>>
 ** ArithmeticOperator <<enum>>
@@ -108,6 +116,7 @@ mindmapDiagram {
 ** BOOLEAN <<enumItem>>
 ** NUMBER <<enumItem>>
 ** TEXT <<enumItem>>
+** DATE <<enumItem>>
 
 * FromItemRelation <<enum>>
 ** NO_RELATION = '' <<enumItem>>

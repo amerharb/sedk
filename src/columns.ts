@@ -116,6 +116,7 @@ export class BooleanColumn extends Column implements Condition {
   public getColumns(): BooleanColumn[] {
     return [this]
   }
+
   // END implement Condition
 
   constructor(data: ColumnObj) {
@@ -307,5 +308,37 @@ export class TextColumn extends Column {
 
   public concat(value: TextLike): Expression {
     return new Expression(this, TextOperator.CONCAT, value)
+  }
+}
+
+export class DateColumn extends Column {
+  constructor(data: ColumnObj) {
+    super(data)
+  }
+
+  public eq(value: Expression): Condition
+  public eq(value: null|Date|DateColumn): Condition
+  public eq(value: null|Date|DateColumn|Expression): Condition {
+    const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
+    return new Condition(new Expression(this), qualifier, new Expression(value))
+  }
+
+  public eq$(value: null|Date): Condition {
+    const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), qualifier, new Expression(binder))
+  }
+
+  public ne(value: Expression): Condition
+  public ne(value: null|Date|TextColumn): Condition
+  public ne(value: null|Date|TextColumn|Expression): Condition {
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    return new Condition(new Expression(this), qualifier, new Expression(value))
+  }
+
+  public ne$(value: null|Date): Condition {
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 }

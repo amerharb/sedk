@@ -2,6 +2,8 @@ import { BooleanColumn, NumberColumn, TextColumn } from '../columns'
 import { AggregateFunction } from '../AggregateFunction'
 import { Expression } from './Expression'
 
+export type PrimitiveType = null|boolean|number|string
+
 const booleanArray: readonly string[] = ['t', 'tr', 'tru', 'true', 'f', 'fa', 'fal', 'fals', 'false']
 type TextBooleanSmallLetter = typeof booleanArray[number]
 export type TextBoolean = TextBooleanSmallLetter|Capitalize<TextBooleanSmallLetter>|Uppercase<TextBooleanSmallLetter>

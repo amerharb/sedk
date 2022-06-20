@@ -1,6 +1,7 @@
 import { BaseStep } from './BaseStep'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { AliasedTable, Table } from '../database'
+import { PrimitiveType } from '../models/types'
 import { Condition } from '../models/Condition'
 import { OnStep } from './OnStep'
 import { WhereStep } from './WhereStep'
@@ -8,7 +9,7 @@ import { Column } from '../columns'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import { HavingStep } from './HavingStep'
-import { PrimitiveType, SelectItem } from './Step'
+import { SelectItem } from './Step'
 import { LogicalOperator } from '../operators'
 
 export interface RootStep extends BaseStep {

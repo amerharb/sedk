@@ -20,7 +20,7 @@ import {
 import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
 import { NumberColumn } from './columns'
 import { Binder } from './binder'
-import { PrimitiveType } from './steps/Step'
+import { PrimitiveType } from './models/types'
 
 export function e(left: OperandType): Expression
 export function e(left: BooleanLike, operator: ComparisonOperator, right: BooleanLike): Condition

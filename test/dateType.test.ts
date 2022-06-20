@@ -8,8 +8,7 @@ const col9 = database.s.public.t.table1.c.col9
 describe(`test Date column`, () => {
   const sql = new Builder(database)
   afterEach(() => { sql.cleanUp() })
-
-  describe(`Where step for Date`, () => {
+  describe(`when date is null`, () => {
     it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" IS NULL;]`, () => {
       const actual = sql
         .select(col9)
@@ -27,6 +26,32 @@ describe(`test Date column`, () => {
         .getSQL()
 
       expect(actual).toEqual(`SELECT "col9" FROM "table1" WHERE "col9" IS NOT NULL;`)
+    })
+    it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" IS $1;]`, () => {
+      const actual = sql
+        .select(col9)
+        .from(table)
+        .where(col9.eq$(null))
+
+      const expected = {
+        sql: `SELECT "col9" FROM "table1" WHERE "col9" IS $1;`,
+        values: [null],
+      }
+      expect(actual.getSQL()).toEqual(expected.sql)
+      expect(actual.getBindValues()).toEqual(expected.values)
+    })
+    it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" IS NOT $1;]`, () => {
+      const actual = sql
+        .select(col9)
+        .from(table)
+        .where(col9.ne$(null))
+
+      const expected = {
+        sql: `SELECT "col9" FROM "table1" WHERE "col9" IS NOT $1;`,
+        values: [null],
+      }
+      expect(actual.getSQL()).toEqual(expected.sql)
+      expect(actual.getBindValues()).toEqual(expected.values)
     })
   })
 })

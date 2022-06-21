@@ -355,4 +355,22 @@ export class DateColumn extends Column {
     const binder = new Binder(value)
     return new Condition(new Expression(this), ComparisonOperator.GreaterOrEqual, new Expression(binder))
   }
+
+  public lt(value: DateLike): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.LesserThan, new Expression(value))
+  }
+
+  public lt$(value: Date): Condition {
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), ComparisonOperator.LesserThan, new Expression(binder))
+  }
+
+  public le(value: DateLike): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(value))
+  }
+
+  public le$(value: Date): Condition {
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
+  }
 }

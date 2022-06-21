@@ -106,6 +106,38 @@ describe(`test Date column`, () => {
       expect(actual.getBindValues()).toEqual(expected.values)
     })
   })
+  describe(`Greater Or Equal operator`, () => {
+    it(`Produces [SELECT * FROM "table1" WHERE "col9" >= "col10";]`, () => {
+      const actual = sql
+        .selectAsteriskFrom(table)
+        .where(col9.ge(col10))
+        .getSQL()
+
+      expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col9" >= "col10";`)
+    })
+    it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" >= '2022-06-20T00:00:00.000Z';]`, () => {
+      const actual = sql
+        .select(col9)
+        .from(table)
+        .where(col9.ge(new Date(EPOCH_2022_06_20)))
+        .getSQL()
+
+      expect(actual).toEqual(`SELECT "col9" FROM "table1" WHERE "col9" >= '2022-06-20T00:00:00.000Z';`)
+    })
+    it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" >= $1;]`, () => {
+      const actual = sql
+        .select(col9)
+        .from(table)
+        .where(col9.ge$(new Date(EPOCH_2022_06_20)))
+
+      const expected = {
+        sql: `SELECT "col9" FROM "table1" WHERE "col9" >= $1;`,
+        values: [new Date(EPOCH_2022_06_20)],
+      }
+      expect(actual.getSQL()).toEqual(expected.sql)
+      expect(actual.getBindValues()).toEqual(expected.values)
+    })
+  })
   describe(`When date value is null`, () => {
     it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" IS NULL;]`, () => {
       const actual = sql

@@ -346,4 +346,13 @@ export class DateColumn extends Column {
     const binder = new Binder(value)
     return new Condition(new Expression(this), ComparisonOperator.GreaterThan, new Expression(binder))
   }
+
+  public ge(value: DateLike): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.GreaterOrEqual, new Expression(value))
+  }
+
+  public ge$(value: Date): Condition {
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), ComparisonOperator.GreaterOrEqual, new Expression(binder))
+  }
 }

@@ -19,6 +19,8 @@ export const database = new Database({
           columns: {
             name: new TextColumn({ name: 'name' }),
             age: new NumberColumn({ name: 'age' }),
+            isManager: new BooleanColumn({ name: 'isManager' }),
+            startDate: new DateColumn({ name: 'startDate' }),
           },
         }),
       },
@@ -54,7 +56,7 @@ console.log(lastStep.getBindValues())
 
 ## What is New
 ### Version: 0.12.0
-- Support Date Column
+- Support Date Column which include Date and Timestamp with and without timezone
 ```typescript
 const dob = new Date(Date.UTC(1979, 10, 14))
 sql.selectAsteriskFrom(Employee).where(Employee.c.birthday.eq(dob)).getSQL();

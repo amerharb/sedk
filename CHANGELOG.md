@@ -1,6 +1,11 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.12.0]  2022-06-20
+### Added
+- Support Date Column, this is a new feature to support Date and timestamp with and without timezone columns.
+it does not support Time columns.
+
 ## [0.11.7]  2022-05-24
 ### Fixed
 - Update Jest version to 28.1.1 to fix unit test error message

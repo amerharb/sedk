@@ -781,6 +781,16 @@ describe(`test from one table`, () => {
     expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE "col4" = ("col5" % 1);`)
   })
 
+  it(`Produces [SELECT "col1" FROM "table1" WHERE "col4" <> ("col5" % 1);]`, () => {
+    const actual = sql
+      .select(col1)
+      .from(table)
+      .where(col4.ne(col5, MOD, 1))
+      .getSQL()
+
+    expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE "col4" <> ("col5" % 1);`)
+  })
+
   it(`Produces [SELECT "col1" FROM "table1" WHERE "col4" = ("col5" ^ 1);]`, () => {
     const actual = sql
       .select(col1)

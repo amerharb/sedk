@@ -1,9 +1,9 @@
 import { BuilderData } from '../builder'
+import { PrimitiveType } from '../models/types'
 import { Condition } from '../models/Condition'
 import { Expression } from '../models/Expression'
 import { BooleanColumn } from '../columns'
 import { LogicalOperator } from '../operators'
-import { PrimitiveType } from './Step'
 
 export enum Parenthesis {
   Open = '(',

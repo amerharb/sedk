@@ -4,7 +4,7 @@ import { Expression } from '../models/Expression'
 import { Column } from '../columns'
 import { AliasedTable, Table } from '../database'
 import { ColumnNotFoundError, MoreThanOneWhereStepError, TableNotFoundError } from '../errors'
-import { BuilderData } from '../builder'
+import { BuilderData, SqlPath } from '../builder'
 import { All, Asterisk } from '../singletoneConstants'
 import { OrderByArgsElement, OrderByDirection, OrderByItem, OrderByItemInfo, OrderByNullsPosition } from '../orderBy'
 import { SelectItemInfo } from '../SelectItemInfo'
@@ -15,8 +15,8 @@ import { BaseStep } from './BaseStep'
 import { WhereStep } from './WhereStep'
 import { HavingStep } from './HavingStep'
 import {
-  RootStep, SelectStep, FromStep, CrossJoinStep, GroupByStep, OrderByStep, LimitStep,
-  OffsetStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep, FullOuterJoinStep,
+  RootStep, SelectStep, DeleteStep, FromStep, DeleteFromStep, CrossJoinStep, JoinStep, LeftJoinStep,
+  RightJoinStep, InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
@@ -27,14 +27,15 @@ export type ColumnLike = Column|Expression
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 
 export class Step extends BaseStep
-  implements RootStep, SelectStep, FromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
-    FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
+  implements RootStep, SelectStep, DeleteStep, FromStep, DeleteFromStep, CrossJoinStep, JoinStep, LeftJoinStep,
+    RightJoinStep, InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
   constructor(protected data: BuilderData) {
     super(data)
     data.step = this
   }
 
   public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
+    this.data.sqlPath = SqlPath.SELECT
     const selectItemInfos: SelectItemInfo[] = items.map(it => {
       if (it instanceof SelectItemInfo) {
         return it
@@ -55,13 +56,20 @@ export class Step extends BaseStep
   }
 
   public selectDistinct(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
+    this.data.sqlPath = SqlPath.SELECT
     this.data.distinct = ' DISTINCT'
     return this.select(...items)
   }
 
   public selectAll(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
+    this.data.sqlPath = SqlPath.SELECT
     this.data.distinct = ' ALL'
     return this.select(...items)
+  }
+
+  public delete(): DeleteStep {
+    this.data.sqlPath = SqlPath.DELETE
+    return this
   }
 
   public from(...tables: (Table|AliasedTable)[]): FromStep {

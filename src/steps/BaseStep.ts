@@ -22,7 +22,7 @@ export abstract class BaseStep {
   }
 
   private getStatement(): string {
-    let result = `SELECT${this.data.distinct}`
+    let result = `${this.data.sqlPath}${this.data.distinct}`
 
     if (this.data.selectItemInfos.length > 0) {
       const selectPartsString = this.data.selectItemInfos.map(it => {

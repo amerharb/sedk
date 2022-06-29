@@ -4,7 +4,7 @@ import { PrimitiveType } from './models/types'
 import { Condition } from './models/Condition'
 import { Binder, BinderStore } from './binder'
 import { ASTERISK, Distinct, All } from './singletoneConstants'
-import { SelectStep, FromStep, RootStep } from './steps/stepInterfaces'
+import { RootStep, SelectStep, FromStep, DeleteFromStep } from './steps/stepInterfaces'
 import { Step, SelectItem } from './steps/Step'
 import { LogicalOperator } from './operators'
 import { Parenthesis } from './steps/BaseStep'
@@ -14,11 +14,20 @@ import { BuilderOption, BuilderOptionRequired, fillUndefinedOptionsWithDefault }
 import { MoreThanOneDistinctOrAllError } from './errors'
 import { FromItemInfo } from './FromItemInfo'
 
+export enum SqlPath {
+  SELECT = 'SELECT',
+  DELETE = 'DELETE',
+  // TODO: support the following
+  // INSERT = 'INSERT',
+  // UPDATE = 'UPDATE',
+}
+
 export type BuilderData = {
   step?: Step,
   database: Database,
   option: BuilderOptionRequired,
   /** Below data used to generate SQL statement */
+  sqlPath?: SqlPath
   selectItemInfos: SelectItemInfo[],
   fromItemInfos: FromItemInfo[],
   distinct: ''|' DISTINCT'|' ALL'
@@ -39,6 +48,7 @@ export class Builder {
     this.data = {
       database: database,
       fromItemInfos: [],
+      sqlPath: undefined,
       selectItemInfos: [],
       distinct: '',
       whereParts: [],
@@ -84,6 +94,10 @@ export class Builder {
 
   public selectAsteriskFrom(...tables: Table[]): FromStep {
     return this.rootStep.select(ASTERISK).from(...tables)
+  }
+
+  public deleteFrom(...tables: Table[]): DeleteFromStep {
+    return this.rootStep.delete().from(...tables)
   }
 
   public cleanUp(): Builder {

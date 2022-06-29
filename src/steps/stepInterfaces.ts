@@ -18,10 +18,16 @@ export interface RootStep extends BaseStep {
   selectDistinct(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
 
   selectAll(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
+
+  delete(): DeleteStep
 }
 
 export interface SelectStep extends BaseStep {
   from(...tables: (Table|AliasedTable)[]): FromStep
+}
+
+export interface DeleteStep extends BaseStep {
+  from(...tables: (Table|AliasedTable)[]): DeleteFromStep
 }
 
 export interface IAfterFromSteps extends BaseStep, OrderByStep {
@@ -48,7 +54,13 @@ export interface IAfterFromSteps extends BaseStep, OrderByStep {
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
 }
 
+// TODO: rename to SelectFromStep
 export interface FromStep extends BaseStep, IAfterFromSteps {}
+
+export interface DeleteFromStep extends BaseStep {
+  //TODO: create DeleteWhereStep
+  // where(condition: Condition): DeleteWhereStep
+}
 
 export interface CrossJoinStep extends BaseStep, IAfterFromSteps {}
 

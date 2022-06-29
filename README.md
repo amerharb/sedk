@@ -68,7 +68,7 @@ sql.selectAsteriskFrom(Employee).where(Employee.c.birthday.eq(dob)).getSQL();
 - upgrade development dependencies
 
 ### Version: 0.11.6
-- Fix Typescsript build error "Operand file not found"
+- Fix Typescript build error "Operand file not found"
 - Add ISC license file
 
 ### Version: 0.11.5

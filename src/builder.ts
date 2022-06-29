@@ -4,7 +4,7 @@ import { PrimitiveType } from './models/types'
 import { Condition } from './models/Condition'
 import { Binder, BinderStore } from './binder'
 import { ASTERISK, Distinct, All } from './singletoneConstants'
-import { RootStep, SelectStep, FromStep, DeleteFromStep } from './steps/stepInterfaces'
+import { RootStep, SelectStep, DeleteStep, FromStep, DeleteFromStep } from './steps/stepInterfaces'
 import { Step, SelectItem } from './steps/Step'
 import { LogicalOperator } from './operators'
 import { Parenthesis } from './steps/BaseStep'
@@ -94,6 +94,10 @@ export class Builder {
 
   public selectAsteriskFrom(...tables: Table[]): FromStep {
     return this.rootStep.select(ASTERISK).from(...tables)
+  }
+
+  public delete(): DeleteStep {
+    return this.rootStep.delete()
   }
 
   public deleteFrom(...tables: Table[]): DeleteFromStep {

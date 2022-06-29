@@ -4,6 +4,7 @@
 ## [0.13.0]  2022-06-27
 ### Added
 - Add Rail Road diagram to README file
+- Support Delete Step
 
 ## [0.12.0]  2022-06-20
 ### Added

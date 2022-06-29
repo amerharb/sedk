@@ -13,5 +13,10 @@ describe('DELETE Path', () => {
 
       expect(actual).toEqual('DELETE FROM "table1";')
     })
+    it('Produces [DELETE FROM "table1"] Two Steps', () => {
+      const actual = sql.delete().from(table).getSQL()
+
+      expect(actual).toEqual('DELETE FROM "table1";')
+    })
   })
 })

@@ -64,7 +64,7 @@ sql.selectAsteriskFrom(Employee).where(Employee.c.birthday.eq(dob)).getSQL();
 ```
 
 ### Version: 0.11.7
-- Bitwise operator accept string that contain
+- Bitwise operator accept string that contains number
 - upgrade development dependencies
 
 ### Version: 0.11.6

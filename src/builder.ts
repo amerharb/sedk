@@ -1,4 +1,4 @@
-import { Database, Table } from './database'
+import { AliasedTable, Database, Table } from './database'
 import { BooleanColumn, Column } from './columns'
 import { PrimitiveType } from './models/types'
 import { Condition } from './models/Condition'
@@ -100,8 +100,8 @@ export class Builder {
     return this.rootStep.delete()
   }
 
-  public deleteFrom(...tables: Table[]): DeleteFromStep {
-    return this.rootStep.delete().from(...tables)
+  public deleteFrom(table: Table|AliasedTable): DeleteFromStep {
+    return this.rootStep.delete().from(table)
   }
 
   public cleanUp(): Builder {

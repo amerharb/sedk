@@ -27,7 +27,7 @@ export interface SelectStep extends BaseStep {
 }
 
 export interface DeleteStep extends BaseStep {
-  from(...tables: (Table|AliasedTable)[]): DeleteFromStep
+  from(table: Table|AliasedTable): DeleteFromStep
 }
 
 export interface IAfterFromSteps extends BaseStep, OrderByStep {

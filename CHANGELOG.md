@@ -1,6 +1,10 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.13.0]  2022-06-27
+### Added
+- Add Rail Road diagram to README file
+
 ## [0.12.0]  2022-06-20
 ### Added
 - Support Date Column, this is a new feature to support Date and timestamp with and without timezone columns.

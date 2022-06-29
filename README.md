@@ -54,6 +54,9 @@ console.log(lastStep.getBindValues())
 //  ['john', 25]
 ```
 
+## Rail Road logic
+![SEDK steps](doc/StepsRailRoad.svg)
+
 ## What is New
 ### Version: 0.12.0
 - Support Date Column which include Date and Timestamp with and without timezone

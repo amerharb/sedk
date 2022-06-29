@@ -1,7 +1,7 @@
 import { Table } from './database'
 import { escapeDoubleQuote } from './util'
 import { Binder } from './binder'
-import { BooleanLike, NumberLike, TextLike } from './models/types'
+import { BooleanLike, DateLike, NumberLike, TextLike } from './models/types'
 import { Operand } from './models/Operand'
 import { Condition } from './models/Condition'
 import { Expression, ExpressionType } from './models/Expression'
@@ -116,6 +116,7 @@ export class BooleanColumn extends Column implements Condition {
   public getColumns(): BooleanColumn[] {
     return [this]
   }
+
   // END implement Condition
 
   constructor(data: ColumnObj) {
@@ -307,5 +308,69 @@ export class TextColumn extends Column {
 
   public concat(value: TextLike): Expression {
     return new Expression(this, TextOperator.CONCAT, value)
+  }
+}
+
+export class DateColumn extends Column {
+  constructor(data: ColumnObj) {
+    super(data)
+  }
+
+  public eq(value: null|DateLike): Condition {
+    const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
+    return new Condition(new Expression(this), qualifier, new Expression(value))
+  }
+
+  public eq$(value: null|Date): Condition {
+    const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), qualifier, new Expression(binder))
+  }
+
+  public ne(value: null|DateLike): Condition {
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    return new Condition(new Expression(this), qualifier, new Expression(value))
+  }
+
+  public ne$(value: null|Date): Condition {
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), qualifier, new Expression(binder))
+  }
+
+  public gt(value: DateLike): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.GreaterThan, new Expression(value))
+  }
+
+  public gt$(value: Date): Condition {
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), ComparisonOperator.GreaterThan, new Expression(binder))
+  }
+
+  public ge(value: DateLike): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.GreaterOrEqual, new Expression(value))
+  }
+
+  public ge$(value: Date): Condition {
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), ComparisonOperator.GreaterOrEqual, new Expression(binder))
+  }
+
+  public lt(value: DateLike): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.LesserThan, new Expression(value))
+  }
+
+  public lt$(value: Date): Condition {
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), ComparisonOperator.LesserThan, new Expression(binder))
+  }
+
+  public le(value: DateLike): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(value))
+  }
+
+  public le$(value: Date): Condition {
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
   }
 }

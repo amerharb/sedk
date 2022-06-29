@@ -1,4 +1,4 @@
-import { PrimitiveType } from './steps/Step'
+import { PrimitiveType } from './models/types'
 
 export class BinderStore {
   private store: Binder[] = []

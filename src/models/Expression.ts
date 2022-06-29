@@ -22,6 +22,7 @@ export enum ExpressionType {
   BOOLEAN,
   NUMBER,
   TEXT,
+  DATE,
 }
 
 export class Expression implements IStatementGiver {

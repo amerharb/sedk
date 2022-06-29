@@ -1,3 +1,4 @@
+import { PrimitiveType } from '../models/types'
 import { Condition } from '../models/Condition'
 import { Expression } from '../models/Expression'
 import { Column } from '../columns'
@@ -22,7 +23,6 @@ import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
 import { OnStep } from './OnStep'
 
 export type ColumnLike = Column|Expression
-export type PrimitiveType = null|boolean|number|string
 
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 

@@ -15,7 +15,7 @@ import { BaseStep } from './BaseStep'
 import { WhereStep } from './WhereStep'
 import { HavingStep } from './HavingStep'
 import {
-  RootStep, SelectStep, DeleteStep, FromStep, DeleteFromStep, CrossJoinStep, JoinStep, LeftJoinStep,
+  RootStep, SelectStep, DeleteStep, SelectFromStep, DeleteFromStep, CrossJoinStep, JoinStep, LeftJoinStep,
   RightJoinStep, InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
@@ -27,7 +27,7 @@ export type ColumnLike = Column|Expression
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 
 export class Step extends BaseStep
-  implements RootStep, SelectStep, DeleteStep, FromStep, DeleteFromStep, CrossJoinStep, JoinStep, LeftJoinStep,
+  implements RootStep, SelectStep, DeleteStep, SelectFromStep, DeleteFromStep, CrossJoinStep, JoinStep, LeftJoinStep,
     RightJoinStep, InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
   constructor(protected data: BuilderData) {
     super(data)
@@ -72,7 +72,7 @@ export class Step extends BaseStep
     return this
   }
 
-  public from(...tables: (Table|AliasedTable)[]): FromStep {
+  public from(...tables: (Table|AliasedTable)[]): SelectFromStep {
     if (tables.length === 0)
       throw new Error('No tables specified')
 

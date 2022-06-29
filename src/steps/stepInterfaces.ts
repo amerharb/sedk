@@ -23,7 +23,7 @@ export interface RootStep extends BaseStep {
 }
 
 export interface SelectStep extends BaseStep {
-  from(...tables: (Table|AliasedTable)[]): FromStep
+  from(...tables: (Table|AliasedTable)[]): SelectFromStep
 }
 
 export interface DeleteStep extends BaseStep {
@@ -54,8 +54,7 @@ export interface IAfterFromSteps extends BaseStep, OrderByStep {
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
 }
 
-// TODO: rename to SelectFromStep
-export interface FromStep extends BaseStep, IAfterFromSteps {}
+export interface SelectFromStep extends BaseStep, IAfterFromSteps {}
 
 export interface DeleteFromStep extends BaseStep {
   //TODO: create DeleteWhereStep

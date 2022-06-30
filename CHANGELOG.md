@@ -7,6 +7,7 @@
 - Support Delete Step
 ### Changed
 - Rename FromStep to SelectFromStep
+- Function selectAsteriskFrom() now can take TableAliases not just Tables  
 
 ## [0.12.0]  2022-06-20
 ### Added

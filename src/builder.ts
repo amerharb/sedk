@@ -92,7 +92,7 @@ export class Builder {
     return this.rootStep.selectAll(...items)
   }
 
-  public selectAsteriskFrom(...tables: Table[]): SelectFromStep {
+  public selectAsteriskFrom(...tables: (Table|AliasedTable)[]): SelectFromStep {
     return this.rootStep.select(ASTERISK).from(...tables)
   }
 

@@ -6,7 +6,7 @@ const table1 = database.s.public.t.table1
 const table2 = database.s.public.t.table2
 
 describe('DELETE Path', () => {
-  const sql = new Builder(database)
+  const sql = new Builder(database, { allowDeleteWithoutWhereConditions: 'always' })
   afterEach(() => { sql.cleanUp() })
   describe('basic delete all', () => {
     it('Produces [DELETE FROM "table1"]', () => {

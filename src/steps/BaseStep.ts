@@ -1,4 +1,4 @@
-import { BuilderData } from '../builder'
+import { BuilderData, SqlPath } from '../builder'
 import { PrimitiveType } from '../models/types'
 import { Condition } from '../models/Condition'
 import { Expression } from '../models/Expression'
@@ -44,6 +44,8 @@ export abstract class BaseStep {
         return it.toString()
       })
       result += ` WHERE ${wherePartsString.join(' ')}`
+    } else if (this.data.sqlPath === SqlPath.DELETE && this.data.option.allowDeleteWithoutWhereConditions === 'never') {
+      throw new Error(`Delete statement must have where conditions or allowDeleteWithoutWhereConditions option must be set to "always"`)
     }
 
     if (this.data.groupByItems.length > 0) {

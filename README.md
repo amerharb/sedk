@@ -64,7 +64,12 @@ console.log(lastStep.getBindValues())
 sql.deleteFrom(Employee);
 // DELETE FROM "Employee";
 ```
-
+- New option, default value is `never`
+```typescript
+{
+  allowDeleteWithoutWhereConditions: 'always'|'never'
+}
+```
 ### Version: 0.12.0
 - Support Date Column which include Date and Timestamp with and without timezone
 ```typescript

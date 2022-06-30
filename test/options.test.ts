@@ -450,4 +450,43 @@ describe('test Options', () => {
       })
     })
   })
+
+  describe('test allowDeleteWithoutWhereConditions Option', () => {
+    describe('Option: always', () => {
+      const sqlAlways = new Builder(database, { allowDeleteWithoutWhereConditions: 'always' })
+      afterEach(() => { sqlAlways.cleanUp() })
+      it('Produces [DELETE FROM "table1";]', () => {
+        const actual = sqlAlways.deleteFrom(publicTable1).getSQL()
+
+        expect(actual).toEqual('DELETE FROM "table1";')
+      })
+      //todo: test it won't throw when there is a where condition
+    })
+
+    describe('Option: never', () => {
+      const sqlNever = new Builder(database, { allowDeleteWithoutWhereConditions: 'never' })
+      afterEach(() => { sqlNever.cleanUp() })
+      it('Produces [DELETE FROM "table1";] Will throw error', () => {
+        function actual() {
+          sqlNever.deleteFrom(publicTable1).getSQL()
+        }
+
+        expect(actual).toThrowError(`Delete statement must have where conditions or allowDeleteWithoutWhereConditions option must be set to "always"`)
+      })
+      //todo: test it won't throw when there is a where condition
+    })
+
+    describe('Option: default', () => {
+      const sqlDefault = new Builder(database)
+      afterEach(() => { sqlDefault.cleanUp() })
+      it('Produces [DELETE FROM "table1";] Will throw error', () => {
+        function actual() {
+          sqlDefault.deleteFrom(publicTable1).getSQL()
+        }
+
+        expect(actual).toThrowError(`Delete statement must have where conditions or allowDeleteWithoutWhereConditions option must be set to "always"`)
+      })
+      //todo: test it won't throw when there is a where condition
+    })
+  })
 })

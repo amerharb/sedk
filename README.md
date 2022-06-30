@@ -67,7 +67,7 @@ sql.deleteFrom(Employee);
 - New option, default value is `never`
 ```typescript
 {
-  allowDeleteWithoutWhereConditions: 'always'|'never'
+  throwErrorIfDeleteHasNoCondition: boolean
 }
 ```
 ### Version: 0.12.0

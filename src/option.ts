@@ -6,7 +6,7 @@ export type BuilderOption = {
   addPublicSchemaName?: 'always'|'never'|'when other schema mentioned'
   addTableName?: 'always'|'when two tables or more' //TODO: add more options like 'when needed' and 'when conflict'
   addAsBeforeTableAlias?: 'always'|'never'
-  allowDeleteWithoutWhereConditions?: 'always'|'never'
+  throwErrorIfDeleteHasNoCondition?: boolean
 }
 
 export type BuilderOptionRequired = Required<BuilderOption>
@@ -19,7 +19,7 @@ const defaultOption: BuilderOptionRequired = {
   addPublicSchemaName: 'never',
   addTableName: 'when two tables or more',
   addAsBeforeTableAlias: 'always',
-  allowDeleteWithoutWhereConditions: 'never',
+  throwErrorIfDeleteHasNoCondition: true,
 } as const
 Object.freeze(defaultOption)
 
@@ -32,6 +32,6 @@ export function fillUndefinedOptionsWithDefault(option: BuilderOption): BuilderO
     addPublicSchemaName: option.addPublicSchemaName ?? defaultOption.addPublicSchemaName,
     addTableName: option.addTableName ?? defaultOption.addTableName,
     addAsBeforeTableAlias: option.addAsBeforeTableAlias ?? defaultOption.addAsBeforeTableAlias,
-    allowDeleteWithoutWhereConditions: option.allowDeleteWithoutWhereConditions ?? defaultOption.allowDeleteWithoutWhereConditions,
+    throwErrorIfDeleteHasNoCondition: option.throwErrorIfDeleteHasNoCondition ?? defaultOption.throwErrorIfDeleteHasNoCondition,
   }
 }

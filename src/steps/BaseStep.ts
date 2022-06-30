@@ -44,8 +44,8 @@ export abstract class BaseStep {
         return it.toString()
       })
       result += ` WHERE ${wherePartsString.join(' ')}`
-    } else if (this.data.sqlPath === SqlPath.DELETE && this.data.option.allowDeleteWithoutWhereConditions === 'never') {
-      throw new Error(`Delete statement must have where conditions or allowDeleteWithoutWhereConditions option must be set to "always"`)
+    } else if (this.data.sqlPath === SqlPath.DELETE && this.data.option.throwErrorIfDeleteHasNoCondition) {
+      throw new Error(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
     }
 
     if (this.data.groupByItems.length > 0) {

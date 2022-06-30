@@ -451,9 +451,9 @@ describe('test Options', () => {
     })
   })
 
-  describe('test allowDeleteWithoutWhereConditions Option', () => {
-    describe('Option: always', () => {
-      const sqlAlways = new Builder(database, { allowDeleteWithoutWhereConditions: 'always' })
+  describe('test throwErrorIfDeleteHasNoCondition Option', () => {
+    describe('Option: false', () => {
+      const sqlAlways = new Builder(database, { throwErrorIfDeleteHasNoCondition: false })
       afterEach(() => { sqlAlways.cleanUp() })
       it('Produces [DELETE FROM "table1";]', () => {
         const actual = sqlAlways.deleteFrom(publicTable1).getSQL()
@@ -463,15 +463,15 @@ describe('test Options', () => {
       //todo: test it won't throw when there is a where condition
     })
 
-    describe('Option: never', () => {
-      const sqlNever = new Builder(database, { allowDeleteWithoutWhereConditions: 'never' })
+    describe('Option: true', () => {
+      const sqlNever = new Builder(database, { throwErrorIfDeleteHasNoCondition: true })
       afterEach(() => { sqlNever.cleanUp() })
       it('Produces [DELETE FROM "table1";] Will throw error', () => {
         function actual() {
           sqlNever.deleteFrom(publicTable1).getSQL()
         }
 
-        expect(actual).toThrowError(`Delete statement must have where conditions or allowDeleteWithoutWhereConditions option must be set to "always"`)
+        expect(actual).toThrowError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
       })
       //todo: test it won't throw when there is a where condition
     })
@@ -484,7 +484,7 @@ describe('test Options', () => {
           sqlDefault.deleteFrom(publicTable1).getSQL()
         }
 
-        expect(actual).toThrowError(`Delete statement must have where conditions or allowDeleteWithoutWhereConditions option must be set to "always"`)
+        expect(actual).toThrowError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
       })
       //todo: test it won't throw when there is a where condition
     })

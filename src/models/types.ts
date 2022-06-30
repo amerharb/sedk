@@ -8,7 +8,6 @@ const booleanArray: readonly string[] = ['t', 'tr', 'tru', 'true', 'f', 'fa', 'f
 type TextBooleanSmallLetter = typeof booleanArray[number]
 export type TextBoolean = TextBooleanSmallLetter|Capitalize<TextBooleanSmallLetter>|Uppercase<TextBooleanSmallLetter>
 
-//TODO: include other value type like date-time
 export type BooleanLike = boolean|TextBoolean|BooleanColumn
 export type NumberLike = number|NumberColumn
 export type TextLike = string|TextColumn

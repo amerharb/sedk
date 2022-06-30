@@ -1,5 +1,6 @@
 import { Builder } from '../src'
 import { database } from './database'
+import { DeleteWithoutConditionError } from '../src/errors'
 //Alias
 const publicTable1 = database.s.public.t.table1
 const col1 = database.s.public.t.table1.c.col1
@@ -472,6 +473,7 @@ describe('test Options', () => {
         }
 
         expect(actual).toThrowError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
+        expect(actual).toThrowError(DeleteWithoutConditionError)
       })
       //todo: test it won't throw when there is a where condition
     })
@@ -485,6 +487,7 @@ describe('test Options', () => {
         }
 
         expect(actual).toThrowError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
+        expect(actual).toThrowError(DeleteWithoutConditionError)
       })
       //todo: test it won't throw when there is a where condition
     })

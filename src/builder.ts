@@ -1,10 +1,10 @@
-import { Database, Table } from './database'
+import { AliasedTable, Database, Table } from './database'
 import { BooleanColumn, Column } from './columns'
 import { PrimitiveType } from './models/types'
 import { Condition } from './models/Condition'
 import { Binder, BinderStore } from './binder'
 import { ASTERISK, Distinct, All } from './singletoneConstants'
-import { SelectStep, FromStep, RootStep } from './steps/stepInterfaces'
+import { RootStep, SelectStep, DeleteStep, SelectFromStep, DeleteFromStep } from './steps/stepInterfaces'
 import { Step, SelectItem } from './steps/Step'
 import { LogicalOperator } from './operators'
 import { Parenthesis } from './steps/BaseStep'
@@ -14,11 +14,20 @@ import { BuilderOption, BuilderOptionRequired, fillUndefinedOptionsWithDefault }
 import { MoreThanOneDistinctOrAllError } from './errors'
 import { FromItemInfo } from './FromItemInfo'
 
+export enum SqlPath {
+  SELECT = 'SELECT',
+  DELETE = 'DELETE',
+  // TODO: support the following
+  // INSERT = 'INSERT',
+  // UPDATE = 'UPDATE',
+}
+
 export type BuilderData = {
   step?: Step,
   database: Database,
   option: BuilderOptionRequired,
   /** Below data used to generate SQL statement */
+  sqlPath?: SqlPath
   selectItemInfos: SelectItemInfo[],
   fromItemInfos: FromItemInfo[],
   distinct: ''|' DISTINCT'|' ALL'
@@ -39,6 +48,7 @@ export class Builder {
     this.data = {
       database: database,
       fromItemInfos: [],
+      sqlPath: undefined,
       selectItemInfos: [],
       distinct: '',
       whereParts: [],
@@ -82,8 +92,16 @@ export class Builder {
     return this.rootStep.selectAll(...items)
   }
 
-  public selectAsteriskFrom(...tables: Table[]): FromStep {
+  public selectAsteriskFrom(...tables: (Table|AliasedTable)[]): SelectFromStep {
     return this.rootStep.select(ASTERISK).from(...tables)
+  }
+
+  public delete(): DeleteStep {
+    return this.rootStep.delete()
+  }
+
+  public deleteFrom(table: Table|AliasedTable): DeleteFromStep {
+    return this.rootStep.delete().from(table)
   }
 
   public cleanUp(): Builder {

@@ -1,9 +1,10 @@
-import { BuilderData } from '../builder'
+import { BuilderData, SqlPath } from '../builder'
 import { PrimitiveType } from '../models/types'
 import { Condition } from '../models/Condition'
 import { Expression } from '../models/Expression'
 import { BooleanColumn } from '../columns'
 import { LogicalOperator } from '../operators'
+import { DeleteWithoutConditionError } from '../errors'
 
 export enum Parenthesis {
   Open = '(',
@@ -22,7 +23,7 @@ export abstract class BaseStep {
   }
 
   private getStatement(): string {
-    let result = `SELECT${this.data.distinct}`
+    let result = `${this.data.sqlPath}${this.data.distinct}`
 
     if (this.data.selectItemInfos.length > 0) {
       const selectPartsString = this.data.selectItemInfos.map(it => {
@@ -44,6 +45,8 @@ export abstract class BaseStep {
         return it.toString()
       })
       result += ` WHERE ${wherePartsString.join(' ')}`
+    } else if (this.data.sqlPath === SqlPath.DELETE && this.data.option.throwErrorIfDeleteHasNoCondition) {
+      throw new DeleteWithoutConditionError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
     }
 
     if (this.data.groupByItems.length > 0) {

@@ -9,7 +9,7 @@ import {
   LimitStep, OffsetStep, OnAndStep, OnOrStep, OrderByStep, RightJoinStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
-import { WhereStep } from './WhereStep'
+import { SelectWhereStep } from './SelectWhereStep'
 import { Table } from '../database'
 import { returnStepOrThrow } from '../util'
 
@@ -50,10 +50,10 @@ export class OnStep extends BaseStep implements IAfterFromSteps {
     return returnStepOrThrow(this.data.step).fullOuterJoin(table)
   }
 
-  where(condition: Condition): WhereStep
-  where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
-  where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
-  public where(left: Condition, operator?: LogicalOperator, right?: Condition): WhereStep {
+  where(condition: Condition): SelectWhereStep
+  where(left: Condition, operator: LogicalOperator, right: Condition): SelectWhereStep
+  where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): SelectWhereStep
+  public where(left: Condition, operator?: LogicalOperator, right?: Condition): SelectWhereStep {
     return returnStepOrThrow(this.data.step).where(left, operator, right)
   }
 

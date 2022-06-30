@@ -54,13 +54,30 @@ console.log(lastStep.getBindValues())
 //  ['john', 25]
 ```
 
+## Rail Road logic
+![SEDK steps](doc/StepsRailRoad.svg)
+
 ## What is New
+### Version: 0.13.0
+- Support Delete Step
+```typescript
+sql.deleteFrom(Employee);
+// DELETE FROM "Employee";
+```
+- New option, default value is `true`
+```typescript
+{
+  throwErrorIfDeleteHasNoCondition: boolean
+}
+```
+Note: For safety Delete step without where clause will throw an error that to avoid generate delete all table info by mistake unless you explicitly
+set option `throwErrorIfDeleteHasNoCondition` to `false` or by just adding a dummy condition like `.where(e(1).eq(1))`
 ### Version: 0.12.0
 - Support Date Column which include Date and Timestamp with and without timezone
 ```typescript
 const dob = new Date(Date.UTC(1979, 10, 14))
 sql.selectAsteriskFrom(Employee).where(Employee.c.birthday.eq(dob)).getSQL();
-// SELECT * FROM "Employee" WHERE "birthday" = '1979-11-14T00:00:00.000Z'
+// SELECT * FROM "Employee" WHERE "birthday" = '1979-11-14T00:00:00.000Z';
 ```
 
 ### Version: 0.11.7

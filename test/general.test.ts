@@ -89,6 +89,14 @@ describe(`test from one table`, () => {
     expect(actual).toEqual(`SELECT * FROM "table1";`)
   })
 
+  it(`Produces [SELECT * FROM "table1" AS "t1";] using selectAsteriskFrom()`, () => {
+    const actual = sql
+      .selectAsteriskFrom(table.as(`t1`))
+      .getSQL()
+
+    expect(actual).toEqual(`SELECT * FROM "table1" AS "t1";`)
+  })
+
   it(`Produces [SELECT 1 FROM "table1";]`, () => {
     const actual = sql
       .select(e(1))
@@ -243,6 +251,12 @@ describe(`test from one table`, () => {
   })
 
   describe(`Test Where step`, () => {
+    it(`Produces [SELECT * FROM "table1" WHERE 1 = 1;]`, () => {
+      const actual = sql.selectAsteriskFrom(table).where(e(1).eq(1)).getSQL()
+
+      expect(actual).toEqual(`SELECT * FROM "table1" WHERE 1 = 1;`)
+    })
+
     it(`Produces [SELECT "col1", "col2" FROM "table1" WHERE "col1" = 'x';]`, () => {
       const actual = sql
         .select(col1, col2)

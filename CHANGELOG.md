@@ -1,6 +1,16 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.13.0]  2022-06-27
+### Added
+- Add Rail Road diagram to README file
+- Support Delete Step
+- Option `throwErrorIfDeleteHasNoCondition`
+### Changed
+- Rename FromStep to SelectFromStep
+- Function selectAsteriskFrom() now can take TableAliases not just Tables
+- Rename `WhereStep` class to `SelectWhereStep`
+
 ## [0.12.0]  2022-06-20
 ### Added
 - Support Date Column, this is a new feature to support Date and timestamp with and without timezone columns.
@@ -19,14 +29,14 @@ it does not support Time columns.
 - Add LICENSE file
 
 ## [0.11.5]  2022-05-21
-### Changes
+### Changed
 - validate if there is more than one WHERE step
 
 ## [0.11.4]  2022-04-30
 ### Added
 - Support bitwise operations in `&`, `|` and `#` 
 - Unit test for On step and more coverage
-### Changes
+### Changed
 - use backtick instead of single quote in unit test files
 ### Breaking Changes
 - Remove deprecated function `getBinds()` and type `PostgresBinder`
@@ -34,7 +44,7 @@ it does not support Time columns.
 ## [0.11.3]  2022-04-19
 ### fix
 - Version mistake in package.json
-### Changes
+### Changed
 - Deprecate PostgresBinder Type and getBinder() function
 - Add SelectItemInfo to select method
 
@@ -43,7 +53,7 @@ it does not support Time columns.
 - Change package.json files to include sub folders
 
 ## [0.11.0]  2022-04-11
-### Changes
+### Changed
 - Table data builder change to array of FromItemInfo
 - testTable in unit test renamed to table1
 - Remove set builderOption from OrderByItemInfo and SelectItemInfo, not needed anymore as we are passing the builderData to getStmt()
@@ -57,7 +67,7 @@ it does not support Time columns.
 - Join, InnerJoin, LeftJoin, RightJoin, FullOuterJoin Steps
 
 ## [0.10.1]  2022-04-08
-### Changes
+### Changed
 - Rename "column?" to "col?" in unit test
 - Refactor group by aggregate functions
 - Refactor all change getStmt arg to BuilderData
@@ -77,7 +87,7 @@ it does not support Time columns.
 - Builder data to Column getStmt
 
 ## [0.10.0]  2022-03-26
-### Changes
+### Changed
 - BaseStep is a class now that Step inherits from it
 - Rename `OrStep` and `AndStep` to `WhereOrStep` and `WhereAndStep`
 - Make WhereStep a class instead of Interface, do the same with HavingStep, so we won't have conflict with `Or` and `And` functions

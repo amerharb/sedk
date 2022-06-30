@@ -1,5 +1,6 @@
 import { Builder } from '../src'
 import { database } from './database'
+import { DeleteWithoutConditionError } from '../src/errors'
 //Alias
 const publicTable1 = database.s.public.t.table1
 const col1 = database.s.public.t.table1.c.col1
@@ -448,6 +449,47 @@ describe('test Options', () => {
 
         expect(actual).toEqual('SELECT "col1" FROM "table1" AS "TEST Table";')
       })
+    })
+  })
+
+  describe('test throwErrorIfDeleteHasNoCondition Option', () => {
+    describe('Option: false', () => {
+      const sqlAlways = new Builder(database, { throwErrorIfDeleteHasNoCondition: false })
+      afterEach(() => { sqlAlways.cleanUp() })
+      it('Produces [DELETE FROM "table1";]', () => {
+        const actual = sqlAlways.deleteFrom(publicTable1).getSQL()
+
+        expect(actual).toEqual('DELETE FROM "table1";')
+      })
+      //todo: test it won't throw when there is a where condition
+    })
+
+    describe('Option: true', () => {
+      const sqlNever = new Builder(database, { throwErrorIfDeleteHasNoCondition: true })
+      afterEach(() => { sqlNever.cleanUp() })
+      it('Produces [DELETE FROM "table1";] Will throw error', () => {
+        function actual() {
+          sqlNever.deleteFrom(publicTable1).getSQL()
+        }
+
+        expect(actual).toThrowError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
+        expect(actual).toThrowError(DeleteWithoutConditionError)
+      })
+      //todo: test it won't throw when there is a where condition
+    })
+
+    describe('Option: default', () => {
+      const sqlDefault = new Builder(database)
+      afterEach(() => { sqlDefault.cleanUp() })
+      it('Produces [DELETE FROM "table1";] Will throw error', () => {
+        function actual() {
+          sqlDefault.deleteFrom(publicTable1).getSQL()
+        }
+
+        expect(actual).toThrowError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
+        expect(actual).toThrowError(DeleteWithoutConditionError)
+      })
+      //todo: test it won't throw when there is a where condition
     })
   })
 })

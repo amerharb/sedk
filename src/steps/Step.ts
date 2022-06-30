@@ -12,7 +12,7 @@ import { escapeDoubleQuote } from '../util'
 import { AggregateFunction } from '../AggregateFunction'
 import { Binder } from '../binder'
 import { BaseStep } from './BaseStep'
-import { WhereStep } from './WhereStep'
+import { SelectWhereStep } from './SelectWhereStep'
 import { HavingStep } from './HavingStep'
 import {
   RootStep, SelectStep, DeleteStep, SelectFromStep, DeleteFromStep, CrossJoinStep, JoinStep, LeftJoinStep,
@@ -137,12 +137,12 @@ export class Step extends BaseStep
       return tableOrAliasedTable.table
   }
 
-  public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereStep {
+  public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): SelectWhereStep {
     if (this.data.whereParts.length > 0) {
       throw new MoreThanOneWhereStepError('WHERE step already specified')
     }
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    return new WhereStep(this.data)
+    return new SelectWhereStep(this.data)
   }
 
   public groupBy(...groupByItems: Column[]): GroupByStep {

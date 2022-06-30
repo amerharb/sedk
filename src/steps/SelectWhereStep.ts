@@ -8,7 +8,7 @@ import { GroupByStep, LimitStep, OffsetStep, OrderByStep, WhereAndStep, WhereOrS
 import { LogicalOperator } from '../operators'
 import { returnStepOrThrow } from '../util'
 
-export class WhereStep extends BaseStep {
+export class SelectWhereStep extends BaseStep {
   constructor(protected data: BuilderData) { super(data) }
 
   public and(condition: Condition): WhereAndStep

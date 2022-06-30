@@ -8,7 +8,8 @@
 - Option `throwErrorIfDeleteHasNoCondition`
 ### Changed
 - Rename FromStep to SelectFromStep
-- Function selectAsteriskFrom() now can take TableAliases not just Tables  
+- Function selectAsteriskFrom() now can take TableAliases not just Tables
+- Rename `WhereStep` class to `SelectWhereStep`
 
 ## [0.12.0]  2022-06-20
 ### Added

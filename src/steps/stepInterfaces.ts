@@ -81,9 +81,9 @@ export interface OnOrStep extends OnStep {}
 
 export interface OnAndStep extends OnStep {}
 
-export interface WhereOrStep extends SelectWhereStep {}
+export interface SelectWhereOrStep extends SelectWhereStep {}
 
-export interface WhereAndStep extends SelectWhereStep {}
+export interface SelectWhereAndStep extends SelectWhereStep {}
 
 export interface GroupByStep extends BaseStep, OrderByStep {
   having(condition: Condition): HavingStep

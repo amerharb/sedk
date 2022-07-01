@@ -5,6 +5,7 @@ import { PrimitiveType } from '../models/types'
 import { Condition } from '../models/Condition'
 import { OnStep } from './OnStep'
 import { SelectWhereStep } from './SelectWhereStep'
+import { DeleteStep } from './DeleteStep'
 import { Column } from '../columns'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
@@ -24,10 +25,6 @@ export interface RootStep extends BaseStep {
 
 export interface SelectStep extends BaseStep {
   from(...tables: (Table|AliasedTable)[]): SelectFromStep
-}
-
-export interface DeleteStep extends BaseStep {
-  from(table: Table|AliasedTable): DeleteFromStep
 }
 
 export interface IAfterFromSteps extends BaseStep, OrderByStep {
@@ -56,11 +53,6 @@ export interface IAfterFromSteps extends BaseStep, OrderByStep {
 
 export interface SelectFromStep extends BaseStep, IAfterFromSteps {}
 
-export interface DeleteFromStep extends BaseStep {
-  //TODO: create DeleteWhereStep
-  // where(condition: Condition): DeleteWhereStep
-}
-
 export interface CrossJoinStep extends BaseStep, IAfterFromSteps {}
 
 interface IJoinStep extends BaseStep {
@@ -81,9 +73,9 @@ export interface OnOrStep extends OnStep {}
 
 export interface OnAndStep extends OnStep {}
 
-export interface WhereOrStep extends SelectWhereStep {}
+export interface SelectWhereOrStep extends SelectWhereStep {}
 
-export interface WhereAndStep extends SelectWhereStep {}
+export interface SelectWhereAndStep extends SelectWhereStep {}
 
 export interface GroupByStep extends BaseStep, OrderByStep {
   having(condition: Condition): HavingStep

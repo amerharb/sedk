@@ -59,8 +59,10 @@ console.log(lastStep.getBindValues())
 
 ## What is New
 ### Version: 0.13.0
-- Support Delete Step
+- Support Delete Step, either delete().from() or for short deleteFrom()
 ```typescript
+sql.delete().from(Employee);
+// DELETE FROM "Employee";
 sql.deleteFrom(Employee);
 // DELETE FROM "Employee";
 ```
@@ -73,7 +75,7 @@ sql.deleteFrom(Employee);
 
 Note: For safety Delete step without where clause will throw an error that to avoid generate delete all table info by mistake unless you explicitly
 set option `throwErrorIfDeleteHasNoCondition` to `false` or by just adding a dummy condition like `.where(e(1).eq(1))`
-
+- Delete step can be followed by where(), or() and and() steps
 ```typescript
 sql.delete().from(Employee).where(name.eq('John')).and(age.gt(40)).getSQL()
 // DELETE FROM "Employee" WHERE "name" = 'John' AND "age" > 40;

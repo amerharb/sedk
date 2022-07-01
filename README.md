@@ -62,7 +62,7 @@ console.log(lastStep.getBindValues())
 - Support Delete Step, either delete().from() or for short deleteFrom()
 ```typescript
 sql.delete().from(Employee);
-// DELETE FROM "Employee";
+// or like this
 sql.deleteFrom(Employee);
 // DELETE FROM "Employee";
 ```

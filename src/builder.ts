@@ -4,7 +4,7 @@ import { PrimitiveType } from './models/types'
 import { Condition } from './models/Condition'
 import { Binder, BinderStore } from './binder'
 import { ASTERISK, Distinct, All } from './singletoneConstants'
-import { RootStep, SelectStep, DeleteStep, SelectFromStep, DeleteFromStep } from './steps/stepInterfaces'
+import { RootStep, SelectStep, SelectFromStep } from './steps/stepInterfaces'
 import { Step, SelectItem } from './steps/Step'
 import { LogicalOperator } from './operators'
 import { Parenthesis } from './steps/BaseStep'
@@ -13,6 +13,8 @@ import { SelectItemInfo } from './SelectItemInfo'
 import { BuilderOption, BuilderOptionRequired, fillUndefinedOptionsWithDefault } from './option'
 import { MoreThanOneDistinctOrAllError } from './errors'
 import { FromItemInfo } from './FromItemInfo'
+import { DeleteStep } from './steps/DeleteStep'
+import { DeleteFromStep } from './steps/DeleteFromStep'
 
 export enum SqlPath {
   SELECT = 'SELECT',

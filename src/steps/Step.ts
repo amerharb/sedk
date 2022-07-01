@@ -3,7 +3,7 @@ import { Condition } from '../models/Condition'
 import { Expression } from '../models/Expression'
 import { Column } from '../columns'
 import { AliasedTable, Table } from '../database'
-import { ColumnNotFoundError, MoreThanOneWhereStepError, TableNotFoundError } from '../errors'
+import { ColumnNotFoundError, MoreThanOneWhereStepError } from '../errors'
 import { BuilderData, SqlPath } from '../builder'
 import { All, Asterisk } from '../singletoneConstants'
 import { OrderByArgsElement, OrderByDirection, OrderByItem, OrderByItemInfo, OrderByNullsPosition } from '../orderBy'
@@ -15,19 +15,20 @@ import { BaseStep } from './BaseStep'
 import { SelectWhereStep } from './SelectWhereStep'
 import { HavingStep } from './HavingStep'
 import {
-  RootStep, SelectStep, DeleteStep, SelectFromStep, DeleteFromStep, CrossJoinStep, JoinStep, LeftJoinStep,
+  RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep,
   RightJoinStep, InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
-import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
+import { FromItemRelation } from '../FromItemInfo'
 import { OnStep } from './OnStep'
+import { DeleteStep } from './DeleteStep'
 
 export type ColumnLike = Column|Expression
 
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 
 export class Step extends BaseStep
-  implements RootStep, SelectStep, DeleteStep, SelectFromStep, DeleteFromStep, CrossJoinStep, JoinStep, LeftJoinStep,
+  implements RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep,
     RightJoinStep, InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
   constructor(protected data: BuilderData) {
     super(data)
@@ -69,7 +70,7 @@ export class Step extends BaseStep
 
   public delete(): DeleteStep {
     this.data.sqlPath = SqlPath.DELETE
-    return this
+    return new DeleteStep(this.data)
   }
 
   public from(...tables: (Table|AliasedTable)[]): SelectFromStep {
@@ -77,12 +78,14 @@ export class Step extends BaseStep
       throw new Error('No tables specified')
 
     tables.forEach(table => {
-      this.throwIfTableNotInDb(Step.getTable(table))
+      this.throwIfTableNotInDb(BaseStep.getTable(table))
     })
 
     for (let i = 0; i < tables.length; i++) {
       this.addFromItemInfo(tables[i], i === 0 ? FromItemRelation.NO_RELATION : FromItemRelation.COMMA)
     }
+
+    // return new SelectFromStep(this.data)
     return this
   }
 
@@ -116,25 +119,9 @@ export class Step extends BaseStep
     return this
   }
 
-  private addFromItemInfo(table: Table|AliasedTable, relation: FromItemRelation) {
-    this.throwIfTableNotInDb(Step.getTable(table))
-    this.data.fromItemInfos.push(new FromItemInfo(
-      Step.getTable(table),
-      relation,
-      table instanceof AliasedTable ? table.alias : undefined,
-    ))
-  }
-
   public on(condition: Condition): OnStep {
     this.data.fromItemInfos[this.data.fromItemInfos.length - 1].addFirstCondition(condition)
     return new OnStep(this.data)
-  }
-
-  private static getTable(tableOrAliasedTable: Table|AliasedTable): Table {
-    if (tableOrAliasedTable instanceof Table)
-      return tableOrAliasedTable
-    else
-      return tableOrAliasedTable.table
   }
 
   public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): SelectWhereStep {
@@ -245,11 +232,6 @@ export class Step extends BaseStep
     this.data.binderStore.add(binder)
     this.data.offset = binder
     return this
-  }
-
-  private throwIfTableNotInDb(table: Table) {
-    if (!this.data.database.hasTable(table))
-      throw new TableNotFoundError(`Table: "${table.name}" not found`)
   }
 
   private throwIfColumnsNotInDb(columns: (SelectItemInfo|ColumnLike|Asterisk)[]) {

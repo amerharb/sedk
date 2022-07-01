@@ -70,8 +70,15 @@ sql.deleteFrom(Employee);
   throwErrorIfDeleteHasNoCondition: boolean
 }
 ```
+
 Note: For safety Delete step without where clause will throw an error that to avoid generate delete all table info by mistake unless you explicitly
 set option `throwErrorIfDeleteHasNoCondition` to `false` or by just adding a dummy condition like `.where(e(1).eq(1))`
+
+```typescript
+sql.delete().from(Employee).where(name.eq('John')).and(age.gt(40)).getSQL()
+// DELETE FROM "Employee" WHERE "name" = 'John' AND "age" > 40;
+```
+
 ### Version: 0.12.0
 - Support Date Column which include Date and Timestamp with and without timezone
 ```typescript

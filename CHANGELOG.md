@@ -6,6 +6,7 @@
 - Add Rail Road diagram to README file
 - Support Delete Step
 - Option `throwErrorIfDeleteHasNoCondition`
+- Add WHERE, OR and AND steps after DELETE step
 ### Changed
 - Rename FromStep to SelectFromStep
 - Function selectAsteriskFrom() now can take TableAliases not just Tables

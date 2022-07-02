@@ -36,7 +36,7 @@ describe('Bitwise Operators', () => {
   })
 
   describe('bitwise OR', () => {
-    it('Produces [SELECT * FROM "table1" WHERE ("col1" | 1) = 0;]', () => {
+    it('Produces [SELECT * FROM "table1" WHERE ("col4" | 1) = 0;]', () => {
       const actual = sql
         .selectAsteriskFrom(table)
         .where(col4.bitwiseOr(1).eq(0))
@@ -44,7 +44,7 @@ describe('Bitwise Operators', () => {
 
       expect(actual).toEqual('SELECT * FROM "table1" WHERE ("col4" | 1) = 0;')
     })
-    it('Produces [SELECT * FROM "table1" WHERE ("col1" | $1) = 0;]', () => {
+    it('Produces [SELECT * FROM "table1" WHERE ("col4" | $1) = 0;]', () => {
       const actual = sql
         .selectAsteriskFrom(table)
         .where(col4.bitwiseOr$(1).eq(0))
@@ -55,7 +55,7 @@ describe('Bitwise Operators', () => {
   })
 
   describe('bitwise XOR', () => {
-    it('Produces [SELECT * FROM "table1" WHERE ("col1" # 1) = 0;]', () => {
+    it('Produces [SELECT * FROM "table1" WHERE ("col4" # 1) = 0;]', () => {
       const actual = sql
         .selectAsteriskFrom(table)
         .where(col4.bitwiseXor(1).eq(0))
@@ -63,7 +63,7 @@ describe('Bitwise Operators', () => {
 
       expect(actual).toEqual('SELECT * FROM "table1" WHERE ("col4" # 1) = 0;')
     })
-    it('Produces [SELECT * FROM "table1" WHERE ("col1" # $1) = $2;]', () => {
+    it('Produces [SELECT * FROM "table1" WHERE ("col4" # $1) = $2;]', () => {
       const actual = sql
         .selectAsteriskFrom(table)
         .where(col4.bitwiseXor$(1).eq$(0))

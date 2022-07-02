@@ -7,7 +7,9 @@
   "files": [
     "dist/src/**/*.d.ts",
     "dist/src/**/*.js",
-    "LICENSE"
+    "LICENSE",
+    "README.md",
+    "doc/StepsRailRoad.svg"
   ],
   "homepage": "https://github.com/amerharb/sedk-postgres#readme",
   "url": "https://github.com/amerharb/sedk-postgres/issues",

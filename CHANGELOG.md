@@ -1,6 +1,10 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.12.1]  2022-07-02
+### Changed
+- Update README.md: fix code and add railroad diagram to it and add its svg file to publish
+
 ## [0.12.0]  2022-06-20
 ### Added
 - Support Date Column, this is a new feature to support Date and timestamp with and without timezone columns.

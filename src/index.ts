@@ -14,7 +14,8 @@ export {
   InvalidExpressionError,
   MoreThanOneDistinctOrAllError,
   MoreThanOneWhereStepError,
-  DeleteWithoutConditionError
+  InvalidConditionError,
+  DeleteWithoutConditionError,
 } from './errors'
 export {
   Database,

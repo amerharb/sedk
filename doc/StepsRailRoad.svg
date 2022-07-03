@@ -1,7 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1933" height="539">
     <defs>
         <style type="text/css">
-            @namespace "http://www.w3.org/2000/svg";
             .line {fill: none; stroke: #001133; stroke-width: 1;}
             .bold-line {stroke: #000714; shape-rendering: crispEdges; stroke-width: 2;}
             .thin-line {stroke: #000A1F; shape-rendering: crispEdges}

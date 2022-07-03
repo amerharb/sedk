@@ -4,6 +4,7 @@ import {
   TableNotFoundError,
   MoreThanOneDistinctOrAllError,
   MoreThanOneWhereStepError,
+  InvalidConditionError,
   Builder,
   e,
   Table,
@@ -15,7 +16,8 @@ import {
   ASC,
   DESC,
   NULLS_FIRST,
-  NULLS_LAST, f,
+  NULLS_LAST,
+  f,
 } from '../src'
 import { database } from './database'
 
@@ -25,10 +27,12 @@ const GT = ComparisonOperator.GreaterThan
 const table1 = database.s.public.t.table1
 const col1 = table1.c.col1
 const col3 = table1.c.col3
+const col4 = table1.c.col4
 const table2 = database.s.public.t.table2
 
 describe('Throw desired Errors', () => {
   const sql = new Builder(database)
+  afterEach(() => { sql.cleanUp() })
 
   it('Throws error when 2 WHERE steps added', () => {
     function actual() {
@@ -242,5 +246,40 @@ describe('Throw desired Errors', () => {
     }
 
     expect(actual).toThrow(/^Expression Type must be number in aggregate function$/)
+  })
+
+  describe('Error: InvalidConditionError', () => {
+    it(`Throws error when condition created with "NUMBER" "=" "TEXT"`, () => {
+      function actual() {
+        sql
+          .selectAsteriskFrom(table1)
+          .where(col4.bitwiseXor(1).eq('A'))
+          .getSQL()
+      }
+
+      expect(actual).toThrow(InvalidConditionError)
+      expect(actual).toThrow(`Condition can not created with "NUMBER" "=" "TEXT"`)
+    })
+    it(`Throws error when condition created with "NUMBER" "=" "DATE"`, () => {
+      function actual() {
+        sql
+          .selectAsteriskFrom(table1)
+          .where(col4.bitwiseXor(1).eq(new Date()))
+          .getSQL()
+      }
+
+      expect(actual).toThrow(InvalidConditionError)
+      expect(actual).toThrow(`Condition can not created with "NUMBER" "=" "DATE"`)
+    })
+    it(`Throws no error when condition created with "NUMBER" "=" "NUMBER"`, () => {
+      function actual() {
+        sql
+          .selectAsteriskFrom(table1)
+          .where(col4.bitwiseXor(1).eq(1))
+          .getSQL()
+      }
+
+      expect(actual).not.toThrow()
+    })
   })
 })

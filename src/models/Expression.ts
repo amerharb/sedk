@@ -12,7 +12,7 @@ import { SelectItemInfo } from '../SelectItemInfo'
 import { Column } from '../columns'
 import { InvalidExpressionError } from '../errors'
 import { Operand } from './operand'
-import { isTextBoolean, isTextNumber, OperandType } from './types'
+import { isTextBoolean, isTextNumber, OperandType, PrimitiveType } from './types'
 import { IStatementGiver } from './IStatementGiver'
 import { Condition } from './Condition'
 
@@ -67,15 +67,25 @@ export class Expression implements IStatementGiver {
     return new SelectItemInfo(this, alias)
   }
 
-  //TODO: support other values types
-  public eq(value: null|number): Condition {
+  public eq(value: PrimitiveType): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     return new Condition(this, qualifier, new Expression(value))
   }
 
-  public eq$(value: null|number): Condition {
+  public eq$(value: PrimitiveType): Condition {
     const binder = new Binder(value)
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
+    return new Condition(this, qualifier, new Expression(binder))
+  }
+
+  public ne(value: PrimitiveType): Condition {
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    return new Condition(this, qualifier, new Expression(value))
+  }
+
+  public ne$(value: PrimitiveType): Condition {
+    const binder = new Binder(value)
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     return new Condition(this, qualifier, new Expression(binder))
   }
 
@@ -124,7 +134,7 @@ export class Expression implements IStatementGiver {
       this.throwInvalidTypeError(left.type, operator, right.type)
     }
 
-    if (this.isBooleanOperator(operator)) {
+    if (this.isComparisonOperator(operator)) {
       if (left.type === ExpressionType.NULL || right.type === ExpressionType.NULL)
         return ExpressionType.NULL
 
@@ -185,7 +195,7 @@ export class Expression implements IStatementGiver {
     return Object.values(TextOperator).includes(operator as TextOperator)
   }
 
-  private static isBooleanOperator(operator: Operator): boolean {
+  private static isComparisonOperator(operator: Operator): boolean {
     return Object.values(ComparisonOperator).includes(operator as ComparisonOperator)
   }
 

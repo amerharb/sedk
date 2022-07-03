@@ -1,5 +1,5 @@
 import { Expression, ExpressionType } from './Expression'
-import { ComparisonOperator, NullOperator, Qualifier } from '../operators'
+import { ComparisonOperator, NullOperator, Operator, Qualifier } from '../operators'
 import { BuilderData } from '../builder'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { Column } from '../columns'
@@ -15,7 +15,7 @@ export class Condition implements Expression, IStatementGiver {
   // Implement Expression
   public readonly leftOperand: Operand
   public readonly rightOperand?: Operand
-  public readonly type: ExpressionType = ExpressionType.BOOLEAN
+  public readonly type: ExpressionType.NULL|ExpressionType.BOOLEAN
 
   constructor(leftExpression: Expression)
   constructor(leftExpression: Expression, operator: Qualifier, rightExpression: Expression)
@@ -24,7 +24,7 @@ export class Condition implements Expression, IStatementGiver {
     this.leftOperand = new Operand(leftExpression, notLeft)
     this.operator = operator
     this.rightOperand = new Operand(rightExpression, notRight)
-    this.type = ExpressionType.BOOLEAN
+    this.type = Condition.getResultExpressionType(leftExpression, operator, rightExpression)
     this.leftExpression = leftExpression
     this.rightExpression = rightExpression
   }
@@ -62,6 +62,47 @@ export class Condition implements Expression, IStatementGiver {
       columns.push(...this.rightExpression.getColumns())
 
     return columns
+  }
+
+  private static getResultExpressionType(leftExpression: Expression, operator?: Qualifier, rightExpression?: Expression)
+    : ExpressionType.NULL|ExpressionType.BOOLEAN {
+    if (operator === undefined || rightExpression === undefined) {
+      if (leftExpression.type === ExpressionType.NULL || leftExpression.type === ExpressionType.BOOLEAN) {
+        return leftExpression.type
+      }
+      throw new Error(`Condition can not created based on expression type: ${leftExpression.type}`)
+    }
+
+    if (leftExpression.type === rightExpression.type) {
+      return ExpressionType.BOOLEAN
+    }
+
+    if (Condition.isNullOperator(operator)) {
+      if (rightExpression.type === ExpressionType.NULL) {
+        return ExpressionType.BOOLEAN
+      } else if (leftExpression.type === ExpressionType.NULL && rightExpression.type === ExpressionType.BOOLEAN) {
+        return ExpressionType.BOOLEAN
+      } else if (leftExpression.type === ExpressionType.BOOLEAN || rightExpression.type === ExpressionType.BOOLEAN) {
+        throw new Error('Boolean type only used with Boolean or Null')
+      } else if (leftExpression.type === ExpressionType.NULL) {
+        throw new Error('Null operator can only be used when null on the right side')
+      }
+      throw new Error('Null operator can only be used with null and boolean')
+    } else if (Condition.isComparisonOperator(operator)) {
+      if (leftExpression.type === ExpressionType.NULL || rightExpression.type === ExpressionType.NULL) {
+        return ExpressionType.NULL
+      }
+      throw new Error(`Comparison operator doesn't work with different types`)
+    }
+    throw new Error(`Operator is not supported: ${operator}`)
+  }
+
+  private static isComparisonOperator(operator: Operator): boolean {
+    return Object.values(ComparisonOperator).includes(operator as ComparisonOperator)
+  }
+
+  private static isNullOperator(operator: Operator): boolean {
+    return Object.values(NullOperator).includes(operator as NullOperator)
   }
 }
 

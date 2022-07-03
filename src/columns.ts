@@ -111,12 +111,11 @@ export class BooleanColumn extends Column implements Condition {
   // START implement Condition
   public readonly leftExpression: Expression = new Expression(this)
   public readonly leftOperand: Operand = this.leftExpression.leftOperand
-  public readonly type: ExpressionType = ExpressionType.BOOLEAN
+  public readonly type: ExpressionType.BOOLEAN|ExpressionType.NULL = ExpressionType.BOOLEAN
 
   public getColumns(): BooleanColumn[] {
     return [this]
   }
-
   // END implement Condition
 
   constructor(data: ColumnObj) {

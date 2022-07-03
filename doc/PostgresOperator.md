@@ -1,3 +1,5 @@
+TODO: add Date type to this table truth
+
 | Left     | Operator | Right    | Result          | Example                           |
 |----------|----------|----------|-----------------|-----------------------------------|
 | null     | AO       | null     | error           |                                   |
@@ -64,7 +66,7 @@
 | number   | IS       | number   | error           |                                   |
 | number   | IS       | text     | error           |                                   |
 | text     | IS       | null     | boolean         |                                   |
-| text     | IS       | boolean  | boolean / error |                                   |
+| text     | IS       | boolean  | error / boolean | in case literal 'true'            |
 | text     | IS       | number   | error           |                                   |
 | text     | IS       | text     | error           |                                   |
 | -        | -        | -        | -               |                                   |
@@ -85,5 +87,4 @@
 | text     | BO       | number   | error / number  | select 'A' & 1; / select '1' & 1; |
 | text     | BO       | text     | error           | select 'A' & 'A';                 |
 | -        | -        | -        | -               |                                   |
-
 

@@ -4,6 +4,9 @@
 ## [0.12.1]  2022-07-02
 ### Changed
 - Update README.md: fix code and add railroad diagram to it and add its svg file to publish
+- Check validity of Condition
+- Add more types to function eq() in Expression
+- Add function ne() to Expression
 
 ## [0.12.0]  2022-06-20
 ### Added

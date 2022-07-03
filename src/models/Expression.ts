@@ -78,6 +78,17 @@ export class Expression implements IStatementGiver {
     return new Condition(this, qualifier, new Expression(binder))
   }
 
+  public ne(value: PrimitiveType): Condition {
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    return new Condition(this, qualifier, new Expression(value))
+  }
+
+  public ne$(value: PrimitiveType): Condition {
+    const binder = new Binder(value)
+    const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    return new Condition(this, qualifier, new Expression(binder))
+  }
+
   public getColumns(): Column[] {
     const columns: Column[] = []
 

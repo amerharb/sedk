@@ -6,6 +6,7 @@ import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../
 import { OperandType } from './types'
 import { IStatementGiver } from './IStatementGiver'
 import { escapeSingleQuote } from '../util'
+import { Condition } from './Condition'
 
 export class Operand implements IStatementGiver {
   public value?: OperandType|Binder
@@ -61,6 +62,8 @@ export class Operand implements IStatementGiver {
     } else if (operand instanceof AggregateFunction) {
       return ExpressionType.NUMBER
     } else if (operand instanceof Expression) {
+      return operand.type
+    } else if (operand instanceof Condition) { //ignore IDE warning, operand can be an instance of Condition
       return operand.type
     } else if (operand instanceof Binder) {
       if (operand.value === null) {

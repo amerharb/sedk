@@ -124,7 +124,7 @@ export class Expression implements IStatementGiver {
       this.throwInvalidTypeError(left.type, operator, right.type)
     }
 
-    if (this.isBooleanOperator(operator)) {
+    if (this.isComparisonOperator(operator)) {
       if (left.type === ExpressionType.NULL || right.type === ExpressionType.NULL)
         return ExpressionType.NULL
 
@@ -185,7 +185,7 @@ export class Expression implements IStatementGiver {
     return Object.values(TextOperator).includes(operator as TextOperator)
   }
 
-  private static isBooleanOperator(operator: Operator): boolean {
+  private static isComparisonOperator(operator: Operator): boolean {
     return Object.values(ComparisonOperator).includes(operator as ComparisonOperator)
   }
 

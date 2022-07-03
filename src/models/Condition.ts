@@ -32,7 +32,11 @@ export class Condition implements Expression, IStatementGiver {
 
   public getStmt(data: BuilderData): string {
     if (this.operator !== undefined && this.rightOperand !== undefined)
-      return `${this.leftOperand.getStmt(data)} ${this.operator} ${this.rightOperand.getStmt(data)}`
+      if (this.leftOperand.value instanceof Condition) {
+        return `(${this.leftOperand.getStmt(data)}) ${this.operator} ${this.rightOperand.getStmt(data)}`
+      } else {
+        return `${this.leftOperand.getStmt(data)} ${this.operator} ${this.rightOperand.getStmt(data)}`
+      }
     else
       return this.leftOperand.getStmt(data)
   }

@@ -35,6 +35,8 @@ export class Operand implements IStatementGiver {
       return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt(data)}`
     } else if (this.value instanceof Expression) {
       return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt(data)}`
+    } else if (this.value instanceof Condition) { /** ignore IDE warning, "this.value" can be an instance of Condition */
+      return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt(data)}`
     } else if (this.value instanceof Column) {
       return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt(data)}`
     } else if (typeof this.value === 'number') {
@@ -63,7 +65,7 @@ export class Operand implements IStatementGiver {
       return ExpressionType.NUMBER
     } else if (operand instanceof Expression) {
       return operand.type
-    } else if (operand instanceof Condition) { //ignore IDE warning, operand can be an instance of Condition
+    } else if (operand instanceof Condition) { /** ignore IDE warning, operand can be an instance of Condition */
       return operand.type
     } else if (operand instanceof Binder) {
       if (operand.value === null) {

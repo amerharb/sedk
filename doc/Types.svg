@@ -1,4 +1,630 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="3665px" preserveAspectRatio="none" style="width:688px;height:3665px;background:#FFFFFF;" version="1.1" viewBox="0 0 688 3665" width="688px" zoomAndPan="magnify"><defs/><g><rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="116" x="10" y="132.9766"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="92" x="20" y="156.5117">PrimitiveType</text><rect fill="#008000" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="50" x="176" y="20"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="26" x="186" y="43.5352">null</text><path d="M126,151.2207 L136,151.2207 C151,151.2207 151,38.2441 166,38.2441 L176,38.2441 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="80" x="176" y="76.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="186" y="100.0234">boolean</text><path d="M126,151.2207 L136,151.2207 C151,151.2207 151,94.7324 166,94.7324 L176,94.7324 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="78" x="176" y="132.9766"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="186" y="156.5117">number</text><path d="M126,151.2207 L136,151.2207 C151,151.2207 151,151.2207 166,151.2207 L176,151.2207 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="64" x="176" y="189.4648"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="40" x="186" y="213">string</text><path d="M126,151.2207 L136,151.2207 C151,151.2207 151,207.709 166,207.709 L176,207.709 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="55" x="176" y="245.9531"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="31" x="186" y="269.4883">Date</text><path d="M126,151.2207 L136,151.2207 C151,151.2207 151,264.1973 166,264.1973 L176,264.1973 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="94" x="10" y="443.6621"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="70" x="20" y="467.1973">SelectItem</text><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="160" x="154" y="302.4414"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="136" x="164" y="325.9766">Aggregate Function</text><path d="M104,461.9063 L114,461.9063 C129,461.9063 129,320.6855 144,320.6855 L154,320.6855 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="105" x="154" y="471.9063"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="81" x="164" y="495.4414">ColumnLike</text><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="78" x="309" y="443.6621"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="319" y="467.1973">Column</text><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133" x="437" y="358.9297"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="447" y="382.4648">ColumnBoolean</text><path d="M387,461.9063 L397,461.9063 C412,461.9063 412,377.1738 427,377.1738 L437,377.1738 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133" x="437" y="415.418"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="447" y="438.9531">ColumnNumber</text><path d="M387,461.9063 L397,461.9063 C412,461.9063 412,433.6621 427,433.6621 L437,433.6621 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="109" x="437" y="471.9063"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="447" y="495.4414">ColumnText</text><path d="M387,461.9063 L397,461.9063 C412,461.9063 412,490.1504 427,490.1504 L437,490.1504 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="109" x="437" y="528.3945"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="447" y="551.9297">ColumnDate</text><path d="M387,461.9063 L397,461.9063 C412,461.9063 412,546.6387 427,546.6387 L437,546.6387 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><path d="M259,490.1504 L269,490.1504 C284,490.1504 284,461.9063 299,461.9063 L309,461.9063 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="100" x="309" y="584.8828"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="76" x="319" y="608.418">Expression</text><path d="M259,490.1504 L269,490.1504 C284,490.1504 284,603.127 299,603.127 L309,603.127 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><path d="M104,461.9063 L114,461.9063 C129,461.9063 129,490.1504 144,490.1504 L154,490.1504 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="79" x="154" y="528.3945"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="55" x="164" y="551.9297">Asterisk</text><path d="M104,461.9063 L114,461.9063 C129,461.9063 129,546.6387 144,546.6387 L154,546.6387 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="166" x="10" y="867.3242"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="142" x="20" y="890.8594">OrderByArgsElement</text><rect fill="#FFD700" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="168" x="226" y="697.8594"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="144" x="236" y="721.3945">OrderByNullsPosition</text><rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="220" x="444" y="641.3711"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="196" x="454" y="664.9063">NULLS_POSITION_NOT_EXIST</text><path d="M394,716.1035 L404,716.1035 C419,716.1035 419,659.6152 434,659.6152 L444,659.6152 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="111" x="444" y="697.8594"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="87" x="454" y="721.3945">NULLS_FIRST</text><path d="M394,716.1035 L404,716.1035 C419,716.1035 419,716.1035 434,716.1035 L444,716.1035 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="107" x="444" y="754.3477"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="83" x="454" y="777.8828">NULLS_LAST</text><path d="M394,716.1035 L404,716.1035 C419,716.1035 419,772.5918 434,772.5918 L444,772.5918 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><path d="M176,885.5684 L186,885.5684 C201,885.5684 201,716.1035 216,716.1035 L226,716.1035 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFD700" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="141" x="226" y="867.3242"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="117" x="236" y="890.8594">OrderByDirection</text><rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="181" x="417" y="810.8359"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="157" x="427" y="834.3711">DIRECTION_NOT_EXIST</text><path d="M367,885.5684 L377,885.5684 C392,885.5684 392,829.0801 407,829.0801 L417,829.0801 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="52" x="417" y="867.3242"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="28" x="427" y="890.8594">ASC</text><path d="M367,885.5684 L377,885.5684 C392,885.5684 392,885.5684 407,885.5684 L417,885.5684 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="60" x="417" y="923.8125"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="36" x="427" y="947.3477">DESC</text><path d="M367,885.5684 L377,885.5684 C392,885.5684 392,942.0566 407,942.0566 L417,942.0566 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><path d="M176,885.5684 L186,885.5684 C201,885.5684 201,885.5684 216,885.5684 L226,885.5684 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="136" x="226" y="923.8125"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="112" x="236" y="947.3477">OrderByItemInfo</text><path d="M176,885.5684 L186,885.5684 C201,885.5684 201,942.0566 216,942.0566 L226,942.0566 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="109" x="226" y="1036.7891"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="236" y="1060.3242">OrderByItem</text><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="78" x="385" y="980.3008"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="395" y="1003.8359">Column</text><path d="M335,1055.0332 L345,1055.0332 C360,1055.0332 360,998.5449 375,998.5449 L385,998.5449 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="100" x="385" y="1036.7891"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="76" x="395" y="1060.3242">Expression</text><path d="M335,1055.0332 L345,1055.0332 C360,1055.0332 360,1055.0332 375,1055.0332 L385,1055.0332 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="64" x="385" y="1093.2773"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="40" x="395" y="1116.8125">string</text><path d="M335,1055.0332 L345,1055.0332 C360,1055.0332 360,1111.5215 375,1111.5215 L385,1111.5215 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><path d="M176,885.5684 L186,885.5684 C201,885.5684 201,1055.0332 216,1055.0332 L226,1055.0332 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="117" x="10" y="1418.085"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="93" x="20" y="1441.6201">OperandType</text><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="100" x="177" y="1149.7656"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="76" x="187" y="1173.3008">Expression</text><path d="M127,1436.3291 L137,1436.3291 C152,1436.3291 152,1168.0098 167,1168.0098 L177,1168.0098 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="156" x="177" y="1206.2539"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="132" x="187" y="1229.7891">AggregateFunction</text><path d="M127,1436.3291 L137,1436.3291 C152,1436.3291 152,1224.498 167,1224.498 L177,1224.498 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="95" x="177" y="1474.5732"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="71" x="187" y="1498.1084">ValueType</text><rect fill="#008000" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="50" x="322" y="1262.7422"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="26" x="332" y="1286.2773">null</text><path d="M272,1492.8174 L282,1492.8174 C297,1492.8174 297,1280.9863 312,1280.9863 L322,1280.9863 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="106" x="322" y="1319.2305"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="82" x="332" y="1342.7656">BooleanLike</text><rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="80" x="478" y="1290.9863"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="488" y="1314.5215">boolean</text><path d="M428,1337.4746 L438,1337.4746 C453,1337.4746 453,1309.2305 468,1309.2305 L478,1309.2305 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133" x="478" y="1347.4746"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="488" y="1371.0098">BooleanColumn</text><path d="M428,1337.4746 L438,1337.4746 C453,1337.4746 453,1365.7188 468,1365.7188 L478,1365.7188 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><path d="M272,1492.8174 L282,1492.8174 C297,1492.8174 297,1337.4746 312,1337.4746 L322,1337.4746 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="106" x="322" y="1432.207"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="82" x="332" y="1455.7422">NumberLike</text><rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="78" x="478" y="1403.9629"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="488" y="1427.498">number</text><path d="M428,1450.4512 L438,1450.4512 C453,1450.4512 453,1422.207 468,1422.207 L478,1422.207 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133" x="478" y="1460.4512"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="488" y="1483.9863">NumberColumn</text><path d="M428,1450.4512 L438,1450.4512 C453,1450.4512 453,1478.6953 468,1478.6953 L478,1478.6953 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><path d="M272,1492.8174 L282,1492.8174 C297,1492.8174 297,1450.4512 312,1450.4512 L322,1450.4512 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="82" x="322" y="1545.1836"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="58" x="332" y="1568.7188">TextLike</text><rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="64" x="454" y="1516.9395"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="40" x="464" y="1540.4746">string</text><path d="M404,1563.4277 L414,1563.4277 C429,1563.4277 429,1535.1836 444,1535.1836 L454,1535.1836 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="113" x="454" y="1573.4277"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="464" y="1596.9629">TextColumn</text><path d="M404,1563.4277 L414,1563.4277 C429,1563.4277 429,1591.6719 444,1591.6719 L454,1591.6719 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><path d="M272,1492.8174 L282,1492.8174 C297,1492.8174 297,1563.4277 312,1563.4277 L322,1563.4277 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="82" x="322" y="1658.1602"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="58" x="332" y="1681.6953">DateLike</text><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="55" x="454" y="1629.916"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="31" x="464" y="1653.4512">Date</text><path d="M404,1676.4043 L414,1676.4043 C429,1676.4043 429,1648.1602 444,1648.1602 L454,1648.1602 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="113" x="454" y="1686.4043"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="464" y="1709.9395">DateColumn</text><path d="M404,1676.4043 L414,1676.4043 C429,1676.4043 429,1704.6484 444,1704.6484 L454,1704.6484 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><path d="M272,1492.8174 L282,1492.8174 C297,1492.8174 297,1676.4043 312,1676.4043 L322,1676.4043 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><path d="M127,1436.3291 L137,1436.3291 C152,1436.3291 152,1492.8174 167,1492.8174 L177,1492.8174 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="86" x="10" y="2223.043"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="62" x="20" y="2246.5781">Operator</text><rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="157" x="146" y="1884.1133"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="133" x="156" y="1907.6484">ArithmeticOperator</text><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="90" x="353" y="1742.8926"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="66" x="363" y="1766.4277">ADD = '+'</text><path d="M303,1902.3574 L313,1902.3574 C328,1902.3574 328,1761.1367 343,1761.1367 L353,1761.1367 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="83" x="353" y="1799.3809"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="59" x="363" y="1822.916">SUB = '-'</text><path d="M303,1902.3574 L313,1902.3574 C328,1902.3574 328,1817.625 343,1817.625 L353,1817.625 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="85" x="353" y="1855.8691"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="61" x="363" y="1879.4043">MUL = '*'</text><path d="M303,1902.3574 L313,1902.3574 C328,1902.3574 328,1874.1133 343,1874.1133 L353,1874.1133 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="79" x="353" y="1912.3574"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="55" x="363" y="1935.8926">DIV = '/'</text><path d="M303,1902.3574 L313,1902.3574 C328,1902.3574 328,1930.6016 343,1930.6016 L353,1930.6016 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="91" x="353" y="1968.8457"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="67" x="363" y="1992.3809">MOD = '%'</text><path d="M303,1902.3574 L313,1902.3574 C328,1902.3574 328,1987.0898 343,1987.0898 L353,1987.0898 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="83" x="353" y="2025.334"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="59" x="363" y="2048.8691">EXP = '^'</text><path d="M303,1902.3574 L313,1902.3574 C328,1902.3574 328,2043.5781 343,2043.5781 L353,2043.5781 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><path d="M96,2241.2871 L106,2241.2871 C121,2241.2871 121,1902.3574 136,1902.3574 L146,1902.3574 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133" x="146" y="2138.3105"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="156" y="2161.8457">BitwiseOperator</text><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="118" x="329" y="2081.8223"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="94" x="339" y="2105.3574">BitwiseOr = '|'</text><path d="M279,2156.5547 L289,2156.5547 C304,2156.5547 304,2100.0664 319,2100.0664 L329,2100.0664 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="134" x="329" y="2138.3105"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="110" x="339" y="2161.8457">BitwiseAnd = '&amp;'</text><path d="M279,2156.5547 L289,2156.5547 C304,2156.5547 304,2156.5547 319,2156.5547 L329,2156.5547 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="129" x="329" y="2194.7988"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="105" x="339" y="2218.334">BitwiseXor = '#'</text><path d="M279,2156.5547 L289,2156.5547 C304,2156.5547 304,2213.043 319,2213.043 L329,2213.043 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><path d="M96,2241.2871 L106,2241.2871 C121,2241.2871 121,2156.5547 136,2156.5547 L146,2156.5547 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="117" x="146" y="2251.2871"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="93" x="156" y="2274.8223">TextOperator</text><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="119" x="313" y="2251.2871"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="95" x="323" y="2274.8223">CONCAT = '||'</text><path d="M263,2269.5313 L273,2269.5313 C288,2269.5313 288,2269.5313 303,2269.5313 L313,2269.5313 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><path d="M96,2241.2871 L106,2241.2871 C121,2241.2871 121,2269.5313 136,2269.5313 L146,2269.5313 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="83" x="146" y="2505.4844"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="59" x="156" y="2529.0195">Qualifier</text><rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="170" x="279" y="2448.9961"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="146" x="289" y="2472.5313">ComparisonOperator</text><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="98" x="499" y="2307.7754"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="74" x="509" y="2331.3105">Equal = '='</text><path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2326.0195 489,2326.0195 L499,2326.0195 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133" x="499" y="2364.2637"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="509" y="2387.7988">NotEqual = '&lt;&gt;'</text><path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2382.5078 489,2382.5078 L499,2382.5078 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="146" x="499" y="2420.752"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="122" x="509" y="2444.2871">GreaterThan = '&gt;'</text><path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2438.9961 489,2438.9961 L499,2438.9961 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="177" x="499" y="2477.2402"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="153" x="509" y="2500.7754">GreaterOrEqual = '&gt;='</text><path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2495.4844 489,2495.4844 L499,2495.4844 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="138" x="499" y="2533.7285"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="114" x="509" y="2557.2637">LesserThan = '&lt;'</text><path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2551.9727 489,2551.9727 L499,2551.9727 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="169" x="499" y="2590.2168"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="145" x="509" y="2613.752">LesserOrEqual = '&lt;='</text><path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2608.4609 489,2608.4609 L499,2608.4609 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><path d="M229,2523.7285 L239,2523.7285 C254,2523.7285 254,2467.2402 269,2467.2402 L279,2467.2402 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="113" x="279" y="2674.9492"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="89" x="289" y="2698.4844">NullOperator</text><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="72" x="442" y="2646.7051"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="48" x="452" y="2670.2402">Is = 'IS'</text><path d="M392,2693.1934 L402,2693.1934 C417,2693.1934 417,2664.9492 432,2664.9492 L442,2664.9492 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="130" x="442" y="2703.1934"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106" x="452" y="2726.7285">IsNot = 'IS NOT'</text><path d="M392,2693.1934 L402,2693.1934 C417,2693.1934 417,2721.4375 432,2721.4375 L442,2721.4375 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><path d="M229,2523.7285 L239,2523.7285 C254,2523.7285 254,2693.1934 269,2693.1934 L279,2693.1934 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><path d="M96,2241.2871 L106,2241.2871 C121,2241.2871 121,2523.7285 136,2523.7285 L146,2523.7285 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="134" x="10" y="2787.9258"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="110" x="20" y="2811.4609">LogicalOperator</text><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="109" x="194" y="2759.6816"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="204" y="2783.2168">AND = 'AND'</text><path d="M144,2806.1699 L154,2806.1699 C169,2806.1699 169,2777.9258 184,2777.9258 L194,2777.9258 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="89" x="194" y="2816.1699"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="65" x="204" y="2839.7051">OR = 'OR'</text><path d="M144,2806.1699 L154,2806.1699 C169,2806.1699 169,2834.4141 184,2834.4141 L194,2834.4141 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133" x="10" y="3013.8789"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="20" y="3037.4141">ExpressionType</text><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="99" x="193" y="2872.6582"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="75" x="203" y="2896.1934">NOT_EXIST</text><path d="M143,3032.123 L153,3032.123 C168,3032.123 168,2890.9023 183,2890.9023 L193,2890.9023 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="58" x="193" y="2929.1465"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="34" x="203" y="2952.6816">NULL</text><path d="M143,3032.123 L153,3032.123 C168,3032.123 168,2947.3906 183,2947.3906 L193,2947.3906 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="89" x="193" y="2985.6348"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="65" x="203" y="3009.1699">BOOLEAN</text><path d="M143,3032.123 L153,3032.123 C168,3032.123 168,3003.8789 183,3003.8789 L193,3003.8789 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="81" x="193" y="3042.123"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="57" x="203" y="3065.6582">NUMBER</text><path d="M143,3032.123 L153,3032.123 C168,3032.123 168,3060.3672 183,3060.3672 L193,3060.3672 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="59" x="193" y="3098.6113"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="35" x="203" y="3122.1465">TEXT</text><path d="M143,3032.123 L153,3032.123 C168,3032.123 168,3116.8555 183,3116.8555 L193,3116.8555 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="61" x="193" y="3155.0996"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="37" x="203" y="3178.6348">DATE</text><path d="M143,3032.123 L153,3032.123 C168,3032.123 168,3173.3438 183,3173.3438 L193,3173.3438 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="146" x="10" y="3409.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="122" x="20" y="3432.832">FromItemRelation</text><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="145" x="206" y="3211.5879"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="121" x="216" y="3235.123">NO_RELATION = ''</text><path d="M156,3427.541 L166,3427.541 C181,3427.541 181,3229.832 196,3229.832 L206,3229.832 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="112" x="206" y="3268.0762"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="88" x="216" y="3291.6113">COMMA = ', '</text><path d="M156,3427.541 L166,3427.541 C181,3427.541 181,3286.3203 196,3286.3203 L206,3286.3203 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="115" x="206" y="3324.5645"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="91" x="216" y="3348.0996">JOIN = ' JOIN '</text><path d="M156,3427.541 L166,3427.541 C181,3427.541 181,3342.8086 196,3342.8086 L206,3342.8086 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="190" x="206" y="3381.0527"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="166" x="216" y="3404.5879">LEFT_JOIN = ' LEFT JOIN '</text><path d="M156,3427.541 L166,3427.541 C181,3427.541 181,3399.2969 196,3399.2969 L206,3399.2969 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="210" x="206" y="3437.541"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="186" x="216" y="3461.0762">RIGHT_JOIN = ' RIGHT JOIN '</text><path d="M156,3427.541 L166,3427.541 C181,3427.541 181,3455.7852 196,3455.7852 L206,3455.7852 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="208" x="206" y="3494.0293"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="184" x="216" y="3517.5645">INNER_JOIN = ' INNER JOIN '</text><path d="M156,3427.541 L166,3427.541 C181,3427.541 181,3512.2734 196,3512.2734 L206,3512.2734 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="190" x="206" y="3550.5176"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="166" x="216" y="3574.0527">FULL_JOIN = ' FULL JOIN '</text><path d="M156,3427.541 L166,3427.541 C181,3427.541 181,3568.7617 196,3568.7617 L206,3568.7617 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="218" x="206" y="3607.0059"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="194" x="216" y="3630.541">CROSS_JOIN = ' CROSS JOIN '</text><path d="M156,3427.541 L166,3427.541 C181,3427.541 181,3625.25 196,3625.25 L206,3625.25 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><!--MD5=[c25d281016f4787bba260b2bee34b1bc]
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" contentStyleType="text/css"
+     height="3665px" preserveAspectRatio="none" style="width:688px;height:3665px;background:#FFFFFF;" version="1.1"
+     viewBox="0 0 688 3665" width="688px" zoomAndPan="magnify">
+    <defs/>
+    <g>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="116"
+              x="10" y="132.9766"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="92" x="20"
+              y="156.5117">PrimitiveType
+        </text>
+        <rect fill="#008000" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="50"
+              x="176" y="20"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="26" x="186"
+              y="43.5352">null
+        </text>
+        <path d="M126,151.2207 L136,151.2207 C151,151.2207 151,38.2441 166,38.2441 L176,38.2441 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="80"
+              x="176" y="76.4883"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="56" x="186"
+              y="100.0234">boolean
+        </text>
+        <path d="M126,151.2207 L136,151.2207 C151,151.2207 151,94.7324 166,94.7324 L176,94.7324 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="78"
+              x="176" y="132.9766"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="54" x="186"
+              y="156.5117">number
+        </text>
+        <path d="M126,151.2207 L136,151.2207 C151,151.2207 151,151.2207 166,151.2207 L176,151.2207 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="64"
+              x="176" y="189.4648"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="40" x="186"
+              y="213">string
+        </text>
+        <path d="M126,151.2207 L136,151.2207 C151,151.2207 151,207.709 166,207.709 L176,207.709 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="55"
+              x="176" y="245.9531"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="31" x="186"
+              y="269.4883">Date
+        </text>
+        <path d="M126,151.2207 L136,151.2207 C151,151.2207 151,264.1973 166,264.1973 L176,264.1973 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="94"
+              x="10" y="443.6621"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="70" x="20"
+              y="467.1973">SelectItem
+        </text>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="160"
+              x="154" y="302.4414"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="136" x="164"
+              y="325.9766">Aggregate Function
+        </text>
+        <path d="M104,461.9063 L114,461.9063 C129,461.9063 129,320.6855 144,320.6855 L154,320.6855 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="105"
+              x="154" y="471.9063"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="81" x="164"
+              y="495.4414">ColumnLike
+        </text>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="78"
+              x="309" y="443.6621"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="54" x="319"
+              y="467.1973">Column
+        </text>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133"
+              x="437" y="358.9297"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="109" x="447"
+              y="382.4648">ColumnBoolean
+        </text>
+        <path d="M387,461.9063 L397,461.9063 C412,461.9063 412,377.1738 427,377.1738 L437,377.1738 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133"
+              x="437" y="415.418"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="109" x="447"
+              y="438.9531">ColumnNumber
+        </text>
+        <path d="M387,461.9063 L397,461.9063 C412,461.9063 412,433.6621 427,433.6621 L437,433.6621 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="109"
+              x="437" y="471.9063"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="85" x="447"
+              y="495.4414">ColumnText
+        </text>
+        <path d="M387,461.9063 L397,461.9063 C412,461.9063 412,490.1504 427,490.1504 L437,490.1504 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="109"
+              x="437" y="528.3945"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="85" x="447"
+              y="551.9297">ColumnDate
+        </text>
+        <path d="M387,461.9063 L397,461.9063 C412,461.9063 412,546.6387 427,546.6387 L437,546.6387 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M259,490.1504 L269,490.1504 C284,490.1504 284,461.9063 299,461.9063 L309,461.9063 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="100"
+              x="309" y="584.8828"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="76" x="319"
+              y="608.418">Expression
+        </text>
+        <path d="M259,490.1504 L269,490.1504 C284,490.1504 284,603.127 299,603.127 L309,603.127 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M104,461.9063 L114,461.9063 C129,461.9063 129,490.1504 144,490.1504 L154,490.1504 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="79"
+              x="154" y="528.3945"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="55" x="164"
+              y="551.9297">Asterisk
+        </text>
+        <path d="M104,461.9063 L114,461.9063 C129,461.9063 129,546.6387 144,546.6387 L154,546.6387 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="166"
+              x="10" y="867.3242"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="142" x="20"
+              y="890.8594">OrderByArgsElement
+        </text>
+        <rect fill="#FFD700" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="168"
+              x="226" y="697.8594"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="144" x="236"
+              y="721.3945">OrderByNullsPosition
+        </text>
+        <rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="220"
+              x="444" y="641.3711"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="196" x="454"
+              y="664.9063">NULLS_POSITION_NOT_EXIST
+        </text>
+        <path d="M394,716.1035 L404,716.1035 C419,716.1035 419,659.6152 434,659.6152 L444,659.6152 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="111"
+              x="444" y="697.8594"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="87" x="454"
+              y="721.3945">NULLS_FIRST
+        </text>
+        <path d="M394,716.1035 L404,716.1035 C419,716.1035 419,716.1035 434,716.1035 L444,716.1035 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="107"
+              x="444" y="754.3477"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="83" x="454"
+              y="777.8828">NULLS_LAST
+        </text>
+        <path d="M394,716.1035 L404,716.1035 C419,716.1035 419,772.5918 434,772.5918 L444,772.5918 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M176,885.5684 L186,885.5684 C201,885.5684 201,716.1035 216,716.1035 L226,716.1035 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFD700" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="141"
+              x="226" y="867.3242"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="117" x="236"
+              y="890.8594">OrderByDirection
+        </text>
+        <rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="181"
+              x="417" y="810.8359"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="157" x="427"
+              y="834.3711">DIRECTION_NOT_EXIST
+        </text>
+        <path d="M367,885.5684 L377,885.5684 C392,885.5684 392,829.0801 407,829.0801 L417,829.0801 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="52"
+              x="417" y="867.3242"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="28" x="427"
+              y="890.8594">ASC
+        </text>
+        <path d="M367,885.5684 L377,885.5684 C392,885.5684 392,885.5684 407,885.5684 L417,885.5684 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="60"
+              x="417" y="923.8125"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="36" x="427"
+              y="947.3477">DESC
+        </text>
+        <path d="M367,885.5684 L377,885.5684 C392,885.5684 392,942.0566 407,942.0566 L417,942.0566 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M176,885.5684 L186,885.5684 C201,885.5684 201,885.5684 216,885.5684 L226,885.5684 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="136"
+              x="226" y="923.8125"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="112" x="236"
+              y="947.3477">OrderByItemInfo
+        </text>
+        <path d="M176,885.5684 L186,885.5684 C201,885.5684 201,942.0566 216,942.0566 L226,942.0566 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="109"
+              x="226" y="1036.7891"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="85" x="236"
+              y="1060.3242">OrderByItem
+        </text>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="78"
+              x="385" y="980.3008"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="54" x="395"
+              y="1003.8359">Column
+        </text>
+        <path d="M335,1055.0332 L345,1055.0332 C360,1055.0332 360,998.5449 375,998.5449 L385,998.5449 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="100"
+              x="385" y="1036.7891"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="76" x="395"
+              y="1060.3242">Expression
+        </text>
+        <path d="M335,1055.0332 L345,1055.0332 C360,1055.0332 360,1055.0332 375,1055.0332 L385,1055.0332 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="64"
+              x="385" y="1093.2773"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="40" x="395"
+              y="1116.8125">string
+        </text>
+        <path d="M335,1055.0332 L345,1055.0332 C360,1055.0332 360,1111.5215 375,1111.5215 L385,1111.5215 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M176,885.5684 L186,885.5684 C201,885.5684 201,1055.0332 216,1055.0332 L226,1055.0332 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="117"
+              x="10" y="1418.085"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="93" x="20"
+              y="1441.6201">OperandType
+        </text>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="100"
+              x="177" y="1149.7656"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="76" x="187"
+              y="1173.3008">Expression
+        </text>
+        <path d="M127,1436.3291 L137,1436.3291 C152,1436.3291 152,1168.0098 167,1168.0098 L177,1168.0098 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="156"
+              x="177" y="1206.2539"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="132" x="187"
+              y="1229.7891">AggregateFunction
+        </text>
+        <path d="M127,1436.3291 L137,1436.3291 C152,1436.3291 152,1224.498 167,1224.498 L177,1224.498 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="95"
+              x="177" y="1474.5732"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="71" x="187"
+              y="1498.1084">ValueType
+        </text>
+        <rect fill="#008000" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="50"
+              x="322" y="1262.7422"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="26" x="332"
+              y="1286.2773">null
+        </text>
+        <path d="M272,1492.8174 L282,1492.8174 C297,1492.8174 297,1280.9863 312,1280.9863 L322,1280.9863 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="106"
+              x="322" y="1319.2305"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="82" x="332"
+              y="1342.7656">BooleanLike
+        </text>
+        <rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="80"
+              x="478" y="1290.9863"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="56" x="488"
+              y="1314.5215">boolean
+        </text>
+        <path d="M428,1337.4746 L438,1337.4746 C453,1337.4746 453,1309.2305 468,1309.2305 L478,1309.2305 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133"
+              x="478" y="1347.4746"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="109" x="488"
+              y="1371.0098">BooleanColumn
+        </text>
+        <path d="M428,1337.4746 L438,1337.4746 C453,1337.4746 453,1365.7188 468,1365.7188 L478,1365.7188 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M272,1492.8174 L282,1492.8174 C297,1492.8174 297,1337.4746 312,1337.4746 L322,1337.4746 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="106"
+              x="322" y="1432.207"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="82" x="332"
+              y="1455.7422">NumberLike
+        </text>
+        <rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="78"
+              x="478" y="1403.9629"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="54" x="488"
+              y="1427.498">number
+        </text>
+        <path d="M428,1450.4512 L438,1450.4512 C453,1450.4512 453,1422.207 468,1422.207 L478,1422.207 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133"
+              x="478" y="1460.4512"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="109" x="488"
+              y="1483.9863">NumberColumn
+        </text>
+        <path d="M428,1450.4512 L438,1450.4512 C453,1450.4512 453,1478.6953 468,1478.6953 L478,1478.6953 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M272,1492.8174 L282,1492.8174 C297,1492.8174 297,1450.4512 312,1450.4512 L322,1450.4512 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="82"
+              x="322" y="1545.1836"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="58" x="332"
+              y="1568.7188">TextLike
+        </text>
+        <rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="64"
+              x="454" y="1516.9395"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="40" x="464"
+              y="1540.4746">string
+        </text>
+        <path d="M404,1563.4277 L414,1563.4277 C429,1563.4277 429,1535.1836 444,1535.1836 L454,1535.1836 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="113"
+              x="454" y="1573.4277"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="85" x="464"
+              y="1596.9629">TextColumn
+        </text>
+        <path d="M404,1563.4277 L414,1563.4277 C429,1563.4277 429,1591.6719 444,1591.6719 L454,1591.6719 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M272,1492.8174 L282,1492.8174 C297,1492.8174 297,1563.4277 312,1563.4277 L322,1563.4277 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="82"
+              x="322" y="1658.1602"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="58" x="332"
+              y="1681.6953">DateLike
+        </text>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="55"
+              x="454" y="1629.916"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="31" x="464"
+              y="1653.4512">Date
+        </text>
+        <path d="M404,1676.4043 L414,1676.4043 C429,1676.4043 429,1648.1602 444,1648.1602 L454,1648.1602 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="113"
+              x="454" y="1686.4043"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="85" x="464"
+              y="1709.9395">DateColumn
+        </text>
+        <path d="M404,1676.4043 L414,1676.4043 C429,1676.4043 429,1704.6484 444,1704.6484 L454,1704.6484 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M272,1492.8174 L282,1492.8174 C297,1492.8174 297,1676.4043 312,1676.4043 L322,1676.4043 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M127,1436.3291 L137,1436.3291 C152,1436.3291 152,1492.8174 167,1492.8174 L177,1492.8174 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="86"
+              x="10" y="2223.043"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="62" x="20"
+              y="2246.5781">Operator
+        </text>
+        <rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="157"
+              x="146" y="1884.1133"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="133" x="156"
+              y="1907.6484">ArithmeticOperator
+        </text>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="90"
+              x="353" y="1742.8926"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="66" x="363"
+              y="1766.4277">ADD = '+'
+        </text>
+        <path d="M303,1902.3574 L313,1902.3574 C328,1902.3574 328,1761.1367 343,1761.1367 L353,1761.1367 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="83"
+              x="353" y="1799.3809"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="59" x="363"
+              y="1822.916">SUB = '-'
+        </text>
+        <path d="M303,1902.3574 L313,1902.3574 C328,1902.3574 328,1817.625 343,1817.625 L353,1817.625 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="85"
+              x="353" y="1855.8691"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="61" x="363"
+              y="1879.4043">MUL = '*'
+        </text>
+        <path d="M303,1902.3574 L313,1902.3574 C328,1902.3574 328,1874.1133 343,1874.1133 L353,1874.1133 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="79"
+              x="353" y="1912.3574"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="55" x="363"
+              y="1935.8926">DIV = '/'
+        </text>
+        <path d="M303,1902.3574 L313,1902.3574 C328,1902.3574 328,1930.6016 343,1930.6016 L353,1930.6016 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="91"
+              x="353" y="1968.8457"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="67" x="363"
+              y="1992.3809">MOD = '%'
+        </text>
+        <path d="M303,1902.3574 L313,1902.3574 C328,1902.3574 328,1987.0898 343,1987.0898 L353,1987.0898 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="83"
+              x="353" y="2025.334"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="59" x="363"
+              y="2048.8691">EXP = '^'
+        </text>
+        <path d="M303,1902.3574 L313,1902.3574 C328,1902.3574 328,2043.5781 343,2043.5781 L353,2043.5781 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M96,2241.2871 L106,2241.2871 C121,2241.2871 121,1902.3574 136,1902.3574 L146,1902.3574 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133"
+              x="146" y="2138.3105"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="109" x="156"
+              y="2161.8457">BitwiseOperator
+        </text>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="118"
+              x="329" y="2081.8223"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="94" x="339"
+              y="2105.3574">BitwiseOr = '|'
+        </text>
+        <path d="M279,2156.5547 L289,2156.5547 C304,2156.5547 304,2100.0664 319,2100.0664 L329,2100.0664 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="134"
+              x="329" y="2138.3105"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="110" x="339"
+              y="2161.8457">BitwiseAnd = '&amp;'
+        </text>
+        <path d="M279,2156.5547 L289,2156.5547 C304,2156.5547 304,2156.5547 319,2156.5547 L329,2156.5547 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="129"
+              x="329" y="2194.7988"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="105" x="339"
+              y="2218.334">BitwiseXor = '#'
+        </text>
+        <path d="M279,2156.5547 L289,2156.5547 C304,2156.5547 304,2213.043 319,2213.043 L329,2213.043 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M96,2241.2871 L106,2241.2871 C121,2241.2871 121,2156.5547 136,2156.5547 L146,2156.5547 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="117"
+              x="146" y="2251.2871"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="93" x="156"
+              y="2274.8223">TextOperator
+        </text>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="119"
+              x="313" y="2251.2871"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="95" x="323"
+              y="2274.8223">CONCAT = '||'
+        </text>
+        <path d="M263,2269.5313 L273,2269.5313 C288,2269.5313 288,2269.5313 303,2269.5313 L313,2269.5313 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M96,2241.2871 L106,2241.2871 C121,2241.2871 121,2269.5313 136,2269.5313 L146,2269.5313 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="83"
+              x="146" y="2505.4844"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="59" x="156"
+              y="2529.0195">Qualifier
+        </text>
+        <rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="170"
+              x="279" y="2448.9961"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="146" x="289"
+              y="2472.5313">ComparisonOperator
+        </text>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="98"
+              x="499" y="2307.7754"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="74" x="509"
+              y="2331.3105">Equal = '='
+        </text>
+        <path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2326.0195 489,2326.0195 L499,2326.0195 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133"
+              x="499" y="2364.2637"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="109" x="509"
+              y="2387.7988">NotEqual = '&lt;&gt;'
+        </text>
+        <path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2382.5078 489,2382.5078 L499,2382.5078 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="146"
+              x="499" y="2420.752"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="122" x="509"
+              y="2444.2871">GreaterThan = '&gt;'
+        </text>
+        <path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2438.9961 489,2438.9961 L499,2438.9961 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="177"
+              x="499" y="2477.2402"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="153" x="509"
+              y="2500.7754">GreaterOrEqual = '&gt;='
+        </text>
+        <path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2495.4844 489,2495.4844 L499,2495.4844 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="138"
+              x="499" y="2533.7285"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="114" x="509"
+              y="2557.2637">LesserThan = '&lt;'
+        </text>
+        <path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2551.9727 489,2551.9727 L499,2551.9727 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="169"
+              x="499" y="2590.2168"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="145" x="509"
+              y="2613.752">LesserOrEqual = '&lt;='
+        </text>
+        <path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2608.4609 489,2608.4609 L499,2608.4609 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M229,2523.7285 L239,2523.7285 C254,2523.7285 254,2467.2402 269,2467.2402 L279,2467.2402 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="113"
+              x="279" y="2674.9492"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="89" x="289"
+              y="2698.4844">NullOperator
+        </text>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="72"
+              x="442" y="2646.7051"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="48" x="452"
+              y="2670.2402">Is = 'IS'
+        </text>
+        <path d="M392,2693.1934 L402,2693.1934 C417,2693.1934 417,2664.9492 432,2664.9492 L442,2664.9492 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="130"
+              x="442" y="2703.1934"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="106" x="452"
+              y="2726.7285">IsNot = 'IS NOT'
+        </text>
+        <path d="M392,2693.1934 L402,2693.1934 C417,2693.1934 417,2721.4375 432,2721.4375 L442,2721.4375 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M229,2523.7285 L239,2523.7285 C254,2523.7285 254,2693.1934 269,2693.1934 L279,2693.1934 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M96,2241.2871 L106,2241.2871 C121,2241.2871 121,2523.7285 136,2523.7285 L146,2523.7285 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="134"
+              x="10" y="2787.9258"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="110" x="20"
+              y="2811.4609">LogicalOperator
+        </text>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="109"
+              x="194" y="2759.6816"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="85" x="204"
+              y="2783.2168">AND = 'AND'
+        </text>
+        <path d="M144,2806.1699 L154,2806.1699 C169,2806.1699 169,2777.9258 184,2777.9258 L194,2777.9258 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="89"
+              x="194" y="2816.1699"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="65" x="204"
+              y="2839.7051">OR = 'OR'
+        </text>
+        <path d="M144,2806.1699 L154,2806.1699 C169,2806.1699 169,2834.4141 184,2834.4141 L194,2834.4141 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133"
+              x="10" y="3013.8789"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="109" x="20"
+              y="3037.4141">ExpressionType
+        </text>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="99"
+              x="193" y="2872.6582"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="75" x="203"
+              y="2896.1934">NOT_EXIST
+        </text>
+        <path d="M143,3032.123 L153,3032.123 C168,3032.123 168,2890.9023 183,2890.9023 L193,2890.9023 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="58"
+              x="193" y="2929.1465"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="34" x="203"
+              y="2952.6816">NULL
+        </text>
+        <path d="M143,3032.123 L153,3032.123 C168,3032.123 168,2947.3906 183,2947.3906 L193,2947.3906 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="89"
+              x="193" y="2985.6348"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="65" x="203"
+              y="3009.1699">BOOLEAN
+        </text>
+        <path d="M143,3032.123 L153,3032.123 C168,3032.123 168,3003.8789 183,3003.8789 L193,3003.8789 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="81"
+              x="193" y="3042.123"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="57" x="203"
+              y="3065.6582">NUMBER
+        </text>
+        <path d="M143,3032.123 L153,3032.123 C168,3032.123 168,3060.3672 183,3060.3672 L193,3060.3672 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="59"
+              x="193" y="3098.6113"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="35" x="203"
+              y="3122.1465">TEXT
+        </text>
+        <path d="M143,3032.123 L153,3032.123 C168,3032.123 168,3116.8555 183,3116.8555 L193,3116.8555 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="61"
+              x="193" y="3155.0996"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="37" x="203"
+              y="3178.6348">DATE
+        </text>
+        <path d="M143,3032.123 L153,3032.123 C168,3032.123 168,3173.3438 183,3173.3438 L193,3173.3438 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="146"
+              x="10" y="3409.2969"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="122" x="20"
+              y="3432.832">FromItemRelation
+        </text>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="145"
+              x="206" y="3211.5879"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="121" x="216"
+              y="3235.123">NO_RELATION = ''
+        </text>
+        <path d="M156,3427.541 L166,3427.541 C181,3427.541 181,3229.832 196,3229.832 L206,3229.832 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="112"
+              x="206" y="3268.0762"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="88" x="216"
+              y="3291.6113">COMMA = ', '
+        </text>
+        <path d="M156,3427.541 L166,3427.541 C181,3427.541 181,3286.3203 196,3286.3203 L206,3286.3203 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="115"
+              x="206" y="3324.5645"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="91" x="216"
+              y="3348.0996">JOIN = ' JOIN '
+        </text>
+        <path d="M156,3427.541 L166,3427.541 C181,3427.541 181,3342.8086 196,3342.8086 L206,3342.8086 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="190"
+              x="206" y="3381.0527"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="166" x="216"
+              y="3404.5879">LEFT_JOIN = ' LEFT JOIN '
+        </text>
+        <path d="M156,3427.541 L166,3427.541 C181,3427.541 181,3399.2969 196,3399.2969 L206,3399.2969 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="210"
+              x="206" y="3437.541"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="186" x="216"
+              y="3461.0762">RIGHT_JOIN = ' RIGHT JOIN '
+        </text>
+        <path d="M156,3427.541 L166,3427.541 C181,3427.541 181,3455.7852 196,3455.7852 L206,3455.7852 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="208"
+              x="206" y="3494.0293"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="184" x="216"
+              y="3517.5645">INNER_JOIN = ' INNER JOIN '
+        </text>
+        <path d="M156,3427.541 L166,3427.541 C181,3427.541 181,3512.2734 196,3512.2734 L206,3512.2734 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="190"
+              x="206" y="3550.5176"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="166" x="216"
+              y="3574.0527">FULL_JOIN = ' FULL JOIN '
+        </text>
+        <path d="M156,3427.541 L166,3427.541 C181,3427.541 181,3568.7617 196,3568.7617 L206,3568.7617 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="218"
+              x="206" y="3607.0059"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" textLength="194" x="216"
+              y="3630.541">CROSS_JOIN = ' CROSS JOIN '
+        </text>
+        <path d="M156,3427.541 L166,3427.541 C181,3427.541 181,3625.25 196,3625.25 L206,3625.25 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/><!--MD5=[c25d281016f4787bba260b2bee34b1bc]
 @startmindmap
 
 <style>
@@ -138,4 +764,6 @@ JVM: OpenJDK 64-Bit Server VM
 Default Encoding: UTF-8
 Language: en
 Country: GB
---></g></svg>
+-->
+    </g>
+</svg>

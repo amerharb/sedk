@@ -1,3 +1,19 @@
+export enum NullOperator {
+  Is = 'IS',
+  IsNot = 'IS NOT',
+}
+
+export enum ComparisonOperator {
+  Equal = '=',
+  NotEqual = '<>',
+  GreaterThan = '>',
+  GreaterOrEqual = '>=',
+  LesserThan = '<',
+  LesserOrEqual = '<=',
+}
+
+export type Qualifier = NullOperator|ComparisonOperator
+
 export enum ArithmeticOperator {
   ADD = '+',
   SUB = '-',
@@ -17,24 +33,9 @@ export enum TextOperator {
   CONCAT = '||',
 }
 
-export enum ComparisonOperator {
-  Equal = '=',
-  NotEqual = '<>',
-  GreaterThan = '>',
-  GreaterOrEqual = '>=',
-  LesserThan = '<',
-  LesserOrEqual = '<=',
-}
-
-export enum NullOperator {
-  Is = 'IS',
-  IsNot = 'IS NOT',
-}
+export type Operator = Qualifier|ArithmeticOperator|BitwiseOperator|TextOperator
 
 export enum LogicalOperator {
   AND = 'AND',
   OR = 'OR',
 }
-
-export type Qualifier = NullOperator|ComparisonOperator
-export type Operator = Qualifier|ArithmeticOperator|BitwiseOperator|TextOperator

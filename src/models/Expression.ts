@@ -67,7 +67,6 @@ export class Expression implements IStatementGiver {
     return new SelectItemInfo(this, alias)
   }
 
-  //TODO: support other values types
   public eq(value: PrimitiveType): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     return new Condition(this, qualifier, new Expression(value))

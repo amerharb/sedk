@@ -111,24 +111,23 @@ export class BooleanColumn extends Column implements Condition {
   // START implement Condition
   public readonly leftExpression: Expression = new Expression(this)
   public readonly leftOperand: Operand = this.leftExpression.leftOperand
-  public readonly type: ExpressionType = ExpressionType.BOOLEAN
+  public readonly type: ExpressionType.BOOLEAN|ExpressionType.NULL = ExpressionType.BOOLEAN
 
   public getColumns(): BooleanColumn[] {
     return [this]
   }
-
   // END implement Condition
 
   constructor(data: ColumnObj) {
     super(data)
   }
 
-  public eq(value: null|BooleanLike|number): Condition {
+  public eq(value: null|BooleanLike): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }
 
-  public eq$(value: null|boolean|number): Condition {
+  public eq$(value: null|boolean): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     const binder = new Binder(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))

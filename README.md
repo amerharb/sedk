@@ -1,26 +1,25 @@
 # SEDK-postgres
 
-SEDK is a SQL builder library for Postgres dialect that support binding Object using a pre-defined database schema
+SEDK is a SQL builder library for Postgres dialect, support binding parameters, and use a pre-defined database schema
 
 ### Example
 
 ```typescript
-import * as sedk from 'sedk-postgres'
+import * as sedk from 'sedk-postgres';
 
-// Schema definition (practicly defined in one seperate file for the whole project)
-export const database = new Database({
+// Schema definition (practically this should be defined in one separate file for the whole project)
+export const database = new sedk.Database({
   version: 1,
   schemas: {
-    public: new Schema({
+    public: new sedk.Schema({
       name: 'public',
       tables: {
-        Employee: new Table({
+        Employee: new sedk.Table({
           name: 'Employee',
           columns: {
-            name: new TextColumn({ name: 'name' }),
-            age: new NumberColumn({ name: 'age' }),
-            isManager: new BooleanColumn({ name: 'isManager' }),
-            startDate: new DateColumn({ name: 'startDate' }),
+            name: new sedk.TextColumn({ name: 'name' }),
+            salary: new sedk.NumberColumn({ name: 'salary' }),
+            isManager: new sedk.BooleanColumn({ name: 'isManager' }),
           },
         }),
       },
@@ -31,30 +30,40 @@ export const database = new Database({
 // Aliases
 const Employee = database.s.public.t.Employee
 const name = Employee.c.name
-const age = Employee.c.age
+const salary = Employee.c.salary
 const AND = sedk.LogicalOperator.AND
 
 // Start to build SQL & Binder
 const sql = new sedk.Builder(database)
 
-const stmt1 = sql.select(name, age).from(Employee).where(name.eq('John'), AND, age.gt(25)).getSQL()
+const stmt1 = sql.select(name, salary).from(Employee).where(name.eq('John'), AND, salary.gt(1500)).getSQL()
 console.log(stmt1)
-// SELECT "name", "age" FROM "Employee" WHERE ("name" = 'John' AND "age" > 25);
+// SELECT "name", "age" FROM "Employee" WHERE ( "name" = 'John' AND "salary" > 1500 );
+sql.cleanUp()
 
 // Also it can be written as
-const stmt2 = sql.select(name, age).from(Employee).where(name.eq('John')).and(age.gt(25)).getSQL()
+const stmt2 = sql.select(name, salary).from(Employee).where(name.eq('John')).and(salary.gt(1500)).getSQL()
 console.log(stmt2)
-// SELECT "name", "age" FROM "Employee" WHERE "name" = 'John' AND "age" > 25;
+// SELECT "name", "age" FROM "Employee" WHERE "name" = 'John' AND "salary" > 1500;
+sql.cleanUp()
 
 
-const lastStep = sql.select(name, age).from(Employee).where(name.eq$('John'), AND, age.gt$(25))
-console.log(lastStep.getSQL())
-// SELECT "name", "age" FROM "Employee" WHERE ("name" = $1 AND "age" > $2);
-console.log(lastStep.getBindValues())
-//  ['john', 25]
+const binderExample = sql.select(name, salary).from(Employee).where(name.eq$('John'), AND, salary.gt$(1500))
+console.log(binderExample.getSQL())
+// SELECT "name", "age" FROM "Employee" WHERE ( "name" = $1 AND "salary" > $2 );
+console.log(binderExample.getBindValues())
+//  [ 'john', 1500 ]
+sql.cleanUp()
+
 ```
 
+### Rail Road Diagram
+![Rail Road Diagram](doc/StepsRailRoad.svg)
+
 ## What is New
+### Version: 0.12.1
+- Update README.md
+
 ### Version: 0.12.0
 - Support Date Column which include Date and Timestamp with and without timezone
 ```typescript

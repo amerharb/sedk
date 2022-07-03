@@ -88,6 +88,10 @@ mindmapDiagram {
 *** DIV = '/' <<enumItem>>
 *** MOD = '%' <<enumItem>>
 *** EXP = '^' <<enumItem>>
+** BitwiseOperator <<enum>>
+*** BitwiseOr = '|' <<enumItem>>
+*** BitwiseAnd = '&' <<enumItem>>
+*** BitwiseXor = '#' <<enumItem>>
 ** TextOperator <<enum>>
 *** CONCAT = '||' <<enumItem>>
 ** Qualifier <<type>>
@@ -101,10 +105,6 @@ mindmapDiagram {
 *** NullOperator <<enum>>
 **** Is = 'IS' <<enumItem>>
 **** IsNot = 'IS NOT' <<enumItem>>
-
-* NullOperator <<enum>>
-** Is = 'IS' <<enumItem>>
-** IsNot = 'IS NOT' <<enumItem>>
 
 * LogicalOperator <<enum>>
 ** AND = 'AND' <<enumItem>>
@@ -127,4 +127,5 @@ mindmapDiagram {
 ** INNER_JOIN = ' INNER JOIN ' <<enumItem>>
 ** FULL_JOIN = ' FULL JOIN ' <<enumItem>>
 ** CROSS_JOIN = ' CROSS JOIN ' <<enumItem>>
+
 @endmindmap

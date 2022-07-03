@@ -6,6 +6,7 @@ import { Column } from '../columns'
 import { Operand } from './Operand'
 import { IStatementGiver } from './IStatementGiver'
 import { Binder } from '../binder'
+import { InvalidConditionError } from '../errors'
 
 export class Condition implements Expression, IStatementGiver {
   public readonly leftExpression: Expression
@@ -70,7 +71,7 @@ export class Condition implements Expression, IStatementGiver {
       if (leftExpression.type === ExpressionType.NULL || leftExpression.type === ExpressionType.BOOLEAN) {
         return leftExpression.type
       }
-      throw new Error(`Condition can not created based on expression type: ${leftExpression.type}`)
+      Condition.throwInvalidConditionError(leftExpression.type)
     }
 
     if (leftExpression.type === rightExpression.type) {
@@ -83,18 +84,18 @@ export class Condition implements Expression, IStatementGiver {
       } else if (leftExpression.type === ExpressionType.NULL && rightExpression.type === ExpressionType.BOOLEAN) {
         return ExpressionType.BOOLEAN
       } else if (leftExpression.type === ExpressionType.BOOLEAN || rightExpression.type === ExpressionType.BOOLEAN) {
-        throw new Error('Boolean type only used with Boolean or Null')
+        Condition.throwInvalidConditionError(leftExpression.type, operator, rightExpression.type)
       } else if (leftExpression.type === ExpressionType.NULL) {
-        throw new Error('Null operator can only be used when null on the right side')
+        Condition.throwInvalidConditionError(leftExpression.type, operator, rightExpression.type)
       }
-      throw new Error('Null operator can only be used with null and boolean')
+      Condition.throwInvalidConditionError(leftExpression.type, operator, rightExpression.type)
     } else if (Condition.isComparisonOperator(operator)) {
       if (leftExpression.type === ExpressionType.NULL || rightExpression.type === ExpressionType.NULL) {
         return ExpressionType.NULL
       }
-      throw new Error(`Comparison operator doesn't work with different types`)
+      Condition.throwInvalidConditionError(leftExpression.type, operator, rightExpression.type)
     }
-    throw new Error(`Operator is not supported: ${operator}`)
+    Condition.throwInvalidConditionError(leftExpression.type, operator, rightExpression.type)
   }
 
   private static isComparisonOperator(operator: Operator): boolean {
@@ -103,6 +104,13 @@ export class Condition implements Expression, IStatementGiver {
 
   private static isNullOperator(operator: Operator): boolean {
     return Object.values(NullOperator).includes(operator as NullOperator)
+  }
+
+  private static throwInvalidConditionError(leftType: ExpressionType, operator?: Operator, rightType?: ExpressionType): never {
+    if (operator === undefined || rightType === undefined) {
+      throw new InvalidConditionError(`Condition can not created based on type: ${leftType}`)
+    }
+    throw new InvalidConditionError(`Condition can not created with "${ExpressionType[leftType]}" "${operator}" "${ExpressionType[rightType]}"`)
   }
 }
 

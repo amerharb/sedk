@@ -122,23 +122,23 @@ export class BooleanColumn extends Column implements Condition {
     super(data)
   }
 
-  public eq(value: null|BooleanLike): Condition {
+  public isEq(value: null|BooleanLike): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }
 
-  public eq$(value: null|boolean): Condition {
+  public isEq$(value: null|boolean): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     const binder = new Binder(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
-  public ne(value: null|BooleanLike): Condition {
+  public isNotEq(value: null|BooleanLike): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }
 
-  public ne$(value: null|boolean): Condition {
+  public isNotEq$(value: null|boolean): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     const binder = new Binder(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))

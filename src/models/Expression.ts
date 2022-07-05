@@ -67,23 +67,23 @@ export class Expression implements IStatementGiver {
     return new SelectItemInfo(this, alias)
   }
 
-  public eq(value: PrimitiveType): Condition {
+  public isEq(value: PrimitiveType): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     return new Condition(this, qualifier, new Expression(value))
   }
 
-  public eq$(value: PrimitiveType): Condition {
+  public isEq$(value: PrimitiveType): Condition {
     const binder = new Binder(value)
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     return new Condition(this, qualifier, new Expression(binder))
   }
 
-  public ne(value: PrimitiveType): Condition {
+  public isNotEq(value: PrimitiveType): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     return new Condition(this, qualifier, new Expression(value))
   }
 
-  public ne$(value: PrimitiveType): Condition {
+  public isNotEq$(value: PrimitiveType): Condition {
     const binder = new Binder(value)
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     return new Condition(this, qualifier, new Expression(binder))

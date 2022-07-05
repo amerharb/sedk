@@ -46,23 +46,23 @@ export class Condition implements Expression, IStatementGiver {
     return new SelectItemInfo(this, alias)
   }
 
-  public eq(value: null|boolean): Condition {
+  public isEq(value: null|boolean): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     return new Condition(this, qualifier, new Expression(value))
   }
 
-  public eq$(value: null|boolean): Condition {
+  public isEq$(value: null|boolean): Condition {
     const binder = new Binder(value)
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     return new Condition(this, qualifier, new Expression(binder))
   }
 
-  public ne(value: null|boolean): Condition {
+  public isNotEq(value: null|boolean): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     return new Condition(this, qualifier, new Expression(value))
   }
 
-  public ne$(value: null|boolean): Condition {
+  public isNotEq$(value: null|boolean): Condition {
     const binder = new Binder(value)
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     return new Condition(this, qualifier, new Expression(binder))

@@ -73,8 +73,8 @@ export class Expression implements IStatementGiver {
   }
 
   public isEq$(value: PrimitiveType): Condition {
-    const binder = new Binder(value)
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
+    const binder = new Binder(value)
     return new Condition(this, qualifier, new Expression(binder))
   }
 
@@ -84,8 +84,8 @@ export class Expression implements IStatementGiver {
   }
 
   public isNotEq$(value: PrimitiveType): Condition {
-    const binder = new Binder(value)
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    const binder = new Binder(value)
     return new Condition(this, qualifier, new Expression(binder))
   }
 

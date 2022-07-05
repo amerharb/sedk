@@ -52,8 +52,8 @@ export class Condition implements Expression, IStatementGiver {
   }
 
   public isEq$(value: null|boolean): Condition {
-    const binder = new Binder(value)
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
+    const binder = new Binder(value)
     return new Condition(this, qualifier, new Expression(binder))
   }
 
@@ -63,8 +63,8 @@ export class Condition implements Expression, IStatementGiver {
   }
 
   public isNotEq$(value: null|boolean): Condition {
-    const binder = new Binder(value)
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    const binder = new Binder(value)
     return new Condition(this, qualifier, new Expression(binder))
   }
 

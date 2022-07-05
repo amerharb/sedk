@@ -127,12 +127,12 @@ export class BooleanColumn extends Column implements Condition {
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
-  public isNotEq(value: null|BooleanLike): Condition {
+  public isNe(value: null|BooleanLike): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }
 
-  public isNotEq$(value: null|boolean): Condition {
+  public isNe$(value: null|boolean): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     const binder = new Binder(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))
@@ -169,7 +169,7 @@ export class NumberColumn extends Column {
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
-  public isNotEq(value: null|NumberLike): Condition {
+  public isNe(value: null|NumberLike): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }
@@ -182,7 +182,7 @@ export class NumberColumn extends Column {
     return new Condition(new Expression(this), ComparisonOperator.NotEqual, rightExpression)
   }
 
-  public isNotEq$(value: null|number): Condition {
+  public isNe$(value: null|number): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     const binder = new Binder(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))
@@ -295,7 +295,7 @@ export class TextColumn extends Column {
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
-  public isNotEq(value: null|string|TextColumn): Condition {
+  public isNe(value: null|string|TextColumn): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }
@@ -307,7 +307,7 @@ export class TextColumn extends Column {
     return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(value))
   }
 
-  public isNotEq$(value: null|string): Condition {
+  public isNe$(value: null|string): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     const binder = new Binder(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))
@@ -334,12 +334,12 @@ export class DateColumn extends Column {
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
-  public isNotEq(value: null|DateLike): Condition {
+  public isNe(value: null|DateLike): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }
 
-  public isNotEq$(value: null|Date): Condition {
+  public isNe$(value: null|Date): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     const binder = new Binder(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))

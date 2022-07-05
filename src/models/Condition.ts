@@ -57,12 +57,12 @@ export class Condition implements Expression, IStatementGiver {
     return new Condition(this, qualifier, new Expression(binder))
   }
 
-  public isNotEq(value: null|boolean): Condition {
+  public isNe(value: null|boolean): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     return new Condition(this, qualifier, new Expression(value))
   }
 
-  public isNotEq$(value: null|boolean): Condition {
+  public isNe$(value: null|boolean): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     const binder = new Binder(value)
     return new Condition(this, qualifier, new Expression(binder))

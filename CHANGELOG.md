@@ -7,7 +7,7 @@
 - Support Delete Step
 - Option `throwErrorIfDeleteHasNoCondition`
 - WHERE, OR and AND steps after DELETE step
-- Functions isEq(), isEq$(), isNotEq() and isNotEq$(), those function work with null and non-null values
+- Functions isEq(), isEq$(), isNe() and isNe$(), those function work with null and non-null values
 ### Changed
 - Rename FromStep to SelectFromStep
 - Function selectAsteriskFrom() now can take TableAliases not just Tables

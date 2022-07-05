@@ -78,12 +78,12 @@ export class Expression implements IStatementGiver {
     return new Condition(this, qualifier, new Expression(binder))
   }
 
-  public isNotEq(value: PrimitiveType): Condition {
+  public isNe(value: PrimitiveType): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     return new Condition(this, qualifier, new Expression(value))
   }
 
-  public isNotEq$(value: PrimitiveType): Condition {
+  public isNe$(value: PrimitiveType): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     const binder = new Binder(value)
     return new Condition(this, qualifier, new Expression(binder))

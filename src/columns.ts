@@ -313,6 +313,11 @@ export class TextColumn extends Column {
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
+  public eq$(value: string): Condition {
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(binder))
+  }
+
   public isNe(value: null|string|TextColumn): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     return new Condition(new Expression(this), qualifier, new Expression(value))
@@ -331,6 +336,11 @@ export class TextColumn extends Column {
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
+  public ne$(value: string): Condition {
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(binder))
+  }
+
   public concat(value: TextLike): Expression {
     return new Expression(this, TextOperator.CONCAT, value)
   }
@@ -346,10 +356,19 @@ export class DateColumn extends Column {
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }
 
+  public eq(value: DateLike): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(value))
+  }
+
   public isEq$(value: null|Date): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     const binder = new Binder(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))
+  }
+
+  public eq$(value: Date): Condition {
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(binder))
   }
 
   public isNe(value: null|DateLike): Condition {
@@ -357,10 +376,19 @@ export class DateColumn extends Column {
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }
 
+  public ne(value: DateLike): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(value))
+  }
+
   public isNe$(value: null|Date): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     const binder = new Binder(value)
     return new Condition(new Expression(this), qualifier, new Expression(binder))
+  }
+
+  public ne$(value: Date): Condition {
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(binder))
   }
 
   public gt(value: DateLike): Condition {

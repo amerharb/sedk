@@ -7,6 +7,7 @@ import { Operand } from './Operand'
 import { IStatementGiver } from './IStatementGiver'
 import { Binder } from '../binder'
 import { InvalidConditionError } from '../errors'
+import { NonNullPrimitiveType } from './types'
 
 export class Condition implements Expression, IStatementGiver {
   public readonly leftExpression: Expression
@@ -44,6 +45,24 @@ export class Condition implements Expression, IStatementGiver {
   // Implement Expression, We don't really need it
   public as(alias: string): SelectItemInfo {
     return new SelectItemInfo(this, alias)
+  }
+
+  public eq(value: NonNullPrimitiveType): Condition {
+    return new Condition(this, ComparisonOperator.Equal, new Expression(value))
+  }
+
+  public eq$(value: NonNullPrimitiveType): Condition {
+    const binder = new Binder(value)
+    return new Condition(this, ComparisonOperator.Equal, new Expression(binder))
+  }
+
+  public ne(value: NonNullPrimitiveType): Condition {
+    return new Condition(this, ComparisonOperator.NotEqual, new Expression(value))
+  }
+
+  public ne$(value: NonNullPrimitiveType): Condition {
+    const binder = new Binder(value)
+    return new Condition(this, ComparisonOperator.NotEqual, new Expression(binder))
   }
 
   public isEq(value: null|boolean): Condition {

@@ -1,7 +1,7 @@
 import { Table } from './database'
 import { escapeDoubleQuote } from './util'
 import { Binder } from './binder'
-import { BooleanLike, DateLike, NumberLike, TextLike } from './models/types'
+import { BooleanLike, DateLike, NonNullPrimitiveType, NumberLike, TextLike } from './models/types'
 import { Operand } from './models/Operand'
 import { Condition } from './models/Condition'
 import { Expression, ExpressionType } from './models/Expression'
@@ -109,6 +109,24 @@ export class BooleanColumn extends Column implements Condition {
 
   public getColumns(): BooleanColumn[] {
     return [this]
+  }
+
+  public eq(value: NonNullPrimitiveType): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(value))
+  }
+
+  public eq$(value: NonNullPrimitiveType): Condition {
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(binder))
+  }
+
+  public ne(value: NonNullPrimitiveType): Condition {
+    return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(value))
+  }
+
+  public ne$(value: NonNullPrimitiveType): Condition {
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(binder))
   }
   // END implement Condition
 

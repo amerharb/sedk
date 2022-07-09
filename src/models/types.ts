@@ -13,7 +13,8 @@ export type BooleanLike = boolean|TextBoolean|BooleanColumn
 export type NumberLike = number|NumberColumn
 export type TextLike = string|TextColumn
 export type DateLike = Date|DateColumn
-export type ValueType = null|BooleanLike|NumberLike|TextLike|DateLike
+export type ValueLike = BooleanLike|NumberLike|TextLike|DateLike
+export type ValueType = null|ValueLike
 export type OperandType = ValueType|AggregateFunction|Expression
 
 export function isTextBoolean(text: unknown): text is TextBoolean {

@@ -12,7 +12,14 @@ import { SelectItemInfo } from '../SelectItemInfo'
 import { Column } from '../columns'
 import { InvalidExpressionError } from '../errors'
 import { Operand } from './operand'
-import { isTextBoolean, isTextNumber, NonNullPrimitiveType, OperandType, PrimitiveType } from './types'
+import {
+  isTextBoolean,
+  isTextNumber,
+  NonNullPrimitiveType,
+  OperandType,
+  PrimitiveType,
+  ValueLike,
+} from './types'
 import { IStatementGiver } from './IStatementGiver'
 import { Condition } from './Condition'
 
@@ -67,7 +74,7 @@ export class Expression implements IStatementGiver {
     return new SelectItemInfo(this, alias)
   }
 
-  public eq(value: NonNullPrimitiveType): Condition {
+  public eq(value: ValueLike): Condition {
     return new Condition(this, ComparisonOperator.Equal, new Expression(value))
   }
 
@@ -76,7 +83,7 @@ export class Expression implements IStatementGiver {
     return new Condition(this, ComparisonOperator.Equal, new Expression(binder))
   }
 
-  public ne(value: NonNullPrimitiveType): Condition {
+  public ne(value: ValueLike): Condition {
     return new Condition(this, ComparisonOperator.NotEqual, new Expression(value))
   }
 

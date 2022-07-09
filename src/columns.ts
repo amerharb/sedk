@@ -1,7 +1,7 @@
 import { Table } from './database'
 import { escapeDoubleQuote } from './util'
 import { Binder } from './binder'
-import { BooleanLike, DateLike, NonNullPrimitiveType, NumberLike, TextLike } from './models/types'
+import { BooleanLike, DateLike, NumberLike, TextLike } from './models/types'
 import { Operand } from './models/Operand'
 import { Condition } from './models/Condition'
 import { Expression, ExpressionType } from './models/Expression'
@@ -111,20 +111,20 @@ export class BooleanColumn extends Column implements Condition {
     return [this]
   }
 
-  public eq(value: NonNullPrimitiveType): Condition {
+  public eq(value: BooleanLike): Condition {
     return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(value))
   }
 
-  public eq$(value: NonNullPrimitiveType): Condition {
+  public eq$(value: boolean): Condition {
     const binder = new Binder(value)
     return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(binder))
   }
 
-  public ne(value: NonNullPrimitiveType): Condition {
+  public ne(value: BooleanLike): Condition {
     return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(value))
   }
 
-  public ne$(value: NonNullPrimitiveType): Condition {
+  public ne$(value: boolean): Condition {
     const binder = new Binder(value)
     return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(binder))
   }
@@ -187,12 +187,19 @@ export class NumberColumn extends Column {
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
+  public eq$(value: number): Condition {
+    const binder = new Binder(value)
+    return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(binder))
+  }
+
   public isNe(value: null|NumberLike): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     return new Condition(new Expression(this), qualifier, new Expression(value))
   }
 
-  public ne(value1: NumberLike, op: Operator, value2: NumberLike): Condition {
+  public ne(value1: NumberLike): Condition
+  public ne(value1: NumberLike, op: Operator, value2: NumberLike): Condition
+  public ne(value1: NumberLike, op?: Operator, value2?: NumberLike): Condition {
     const rightExpression = (op !== undefined && value2 !== undefined)
       ? new Expression(value1, op, value2)
       : new Expression(value1)

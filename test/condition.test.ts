@@ -10,15 +10,24 @@ describe('Condition', () => {
   afterEach(() => { sql.cleanUp() })
   describe('Condition from Condition', () => {
     it('Produces [SELECT * FROM "table1" WHERE (("col4" & 1) = 0) = TRUE;]', () => {
-      const actual = sql.selectAsteriskFrom(table1).where(col4.bitwiseAnd(1).eq(0).eq(true)).getSQL()
+      const actual = sql
+        .selectAsteriskFrom(table1)
+        .where(col4.bitwiseAnd(1).eq(0).eq(true))
+        .getSQL()
       expect(actual).toEqual('SELECT * FROM "table1" WHERE (("col4" & 1) = 0) = TRUE;')
     })
     it('Produces [SELECT * FROM "table1" WHERE (("col4" & 1) = 0) = TRUE;]', () => {
-      const actual = sql.selectAsteriskFrom(table1).where(col4.bitwiseAnd(1).eq(0).isEq(true)).getSQL()
+      const actual = sql
+        .selectAsteriskFrom(table1)
+        .where(col4.bitwiseAnd(1).eq(0).isEq(true))
+        .getSQL()
       expect(actual).toEqual('SELECT * FROM "table1" WHERE (("col4" & 1) = 0) = TRUE;')
     })
     it('Produces [SELECT * FROM "table1" WHERE (("col4" & 1) = 0) IS NULL;]', () => {
-      const actual = sql.selectAsteriskFrom(table1).where(col4.bitwiseAnd(1).eq(0).isEq(null)).getSQL()
+      const actual = sql
+        .selectAsteriskFrom(table1)
+        .where(col4.bitwiseAnd(1).eq(0).isEq(null))
+        .getSQL()
       expect(actual).toEqual('SELECT * FROM "table1" WHERE (("col4" & 1) = 0) IS NULL;')
     })
   })

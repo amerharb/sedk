@@ -20,7 +20,7 @@ export const database = new sedk.Database({
             name: new sedk.TextColumn({ name: 'name' }),
             salary: new sedk.NumberColumn({ name: 'salary' }),
             isManager: new sedk.BooleanColumn({ name: 'isManager' }),
-            startDate: new DateColumn({ name: 'startDate' }),
+            startDate: new sedk.DateColumn({ name: 'startDate' }),
           },
         }),
       },

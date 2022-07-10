@@ -7,6 +7,7 @@ import { Operand } from './Operand'
 import { IStatementGiver } from './IStatementGiver'
 import { Binder } from '../binder'
 import { InvalidConditionError } from '../errors'
+import { BooleanLike } from './types'
 
 export class Condition implements Expression, IStatementGiver {
   public readonly leftExpression: Expression
@@ -46,25 +47,43 @@ export class Condition implements Expression, IStatementGiver {
     return new SelectItemInfo(this, alias)
   }
 
-  public eq(value: null|boolean): Condition {
+  public eq(value: BooleanLike): Condition {
+    return new Condition(this, ComparisonOperator.Equal, new Expression(value))
+  }
+
+  public eq$(value: boolean): Condition {
+    const binder = new Binder(value)
+    return new Condition(this, ComparisonOperator.Equal, new Expression(binder))
+  }
+
+  public ne(value: BooleanLike): Condition {
+    return new Condition(this, ComparisonOperator.NotEqual, new Expression(value))
+  }
+
+  public ne$(value: boolean): Condition {
+    const binder = new Binder(value)
+    return new Condition(this, ComparisonOperator.NotEqual, new Expression(binder))
+  }
+
+  public isEq(value: null|boolean): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
     return new Condition(this, qualifier, new Expression(value))
   }
 
-  public eq$(value: null|boolean): Condition {
-    const binder = new Binder(value)
+  public isEq$(value: null|boolean): Condition {
     const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
+    const binder = new Binder(value)
     return new Condition(this, qualifier, new Expression(binder))
   }
 
-  public ne(value: null|boolean): Condition {
+  public isNe(value: null|boolean): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
     return new Condition(this, qualifier, new Expression(value))
   }
 
-  public ne$(value: null|boolean): Condition {
-    const binder = new Binder(value)
+  public isNe$(value: null|boolean): Condition {
     const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
+    const binder = new Binder(value)
     return new Condition(this, qualifier, new Expression(binder))
   }
 

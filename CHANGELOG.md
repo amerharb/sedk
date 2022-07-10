@@ -6,11 +6,14 @@
 - Add Rail Road diagram to README file
 - Support Delete Step
 - Option `throwErrorIfDeleteHasNoCondition`
-- Add WHERE, OR and AND steps after DELETE step
+- WHERE, OR and AND steps after DELETE step
+- Functions isEq(), isEq$(), isNe() and isNe$(), those function work with null and non-null values
 ### Changed
 - Rename FromStep to SelectFromStep
 - Function selectAsteriskFrom() now can take TableAliases not just Tables
 - Rename `WhereStep` class to `SelectWhereStep`
+### Breaking Changed
+- Functions eq(), eq$(), ne(), ne$() only deal with non-null values and return equal and not equal operators respectively
 
 ## [0.12.1]  2022-07-02
 ### Changed

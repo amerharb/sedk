@@ -36,9 +36,7 @@ describe('Throw desired Errors', () => {
 
   it('Throws error when 2 WHERE steps added', () => {
     function actual() {
-      const fromStep = sql
-        .select(col1)
-        .from(table1)
+      const fromStep = sql.select(col1).from(table1)
 
       // first Where Step
       fromStep.where(col1.eq('x1'))
@@ -197,9 +195,7 @@ describe('Throw desired Errors', () => {
 
   it('Throws error when NULLS_LAST comes directly after NULLS_FIRST', () => {
     function actual() {
-      sql
-        .selectAsteriskFrom(table1)
-        .orderBy(col1, NULLS_FIRST, NULLS_LAST)
+      sql.selectAsteriskFrom(table1).orderBy(col1, NULLS_FIRST, NULLS_LAST)
     }
 
     expect(actual).toThrow(/^ NULLS LAST expects to have column or alias before it$/)
@@ -207,9 +203,7 @@ describe('Throw desired Errors', () => {
 
   it('Throws error when DESC comes directly after ASC', () => {
     function actual() {
-      sql
-        .selectAsteriskFrom(table1)
-        .orderBy(col1, ASC, DESC)
+      sql.selectAsteriskFrom(table1).orderBy(col1, ASC, DESC)
     }
 
     expect(actual).toThrow(/^ DESC shouldn't come after "ASC" or "DESC" without column or alias in between$/)
@@ -217,9 +211,7 @@ describe('Throw desired Errors', () => {
 
   it('Throws error when LIMIT step has negative number', () => {
     function actual() {
-      sql
-        .selectAsteriskFrom(table1)
-        .limit(-1)
+      sql.selectAsteriskFrom(table1).limit(-1)
     }
 
     expect(actual).toThrow(/^Invalid limit value -1, negative numbers are not allowed$/)
@@ -227,9 +219,7 @@ describe('Throw desired Errors', () => {
 
   it('Throws error when OFFSET step has negative number', () => {
     function actual() {
-      sql
-        .selectAsteriskFrom(table1)
-        .offset(-1)
+      sql.selectAsteriskFrom(table1).offset(-1)
     }
 
     expect(actual).toThrow(/^Invalid offset value -1, negative numbers are not allowed$/)

@@ -11,39 +11,35 @@ const table2 = database.s.public.t.table2
 describe('DELETE Path', () => {
   const sql = new sedk.Builder(database, { throwErrorIfDeleteHasNoCondition: false })
   afterEach(() => { sql.cleanUp() })
-  describe('basic delete all', () => {
+  describe('Basic delete all', () => {
     it('Produces [DELETE FROM "table1"]', () => {
       const actual = sql.deleteFrom(table1).getSQL()
-
       expect(actual).toEqual('DELETE FROM "table1";')
     })
     it('Produces [DELETE FROM "table2"]', () => {
       const actual = sql.delete().from(table2).getSQL()
-
       expect(actual).toEqual('DELETE FROM "table2";')
     })
     it('Produces [DELETE FROM "table1" AS "t1"]', () => {
       const actual = sql.delete().from(table1.as('t1')).getSQL()
-
       expect(actual).toEqual('DELETE FROM "table1" AS "t1";')
     })
     it('Produces [DELETE FROM "table2" AS "t2"]', () => {
       const actual = sql.deleteFrom(table2.as('t2')).getSQL()
-
       expect(actual).toEqual('DELETE FROM "table2" AS "t2";')
     })
   })
-  describe('delete with where', () => {
+
+  describe('Delete with where', () => {
     it(`Produces [DELETE FROM "table1" WHERE "col1" = 'A';]`, () => {
       const actual = sql.deleteFrom(table1).where(table1.c.col1.eq('A')).getSQL()
-
-      expect(actual).toEqual('DELETE FROM "table1" WHERE "col1" = \'A\';')
+      expect(actual).toEqual(`DELETE FROM "table1" WHERE "col1" = 'A';`)
     })
     it(`Produces [DELETE FROM "table1" WHERE ( "col1" = 'A' AND "col2" = 'B' );]`, () => {
       const actual = sql
         .delete()
         .from(table1)
-        .where(table1.c.col1.eq('A'), AND , table1.c.col2.eq('B'))
+        .where(table1.c.col1.eq('A'), AND, table1.c.col2.eq('B'))
         .getSQL()
 
       expect(actual).toEqual(`DELETE FROM "table1" WHERE ( "col1" = 'A' AND "col2" = 'B' );`)
@@ -66,7 +62,7 @@ describe('DELETE Path', () => {
           AND,
           table1.c.col2.eq('B'),
           OR,
-          table1.c.col3.eq('C')
+          table1.c.col3.eq('C'),
         )
         .getSQL()
 
@@ -81,14 +77,15 @@ describe('DELETE Path', () => {
           OR,
           table1.c.col2.eq('B'),
           AND,
-          table1.c.col3.eq('C')
+          table1.c.col3.eq('C'),
         )
         .getSQL()
 
       expect(actual).toEqual(`DELETE FROM "table1" WHERE ( "col1" = 'A' OR "col2" = 'B' AND "col3" = 'C' );`)
     })
   })
-  describe('delete with and/or', () => {
+
+  describe('Delete with and/or', () => {
     it(`Produces [DELETE FROM "table1" WHERE "col1" = 'A' AND "col2" = 'B';]`, () => {
       const actual = sql
         .delete()
@@ -97,7 +94,7 @@ describe('DELETE Path', () => {
         .and(table1.c.col2.eq('B'))
         .getSQL()
 
-      expect(actual).toEqual('DELETE FROM "table1" WHERE "col1" = \'A\' AND "col2" = \'B\';')
+      expect(actual).toEqual(`DELETE FROM "table1" WHERE "col1" = 'A' AND "col2" = 'B';`)
     })
     it(`Produces [DELETE FROM "table1" WHERE "col1" = 'A' OR "col2" = 'B';]`, () => {
       const actual = sql
@@ -107,7 +104,7 @@ describe('DELETE Path', () => {
         .or(table1.c.col2.eq('B'))
         .getSQL()
 
-      expect(actual).toEqual('DELETE FROM "table1" WHERE "col1" = \'A\' OR "col2" = \'B\';')
+      expect(actual).toEqual(`DELETE FROM "table1" WHERE "col1" = 'A' OR "col2" = 'B';`)
     })
     it(`Produces [DELETE FROM "table1" WHERE "col1" = 'A' AND "col2" = 'B' OR "col3" = 'C';]`, () => {
       const actual = sql

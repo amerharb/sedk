@@ -11,7 +11,7 @@ import { BuilderData } from '../builder'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { Column } from '../columns'
 import { InvalidExpressionError } from '../errors'
-import { Operand } from './operand'
+import { Operand } from './Operand'
 import {
   isTextBoolean,
   isTextNumber,

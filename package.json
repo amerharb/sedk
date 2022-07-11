@@ -20,8 +20,9 @@
   "email": "sedk@amerharb.com",
   "scripts": {
     "start": "tsc && node dist/src/index.js",
+    "build": "tsc",
     "test": "jest",
-    "Build&test": "tsc && jest",
+    "build&test": "tsc && jest",
     "lint": "eslint src/**/*.ts",
     "lint-fix": "eslint src/**/*.ts --fix"
   },

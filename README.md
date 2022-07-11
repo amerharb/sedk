@@ -8,7 +8,7 @@ SEDK is a SQL builder library for Postgres dialect, support binding parameters, 
 import * as sedk from 'sedk-postgres'
 
 // Schema definition (practically this should be defined in one separate file for the whole project)
-export const database = new sedk.Database({
+const database = new sedk.Database({
   version: 1,
   schemas: {
     public: new sedk.Schema({
@@ -48,14 +48,12 @@ console.log(stmt2)
 // SELECT "name", "age" FROM "Employee" WHERE "name" = 'John' AND "salary" > 1500;
 sql.cleanUp()
 
-
 const binderExample = sql.select(name, salary).from(Employee).where(name.eq$('John'), AND, salary.gt$(1500))
 console.log(binderExample.getSQL())
 // SELECT "name", "age" FROM "Employee" WHERE ( "name" = $1 AND "salary" > $2 );
 console.log(binderExample.getBindValues())
 //  [ 'john', 1500 ]
 sql.cleanUp()
-
 ```
 
 ## SEDK-postgres Principles
@@ -96,7 +94,7 @@ sql.delete().from(Employee).where(name.eq('John')).and(age.gt(40)).getSQL()
 ```
 - functions eq(), eq$(), ne() and ne$() will not accept null anymore, there for they will only return equal "=" or not equal "<>" condition.
 this is a breaking change in behavior, but for the old behavior function that automatically return Equal "=" or Is "IS" you should use the 
-new functions isEq(), isEq$(), isNe(), isNe$(). This correction needed to follow SEDK style is of WYSIWYG, so eq() always return "=" but isEq() can return either "IS" or "="
+new functions isEq(), isEq$(), isNe(), isNe$(). This correction needed to follow SEDK principle WYSIWYG, so eq() always return "=" but isEq() can return either "IS" or "="
 
 
 ### Version: 0.12.1

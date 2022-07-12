@@ -25,7 +25,7 @@ type ColumnObj = {
 }
 
 export abstract class Column implements IStatementGiver {
-  private mTable?: Table
+   private mTable?: Table
 
   protected constructor(protected readonly data: ColumnObj) {}
 
@@ -48,7 +48,7 @@ export abstract class Column implements IStatementGiver {
   }
 
   public as(alias: string): SelectItemInfo {
-    return new SelectItemInfo(this, alias)
+    return new SelectItemInfo(this, alias);
   }
 
   public get asc(): OrderByItemInfo {

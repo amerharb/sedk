@@ -23,8 +23,8 @@
     "build": "tsc",
     "test": "jest",
     "build&test": "tsc && jest",
-    "lint": "eslint src/**/*.ts",
-    "lint-fix": "eslint src/**/*.ts --fix"
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix"
   },
   "keywords": [
     "SQL",

@@ -1,3 +1,5 @@
+[![Coverage Status](https://codecov.io/gh/amerharb/sedk-postgres/branch/version/0.13.0/graph/badge.svg)](https://codecov.io/gh/amerharb/sedk-postgres)
+
 # SEDK-postgres
 
 SEDK is a SQL builder library for Postgres dialect, support binding parameters, and use a pre-defined database schema

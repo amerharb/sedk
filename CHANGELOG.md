@@ -3,12 +3,13 @@
 
 ## [0.13.0]  2022-06-27
 ### Added
-- Add Rail Road diagram to README file
+- Rail Road diagram to README file
 - Support Delete Step
 - Option `throwErrorIfDeleteHasNoCondition`
 - WHERE, OR and AND steps after DELETE step
 - Functions isEq(), isEq$(), isNe() and isNe$(), those function work with null and non-null values
 - Github Action for unit test at pushing code
+- Codecov badge to README.md
 ### Changed
 - Rename FromStep to SelectFromStep
 - Function selectAsteriskFrom() now can take TableAliases not just Tables

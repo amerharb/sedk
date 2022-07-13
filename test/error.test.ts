@@ -66,6 +66,20 @@ describe('Throw desired Errors', () => {
     expect(actual).toThrowError(MoreThanOneWhereStepError)
   })
 
+  it('Throws error when 2 WHERE steps added after delete', () => {
+    function actual() {
+      const fromStep = sql.deleteFrom(table1)
+
+      // first Where Step
+      fromStep.where(col1.eq('x1'))
+      // second Where Step, should throw
+      fromStep.where(col1.eq('x2'))
+    }
+
+    expect(actual).toThrowError('WHERE step already specified')
+    expect(actual).toThrowError(MoreThanOneWhereStepError)
+  })
+
   it('Throws error when add invalid operator', () => {
     function actual() {
       sql.select(e(1, GT, 'f'))

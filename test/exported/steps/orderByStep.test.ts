@@ -7,8 +7,8 @@ import {
   DESC,
   NULLS_FIRST,
   NULLS_LAST,
-} from '../../src'
-import { database } from '../database'
+} from '../../../src'
+import { database } from '../../database'
 //Alias
 const table = database.s.public.t.table1
 const col1 = database.s.public.t.table1.c.col1

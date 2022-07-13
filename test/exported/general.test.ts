@@ -3,8 +3,8 @@ import {
   LogicalOperator,
   ArithmeticOperator,
   ASTERISK,
-} from '../src'
-import { database } from './database'
+} from '../../src'
+import { database } from '../database'
 
 //Alias
 const AND = LogicalOperator.AND

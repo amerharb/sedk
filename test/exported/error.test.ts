@@ -18,8 +18,8 @@ import {
   NULLS_FIRST,
   NULLS_LAST,
   f,
-} from '../src'
-import { database } from './database'
+} from '../../src'
+import { database } from '../database'
 
 //Alias
 const ADD = ArithmeticOperator.ADD

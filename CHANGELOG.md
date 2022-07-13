@@ -16,6 +16,7 @@
 - Rename `WhereStep` class to `SelectWhereStep`
 ### Breaking Changed
 - Functions eq(), eq$(), ne(), ne$() only deal with non-null values and return equal and not equal operators respectively
+- Rename function "not()" to a getter "not" without parenthesis
 ### Fixed
 - Import Operand from './Operand' instead of './operand'
 

@@ -792,7 +792,7 @@ describe(`test from one table`, () => {
     const actual = sql
       .select(col1)
       .from(table1)
-      .where(col7.not())
+      .where(col7.not)
       .getSQL()
 
     expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE NOT "col7";`)
@@ -802,7 +802,7 @@ describe(`test from one table`, () => {
     const actual = sql
       .select(col1)
       .from(table1)
-      .where(col7.not(), OR, col8.not())
+      .where(col7.not, OR, col8.not)
       .getSQL()
 
     expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE ( NOT "col7" OR NOT "col8" );`)
@@ -812,8 +812,8 @@ describe(`test from one table`, () => {
     const actual = sql
       .select(col1)
       .from(table1)
-      .where(col7.not())
-      .and(col8.not())
+      .where(col7.not)
+      .and(col8.not)
       .getSQL()
 
     expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE NOT "col7" AND NOT "col8";`)

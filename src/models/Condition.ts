@@ -140,7 +140,7 @@ export class Condition implements Expression, IStatementGiver {
 
   private static throwInvalidConditionError(leftType: ExpressionType, operator?: Operator, rightType?: ExpressionType): never {
     if (operator === undefined || rightType === undefined) {
-      throw new InvalidConditionError(`Condition can not created based on type: ${leftType}`)
+      throw new InvalidConditionError(`Condition can not created with only "${ExpressionType[leftType]}"`)
     }
     throw new InvalidConditionError(`Condition can not created with "${ExpressionType[leftType]}" "${operator}" "${ExpressionType[rightType]}"`)
   }

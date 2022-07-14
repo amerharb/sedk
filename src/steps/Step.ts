@@ -217,9 +217,7 @@ export class Step extends BaseStep
     if (typeof n === 'number' && (!Number.isFinite(n) || n < 0)) {
       throw new InvalidLimitValueError(`Invalid limit value: ${n}, value must be positive numbers or null`)
     }
-    const binder = new Binder(n)
-    this.data.binderStore.add(binder)
-    this.data.limit = binder
+    this.data.limit = this.data.binderStore.getBinder(n)
     return this
   }
 
@@ -237,9 +235,7 @@ export class Step extends BaseStep
     if (!Number.isFinite(n) || n < 0) {
       throw new InvalidOffsetValueError(`Invalid offset value: ${n}, value must be positive numbers`)
     }
-    const binder = new Binder(n)
-    this.data.binderStore.add(binder)
-    this.data.offset = binder
+    this.data.offset = this.data.binderStore.getBinder(n)
     return this
   }
 

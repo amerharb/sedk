@@ -1,8 +1,8 @@
 import {
   Builder,
   ALL,
-} from '../src'
-import { database } from './database'
+} from '../../src'
+import { database } from '../database'
 
 //Alias
 const table = database.s.public.t.table1
@@ -145,6 +145,26 @@ describe('Test LIMIT and OFFSET Steps', () => {
 
       expect(actual.getSQL()).toEqual(expected.sql)
       expect(actual.getBindValues()).toEqual(expected.values)
+    })
+  })
+
+  describe('LIMIT and OFFSET with float value', () => {
+    it(`Produces [SELECT * FROM "table1" LIMIT 1.9999 OFFSET 0.1;]`, () => {
+      const actual = sql.selectAsteriskFrom(table).limit(1.9999).offset(0.1).getSQL()
+
+      expect(actual).toEqual(`SELECT * FROM "table1" LIMIT 1.9999 OFFSET 0.1;`)
+    })
+    it(`Produces [SELECT * FROM "table1" LIMIT 0.12345678901234568;]`, () => {
+      /** value will be rounded */
+      const actual = sql.selectAsteriskFrom(table).limit(0.1234567890123456789012345).getSQL()
+
+      expect(actual).toEqual(`SELECT * FROM "table1" LIMIT 0.12345678901234568;`)
+    })
+    it(`Produces [SELECT * FROM "table1" LIMIT 0.3333333333333333;]`, () => {
+      /** value will be rounded */
+      const actual = sql.selectAsteriskFrom(table).limit(1/3).getSQL()
+
+      expect(actual).toEqual(`SELECT * FROM "table1" LIMIT 0.3333333333333333;`)
     })
   })
 

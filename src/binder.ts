@@ -12,6 +12,12 @@ export class BinderStore {
     this.store.push(binder)
   }
 
+  public getBinder(value: PrimitiveType): Binder {
+    const binder = new Binder(value, this.store.length + 1)
+    this.store.push(binder)
+    return binder
+  }
+
   public getValues(): PrimitiveType[] {
     return this.store.map(it => it.value)
   }
@@ -24,9 +30,16 @@ export class BinderStore {
 export class Binder {
   private mNo?: number = undefined
 
+  public constructor(value: PrimitiveType)
+  public constructor(value: PrimitiveType, no: number)
   public constructor(
     public readonly value: PrimitiveType,
-  ) {}
+    no?: number,
+  ) {
+    if (no !== undefined) {
+      this.mNo = no
+    }
+  }
 
   public set no(no: number|undefined) {
     if (this.mNo !== undefined) {
@@ -44,6 +57,9 @@ export class Binder {
   }
 
   public getStmt(): string {
-    return `$${this.no}`
+    if (this.mNo === undefined) {
+      throw new Error(`You can't getStmt() from this binder, The binder is not stored and has undefined "No"`)
+    }
+    return `$${this.mNo}`
   }
 }

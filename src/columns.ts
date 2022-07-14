@@ -156,7 +156,7 @@ export class BooleanColumn extends Column implements Condition {
     return new Condition(new Expression(this), qualifier, new Expression(binder))
   }
 
-  public not(): Condition {
+  public get not(): Condition {
     return new Condition(new Expression(this, true))
   }
 }

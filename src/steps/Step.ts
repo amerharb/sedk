@@ -204,7 +204,6 @@ export class Step extends BaseStep
   }
 
   public limit(n: null|number|All): LimitStep {
-    /** Note: float value is accepted */
     if (typeof n === 'number' && (!Number.isFinite(n) || n < 0)) {
       throw new InvalidLimitValueError(`Invalid limit value: ${n}, value must be positive numbers, null or "ALL"`)
     }
@@ -213,7 +212,6 @@ export class Step extends BaseStep
   }
 
   public limit$(n: null|number): LimitStep {
-    /** Note: float value is accepted */
     if (typeof n === 'number' && (!Number.isFinite(n) || n < 0)) {
       throw new InvalidLimitValueError(`Invalid limit value: ${n}, value must be positive numbers or null`)
     }
@@ -222,7 +220,6 @@ export class Step extends BaseStep
   }
 
   public offset(n: number): OffsetStep {
-    /** Note: float value is accepted */
     if (!Number.isFinite(n) || n < 0) {
       throw new InvalidOffsetValueError(`Invalid offset value: ${n}, value must be positive numbers`)
     }
@@ -231,7 +228,6 @@ export class Step extends BaseStep
   }
 
   public offset$(n: number): OffsetStep {
-    /** Note: float value is accepted */
     if (!Number.isFinite(n) || n < 0) {
       throw new InvalidOffsetValueError(`Invalid offset value: ${n}, value must be positive numbers`)
     }

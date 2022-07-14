@@ -2,7 +2,7 @@ import { Builder, $ } from '../../src'
 import { database } from '../database'
 
 //Alias
-const table = database.s.public.t.table1
+const table1 = database.s.public.t.table1
 
 describe('Test binder with multi builders', () => {
   const sql = new Builder(database)
@@ -17,10 +17,10 @@ describe('Test binder with multi builders', () => {
   it('Produces [SELECT $1 FROM "table1";] 2 binds at the same time', () => {
     const actual1 = sql1
       .select($(1))
-      .from(table)
+      .from(table1)
     const actual2 = sql2
       .select($(2))
-      .from(table)
+      .from(table1)
 
     expect(actual1.getSQL()).toEqual('SELECT $1 FROM "table1";')
     expect(actual1.getBindValues()).toEqual([1])
@@ -31,7 +31,7 @@ describe('Test binder with multi builders', () => {
   it(`Produces [SELECT $1 FROM "table1";]`, () => {
     const actual = sql
       .select($(5))
-      .from(table)
+      .from(table1)
 
     const expected = {
       sql: `SELECT $1 FROM "table1";`,
@@ -44,7 +44,7 @@ describe('Test binder with multi builders', () => {
   it(`Produces [SELECT $1, $2, $3, $4 FROM "table1";]`, () => {
     const actual = sql
       .select($(null), $(true), $(1), $(`a`))
-      .from(table)
+      .from(table1)
 
     const expected = {
       sql: `SELECT $1, $2, $3, $4 FROM "table1";`,

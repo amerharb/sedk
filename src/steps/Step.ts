@@ -3,7 +3,12 @@ import { Condition } from '../models/Condition'
 import { Expression } from '../models/Expression'
 import { Column } from '../columns'
 import { AliasedTable, Table } from '../database'
-import { ColumnNotFoundError, MoreThanOneWhereStepError } from '../errors'
+import {
+  ColumnNotFoundError,
+  InvalidLimitValueError,
+  InvalidOffsetValueError,
+  MoreThanOneWhereStepError,
+} from '../errors'
 import { BuilderData, SqlPath } from '../builder'
 import { All, Asterisk } from '../singletoneConstants'
 import { OrderByArgsElement, OrderByDirection, OrderByItem, OrderByItemInfo, OrderByNullsPosition } from '../orderBy'
@@ -199,16 +204,18 @@ export class Step extends BaseStep
   }
 
   public limit(n: null|number|All): LimitStep {
-    if (typeof n === 'number' && n < 0) {
-      throw new Error(`Invalid limit value ${n}, negative numbers are not allowed`)
+    /** Note: float value is accepted */
+    if (typeof n === 'number' && (!Number.isFinite(n) || n < 0)) {
+      throw new InvalidLimitValueError(`Invalid limit value: ${n}, value must be positive numbers, null or "ALL"`)
     }
     this.data.limit = n
     return this
   }
 
   public limit$(n: null|number): LimitStep {
-    if (typeof n === 'number' && n < 0) {
-      throw new Error(`Invalid limit value ${n}, negative numbers are not allowed`)
+    /** Note: float value is accepted */
+    if (typeof n === 'number' && (!Number.isFinite(n) || n < 0)) {
+      throw new InvalidLimitValueError(`Invalid limit value: ${n}, value must be positive numbers or null`)
     }
     const binder = new Binder(n)
     this.data.binderStore.add(binder)
@@ -217,16 +224,18 @@ export class Step extends BaseStep
   }
 
   public offset(n: number): OffsetStep {
-    if (n < 0) {
-      throw new Error(`Invalid offset value ${n}, negative numbers are not allowed`)
+    /** Note: float value is accepted */
+    if (!Number.isFinite(n) || n < 0) {
+      throw new InvalidOffsetValueError(`Invalid offset value: ${n}, value must be positive numbers`)
     }
     this.data.offset = n
     return this
   }
 
   public offset$(n: number): OffsetStep {
-    if (n < 0) {
-      throw new Error(`Invalid offset value ${n}, negative numbers are not allowed`)
+    /** Note: float value is accepted */
+    if (!Number.isFinite(n) || n < 0) {
+      throw new InvalidOffsetValueError(`Invalid offset value: ${n}, value must be positive numbers`)
     }
     const binder = new Binder(n)
     this.data.binderStore.add(binder)

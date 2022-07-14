@@ -12,3 +12,7 @@ export class MoreThanOneWhereStepError extends Error{}
 export class InvalidConditionError extends Error{}
 
 export class DeleteWithoutConditionError extends Error{}
+
+export class InvalidLimitValueError extends Error{}
+
+export class InvalidOffsetValueError extends Error{}

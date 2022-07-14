@@ -5,6 +5,8 @@ import {
   MoreThanOneDistinctOrAllError,
   MoreThanOneWhereStepError,
   InvalidConditionError,
+  InvalidLimitValueError,
+  InvalidOffsetValueError,
   Builder,
   e,
   Table,
@@ -259,20 +261,40 @@ describe('Throw desired Errors', () => {
     expect(actual).toThrow(/^ DESC shouldn't come after "ASC" or "DESC" without column or alias in between$/)
   })
 
-  it('Throws error when LIMIT step has negative number', () => {
-    function actual() {
-      sql.selectAsteriskFrom(table1).limit(-1)
-    }
+  it('Throws error when LIMIT step has invalid value', () => {
+    function actual1() {sql.selectAsteriskFrom(table1).limit(-1)}
+    function actual2() {sql.selectAsteriskFrom(table1).limit$(-1)}
+    function actual3() {sql.selectAsteriskFrom(table1).limit(NaN)}
+    function actual4() {sql.selectAsteriskFrom(table1).limit$(NaN)}
+    function actual5() {sql.selectAsteriskFrom(table1).limit(Number.POSITIVE_INFINITY)}
+    function actual6() {sql.selectAsteriskFrom(table1).limit$(Number.POSITIVE_INFINITY)}
+    function actual7() {sql.selectAsteriskFrom(table1).limit(Number.NEGATIVE_INFINITY)}
+    function actual8() {sql.selectAsteriskFrom(table1).limit$(Number.NEGATIVE_INFINITY)}
 
-    expect(actual).toThrow(/^Invalid limit value -1, negative numbers are not allowed$/)
+    const actualList = [actual1, actual2, actual3, actual4, actual5, actual6, actual7, actual8]
+    expect.assertions(actualList.length * 2)
+    actualList.forEach(actual => {
+      expect(actual).toThrow(InvalidLimitValueError)
+      expect(actual).toThrow(/^Invalid limit value: .*, value must be positive numbers.*/)
+    })
   })
 
-  it('Throws error when OFFSET step has negative number', () => {
-    function actual() {
-      sql.selectAsteriskFrom(table1).offset(-1)
-    }
+  it('Throws error when OFFSET step has invalid value', () => {
+    function actual1() {sql.selectAsteriskFrom(table1).offset(-1)}
+    function actual2() {sql.selectAsteriskFrom(table1).offset$(-1)}
+    function actual3() {sql.selectAsteriskFrom(table1).offset(NaN)}
+    function actual4() {sql.selectAsteriskFrom(table1).offset$(NaN)}
+    function actual5() {sql.selectAsteriskFrom(table1).offset(Number.POSITIVE_INFINITY)}
+    function actual6() {sql.selectAsteriskFrom(table1).offset$(Number.POSITIVE_INFINITY)}
+    function actual7() {sql.selectAsteriskFrom(table1).offset(Number.NEGATIVE_INFINITY)}
+    function actual8() {sql.selectAsteriskFrom(table1).offset$(Number.NEGATIVE_INFINITY)}
 
-    expect(actual).toThrow(/^Invalid offset value -1, negative numbers are not allowed$/)
+    const actualList = [actual1, actual2, actual3, actual4, actual5, actual6, actual7, actual8]
+    expect.assertions(actualList.length * 2)
+    actualList.forEach(actual => {
+      expect(actual).toThrow(InvalidOffsetValueError)
+      expect(actual).toThrow(/^Invalid offset value: .*, value must be positive numbers$/)
+    })
   })
 
   it('Throws error "Expression Type must be number in aggregate function"', () => {

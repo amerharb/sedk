@@ -10,6 +10,7 @@
 - Functions isEq(), isEq$(), isNe() and isNe$(), those function work with null and non-null values
 - Github Action for unit test at pushing code
 - Codecov badge to README.md
+- Throw error if limit or offer value is NaN or INFINITY
 ### Changed
 - Rename FromStep to SelectFromStep
 - Function selectAsteriskFrom() now can take TableAliases not just Tables

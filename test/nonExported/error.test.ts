@@ -54,7 +54,8 @@ describe('Throw desired Errors', () => {
           },
           orderByItemInfos: [],
           selectItemInfos: [],
-          whereParts: []
+          whereParts: [],
+          returning: [],
         }).crossJoin(table1)
       }
 

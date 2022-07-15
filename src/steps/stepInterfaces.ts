@@ -104,3 +104,5 @@ export interface LimitStep extends BaseStep, OffsetStep {
 }
 
 export interface OffsetStep extends BaseStep {}
+
+export interface ReturningStep extends BaseStep {}

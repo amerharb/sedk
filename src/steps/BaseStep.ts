@@ -85,6 +85,13 @@ export abstract class BaseStep {
       result += ` OFFSET ${this.data.offset}`
     }
 
+    if (this.data.returning.length > 0) {
+      const returningPartsString = this.data.returning.map(it => {
+        return it.getStmt(this.data)
+      })
+      result += ` RETURNING ${returningPartsString.join(', ')}`
+    }
+
     if (this.data.option.useSemicolonAtTheEnd)
       result += ';'
 
@@ -102,6 +109,7 @@ export abstract class BaseStep {
     this.data.orderByItemInfos.length = 0
     this.data.limit = undefined
     this.data.offset = undefined
+    this.data.returning.length = 0
     this.data.binderStore.cleanUp()
   }
 

@@ -15,6 +15,7 @@ import { MoreThanOneDistinctOrAllError } from './errors'
 import { FromItemInfo } from './FromItemInfo'
 import { DeleteStep } from './steps/DeleteStep'
 import { DeleteFromStep } from './steps/DeleteFromStep'
+import { ReturningItemInfo } from './ReturningItemInfo'
 
 export enum SqlPath {
   SELECT = 'SELECT',
@@ -39,6 +40,7 @@ export type BuilderData = {
   orderByItemInfos: OrderByItemInfo[],
   limit?: null|number|Binder|All,
   offset?: number|Binder,
+  returning: ReturningItemInfo[],
   binderStore: BinderStore,
 }
 
@@ -57,6 +59,7 @@ export class Builder {
       groupByItems: [],
       havingParts: [],
       orderByItemInfos: [],
+      returning: [],
       binderStore: new BinderStore(),
       option: fillUndefinedOptionsWithDefault(option ?? {}),
     }

@@ -4,6 +4,7 @@ import { database } from '../../database'
 //Alias
 const AND = sedk.LogicalOperator.AND
 const OR = sedk.LogicalOperator.OR
+const ASTERISK = sedk.ASTERISK
 const table1 = database.s.public.t.table1
 const table2 = database.s.public.t.table2
 
@@ -127,6 +128,23 @@ describe('DELETE Path', () => {
         .getSQL()
 
       expect(actual).toEqual(`DELETE FROM "table1" WHERE "col1" = 'A' OR "col2" = 'B' AND "col3" = 'C';`)
+    })
+  })
+
+  describe('Delete with returning', () => {
+    it(`Produces [DELETE FROM "table1" RETURNING *;]`, () => {
+      const actual = sql.deleteFrom(table1).returning(ASTERISK).getSQL()
+
+      expect(actual).toEqual(`DELETE FROM "table1" RETURNING *;`)
+    })
+    it(`Produces [DELETE FROM "table1" WHERE "col1" = 'A' RETURNING *;]`, () => {
+      const actual = sql
+        .deleteFrom(table1)
+        .where(table1.c.col1.eq('A'))
+        .returning(ASTERISK)
+        .getSQL()
+
+      expect(actual).toEqual(`DELETE FROM "table1" WHERE "col1" = 'A' RETURNING *;`)
     })
   })
 })

@@ -5,6 +5,7 @@ import { BuilderData } from './builder'
 import { ComparisonOperator } from './operators'
 import { Binder } from './binder'
 import { IStatementGiver } from './models/IStatementGiver'
+import { Column } from './columns'
 
 export enum AggregateFunctionEnum {
   SUM = 'SUM',
@@ -14,7 +15,7 @@ export enum AggregateFunctionEnum {
   MIN = 'MIN',
 }
 
-export class AggregateFunction implements IStatementGiver{
+export class AggregateFunction implements IStatementGiver {
   constructor(private readonly funcName: AggregateFunctionEnum, private readonly expression: Expression) {
     if (expression.type !== ExpressionType.NUMBER)
       throw new Error('Expression Type must be number in aggregate function')
@@ -36,7 +37,7 @@ export class AggregateFunction implements IStatementGiver{
     return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(value))
   }
 
-  public ne$(value:number): Condition {
+  public ne$(value: number): Condition {
     return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(new Binder(value)))
   }
 
@@ -76,5 +77,9 @@ export class AggregateFunction implements IStatementGiver{
     if (this.expression.rightOperand === undefined || this.expression.rightOperand.type === ExpressionType.NOT_EXIST)
       return `${this.funcName}(${this.expression.getStmt(data)})`
     return `${this.funcName}${this.expression.getStmt(data)}`
+  }
+
+  public getColumns(): Column[] {
+    return this.expression.getColumns()
   }
 }

@@ -4,6 +4,7 @@ import { Expression } from './models/Expression'
 import { escapeDoubleQuote } from './util'
 import { BuilderData } from './builder'
 import { IStatementGiver } from './models/IStatementGiver'
+import { AggregateFunction } from './AggregateFunction'
 
 export class SelectItemInfo implements IStatementGiver{
   constructor(
@@ -16,7 +17,9 @@ export class SelectItemInfo implements IStatementGiver{
       return [this.selectItem]
     } else if (this.selectItem instanceof Expression) {
       return this.selectItem.getColumns()
-    }
+    } else if (this.selectItem instanceof AggregateFunction) {
+      return this.selectItem.getColumns()
+    } // after this selectItem is always Asterisk or Binder
     return []
   }
 

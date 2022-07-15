@@ -71,6 +71,13 @@ so if you change from Postgress to Mysql then you will need to change the librar
 
 
 ## What is New
+### Version: 0.13.1
+- Add returning step
+```typescript
+sql.deleteFrom(Employee).returning(id);
+// DELETE FROM "Employee" RETURING "id";
+```
+
 ### Version: 0.13.0
 - Support Delete Step, either delete().from() or for short deleteFrom()
 ```typescript

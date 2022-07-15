@@ -4,7 +4,8 @@ import { AliasedTable, Table } from '../database'
 import { PrimitiveType } from '../models/types'
 import { Condition } from '../models/Condition'
 import { OnStep } from './OnStep'
-import { WhereStep } from './WhereStep'
+import { SelectWhereStep } from './SelectWhereStep'
+import { DeleteStep } from './DeleteStep'
 import { Column } from '../columns'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
@@ -18,10 +19,12 @@ export interface RootStep extends BaseStep {
   selectDistinct(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
 
   selectAll(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
+
+  delete(): DeleteStep
 }
 
 export interface SelectStep extends BaseStep {
-  from(...tables: (Table|AliasedTable)[]): FromStep
+  from(...tables: (Table|AliasedTable)[]): SelectFromStep
 }
 
 export interface IAfterFromSteps extends BaseStep, OrderByStep {
@@ -37,18 +40,18 @@ export interface IAfterFromSteps extends BaseStep, OrderByStep {
 
   fullOuterJoin(table: Table): FullOuterJoinStep
 
-  where(condition: Condition): WhereStep
+  where(condition: Condition): SelectWhereStep
 
-  where(left: Condition, operator: LogicalOperator, right: Condition): WhereStep
+  where(left: Condition, operator: LogicalOperator, right: Condition): SelectWhereStep
 
-  where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): WhereStep
+  where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): SelectWhereStep
 
   groupBy(...groupByItems: Column[]): GroupByStep
 
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
 }
 
-export interface FromStep extends BaseStep, IAfterFromSteps {}
+export interface SelectFromStep extends BaseStep, IAfterFromSteps {}
 
 export interface CrossJoinStep extends BaseStep, IAfterFromSteps {}
 
@@ -70,9 +73,9 @@ export interface OnOrStep extends OnStep {}
 
 export interface OnAndStep extends OnStep {}
 
-export interface WhereOrStep extends WhereStep {}
+export interface SelectWhereOrStep extends SelectWhereStep {}
 
-export interface WhereAndStep extends WhereStep {}
+export interface SelectWhereAndStep extends SelectWhereStep {}
 
 export interface GroupByStep extends BaseStep, OrderByStep {
   having(condition: Condition): HavingStep

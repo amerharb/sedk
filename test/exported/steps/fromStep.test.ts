@@ -1,5 +1,5 @@
-import { Builder } from '../../src'
-import { database } from '../database'
+import { Builder } from '../../../src'
+import { database } from '../../database'
 //Alias
 const publicTable1 = database.s.public.t.table1
 const col1 = database.s.public.t.table1.c.col1

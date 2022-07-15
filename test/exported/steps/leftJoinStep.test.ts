@@ -1,5 +1,5 @@
-import { Builder } from '../../src'
-import { database } from '../database'
+import { Builder } from '../../../src'
+import { database } from '../../database'
 //Alias
 const table1 = database.s.public.t.table1
 const table1Col1 = database.s.public.t.table1.c.col1
@@ -76,7 +76,7 @@ describe('test leftJoin step', () => {
       expect(actual).toEqual('SELECT * FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1" ORDER BY "table1"."col2";')
     })
 
-    it('Produces [SELECT * FROM "table1" LEFT JOIN "table2" LIMIT 10;]', () => {
+    it('Produces [SELECT * FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1" LIMIT 10;]', () => {
       const actual = sql
         .selectAsteriskFrom(table1)
         .leftJoin(table2)
@@ -87,7 +87,7 @@ describe('test leftJoin step', () => {
       expect(actual).toEqual('SELECT * FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1" LIMIT 10;')
     })
 
-    it('Produces [SELECT * FROM "table1" LEFT JOIN "table2" OFFSET 20;]', () => {
+    it('Produces [SELECT * FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1" OFFSET 20;]', () => {
       const actual = sql
         .selectAsteriskFrom(table1)
         .leftJoin(table2)

@@ -1,14 +1,15 @@
 # SEDK-postgres
+[![Coverage Status](https://codecov.io/gh/amerharb/sedk-postgres/branch/main/graph/badge.svg)](https://codecov.io/gh/amerharb/sedk-postgres)
 
 SEDK is a SQL builder library for Postgres dialect, support binding parameters, and use a pre-defined database schema
 
 ### Example
 
 ```typescript
-import * as sedk from 'sedk-postgres';
+import * as sedk from 'sedk-postgres'
 
 // Schema definition (practically this should be defined in one separate file for the whole project)
-export const database = new sedk.Database({
+const database = new sedk.Database({
   version: 1,
   schemas: {
     public: new sedk.Schema({
@@ -20,6 +21,7 @@ export const database = new sedk.Database({
             name: new sedk.TextColumn({ name: 'name' }),
             salary: new sedk.NumberColumn({ name: 'salary' }),
             isManager: new sedk.BooleanColumn({ name: 'isManager' }),
+            startDate: new sedk.DateColumn({ name: 'startDate' }),
           },
         }),
       },
@@ -47,37 +49,75 @@ console.log(stmt2)
 // SELECT "name", "age" FROM "Employee" WHERE "name" = 'John' AND "salary" > 1500;
 sql.cleanUp()
 
-
 const binderExample = sql.select(name, salary).from(Employee).where(name.eq$('John'), AND, salary.gt$(1500))
 console.log(binderExample.getSQL())
 // SELECT "name", "age" FROM "Employee" WHERE ( "name" = $1 AND "salary" > $2 );
 console.log(binderExample.getBindValues())
 //  [ 'john', 1500 ]
 sql.cleanUp()
-
 ```
 
-### Rail Road Diagram
-![Rail Road Diagram](doc/StepsRailRoad.svg)
+## SEDK-postgres Principles
+1. **What You See Is What You Get:** SEDK build in a way that the sequence of the functions as if you are writing normal SQL query
+2. **No Magic String:** Everything is defined as class or object, for example database schema names defined in one place one time,
+currently the only place where string is used is when you define an alias for a column or aggregate function that string can be used again in orderBy()
+3. **Not ORM:** SEDK is not and will not become an ORM, it is a SQL builder tool, using it is optional, and it won't build a layer between you and the database, so you can use it in some query and ignore it in others
+4. **No Runtime Schema Change:** SEDK build in the mind set that you will not change your database schema without updating your code. Of course that is only valid for the part of the database that you actually use
+5. **One Library One Dialect:** SEDK-postgres is made for postgres hence the name, in the future there might be SEDK-mysql, SEDK-mssql, SEDK-sqlite, SEDK-sql92...etc. or even SEDK-neo4j for graph 
+so if you change from Postgress to Mysql then you will need to change the library too
+
+## Steps Rail Road
+![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-postgres/main/doc/StepsRailRoad.svg)
+
 
 ## What is New
+### Version: 0.13.0
+- Support Delete Step, either delete().from() or for short deleteFrom()
+```typescript
+sql.delete().from(Employee);
+// or like this
+sql.deleteFrom(Employee);
+// DELETE FROM "Employee";
+```
+- New option, default value is `true`
+```typescript
+{
+  throwErrorIfDeleteHasNoCondition: boolean
+}
+```
+
+Note: For safety Delete step without where clause will throw an error that to avoid generate delete all table info by mistake unless you explicitly
+set option `throwErrorIfDeleteHasNoCondition` to `false` or by just adding a dummy condition like `.where(e(1).eq(1))`
+- Delete step can be followed by where(), or() and and() steps
+```typescript
+sql.delete().from(Employee).where(name.eq('John')).and(age.gt(40)).getSQL()
+// DELETE FROM "Employee" WHERE "name" = 'John' AND "age" > 40;
+```
+- functions eq(), eq$(), ne() and ne$() will not accept null anymore, there for they will only return equal "=" or not equal "<>" condition.
+this is a breaking change in behavior, but for the old behavior function that automatically return Equal "=" or Is "IS" you should use the 
+new functions isEq(), isEq$(), isNe(), isNe$(). This correction needed to follow SEDK principle WYSIWYG, so eq() always return "=" but isEq() can return either "IS" or "="
+
+
 ### Version: 0.12.1
-- Update README.md
+- Update README.md: fix code and add railroad diagram to it
+- Check the validity of Condition, throw error if not valid
+- Function eq() in Expression accept all Primitive types
+- Add function ne() to Expression
 
 ### Version: 0.12.0
 - Support Date Column which include Date and Timestamp with and without timezone
 ```typescript
 const dob = new Date(Date.UTC(1979, 10, 14))
 sql.selectAsteriskFrom(Employee).where(Employee.c.birthday.eq(dob)).getSQL();
-// SELECT * FROM "Employee" WHERE "birthday" = '1979-11-14T00:00:00.000Z'
+// SELECT * FROM "Employee" WHERE "birthday" = '1979-11-14T00:00:00.000Z';
 ```
 
 ### Version: 0.11.7
-- Bitwise operator accept string that contain
+- Bitwise operator accept string that contains number
 - upgrade development dependencies
 
 ### Version: 0.11.6
-- Fix Typescsript build error "Operand file not found"
+- Fix Typescript build error "Operand file not found"
 - Add ISC license file
 
 ### Version: 0.11.5

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1893" height="367">
+<svg xmlns="http://www.w3.org/2000/svg" width="1933" height="539">
     <defs>
         <style type="text/css">
             .line {fill: none; stroke: #001133; stroke-width: 1;}
@@ -29,79 +29,98 @@
     </defs>
     <polygon points="9 111 1 107 1 115"/>
     <polygon points="17 111 9 107 9 115"/>
-    <rect x="71" y="97" width="70" height="32" rx="10"/>
-    <rect x="69" y="95" width="70" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="79" y="115">SELECT</text>
-    <rect x="71" y="141" width="104" height="32" rx="10"/>
-    <rect x="69" y="139" width="104" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="79" y="159">SELECT_ALL</text>
-    <rect x="71" y="185" width="146" height="32" rx="10"/>
-    <rect x="69" y="183" width="146" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="79" y="203">SELECT_DISTINCT</text>
-    <rect x="257" y="97" width="60" height="32" rx="10"/>
-    <rect x="255" y="95" width="60" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="265" y="115">FROM</text>
-    <rect x="51" y="229" width="196" height="32" rx="10"/>
-    <rect x="49" y="227" width="196" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="59" y="247">SELECT_ASTERISK_FROM</text>
-    <rect x="437" y="97" width="54" height="32" rx="10"/>
-    <rect x="435" y="95" width="54" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="445" y="115">JOIN</text>
-    <rect x="437" y="141" width="96" height="32" rx="10"/>
-    <rect x="435" y="139" width="96" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="445" y="159">LEFT_JOIN</text>
-    <rect x="437" y="185" width="106" height="32" rx="10"/>
-    <rect x="435" y="183" width="106" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="445" y="203">RIGHT_JOIN</text>
-    <rect x="437" y="229" width="108" height="32" rx="10"/>
-    <rect x="435" y="227" width="108" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="445" y="247">INNER_JOIN</text>
-    <rect x="437" y="273" width="152" height="32" rx="10"/>
-    <rect x="435" y="271" width="152" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="445" y="291">FULL_OUTER_JOIN</text>
-    <rect x="629" y="97" width="40" height="32" rx="10"/>
-    <rect x="627" y="95" width="40" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="637" y="115">ON</text>
-    <rect x="709" y="63" width="48" height="32" rx="10"/>
-    <rect x="707" y="61" width="48" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="717" y="81">AND</text>
-    <rect x="709" y="19" width="40" height="32" rx="10"/>
-    <rect x="707" y="17" width="40" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="717" y="37">OR</text>
-    <rect x="417" y="317" width="110" height="32" rx="10"/>
-    <rect x="415" y="315" width="110" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="425" y="335">CROSS_JOIN</text>
-    <rect x="877" y="97" width="70" height="32" rx="10"/>
-    <rect x="875" y="95" width="70" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="885" y="115">WHERE</text>
-    <rect x="987" y="63" width="48" height="32" rx="10"/>
-    <rect x="985" y="61" width="48" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="995" y="81">AND</text>
-    <rect x="987" y="19" width="40" height="32" rx="10"/>
-    <rect x="985" y="17" width="40" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="995" y="37">OR</text>
-    <rect x="1115" y="97" width="86" height="32" rx="10"/>
-    <rect x="1113" y="95" width="86" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="1123" y="115">GROUPBY</text>
-    <rect x="1241" y="97" width="74" height="32" rx="10"/>
-    <rect x="1239" y="95" width="74" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="1249" y="115">HAVING</text>
-    <rect x="1355" y="63" width="48" height="32" rx="10"/>
-    <rect x="1353" y="61" width="48" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="1363" y="81">AND</text>
-    <rect x="1355" y="19" width="40" height="32" rx="10"/>
-    <rect x="1353" y="17" width="40" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="1363" y="37">OR</text>
-    <rect x="1503" y="129" width="90" height="32" rx="10"/>
-    <rect x="1501" y="127" width="90" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="1511" y="147">ORDER BY</text>
-    <rect x="1653" y="129" width="60" height="32" rx="10"/>
-    <rect x="1651" y="127" width="60" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="1661" y="147">LIMIT</text>
-    <rect x="1773" y="129" width="72" height="32" rx="10"/>
-    <rect x="1771" y="127" width="72" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="1781" y="147">OFFSET</text>
-    <path class="line" d="m17 111 h2 m40 0 h10 m70 0 h10 m0 0 h76 m-186 0 h20 m166 0 h20 m-206 0 q10 0 10 10 m186 0 q0 -10 10 -10 m-196 10 v24 m186 0 v-24 m-186 24 q0 10 10 10 m166 0 q10 0 10 -10 m-176 10 h10 m104 0 h10 m0 0 h42 m-176 -10 v20 m186 0 v-20 m-186 20 v24 m186 0 v-24 m-186 24 q0 10 10 10 m166 0 q10 0 10 -10 m-176 10 h10 m146 0 h10 m20 -88 h10 m60 0 h10 m-306 0 h20 m286 0 h20 m-326 0 q10 0 10 10 m306 0 q0 -10 10 -10 m-316 10 v112 m306 0 v-112 m-306 112 q0 10 10 10 m286 0 q10 0 10 -10 m-296 10 h10 m196 0 h10 m0 0 h70 m100 -132 h10 m54 0 h10 m0 0 h98 m-192 0 h20 m172 0 h20 m-212 0 q10 0 10 10 m192 0 q0 -10 10 -10 m-202 10 v24 m192 0 v-24 m-192 24 q0 10 10 10 m172 0 q10 0 10 -10 m-182 10 h10 m96 0 h10 m0 0 h56 m-182 -10 v20 m192 0 v-20 m-192 20 v24 m192 0 v-24 m-192 24 q0 10 10 10 m172 0 q10 0 10 -10 m-182 10 h10 m106 0 h10 m0 0 h46 m-182 -10 v20 m192 0 v-20 m-192 20 v24 m192 0 v-24 m-192 24 q0 10 10 10 m172 0 q10 0 10 -10 m-182 10 h10 m108 0 h10 m0 0 h44 m-182 -10 v20 m192 0 v-20 m-192 20 v24 m192 0 v-24 m-192 24 q0 10 10 10 m172 0 q10 0 10 -10 m-182 10 h10 m152 0 h10 m20 -176 h10 m40 0 h10 m20 0 h10 m0 0 h58 m-88 0 l20 0 m-1 0 q-9 0 -9 -10 l0 -14 q0 -10 10 -10 m68 34 l20 0 m-20 0 q10 0 10 -10 l0 -14 q0 -10 -10 -10 m-68 0 h10 m48 0 h10 m-78 10 l0 -44 q0 -10 10 -10 m78 54 l0 -44 q0 -10 -10 -10 m-68 0 h10 m40 0 h10 m0 0 h8 m-380 78 h20 m380 0 h20 m-420 0 q10 0 10 10 m400 0 q0 -10 10 -10 m-410 10 v200 m400 0 v-200 m-400 200 q0 10 10 10 m380 0 q10 0 10 -10 m-390 10 h10 m110 0 h10 m0 0 h250 m-420 -220 l20 0 m-1 0 q-9 0 -9 -10 l0 -90 q0 -10 10 -10 m420 110 l20 0 m-20 0 q10 0 10 -10 l0 -90 q0 -10 -10 -10 m-420 0 h10 m0 0 h410 m-460 110 h20 m460 0 h20 m-500 0 q10 0 10 10 m480 0 q0 -10 10 -10 m-490 10 v234 m480 0 v-234 m-480 234 q0 10 10 10 m460 0 q10 0 10 -10 m-470 10 h10 m0 0 h450 m40 -254 h10 m70 0 h10 m20 0 h10 m0 0 h58 m-88 0 l20 0 m-1 0 q-9 0 -9 -10 l0 -14 q0 -10 10 -10 m68 34 l20 0 m-20 0 q10 0 10 -10 l0 -14 q0 -10 -10 -10 m-68 0 h10 m48 0 h10 m-78 10 l0 -44 q0 -10 10 -10 m78 54 l0 -44 q0 -10 -10 -10 m-68 0 h10 m40 0 h10 m0 0 h8 m-198 78 h20 m198 0 h20 m-238 0 q10 0 10 10 m218 0 q0 -10 10 -10 m-228 10 v14 m218 0 v-14 m-218 14 q0 10 10 10 m198 0 q10 0 10 -10 m-208 10 h10 m0 0 h188 m40 -34 h10 m86 0 h10 m20 0 h10 m74 0 h10 m20 0 h10 m0 0 h58 m-88 0 l20 0 m-1 0 q-9 0 -9 -10 l0 -14 q0 -10 10 -10 m68 34 l20 0 m-20 0 q10 0 10 -10 l0 -14 q0 -10 -10 -10 m-68 0 h10 m48 0 h10 m-78 10 l0 -44 q0 -10 10 -10 m78 54 l0 -44 q0 -10 -10 -10 m-68 0 h10 m40 0 h10 m0 0 h8 m-202 78 h20 m202 0 h20 m-242 0 q10 0 10 10 m222 0 q0 -10 10 -10 m-232 10 v14 m222 0 v-14 m-222 14 q0 10 10 10 m202 0 q10 0 10 -10 m-212 10 h10 m0 0 h192 m-348 -34 h20 m348 0 h20 m-388 0 q10 0 10 10 m368 0 q0 -10 10 -10 m-378 10 v30 m368 0 v-30 m-368 30 q0 10 10 10 m348 0 q10 0 10 -10 m-358 10 h10 m0 0 h338 m40 -50 h10 m0 0 h100 m-130 0 h20 m110 0 h20 m-150 0 q10 0 10 10 m130 0 q0 -10 10 -10 m-140 10 v12 m130 0 v-12 m-130 12 q0 10 10 10 m110 0 q10 0 10 -10 m-120 10 h10 m90 0 h10 m40 -32 h10 m0 0 h70 m-100 0 h20 m80 0 h20 m-120 0 q10 0 10 10 m100 0 q0 -10 10 -10 m-110 10 v12 m100 0 v-12 m-100 12 q0 10 10 10 m80 0 q10 0 10 -10 m-90 10 h10 m60 0 h10 m40 -32 h10 m0 0 h82 m-112 0 h20 m92 0 h20 m-132 0 q10 0 10 10 m112 0 q0 -10 10 -10 m-122 10 v12 m112 0 v-12 m-112 12 q0 10 10 10 m92 0 q10 0 10 -10 m-102 10 h10 m72 0 h10 m23 -32 h-3"/>
-    <polygon points="1883 111 1891 107 1891 115"/>
-    <polygon points="1883 111 1875 107 1875 115"/>
+    <rect x="91" y="97" width="70" height="32" rx="10"/>
+    <rect x="89" y="95" width="70" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="99" y="115">SELECT</text>
+    <rect x="91" y="141" width="104" height="32" rx="10"/>
+    <rect x="89" y="139" width="104" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="99" y="159">SELECT_ALL</text>
+    <rect x="91" y="185" width="146" height="32" rx="10"/>
+    <rect x="89" y="183" width="146" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="99" y="203">SELECT_DISTINCT</text>
+    <rect x="277" y="97" width="60" height="32" rx="10"/>
+    <rect x="275" y="95" width="60" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="285" y="115">FROM</text>
+    <rect x="71" y="229" width="196" height="32" rx="10"/>
+    <rect x="69" y="227" width="196" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="79" y="247">SELECT_ASTERISK_FROM</text>
+    <rect x="457" y="97" width="54" height="32" rx="10"/>
+    <rect x="455" y="95" width="54" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="465" y="115">JOIN</text>
+    <rect x="457" y="141" width="96" height="32" rx="10"/>
+    <rect x="455" y="139" width="96" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="465" y="159">LEFT_JOIN</text>
+    <rect x="457" y="185" width="106" height="32" rx="10"/>
+    <rect x="455" y="183" width="106" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="465" y="203">RIGHT_JOIN</text>
+    <rect x="457" y="229" width="108" height="32" rx="10"/>
+    <rect x="455" y="227" width="108" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="465" y="247">INNER_JOIN</text>
+    <rect x="457" y="273" width="152" height="32" rx="10"/>
+    <rect x="455" y="271" width="152" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="465" y="291">FULL_OUTER_JOIN</text>
+    <rect x="649" y="97" width="40" height="32" rx="10"/>
+    <rect x="647" y="95" width="40" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="657" y="115">ON</text>
+    <rect x="729" y="63" width="48" height="32" rx="10"/>
+    <rect x="727" y="61" width="48" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="737" y="81">AND</text>
+    <rect x="729" y="19" width="40" height="32" rx="10"/>
+    <rect x="727" y="17" width="40" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="737" y="37">OR</text>
+    <rect x="437" y="317" width="110" height="32" rx="10"/>
+    <rect x="435" y="315" width="110" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="445" y="335">CROSS_JOIN</text>
+    <rect x="897" y="97" width="70" height="32" rx="10"/>
+    <rect x="895" y="95" width="70" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="905" y="115">WHERE</text>
+    <rect x="1007" y="63" width="48" height="32" rx="10"/>
+    <rect x="1005" y="61" width="48" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="1015" y="81">AND</text>
+    <rect x="1007" y="19" width="40" height="32" rx="10"/>
+    <rect x="1005" y="17" width="40" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="1015" y="37">OR</text>
+    <rect x="1135" y="97" width="86" height="32" rx="10"/>
+    <rect x="1133" y="95" width="86" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="1143" y="115">GROUPBY</text>
+    <rect x="1261" y="97" width="74" height="32" rx="10"/>
+    <rect x="1259" y="95" width="74" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="1269" y="115">HAVING</text>
+    <rect x="1375" y="63" width="48" height="32" rx="10"/>
+    <rect x="1373" y="61" width="48" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="1383" y="81">AND</text>
+    <rect x="1375" y="19" width="40" height="32" rx="10"/>
+    <rect x="1373" y="17" width="40" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="1383" y="37">OR</text>
+    <rect x="1523" y="129" width="90" height="32" rx="10"/>
+    <rect x="1521" y="127" width="90" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="1531" y="147">ORDER BY</text>
+    <rect x="1673" y="129" width="60" height="32" rx="10"/>
+    <rect x="1671" y="127" width="60" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="1681" y="147">LIMIT</text>
+    <rect x="1793" y="129" width="72" height="32" rx="10"/>
+    <rect x="1791" y="127" width="72" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="1801" y="147">OFFSET</text>
+    <rect x="71" y="461" width="70" height="32" rx="10"/>
+    <rect x="69" y="459" width="70" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="79" y="479">DELETE</text>
+    <rect x="161" y="461" width="60" height="32" rx="10"/>
+    <rect x="159" y="459" width="60" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="169" y="479">FROM</text>
+    <rect x="71" y="505" width="120" height="32" rx="10"/>
+    <rect x="69" y="503" width="120" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="79" y="523">DELETE_FROM</text>
+    <rect x="281" y="461" width="70" height="32" rx="10"/>
+    <rect x="279" y="459" width="70" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="289" y="479">WHERE</text>
+    <rect x="391" y="427" width="48" height="32" rx="10"/>
+    <rect x="389" y="425" width="48" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="399" y="445">AND</text>
+    <rect x="391" y="383" width="40" height="32" rx="10"/>
+    <rect x="389" y="381" width="40" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="399" y="401">OR</text>
+    <path xmlns:svg="http://www.w3.org/2000/svg" class="line"
+          d="m17 111 h2 m60 0 h10 m70 0 h10 m0 0 h76 m-186 0 h20 m166 0 h20 m-206 0 q10 0 10 10 m186 0 q0 -10 10 -10 m-196 10 v24 m186 0 v-24 m-186 24 q0 10 10 10 m166 0 q10 0 10 -10 m-176 10 h10 m104 0 h10 m0 0 h42 m-176 -10 v20 m186 0 v-20 m-186 20 v24 m186 0 v-24 m-186 24 q0 10 10 10 m166 0 q10 0 10 -10 m-176 10 h10 m146 0 h10 m20 -88 h10 m60 0 h10 m-306 0 h20 m286 0 h20 m-326 0 q10 0 10 10 m306 0 q0 -10 10 -10 m-316 10 v112 m306 0 v-112 m-306 112 q0 10 10 10 m286 0 q10 0 10 -10 m-296 10 h10 m196 0 h10 m0 0 h70 m100 -132 h10 m54 0 h10 m0 0 h98 m-192 0 h20 m172 0 h20 m-212 0 q10 0 10 10 m192 0 q0 -10 10 -10 m-202 10 v24 m192 0 v-24 m-192 24 q0 10 10 10 m172 0 q10 0 10 -10 m-182 10 h10 m96 0 h10 m0 0 h56 m-182 -10 v20 m192 0 v-20 m-192 20 v24 m192 0 v-24 m-192 24 q0 10 10 10 m172 0 q10 0 10 -10 m-182 10 h10 m106 0 h10 m0 0 h46 m-182 -10 v20 m192 0 v-20 m-192 20 v24 m192 0 v-24 m-192 24 q0 10 10 10 m172 0 q10 0 10 -10 m-182 10 h10 m108 0 h10 m0 0 h44 m-182 -10 v20 m192 0 v-20 m-192 20 v24 m192 0 v-24 m-192 24 q0 10 10 10 m172 0 q10 0 10 -10 m-182 10 h10 m152 0 h10 m20 -176 h10 m40 0 h10 m20 0 h10 m0 0 h58 m-88 0 l20 0 m-1 0 q-9 0 -9 -10 l0 -14 q0 -10 10 -10 m68 34 l20 0 m-20 0 q10 0 10 -10 l0 -14 q0 -10 -10 -10 m-68 0 h10 m48 0 h10 m-78 10 l0 -44 q0 -10 10 -10 m78 54 l0 -44 q0 -10 -10 -10 m-68 0 h10 m40 0 h10 m0 0 h8 m-380 78 h20 m380 0 h20 m-420 0 q10 0 10 10 m400 0 q0 -10 10 -10 m-410 10 v200 m400 0 v-200 m-400 200 q0 10 10 10 m380 0 q10 0 10 -10 m-390 10 h10 m110 0 h10 m0 0 h250 m-420 -220 l20 0 m-1 0 q-9 0 -9 -10 l0 -90 q0 -10 10 -10 m420 110 l20 0 m-20 0 q10 0 10 -10 l0 -90 q0 -10 -10 -10 m-420 0 h10 m0 0 h410 m-460 110 h20 m460 0 h20 m-500 0 q10 0 10 10 m480 0 q0 -10 10 -10 m-490 10 v234 m480 0 v-234 m-480 234 q0 10 10 10 m460 0 q10 0 10 -10 m-470 10 h10 m0 0 h450 m40 -254 h10 m70 0 h10 m20 0 h10 m0 0 h58 m-88 0 l20 0 m-1 0 q-9 0 -9 -10 l0 -14 q0 -10 10 -10 m68 34 l20 0 m-20 0 q10 0 10 -10 l0 -14 q0 -10 -10 -10 m-68 0 h10 m48 0 h10 m-78 10 l0 -44 q0 -10 10 -10 m78 54 l0 -44 q0 -10 -10 -10 m-68 0 h10 m40 0 h10 m0 0 h8 m-198 78 h20 m198 0 h20 m-238 0 q10 0 10 10 m218 0 q0 -10 10 -10 m-228 10 v14 m218 0 v-14 m-218 14 q0 10 10 10 m198 0 q10 0 10 -10 m-208 10 h10 m0 0 h188 m40 -34 h10 m86 0 h10 m20 0 h10 m74 0 h10 m20 0 h10 m0 0 h58 m-88 0 l20 0 m-1 0 q-9 0 -9 -10 l0 -14 q0 -10 10 -10 m68 34 l20 0 m-20 0 q10 0 10 -10 l0 -14 q0 -10 -10 -10 m-68 0 h10 m48 0 h10 m-78 10 l0 -44 q0 -10 10 -10 m78 54 l0 -44 q0 -10 -10 -10 m-68 0 h10 m40 0 h10 m0 0 h8 m-202 78 h20 m202 0 h20 m-242 0 q10 0 10 10 m222 0 q0 -10 10 -10 m-232 10 v14 m222 0 v-14 m-222 14 q0 10 10 10 m202 0 q10 0 10 -10 m-212 10 h10 m0 0 h192 m-348 -34 h20 m348 0 h20 m-388 0 q10 0 10 10 m368 0 q0 -10 10 -10 m-378 10 v30 m368 0 v-30 m-368 30 q0 10 10 10 m348 0 q10 0 10 -10 m-358 10 h10 m0 0 h338 m40 -50 h10 m0 0 h100 m-130 0 h20 m110 0 h20 m-150 0 q10 0 10 10 m130 0 q0 -10 10 -10 m-140 10 v12 m130 0 v-12 m-130 12 q0 10 10 10 m110 0 q10 0 10 -10 m-120 10 h10 m90 0 h10 m40 -32 h10 m0 0 h70 m-100 0 h20 m80 0 h20 m-120 0 q10 0 10 10 m100 0 q0 -10 10 -10 m-110 10 v12 m100 0 v-12 m-100 12 q0 10 10 10 m80 0 q10 0 10 -10 m-90 10 h10 m60 0 h10 m40 -32 h10 m0 0 h82 m-112 0 h20 m92 0 h20 m-132 0 q10 0 10 10 m112 0 q0 -10 10 -10 m-122 10 v12 m112 0 v-12 m-112 12 q0 10 10 10 m92 0 q10 0 10 -10 m-102 10 h10 m72 0 h10 m-1854 -32 h20 m1854 0 h20 m-1894 0 q10 0 10 10 m1874 0 q0 -10 10 -10 m-1884 10 v344 m1874 0 v-344 m-1874 344 q0 10 10 10 m1854 0 q10 0 10 -10 m-1844 10 h10 m70 0 h10 m0 0 h10 m60 0 h10 m-190 0 h20 m170 0 h20 m-210 0 q10 0 10 10 m190 0 q0 -10 10 -10 m-200 10 v24 m190 0 v-24 m-190 24 q0 10 10 10 m170 0 q10 0 10 -10 m-180 10 h10 m120 0 h10 m0 0 h30 m40 -44 h10 m70 0 h10 m20 0 h10 m0 0 h58 m-88 0 l20 0 m-1 0 q-9 0 -9 -10 l0 -14 q0 -10 10 -10 m68 34 l20 0 m-20 0 q10 0 10 -10 l0 -14 q0 -10 -10 -10 m-68 0 h10 m48 0 h10 m-78 10 l0 -44 q0 -10 10 -10 m78 54 l0 -44 q0 -10 -10 -10 m-68 0 h10 m40 0 h10 m0 0 h8 m-198 78 h20 m198 0 h20 m-238 0 q10 0 10 10 m218 0 q0 -10 10 -10 m-228 10 v14 m218 0 v-14 m-218 14 q0 10 10 10 m198 0 q10 0 10 -10 m-208 10 h10 m0 0 h188 m20 -34 h1406 m23 -364 h-3"/>
+    <polygon points="1923 111 1931 107 1931 115"/>
+    <polygon points="1923 111 1915 107 1915 115"/>
 </svg>

@@ -1,9 +1,12 @@
-import { BuilderData } from '../builder'
+import { BuilderData, SqlPath } from '../builder'
 import { PrimitiveType } from '../models/types'
 import { Condition } from '../models/Condition'
 import { Expression } from '../models/Expression'
 import { BooleanColumn } from '../columns'
 import { LogicalOperator } from '../operators'
+import { DeleteWithoutConditionError, TableNotFoundError } from '../errors'
+import { AliasedTable, Table } from '../database'
+import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
 
 export enum Parenthesis {
   Open = '(',
@@ -22,7 +25,7 @@ export abstract class BaseStep {
   }
 
   private getStatement(): string {
-    let result = `SELECT${this.data.distinct}`
+    let result = `${this.data.sqlPath}${this.data.distinct}`
 
     if (this.data.selectItemInfos.length > 0) {
       const selectPartsString = this.data.selectItemInfos.map(it => {
@@ -44,6 +47,8 @@ export abstract class BaseStep {
         return it.toString()
       })
       result += ` WHERE ${wherePartsString.join(' ')}`
+    } else if (this.data.sqlPath === SqlPath.DELETE && this.data.option.throwErrorIfDeleteHasNoCondition) {
+      throw new DeleteWithoutConditionError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
     }
 
     if (this.data.groupByItems.length > 0) {
@@ -87,6 +92,7 @@ export abstract class BaseStep {
   }
 
   public cleanUp() {
+    this.data.sqlPath = undefined
     this.data.selectItemInfos.length = 0
     this.data.distinct = ''
     this.data.fromItemInfos.length = 0
@@ -105,6 +111,27 @@ export abstract class BaseStep {
 
   protected addHavingParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
     BaseStep.addConditionParts(this.data.havingParts, cond1, op1, cond2, op2, cond3)
+  }
+
+  protected static getTable(tableOrAliasedTable: Table|AliasedTable): Table {
+    if (tableOrAliasedTable instanceof Table)
+      return tableOrAliasedTable
+    else
+      return tableOrAliasedTable.table
+  }
+
+  protected throwIfTableNotInDb(table: Table) {
+    if (!this.data.database.hasTable(table))
+      throw new TableNotFoundError(`Table: "${table.name}" not found`)
+  }
+
+  protected addFromItemInfo(table: Table|AliasedTable, relation: FromItemRelation) {
+    this.throwIfTableNotInDb(BaseStep.getTable(table))
+    this.data.fromItemInfos.push(new FromItemInfo(
+      BaseStep.getTable(table),
+      relation,
+      table instanceof AliasedTable ? table.alias : undefined,
+    ))
   }
 
   private static addConditionParts(conditionArray: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],

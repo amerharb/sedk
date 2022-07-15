@@ -1,6 +1,6 @@
 {
   "name": "sedk-postgres",
-  "version": "0.12.1",
+  "version": "0.13.0-next.6",
   "description": "Simple SQL builder and validator",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -11,15 +11,20 @@
     "README.md",
     "doc/StepsRailRoad.svg"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amerharb/sedk-postgres.git"
+  },
   "homepage": "https://github.com/amerharb/sedk-postgres#readme",
   "url": "https://github.com/amerharb/sedk-postgres/issues",
   "email": "sedk@amerharb.com",
   "scripts": {
     "start": "tsc && node dist/src/index.js",
+    "build": "tsc",
     "test": "jest",
-    "Build&test": "tsc && jest",
-    "lint": "eslint src/**/*.ts",
-    "lint-fix": "eslint src/**/*.ts --fix"
+    "build&test": "tsc && jest",
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix"
   },
   "keywords": [
     "SQL",

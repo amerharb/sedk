@@ -1,5 +1,6 @@
-import { Builder } from '../src'
-import { database } from './database'
+import { Builder, e, DeleteWithoutConditionError } from '../../src'
+import { database } from '../database'
+
 //Alias
 const publicTable1 = database.s.public.t.table1
 const col1 = database.s.public.t.table1.c.col1
@@ -447,6 +448,71 @@ describe('test Options', () => {
           .getSQL()
 
         expect(actual).toEqual('SELECT "col1" FROM "table1" AS "TEST Table";')
+      })
+    })
+  })
+
+  describe('test throwErrorIfDeleteHasNoCondition Option', () => {
+    describe('Option: false', () => {
+      const sqlFalse = new Builder(database, { throwErrorIfDeleteHasNoCondition: false })
+      afterEach(() => { sqlFalse.cleanUp() })
+      it('Produces [DELETE FROM "table1";]', () => {
+        const actual = sqlFalse.deleteFrom(publicTable1).getSQL()
+
+        expect(actual).toEqual('DELETE FROM "table1";')
+      })
+      it('Produces [DELETE FROM "table1" WHERE 1 = 1;]', () => {
+        const actual = sqlFalse
+          .deleteFrom(publicTable1).where(e(1).eq(1))
+          .getSQL()
+
+        expect(actual).toEqual('DELETE FROM "table1" WHERE 1 = 1;')
+      })
+    })
+
+    describe('Option: true', () => {
+      const sqlTrue = new Builder(database, { throwErrorIfDeleteHasNoCondition: true })
+      afterEach(() => { sqlTrue.cleanUp() })
+      it('Produces [DELETE FROM "table1";] Will throw error', () => {
+        function actual() {
+          sqlTrue.deleteFrom(publicTable1).getSQL()
+        }
+
+        expect(actual).toThrowError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
+        expect(actual).toThrowError(DeleteWithoutConditionError)
+      })
+      it('Produces [DELETE FROM "table1" WHERE 1 = 1;] Will not throw error', () => {
+        function actual() {
+          sqlTrue.deleteFrom(publicTable1).where(e(1).eq(1)).getSQL()
+          /** cleanUp() is needed as we run the function more than once */
+          sqlTrue.cleanUp()
+        }
+
+        expect(actual).not.toThrowError(DeleteWithoutConditionError)
+        expect(actual).not.toThrowError() // not to throw any other error
+      })
+    })
+
+    describe('Option: default', () => {
+      const sqlDefault = new Builder(database)
+      afterEach(() => { sqlDefault.cleanUp() })
+      it('Produces [DELETE FROM "table1";] Will throw error', () => {
+        function actual() {
+          sqlDefault.deleteFrom(publicTable1).getSQL()
+        }
+
+        expect(actual).toThrowError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
+        expect(actual).toThrowError(DeleteWithoutConditionError)
+      })
+      it('Produces [DELETE FROM "table1" WHERE 1 = 1;] Will not throw error', () => {
+        function actual() {
+          sqlDefault.deleteFrom(publicTable1).where(e(1).eq(1)).getSQL()
+          /** cleanUp() is needed as we run the function more than once */
+          sqlDefault.cleanUp()
+        }
+
+        expect(actual).not.toThrowError(DeleteWithoutConditionError)
+        expect(actual).not.toThrowError() // not to throw any other error
       })
     })
   })

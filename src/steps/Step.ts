@@ -3,8 +3,13 @@ import { Condition } from '../models/Condition'
 import { Expression } from '../models/Expression'
 import { Column } from '../columns'
 import { AliasedTable, Table } from '../database'
-import { ColumnNotFoundError, MoreThanOneWhereStepError, TableNotFoundError } from '../errors'
-import { BuilderData } from '../builder'
+import {
+  ColumnNotFoundError,
+  InvalidLimitValueError,
+  InvalidOffsetValueError,
+  MoreThanOneWhereStepError,
+} from '../errors'
+import { BuilderData, SqlPath } from '../builder'
 import { All, Asterisk } from '../singletoneConstants'
 import { OrderByArgsElement, OrderByDirection, OrderByItem, OrderByItemInfo, OrderByNullsPosition } from '../orderBy'
 import { SelectItemInfo } from '../SelectItemInfo'
@@ -12,29 +17,31 @@ import { escapeDoubleQuote } from '../util'
 import { AggregateFunction } from '../AggregateFunction'
 import { Binder } from '../binder'
 import { BaseStep } from './BaseStep'
-import { WhereStep } from './WhereStep'
+import { SelectWhereStep } from './SelectWhereStep'
 import { HavingStep } from './HavingStep'
 import {
-  RootStep, SelectStep, FromStep, CrossJoinStep, GroupByStep, OrderByStep, LimitStep,
-  OffsetStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep, FullOuterJoinStep,
+  RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep,
+  RightJoinStep, InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
-import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
+import { FromItemRelation } from '../FromItemInfo'
 import { OnStep } from './OnStep'
+import { DeleteStep } from './DeleteStep'
 
 export type ColumnLike = Column|Expression
 
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 
 export class Step extends BaseStep
-  implements RootStep, SelectStep, FromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
-    FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
+  implements RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep,
+    RightJoinStep, InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
   constructor(protected data: BuilderData) {
     super(data)
     data.step = this
   }
 
   public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
+    this.data.sqlPath = SqlPath.SELECT
     const selectItemInfos: SelectItemInfo[] = items.map(it => {
       if (it instanceof SelectItemInfo) {
         return it
@@ -55,26 +62,35 @@ export class Step extends BaseStep
   }
 
   public selectDistinct(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
+    this.data.sqlPath = SqlPath.SELECT
     this.data.distinct = ' DISTINCT'
     return this.select(...items)
   }
 
   public selectAll(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
+    this.data.sqlPath = SqlPath.SELECT
     this.data.distinct = ' ALL'
     return this.select(...items)
   }
 
-  public from(...tables: (Table|AliasedTable)[]): FromStep {
+  public delete(): DeleteStep {
+    this.data.sqlPath = SqlPath.DELETE
+    return new DeleteStep(this.data)
+  }
+
+  public from(...tables: (Table|AliasedTable)[]): SelectFromStep {
     if (tables.length === 0)
       throw new Error('No tables specified')
 
     tables.forEach(table => {
-      this.throwIfTableNotInDb(Step.getTable(table))
+      this.throwIfTableNotInDb(BaseStep.getTable(table))
     })
 
     for (let i = 0; i < tables.length; i++) {
       this.addFromItemInfo(tables[i], i === 0 ? FromItemRelation.NO_RELATION : FromItemRelation.COMMA)
     }
+
+    // return new SelectFromStep(this.data)
     return this
   }
 
@@ -108,33 +124,17 @@ export class Step extends BaseStep
     return this
   }
 
-  private addFromItemInfo(table: Table|AliasedTable, relation: FromItemRelation) {
-    this.throwIfTableNotInDb(Step.getTable(table))
-    this.data.fromItemInfos.push(new FromItemInfo(
-      Step.getTable(table),
-      relation,
-      table instanceof AliasedTable ? table.alias : undefined,
-    ))
-  }
-
   public on(condition: Condition): OnStep {
     this.data.fromItemInfos[this.data.fromItemInfos.length - 1].addFirstCondition(condition)
     return new OnStep(this.data)
   }
 
-  private static getTable(tableOrAliasedTable: Table|AliasedTable): Table {
-    if (tableOrAliasedTable instanceof Table)
-      return tableOrAliasedTable
-    else
-      return tableOrAliasedTable.table
-  }
-
-  public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): WhereStep {
+  public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): SelectWhereStep {
     if (this.data.whereParts.length > 0) {
       throw new MoreThanOneWhereStepError('WHERE step already specified')
     }
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
-    return new WhereStep(this.data)
+    return new SelectWhereStep(this.data)
   }
 
   public groupBy(...groupByItems: Column[]): GroupByStep {
@@ -204,44 +204,35 @@ export class Step extends BaseStep
   }
 
   public limit(n: null|number|All): LimitStep {
-    if (typeof n === 'number' && n < 0) {
-      throw new Error(`Invalid limit value ${n}, negative numbers are not allowed`)
+    if (typeof n === 'number' && (!Number.isFinite(n) || n < 0)) {
+      throw new InvalidLimitValueError(`Invalid limit value: ${n}, value must be positive numbers, null or "ALL"`)
     }
     this.data.limit = n
     return this
   }
 
   public limit$(n: null|number): LimitStep {
-    if (typeof n === 'number' && n < 0) {
-      throw new Error(`Invalid limit value ${n}, negative numbers are not allowed`)
+    if (typeof n === 'number' && (!Number.isFinite(n) || n < 0)) {
+      throw new InvalidLimitValueError(`Invalid limit value: ${n}, value must be positive numbers or null`)
     }
-    const binder = new Binder(n)
-    this.data.binderStore.add(binder)
-    this.data.limit = binder
+    this.data.limit = this.data.binderStore.getBinder(n)
     return this
   }
 
   public offset(n: number): OffsetStep {
-    if (n < 0) {
-      throw new Error(`Invalid offset value ${n}, negative numbers are not allowed`)
+    if (!Number.isFinite(n) || n < 0) {
+      throw new InvalidOffsetValueError(`Invalid offset value: ${n}, value must be positive numbers`)
     }
     this.data.offset = n
     return this
   }
 
   public offset$(n: number): OffsetStep {
-    if (n < 0) {
-      throw new Error(`Invalid offset value ${n}, negative numbers are not allowed`)
+    if (!Number.isFinite(n) || n < 0) {
+      throw new InvalidOffsetValueError(`Invalid offset value: ${n}, value must be positive numbers`)
     }
-    const binder = new Binder(n)
-    this.data.binderStore.add(binder)
-    this.data.offset = binder
+    this.data.offset = this.data.binderStore.getBinder(n)
     return this
-  }
-
-  private throwIfTableNotInDb(table: Table) {
-    if (!this.data.database.hasTable(table))
-      throw new TableNotFoundError(`Table: "${table.name}" not found`)
   }
 
   private throwIfColumnsNotInDb(columns: (SelectItemInfo|ColumnLike|Asterisk)[]) {

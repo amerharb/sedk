@@ -14,7 +14,7 @@ module.exports = {
   ignorePatterns: '*.js',
   overrides: [
     {
-      files: ['**/*.ts'],
+      files: ['src/**/*.ts', 'test/**/*.ts'],
       rules: {
         'indent': ['error', 2],
         'linebreak-style': ['error', 'unix'],
@@ -27,6 +27,7 @@ module.exports = {
         'no-explicit-any': ['off'],
         'no-console': 'warn',
         'no-unused-private-class-members': ['off'],
+        'no-trailing-spaces': ['warn'],
       },
     },
   ],

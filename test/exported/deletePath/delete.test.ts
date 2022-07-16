@@ -134,6 +134,7 @@ describe('DELETE Path', () => {
   })
 
   describe('Delete with returning', () => {
+    const EPOCH_2022_06_20 = Date.UTC(2022, 5, 20)
     it(`Produces [DELETE FROM "table1" RETURNING *;]`, () => {
       const actual = sql.deleteFrom(table1).returning(ASTERISK).getSQL()
 
@@ -175,6 +176,11 @@ describe('DELETE Path', () => {
         .getSQL()
 
       expect(actual).toEqual(`DELETE FROM "table1" RETURNING ("col4" + "col5") AS "Total";`)
+    })
+    it(`Produces [DELETE FROM "table1" RETURNING NULL, 1, 'A', TRUE, '2022-06-20T00:00:00.000Z';]`, () => {
+      const actual = sql.deleteFrom(table1).returning(null, 1, 'A', true, new Date(EPOCH_2022_06_20)).getSQL()
+
+      expect(actual).toEqual(`DELETE FROM "table1" RETURNING NULL, 1, 'A', TRUE, '2022-06-20T00:00:00.000Z';`)
     })
     it(`Produces [DELETE FROM "table1" RETURNING $1;]`, () => {
       const actual = sql.deleteFrom(table1).returning($('A'))

@@ -5,6 +5,8 @@ import { database } from '../../database'
 const AND = sedk.LogicalOperator.AND
 const OR = sedk.LogicalOperator.OR
 const ASTERISK = sedk.ASTERISK
+const ADD = sedk.ArithmeticOperator.ADD
+const e = sedk.e
 const table1 = database.s.public.t.table1
 const table2 = database.s.public.t.table2
 
@@ -165,6 +167,14 @@ describe('DELETE Path', () => {
       const actual = sql.deleteFrom(table1).returning(table1.c.col1.as('Column1')).getSQL()
 
       expect(actual).toEqual(`DELETE FROM "table1" RETURNING "col1" AS "Column1";`)
+    })
+    it(`Produces [DELETE FROM "table1" RETURNING ("col4" + "col5") AS "Total";]`, () => {
+      const actual = sql
+        .deleteFrom(table1)
+        .returning(e(table1.c.col4, ADD, table1.c.col5).as('Total'))
+        .getSQL()
+
+      expect(actual).toEqual(`DELETE FROM "table1" RETURNING ("col4" + "col5") AS "Total";`)
     })
   })
 })

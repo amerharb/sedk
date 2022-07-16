@@ -9,7 +9,7 @@ import { ColumnLike } from './steps/Step'
 
 export type ReturningItem = ColumnLike|Binder|Asterisk
 
-export class ReturningItemInfo implements IStatementGiver{
+export class ReturningItemInfo implements IStatementGiver {
   constructor(
     private readonly returningItem: ReturningItem,
     public readonly alias?: string,

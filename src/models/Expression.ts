@@ -22,6 +22,7 @@ import {
 } from './types'
 import { IStatementGiver } from './IStatementGiver'
 import { Condition } from './Condition'
+import { ItemInfo } from '../ItemInfo'
 
 export enum ExpressionType {
   NOT_EXIST,
@@ -70,7 +71,7 @@ export class Expression implements IStatementGiver {
     return this.leftOperand.getStmt(data)
   }
 
-  public as(alias: string): SelectItemInfo {
+  public as(alias: string): ItemInfo {
     return new SelectItemInfo(this, alias)
   }
 

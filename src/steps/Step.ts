@@ -28,6 +28,7 @@ import { FromItemRelation } from '../FromItemInfo'
 import { OnStep } from './OnStep'
 import { DeleteStep } from './DeleteStep'
 import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
+import { ItemInfo } from '../ItemInfo'
 
 export type ColumnLike = Column|Expression
 
@@ -236,7 +237,7 @@ export class Step extends BaseStep
     return this
   }
 
-  public returning(...items: (ReturningItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
+  public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
     const returningItemInfo: ReturningItemInfo[] = items.map(it => {
       if (it instanceof ReturningItemInfo) {
         return it
@@ -247,7 +248,15 @@ export class Step extends BaseStep
           this.data.binderStore.add(it)
         }
         return new ReturningItemInfo(it, undefined)
-      } else {
+      } else if (it instanceof SelectItemInfo) {
+        if (it.selectItem instanceof AggregateFunction) {
+          throw new Error(`Aggregate function ${it.selectItem.funcName} cannot be used in RETURNING clause`)
+        } else {
+          return new ReturningItemInfo(it.selectItem, it.alias)
+        }
+      } else if (it instanceof ItemInfo) { // not possible as long as ItemInfo is an abstract class
+        throw new Error('ItemInfo is an abstract class')
+      } else { //it from here is a PrimitiveType
         return new ReturningItemInfo(new Expression(it), undefined)
       }
     })

@@ -7,7 +7,8 @@ import { MoreThanOneWhereStepError } from '../errors'
 import { ReturningStep } from './stepInterfaces'
 import { returnStepOrThrow } from '../util'
 import { PrimitiveType } from '../models/types'
-import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
+import { ReturningItem } from '../ReturningItemInfo'
+import { ItemInfo } from '../ItemInfo'
 
 export class DeleteFromStep extends BaseStep {
   constructor(protected data: BuilderData) { super(data) }
@@ -23,7 +24,7 @@ export class DeleteFromStep extends BaseStep {
     return new DeleteWhereStep(this.data)
   }
 
-  public returning(...items: (ReturningItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
+  public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
     return returnStepOrThrow(this.data.step).returning(...items)
   }
 }

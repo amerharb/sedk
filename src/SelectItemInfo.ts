@@ -3,14 +3,16 @@ import { Column } from './columns'
 import { Expression } from './models/Expression'
 import { escapeDoubleQuote } from './util'
 import { BuilderData } from './builder'
-import { IStatementGiver } from './models/IStatementGiver'
 import { AggregateFunction } from './AggregateFunction'
+import { ItemInfo } from './ItemInfo'
 
-export class SelectItemInfo implements IStatementGiver{
+export class SelectItemInfo extends ItemInfo {
   constructor(
-    private readonly selectItem: SelectItem,
+    public readonly selectItem: SelectItem,
     public readonly alias?: string,
-  ) {}
+  ) {
+    super(alias)
+  }
 
   public getColumns(): Column[] {
     if (this.selectItem instanceof Column) {

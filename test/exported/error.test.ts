@@ -309,4 +309,12 @@ describe('Throw desired Errors', () => {
 
     expect(actual).toThrow(/^Expression Type must be number in aggregate function$/)
   })
+
+  it(`Throws error "Aggregate function x cannot be used in RETURNING clause"`, () => {
+    function actual() {
+      sql.deleteFrom(table1).returning(f.sum(table1.c.col4).as('whatEver')).getSQL()
+    }
+
+    expect(actual).toThrow(/^Aggregate function SUM cannot be used in RETURNING clause$/)
+  })
 })

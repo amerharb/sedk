@@ -3,9 +3,10 @@ import { BuilderData } from '../builder'
 import { Condition } from '../models/Condition'
 import { LogicalOperator } from '../operators'
 import { ReturningStep } from './stepInterfaces'
-import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
+import { ReturningItem } from '../ReturningItemInfo'
 import { PrimitiveType } from '../models/types'
 import { returnStepOrThrow } from '../util'
+import { ItemInfo } from '../ItemInfo'
 
 export interface DeleteWhereOrStep extends DeleteWhereStep {}
 
@@ -32,7 +33,7 @@ export class DeleteWhereStep extends BaseStep {
     return this
   }
 
-  public returning(...items: (ReturningItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
+  public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
     return returnStepOrThrow(this.data.step).returning(...items)
   }
 }

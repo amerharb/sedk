@@ -146,5 +146,25 @@ describe('DELETE Path', () => {
 
       expect(actual).toEqual(`DELETE FROM "table1" WHERE "col1" = 'A' RETURNING *;`)
     })
+    it(`Produces [DELETE FROM "table1" WHERE "col1" = 'A' OR "col2" = 'B' RETURNING *;]`, () => {
+      const actual = sql
+        .deleteFrom(table1)
+        .where(table1.c.col1.eq('A'))
+        .or(table1.c.col2.eq('B'))
+        .returning(ASTERISK)
+        .getSQL()
+
+      expect(actual).toEqual(`DELETE FROM "table1" WHERE "col1" = 'A' OR "col2" = 'B' RETURNING *;`)
+    })
+    it(`Produces [DELETE FROM "table1" RETURNING "col1";]`, () => {
+      const actual = sql.deleteFrom(table1).returning(table1.c.col1).getSQL()
+
+      expect(actual).toEqual(`DELETE FROM "table1" RETURNING "col1";`)
+    })
+    it(`Produces [DELETE FROM "table1" RETURNING "col1" AS "Column1";]`, () => {
+      const actual = sql.deleteFrom(table1).returning(table1.c.col1.as('Column1')).getSQL()
+
+      expect(actual).toEqual(`DELETE FROM "table1" RETURNING "col1" AS "Column1";`)
+    })
   })
 })

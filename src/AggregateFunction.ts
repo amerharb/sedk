@@ -17,6 +17,7 @@ export enum AggregateFunctionEnum {
 }
 
 export class AggregateFunction implements IStatementGiver {
+  private readonly unique: symbol = Symbol()
   constructor(public readonly funcName: AggregateFunctionEnum, private readonly expression: Expression) {
     if (expression.type !== ExpressionType.NUMBER)
       throw new Error('Expression Type must be number in aggregate function')

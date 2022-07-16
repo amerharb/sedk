@@ -6,6 +6,7 @@ import { ComparisonOperator } from './operators'
 import { Binder } from './binder'
 import { IStatementGiver } from './models/IStatementGiver'
 import { Column } from './columns'
+import { ItemInfo } from './ItemInfo'
 
 export enum AggregateFunctionEnum {
   SUM = 'SUM',
@@ -16,12 +17,13 @@ export enum AggregateFunctionEnum {
 }
 
 export class AggregateFunction implements IStatementGiver {
-  constructor(private readonly funcName: AggregateFunctionEnum, private readonly expression: Expression) {
+  private readonly unique: symbol = Symbol()
+  constructor(public readonly funcName: AggregateFunctionEnum, private readonly expression: Expression) {
     if (expression.type !== ExpressionType.NUMBER)
       throw new Error('Expression Type must be number in aggregate function')
   }
 
-  public as(alias: string): SelectItemInfo {
+  public as(alias: string): ItemInfo {
     return new SelectItemInfo(this, alias)
   }
 

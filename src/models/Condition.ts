@@ -8,6 +8,7 @@ import { IStatementGiver } from './IStatementGiver'
 import { Binder } from '../binder'
 import { InvalidConditionError } from '../errors'
 import { BooleanLike } from './types'
+import { ItemInfo } from '../ItemInfo'
 
 export class Condition implements Expression, IStatementGiver {
   public readonly leftExpression: Expression
@@ -43,7 +44,7 @@ export class Condition implements Expression, IStatementGiver {
   }
 
   // Implement Expression, We don't really need it
-  public as(alias: string): SelectItemInfo {
+  public as(alias: string): ItemInfo {
     return new SelectItemInfo(this, alias)
   }
 

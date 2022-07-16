@@ -53,23 +53,23 @@ export function $(value: PrimitiveType): Binder {
 }
 
 export const f = {
-  sum: (column: Expression|NumberLike): AggregateFunction => {
+  sum: function (column: Expression|NumberLike): AggregateFunction {
     return aggregateFunction(AggregateFunctionEnum.SUM, column)
   },
 
-  avg: (column: Expression|NumberLike): AggregateFunction => {
+  avg: function (column: Expression|NumberLike): AggregateFunction {
     return aggregateFunction(AggregateFunctionEnum.AVG, column)
   },
 
-  count: (column: Expression|NumberLike): AggregateFunction => {
+  count: function (column: Expression|NumberLike): AggregateFunction {
     return aggregateFunction(AggregateFunctionEnum.COUNT, column)
   },
 
-  max: (column: Expression|NumberLike): AggregateFunction => {
+  max: function (column: Expression|NumberLike): AggregateFunction {
     return aggregateFunction(AggregateFunctionEnum.MAX, column)
   },
 
-  min: (column: Expression|NumberLike): AggregateFunction => {
+  min: function (column: Expression|NumberLike): AggregateFunction {
     return aggregateFunction(AggregateFunctionEnum.MIN, column)
   },
 }

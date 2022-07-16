@@ -19,6 +19,7 @@ import { SelectItemInfo } from './SelectItemInfo'
 import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
 import { IStatementGiver } from './models/IStatementGiver'
 import { BuilderData } from './builder'
+import { ItemInfo } from './ItemInfo'
 
 type ColumnObj = {
   name: string
@@ -47,7 +48,7 @@ export abstract class Column implements IStatementGiver {
     return this.data.name
   }
 
-  public as(alias: string): SelectItemInfo {
+  public as(alias: string): ItemInfo {
     return new SelectItemInfo(this, alias)
   }
 

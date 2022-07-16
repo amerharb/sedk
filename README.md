@@ -1,5 +1,5 @@
 # SEDK-postgres
-[![Coverage Status](https://codecov.io/gh/amerharb/sedk-postgres/branch/main/graph/badge.svg)](https://codecov.io/gh/amerharb/sedk-postgres)
+[![Coverage Status](https://codecov.io/gh/amerharb/sedk-postgres/branch/version/0.13.1/graph/badge.svg)](https://codecov.io/gh/amerharb/sedk-postgres)
 
 SEDK is a SQL builder library for Postgres dialect, support binding parameters, and use a pre-defined database schema
 
@@ -67,15 +67,14 @@ currently the only place where string is used is when you define an alias for a 
 so if you change from Postgress to Mysql then you will need to change the library too
 
 ## Steps Rail Road
-![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-postgres/main/doc/StepsRailRoad.svg)
-
+![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-postgres/version/0.13.1/doc/StepsRailRoad.svg)
 
 ## What is New
 ### Version: 0.13.1
 - Add returning step
 ```typescript
 sql.deleteFrom(Employee).returning(id);
-// DELETE FROM "Employee" RETURING "id";
+// DELETE FROM "Employee" RETURNING "id";
 ```
 
 ### Version: 0.13.0

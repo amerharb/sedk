@@ -4,6 +4,7 @@
 ## [0.13.1]  2022-07-15
 ### Added
 - Returning step in delete
+- Version and license badges to README.md
 
 ## [0.13.0]  2022-06-27
 ### Added

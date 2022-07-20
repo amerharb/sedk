@@ -12,6 +12,7 @@ import { All } from '../singletoneConstants'
 import { HavingStep } from './HavingStep'
 import { SelectItem } from './Step'
 import { LogicalOperator } from '../operators'
+import { InsertStep } from './InsertStep'
 
 export interface RootStep extends BaseStep {
   select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
@@ -21,6 +22,8 @@ export interface RootStep extends BaseStep {
   selectAll(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
 
   delete(): DeleteStep
+
+  insert(): InsertStep
 }
 
 export interface SelectStep extends BaseStep {

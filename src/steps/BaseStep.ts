@@ -109,6 +109,8 @@ export abstract class BaseStep {
     this.data.orderByItemInfos.length = 0
     this.data.limit = undefined
     this.data.offset = undefined
+    this.data.intoTable = undefined
+    this.data.intoColumns.length = 0
     this.data.returning.length = 0
     this.data.binderStore.cleanUp()
   }

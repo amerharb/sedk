@@ -6,6 +6,7 @@ const table1 = database.s.public.t.table1
 const col1 = table1.c.col1
 const col4 = table1.c.col4
 const col7 = table1.c.col7
+const table2 = database.s.public.t.table2
 const $ = sedk.$
 
 describe('INSERT Path', () => {
@@ -77,6 +78,16 @@ describe('INSERT Path', () => {
       const actual = sql.insertInto(table1).values($('A'), 1, $(true))
       expect(actual.getSQL()).toEqual(`INSERT INTO "table1" VALUES($1, 1, $2);`)
       expect(actual.getBindValues()).toEqual(['A', true])
+    })
+    it(`Produces [INSERT INTO "table2" VALUES($1);]`, () => {
+      const actual = sql.insertInto(table2).values$('A')
+      expect(actual.getSQL()).toEqual(`INSERT INTO "table2" VALUES($1);`)
+      expect(actual.getBindValues()).toEqual(['A'])
+    })
+    it(`Produces [INSERT INTO "table2" VALUES($1, $2, $3);]`, () => {
+      const actual = sql.insertInto(table2).values$('A', 1, true)
+      expect(actual.getSQL()).toEqual(`INSERT INTO "table2" VALUES($1, $2, $3);`)
+      expect(actual.getBindValues()).toEqual(['A', 1, true])
     })
   })
 })

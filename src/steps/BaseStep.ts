@@ -135,7 +135,7 @@ export abstract class BaseStep {
     this.data.offset = undefined
     this.data.insertIntoTable = undefined
     this.data.insertIntoColumns.length = 0
-    this.data.insertIntoColumns.length = 0
+    this.data.insertIntoValues.length = 0
     this.data.returning.length = 0
     this.data.binderStore.cleanUp()
   }

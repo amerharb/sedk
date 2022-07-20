@@ -2,6 +2,8 @@
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
 ## [0.14.0]  2022-07-20
+- Add Insert Path support
+  - insert, into, values, and returning steps
 
 ## [0.13.1]  2022-07-20
 ### Added

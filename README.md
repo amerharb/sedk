@@ -75,10 +75,23 @@ so if you change from Postgress to Mysql then you will need to change the librar
 ### Version: 0.14.0
 - Add Insert path
 ```typescript
+sql.insert().into(Employee).values(10, 'John', 11_000, false, new Date(Date.now())).getSQL()
+// INSERT INTO Employee VALUES (10, 'John', 11000, false, '2020-01-01T00:00:00.000Z');
+```
+or use shortcut `insertInto`
+```typescript
 sql.insertInto(Employee).values(10, 'John', 11_000, false, new Date(Date.now())).getSQL()
 // INSERT INTO Employee VALUES (10, 'John', 11000, false, '2020-01-01T00:00:00.000Z');
+```
+- Also with columns after table
+```typescript
 sql.insertInto(Employee, name, salary).values('John', 11_000).getSQL()
-// INSERT INTO Employee(name, salary) VALUES (10, 'John', 11000, false, '2020-01-01T00:00:00.000Z');
+// INSERT INTO Employee(name, salary) VALUES ('John', 11000);
+```
+- with returning
+```typescript
+sql.insertInto(Employee, name, salary).values('John', 11_000).returning(id).getSQL()
+// INSERT INTO Employee(name, salary) VALUES ('John', 11000) RETURNING id;
 ```
 - Insert with binder
 ```typescript

@@ -1,7 +1,7 @@
 # SEDK-postgres
-[![Version](https://img.shields.io/badge/version-0.13.1-blue.svg)](https://github.com/amerharb/sedk-postgres/tree/version/0.13.1)
+[![Version](https://img.shields.io/badge/version-0.14.0-blue.svg)](https://github.com/amerharb/sedk-postgres/tree/version/0.14.0)
 [![License: GPLv3](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
-[![Coverage Status](https://codecov.io/gh/amerharb/sedk-postgres/branch/main/graph/badge.svg)](https://codecov.io/gh/amerharb/sedk-postgres)
+[![Coverage Status](https://codecov.io/gh/amerharb/sedk-postgres/branch/version/0.14.0/graph/badge.svg)](https://codecov.io/gh/amerharb/sedk-postgres)
 
 SEDK is a SQL builder library for Postgres dialect, support binding parameters, and use a pre-defined database schema
 
@@ -69,9 +69,26 @@ currently the only place where string is used is when you define an alias for a 
 so if you change from Postgress to Mysql then you will need to change the library too
 
 ## Steps Rail Road
-![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-postgres/main/doc/StepsRailRoad.svg)
+![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-postgres/version/0.14.0/doc/StepsRailRoad.svg)
 
 ## What is New
+### Version: 0.14.0
+- Add Insert path
+```typescript
+sql.insertInto(Employee).values(10, 'John', 11_000, false, new Date(Date.now())).getSQL()
+// INSERT INTO Employee VALUES (10, 'John', 11000, false, '2020-01-01T00:00:00.000Z');
+sql.insertInto(Employee, name, salary).values('John', 11_000).getSQL()
+// INSERT INTO Employee(name, salary) VALUES (10, 'John', 11000, false, '2020-01-01T00:00:00.000Z');
+```
+- Insert with binder
+```typescript
+sql.insertInto(Employee, name, salary).values$('John', 11_000)
+    .getSQL()
+    // INSERT INTO Employee(name, salary) VALUES ($1, $2);
+    .getBindValues()
+    // ['John', 11000]
+```
+
 ### Version: 0.13.1
 - Add returning step
 ```typescript

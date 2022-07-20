@@ -18,3 +18,7 @@ export function returnStepOrThrow(step: Step|undefined): Step {
 export function getStmtBoolean(value: boolean): string {
   return value ? 'TRUE' : 'FALSE'
 }
+
+export function getStmtNull(): string {
+  return 'NULL'
+}

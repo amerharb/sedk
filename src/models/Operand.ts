@@ -5,7 +5,7 @@ import { AggregateFunction } from '../AggregateFunction'
 import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../columns'
 import { OperandType } from './types'
 import { IStatementGiver } from './IStatementGiver'
-import { escapeSingleQuote, getStmtBoolean } from '../util'
+import { escapeSingleQuote, getStmtBoolean, getStmtNull } from '../util'
 import { Condition } from './Condition'
 
 export class Operand implements IStatementGiver {
@@ -21,7 +21,7 @@ export class Operand implements IStatementGiver {
 
   public getStmt(data: BuilderData): string {
     if (this.value === null) {
-      return 'NULL'
+      return getStmtNull()
     } else if (this.value instanceof Binder) {
       if (this.value.no === undefined) {
         data.binderStore.add(this.value)

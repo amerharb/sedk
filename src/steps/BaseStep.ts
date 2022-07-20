@@ -7,7 +7,7 @@ import { LogicalOperator } from '../operators'
 import { DeleteWithoutConditionError, TableNotFoundError } from '../errors'
 import { AliasedTable, Table } from '../database'
 import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
-import { escapeSingleQuote, getStmtBoolean } from '../util'
+import { escapeSingleQuote, getStmtBoolean, getStmtNull } from '../util'
 
 export enum Parenthesis {
   Open = '(',
@@ -94,7 +94,7 @@ export abstract class BaseStep {
       if (this.data.insertIntoValues.length > 0) {
         const valueStringArray = this.data.insertIntoValues.map(it => {
           if (it === null) {
-            return 'NULL'
+            return getStmtNull()
           } else if (typeof it === 'string') {
             return `'${escapeSingleQuote(it)}'`
           } else if (typeof it === 'boolean') {

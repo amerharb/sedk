@@ -25,5 +25,13 @@ SQL ::=
 
   'RETURNING' ?
 
+  ) | ( // INSERT Path
+
+  ( ( 'INSERT' 'INTO' ) | ( 'INSERT_INTO' ) )
+
+  'VALUES'
+
+  'RETURNING' ?
+
   )
 ```

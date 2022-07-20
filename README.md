@@ -95,6 +95,14 @@ sql.insertInto(Employee, name, salary).values('John', 11_000).returning(id).getS
 ```
 - Insert with binder
 ```typescript
+sql.insertInto(Employee, name, salary).values($('John'), 11_000)
+    .getSQL()
+    // INSERT INTO Employee(name, salary) VALUES ($1, 11000);
+    .getBindValues()
+    // ['John']
+```
+- or by useing `values$()` in one step for all
+```typescript
 sql.insertInto(Employee, name, salary).values$('John', 11_000)
     .getSQL()
     // INSERT INTO Employee(name, salary) VALUES ($1, $2);

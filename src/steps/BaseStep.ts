@@ -8,6 +8,7 @@ import { DeleteWithoutConditionError, TableNotFoundError } from '../errors'
 import { AliasedTable, Table } from '../database'
 import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
 import { getStmtNull, getStmtBoolean, getStmtString, getStmtDate } from '../util'
+import { Binder } from '../binder'
 
 export enum Parenthesis {
   Open = '(',
@@ -95,14 +96,21 @@ export abstract class BaseStep {
         const valueStringArray = this.data.insertIntoValues.map(it => {
           if (it === null) {
             return getStmtNull()
-          } else if (typeof it === 'string') {
-            return getStmtString(it)
           } else if (typeof it === 'boolean') {
             return getStmtBoolean(it)
           } else if (typeof it === 'number') {
             return it.toString()
+          } else if (typeof it === 'string') {
+            return getStmtString(it)
           } else if (it instanceof Date) {
             return getStmtDate(it)
+          } else if (it instanceof Binder) {
+            if (it.no === undefined) {
+              this.data.binderStore.add(it)
+            }
+            return it.getStmt()
+          } else {
+            throw new Error(`Value step has Unsupported value: ${it}, type: ${typeof it}`)
           }
         })
         result += ` VALUES(${valueStringArray.join(', ')})`

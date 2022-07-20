@@ -45,7 +45,7 @@ export type BuilderData = {
   offset?: number|Binder,
   insertIntoTable?: Table
   insertIntoColumns: Column[],
-  insertIntoValues: PrimitiveType[],
+  insertIntoValues: (PrimitiveType|Binder)[],
   returning: ReturningItemInfo[],
   binderStore: BinderStore,
 }

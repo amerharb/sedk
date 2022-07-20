@@ -6,6 +6,7 @@ const table1 = database.s.public.t.table1
 const col1 = table1.c.col1
 const col4 = table1.c.col4
 const col7 = table1.c.col7
+const $ = sedk.$
 
 describe('INSERT Path', () => {
   const sql = new sedk.Builder(database)
@@ -52,6 +53,28 @@ describe('INSERT Path', () => {
         .returning(col1)
         .getSQL()
       expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES('A') RETURNING "col1";`)
+    })
+  })
+  describe('Insert with binder $', () => {
+    it(`Produces [INSERT INTO "table1" VALUES($1);]`, () => {
+      const actual = sql.insertInto(table1).values($('A'))
+      expect(actual.getSQL()).toEqual(`INSERT INTO "table1" VALUES($1);`)
+      expect(actual.getBindValues()).toEqual(['A'])
+    })
+    it(`Produces [INSERT INTO "table1"("col1") VALUES($1);]`, () => {
+      const actual = sql.insertInto(table1, col1).values($('A'))
+      expect(actual.getSQL()).toEqual(`INSERT INTO "table1"("col1") VALUES($1);`)
+      expect(actual.getBindValues()).toEqual(['A'])
+    })
+    it(`Produces [INSERT INTO "table1" VALUES($1, $2, $3);]`, () => {
+      const actual = sql.insertInto(table1).values($('A'), $(1), $(true))
+      expect(actual.getSQL()).toEqual(`INSERT INTO "table1" VALUES($1, $2, $3);`)
+      expect(actual.getBindValues()).toEqual(['A', 1, true])
+    })
+    it(`Produces [INSERT INTO "table1" VALUES($1, 1, $2);]`, () => {
+      const actual = sql.insertInto(table1).values($('A'), 1, $(true))
+      expect(actual.getSQL()).toEqual(`INSERT INTO "table1" VALUES($1, 1, $2);`)
+      expect(actual.getBindValues()).toEqual(['A', true])
     })
   })
 })

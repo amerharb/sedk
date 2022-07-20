@@ -29,6 +29,7 @@ import { OnStep } from './OnStep'
 import { DeleteStep } from './DeleteStep'
 import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
 import { ItemInfo } from '../ItemInfo'
+import { InsertStep } from './InsertStep'
 
 export type ColumnLike = Column|Expression
 
@@ -78,6 +79,11 @@ export class Step extends BaseStep
   public delete(): DeleteStep {
     this.data.sqlPath = SqlPath.DELETE
     return new DeleteStep(this.data)
+  }
+
+  public insert(): InsertStep {
+    this.data.sqlPath = SqlPath.INSERT
+    return new InsertStep(this.data)
   }
 
   public from(...tables: (Table|AliasedTable)[]): SelectFromStep {

@@ -5,7 +5,7 @@ import { AggregateFunction } from '../AggregateFunction'
 import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../columns'
 import { OperandType } from './types'
 import { IStatementGiver } from './IStatementGiver'
-import { escapeSingleQuote } from '../util'
+import { getStmtNull, getStmtBoolean, getStmtString, getStmtDate } from '../util'
 import { Condition } from './Condition'
 
 export class Operand implements IStatementGiver {
@@ -21,16 +21,16 @@ export class Operand implements IStatementGiver {
 
   public getStmt(data: BuilderData): string {
     if (this.value === null) {
-      return 'NULL'
+      return getStmtNull()
     } else if (this.value instanceof Binder) {
       if (this.value.no === undefined) {
         data.binderStore.add(this.value)
       }
       return `${this.value.getStmt()}`
     } else if (typeof this.value === 'string') {
-      return `'${escapeSingleQuote(this.value)}'`
+      return getStmtString(this.value)
     } else if (typeof this.value === 'boolean') {
-      return `${this.isNot ? 'NOT ' : ''}${this.value ? 'TRUE' : 'FALSE'}`
+      return `${this.isNot ? 'NOT ' : ''}${getStmtBoolean(this.value)}`
     } else if (this.value instanceof AggregateFunction) {
       return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt(data)}`
     } else if (this.value instanceof Expression) {
@@ -42,7 +42,7 @@ export class Operand implements IStatementGiver {
     } else if (typeof this.value === 'number') {
       return `${this.isNot ? 'NOT ' : ''}${this.value}`
     } else if (this.value instanceof Date) {
-      return `${this.isNot ? 'NOT ' : ''}'${escapeSingleQuote(this.value.toISOString())}'`
+      return `${this.isNot ? 'NOT ' : ''}${getStmtDate(this.value)}`
     } else { // value here is undefined
       return `${this.isNot ? 'NOT' : ''}`
     }

@@ -7,6 +7,8 @@ import { LogicalOperator } from '../operators'
 import { DeleteWithoutConditionError, TableNotFoundError } from '../errors'
 import { AliasedTable, Table } from '../database'
 import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
+import { getStmtNull, getStmtBoolean, getStmtString, getStmtDate } from '../util'
+import { Binder } from '../binder'
 
 export enum Parenthesis {
   Open = '(',
@@ -85,6 +87,36 @@ export abstract class BaseStep {
       result += ` OFFSET ${this.data.offset}`
     }
 
+    if (this.data.insertIntoTable !== undefined) {
+      result += ` INTO ${this.data.insertIntoTable.getStmt(this.data)}`
+      if (this.data.insertIntoColumns.length > 0) {
+        result += `(${this.data.insertIntoColumns.map(it => it.getStmt(this.data)).join(', ')})`
+      }
+      if (this.data.insertIntoValues.length > 0) {
+        const valueStringArray = this.data.insertIntoValues.map(it => {
+          if (it === null) {
+            return getStmtNull()
+          } else if (typeof it === 'boolean') {
+            return getStmtBoolean(it)
+          } else if (typeof it === 'number') {
+            return it.toString()
+          } else if (typeof it === 'string') {
+            return getStmtString(it)
+          } else if (it instanceof Date) {
+            return getStmtDate(it)
+          } else if (it instanceof Binder) {
+            if (it.no === undefined) {
+              this.data.binderStore.add(it)
+            }
+            return it.getStmt()
+          } else {
+            throw new Error(`Value step has Unsupported value: ${it}, type: ${typeof it}`)
+          }
+        })
+        result += ` VALUES(${valueStringArray.join(', ')})`
+      }
+    }
+
     if (this.data.returning.length > 0) {
       const returningPartsString = this.data.returning.map(it => {
         return it.getStmt(this.data)
@@ -109,6 +141,9 @@ export abstract class BaseStep {
     this.data.orderByItemInfos.length = 0
     this.data.limit = undefined
     this.data.offset = undefined
+    this.data.insertIntoTable = undefined
+    this.data.insertIntoColumns.length = 0
+    this.data.insertIntoValues.length = 0
     this.data.returning.length = 0
     this.data.binderStore.cleanUp()
   }

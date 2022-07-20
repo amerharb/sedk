@@ -18,6 +18,7 @@ export {
   DeleteWithoutConditionError,
   InvalidLimitValueError,
   InvalidOffsetValueError,
+  InsertColumnsAndValuesNotEqualError,
 } from './errors'
 export {
   Database,

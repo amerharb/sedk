@@ -17,12 +17,14 @@ import { DeleteStep } from './steps/DeleteStep'
 import { DeleteFromStep } from './steps/DeleteFromStep'
 import { ReturningItemInfo } from './ReturningItemInfo'
 import { ItemInfo } from './ItemInfo'
+import { InsertStep } from './steps/InsertStep'
+import { IntoStep } from './steps/IntoStep'
 
 export enum SqlPath {
   SELECT = 'SELECT',
   DELETE = 'DELETE',
+  INSERT = 'INSERT',
   // TODO: support the following
-  // INSERT = 'INSERT',
   // UPDATE = 'UPDATE',
 }
 
@@ -41,6 +43,9 @@ export type BuilderData = {
   orderByItemInfos: OrderByItemInfo[],
   limit?: null|number|Binder|All,
   offset?: number|Binder,
+  insertIntoTable?: Table
+  insertIntoColumns: Column[],
+  insertIntoValues: (PrimitiveType|Binder)[],
   returning: ReturningItemInfo[],
   binderStore: BinderStore,
 }
@@ -60,6 +65,9 @@ export class Builder {
       groupByItems: [],
       havingParts: [],
       orderByItemInfos: [],
+      insertIntoTable: undefined,
+      insertIntoColumns: [],
+      insertIntoValues: [],
       returning: [],
       binderStore: new BinderStore(),
       option: fillUndefinedOptionsWithDefault(option ?? {}),
@@ -108,6 +116,14 @@ export class Builder {
 
   public deleteFrom(table: Table|AliasedTable): DeleteFromStep {
     return this.rootStep.delete().from(table)
+  }
+
+  public insert(): InsertStep {
+    return this.rootStep.insert()
+  }
+
+  public insertInto(table: Table, ...columns: Column[]): IntoStep {
+    return this.rootStep.insert().into(table, ...columns)
   }
 
   public cleanUp(): Builder {

@@ -4,6 +4,8 @@ import { database } from '../../database'
 //Alias
 const table1 = database.s.public.t.table1
 const col1 = table1.c.col1
+const col4 = table1.c.col4
+const col7 = table1.c.col7
 
 describe('INSERT Path', () => {
   const sql = new sedk.Builder(database)
@@ -30,8 +32,8 @@ describe('INSERT Path', () => {
       expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES('A');`)
     })
     it(`Produces [INSERT INTO "table1"("col1", "col4", "col7") VALUES('A', 1, TRUE);]`, () => {
-      const actual = sql.insertInto(table1, col1).values('A', 1, true).getSQL()
-      expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES('A', 1, TRUE);`)
+      const actual = sql.insertInto(table1, col1, col4, col7).values('A', 1, true).getSQL()
+      expect(actual).toEqual(`INSERT INTO "table1"("col1", "col4", "col7") VALUES('A', 1, TRUE);`)
     })
   })
   describe('Insert with returning step', () => {

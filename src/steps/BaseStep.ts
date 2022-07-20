@@ -7,7 +7,7 @@ import { LogicalOperator } from '../operators'
 import { DeleteWithoutConditionError, TableNotFoundError } from '../errors'
 import { AliasedTable, Table } from '../database'
 import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
-import { escapeSingleQuote, getStmtBoolean, getStmtNull } from '../util'
+import { escapeSingleQuote, getStmtBoolean, getStmtDate, getStmtNull } from '../util'
 
 export enum Parenthesis {
   Open = '(',
@@ -102,7 +102,7 @@ export abstract class BaseStep {
           } else if (typeof it === 'number') {
             return it.toString()
           } else if (it instanceof Date) {
-            return `'${escapeSingleQuote(it.toISOString())}'`
+            return getStmtDate(it)
           }
         })
         result += ` VALUES(${valueStringArray.join(', ')})`

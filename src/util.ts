@@ -19,6 +19,10 @@ export function getStmtBoolean(value: boolean): string {
   return value ? 'TRUE' : 'FALSE'
 }
 
+export function getStmtDate(value: Date): string {
+  return `'${escapeSingleQuote(value.toISOString())}'`
+}
+
 export function getStmtNull(): string {
   return 'NULL'
 }

@@ -1,11 +1,14 @@
 import { BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
+import { PrimitiveType } from '../models/types'
+import { ValuesStep } from './ValuesStep'
 
 export class IntoStep extends BaseStep {
   constructor(protected data: BuilderData) { super(data) }
 
-  // TODO: write code for Values step
-  // public values(...values: PrimitiveType[]): ValueStep {
-  //   return returnStepOrThrow(this.data.step).returning(...items)
-  // }
+  public values(...values: PrimitiveType[]): ValuesStep {
+    // TODO: throw error in number of values does not match number of insertinto array
+    this.data.insertIntoValues = values
+    return new ValuesStep(this.data)
+  }
 }

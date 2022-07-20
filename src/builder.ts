@@ -43,8 +43,9 @@ export type BuilderData = {
   orderByItemInfos: OrderByItemInfo[],
   limit?: null|number|Binder|All,
   offset?: number|Binder,
-  intoTable?: Table
-  intoColumns: Column[],
+  insertIntoTable?: Table
+  insertIntoColumns: Column[],
+  insertIntoValues: PrimitiveType[],
   returning: ReturningItemInfo[],
   binderStore: BinderStore,
 }
@@ -64,8 +65,9 @@ export class Builder {
       groupByItems: [],
       havingParts: [],
       orderByItemInfos: [],
-      intoTable: undefined,
-      intoColumns: [],
+      insertIntoTable: undefined,
+      insertIntoColumns: [],
+      insertIntoValues: [],
       returning: [],
       binderStore: new BinderStore(),
       option: fillUndefinedOptionsWithDefault(option ?? {}),

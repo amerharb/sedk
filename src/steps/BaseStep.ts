@@ -85,6 +85,16 @@ export abstract class BaseStep {
       result += ` OFFSET ${this.data.offset}`
     }
 
+    if (this.data.insertIntoTable !== undefined) {
+      result += ` INTO ${this.data.insertIntoTable.getStmt(this.data)}`
+      if (this.data.insertIntoColumns.length > 0) {
+        result += `(${this.data.insertIntoColumns.map(it => it.getStmt(this.data)).join(', ')})`
+      }
+      if (this.data.insertIntoValues) {
+        result += ` VALUES(${this.data.insertIntoValues.join(', ')})`
+      }
+    }
+
     if (this.data.returning.length > 0) {
       const returningPartsString = this.data.returning.map(it => {
         return it.getStmt(this.data)
@@ -109,8 +119,9 @@ export abstract class BaseStep {
     this.data.orderByItemInfos.length = 0
     this.data.limit = undefined
     this.data.offset = undefined
-    this.data.intoTable = undefined
-    this.data.intoColumns.length = 0
+    this.data.insertIntoTable = undefined
+    this.data.insertIntoColumns.length = 0
+    this.data.insertIntoColumns.length = 0
     this.data.returning.length = 0
     this.data.binderStore.cleanUp()
   }

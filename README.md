@@ -1,5 +1,7 @@
 # SEDK-postgres
-[![Coverage Status](https://codecov.io/gh/amerharb/sedk-postgres/branch/main/graph/badge.svg)](https://codecov.io/gh/amerharb/sedk-postgres)
+[![Version](https://img.shields.io/badge/version-0.13.1-blue.svg)](https://github.com/amerharb/sedk-postgres/tree/version/0.13.1)
+[![License: GPLv3](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![Coverage Status](https://codecov.io/gh/amerharb/sedk-postgres/branch/version/0.13.1/graph/badge.svg)](https://codecov.io/gh/amerharb/sedk-postgres)
 
 SEDK is a SQL builder library for Postgres dialect, support binding parameters, and use a pre-defined database schema
 
@@ -67,10 +69,16 @@ currently the only place where string is used is when you define an alias for a 
 so if you change from Postgress to Mysql then you will need to change the library too
 
 ## Steps Rail Road
-![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-postgres/main/doc/StepsRailRoad.svg)
-
+![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-postgres/version/0.13.1/doc/StepsRailRoad.svg)
 
 ## What is New
+### Version: 0.13.1
+- Add returning step
+```typescript
+sql.deleteFrom(Employee).returning(id);
+// DELETE FROM "Employee" RETURNING "id";
+```
+
 ### Version: 0.13.0
 - Support Delete Step, either delete().from() or for short deleteFrom()
 ```typescript

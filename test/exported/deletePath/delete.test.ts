@@ -4,9 +4,12 @@ import { database } from '../../database'
 //Alias
 const AND = sedk.LogicalOperator.AND
 const OR = sedk.LogicalOperator.OR
+const ASTERISK = sedk.ASTERISK
+const ADD = sedk.ArithmeticOperator.ADD
+const e = sedk.e
 const table1 = database.s.public.t.table1
 const table2 = database.s.public.t.table2
-
+const $ = sedk.$
 
 describe('DELETE Path', () => {
   const sql = new sedk.Builder(database, { throwErrorIfDeleteHasNoCondition: false })
@@ -127,6 +130,63 @@ describe('DELETE Path', () => {
         .getSQL()
 
       expect(actual).toEqual(`DELETE FROM "table1" WHERE "col1" = 'A' OR "col2" = 'B' AND "col3" = 'C';`)
+    })
+  })
+
+  describe('Delete with returning', () => {
+    const EPOCH_2022_06_20 = Date.UTC(2022, 5, 20)
+    it(`Produces [DELETE FROM "table1" RETURNING *;]`, () => {
+      const actual = sql.deleteFrom(table1).returning(ASTERISK).getSQL()
+
+      expect(actual).toEqual(`DELETE FROM "table1" RETURNING *;`)
+    })
+    it(`Produces [DELETE FROM "table1" WHERE "col1" = 'A' RETURNING *;]`, () => {
+      const actual = sql
+        .deleteFrom(table1)
+        .where(table1.c.col1.eq('A'))
+        .returning(ASTERISK)
+        .getSQL()
+
+      expect(actual).toEqual(`DELETE FROM "table1" WHERE "col1" = 'A' RETURNING *;`)
+    })
+    it(`Produces [DELETE FROM "table1" WHERE "col1" = 'A' OR "col2" = 'B' RETURNING *;]`, () => {
+      const actual = sql
+        .deleteFrom(table1)
+        .where(table1.c.col1.eq('A'))
+        .or(table1.c.col2.eq('B'))
+        .returning(ASTERISK)
+        .getSQL()
+
+      expect(actual).toEqual(`DELETE FROM "table1" WHERE "col1" = 'A' OR "col2" = 'B' RETURNING *;`)
+    })
+    it(`Produces [DELETE FROM "table1" RETURNING "col1";]`, () => {
+      const actual = sql.deleteFrom(table1).returning(table1.c.col1).getSQL()
+
+      expect(actual).toEqual(`DELETE FROM "table1" RETURNING "col1";`)
+    })
+    it(`Produces [DELETE FROM "table1" RETURNING "col1" AS "Column1";]`, () => {
+      const actual = sql.deleteFrom(table1).returning(table1.c.col1.as('Column1')).getSQL()
+
+      expect(actual).toEqual(`DELETE FROM "table1" RETURNING "col1" AS "Column1";`)
+    })
+    it(`Produces [DELETE FROM "table1" RETURNING ("col4" + "col5") AS "Total";]`, () => {
+      const actual = sql
+        .deleteFrom(table1)
+        .returning(e(table1.c.col4, ADD, table1.c.col5).as('Total'))
+        .getSQL()
+
+      expect(actual).toEqual(`DELETE FROM "table1" RETURNING ("col4" + "col5") AS "Total";`)
+    })
+    it(`Produces [DELETE FROM "table1" RETURNING NULL, 1, 'A', TRUE, '2022-06-20T00:00:00.000Z';]`, () => {
+      const actual = sql.deleteFrom(table1).returning(null, 1, 'A', true, new Date(EPOCH_2022_06_20)).getSQL()
+
+      expect(actual).toEqual(`DELETE FROM "table1" RETURNING NULL, 1, 'A', TRUE, '2022-06-20T00:00:00.000Z';`)
+    })
+    it(`Produces [DELETE FROM "table1" RETURNING $1;]`, () => {
+      const actual = sql.deleteFrom(table1).returning($('A'))
+
+      expect(actual.getSQL()).toEqual(`DELETE FROM "table1" RETURNING $1;`)
+      expect(actual.getBindValues()).toEqual(['A'])
     })
   })
 })

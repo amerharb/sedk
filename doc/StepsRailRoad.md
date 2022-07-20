@@ -21,7 +21,9 @@ SQL ::=
 
   ( ( 'DELETE' 'FROM' ) | ( 'DELETE_FROM' ) )
 
-  ( 'WHERE' ( 'AND' | 'OR' )* )? 
+  ( 'WHERE' ( 'AND' | 'OR' )* )?
+
+  'RETURNING' ?
 
   )
 ```

@@ -2,6 +2,11 @@ import { BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
 import { Condition } from '../models/Condition'
 import { LogicalOperator } from '../operators'
+import { ReturningStep } from './stepInterfaces'
+import { ReturningItem } from '../ReturningItemInfo'
+import { PrimitiveType } from '../models/types'
+import { returnStepOrThrow } from '../util'
+import { ItemInfo } from '../ItemInfo'
 
 export interface DeleteWhereOrStep extends DeleteWhereStep {}
 
@@ -26,5 +31,9 @@ export class DeleteWhereStep extends BaseStep {
     this.data.whereParts.push(LogicalOperator.OR)
     this.addWhereParts(cond1, op1, cond2, op2, cond3)
     return this
+  }
+
+  public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
+    return returnStepOrThrow(this.data.step).returning(...items)
   }
 }

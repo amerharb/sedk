@@ -1,6 +1,11 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.13.1]  2022-07-15
+### Added
+- Returning step in delete
+- Version and license badges to README.md
+
 ## [0.13.0]  2022-06-27
 ### Added
 - Rail Road diagram to README file

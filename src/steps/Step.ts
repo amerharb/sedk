@@ -20,13 +20,15 @@ import { BaseStep } from './BaseStep'
 import { SelectWhereStep } from './SelectWhereStep'
 import { HavingStep } from './HavingStep'
 import {
-  RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep,
-  RightJoinStep, InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep,
+  RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep,
+  InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep, ReturningStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { FromItemRelation } from '../FromItemInfo'
 import { OnStep } from './OnStep'
 import { DeleteStep } from './DeleteStep'
+import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
+import { ItemInfo } from '../ItemInfo'
 
 export type ColumnLike = Column|Expression
 
@@ -235,18 +237,47 @@ export class Step extends BaseStep
     return this
   }
 
-  private throwIfColumnsNotInDb(columns: (SelectItemInfo|ColumnLike|Asterisk)[]) {
+  public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
+    const returningItemInfo: ReturningItemInfo[] = items.map(it => {
+      if (it instanceof ReturningItemInfo) {
+        return it
+      } else if (it instanceof Expression || it instanceof Column || it instanceof Asterisk) {
+        return new ReturningItemInfo(it, undefined)
+      } else if (it instanceof Binder) {
+        if (it.no === undefined) {
+          this.data.binderStore.add(it)
+        }
+        return new ReturningItemInfo(it, undefined)
+      } else if (it instanceof SelectItemInfo) {
+        if (it.selectItem instanceof AggregateFunction) {
+          throw new Error(`Aggregate function ${it.selectItem.funcName} cannot be used in RETURNING clause`)
+        } else {
+          return new ReturningItemInfo(it.selectItem, it.alias)
+        }
+      } else if (it instanceof ItemInfo) { // not possible as long as ItemInfo is an abstract class
+        throw new Error('ItemInfo is an abstract class')
+      } else { //it from here is a PrimitiveType
+        return new ReturningItemInfo(new Expression(it), undefined)
+      }
+    })
+    this.throwIfColumnsNotInDb(returningItemInfo)
+    this.data.returning.push(...returningItemInfo)
+    return this
+  }
+
+  private throwIfColumnsNotInDb(columns: (ReturningItemInfo|SelectItemInfo|ColumnLike|Asterisk)[]) {
     for (const item of columns) {
       if (item instanceof Asterisk) {
         continue
-      } else if (item instanceof Expression) {
-        this.throwIfColumnsNotInDb(item.getColumns())
-        continue
-      } else if (item instanceof SelectItemInfo) {
+      } else if (
+        item instanceof Expression
+        || item instanceof SelectItemInfo
+        || item instanceof ReturningItemInfo
+      ) {
         this.throwIfColumnsNotInDb(item.getColumns())
         continue
       }
-      // item is Column from here
+      // after this, item is type Column
       if (!this.data.database.hasColumn(item)) {
         throw new ColumnNotFoundError(`Column: "${item.name}" not found in database`)
       }

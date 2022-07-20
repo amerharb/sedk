@@ -15,6 +15,8 @@ import { MoreThanOneDistinctOrAllError } from './errors'
 import { FromItemInfo } from './FromItemInfo'
 import { DeleteStep } from './steps/DeleteStep'
 import { DeleteFromStep } from './steps/DeleteFromStep'
+import { ReturningItemInfo } from './ReturningItemInfo'
+import { ItemInfo } from './ItemInfo'
 
 export enum SqlPath {
   SELECT = 'SELECT',
@@ -39,6 +41,7 @@ export type BuilderData = {
   orderByItemInfos: OrderByItemInfo[],
   limit?: null|number|Binder|All,
   offset?: number|Binder,
+  returning: ReturningItemInfo[],
   binderStore: BinderStore,
 }
 
@@ -57,15 +60,16 @@ export class Builder {
       groupByItems: [],
       havingParts: [],
       orderByItemInfos: [],
+      returning: [],
       binderStore: new BinderStore(),
       option: fillUndefinedOptionsWithDefault(option ?? {}),
     }
     this.rootStep = new Step(this.data)
   }
 
-  public select(distinct: Distinct|All, ...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
-  public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
-  public select(...items: (Distinct|All|SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
+  public select(distinct: Distinct|All, ...items: (ItemInfo|SelectItem|PrimitiveType)[]): SelectStep
+  public select(...items: (ItemInfo|SelectItem|PrimitiveType)[]): SelectStep
+  public select(...items: (Distinct|All|ItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
     if (items[0] instanceof Distinct) {
       if (items.length <= 1) throw new Error('Select step must have at least one parameter after DISTINCT')
       items.shift() //remove first item the DISTINCT item
@@ -111,7 +115,7 @@ export class Builder {
     return this
   }
 
-  private static throwIfMoreThanOneDistinctOrAll(items: (Distinct|All|SelectItemInfo|SelectItem|PrimitiveType)[]) {
+  private static throwIfMoreThanOneDistinctOrAll(items: (Distinct|All|ItemInfo|SelectItem|PrimitiveType)[]) {
     items.forEach(it => {
       if (it instanceof Distinct || it instanceof All)
         throw new MoreThanOneDistinctOrAllError('You can not have more than one DISTINCT or ALL')

@@ -338,5 +338,14 @@ describe('Throw desired Errors', () => {
 
       expect(actual).toThrow(InsertColumnsAndValuesNotEqualError)
     })
+    it(`values contain unsupported type`, () => {
+      const value = { unsupportedObject: 'something' }
+      function actual() {
+        // @ts-ignore
+        sql.insertInto(table1).values(value).getSQL()
+      }
+
+      expect(actual).toThrow(`Value step has Unsupported value: ${value}, type: ${typeof value}`)
+    })
   })
 })

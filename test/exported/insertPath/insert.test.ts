@@ -11,11 +11,16 @@ describe('INSERT Path', () => {
   const EPOCH_2022_07_20 = Date.UTC(2022, 6, 20)
   describe('Basic insert all', () => {
     it(`Produces [INSERT INTO "table1" VALUES('A', 1, TRUE, '2022-07-20T00:00:00.000Z');]`, () => {
-      const actual = sql.insert().into(table1).values('A', 1, true, new Date(EPOCH_2022_07_20)).getSQL()
+      const actual = sql
+        .insert()
+        .into(table1)
+        .values('A', 1, true, new Date(EPOCH_2022_07_20)).getSQL()
       expect(actual).toEqual(`INSERT INTO "table1" VALUES('A', 1, TRUE, '2022-07-20T00:00:00.000Z');`)
     })
     it(`Produces [INSERT INTO "table1" VALUES(NULL, 'B', 2, FALSE, '2022-07-20T00:00:00.000Z');]`, () => {
-      const actual = sql.insertInto(table1).values(null, 'B', 2, false, new Date(EPOCH_2022_07_20)).getSQL()
+      const actual = sql
+        .insertInto(table1)
+        .values(null, 'B', 2, false, new Date(EPOCH_2022_07_20)).getSQL()
       expect(actual).toEqual(`INSERT INTO "table1" VALUES(NULL, 'B', 2, FALSE, '2022-07-20T00:00:00.000Z');`)
     })
   })
@@ -30,6 +35,14 @@ describe('INSERT Path', () => {
     })
   })
   describe('Insert with returning step', () => {
+    it(`Produces [INSERT INTO "table1" VALUES('A') RETURNING "col1";]`, () => {
+      const actual = sql
+        .insertInto(table1)
+        .values('A')
+        .returning(col1)
+        .getSQL()
+      expect(actual).toEqual(`INSERT INTO "table1" VALUES('A') RETURNING "col1";`)
+    })
     it(`Produces [INSERT INTO "table1"("col1") VALUES('A') RETURNING "col1";]`, () => {
       const actual = sql
         .insertInto(table1, col1)

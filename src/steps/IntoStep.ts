@@ -13,7 +13,7 @@ export class IntoStep extends BaseStep {
     if (columnsCount > 0 && columnsCount !== values.length) {
       throw new InsertColumnsAndValuesNotEqualError(columnsCount, values.length)
     }
-    this.data.insertIntoValues = values
+    this.data.insertIntoValues.push(...values)
     return new ValuesStep(this.data)
   }
 }

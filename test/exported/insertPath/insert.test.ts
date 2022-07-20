@@ -17,13 +17,15 @@ describe('INSERT Path', () => {
       const actual = sql
         .insert()
         .into(table1)
-        .values('A', 1, true, new Date(EPOCH_2022_07_20)).getSQL()
+        .values('A', 1, true, new Date(EPOCH_2022_07_20))
+        .getSQL()
       expect(actual).toEqual(`INSERT INTO "table1" VALUES('A', 1, TRUE, '2022-07-20T00:00:00.000Z');`)
     })
     it(`Produces [INSERT INTO "table1" VALUES(NULL, 'B', 2, FALSE, '2022-07-20T00:00:00.000Z');]`, () => {
       const actual = sql
         .insertInto(table1)
-        .values(null, 'B', 2, false, new Date(EPOCH_2022_07_20)).getSQL()
+        .values(null, 'B', 2, false, new Date(EPOCH_2022_07_20))
+        .getSQL()
       expect(actual).toEqual(`INSERT INTO "table1" VALUES(NULL, 'B', 2, FALSE, '2022-07-20T00:00:00.000Z');`)
     })
   })

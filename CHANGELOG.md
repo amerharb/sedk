@@ -1,7 +1,7 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.13.1]  2022-07-15
+## [0.13.1]  2022-07-20
 ### Added
 - Returning step in delete
 - Version and license badges to README.md

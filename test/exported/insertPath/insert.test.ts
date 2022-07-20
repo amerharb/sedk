@@ -29,4 +29,14 @@ describe('INSERT Path', () => {
       expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES('A', 1, TRUE);`)
     })
   })
+  describe('Insert with returning step', () => {
+    it(`Produces [INSERT INTO "table1"("col1") VALUES('A') RETURNING "col1";]`, () => {
+      const actual = sql
+        .insertInto(table1, col1)
+        .values('A')
+        .returning(col1)
+        .getSQL()
+      expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES('A') RETURNING "col1";`)
+    })
+  })
 })

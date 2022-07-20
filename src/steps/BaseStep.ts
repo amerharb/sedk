@@ -7,7 +7,7 @@ import { LogicalOperator } from '../operators'
 import { DeleteWithoutConditionError, TableNotFoundError } from '../errors'
 import { AliasedTable, Table } from '../database'
 import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
-import { escapeSingleQuote, getStmtBoolean, getStmtDate, getStmtNull } from '../util'
+import { getStmtNull, getStmtBoolean, getStmtString, getStmtDate } from '../util'
 
 export enum Parenthesis {
   Open = '(',
@@ -96,7 +96,7 @@ export abstract class BaseStep {
           if (it === null) {
             return getStmtNull()
           } else if (typeof it === 'string') {
-            return `'${escapeSingleQuote(it)}'`
+            return getStmtString(it)
           } else if (typeof it === 'boolean') {
             return getStmtBoolean(it)
           } else if (typeof it === 'number') {

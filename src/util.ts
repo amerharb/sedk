@@ -26,3 +26,7 @@ export function getStmtDate(value: Date): string {
 export function getStmtNull(): string {
   return 'NULL'
 }
+
+export function getStmtString(value: string): string {
+  return `'${escapeSingleQuote(value)}'`
+}

@@ -5,7 +5,7 @@ import { AggregateFunction } from '../AggregateFunction'
 import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../columns'
 import { OperandType } from './types'
 import { IStatementGiver } from './IStatementGiver'
-import { escapeSingleQuote, getStmtBoolean, getStmtNull, getStmtDate } from '../util'
+import { getStmtNull, getStmtBoolean, getStmtString, getStmtDate } from '../util'
 import { Condition } from './Condition'
 
 export class Operand implements IStatementGiver {
@@ -28,7 +28,7 @@ export class Operand implements IStatementGiver {
       }
       return `${this.value.getStmt()}`
     } else if (typeof this.value === 'string') {
-      return `'${escapeSingleQuote(this.value)}'`
+      return getStmtString(this.value)
     } else if (typeof this.value === 'boolean') {
       return `${this.isNot ? 'NOT ' : ''}${getStmtBoolean(this.value)}`
     } else if (this.value instanceof AggregateFunction) {

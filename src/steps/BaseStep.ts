@@ -27,7 +27,21 @@ export abstract class BaseStep {
   }
 
   private getStatement(): string {
-    let result = `${this.data.sqlPath}${this.data.distinct}`
+    switch (this.data.sqlPath) {
+    case SqlPath.SELECT:
+      return this.getSelectStatement()
+    case SqlPath.DELETE:
+      return this.getDeleteStatement()
+    case SqlPath.INSERT:
+      return this.getInsertStatement()
+      // case SqlPath.UPDATE:
+      //   return this.getUpdateStatement()
+    }
+    throw new Error(`SqlPath: ${SqlPath} is not supported`)
+  }
+
+  private getSelectStatement(): string {
+    let result = `SELECT${this.data.distinct}`
 
     if (this.data.selectItemInfos.length > 0) {
       const selectPartsString = this.data.selectItemInfos.map(it => {
@@ -87,6 +101,48 @@ export abstract class BaseStep {
       result += ` OFFSET ${this.data.offset}`
     }
 
+    if (this.data.option.useSemicolonAtTheEnd)
+      result += ';'
+
+    return result
+  }
+
+  private getDeleteStatement(): string {
+    let result = `DELETE`
+
+    if (this.data.fromItemInfos.length > 0) {
+      // todo: throw if fromItemInfos.length > 1
+      result += ` FROM ${this.data.fromItemInfos[0].getStmt(this.data)}`
+    }
+
+    if (this.data.whereParts.length > 0) {
+      BaseStep.throwIfConditionPartsInvalid(this.data.whereParts)
+      const wherePartsString = this.data.whereParts.map(it => {
+        if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
+          return it.getStmt(this.data)
+        }
+        return it.toString()
+      })
+      result += ` WHERE ${wherePartsString.join(' ')}`
+    } else if (this.data.sqlPath === SqlPath.DELETE && this.data.option.throwErrorIfDeleteHasNoCondition) {
+      throw new DeleteWithoutConditionError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
+    }
+
+    if (this.data.returning.length > 0) {
+      const returningPartsString = this.data.returning.map(it => {
+        return it.getStmt(this.data)
+      })
+      result += ` RETURNING ${returningPartsString.join(', ')}`
+    }
+
+    if (this.data.option.useSemicolonAtTheEnd)
+      result += ';'
+
+    return result
+  }
+
+  private getInsertStatement(): string {
+    let result = 'INSERT'
     if (this.data.insertIntoTable !== undefined) {
       result += ` INTO ${this.data.insertIntoTable.getStmt(this.data)}`
       if (this.data.insertIntoColumns.length > 0) {
@@ -114,6 +170,10 @@ export abstract class BaseStep {
           }
         })
         result += ` VALUES(${valueStringArray.join(', ')})`
+      } else if (this.data.selectItemInfos.length > 0) {
+        //TODO: add select items
+      } else {
+        throw new Error('Insert statement must have values or select items')
       }
     }
 
@@ -127,8 +187,7 @@ export abstract class BaseStep {
     if (this.data.option.useSemicolonAtTheEnd)
       result += ';'
 
-    return result
-  }
+    return result  }
 
   public cleanUp() {
     this.data.sqlPath = undefined

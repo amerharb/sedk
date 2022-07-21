@@ -44,7 +44,9 @@ export class Step extends BaseStep
   }
 
   public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-    this.data.sqlPath = SqlPath.SELECT
+    if (this.data.sqlPath === undefined) {
+      this.data.sqlPath = SqlPath.SELECT
+    }
     const selectItemInfos: SelectItemInfo[] = items.map(it => {
       if (it instanceof SelectItemInfo) {
         return it
@@ -65,13 +67,17 @@ export class Step extends BaseStep
   }
 
   public selectDistinct(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-    this.data.sqlPath = SqlPath.SELECT
+    if (this.data.sqlPath === undefined) {
+      this.data.sqlPath = SqlPath.SELECT
+    }
     this.data.distinct = ' DISTINCT'
     return this.select(...items)
   }
 
   public selectAll(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-    this.data.sqlPath = SqlPath.SELECT
+    if (this.data.sqlPath === undefined) {
+      this.data.sqlPath = SqlPath.SELECT
+    }
     this.data.distinct = ' ALL'
     return this.select(...items)
   }

@@ -4,9 +4,13 @@ import { database } from '../../database'
 //Alias
 const table1 = database.s.public.t.table1
 const col1 = table1.c.col1
+const col2 = table1.c.col2
 const col4 = table1.c.col4
 const col7 = table1.c.col7
 const table2 = database.s.public.t.table2
+const T2col1 = table2.c.col1
+const T2col2 = table2.c.col2
+
 const $ = sedk.$
 
 describe('INSERT Path', () => {
@@ -88,6 +92,23 @@ describe('INSERT Path', () => {
       const actual = sql.insertInto(table2).values$('A', 1, true)
       expect(actual.getSQL()).toEqual(`INSERT INTO "table2" VALUES($1, $2, $3);`)
       expect(actual.getBindValues()).toEqual(['A', 1, true])
+    })
+  })
+  describe('Insert with select step', () => {
+    it(`Produces [INSERT INTO "table1"("col1") SELECT 'A';]`, () => {
+      const actual = sql
+        .insertInto(table1, col1)
+        .select('A')
+        .getSQL()
+      expect(actual).toEqual(`INSERT INTO "table1"("col1") SELECT 'A';`)
+    })
+    it(`Produces [INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2";]`, () => {
+      const actual = sql
+        .insertInto(table1, col1, col2)
+        .select(T2col1, T2col2)
+        .from(table2)
+        .getSQL()
+      expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2";`)
     })
   })
 })

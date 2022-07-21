@@ -27,17 +27,25 @@ export abstract class BaseStep {
   }
 
   private getStatement(): string {
+    let result = ''
     switch (this.data.sqlPath) {
     case SqlPath.SELECT:
-      return this.getSelectStatement()
+      result = this.getSelectStatement()
+      break
     case SqlPath.DELETE:
-      return this.getDeleteStatement()
+      result = this.getDeleteStatement()
+      break
     case SqlPath.INSERT:
-      return this.getInsertStatement()
+      result = this.getInsertStatement()
+      break
     case SqlPath.UPDATE:
-      return this.getUpdateStatement()
+      result = this.getUpdateStatement()
+      break
     }
-    throw new Error(`SqlPath: ${SqlPath} is not supported`)
+
+    if (this.data.option.useSemicolonAtTheEnd) result += ';'
+
+    return result
   }
 
   private getSelectStatement(): string {
@@ -90,9 +98,6 @@ export abstract class BaseStep {
       result += ` OFFSET ${this.data.offset}`
     }
 
-    if (this.data.option.useSemicolonAtTheEnd)
-      result += ';'
-
     return result
   }
 
@@ -107,9 +112,6 @@ export abstract class BaseStep {
     result += this.getWhereParts()
     result += this.getReturningParts()
 
-    if (this.data.option.useSemicolonAtTheEnd)
-      result += ';'
-
     return result
   }
 
@@ -118,7 +120,7 @@ export abstract class BaseStep {
     if (this.data.insertIntoTable !== undefined) {
       result += ` INTO ${this.data.insertIntoTable.getStmt(this.data)}`
       if (this.data.insertIntoColumns.length > 0) {
-        result += `(${this.data.insertIntoColumns.map(it => it.getStmt(this.data)).join(', ')})`
+        result += `(${this.data.insertIntoColumns.map(it => it.getDoubleQuotedName()).join(', ')})`
       }
       if (this.data.insertIntoValues.length > 0) {
         const valueStringArray = this.data.insertIntoValues.map(it => {
@@ -143,7 +145,7 @@ export abstract class BaseStep {
         })
         result += ` VALUES(${valueStringArray.join(', ')})`
       } else if (this.data.selectItemInfos.length > 0) {
-        //TODO: add select items
+        result += ` ${this.getSelectStatement()}`
       } else {
         throw new Error('Insert statement must have values or select items')
       }
@@ -151,13 +153,11 @@ export abstract class BaseStep {
 
     result += this.getReturningParts()
 
-    if (this.data.option.useSemicolonAtTheEnd)
-      result += ';'
-
     return result
   }
 
   private getUpdateStatement(): string {
+    // TODO: write implementation
     throw new Error('Not implemented yet')
   }
 

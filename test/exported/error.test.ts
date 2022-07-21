@@ -23,6 +23,7 @@ import {
   f,
 } from '../../src'
 import { database } from '../database'
+import { InsertColumnsAndExpressionsNotEqualError } from '../../src/errors'
 
 //Alias
 const ADD = ArithmeticOperator.ADD
@@ -338,14 +339,30 @@ describe('Throw desired Errors', () => {
 
       expect(actual).toThrow(InsertColumnsAndValuesNotEqualError)
     })
-    it(`values contain unsupported type`, () => {
-      const value = { unsupportedObject: 'something' }
+  })
+  describe('Error: InsertColumnsAndExpressionsNotEqualError', () => {
+    it(`columns more than expressions`, () => {
       function actual() {
-        // @ts-ignore
-        sql.insertInto(table1).values(value).getSQL()
+        sql.insertInto(table1, col1, col2).select('A')
       }
 
-      expect(actual).toThrow(`Value step has Unsupported value: ${value}, type: ${typeof value}`)
+      expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
     })
+    it(`expressions more than columns`, () => {
+      function actual() {
+        sql.insertInto(table1, col1, col2).select('A', 'B', 'C')
+      }
+
+      expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+    })
+  })
+  it(`values contain unsupported type`, () => {
+    const value = { unsupportedObject: 'something' }
+    function actual() {
+      // @ts-ignore
+      sql.insertInto(table1).values(value).getSQL()
+    }
+
+    expect(actual).toThrow(`Value step has Unsupported value: ${value}, type: ${typeof value}`)
   })
 })

@@ -82,7 +82,7 @@ export class Builder {
       if (items.length <= 1) throw new Error('Select step must have at least one parameter after DISTINCT')
       items.shift() //remove first item the DISTINCT item
       Builder.throwIfMoreThanOneDistinctOrAll(items)
-      const newItems = items as unknown[] as (SelectItemInfo|SelectItem|PrimitiveType)[]
+      const newItems = items as (SelectItemInfo|SelectItem|PrimitiveType)[]
       return this.rootStep.selectDistinct(...newItems)
     }
 

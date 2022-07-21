@@ -114,6 +114,11 @@ sql.insertInto(Employee, name, salary).values$('John', 11_000)
 sql.insertInto(Employee, name, salary).select(name, salary).from(OldEmployee).getSQL()
 // INSERT INTO Employee(name, salary) SELECT "name", "salary" FROM OldEmployee;
 ```
+- with DEFAULT keyword
+```typescript
+sql.insertInto(Employee, name, salary).values('John', DEFAULT).getSQL()
+// INSERT INTO Employee(name, salary) VALUES ('John', DEFAULT);
+```
 
 ### Version: 0.13.1
 - Add returning step

@@ -76,6 +76,10 @@ export class Default {
   }
 
   public toString(): string {
+    return this.getStmt()
+  }
+
+  public getStmt(): string {
     return 'DEFAULT'
   }
 }

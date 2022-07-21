@@ -8,11 +8,12 @@ import { SelectStep } from './stepInterfaces'
 import { returnStepOrThrow } from '../util'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { SelectItem } from './Step'
+import { Default } from '../singletoneConstants'
 
 export class IntoStep extends BaseStep {
   constructor(protected data: BuilderData) { super(data) }
 
-  public values(...values: (PrimitiveType|Binder)[]): ValuesStep {
+  public values(...values: (PrimitiveType|Binder|Default)[]): ValuesStep {
     this.throwIfColumnAndValueNotEqual(values)
     this.data.insertIntoValues.push(...values)
     return new ValuesStep(this.data)
@@ -29,7 +30,7 @@ export class IntoStep extends BaseStep {
     return returnStepOrThrow(this.data.step).select(...items)
   }
 
-  private throwIfColumnAndValueNotEqual(values: (PrimitiveType|Binder)[]) {
+  private throwIfColumnAndValueNotEqual(values: (PrimitiveType|Binder|Default)[]) {
     const columnsCount = this.data.insertIntoColumns.length
     if (columnsCount > 0 && columnsCount !== values.length) {
       throw new InsertColumnsAndValuesNotEqualError(columnsCount, values.length)

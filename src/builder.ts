@@ -3,7 +3,7 @@ import { BooleanColumn, Column } from './columns'
 import { PrimitiveType } from './models/types'
 import { Condition } from './models/Condition'
 import { Binder, BinderStore } from './binder'
-import { ASTERISK, Distinct, All } from './singletoneConstants'
+import { ASTERISK, Distinct, All, Default } from './singletoneConstants'
 import { RootStep, SelectStep, SelectFromStep } from './steps/stepInterfaces'
 import { Step, SelectItem } from './steps/Step'
 import { LogicalOperator } from './operators'
@@ -45,7 +45,7 @@ export type BuilderData = {
   offset?: number|Binder,
   insertIntoTable?: Table
   insertIntoColumns: Column[],
-  insertIntoValues: (PrimitiveType|Binder)[],
+  insertIntoValues: (PrimitiveType|Binder|Default)[],
   returning: ReturningItemInfo[],
   binderStore: BinderStore,
 }

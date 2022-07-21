@@ -1,11 +1,12 @@
 import * as sedk from '../../../src'
 import { database } from '../../database'
-import { ASTERISK } from '../../../src'
+import { ASTERISK, DEFAULT } from '../../../src'
 
 //Alias
 const table1 = database.s.public.t.table1
 const col1 = table1.c.col1
 const col2 = table1.c.col2
+const col3 = table1.c.col3
 const col4 = table1.c.col4
 const col7 = table1.c.col7
 const table2 = database.s.public.t.table2
@@ -119,6 +120,29 @@ describe('INSERT Path', () => {
         .returning(ASTERISK)
         .getSQL()
       expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2" RETURNING *;`)
+    })
+  })
+  describe('Insert with DEFAULT keyword', () => {
+    it(`Produces [INSERT INTO "table1"("col1") VALUES(DEFAULT);]`, () => {
+      const actual = sql
+        .insertInto(table1, col1)
+        .values(DEFAULT)
+        .getSQL()
+      expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES(DEFAULT);`)
+    })
+    it(`Produces [INSERT INTO "table1"("col1", "col2", "col3") VALUES(DEFAULT, 'A', DEFAULT);]`, () => {
+      const actual = sql
+        .insertInto(table1, col1, col2, col3)
+        .values(DEFAULT, 'A', DEFAULT)
+        .getSQL()
+      expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2", "col3") VALUES(DEFAULT, 'A', DEFAULT);`)
+    })
+    it(`Produces [INSERT INTO "table1"("col1", "col2", "col3") VALUES('A', DEFAULT, 'B');]`, () => {
+      const actual = sql
+        .insertInto(table1, col1, col2, col3)
+        .values('A', DEFAULT, 'B')
+        .getSQL()
+      expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2", "col3") VALUES('A', DEFAULT, 'B');`)
     })
   })
 })

@@ -9,6 +9,7 @@ import { AliasedTable, Table } from '../database'
 import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
 import { getStmtNull, getStmtBoolean, getStmtString, getStmtDate } from '../util'
 import { Binder } from '../binder'
+import { Default } from '../singletoneConstants'
 
 export enum Parenthesis {
   Open = '(',
@@ -138,6 +139,8 @@ export abstract class BaseStep {
             if (it.no === undefined) {
               this.data.binderStore.add(it)
             }
+            return it.getStmt()
+          } if (it instanceof Default) {
             return it.getStmt()
           } else {
             throw new Error(`Value step has Unsupported value: ${it}, type: ${typeof it}`)

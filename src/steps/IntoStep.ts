@@ -1,7 +1,7 @@
 import { BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
 import { PrimitiveType } from '../models/types'
-import { ValuesStep } from './stepInterfaces'
+import { DefaultValuesStep, ValuesStep } from './stepInterfaces'
 import { InsertColumnsAndExpressionsNotEqualError, InsertColumnsAndValuesNotEqualError } from '../errors'
 import { Binder } from '../binder'
 import { SelectStep } from './stepInterfaces'
@@ -22,6 +22,11 @@ export class IntoStep extends BaseStep {
   public values$(...values: PrimitiveType[]): ValuesStep {
     this.throwForInvalidValuesNumber(values)
     this.data.insertIntoValues.push(...values.map(it => new Binder(it)))
+    return returnStepOrThrow(this.data.step)
+  }
+
+  public defaultValues(): DefaultValuesStep {
+    this.data.insertIntoDefaultValues = true
     return returnStepOrThrow(this.data.step)
   }
 

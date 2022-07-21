@@ -46,6 +46,7 @@ export type BuilderData = {
   insertIntoTable?: Table
   insertIntoColumns: Column[],
   insertIntoValues: (PrimitiveType|Binder|Default)[],
+  insertIntoDefaultValues: boolean,
   returning: ReturningItemInfo[],
   binderStore: BinderStore,
 }
@@ -68,6 +69,7 @@ export class Builder {
       insertIntoTable: undefined,
       insertIntoColumns: [],
       insertIntoValues: [],
+      insertIntoDefaultValues: false,
       returning: [],
       binderStore: new BinderStore(),
       option: fillUndefinedOptionsWithDefault(option ?? {}),

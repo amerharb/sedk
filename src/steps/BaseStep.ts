@@ -140,13 +140,15 @@ export abstract class BaseStep {
               this.data.binderStore.add(it)
             }
             return it.getStmt()
-          } if (it instanceof Default) {
+          } else if (it instanceof Default) {
             return it.getStmt()
           } else {
             throw new Error(`Value step has Unsupported value: ${it}, type: ${typeof it}`)
           }
         })
         result += ` VALUES(${valueStringArray.join(', ')})`
+      } else if (this.data.insertIntoDefaultValues) {
+        result += ' DEFAULT VALUES'
       } else if (this.data.selectItemInfos.length > 0) {
         result += ` ${this.getSelectStatement()}`
       } else {
@@ -206,6 +208,7 @@ export abstract class BaseStep {
     this.data.insertIntoTable = undefined
     this.data.insertIntoColumns.length = 0
     this.data.insertIntoValues.length = 0
+    this.data.insertIntoDefaultValues = false
     this.data.returning.length = 0
     this.data.binderStore.cleanUp()
   }

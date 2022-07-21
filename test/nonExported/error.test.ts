@@ -58,6 +58,7 @@ describe('Throw desired Errors', () => {
           insertIntoTable: undefined,
           insertIntoColumns: [],
           insertIntoValues: [],
+          insertIntoDefaultValues: false,
           returning: [],
         }).crossJoin(table1)
       }

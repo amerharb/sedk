@@ -21,6 +21,7 @@ import { SelectWhereStep } from './SelectWhereStep'
 import { HavingStep } from './HavingStep'
 import {
   CrossJoinStep,
+  DefaultValuesStep,
   FullOuterJoinStep,
   GroupByStep,
   InnerJoinStep,
@@ -50,7 +51,7 @@ export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 
 export class Step extends BaseStep
   implements RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep,
-    InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep, ValuesStep {
+    InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep, ValuesStep, DefaultValuesStep {
   constructor(protected data: BuilderData) {
     super(data)
     data.step = this

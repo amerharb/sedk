@@ -9,6 +9,7 @@
 - Select step can be added in INSERT path
 - Returning throws error in it executed from SELECT path
 - DEFAULT key word can be used inside values step in INSERT path
+- support DEFAULT VALUES in INSERT path
 
 ## [0.13.1]  2022-07-20
 ### Added

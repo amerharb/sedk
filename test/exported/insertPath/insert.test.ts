@@ -1,5 +1,6 @@
 import * as sedk from '../../../src'
 import { database } from '../../database'
+import { ASTERISK } from '../../../src'
 
 //Alias
 const table1 = database.s.public.t.table1
@@ -109,6 +110,15 @@ describe('INSERT Path', () => {
         .from(table2)
         .getSQL()
       expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2";`)
+    })
+    it(`Produces [INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2" RETURNING *;]`, () => {
+      const actual = sql
+        .insertInto(table1, col1, col2)
+        .select(T2col1, T2col2)
+        .from(table2)
+        .returning(ASTERISK)
+        .getSQL()
+      expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2" RETURNING *;`)
     })
   })
 })

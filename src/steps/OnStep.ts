@@ -6,12 +6,15 @@ import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import {
   CrossJoinStep, FullOuterJoinStep, GroupByStep, IAfterFromSteps, InnerJoinStep, JoinStep, LeftJoinStep,
-  LimitStep, OffsetStep, OnAndStep, OnOrStep, OrderByStep, RightJoinStep,
+  LimitStep, OffsetStep, OnAndStep, OnOrStep, OrderByStep, ReturningStep, RightJoinStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { SelectWhereStep } from './SelectWhereStep'
 import { Table } from '../database'
 import { returnStepOrThrow } from '../util'
+import { ItemInfo } from '../ItemInfo'
+import { ReturningItem } from '../ReturningItemInfo'
+import { PrimitiveType } from '../models/types'
 
 export class OnStep extends BaseStep implements IAfterFromSteps {
   constructor(protected data: BuilderData) { super(data) }
@@ -79,5 +82,9 @@ export class OnStep extends BaseStep implements IAfterFromSteps {
 
   public offset$(n: number): OffsetStep {
     return returnStepOrThrow(this.data.step).offset$(n)
+  }
+
+  public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
+    return returnStepOrThrow(this.data.step).returning(...items)
   }
 }

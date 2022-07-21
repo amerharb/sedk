@@ -20,8 +20,20 @@ import { BaseStep } from './BaseStep'
 import { SelectWhereStep } from './SelectWhereStep'
 import { HavingStep } from './HavingStep'
 import {
-  RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep,
-  InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep, ReturningStep,
+  CrossJoinStep,
+  FullOuterJoinStep,
+  GroupByStep,
+  InnerJoinStep,
+  JoinStep,
+  LeftJoinStep,
+  LimitStep,
+  OffsetStep,
+  OrderByStep,
+  ReturningStep,
+  RightJoinStep,
+  RootStep,
+  SelectFromStep,
+  SelectStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { FromItemRelation } from '../FromItemInfo'
@@ -250,6 +262,9 @@ export class Step extends BaseStep
   }
 
   public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
+    if (this.data.sqlPath === SqlPath.SELECT) {
+      throw new Error('Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE')
+    }
     const returningItemInfo: ReturningItemInfo[] = items.map(it => {
       if (it instanceof ReturningItemInfo) {
         return it

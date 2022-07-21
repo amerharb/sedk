@@ -78,7 +78,7 @@ so if you change from Postgress to Mysql then you will need to change the librar
 sql.insert().into(Employee).values(10, 'John', 11_000, false, new Date(Date.now())).getSQL()
 // INSERT INTO Employee VALUES (10, 'John', 11000, false, '2020-01-01T00:00:00.000Z');
 ```
-or use shortcut `insertInto`
+or use shortcut `insertInto()`
 ```typescript
 sql.insertInto(Employee).values(10, 'John', 11_000, false, new Date(Date.now())).getSQL()
 // INSERT INTO Employee VALUES (10, 'John', 11000, false, '2020-01-01T00:00:00.000Z');
@@ -108,6 +108,11 @@ sql.insertInto(Employee, name, salary).values$('John', 11_000)
     // INSERT INTO Employee(name, salary) VALUES ($1, $2);
     .getBindValues()
     // ['John', 11000]
+```
+- Insert with Select
+```typescript
+sql.insertInto(Employee, name, salary).select(name, salary).from(OldEmployee).getSQL()
+// INSERT INTO Employee(name, salary) SELECT "name", "salary" FROM OldEmployee;
 ```
 
 ### Version: 0.13.1

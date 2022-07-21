@@ -6,6 +6,8 @@
 - Add Insert Path support:
   - insert, into, values, and returning steps
   - Values step can take binders
+- Select step can be added in INSERT path
+- Returning throws error in it executed from SELECT path
 
 ## [0.13.1]  2022-07-20
 ### Added

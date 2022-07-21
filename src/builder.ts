@@ -25,7 +25,7 @@ export enum SqlPath {
   DELETE = 'DELETE',
   INSERT = 'INSERT',
   // TODO: support the following
-  // UPDATE = 'UPDATE',
+  UPDATE = 'UPDATE',
 }
 
 export type BuilderData = {

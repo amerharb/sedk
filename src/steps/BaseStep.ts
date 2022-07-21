@@ -34,8 +34,8 @@ export abstract class BaseStep {
       return this.getDeleteStatement()
     case SqlPath.INSERT:
       return this.getInsertStatement()
-      // case SqlPath.UPDATE:
-      //   return this.getUpdateStatement()
+    case SqlPath.UPDATE:
+      return this.getUpdateStatement()
     }
     throw new Error(`SqlPath: ${SqlPath} is not supported`)
   }
@@ -54,18 +54,7 @@ export abstract class BaseStep {
       result += ` FROM ${this.data.fromItemInfos.map(it => it.getStmt(this.data)).join('')}`
     }
 
-    if (this.data.whereParts.length > 0) {
-      BaseStep.throwIfConditionPartsInvalid(this.data.whereParts)
-      const wherePartsString = this.data.whereParts.map(it => {
-        if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
-          return it.getStmt(this.data)
-        }
-        return it.toString()
-      })
-      result += ` WHERE ${wherePartsString.join(' ')}`
-    } else if (this.data.sqlPath === SqlPath.DELETE && this.data.option.throwErrorIfDeleteHasNoCondition) {
-      throw new DeleteWithoutConditionError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
-    }
+    result += this.getWhereParts()
 
     if (this.data.groupByItems.length > 0) {
       result += ` GROUP BY ${this.data.groupByItems.map(it => it.getStmt(this.data)).join(', ')}`
@@ -115,25 +104,8 @@ export abstract class BaseStep {
       result += ` FROM ${this.data.fromItemInfos[0].getStmt(this.data)}`
     }
 
-    if (this.data.whereParts.length > 0) {
-      BaseStep.throwIfConditionPartsInvalid(this.data.whereParts)
-      const wherePartsString = this.data.whereParts.map(it => {
-        if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
-          return it.getStmt(this.data)
-        }
-        return it.toString()
-      })
-      result += ` WHERE ${wherePartsString.join(' ')}`
-    } else if (this.data.sqlPath === SqlPath.DELETE && this.data.option.throwErrorIfDeleteHasNoCondition) {
-      throw new DeleteWithoutConditionError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
-    }
-
-    if (this.data.returning.length > 0) {
-      const returningPartsString = this.data.returning.map(it => {
-        return it.getStmt(this.data)
-      })
-      result += ` RETURNING ${returningPartsString.join(', ')}`
-    }
+    result += this.getWhereParts()
+    result += this.getReturningParts()
 
     if (this.data.option.useSemicolonAtTheEnd)
       result += ';'
@@ -177,18 +149,46 @@ export abstract class BaseStep {
       }
     }
 
-    if (this.data.returning.length > 0) {
-      const returningPartsString = this.data.returning.map(it => {
-        return it.getStmt(this.data)
-      })
-      result += ` RETURNING ${returningPartsString.join(', ')}`
-    }
+    result += this.getReturningParts()
 
     if (this.data.option.useSemicolonAtTheEnd)
       result += ';'
 
-    return result  }
+    return result
+  }
 
+  private getUpdateStatement(): string {
+    throw new Error('Not implemented yet')
+  }
+
+  private getWhereParts(): string {
+    if (this.data.whereParts.length > 0) {
+      BaseStep.throwIfConditionPartsInvalid(this.data.whereParts)
+      const wherePartsString = this.data.whereParts.map(it => {
+        if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
+          return it.getStmt(this.data)
+        }
+        return it.toString()
+      })
+      return ` WHERE ${wherePartsString.join(' ')}`
+    }
+
+    if (this.data.sqlPath === SqlPath.DELETE && this.data.option.throwErrorIfDeleteHasNoCondition) {
+      throw new DeleteWithoutConditionError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
+    }
+
+    return ''
+  }
+
+  private getReturningParts(): string {
+    if (this.data.returning.length > 0) {
+      const returningPartsString = this.data.returning.map(it => {
+        return it.getStmt(this.data)
+      })
+      return ` RETURNING ${returningPartsString.join(', ')}`
+    }
+    return ''
+  }
   public cleanUp() {
     this.data.sqlPath = undefined
     this.data.selectItemInfos.length = 0

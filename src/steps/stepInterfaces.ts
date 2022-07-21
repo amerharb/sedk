@@ -116,3 +116,7 @@ export interface OffsetStep extends BaseStep {
 }
 
 export interface ReturningStep extends BaseStep {}
+
+export interface ValuesStep extends BaseStep {
+  returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
+}

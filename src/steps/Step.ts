@@ -34,6 +34,7 @@ import {
   RootStep,
   SelectFromStep,
   SelectStep,
+  ValuesStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { FromItemRelation } from '../FromItemInfo'
@@ -48,8 +49,8 @@ export type ColumnLike = Column|Expression
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 
 export class Step extends BaseStep
-  implements RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep,
-    RightJoinStep, InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
+  implements RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep,
+    InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep, ValuesStep {
   constructor(protected data: BuilderData) {
     super(data)
     data.step = this

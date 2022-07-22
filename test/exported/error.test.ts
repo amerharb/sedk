@@ -356,7 +356,7 @@ describe('Throw desired Errors', () => {
       expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
     })
   })
-  it(`values contain unsupported type`, () => {
+  it(`Throws error "Value step has Unsupported value: x, type: y"`, () => {
     const value = { unsupportedObject: 'something' }
     function actual() {
       // @ts-ignore
@@ -364,5 +364,12 @@ describe('Throw desired Errors', () => {
     }
 
     expect(actual).toThrow(`Value step has Unsupported value: ${value}, type: ${typeof value}`)
+  })
+  it(`Throws error "Insert statement must have values or select items"`, () => {
+    function actual() {
+      sql.insertInto(table1).getSQL()
+    }
+
+    expect(actual).toThrow(`Insert statement must have values or select items`)
   })
 })

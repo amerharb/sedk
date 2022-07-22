@@ -10,6 +10,8 @@
 - Returning throws error in it executed from SELECT path
 - `DEFAULT` key word can be used inside values step in INSERT path
 - Support `DEFAULT VALUES` in INSERT path
+### Fixed
+- bug in check boolean text
 
 ## [0.13.1]  2022-07-20
 ### Added

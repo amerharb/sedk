@@ -10,6 +10,7 @@ import { OnStep } from '../../src/steps/OnStep'
 
 import { database } from '../database'
 import { BinderStore } from '../../src/binder'
+import { BuilderData } from '../../src/builder'
 
 //Alias
 const table1 = database.s.public.t.table1
@@ -33,34 +34,35 @@ describe('Throw desired Errors', () => {
   })
 
   describe('Error: "Step property in builder data is not initialized"', () => {
+    const data: BuilderData = {
+      binderStore: new BinderStore(),
+      database,
+      distinct: '',
+      fromItemInfos: [],
+      groupByItems: [],
+      havingParts: [],
+      option: {
+        useSemicolonAtTheEnd: true,
+        addAscAfterOrderByItem: 'when mentioned',
+        addNullsLastAfterOrderByItem: 'when mentioned',
+        addAsBeforeColumnAlias: 'always',
+        addPublicSchemaName: 'never',
+        addTableName: 'when two tables or more',
+        addAsBeforeTableAlias: 'always',
+        throwErrorIfDeleteHasNoCondition: true,
+      },
+      orderByItemInfos: [],
+      selectItemInfos: [],
+      whereParts: [],
+      insertIntoTable: undefined,
+      insertIntoColumns: [],
+      insertIntoValues: [],
+      insertIntoDefaultValues: false,
+      returning: [],
+    }
     it(`Throws error when Step is not initialized`, () => {
       function actual() {
-        new OnStep({
-          binderStore: new BinderStore(),
-          database,
-          distinct: '',
-          fromItemInfos: [],
-          groupByItems: [],
-          havingParts: [],
-          option: {
-            useSemicolonAtTheEnd: true,
-            addAscAfterOrderByItem: 'when mentioned',
-            addNullsLastAfterOrderByItem: 'when mentioned',
-            addAsBeforeColumnAlias: 'always',
-            addPublicSchemaName: 'never',
-            addTableName: 'when two tables or more',
-            addAsBeforeTableAlias: 'always',
-            throwErrorIfDeleteHasNoCondition: true,
-          },
-          orderByItemInfos: [],
-          selectItemInfos: [],
-          whereParts: [],
-          insertIntoTable: undefined,
-          insertIntoColumns: [],
-          insertIntoValues: [],
-          insertIntoDefaultValues: false,
-          returning: [],
-        }).crossJoin(table1)
+        new OnStep(data).crossJoin(table1)
       }
 
       expect(actual).toThrow(`Step property in builder data is not initialized`)

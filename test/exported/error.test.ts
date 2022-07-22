@@ -21,6 +21,7 @@ import {
   NULLS_FIRST,
   NULLS_LAST,
   f,
+  ASTERISK,
 } from '../../src'
 import { database } from '../database'
 import { InsertColumnsAndExpressionsNotEqualError } from '../../src/errors'
@@ -369,7 +370,12 @@ describe('Throw desired Errors', () => {
     function actual() {
       sql.insertInto(table1).getSQL()
     }
-
     expect(actual).toThrow(`Insert statement must have values or select items`)
+  })
+  it(`Throws error "Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE"`, () => {
+    function actual() {
+      sql.selectAsteriskFrom(table1).returning(ASTERISK).getSQL()
+    }
+    expect(actual).toThrow(`Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE`)
   })
 })

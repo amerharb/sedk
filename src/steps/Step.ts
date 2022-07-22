@@ -294,11 +294,9 @@ export class Step extends BaseStep
     return this
   }
 
-  private throwIfColumnsNotInDb(columns: (ReturningItemInfo|SelectItemInfo|ColumnLike|Asterisk)[]) {
+  private throwIfColumnsNotInDb(columns: (ReturningItemInfo|SelectItemInfo|ColumnLike)[]) {
     for (const item of columns) {
-      if (item instanceof Asterisk) {
-        continue
-      } else if (
+      if (
         item instanceof Expression
         || item instanceof SelectItemInfo
         || item instanceof ReturningItemInfo

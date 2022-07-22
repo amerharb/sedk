@@ -66,7 +66,7 @@ currently the only place where string is used is when you define an alias for a 
 3. **Not ORM:** SEDK is not and will not become an ORM, it is a SQL builder tool, using it is optional, and it won't build a layer between you and the database, so you can use it in some query and ignore it in others
 4. **No Runtime Schema Change:** SEDK build in the mind set that you will not change your database schema without updating your code. Of course that is only valid for the part of the database that you actually use
 5. **One Library One Dialect:** SEDK-postgres is made for postgres hence the name, in the future there might be SEDK-mysql, SEDK-mssql, SEDK-sqlite, SEDK-sql92...etc. or even SEDK-neo4j for graph 
-so if you change from Postgress to Mysql then you will need to change the library too
+so if you change from Postgres to Mysql then you will need to change the library too
 
 ## Steps Rail Road
 ![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-postgres/version/0.14.0/doc/StepsRailRoad.svg)
@@ -154,16 +154,16 @@ set option `throwErrorIfDeleteHasNoCondition` to `false` or by just adding a dum
 sql.delete().from(Employee).where(name.eq('John')).and(age.gt(40)).getSQL()
 // DELETE FROM "Employee" WHERE "name" = 'John' AND "age" > 40;
 ```
-- functions eq(), eq$(), ne() and ne$() will not accept null anymore, there for they will only return equal "=" or not equal "<>" condition.
+- functions `eq()`, `eq$()`, `ne()` and `ne$()` will not accept null anymore, there for they will only return equal "=" or not equal "<>" condition.
 this is a breaking change in behavior, but for the old behavior function that automatically return Equal "=" or Is "IS" you should use the 
-new functions isEq(), isEq$(), isNe(), isNe$(). This correction needed to follow SEDK principle WYSIWYG, so eq() always return "=" but isEq() can return either "IS" or "="
+new functions `isEq()`, `isEq$()`, `isNe()`, `isNe$()`. This correction needed to follow SEDK principle WYSIWYG, so `eq()` always return "=" but `isEq()` can return either "IS" or "="
 
 
 ### Version: 0.12.1
 - Update README.md: fix code and add railroad diagram to it
 - Check the validity of Condition, throw error if not valid
-- Function eq() in Expression accept all Primitive types
-- Add function ne() to Expression
+- Function `eq()` in Expression accept all Primitive types
+- Add function `ne()` to Expression
 
 ### Version: 0.12.0
 - Support Date Column which include Date and Timestamp with and without timezone

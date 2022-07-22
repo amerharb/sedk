@@ -102,6 +102,7 @@ describe('INSERT Path', () => {
         .insertInto(table1, col1)
         .select('A')
         .getSQL()
+
       expect(actual).toEqual(`INSERT INTO "table1"("col1") SELECT 'A';`)
     })
     it(`Produces [INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2";]`, () => {
@@ -110,6 +111,7 @@ describe('INSERT Path', () => {
         .select(T2col1, T2col2)
         .from(table2)
         .getSQL()
+
       expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2";`)
     })
     it(`Produces [INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2" RETURNING *;]`, () => {
@@ -119,7 +121,31 @@ describe('INSERT Path', () => {
         .from(table2)
         .returning(ASTERISK)
         .getSQL()
+
       expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2" RETURNING *;`)
+    })
+    it(`Produces [INSERT INTO "table1"("col2") SELECT "table2"."col2" FROM "table2" LEFT JOIN "table1" ON "table1"."col1" = "table2"."col1" RETURNING *;]`, () => {
+      const actual = sql
+        .insertInto(table1, col2)
+        .select(T2col2)
+        .from(table2)
+        .leftJoin(table1)
+        .on(col1.eq(T2col1))
+        .returning(ASTERISK)
+        .getSQL()
+
+      expect(actual).toEqual(`INSERT INTO "table1"("col2") SELECT "table2"."col2" FROM "table2" LEFT JOIN "table1" ON "table1"."col1" = "table2"."col1" RETURNING *;`)
+    })
+    it(`Produces [INSERT INTO "table1"("col2") SELECT "col2" FROM "table2" WHERE "col1" = 'A' RETURNING *;]`, () => {
+      const actual = sql
+        .insertInto(table1, col2)
+        .select(T2col2)
+        .from(table2)
+        .where(T2col1.eq('A'))
+        .returning(ASTERISK)
+        .getSQL()
+
+      expect(actual).toEqual(`INSERT INTO "table1"("col2") SELECT "col2" FROM "table2" WHERE "col1" = 'A' RETURNING *;`)
     })
   })
   describe('Insert with DEFAULT keyword', () => {

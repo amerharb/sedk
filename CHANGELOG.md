@@ -1,11 +1,15 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.14.0]  2022-07-20
+## [0.14.0]  2022-07-22
 ### Added
 - Add Insert Path support:
   - insert, into, values, and returning steps
   - Values step can take binders
+- Select step can be added in INSERT path
+- Returning throws error in it executed from SELECT path
+- `DEFAULT` key word can be used inside values step in INSERT path
+- Support `DEFAULT VALUES` in INSERT path
 
 ## [0.13.1]  2022-07-20
 ### Added

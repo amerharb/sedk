@@ -1,32 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1933" height="627">
+<svg xmlns="http://www.w3.org/2000/svg" width="1933" height="650">
     <defs>
         <style type="text/css">
-            .line {fill: none; stroke: #001133; stroke-width: 1;}
+            .line { fill: none; stroke: #001133; stroke-width: 1;}
             .bold-line {stroke: #000714; shape-rendering: crispEdges; stroke-width: 2;}
             .thin-line {stroke: #000A1F; shape-rendering: crispEdges}
             .filled {fill: #001133; stroke: none;}
-            text.terminal {font-family: Verdana, Sans-serif;
-            font-size: 12px;
-            fill: #000714;
-            font-weight: bold;
+            text.terminal {
+                font-family: Verdana, Sans-serif;
+                font-size: 12px;
+                fill: #000714;
+                font-weight: bold;
             }
-            text.nonterminal {font-family: Verdana, Sans-serif;
-            font-size: 12px;
-            fill: #00091A;
-            font-weight: normal;
+            text.nonterminal {
+                font-family: Verdana, Sans-serif;
+                font-size: 12px;
+                fill: #00091A;
+                font-weight: normal;
             }
-            text.regexp {font-family: Verdana, Sans-serif;
-            font-size: 12px;
-            fill: #000A1F;
-            font-weight: normal;
+            text.regexp {
+                font-family: Verdana, Sans-serif;
+                font-size: 12px;
+                fill: #000A1F;
+                font-weight: normal;
             }
             rect, circle, polygon {fill: #001133; stroke: #001133;}
+            rect.background {fill: #FFFFFF; stroke: #001133; stroke-width: 1;}
             rect.terminal {fill: #4D88FF; stroke: #001133; stroke-width: 1;}
             rect.nonterminal {fill: #9EBFFF; stroke: #001133; stroke-width: 1;}
             rect.text {fill: none; stroke: none;}
             polygon.regexp {fill: #C7DAFF; stroke: #001133; stroke-width: 1;}
         </style>
     </defs>
+    <rect class="background" x="0" y="0" width="1933" height="650" rx="50" fill="#000000"/>
     <polygon points="9 111 1 107 1 115"/>
     <polygon points="17 111 9 107 9 115"/>
     <rect x="91" y="97" width="70" height="32" rx="10"/>

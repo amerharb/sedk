@@ -61,3 +61,27 @@ export class All {
 }
 
 export const ALL = All.getInstance()
+
+export class Default {
+  private static instance: Default
+  private readonly unique: symbol = Symbol()
+
+  private constructor() {}
+
+  public static getInstance(): Default {
+    if (!Default.instance) {
+      Default.instance = new Default()
+    }
+    return Default.instance
+  }
+
+  public toString(): string {
+    return this.getStmt()
+  }
+
+  public getStmt(): string {
+    return 'DEFAULT'
+  }
+}
+
+export const DEFAULT = Default.getInstance()

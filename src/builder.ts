@@ -3,7 +3,7 @@ import { BooleanColumn, Column } from './columns'
 import { PrimitiveType } from './models/types'
 import { Condition } from './models/Condition'
 import { Binder, BinderStore } from './binder'
-import { ASTERISK, Distinct, All } from './singletoneConstants'
+import { ASTERISK, Distinct, All, Default } from './singletoneConstants'
 import { RootStep, SelectStep, SelectFromStep } from './steps/stepInterfaces'
 import { Step, SelectItem } from './steps/Step'
 import { LogicalOperator } from './operators'
@@ -25,7 +25,7 @@ export enum SqlPath {
   DELETE = 'DELETE',
   INSERT = 'INSERT',
   // TODO: support the following
-  // UPDATE = 'UPDATE',
+  UPDATE = 'UPDATE',
 }
 
 export type BuilderData = {
@@ -45,7 +45,8 @@ export type BuilderData = {
   offset?: number|Binder,
   insertIntoTable?: Table
   insertIntoColumns: Column[],
-  insertIntoValues: (PrimitiveType|Binder)[],
+  insertIntoValues: (PrimitiveType|Binder|Default)[],
+  insertIntoDefaultValues: boolean,
   returning: ReturningItemInfo[],
   binderStore: BinderStore,
 }
@@ -68,6 +69,7 @@ export class Builder {
       insertIntoTable: undefined,
       insertIntoColumns: [],
       insertIntoValues: [],
+      insertIntoDefaultValues: false,
       returning: [],
       binderStore: new BinderStore(),
       option: fillUndefinedOptionsWithDefault(option ?? {}),
@@ -82,7 +84,7 @@ export class Builder {
       if (items.length <= 1) throw new Error('Select step must have at least one parameter after DISTINCT')
       items.shift() //remove first item the DISTINCT item
       Builder.throwIfMoreThanOneDistinctOrAll(items)
-      const newItems = items as unknown[] as (SelectItemInfo|SelectItem|PrimitiveType)[]
+      const newItems = items as (SelectItemInfo|SelectItem|PrimitiveType)[]
       return this.rootStep.selectDistinct(...newItems)
     }
 

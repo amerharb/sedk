@@ -48,6 +48,10 @@ export abstract class Column implements IStatementGiver {
     return this.data.name
   }
 
+  public getDoubleQuotedName(): string {
+    return `"${escapeDoubleQuote(this.data.name)}"`
+  }
+
   public as(alias: string): ItemInfo {
     return new SelectItemInfo(this, alias)
   }

@@ -165,6 +165,10 @@ export class BooleanColumn extends Column implements Condition {
   public get not(): Condition {
     return new Condition(new Expression(this, true))
   }
+
+  public put(value: boolean|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, value)
+  }
 }
 
 export class NumberColumn extends Column {
@@ -301,6 +305,10 @@ export class NumberColumn extends Column {
   public get min(): AggregateFunction {
     return new AggregateFunction(AggregateFunctionEnum.MIN, new Expression(this))
   }
+
+  public put(value: number|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, value)
+  }
 }
 
 export class TextColumn extends Column {
@@ -358,7 +366,7 @@ export class TextColumn extends Column {
     return new Expression(this, TextOperator.CONCAT, value)
   }
 
-  public put(value: string): UpdateSetItemInfo {
+  public put(value: string|null): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, value)
   }
 }
@@ -442,5 +450,9 @@ export class DateColumn extends Column {
   public le$(value: Date): Condition {
     const binder = new Binder(value)
     return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
+  }
+
+  public put(value: Date|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, value)
   }
 }

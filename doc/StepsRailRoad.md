@@ -33,5 +33,12 @@ SQL ::=
 
   'RETURNING' ?
 
+  ) | ( // UPDATE Path
+
+  ( 'UPDATE' 'SET' )
+
+  ( 'WHERE' ( 'AND' | 'OR' )* )?
+
+  'RETURNING' ?
   )
 ```

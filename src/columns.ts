@@ -20,6 +20,7 @@ import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
 import { IStatementGiver } from './models/IStatementGiver'
 import { BuilderData } from './builder'
 import { ItemInfo } from './ItemInfo'
+import { UpdateSetItemInfo } from './UpdateSetItemInfo'
 
 type ColumnObj = {
   name: string
@@ -355,6 +356,10 @@ export class TextColumn extends Column {
 
   public concat(value: TextLike): Expression {
     return new Expression(this, TextOperator.CONCAT, value)
+  }
+
+  public put(value: string): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, value)
   }
 }
 

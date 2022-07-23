@@ -35,6 +35,7 @@ import {
   RootStep,
   SelectFromStep,
   SelectStep,
+  UpdateStep,
   ValuesStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
@@ -44,14 +45,16 @@ import { DeleteStep } from './DeleteStep'
 import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
 import { ItemInfo } from '../ItemInfo'
 import { InsertStep } from './InsertStep'
+import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
+import { SetStep } from './SetStep'
 
 export type ColumnLike = Column|Expression
 
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 
 export class Step extends BaseStep
-  implements RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep,
-    InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep, ValuesStep, DefaultValuesStep {
+  implements RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
+    FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep, ValuesStep, DefaultValuesStep, UpdateStep {
   constructor(protected data: BuilderData) {
     super(data)
     data.step = this
@@ -104,6 +107,12 @@ export class Step extends BaseStep
   public insert(): InsertStep {
     this.data.sqlPath = SqlPath.INSERT
     return new InsertStep(this.data)
+  }
+
+  public update(table: Table): UpdateStep {
+    this.data.sqlPath = SqlPath.UPDATE
+    this.data.updateTable = table
+    return this
   }
 
   public from(...tables: (Table|AliasedTable)[]): SelectFromStep {
@@ -309,5 +318,10 @@ export class Step extends BaseStep
         throw new ColumnNotFoundError(`Column: "${item.name}" not found in database`)
       }
     }
+  }
+
+  set(...items: UpdateSetItemInfo[]): SetStep {
+    this.data.updateSetItemInfos.push(...items)
+    return new SetStep(this.data)
   }
 }

@@ -1,9 +1,13 @@
 import * as sedk from '../../../src'
+import { ASTERISK } from '../../../src'
 import { database } from '../../database'
 
 //Alias
+const e = sedk.e
 const table1 = database.s.public.t.table1
 const col1 = table1.c.col1
+const col2 = table1.c.col2
+const col3 = table1.c.col3
 const col4 = table1.c.col4
 const col7 = table1.c.col7
 const col9 = table1.c.col9
@@ -38,6 +42,45 @@ describe('UPDATE Path', () => {
         )
         .getSQL()
       expect(actual).toEqual(`UPDATE "table1" SET "col1" = NULL, "col4" = NULL, "col7" = NULL, "col9" = NULL;`)
+    })
+  })
+  describe('Update with Where', () => {
+    it(`Produces [UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1;]`, () => {
+      const actual = sql
+        .update(table1)
+        .set(col1.put('A'))
+        .where(e(1).eq(1))
+        .getSQL()
+      expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1;`)
+    })
+    it(`Produces [UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1 AND "col2" = 'B' OR "col3" = 'C';]`, () => {
+      const actual = sql
+        .update(table1)
+        .set(col1.put('A'))
+        .where(e(1).eq(1))
+        .and(col2.eq('B'))
+        .or(col3.eq('C'))
+        .getSQL()
+      expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1 AND "col2" = 'B' OR "col3" = 'C';`)
+    })
+  })
+  describe('Update with Returning', () => {
+    it(`Produces [UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1 RETURNING *;]`, () => {
+      const actual = sql
+        .update(table1)
+        .set(col1.put('A'))
+        .where(e(1).eq(1))
+        .returning(ASTERISK)
+        .getSQL()
+      expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1 RETURNING *;`)
+    })
+    it(`Produces [UPDATE "table1" SET "col1" = 'A' RETURNING *;]`, () => {
+      const actual = sql
+        .update(table1)
+        .set(col1.put('A'))
+        .returning(ASTERISK)
+        .getSQL()
+      expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A' RETURNING *;`)
     })
   })
 })

@@ -83,4 +83,27 @@ describe('UPDATE Path', () => {
       expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A' RETURNING *;`)
     })
   })
+  describe('Update with Binders', () => {
+    it(`Produces [UPDATE "table1" SET "col1" = $1;]`, () => {
+      const actual = sql
+        .update(table1)
+        .set(col1.put$('A'))
+
+      expect(actual.getSQL()).toEqual(`UPDATE "table1" SET "col1" = $1;`)
+      expect(actual.getBindValues()).toEqual(['A'])
+    })
+    it(`Produces [UPDATE "table1" SET "col1" = $1, "col4" = $2, "col7" = $3, "col9" = $4;]`, () => {
+      const actual = sql
+        .update(table1)
+        .set(
+          col1.put$('A'),
+          col4.put$(1),
+          col7.put$(true),
+          col9.put$(new Date(EPOCH_2022_07_23))
+        )
+
+      expect(actual.getSQL()).toEqual(`UPDATE "table1" SET "col1" = $1, "col4" = $2, "col7" = $3, "col9" = $4;`)
+      expect(actual.getBindValues()).toEqual(['A', 1, true, new Date(EPOCH_2022_07_23)])
+    })
+  })
 })

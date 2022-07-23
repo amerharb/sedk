@@ -83,7 +83,7 @@ or use shortcut `insertInto()`
 sql.insertInto(Employee).values(10, 'John', 11_000, false, new Date(Date.now())).getSQL()
 // INSERT INTO Employee VALUES (10, 'John', 11000, false, '2020-01-01T00:00:00.000Z');
 ```
-- Also with columns after table
+- Also, with columns after table
 ```typescript
 sql.insertInto(Employee, name, salary).values('John', 11_000).getSQL()
 // INSERT INTO Employee(name, salary) VALUES ('John', 11000);
@@ -101,7 +101,7 @@ sql.insertInto(Employee, name, salary).values($('John'), 11_000)
     .getBindValues()
     // ['John']
 ```
-- or by useing `values$()` in one step for all
+- or by using `values$()` in one step for all
 ```typescript
 sql.insertInto(Employee, name, salary).values$('John', 11_000)
     .getSQL()
@@ -123,6 +123,19 @@ sql.insertInto(Employee, name, salary).values('John', DEFAULT).getSQL()
 ```typescript
 sql.insertInto(Employee, name, salary).defaultValues().getSQL()
 // INSERT INTO Employee(name, salary) DEFAULT VALUES;
+```
+- Add Update path
+```typescript
+sql.update(Employee).set(salary.put(20_000)).where(name.eq('John')).getSQL()
+// UPDATE Employee SET salary = 20000 WHERE name = 'John';
+```
+- or by using `put$()`
+```typescript
+sql.update(Employee).set(salary.put$(20_000)).where(name.eq('John'))
+    .getSQL()
+    // UPDATE Employee SET salary = $1 WHERE name = 'John';
+    .getBindValues()
+    // [20000]
 ```
 
 ### Version: 0.13.1
@@ -262,7 +275,7 @@ sql.select(name, f.avg(age).as('Employee Age Avrage')).from(Employee).groupBy(na
 ### Version: 0.10.0
 
 - Add Having Step
-- Add And and Or Steps for Having Step
+- Add `And` and `Or` Steps for Having Step
 
 #### Limitation
 

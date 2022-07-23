@@ -169,6 +169,10 @@ export class BooleanColumn extends Column implements Condition {
   public put(value: boolean|null): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, value)
   }
+
+  public put$(value: boolean|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, new Binder(value))
+  }
 }
 
 export class NumberColumn extends Column {
@@ -309,6 +313,10 @@ export class NumberColumn extends Column {
   public put(value: number|null): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, value)
   }
+
+  public put$(value: number|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, new Binder(value))
+  }
 }
 
 export class TextColumn extends Column {
@@ -368,6 +376,10 @@ export class TextColumn extends Column {
 
   public put(value: string|null): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, value)
+  }
+
+  public put$(value: string|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, new Binder(value))
   }
 }
 
@@ -454,5 +466,9 @@ export class DateColumn extends Column {
 
   public put(value: Date|null): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, value)
+  }
+
+  public put$(value: Date|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, new Binder(value))
   }
 }

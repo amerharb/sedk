@@ -171,13 +171,9 @@ export abstract class BaseStep {
       result += ` ${this.data.updateTable.getStmt(this.data)}`
       if (this.data.updateSetItemInfos.length > 0) {
         result += ` SET ${this.data.updateSetItemInfos.map(it => it.getStmt(this.data)).join(', ')}`
-      } else {
-        throw new Error('Update statement must have columns')
       }
       result += this.getWhereParts()
       result += this.getReturningParts()
-    } else {
-      throw new Error('Update statement must have table')
     }
     return result
   }

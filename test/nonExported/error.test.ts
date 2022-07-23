@@ -1,6 +1,7 @@
 import {
   InvalidConditionError,
-  Builder, e,
+  Builder,
+  e,
 } from '../../src'
 
 // test non-exported Classes

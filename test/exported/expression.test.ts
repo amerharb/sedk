@@ -103,35 +103,32 @@ describe('Expression', () => {
       expect(actual).toEqual(`SELECT * FROM "table1" WHERE ("col7" > 'tru');`)
     })
 
-    it(`Produces [SELECT * FROM "table1" WHERE ("col7" = '<TextBoolean>');]`, () => {
+    describe('With TextBoolean', () => {
       const boolSmall = ['t', 'tr', 'tru', 'true', 'f', 'fa', 'fal', 'fals', 'false']
       const boolCapital = boolSmall.map(it => it.replace('t', 'T').replace('f', 'F'))
       const boolCaps = boolSmall.map(it => it.toUpperCase())
-      const bool = [...boolSmall, ...boolCapital, ...boolCaps]
-      bool.forEach(it => {
-        const actual = sql
-          .selectAsteriskFrom(table)
-          .where(e(col7, EQ, it))
-          .getSQL()
+      const textBooleanArray = [...boolSmall, ...boolCapital, ...boolCaps]
+      it(`Produces [SELECT * FROM "table1" WHERE ("col7" = '<TextBoolean>');]`, () => {
+        textBooleanArray.forEach(it => {
+          const actual = sql
+            .selectAsteriskFrom(table)
+            .where(e(col7, EQ, it))
+            .getSQL()
 
-        expect(actual).toEqual(`SELECT * FROM "table1" WHERE ("col7" = '${it}');`)
-        sql.cleanUp()
+          expect(actual).toEqual(`SELECT * FROM "table1" WHERE ("col7" = '${it}');`)
+          sql.cleanUp()
+        })
       })
-    })
+      it(`Produces [SELECT * FROM "table1" WHERE "col7" = '<TextBoolean>';]`, () => {
+        textBooleanArray.forEach(it => {
+          const actual = sql
+            .selectAsteriskFrom(table)
+            .where(col7.eq(it))
+            .getSQL()
 
-    it(`Produces [SELECT * FROM "table1" WHERE "col7" = '<TextBoolean>';]`, () => {
-      const boolSmall = ['t', 'tr', 'tru', 'true', 'f', 'fa', 'fal', 'fals', 'false']
-      const boolCapital = boolSmall.map(it => it.replace('t', 'T').replace('f', 'F'))
-      const boolCaps = boolSmall.map(it => it.toUpperCase())
-      const bool = [...boolSmall, ...boolCapital, ...boolCaps]
-      bool.forEach(it => {
-        const actual = sql
-          .selectAsteriskFrom(table)
-          .where(col7.eq(it))
-          .getSQL()
-
-        expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col7" = '${it}';`)
-        sql.cleanUp()
+          expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col7" = '${it}';`)
+          sql.cleanUp()
+        })
       })
     })
   })

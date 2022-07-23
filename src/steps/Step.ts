@@ -10,7 +10,7 @@ import {
   MoreThanOneWhereStepError,
 } from '../errors'
 import { BuilderData, SqlPath } from '../builder'
-import { All, Asterisk } from '../singletoneConstants'
+import { ALL, All, Asterisk, DISTINCT } from '../singletoneConstants'
 import { OrderByArgsElement, OrderByDirection, OrderByItem, OrderByItemInfo, OrderByNullsPosition } from '../orderBy'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { escapeDoubleQuote } from '../util'
@@ -84,7 +84,7 @@ export class Step extends BaseStep
     if (this.data.sqlPath === undefined) {
       this.data.sqlPath = SqlPath.SELECT
     }
-    this.data.distinct = ' DISTINCT'
+    this.data.distinct = DISTINCT
     return this.select(...items)
   }
 
@@ -92,7 +92,7 @@ export class Step extends BaseStep
     if (this.data.sqlPath === undefined) {
       this.data.sqlPath = SqlPath.SELECT
     }
-    this.data.distinct = ' ALL'
+    this.data.distinct = ALL
     return this.select(...items)
   }
 

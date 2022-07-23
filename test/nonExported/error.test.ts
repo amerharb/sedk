@@ -1,16 +1,19 @@
 import {
   InvalidConditionError,
   Builder,
+  e,
 } from '../../src'
 
 // test non-exported Classes
 import { Condition } from '../../src/models/Condition'
 import { Expression } from '../../src/models/Expression'
 import { OnStep } from '../../src/steps/OnStep'
-
-import { database } from '../database'
 import { BinderStore } from '../../src/binder'
 import { BuilderData } from '../../src/builder'
+import { ItemInfo } from '../../src/ItemInfo'
+import { Column } from '../../src/columns'
+
+import { database } from '../database'
 
 //Alias
 const table1 = database.s.public.t.table1
@@ -37,7 +40,7 @@ describe('Throw desired Errors', () => {
     const data: BuilderData = {
       binderStore: new BinderStore(),
       database,
-      distinct: '',
+      distinct: undefined,
       fromItemInfos: [],
       groupByItems: [],
       havingParts: [],
@@ -67,5 +70,27 @@ describe('Throw desired Errors', () => {
 
       expect(actual).toThrow(`Step property in builder data is not initialized`)
     })
+  })
+
+  it(`Throws: ItemInfo is an abstract class`, () => {
+    class DummyItemInfo extends ItemInfo {
+      constructor() {super()}
+      getColumns(): Column[] {
+        return []
+      }
+
+      getStmt(data: BuilderData): string {
+        return ''
+      }
+    }
+    function actual() {
+      sql
+        .deleteFrom(table1)
+        .where(e(1).eq(1))
+        .returning(new DummyItemInfo())
+        .getSQL()
+    }
+
+    expect(actual).toThrow(`ItemInfo is an abstract class`)
   })
 })

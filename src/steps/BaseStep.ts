@@ -50,7 +50,11 @@ export abstract class BaseStep {
   }
 
   private getSelectStatement(): string {
-    let result = `SELECT${this.data.distinct}`
+    let result = `SELECT`
+
+    if (this.data.distinct) {
+      result += ` ${this.data.distinct}`
+    }
 
     if (this.data.selectItemInfos.length > 0) {
       const selectPartsString = this.data.selectItemInfos.map(it => {
@@ -194,10 +198,11 @@ export abstract class BaseStep {
     }
     return ''
   }
+
   public cleanUp() {
     this.data.sqlPath = undefined
     this.data.selectItemInfos.length = 0
-    this.data.distinct = ''
+    this.data.distinct = undefined
     this.data.fromItemInfos.length = 0
     this.data.whereParts.length = 0
     this.data.groupByItems.length = 0

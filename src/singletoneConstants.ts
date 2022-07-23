@@ -14,10 +14,6 @@ export class Asterisk {
   public getStmt(): string {
     return '*'
   }
-
-  public toString(): string {
-    return this.getStmt()
-  }
 }
 
 export const ASTERISK = Asterisk.getInstance()
@@ -73,10 +69,6 @@ export class Default {
       Default.instance = new Default()
     }
     return Default.instance
-  }
-
-  public toString(): string {
-    return this.getStmt()
   }
 
   public getStmt(): string {

@@ -19,7 +19,7 @@ export type OperandType = ValueType|AggregateFunction|Expression
 
 export function isTextBoolean(text: unknown): text is TextBoolean {
   if (typeof text === 'string')
-    return booleanArray.includes(text)
+    return booleanArray.includes(text.toLowerCase())
   return false
 }
 

@@ -29,7 +29,7 @@ SQL ::=
 
   ( ( 'INSERT' 'INTO' ) | ( 'INSERT_INTO' ) )
 
-  'VALUES'
+  ( 'VALUES' | SELECT )
 
   'RETURNING' ?
 

@@ -166,8 +166,20 @@ export abstract class BaseStep {
   }
 
   private getUpdateStatement(): string {
-    // TODO: write implementation
-    throw new Error('Not implemented yet')
+    let result = 'UPDATE'
+    if (this.data.updateTable !== undefined) {
+      result += ` ${this.data.updateTable.getStmt(this.data)}`
+      if (this.data.updateSetItemInfos.length > 0) {
+        result += ` SET ${this.data.updateSetItemInfos.map(it => it.getStmt(this.data)).join(', ')}`
+      } else {
+        throw new Error('Update statement must have columns')
+      }
+      result += this.getWhereParts()
+      result += this.getReturningParts()
+    } else {
+      throw new Error('Update statement must have table')
+    }
+    return result
   }
 
   private getWhereParts(): string {
@@ -214,6 +226,8 @@ export abstract class BaseStep {
     this.data.insertIntoColumns.length = 0
     this.data.insertIntoValues.length = 0
     this.data.insertIntoDefaultValues = false
+    this.data.updateTable = undefined
+    this.data.updateSetItemInfos.length = 0
     this.data.returning.length = 0
     this.data.binderStore.cleanUp()
   }

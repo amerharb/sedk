@@ -19,12 +19,12 @@ import { ReturningItemInfo } from './ReturningItemInfo'
 import { ItemInfo } from './ItemInfo'
 import { InsertStep } from './steps/InsertStep'
 import { IntoStep } from './steps/IntoStep'
+import { UpdateSetItemInfo } from './UpdateSetItemInfo'
 
 export enum SqlPath {
   SELECT = 'SELECT',
   DELETE = 'DELETE',
   INSERT = 'INSERT',
-  // TODO: support the following
   UPDATE = 'UPDATE',
 }
 
@@ -47,6 +47,8 @@ export type BuilderData = {
   insertIntoColumns: Column[],
   insertIntoValues: (PrimitiveType|Binder|Default)[],
   insertIntoDefaultValues: boolean,
+  updateTable?: Table,
+  updateSetItemInfos: UpdateSetItemInfo[],
   returning: ReturningItemInfo[],
   binderStore: BinderStore,
 }
@@ -70,6 +72,8 @@ export class Builder {
       insertIntoColumns: [],
       insertIntoValues: [],
       insertIntoDefaultValues: false,
+      updateTable: undefined,
+      updateSetItemInfos: [],
       returning: [],
       binderStore: new BinderStore(),
       option: fillUndefinedOptionsWithDefault(option ?? {}),

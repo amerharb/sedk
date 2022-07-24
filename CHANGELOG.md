@@ -14,6 +14,7 @@
   - update, set, where, and returning steps
   - set step can take binders from `put$()` function
   - `DEFAULT` keyword can be used inside function `put()`
+  - add function 'putDefault()'
 ### Fixed
 - bug in check boolean text
 

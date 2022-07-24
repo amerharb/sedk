@@ -21,7 +21,7 @@ import { IStatementGiver } from './models/IStatementGiver'
 import { BuilderData } from './builder'
 import { ItemInfo } from './ItemInfo'
 import { UpdateSetItemInfo } from './UpdateSetItemInfo'
-import { Default } from './singletoneConstants'
+import { DEFAULT, Default } from './singletoneConstants'
 
 type ColumnObj = {
   name: string
@@ -90,6 +90,10 @@ export abstract class Column implements IStatementGiver {
     return new OrderByItemInfo(this, DESC, NULLS_LAST)
   }
 
+  public get putDefault(): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, DEFAULT)
+  }
+
   public getStmt(data: BuilderData): string {
     if (this.mTable === undefined)
       throw new Error('Table of this column is undefined')
@@ -135,6 +139,7 @@ export class BooleanColumn extends Column implements Condition {
     const binder = new Binder(value)
     return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(binder))
   }
+
   // END implement Condition
 
   constructor(data: ColumnObj) {

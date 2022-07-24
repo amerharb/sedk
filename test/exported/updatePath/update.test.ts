@@ -9,8 +9,11 @@ const col1 = table1.c.col1
 const col2 = table1.c.col2
 const col3 = table1.c.col3
 const col4 = table1.c.col4
+const col5 = table1.c.col5
 const col7 = table1.c.col7
+const col8 = table1.c.col8
 const col9 = table1.c.col9
+const col10 = table1.c.col10
 
 describe('UPDATE Path', () => {
   const sql = new sedk.Builder(database)
@@ -125,6 +128,18 @@ describe('UPDATE Path', () => {
         )
         .getSQL()
       expect(actual).toEqual(`UPDATE "table1" SET "col1" = DEFAULT, "col4" = DEFAULT, "col7" = DEFAULT, "col9" = DEFAULT;`)
+    })
+    it(`Produces [UPDATE "table1" SET "col2" = DEFAULT, "col5" = DEFAULT, "col8" = DEFAULT, "col10" = DEFAULT;]`, () => {
+      const actual = sql
+        .update(table1)
+        .set(
+          col2.putDefault,
+          col5.putDefault,
+          col8.putDefault,
+          col10.putDefault,
+        )
+        .getSQL()
+      expect(actual).toEqual(`UPDATE "table1" SET "col2" = DEFAULT, "col5" = DEFAULT, "col8" = DEFAULT, "col10" = DEFAULT;`)
     })
   })
 })

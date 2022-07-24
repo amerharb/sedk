@@ -6,13 +6,14 @@
 - INSERT Path support:
   - insert, into, values, and returning steps
   - Values step can take binders
-- Select step can be added in INSERT path
-- Returning throws error in it executed from SELECT path
-- `DEFAULT` key word can be used inside values step in INSERT path
-- Support `DEFAULT VALUES` in INSERT path
+  - Select step can be added in INSERT path
+  - Returning throws error in it executed from SELECT path
+  - `DEFAULT` key word can be used inside values step in INSERT path
+  - Support `DEFAULT VALUES` in INSERT path
 - UPDATE Path support:
   - update, set, where, and returning steps
   - set step can take binders from `put$()` function
+  - `DEFAULT` keyword can be used inside function `put()`
 ### Fixed
 - bug in check boolean text
 

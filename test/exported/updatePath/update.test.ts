@@ -1,5 +1,5 @@
 import * as sedk from '../../../src'
-import { ASTERISK } from '../../../src'
+import { ASTERISK, DEFAULT } from '../../../src'
 import { database } from '../../database'
 
 //Alias
@@ -104,6 +104,27 @@ describe('UPDATE Path', () => {
 
       expect(actual.getSQL()).toEqual(`UPDATE "table1" SET "col1" = $1, "col4" = $2, "col7" = $3, "col9" = $4;`)
       expect(actual.getBindValues()).toEqual(['A', 1, true, new Date(EPOCH_2022_07_23)])
+    })
+  })
+  describe('Update with Binders', () => {
+    it(`Produces [UPDATE "table1" SET "col1" = DEFAULT;]`, () => {
+      const actual = sql
+        .update(table1)
+        .set(col1.put(DEFAULT))
+
+      expect(actual.getSQL()).toEqual(`UPDATE "table1" SET "col1" = DEFAULT;`)
+    })
+    it(`Produces [UPDATE "table1" SET "col1" = DEFAULT, "col4" = DEFAULT, "col7" = DEFAULT, "col9" = DEFAULT;]`, () => {
+      const actual = sql
+        .update(table1)
+        .set(
+          col1.put(DEFAULT),
+          col4.put(DEFAULT),
+          col7.put(DEFAULT),
+          col9.put(DEFAULT),
+        )
+        .getSQL()
+      expect(actual).toEqual(`UPDATE "table1" SET "col1" = DEFAULT, "col4" = DEFAULT, "col7" = DEFAULT, "col9" = DEFAULT;`)
     })
   })
 })

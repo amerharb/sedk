@@ -21,6 +21,7 @@ import { IStatementGiver } from './models/IStatementGiver'
 import { BuilderData } from './builder'
 import { ItemInfo } from './ItemInfo'
 import { UpdateSetItemInfo } from './UpdateSetItemInfo'
+import { Default } from './singletoneConstants'
 
 type ColumnObj = {
   name: string
@@ -166,7 +167,7 @@ export class BooleanColumn extends Column implements Condition {
     return new Condition(new Expression(this, true))
   }
 
-  public put(value: boolean|null): UpdateSetItemInfo {
+  public put(value: boolean|null|Default): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, value)
   }
 
@@ -310,7 +311,7 @@ export class NumberColumn extends Column {
     return new AggregateFunction(AggregateFunctionEnum.MIN, new Expression(this))
   }
 
-  public put(value: number|null): UpdateSetItemInfo {
+  public put(value: number|null|Default): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, value)
   }
 
@@ -374,7 +375,7 @@ export class TextColumn extends Column {
     return new Expression(this, TextOperator.CONCAT, value)
   }
 
-  public put(value: string|null): UpdateSetItemInfo {
+  public put(value: string|null|Default): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, value)
   }
 
@@ -464,7 +465,7 @@ export class DateColumn extends Column {
     return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
   }
 
-  public put(value: Date|null): UpdateSetItemInfo {
+  public put(value: Date|null|Default): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, value)
   }
 

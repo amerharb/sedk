@@ -5,14 +5,20 @@ import { BuilderData } from './builder'
 import { Binder } from './binder'
 import { PrimitiveType } from './models/types'
 import { Operand } from './models/Operand'
+import { Default } from './singletoneConstants'
 
 export class UpdateSetItemInfo implements IStatementGiver {
-  public readonly operand: Operand
+  public readonly operand: Operand|Default
+
   constructor(
     public readonly column: Column,
-    value: PrimitiveType|Binder|Expression,
+    value: PrimitiveType|Binder|Expression|Default,
   ) {
-    this.operand = new Operand(value)
+    if (value instanceof Default) {
+      this.operand = value
+    } else {
+      this.operand = new Operand(value)
+    }
   }
 
   public getColumns(): Column[] {

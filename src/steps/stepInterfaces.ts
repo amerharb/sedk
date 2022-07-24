@@ -15,6 +15,8 @@ import { LogicalOperator } from '../operators'
 import { InsertStep } from './InsertStep'
 import { ItemInfo } from '../ItemInfo'
 import { ReturningItem } from '../ReturningItemInfo'
+import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
+import { SetStep } from './SetStep'
 
 export interface RootStep extends BaseStep {
   select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
@@ -26,10 +28,13 @@ export interface RootStep extends BaseStep {
   delete(): DeleteStep
 
   insert(): InsertStep
+
+  update(table: Table): UpdateStep
 }
 
 export interface SelectStep extends BaseStep {
   from(...tables: (Table|AliasedTable)[]): SelectFromStep
+
   returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
 }
 
@@ -123,4 +128,8 @@ export interface ValuesStep extends BaseStep {
 
 export interface DefaultValuesStep extends BaseStep {
   returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
+}
+
+export interface UpdateStep extends BaseStep {
+  set(...items: UpdateSetItemInfo[]): SetStep
 }

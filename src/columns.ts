@@ -20,6 +20,7 @@ import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
 import { IStatementGiver } from './models/IStatementGiver'
 import { BuilderData } from './builder'
 import { ItemInfo } from './ItemInfo'
+import { UpdateSetItemInfo } from './UpdateSetItemInfo'
 
 type ColumnObj = {
   name: string
@@ -164,6 +165,14 @@ export class BooleanColumn extends Column implements Condition {
   public get not(): Condition {
     return new Condition(new Expression(this, true))
   }
+
+  public put(value: boolean|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, value)
+  }
+
+  public put$(value: boolean|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, new Binder(value))
+  }
 }
 
 export class NumberColumn extends Column {
@@ -300,6 +309,14 @@ export class NumberColumn extends Column {
   public get min(): AggregateFunction {
     return new AggregateFunction(AggregateFunctionEnum.MIN, new Expression(this))
   }
+
+  public put(value: number|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, value)
+  }
+
+  public put$(value: number|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, new Binder(value))
+  }
 }
 
 export class TextColumn extends Column {
@@ -355,6 +372,14 @@ export class TextColumn extends Column {
 
   public concat(value: TextLike): Expression {
     return new Expression(this, TextOperator.CONCAT, value)
+  }
+
+  public put(value: string|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, value)
+  }
+
+  public put$(value: string|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, new Binder(value))
   }
 }
 
@@ -437,5 +462,13 @@ export class DateColumn extends Column {
   public le$(value: Date): Condition {
     const binder = new Binder(value)
     return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
+  }
+
+  public put(value: Date|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, value)
+  }
+
+  public put$(value: Date|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, new Binder(value))
   }
 }

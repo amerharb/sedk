@@ -4,7 +4,7 @@ import { PrimitiveType } from './models/types'
 import { Condition } from './models/Condition'
 import { Binder, BinderStore } from './binder'
 import { ASTERISK, Distinct, All, Default } from './singletoneConstants'
-import { RootStep, SelectStep, SelectFromStep } from './steps/stepInterfaces'
+import { RootStep, SelectStep, SelectFromStep, UpdateStep } from './steps/stepInterfaces'
 import { Step, SelectItem } from './steps/Step'
 import { LogicalOperator } from './operators'
 import { Parenthesis } from './steps/BaseStep'
@@ -19,12 +19,12 @@ import { ReturningItemInfo } from './ReturningItemInfo'
 import { ItemInfo } from './ItemInfo'
 import { InsertStep } from './steps/InsertStep'
 import { IntoStep } from './steps/IntoStep'
+import { UpdateSetItemInfo } from './UpdateSetItemInfo'
 
 export enum SqlPath {
   SELECT = 'SELECT',
   DELETE = 'DELETE',
   INSERT = 'INSERT',
-  // TODO: support the following
   UPDATE = 'UPDATE',
 }
 
@@ -47,6 +47,8 @@ export type BuilderData = {
   insertIntoColumns: Column[],
   insertIntoValues: (PrimitiveType|Binder|Default)[],
   insertIntoDefaultValues: boolean,
+  updateTable?: Table,
+  updateSetItemInfos: UpdateSetItemInfo[],
   returning: ReturningItemInfo[],
   binderStore: BinderStore,
 }
@@ -70,6 +72,8 @@ export class Builder {
       insertIntoColumns: [],
       insertIntoValues: [],
       insertIntoDefaultValues: false,
+      updateTable: undefined,
+      updateSetItemInfos: [],
       returning: [],
       binderStore: new BinderStore(),
       option: fillUndefinedOptionsWithDefault(option ?? {}),
@@ -126,6 +130,10 @@ export class Builder {
 
   public insertInto(table: Table, ...columns: Column[]): IntoStep {
     return this.rootStep.insert().into(table, ...columns)
+  }
+
+  public update(table: Table): UpdateStep {
+    return this.rootStep.update(table)
   }
 
   public cleanUp(): Builder {

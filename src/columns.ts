@@ -90,7 +90,7 @@ export abstract class Column implements IStatementGiver {
     return new OrderByItemInfo(this, DESC, NULLS_LAST)
   }
 
-  public get putDefault(): UpdateSetItemInfo {
+  public get letDefault(): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, DEFAULT)
   }
 
@@ -172,11 +172,11 @@ export class BooleanColumn extends Column implements Condition {
     return new Condition(new Expression(this, true))
   }
 
-  public put(value: boolean|null|Default): UpdateSetItemInfo {
+  public let(value: boolean|null|Default): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, value)
   }
 
-  public put$(value: boolean|null): UpdateSetItemInfo {
+  public let$(value: boolean|null): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, new Binder(value))
   }
 }
@@ -316,11 +316,11 @@ export class NumberColumn extends Column {
     return new AggregateFunction(AggregateFunctionEnum.MIN, new Expression(this))
   }
 
-  public put(value: number|null|Default): UpdateSetItemInfo {
+  public let(value: number|null|Default): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, value)
   }
 
-  public put$(value: number|null): UpdateSetItemInfo {
+  public let$(value: number|null): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, new Binder(value))
   }
 }
@@ -380,11 +380,11 @@ export class TextColumn extends Column {
     return new Expression(this, TextOperator.CONCAT, value)
   }
 
-  public put(value: string|null|Default): UpdateSetItemInfo {
+  public let(value: string|null|Default): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, value)
   }
 
-  public put$(value: string|null): UpdateSetItemInfo {
+  public let$(value: string|null): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, new Binder(value))
   }
 }
@@ -470,11 +470,11 @@ export class DateColumn extends Column {
     return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
   }
 
-  public put(value: Date|null|Default): UpdateSetItemInfo {
+  public let(value: Date|null|Default): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, value)
   }
 
-  public put$(value: Date|null): UpdateSetItemInfo {
+  public let$(value: Date|null): UpdateSetItemInfo {
     return new UpdateSetItemInfo(this, new Binder(value))
   }
 }

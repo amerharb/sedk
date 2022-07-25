@@ -126,12 +126,12 @@ sql.insertInto(Employee, name, salary).defaultValues().getSQL()
 ```
 - Add Update path
 ```typescript
-sql.update(Employee).set(salary.put(20_000)).where(name.eq('John')).getSQL()
+sql.update(Employee).set(salary.let(20_000)).where(name.eq('John')).getSQL()
 // UPDATE Employee SET salary = 20000 WHERE name = 'John';
 ```
-- or by using `put$()`
+- or by using `let$()`
 ```typescript
-sql.update(Employee).set(salary.put$(20_000)).where(name.eq('John'))
+sql.update(Employee).set(salary.let$(20_000)).where(name.eq('John'))
     .getSQL()
     // UPDATE Employee SET salary = $1 WHERE name = 'John';
     .getBindValues()

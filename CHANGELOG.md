@@ -12,9 +12,10 @@
   - Support `DEFAULT VALUES` in INSERT path
 - UPDATE Path support:
   - update, set, where, and returning steps
-  - set step can take binders from `put$()` function
-  - `DEFAULT` keyword can be used inside function `put()`
-  - add function 'putDefault()'
+  - set step can take binders from `let$()` function
+  - `DEFAULT` keyword can be used inside function `let()`
+  - add function 'letDefault()'
+  - rename put() to let()
 ### Fixed
 - bug in check boolean text
 

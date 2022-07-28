@@ -23,14 +23,14 @@ describe('UPDATE Path', () => {
     it(`Produces [UPDATE "table1" SET "col1" = 'A';]`, () => {
       const actual = sql
         .update(table1)
-        .set(col1.put('A'))
+        .set(col1.let('A'))
         .getSQL()
       expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A';`)
     })
     it(`Produces [UPDATE "table1" SET "col1" = 'A', "col4" = 1, "col7" = TRUE, "col9" = '2022-07-23T00:00:00.000Z';]`, () => {
       const actual = sql
         .update(table1)
-        .set(col1.put('A'), col4.put(1), col7.put(true), col9.put(new Date(EPOCH_2022_07_23)))
+        .set(col1.let('A'), col4.let(1), col7.let(true), col9.let(new Date(EPOCH_2022_07_23)))
         .getSQL()
       expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A', "col4" = 1, "col7" = TRUE, "col9" = '2022-07-23T00:00:00.000Z';`)
     })
@@ -38,10 +38,10 @@ describe('UPDATE Path', () => {
       const actual = sql
         .update(table1)
         .set(
-          col1.put(null),
-          col4.put(null),
-          col7.put(null),
-          col9.put(null),
+          col1.let(null),
+          col4.let(null),
+          col7.let(null),
+          col9.let(null),
         )
         .getSQL()
       expect(actual).toEqual(`UPDATE "table1" SET "col1" = NULL, "col4" = NULL, "col7" = NULL, "col9" = NULL;`)
@@ -51,7 +51,7 @@ describe('UPDATE Path', () => {
     it(`Produces [UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1;]`, () => {
       const actual = sql
         .update(table1)
-        .set(col1.put('A'))
+        .set(col1.let('A'))
         .where(e(1).eq(1))
         .getSQL()
       expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1;`)
@@ -59,7 +59,7 @@ describe('UPDATE Path', () => {
     it(`Produces [UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1 AND "col2" = 'B' OR "col3" = 'C';]`, () => {
       const actual = sql
         .update(table1)
-        .set(col1.put('A'))
+        .set(col1.let('A'))
         .where(e(1).eq(1))
         .and(col2.eq('B'))
         .or(col3.eq('C'))
@@ -71,7 +71,7 @@ describe('UPDATE Path', () => {
     it(`Produces [UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1 RETURNING *;]`, () => {
       const actual = sql
         .update(table1)
-        .set(col1.put('A'))
+        .set(col1.let('A'))
         .where(e(1).eq(1))
         .returning(ASTERISK)
         .getSQL()
@@ -80,7 +80,7 @@ describe('UPDATE Path', () => {
     it(`Produces [UPDATE "table1" SET "col1" = 'A' RETURNING *;]`, () => {
       const actual = sql
         .update(table1)
-        .set(col1.put('A'))
+        .set(col1.let('A'))
         .returning(ASTERISK)
         .getSQL()
       expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A' RETURNING *;`)
@@ -90,7 +90,7 @@ describe('UPDATE Path', () => {
     it(`Produces [UPDATE "table1" SET "col1" = $1;]`, () => {
       const actual = sql
         .update(table1)
-        .set(col1.put$('A'))
+        .set(col1.let$('A'))
 
       expect(actual.getSQL()).toEqual(`UPDATE "table1" SET "col1" = $1;`)
       expect(actual.getBindValues()).toEqual(['A'])
@@ -99,10 +99,10 @@ describe('UPDATE Path', () => {
       const actual = sql
         .update(table1)
         .set(
-          col1.put$('A'),
-          col4.put$(1),
-          col7.put$(true),
-          col9.put$(new Date(EPOCH_2022_07_23))
+          col1.let$('A'),
+          col4.let$(1),
+          col7.let$(true),
+          col9.let$(new Date(EPOCH_2022_07_23))
         )
 
       expect(actual.getSQL()).toEqual(`UPDATE "table1" SET "col1" = $1, "col4" = $2, "col7" = $3, "col9" = $4;`)
@@ -113,7 +113,7 @@ describe('UPDATE Path', () => {
     it(`Produces [UPDATE "table1" SET "col1" = DEFAULT;]`, () => {
       const actual = sql
         .update(table1)
-        .set(col1.put(DEFAULT))
+        .set(col1.let(DEFAULT))
 
       expect(actual.getSQL()).toEqual(`UPDATE "table1" SET "col1" = DEFAULT;`)
     })
@@ -121,10 +121,10 @@ describe('UPDATE Path', () => {
       const actual = sql
         .update(table1)
         .set(
-          col1.put(DEFAULT),
-          col4.put(DEFAULT),
-          col7.put(DEFAULT),
-          col9.put(DEFAULT),
+          col1.let(DEFAULT),
+          col4.let(DEFAULT),
+          col7.let(DEFAULT),
+          col9.let(DEFAULT),
         )
         .getSQL()
       expect(actual).toEqual(`UPDATE "table1" SET "col1" = DEFAULT, "col4" = DEFAULT, "col7" = DEFAULT, "col9" = DEFAULT;`)
@@ -133,10 +133,10 @@ describe('UPDATE Path', () => {
       const actual = sql
         .update(table1)
         .set(
-          col2.putDefault,
-          col5.putDefault,
-          col8.putDefault,
-          col10.putDefault,
+          col2.letDefault,
+          col5.letDefault,
+          col8.letDefault,
+          col10.letDefault,
         )
         .getSQL()
       expect(actual).toEqual(`UPDATE "table1" SET "col2" = DEFAULT, "col5" = DEFAULT, "col8" = DEFAULT, "col10" = DEFAULT;`)

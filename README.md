@@ -69,7 +69,7 @@ currently the only place where string is used is when you define an alias for a 
 so if you change from Postgres to Mysql then you will need to change the library too
 
 ## Steps Rail Road
-![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-postgres/version/0.14.0/doc/StepsRailRoad.svg)
+![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-postgres/34a611aafc003c1b91a2ffaccbf50c30e00b5e73/doc/StepsRailRoad.svg)
 
 ## What is New
 ### Version: 0.14.0
@@ -126,12 +126,12 @@ sql.insertInto(Employee, name, salary).defaultValues().getSQL()
 ```
 - Add Update path
 ```typescript
-sql.update(Employee).set(salary.put(20_000)).where(name.eq('John')).getSQL()
+sql.update(Employee).set(salary.let(20_000)).where(name.eq('John')).getSQL()
 // UPDATE Employee SET salary = 20000 WHERE name = 'John';
 ```
-- or by using `put$()`
+- or by using `let$()`
 ```typescript
-sql.update(Employee).set(salary.put$(20_000)).where(name.eq('John'))
+sql.update(Employee).set(salary.let$(20_000)).where(name.eq('John'))
     .getSQL()
     // UPDATE Employee SET salary = $1 WHERE name = 'John';
     .getBindValues()

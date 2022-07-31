@@ -7,7 +7,7 @@ import { Operand } from './Operand'
 import { IStatementGiver } from './IStatementGiver'
 import { Binder } from '../binder'
 import { InvalidConditionError } from '../errors'
-import { BooleanLike } from './types'
+import { BooleanLike, isTextBoolean } from './types'
 import { ItemInfo } from '../ItemInfo'
 
 export class Condition implements Expression, IStatementGiver {
@@ -125,6 +125,8 @@ export class Condition implements Expression, IStatementGiver {
     } else if (Condition.isComparisonOperator(operator)) {
       if (leftExpression.type === ExpressionType.NULL || rightExpression.type === ExpressionType.NULL) {
         return ExpressionType.NULL
+      } else if (leftExpression.type === ExpressionType.BOOLEAN && rightExpression.type === ExpressionType.TEXT && isTextBoolean(rightExpression.leftOperand.value)) {
+        return ExpressionType.BOOLEAN
       }
       Condition.throwInvalidConditionError(leftExpression.type, operator, rightExpression.type)
     }

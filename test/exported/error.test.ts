@@ -7,6 +7,7 @@ import {
   InvalidConditionError,
   InvalidLimitValueError,
   InvalidOffsetValueError,
+  InsertColumnsAndValuesNotEqualError,
   Builder,
   e,
   Table,
@@ -20,14 +21,17 @@ import {
   NULLS_FIRST,
   NULLS_LAST,
   f,
+  ASTERISK,
 } from '../../src'
 import { database } from '../database'
+import { InsertColumnsAndExpressionsNotEqualError } from '../../src/errors'
 
 //Alias
 const ADD = ArithmeticOperator.ADD
 const GT = ComparisonOperator.GreaterThan
 const table1 = database.s.public.t.table1
 const col1 = table1.c.col1
+const col2 = table1.c.col2
 const col3 = table1.c.col3
 const col4 = table1.c.col4
 const table2 = database.s.public.t.table2
@@ -320,5 +324,58 @@ describe('Throw desired Errors', () => {
 
       expect(actual).toThrow(/^Aggregate function SUM cannot be used in RETURNING clause$/)
     })
+  })
+  describe('Error: InsertColumnsAndValuesNotEqualError', () => {
+    it(`columns more than values`, () => {
+      function actual() {
+        sql.insertInto(table1, col1, col2).values('A')
+      }
+
+      expect(actual).toThrow(InsertColumnsAndValuesNotEqualError)
+    })
+    it(`values more than columns`, () => {
+      function actual() {
+        sql.insertInto(table1, col1, col2).values('A', 'B', 'C')
+      }
+
+      expect(actual).toThrow(InsertColumnsAndValuesNotEqualError)
+    })
+  })
+  describe('Error: InsertColumnsAndExpressionsNotEqualError', () => {
+    it(`columns more than expressions`, () => {
+      function actual() {
+        sql.insertInto(table1, col1, col2).select('A')
+      }
+
+      expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+    })
+    it(`expressions more than columns`, () => {
+      function actual() {
+        sql.insertInto(table1, col1, col2).select('A', 'B', 'C')
+      }
+
+      expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+    })
+  })
+  it(`Throws error "Value step has Unsupported value: x, type: y"`, () => {
+    const value = { unsupportedObject: 'something' }
+    function actual() {
+      // @ts-ignore
+      sql.insertInto(table1).values(value).getSQL()
+    }
+
+    expect(actual).toThrow(`Value step has Unsupported value: ${value}, type: ${typeof value}`)
+  })
+  it(`Throws error "Insert statement must have values or select items"`, () => {
+    function actual() {
+      sql.insertInto(table1).getSQL()
+    }
+    expect(actual).toThrow(`Insert statement must have values or select items`)
+  })
+  it(`Throws error "Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE"`, () => {
+    function actual() {
+      sql.selectAsteriskFrom(table1).returning(ASTERISK).getSQL()
+    }
+    expect(actual).toThrow(`Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE`)
   })
 })

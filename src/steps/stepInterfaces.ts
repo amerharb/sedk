@@ -12,6 +12,11 @@ import { All } from '../singletoneConstants'
 import { HavingStep } from './HavingStep'
 import { SelectItem } from './Step'
 import { LogicalOperator } from '../operators'
+import { InsertStep } from './InsertStep'
+import { ItemInfo } from '../ItemInfo'
+import { ReturningItem } from '../ReturningItemInfo'
+import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
+import { SetStep } from './SetStep'
 
 export interface RootStep extends BaseStep {
   select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
@@ -21,10 +26,16 @@ export interface RootStep extends BaseStep {
   selectAll(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
 
   delete(): DeleteStep
+
+  insert(): InsertStep
+
+  update(table: Table): UpdateStep
 }
 
 export interface SelectStep extends BaseStep {
   from(...tables: (Table|AliasedTable)[]): SelectFromStep
+
+  returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
 }
 
 export interface IAfterFromSteps extends BaseStep, OrderByStep {
@@ -49,6 +60,8 @@ export interface IAfterFromSteps extends BaseStep, OrderByStep {
   groupBy(...groupByItems: Column[]): GroupByStep
 
   orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
+
+  returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
 }
 
 export interface SelectFromStep extends BaseStep, IAfterFromSteps {}
@@ -103,6 +116,20 @@ export interface LimitStep extends BaseStep, OffsetStep {
   offset$(n: number): OffsetStep
 }
 
-export interface OffsetStep extends BaseStep {}
+export interface OffsetStep extends BaseStep {
+  returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
+}
 
 export interface ReturningStep extends BaseStep {}
+
+export interface ValuesStep extends BaseStep {
+  returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
+}
+
+export interface DefaultValuesStep extends BaseStep {
+  returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
+}
+
+export interface UpdateStep extends BaseStep {
+  set(...items: UpdateSetItemInfo[]): SetStep
+}

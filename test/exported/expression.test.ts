@@ -6,6 +6,7 @@ const ADD = ArithmeticOperator.ADD
 const SUB = ArithmeticOperator.SUB
 const CONCAT = TextOperator.CONCAT
 const GT = ComparisonOperator.GreaterThan
+const EQ = ComparisonOperator.Equal
 
 const table = database.s.public.t.table1
 const col7 = database.s.public.t.table1.c.col7
@@ -100,6 +101,35 @@ describe('Expression', () => {
         .getSQL()
 
       expect(actual).toEqual(`SELECT * FROM "table1" WHERE ("col7" > 'tru');`)
+    })
+
+    describe('With TextBoolean', () => {
+      const boolSmall = ['t', 'tr', 'tru', 'true', 'f', 'fa', 'fal', 'fals', 'false']
+      const boolCapital = boolSmall.map(it => it.replace('t', 'T').replace('f', 'F'))
+      const boolCaps = boolSmall.map(it => it.toUpperCase())
+      const textBooleanArray = [...boolSmall, ...boolCapital, ...boolCaps]
+      it(`Produces [SELECT * FROM "table1" WHERE ("col7" = '<TextBoolean>');]`, () => {
+        textBooleanArray.forEach(it => {
+          const actual = sql
+            .selectAsteriskFrom(table)
+            .where(e(col7, EQ, it))
+            .getSQL()
+
+          expect(actual).toEqual(`SELECT * FROM "table1" WHERE ("col7" = '${it}');`)
+          sql.cleanUp()
+        })
+      })
+      it(`Produces [SELECT * FROM "table1" WHERE "col7" = '<TextBoolean>';]`, () => {
+        textBooleanArray.forEach(it => {
+          const actual = sql
+            .selectAsteriskFrom(table)
+            .where(col7.eq(it))
+            .getSQL()
+
+          expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col7" = '${it}';`)
+          sql.cleanUp()
+        })
+      })
     })
   })
 

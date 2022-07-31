@@ -10,7 +10,7 @@ import {
   MoreThanOneWhereStepError,
 } from '../errors'
 import { BuilderData, SqlPath } from '../builder'
-import { All, Asterisk } from '../singletoneConstants'
+import { ALL, All, Asterisk, DISTINCT } from '../singletoneConstants'
 import { OrderByArgsElement, OrderByDirection, OrderByItem, OrderByItemInfo, OrderByNullsPosition } from '../orderBy'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { escapeDoubleQuote } from '../util'
@@ -20,8 +20,23 @@ import { BaseStep } from './BaseStep'
 import { SelectWhereStep } from './SelectWhereStep'
 import { HavingStep } from './HavingStep'
 import {
-  RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep,
-  InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep, ReturningStep,
+  CrossJoinStep,
+  DefaultValuesStep,
+  FullOuterJoinStep,
+  GroupByStep,
+  InnerJoinStep,
+  JoinStep,
+  LeftJoinStep,
+  LimitStep,
+  OffsetStep,
+  OrderByStep,
+  ReturningStep,
+  RightJoinStep,
+  RootStep,
+  SelectFromStep,
+  SelectStep,
+  UpdateStep,
+  ValuesStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { FromItemRelation } from '../FromItemInfo'
@@ -29,21 +44,26 @@ import { OnStep } from './OnStep'
 import { DeleteStep } from './DeleteStep'
 import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
 import { ItemInfo } from '../ItemInfo'
+import { InsertStep } from './InsertStep'
+import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
+import { SetStep } from './SetStep'
 
 export type ColumnLike = Column|Expression
 
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 
 export class Step extends BaseStep
-  implements RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep,
-    RightJoinStep, InnerJoinStep, FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep {
+  implements RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
+    FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep, ValuesStep, DefaultValuesStep, UpdateStep {
   constructor(protected data: BuilderData) {
     super(data)
     data.step = this
   }
 
   public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-    this.data.sqlPath = SqlPath.SELECT
+    if (this.data.sqlPath === undefined) {
+      this.data.sqlPath = SqlPath.SELECT
+    }
     const selectItemInfos: SelectItemInfo[] = items.map(it => {
       if (it instanceof SelectItemInfo) {
         return it
@@ -64,20 +84,35 @@ export class Step extends BaseStep
   }
 
   public selectDistinct(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-    this.data.sqlPath = SqlPath.SELECT
-    this.data.distinct = ' DISTINCT'
+    if (this.data.sqlPath === undefined) {
+      this.data.sqlPath = SqlPath.SELECT
+    }
+    this.data.distinct = DISTINCT
     return this.select(...items)
   }
 
   public selectAll(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-    this.data.sqlPath = SqlPath.SELECT
-    this.data.distinct = ' ALL'
+    if (this.data.sqlPath === undefined) {
+      this.data.sqlPath = SqlPath.SELECT
+    }
+    this.data.distinct = ALL
     return this.select(...items)
   }
 
   public delete(): DeleteStep {
     this.data.sqlPath = SqlPath.DELETE
     return new DeleteStep(this.data)
+  }
+
+  public insert(): InsertStep {
+    this.data.sqlPath = SqlPath.INSERT
+    return new InsertStep(this.data)
+  }
+
+  public update(table: Table): UpdateStep {
+    this.data.sqlPath = SqlPath.UPDATE
+    this.data.updateTable = table
+    return this
   }
 
   public from(...tables: (Table|AliasedTable)[]): SelectFromStep {
@@ -238,6 +273,9 @@ export class Step extends BaseStep
   }
 
   public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
+    if (this.data.sqlPath === SqlPath.SELECT) {
+      throw new Error('Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE')
+    }
     const returningItemInfo: ReturningItemInfo[] = items.map(it => {
       if (it instanceof ReturningItemInfo) {
         return it
@@ -265,11 +303,9 @@ export class Step extends BaseStep
     return this
   }
 
-  private throwIfColumnsNotInDb(columns: (ReturningItemInfo|SelectItemInfo|ColumnLike|Asterisk)[]) {
+  private throwIfColumnsNotInDb(columns: (ReturningItemInfo|SelectItemInfo|ColumnLike)[]) {
     for (const item of columns) {
-      if (item instanceof Asterisk) {
-        continue
-      } else if (
+      if (
         item instanceof Expression
         || item instanceof SelectItemInfo
         || item instanceof ReturningItemInfo
@@ -282,5 +318,10 @@ export class Step extends BaseStep
         throw new ColumnNotFoundError(`Column: "${item.name}" not found in database`)
       }
     }
+  }
+
+  set(...items: UpdateSetItemInfo[]): SetStep {
+    this.data.updateSetItemInfos.push(...items)
+    return new SetStep(this.data)
   }
 }

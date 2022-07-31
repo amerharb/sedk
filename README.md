@@ -1,7 +1,8 @@
 # SEDK-postgres
-[![Version](https://img.shields.io/badge/version-0.13.1-blue.svg)](https://github.com/amerharb/sedk-postgres/tree/version/0.13.1)
+[![Version](https://img.shields.io/badge/version-0.14.0-blue.svg)](https://github.com/amerharb/sedk-postgres/tree/version/0.14.0)
 [![License: GPLv3](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
-[![Coverage Status](https://codecov.io/gh/amerharb/sedk-postgres/branch/main/graph/badge.svg)](https://codecov.io/gh/amerharb/sedk-postgres)
+[![Coverage Status](https://codecov.io/gh/amerharb/sedk-postgres/branch/version/0.14.0/graph/badge.svg)](https://codecov.io/gh/amerharb/sedk-postgres)
+![Github workflow](https://github.com/amerharb/sedk-postgres/actions/workflows/test-lint.yaml/badge.svg?branch=version/0.14.0)
 
 SEDK is a SQL builder library for Postgres dialect, support binding parameters, and use a pre-defined database schema
 
@@ -66,12 +67,78 @@ currently the only place where string is used is when you define an alias for a 
 3. **Not ORM:** SEDK is not and will not become an ORM, it is a SQL builder tool, using it is optional, and it won't build a layer between you and the database, so you can use it in some query and ignore it in others
 4. **No Runtime Schema Change:** SEDK build in the mind set that you will not change your database schema without updating your code. Of course that is only valid for the part of the database that you actually use
 5. **One Library One Dialect:** SEDK-postgres is made for postgres hence the name, in the future there might be SEDK-mysql, SEDK-mssql, SEDK-sqlite, SEDK-sql92...etc. or even SEDK-neo4j for graph 
-so if you change from Postgress to Mysql then you will need to change the library too
+so if you change from Postgres to Mysql then you will need to change the library too
 
 ## Steps Rail Road
-![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-postgres/main/doc/StepsRailRoad.svg)
+![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-postgres/34a611aafc003c1b91a2ffaccbf50c30e00b5e73/doc/StepsRailRoad.svg)
 
 ## What is New
+### Version: 0.14.0
+- Add Insert path
+```typescript
+sql.insert().into(Employee).values(10, 'John', 11_000, false, new Date(Date.now())).getSQL()
+// INSERT INTO Employee VALUES (10, 'John', 11000, false, '2020-01-01T00:00:00.000Z');
+```
+or use shortcut `insertInto()`
+```typescript
+sql.insertInto(Employee).values(10, 'John', 11_000, false, new Date(Date.now())).getSQL()
+// INSERT INTO Employee VALUES (10, 'John', 11000, false, '2020-01-01T00:00:00.000Z');
+```
+- Also, with columns after table
+```typescript
+sql.insertInto(Employee, name, salary).values('John', 11_000).getSQL()
+// INSERT INTO Employee(name, salary) VALUES ('John', 11000);
+```
+- with returning
+```typescript
+sql.insertInto(Employee, name, salary).values('John', 11_000).returning(id).getSQL()
+// INSERT INTO Employee(name, salary) VALUES ('John', 11000) RETURNING id;
+```
+- Insert with binder
+```typescript
+sql.insertInto(Employee, name, salary).values($('John'), 11_000)
+    .getSQL()
+    // INSERT INTO Employee(name, salary) VALUES ($1, 11000);
+    .getBindValues()
+    // ['John']
+```
+- or by using `values$()` in one step for all
+```typescript
+sql.insertInto(Employee, name, salary).values$('John', 11_000)
+    .getSQL()
+    // INSERT INTO Employee(name, salary) VALUES ($1, $2);
+    .getBindValues()
+    // ['John', 11000]
+```
+- Insert with Select
+```typescript
+sql.insertInto(Employee, name, salary).select(name, salary).from(OldEmployee).getSQL()
+// INSERT INTO Employee(name, salary) SELECT "name", "salary" FROM OldEmployee;
+```
+- with DEFAULT keyword
+```typescript
+sql.insertInto(Employee, name, salary).values('John', DEFAULT).getSQL()
+// INSERT INTO Employee(name, salary) VALUES ('John', DEFAULT);
+```
+- or with DEFAULT VALUES step
+```typescript
+sql.insertInto(Employee, name, salary).defaultValues().getSQL()
+// INSERT INTO Employee(name, salary) DEFAULT VALUES;
+```
+- Add Update path
+```typescript
+sql.update(Employee).set(salary.let(20_000)).where(name.eq('John')).getSQL()
+// UPDATE Employee SET salary = 20000 WHERE name = 'John';
+```
+- or by using `let$()`
+```typescript
+sql.update(Employee).set(salary.let$(20_000)).where(name.eq('John'))
+    .getSQL()
+    // UPDATE Employee SET salary = $1 WHERE name = 'John';
+    .getBindValues()
+    // [20000]
+```
+
 ### Version: 0.13.1
 - Add returning step
 ```typescript
@@ -101,16 +168,16 @@ set option `throwErrorIfDeleteHasNoCondition` to `false` or by just adding a dum
 sql.delete().from(Employee).where(name.eq('John')).and(age.gt(40)).getSQL()
 // DELETE FROM "Employee" WHERE "name" = 'John' AND "age" > 40;
 ```
-- functions eq(), eq$(), ne() and ne$() will not accept null anymore, there for they will only return equal "=" or not equal "<>" condition.
+- functions `eq()`, `eq$()`, `ne()` and `ne$()` will not accept null anymore, there for they will only return equal "=" or not equal "<>" condition.
 this is a breaking change in behavior, but for the old behavior function that automatically return Equal "=" or Is "IS" you should use the 
-new functions isEq(), isEq$(), isNe(), isNe$(). This correction needed to follow SEDK principle WYSIWYG, so eq() always return "=" but isEq() can return either "IS" or "="
+new functions `isEq()`, `isEq$()`, `isNe()`, `isNe$()`. This correction needed to follow SEDK principle WYSIWYG, so `eq()` always return "=" but `isEq()` can return either "IS" or "="
 
 
 ### Version: 0.12.1
 - Update README.md: fix code and add railroad diagram to it
 - Check the validity of Condition, throw error if not valid
-- Function eq() in Expression accept all Primitive types
-- Add function ne() to Expression
+- Function `eq()` in Expression accept all Primitive types
+- Add function `ne()` to Expression
 
 ### Version: 0.12.0
 - Support Date Column which include Date and Timestamp with and without timezone
@@ -209,7 +276,7 @@ sql.select(name, f.avg(age).as('Employee Age Avrage')).from(Employee).groupBy(na
 ### Version: 0.10.0
 
 - Add Having Step
-- Add And and Or Steps for Having Step
+- Add `And` and `Or` Steps for Having Step
 
 #### Limitation
 

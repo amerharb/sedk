@@ -4,9 +4,20 @@ import { Condition } from '../models/Condition'
 import { Column } from '../columns'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
-import { GroupByStep, LimitStep, OffsetStep, OrderByStep, SelectWhereAndStep, SelectWhereOrStep } from './stepInterfaces'
+import {
+  GroupByStep,
+  LimitStep,
+  OffsetStep,
+  OrderByStep,
+  ReturningStep,
+  SelectWhereAndStep,
+  SelectWhereOrStep,
+} from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { returnStepOrThrow } from '../util'
+import { ItemInfo } from '../ItemInfo'
+import { ReturningItem } from '../ReturningItemInfo'
+import { PrimitiveType } from '../models/types'
 
 export class SelectWhereStep extends BaseStep {
   constructor(protected data: BuilderData) { super(data) }
@@ -51,5 +62,9 @@ export class SelectWhereStep extends BaseStep {
 
   public offset$(n: number): OffsetStep {
     return returnStepOrThrow(this.data.step).offset$(n)
+  }
+
+  public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
+    return returnStepOrThrow(this.data.step).returning(...items)
   }
 }

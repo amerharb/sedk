@@ -20,6 +20,8 @@ import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
 import { IStatementGiver } from './models/IStatementGiver'
 import { BuilderData } from './builder'
 import { ItemInfo } from './ItemInfo'
+import { UpdateSetItemInfo } from './UpdateSetItemInfo'
+import { DEFAULT, Default } from './singletoneConstants'
 
 type ColumnObj = {
   name: string
@@ -46,6 +48,10 @@ export abstract class Column implements IStatementGiver {
 
   public get name(): string {
     return this.data.name
+  }
+
+  public getDoubleQuotedName(): string {
+    return `"${escapeDoubleQuote(this.data.name)}"`
   }
 
   public as(alias: string): ItemInfo {
@@ -82,6 +88,10 @@ export abstract class Column implements IStatementGiver {
 
   public get descNullsLast(): OrderByItemInfo {
     return new OrderByItemInfo(this, DESC, NULLS_LAST)
+  }
+
+  public get letDefault(): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, DEFAULT)
   }
 
   public getStmt(data: BuilderData): string {
@@ -129,6 +139,7 @@ export class BooleanColumn extends Column implements Condition {
     const binder = new Binder(value)
     return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(binder))
   }
+
   // END implement Condition
 
   constructor(data: ColumnObj) {
@@ -159,6 +170,14 @@ export class BooleanColumn extends Column implements Condition {
 
   public get not(): Condition {
     return new Condition(new Expression(this, true))
+  }
+
+  public let(value: boolean|null|Default): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, value)
+  }
+
+  public let$(value: boolean|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, new Binder(value))
   }
 }
 
@@ -296,6 +315,14 @@ export class NumberColumn extends Column {
   public get min(): AggregateFunction {
     return new AggregateFunction(AggregateFunctionEnum.MIN, new Expression(this))
   }
+
+  public let(value: number|null|Default): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, value)
+  }
+
+  public let$(value: number|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, new Binder(value))
+  }
 }
 
 export class TextColumn extends Column {
@@ -351,6 +378,14 @@ export class TextColumn extends Column {
 
   public concat(value: TextLike): Expression {
     return new Expression(this, TextOperator.CONCAT, value)
+  }
+
+  public let(value: string|null|Default): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, value)
+  }
+
+  public let$(value: string|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, new Binder(value))
   }
 }
 
@@ -433,5 +468,13 @@ export class DateColumn extends Column {
   public le$(value: Date): Condition {
     const binder = new Binder(value)
     return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
+  }
+
+  public let(value: Date|null|Default): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, value)
+  }
+
+  public let$(value: Date|null): UpdateSetItemInfo {
+    return new UpdateSetItemInfo(this, new Binder(value))
   }
 }

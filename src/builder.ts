@@ -3,8 +3,8 @@ import { BooleanColumn, Column } from './columns'
 import { PrimitiveType } from './models/types'
 import { Condition } from './models/Condition'
 import { Binder, BinderStore } from './binder'
-import { ASTERISK, Distinct, All } from './singletoneConstants'
-import { RootStep, SelectStep, SelectFromStep } from './steps/stepInterfaces'
+import { ASTERISK, Distinct, All, Default } from './singletoneConstants'
+import { RootStep, SelectStep, SelectFromStep, UpdateStep } from './steps/stepInterfaces'
 import { Step, SelectItem } from './steps/Step'
 import { LogicalOperator } from './operators'
 import { Parenthesis } from './steps/BaseStep'
@@ -17,13 +17,15 @@ import { DeleteStep } from './steps/DeleteStep'
 import { DeleteFromStep } from './steps/DeleteFromStep'
 import { ReturningItemInfo } from './ReturningItemInfo'
 import { ItemInfo } from './ItemInfo'
+import { InsertStep } from './steps/InsertStep'
+import { IntoStep } from './steps/IntoStep'
+import { UpdateSetItemInfo } from './UpdateSetItemInfo'
 
 export enum SqlPath {
   SELECT = 'SELECT',
   DELETE = 'DELETE',
-  // TODO: support the following
-  // INSERT = 'INSERT',
-  // UPDATE = 'UPDATE',
+  INSERT = 'INSERT',
+  UPDATE = 'UPDATE',
 }
 
 export type BuilderData = {
@@ -34,13 +36,19 @@ export type BuilderData = {
   sqlPath?: SqlPath
   selectItemInfos: SelectItemInfo[],
   fromItemInfos: FromItemInfo[],
-  distinct: ''|' DISTINCT'|' ALL'
+  distinct?: Distinct|All,
   whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
   groupByItems: Column[],
   havingParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
   orderByItemInfos: OrderByItemInfo[],
   limit?: null|number|Binder|All,
   offset?: number|Binder,
+  insertIntoTable?: Table
+  insertIntoColumns: Column[],
+  insertIntoValues: (PrimitiveType|Binder|Default)[],
+  insertIntoDefaultValues: boolean,
+  updateTable?: Table,
+  updateSetItemInfos: UpdateSetItemInfo[],
   returning: ReturningItemInfo[],
   binderStore: BinderStore,
 }
@@ -55,11 +63,17 @@ export class Builder {
       fromItemInfos: [],
       sqlPath: undefined,
       selectItemInfos: [],
-      distinct: '',
+      distinct: undefined,
       whereParts: [],
       groupByItems: [],
       havingParts: [],
       orderByItemInfos: [],
+      insertIntoTable: undefined,
+      insertIntoColumns: [],
+      insertIntoValues: [],
+      insertIntoDefaultValues: false,
+      updateTable: undefined,
+      updateSetItemInfos: [],
       returning: [],
       binderStore: new BinderStore(),
       option: fillUndefinedOptionsWithDefault(option ?? {}),
@@ -74,7 +88,7 @@ export class Builder {
       if (items.length <= 1) throw new Error('Select step must have at least one parameter after DISTINCT')
       items.shift() //remove first item the DISTINCT item
       Builder.throwIfMoreThanOneDistinctOrAll(items)
-      const newItems = items as unknown[] as (SelectItemInfo|SelectItem|PrimitiveType)[]
+      const newItems = items as (SelectItemInfo|SelectItem|PrimitiveType)[]
       return this.rootStep.selectDistinct(...newItems)
     }
 
@@ -108,6 +122,18 @@ export class Builder {
 
   public deleteFrom(table: Table|AliasedTable): DeleteFromStep {
     return this.rootStep.delete().from(table)
+  }
+
+  public insert(): InsertStep {
+    return this.rootStep.insert()
+  }
+
+  public insertInto(table: Table, ...columns: Column[]): IntoStep {
+    return this.rootStep.insert().into(table, ...columns)
+  }
+
+  public update(table: Table): UpdateStep {
+    return this.rootStep.update(table)
   }
 
   public cleanUp(): Builder {

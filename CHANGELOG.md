@@ -1,6 +1,24 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.14.0]  2022-07-22
+### Added
+- INSERT Path support:
+  - insert, into, values, and returning steps
+  - Values step can take binders
+  - Select step can be added in INSERT path
+  - Returning throws error in it executed from SELECT path
+  - `DEFAULT` key word can be used inside values step in INSERT path
+  - Support `DEFAULT VALUES` in INSERT path
+- UPDATE Path support:
+  - update, set, where, and returning steps
+  - set step can take binders from `let$()` function
+  - `DEFAULT` keyword can be used inside function `let()`
+  - add function 'letDefault()'
+  - rename put() to let()
+### Fixed
+- bug in check boolean text
+
 ## [0.13.1]  2022-07-20
 ### Added
 - Returning step in delete

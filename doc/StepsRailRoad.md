@@ -25,5 +25,20 @@ SQL ::=
 
   'RETURNING' ?
 
+  ) | ( // INSERT Path
+
+  ( ( 'INSERT' 'INTO' ) | ( 'INSERT_INTO' ) )
+
+  ( 'VALUES' | SELECT )
+
+  'RETURNING' ?
+
+  ) | ( // UPDATE Path
+
+  ( 'UPDATE' 'SET' )
+
+  ( 'WHERE' ( 'AND' | 'OR' )* )?
+
+  'RETURNING' ?
   )
 ```

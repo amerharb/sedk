@@ -1,6 +1,8 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.14.1]  2022-08-01
+
 ## [0.14.0]  2022-07-31
 ### Added
 - INSERT Path support:

@@ -9,7 +9,7 @@ import {
 import { Binder } from '../binder'
 import { BuilderData } from '../builder'
 import { SelectItemInfo } from '../SelectItemInfo'
-import { Column } from '../database/columns'
+import { Column } from '../database'
 import { InvalidExpressionError } from '../errors'
 import { Operand } from './Operand'
 import {

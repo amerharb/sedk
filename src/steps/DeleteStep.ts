@@ -1,6 +1,6 @@
 import { BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
-import { AliasedTable, Table } from '../database/database'
+import { AliasedTable, Table } from '../database'
 import { DeleteFromStep } from './DeleteFromStep'
 import { FromItemRelation } from '../FromItemInfo'
 

@@ -1,7 +1,7 @@
 import { BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
-import { Table } from '../database'
-import { Column } from '../columns'
+import { Table } from '../database/database'
+import { Column } from '../database/columns'
 import { IntoStep } from './IntoStep'
 
 export class InsertStep extends BaseStep {

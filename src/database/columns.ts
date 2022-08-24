@@ -1,11 +1,11 @@
 import { Table } from './database'
-import { escapeDoubleQuote } from './util'
-import { Binder } from './binder'
-import { BooleanLike, DateLike, NumberLike, TextLike } from './models/types'
-import { Operand } from './models/Operand'
-import { Condition } from './models/Condition'
-import { Expression, ExpressionType } from './models/Expression'
-import { BitwiseOperator, ComparisonOperator, NullOperator, Operator, TextOperator } from './operators'
+import { escapeDoubleQuote } from '../util'
+import { Binder } from '../binder'
+import { BooleanLike, DateLike, NumberLike, TextLike } from '../models/types'
+import { Operand } from '../models/Operand'
+import { Condition } from '../models/Condition'
+import { Expression, ExpressionType } from '../models/Expression'
+import { BitwiseOperator, ComparisonOperator, NullOperator, Operator, TextOperator } from '../operators'
 import {
 	ASC,
 	DESC,
@@ -14,14 +14,14 @@ import {
 	NULLS_LAST,
 	NULLS_POSITION_NOT_EXIST,
 	OrderByItemInfo,
-} from './orderBy'
-import { SelectItemInfo } from './SelectItemInfo'
-import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
-import { IStatementGiver } from './models/IStatementGiver'
-import { BuilderData } from './builder'
-import { ItemInfo } from './ItemInfo'
-import { UpdateSetItemInfo } from './UpdateSetItemInfo'
-import { DEFAULT, Default } from './singletoneConstants'
+} from '../orderBy'
+import { SelectItemInfo } from '../SelectItemInfo'
+import { AggregateFunction, AggregateFunctionEnum } from '../AggregateFunction'
+import { IStatementGiver } from '../models/IStatementGiver'
+import { BuilderData } from '../builder'
+import { ItemInfo } from '../ItemInfo'
+import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
+import { DEFAULT, Default } from '../singletoneConstants'
 
 type ColumnObj = {
   name: string

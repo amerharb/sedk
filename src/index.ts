@@ -24,13 +24,13 @@ export {
 	Database,
 	Schema,
 	Table,
-} from './database'
+} from './database/database'
 export {
 	BooleanColumn,
 	NumberColumn,
 	TextColumn,
 	DateColumn,
-} from './columns'
+} from './database/columns'
 export {
 	OrderByDirection,
 	DIRECTION_NOT_EXIST,

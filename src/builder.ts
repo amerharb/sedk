@@ -1,5 +1,5 @@
-import { AliasedTable, Database, Table } from './database'
-import { BooleanColumn, Column } from './columns'
+import { AliasedTable, Database, Table } from './database/database'
+import { BooleanColumn, Column } from './database/columns'
 import { PrimitiveType } from './models/types'
 import { Condition } from './models/Condition'
 import { Binder, BinderStore } from './binder'

@@ -1,7 +1,7 @@
 import { BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
 import { Condition } from '../models/Condition'
-import { Column } from '../columns'
+import { Column } from '../database/columns'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import {

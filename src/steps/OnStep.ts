@@ -1,7 +1,7 @@
 import { BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
 import { Condition } from '../models/Condition'
-import { Column } from '../columns'
+import { Column } from '../database/columns'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import {
@@ -10,7 +10,7 @@ import {
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { SelectWhereStep } from './SelectWhereStep'
-import { Table } from '../database'
+import { Table } from '../database/database'
 import { returnStepOrThrow } from '../util'
 import { ItemInfo } from '../ItemInfo'
 import { ReturningItem } from '../ReturningItemInfo'

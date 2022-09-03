@@ -1,4 +1,4 @@
-import { Binder } from '../binder'
+import { Binder, BinderArray } from '../binder'
 import { Expression, ExpressionType } from './Expression'
 import { BuilderData } from '../builder'
 import { AggregateFunction } from '../AggregateFunction'
@@ -10,11 +10,11 @@ import { Condition } from './Condition'
 
 export class Operand implements IStatementGiver {
 	// TODO: check why value can be undefined
-	public value?: OperandType|Binder|OperandType[]
+	public value?: OperandType|Binder|OperandType[]|BinderArray
 	public type: ExpressionType
 	public isNot: boolean
 
-	constructor(value?: OperandType|Binder|OperandType[], isNot?: boolean) {
+	constructor(value?: OperandType|Binder|OperandType[]|BinderArray, isNot?: boolean) {
 		this.value = value
 		this.type = Operand.getExpressionType(value)
 		this.isNot = Operand.getNotValueOrThrow(isNot, this.type)
@@ -25,7 +25,7 @@ export class Operand implements IStatementGiver {
 	}
 
 	private static getStmtOfValue(
-		value: OperandType|Binder|OperandType[]|undefined,
+		value: OperandType|Binder|OperandType[]|BinderArray|undefined,
 		isNot: boolean,
 		data: BuilderData,
 	): string {
@@ -35,6 +35,13 @@ export class Operand implements IStatementGiver {
 			if (value.no === undefined) {
 				data.binderStore.add(value)
 			}
+			return `${value.getStmt()}`
+		} else if (value instanceof BinderArray) {
+			value.binders.forEach(it => {
+				if (it.no === undefined) {
+					data.binderStore.add(it)
+				}
+			})
 			return `${value.getStmt()}`
 		} else if (typeof value === 'string') {
 			return getStmtString(value)
@@ -60,7 +67,7 @@ export class Operand implements IStatementGiver {
 		throw new Error('Operand type is not supported')
 	}
 
-	private static getExpressionType(operand?: OperandType|Binder|OperandType[]): ExpressionType {
+	private static getExpressionType(operand?: OperandType|Binder|OperandType[]|BinderArray): ExpressionType {
 		if (operand === undefined) {
 			return ExpressionType.NOT_EXIST
 		} else if (operand === null) {
@@ -79,19 +86,18 @@ export class Operand implements IStatementGiver {
 			return operand.type
 		} else if (operand instanceof Condition) { /** ignore IDE warning, operand can be an instance of Condition */
 			return operand.type
-		} else if (operand instanceof Binder) {
-			if (operand.value === null) {
+		} else if (operand instanceof Binder || operand instanceof BinderArray) {
+			const operandValue = operand instanceof Binder ? operand.value : operand.binders[0].value
+			if (operandValue === null) {
 				return ExpressionType.NULL
-			} else if (typeof operand.value === 'boolean') {
+			} else if (typeof operandValue === 'boolean') {
 				return ExpressionType.BOOLEAN
-			} else if (typeof operand.value === 'number') {
+			} else if (typeof operandValue === 'number') {
 				return ExpressionType.NUMBER
-			} else if (typeof operand.value === 'string') {
+			} else if (typeof operandValue === 'string') {
 				return ExpressionType.TEXT
-			} else if (operand.value instanceof Date) {
+			} else if (operandValue instanceof Date) {
 				return ExpressionType.DATE
-			} else if (Array.isArray(operand.value)) {
-				return ExpressionType.ARRAY
 			}
 		} else if (Array.isArray(operand)) {
 			return ExpressionType.ARRAY

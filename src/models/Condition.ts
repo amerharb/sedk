@@ -123,10 +123,18 @@ export class Condition implements Expression, IStatementGiver {
 			}
 			Condition.throwInvalidConditionError(leftExpression.type, operator, rightExpression.type)
 		} else if (Condition.isComparisonOperator(operator)) {
-			if (leftExpression.type === ExpressionType.NULL || rightExpression.type === ExpressionType.NULL) {
-				return ExpressionType.NULL
-			} else if (leftExpression.type === ExpressionType.BOOLEAN && rightExpression.type === ExpressionType.TEXT && isTextBoolean(rightExpression.leftOperand.value)) {
-				return ExpressionType.BOOLEAN
+			if (Condition.isListComparisonOperator(operator)) {
+				// TODO: Check if leftExpression list values are comparable with rightExpression
+				if (rightExpression.type === ExpressionType.ARRAY) {
+					return ExpressionType.BOOLEAN
+				}
+				Condition.throwInvalidConditionError(leftExpression.type, operator, rightExpression.type)
+			} else {
+				if (leftExpression.type === ExpressionType.NULL || rightExpression.type === ExpressionType.NULL) {
+					return ExpressionType.NULL
+				} else if (leftExpression.type === ExpressionType.BOOLEAN && rightExpression.type === ExpressionType.TEXT && isTextBoolean(rightExpression.leftOperand.value)) {
+					return ExpressionType.BOOLEAN
+				}
 			}
 			Condition.throwInvalidConditionError(leftExpression.type, operator, rightExpression.type)
 		}
@@ -135,6 +143,11 @@ export class Condition implements Expression, IStatementGiver {
 
 	private static isComparisonOperator(operator: Operator): boolean {
 		return Object.values(ComparisonOperator).includes(operator as ComparisonOperator)
+	}
+
+	private static isListComparisonOperator(operator: Operator): boolean {
+		// TODO: add NotIn operator
+		return [ComparisonOperator.In].includes(operator as ComparisonOperator)
 	}
 
 	private static isNullOperator(operator: Operator): boolean {

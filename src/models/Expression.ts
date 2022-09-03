@@ -6,7 +6,7 @@ import {
 	Operator,
 	TextOperator,
 } from '../operators'
-import { Binder } from '../binder'
+import { Binder, BinderArray } from '../binder'
 import { BuilderData } from '../builder'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { Column } from '../database'
@@ -31,6 +31,7 @@ export enum ExpressionType {
 	NUMBER,
 	TEXT,
 	DATE,
+	// TODO: make this type more specific like array of number, array of text, etc.
 	ARRAY
 }
 
@@ -41,12 +42,13 @@ export class Expression implements IStatementGiver {
 	public readonly type: ExpressionType
 
 	constructor(binder: Binder)
+	constructor(binders: BinderArray)
 	constructor(leftOperandType: OperandType[])
 	constructor(leftOperandType: OperandType)
 	constructor(leftOperandType: OperandType, notLeft: boolean)
 	constructor(leftOperandType: OperandType, operator: Operator, rightOperandType: OperandType)
 	constructor(leftOperandType: OperandType, operator: Operator, rightOperandType: OperandType, notLeft: boolean, notRight: boolean)
-	constructor(leftOperandType: OperandType|Binder|OperandType[], operatorOrNotLeft?: boolean|Operator, rightOperandType?: OperandType, notLeft?: boolean, notRight?: boolean) {
+	constructor(leftOperandType: OperandType|Binder|OperandType[]|BinderArray, operatorOrNotLeft?: boolean|Operator, rightOperandType?: OperandType, notLeft?: boolean, notRight?: boolean) {
 		if (typeof operatorOrNotLeft === 'boolean') {
 			this.leftOperand = new Operand(leftOperandType, operatorOrNotLeft)
 			this.operator = undefined

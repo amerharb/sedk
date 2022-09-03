@@ -1,6 +1,6 @@
 import { Table } from './database'
 import { escapeDoubleQuote } from '../util'
-import { Binder } from '../binder'
+import { Binder, BinderArray } from '../binder'
 import { BooleanLike, DateLike, NumberLike, PrimitiveType, TextLike, ValueLike } from '../models/types'
 import { Operand } from '../models/Operand'
 import { Condition } from '../models/Condition'
@@ -181,8 +181,8 @@ export class BooleanColumn extends Column implements Condition {
 	}
 
 	public in$(...values: boolean[]): Condition {
-		const binders = new Binder(values)
-		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binders))
+		const binderArray = new BinderArray(values.map(it => new Binder(it)))
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
 	}
 
 	public let(value: boolean|null|Default): UpdateSetItemInfo {
@@ -287,8 +287,8 @@ export class NumberColumn extends Column {
 	}
 
 	public in$(...values: number[]): Condition {
-		const binders = new Binder(values)
-		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binders))
+		const binderArray = new BinderArray(values.map(it => new Binder(it)))
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
 	}
 
 	public bitwiseAnd(value: number): Expression {
@@ -415,8 +415,8 @@ export class TextColumn extends Column {
 	}
 
 	public in$(...values: string[]): Condition {
-		const binders = new Binder(values)
-		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binders))
+		const binderArray = new BinderArray(values.map(it => new Binder(it)))
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
 	}
 }
 
@@ -514,7 +514,7 @@ export class DateColumn extends Column {
 	}
 
 	public in$(...values: Date[]): Condition {
-		const binders = new Binder(values)
-		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binders))
+		const binderArray = new BinderArray(values.map(it => new Binder(it)))
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
 	}
 }

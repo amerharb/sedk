@@ -1,4 +1,4 @@
-import { PrimitiveType } from './models/types'
+import { PrimitiveArrayType, PrimitiveType } from './models/types'
 
 export class BinderStore {
 	private store: Binder[] = []
@@ -18,7 +18,7 @@ export class BinderStore {
 		return binder
 	}
 
-	public getValues(): PrimitiveType[] {
+	public getValues(): (PrimitiveType|PrimitiveArrayType)[] {
 		return this.store.map(it => it.value)
 	}
 
@@ -30,10 +30,10 @@ export class BinderStore {
 export class Binder {
 	private mNo?: number = undefined
 
-	public constructor(value: PrimitiveType)
-	public constructor(value: PrimitiveType, no: number)
+	public constructor(value: PrimitiveType|PrimitiveArrayType)
+	public constructor(value: PrimitiveType|PrimitiveArrayType, no: number)
 	public constructor(
-		public readonly value: PrimitiveType,
+		public readonly value: PrimitiveType|PrimitiveArrayType,
 		no?: number,
 	) {
 		if (no !== undefined) {

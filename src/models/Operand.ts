@@ -5,50 +5,62 @@ import { AggregateFunction } from '../AggregateFunction'
 import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../database'
 import { OperandType } from './types'
 import { IStatementGiver } from './IStatementGiver'
-import { getStmtNull, getStmtBoolean, getStmtString, getStmtDate } from '../util'
+import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString } from '../util'
 import { Condition } from './Condition'
 
 export class Operand implements IStatementGiver {
-	public value?: OperandType|Binder
+	// TODO: check why value can be undefined
+	public value?: OperandType|Binder|OperandType[]
 	public type: ExpressionType
 	public isNot: boolean
 
-	constructor(value?: OperandType|Binder, isNot?: boolean) {
+	constructor(value?: OperandType|Binder|OperandType[], isNot?: boolean) {
 		this.value = value
 		this.type = Operand.getExpressionType(value)
 		this.isNot = Operand.getNotValueOrThrow(isNot, this.type)
 	}
 
 	public getStmt(data: BuilderData): string {
-		if (this.value === null) {
-			return getStmtNull()
-		} else if (this.value instanceof Binder) {
-			if (this.value.no === undefined) {
-				data.binderStore.add(this.value)
-			}
-			return `${this.value.getStmt()}`
-		} else if (typeof this.value === 'string') {
-			return getStmtString(this.value)
-		} else if (typeof this.value === 'boolean') {
-			return `${this.isNot ? 'NOT ' : ''}${getStmtBoolean(this.value)}`
-		} else if (this.value instanceof AggregateFunction) {
-			return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt(data)}`
-		} else if (this.value instanceof Expression) {
-			return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt(data)}`
-		} else if (this.value instanceof Condition) { /** ignore IDE warning, "this.value" can be an instance of Condition */
-			return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt(data)}`
-		} else if (this.value instanceof Column) {
-			return `${this.isNot ? 'NOT ' : ''}${this.value.getStmt(data)}`
-		} else if (typeof this.value === 'number') {
-			return `${this.isNot ? 'NOT ' : ''}${this.value}`
-		} else if (this.value instanceof Date) {
-			return `${this.isNot ? 'NOT ' : ''}${getStmtDate(this.value)}`
-		} else { // value here is undefined
-			return `${this.isNot ? 'NOT' : ''}`
-		}
+		return Operand.getStmtOfValue(this.value, this.isNot, data)
 	}
 
-	private static getExpressionType(operand?: OperandType|Binder): ExpressionType {
+	private static getStmtOfValue(
+		value: OperandType|Binder|OperandType[]|undefined,
+		isNot: boolean,
+		data: BuilderData,
+	): string {
+		if (value === null) {
+			return getStmtNull()
+		} else if (value instanceof Binder) {
+			if (value.no === undefined) {
+				data.binderStore.add(value)
+			}
+			return `${value.getStmt()}`
+		} else if (typeof value === 'string') {
+			return getStmtString(value)
+		} else if (typeof value === 'boolean') {
+			return `${isNot ? 'NOT ' : ''}${getStmtBoolean(value)}`
+		} else if (value instanceof AggregateFunction) {
+			return `${isNot ? 'NOT ' : ''}${value.getStmt(data)}`
+		} else if (value instanceof Expression) {
+			return `${isNot ? 'NOT ' : ''}${value.getStmt(data)}`
+		} else if (value instanceof Condition) { /** ignore IDE warning, "value" can be an instance of Condition */
+			return `${isNot ? 'NOT ' : ''}${value.getStmt(data)}`
+		} else if (value instanceof Column) {
+			return `${isNot ? 'NOT ' : ''}${value.getStmt(data)}`
+		} else if (typeof value === 'number') {
+			return `${isNot ? 'NOT ' : ''}${value}`
+		} else if (value instanceof Date) {
+			return `${isNot ? 'NOT ' : ''}${getStmtDate(value)}`
+		} else if (typeof value === 'undefined') {
+			return `${isNot ? 'NOT' : ''}`
+		} else if (Array.isArray(value)) {
+			return `${isNot ? 'NOT ' : ''}(${value.map(it => this.getStmtOfValue(it, isNot, data)).join(', ')})`
+		}
+		throw new Error('Operand type is not supported')
+	}
+
+	private static getExpressionType(operand?: OperandType|Binder|OperandType[]): ExpressionType {
 		if (operand === undefined) {
 			return ExpressionType.NOT_EXIST
 		} else if (operand === null) {
@@ -78,7 +90,11 @@ export class Operand implements IStatementGiver {
 				return ExpressionType.TEXT
 			} else if (operand.value instanceof Date) {
 				return ExpressionType.DATE
+			} else if (Array.isArray(operand.value)) {
+				return ExpressionType.ARRAY
 			}
+		} else if (Array.isArray(operand)) {
+			return ExpressionType.ARRAY
 		}
 		throw new Error('Operand type is not supported')
 	}

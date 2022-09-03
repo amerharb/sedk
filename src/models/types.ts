@@ -3,7 +3,9 @@ import { AggregateFunction } from '../AggregateFunction'
 import { Expression } from './Expression'
 
 export type NonNullPrimitiveType = boolean|number|string|Date
+export type NonNullPrimitiveArrayType = NonNullPrimitiveType[]
 export type PrimitiveType = null|NonNullPrimitiveType
+export type PrimitiveArrayType = PrimitiveType[]
 
 const booleanArray: readonly string[] = ['t', 'tr', 'tru', 'true', 'f', 'fa', 'fal', 'fals', 'false']
 type TextBooleanSmallLetter = typeof booleanArray[number]
@@ -15,7 +17,8 @@ export type TextLike = string|TextColumn
 export type DateLike = Date|DateColumn
 export type ValueLike = BooleanLike|NumberLike|TextLike|DateLike
 export type ValueType = null|ValueLike
-export type OperandType = ValueType|AggregateFunction|Expression
+export type ValueArrayType = ValueType[]
+export type OperandType = ValueType|AggregateFunction|Expression|ValueArrayType
 
 export function isTextBoolean(text: unknown): text is TextBoolean {
 	if (typeof text === 'string')

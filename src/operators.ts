@@ -10,6 +10,7 @@ export enum ComparisonOperator {
 	GreaterOrEqual = '>=',
 	LesserThan = '<',
 	LesserOrEqual = '<=',
+	In = 'IN',
 }
 
 export type Qualifier = NullOperator|ComparisonOperator

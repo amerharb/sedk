@@ -31,10 +31,15 @@ mindmapDiagram {
 
 * PrimitiveType <<type>>
 ** null <<null>>
-** boolean <<primitive>>
-** number <<primitive>>
-** string <<primitive>>
-** Date <<class>>
+** NonNullPrimitiveType <<type>>
+*** boolean <<primitive>>
+*** number <<primitive>>
+*** string <<primitive>>
+*** Date <<class>>
+
+* PrimitiveArrayType <<type>>
+* NonNullPrimitiveArrayType <<type>>
+
 
 * SelectItem <<type>>
 ** Aggregate Function <<class>>
@@ -66,6 +71,7 @@ mindmapDiagram {
 ** Expression <<class>>
 ** AggregateFunction <<class>>
 ** ValueType <<type>>
+** ValueArrayType <<type>>
 *** null <<null>>
 *** BooleanLike <<type>>
 **** boolean <<primitive>>
@@ -102,6 +108,7 @@ mindmapDiagram {
 **** GreaterOrEqual = '>=' <<enumItem>>
 **** LesserThan = '<' <<enumItem>>
 **** LesserOrEqual = '<=' <<enumItem>>
+**** In = 'IN' <<enumItem>>
 *** NullOperator <<enum>>
 **** Is = 'IS' <<enumItem>>
 **** IsNot = 'IS NOT' <<enumItem>>

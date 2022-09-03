@@ -1,7 +1,7 @@
 import { Table } from './database'
 import { escapeDoubleQuote } from '../util'
 import { Binder } from '../binder'
-import { BooleanLike, DateLike, NumberLike, TextLike } from '../models/types'
+import { BooleanLike, DateLike, NumberLike, PrimitiveType, TextLike, ValueLike } from '../models/types'
 import { Operand } from '../models/Operand'
 import { Condition } from '../models/Condition'
 import { Expression, ExpressionType } from '../models/Expression'
@@ -24,7 +24,7 @@ import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
 import { DEFAULT, Default } from '../singletoneConstants'
 
 type ColumnObj = {
-  name: string
+	name: string
 }
 
 export abstract class Column implements IStatementGiver {
@@ -104,12 +104,16 @@ export abstract class Column implements IStatementGiver {
 
 		const tableName = (
 			data.option.addTableName === 'always'
-      || (data.option.addTableName === 'when two tables or more'
-        && data.fromItemInfos.some(it => it.table !== this.table))
+			|| (data.option.addTableName === 'when two tables or more'
+				&& data.fromItemInfos.some(it => it.table !== this.table))
 		) ? `"${escapeDoubleQuote(this.table.name)}".` : ''
 
 		return `${schemaName}${tableName}"${escapeDoubleQuote(this.data.name)}"`
 	}
+
+	public abstract in(...values: ValueLike[]): Condition
+
+	public abstract in$(...values: PrimitiveType[]): Condition
 }
 
 export class BooleanColumn extends Column implements Condition {
@@ -170,6 +174,15 @@ export class BooleanColumn extends Column implements Condition {
 
 	public get not(): Condition {
 		return new Condition(new Expression(this, true))
+	}
+
+	public in(...values: BooleanLike[]): Condition {
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(values))
+	}
+
+	public in$(...values: boolean[]): Condition {
+		const binders = new Binder(values)
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binders))
 	}
 
 	public let(value: boolean|null|Default): UpdateSetItemInfo {
@@ -267,6 +280,15 @@ export class NumberColumn extends Column {
 	public le$(value: number): Condition {
 		const binder = new Binder(value)
 		return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
+	}
+
+	public in(...values: NumberLike[]): Condition {
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(values))
+	}
+
+	public in$(...values: number[]): Condition {
+		const binders = new Binder(values)
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binders))
 	}
 
 	public bitwiseAnd(value: number): Expression {
@@ -387,6 +409,15 @@ export class TextColumn extends Column {
 	public let$(value: string|null): UpdateSetItemInfo {
 		return new UpdateSetItemInfo(this, new Binder(value))
 	}
+
+	public in(...values: TextLike[]): Condition {
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(values))
+	}
+
+	public in$(...values: string[]): Condition {
+		const binders = new Binder(values)
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binders))
+	}
 }
 
 export class DateColumn extends Column {
@@ -476,5 +507,14 @@ export class DateColumn extends Column {
 
 	public let$(value: Date|null): UpdateSetItemInfo {
 		return new UpdateSetItemInfo(this, new Binder(value))
+	}
+
+	public in(...values: DateLike[]): Condition {
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(values))
+	}
+
+	public in$(...values: Date[]): Condition {
+		const binders = new Binder(values)
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binders))
 	}
 }

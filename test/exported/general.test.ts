@@ -561,28 +561,6 @@ describe(`test from one table`, () => {
 		expect(actual.getBindValues()).toEqual(expected.values)
 	})
 
-	it(`Produces [SELECT * FROM "table1" WHERE "col1" IN ('a', 'b', 'c');]`, () => {
-		const actual = sql
-			.selectAsteriskFrom(table1)
-			.where(col1.in('a', 'b', 'c'))
-			.getSQL()
-
-		expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col1" IN ('a', 'b', 'c');`)
-	})
-
-	it(`Produces [SELECT * FROM "table1" WHERE "col1" IN ($1, $2, $3);]`, () => {
-		const actual = sql
-			.selectAsteriskFrom(table1)
-			.where(col1.in$('a', 'b', 'c'))
-
-		const expected = {
-			sql: `SELECT * FROM "table1" WHERE "col1" IN ($1, $2, $3);`,
-			values: ['a', 'b', 'c'],
-		}
-		expect(actual.getSQL()).toEqual(expected.sql)
-		expect(actual.getBindValues()).toEqual(expected.values)
-	})
-
 	it(`Produces [SELECT "col1" FROM "table1" WHERE "col1" = "col2";]`, () => {
 		const actual = sql
 			.select(col1)

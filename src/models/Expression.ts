@@ -196,7 +196,7 @@ export class Expression implements IStatementGiver {
 			if (right.type === ExpressionType.BOOLEAN) {
 				if (left.type === ExpressionType.NULL || ExpressionType.BOOLEAN)
 					return ExpressionType.BOOLEAN
-				if (left.type === ExpressionType.TEXT && isTextNumber(left.value))
+				if (left.type === ExpressionType.TEXT && isTextBoolean(left.value))
 					return ExpressionType.BOOLEAN
 			}
 

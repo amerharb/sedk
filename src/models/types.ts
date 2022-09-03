@@ -3,9 +3,7 @@ import { AggregateFunction } from '../AggregateFunction'
 import { Expression } from './Expression'
 
 export type NonNullPrimitiveType = boolean|number|string|Date
-export type NonNullPrimitiveArrayType = NonNullPrimitiveType[]
 export type PrimitiveType = null|NonNullPrimitiveType
-export type PrimitiveArrayType = PrimitiveType[]
 
 const booleanArray: readonly string[] = ['t', 'tr', 'tru', 'true', 'f', 'fa', 'fal', 'fals', 'false']
 type TextBooleanSmallLetter = typeof booleanArray[number]

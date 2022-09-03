@@ -1,4 +1,4 @@
-import { PrimitiveArrayType, PrimitiveType } from './models/types'
+import { PrimitiveType } from './models/types'
 import { IStatementGiver } from './models/IStatementGiver'
 
 export class BinderStore {
@@ -19,7 +19,7 @@ export class BinderStore {
 		return binder
 	}
 
-	public getValues(): (PrimitiveType|PrimitiveArrayType)[] {
+	public getValues(): PrimitiveType[] {
 		return this.store.map(it => it.value)
 	}
 

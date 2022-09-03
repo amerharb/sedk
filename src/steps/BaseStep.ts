@@ -1,5 +1,5 @@
 import { BuilderData, SqlPath } from '../builder'
-import { PrimitiveArrayType, PrimitiveType } from '../models/types'
+import { PrimitiveType } from '../models/types'
 import { Condition } from '../models/Condition'
 import { Expression } from '../models/Expression'
 import { LogicalOperator } from '../operators'
@@ -22,7 +22,7 @@ export abstract class BaseStep {
 		return this.getStatement()
 	}
 
-	public getBindValues(): (PrimitiveType|PrimitiveArrayType)[] {
+	public getBindValues(): PrimitiveType[] {
 		return [...this.data.binderStore.getValues()]
 	}
 

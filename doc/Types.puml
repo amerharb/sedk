@@ -37,10 +37,6 @@ mindmapDiagram {
 *** string <<primitive>>
 *** Date <<class>>
 
-* PrimitiveArrayType <<type>>
-* NonNullPrimitiveArrayType <<type>>
-
-
 * SelectItem <<type>>
 ** Aggregate Function <<class>>
 ** ColumnLike <<type>>

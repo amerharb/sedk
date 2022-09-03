@@ -8,6 +8,7 @@ import {
 	InvalidLimitValueError,
 	InvalidOffsetValueError,
 	InsertColumnsAndValuesNotEqualError,
+	InsertColumnsAndExpressionsNotEqualError,
 	Builder,
 	e,
 	Table,
@@ -24,7 +25,6 @@ import {
 	ASTERISK,
 } from '../../src'
 import { database } from '../database'
-import { InsertColumnsAndExpressionsNotEqualError } from '../../src/errors'
 
 //Alias
 const ADD = ArithmeticOperator.ADD

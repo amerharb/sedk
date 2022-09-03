@@ -19,6 +19,7 @@ export {
 	InvalidLimitValueError,
 	InvalidOffsetValueError,
 	InsertColumnsAndValuesNotEqualError,
+	InsertColumnsAndExpressionsNotEqualError,
 } from './errors'
 export {
 	Database,

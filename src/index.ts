@@ -20,6 +20,7 @@ export {
 	InvalidOffsetValueError,
 	InsertColumnsAndValuesNotEqualError,
 	InsertColumnsAndExpressionsNotEqualError,
+	EmptyArrayError,
 } from './errors'
 export {
 	Database,

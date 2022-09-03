@@ -22,6 +22,7 @@ import { BuilderData } from '../builder'
 import { ItemInfo } from '../ItemInfo'
 import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
 import { DEFAULT, Default } from '../singletoneConstants'
+import { EmptyArrayError } from '../errors'
 
 type ColumnObj = {
 	name: string
@@ -114,6 +115,10 @@ export abstract class Column implements IStatementGiver {
 	public abstract in(...values: ValueLike[]): Condition
 
 	public abstract in$(...values: PrimitiveType[]): Condition
+
+	protected static throwIfArrayIsEmpty(arr: ValueLike[], operator: ComparisonOperator): void {
+		if (arr.length === 0) throw new EmptyArrayError(operator)
+	}
 }
 
 export class BooleanColumn extends Column implements Condition {
@@ -177,10 +182,12 @@ export class BooleanColumn extends Column implements Condition {
 	}
 
 	public in(...values: BooleanLike[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(values))
 	}
 
 	public in$(...values: boolean[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		const binderArray = new BinderArray(values.map(it => new Binder(it)))
 		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
 	}
@@ -283,10 +290,12 @@ export class NumberColumn extends Column {
 	}
 
 	public in(...values: NumberLike[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(values))
 	}
 
 	public in$(...values: number[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		const binderArray = new BinderArray(values.map(it => new Binder(it)))
 		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
 	}
@@ -411,10 +420,12 @@ export class TextColumn extends Column {
 	}
 
 	public in(...values: TextLike[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(values))
 	}
 
 	public in$(...values: string[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		const binderArray = new BinderArray(values.map(it => new Binder(it)))
 		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
 	}
@@ -510,10 +521,12 @@ export class DateColumn extends Column {
 	}
 
 	public in(...values: DateLike[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(values))
 	}
 
 	public in$(...values: Date[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		const binderArray = new BinderArray(values.map(it => new Binder(it)))
 		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
 	}

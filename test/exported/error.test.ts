@@ -9,6 +9,7 @@ import {
 	InvalidOffsetValueError,
 	InsertColumnsAndValuesNotEqualError,
 	InsertColumnsAndExpressionsNotEqualError,
+	EmptyArrayError,
 	Builder,
 	e,
 	Table,
@@ -357,6 +358,18 @@ describe('Throw desired Errors', () => {
 			expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
 		})
 	})
+
+	describe('Error: EmptyArrayError', () => {
+		it(`IN Operator's array cannot be empty`, () => {
+			function actual() {
+				sql.selectAsteriskFrom(table1).where(col1.in$())
+			}
+
+			expect(actual).toThrow(EmptyArrayError)
+			expect(actual).toThrow(`IN Operator's array cannot be empty`)
+		})
+	})
+
 	it(`Throws error "Value step has Unsupported value: x, type: y"`, () => {
 		const value = { unsupportedObject: 'something' }
 		function actual() {

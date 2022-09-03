@@ -150,6 +150,36 @@ describe('Condition', () => {
 				expect(actual.getBindValues()).toEqual(expected.values)
 			})
 		})
+		describe('Number column', () => {
+			it(`Produces [SELECT * FROM "table1" WHERE "col4" IN (1, 2, 3);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col4.in(1, 2, 3))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col4" IN (1, 2, 3);`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col4" IN ("col5");]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col4.in(col5))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col4" IN ("col5");`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col4" IN ($1, $2, $3);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col4.in$(1, 2, 3))
+
+				const expected = {
+					sql: `SELECT * FROM "table1" WHERE "col4" IN ($1, $2, $3);`,
+					values: [1, 2, 3],
+				}
+				expect(actual.getSQL()).toEqual(expected.sql)
+				expect(actual.getBindValues()).toEqual(expected.values)
+			})
+		})
 		describe('Text column', () => {
 			it(`Produces [SELECT * FROM "table1" WHERE "col1" IN ('a', 'b', 'c');]`, () => {
 				const actual = sql

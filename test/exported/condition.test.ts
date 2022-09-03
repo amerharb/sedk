@@ -9,6 +9,8 @@ const col4 = table1.c.col4
 const col5 = table1.c.col5
 const col7 = table1.c.col7
 const col8 = table1.c.col8
+const col9 = table1.c.col9
+const col10 = table1.c.col10
 
 describe('Condition', () => {
 	const sql = new Builder(database)
@@ -205,6 +207,39 @@ describe('Condition', () => {
 				const expected = {
 					sql: `SELECT * FROM "table1" WHERE "col1" IN ($1, $2, $3);`,
 					values: ['a', 'b', 'c'],
+				}
+				expect(actual.getSQL()).toEqual(expected.sql)
+				expect(actual.getBindValues()).toEqual(expected.values)
+			})
+		})
+		describe('Date column', () => {
+			const date1 = new Date('1979-11-14T00:00:00.000Z')
+			const date2 = new Date('2019-05-05T00:00:00.000Z')
+			const date3 = new Date('1980-11-01T00:00:00.000Z')
+			it(`Produces [SELECT * FROM "table1" WHERE "col9" IN ('1979-11-14T00:00:00.000Z', '2019-05-05T00:00:00.000Z', '1980-11-01T00:00:00.000Z');]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col9.in(date1, date2, date3))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col9" IN ('1979-11-14T00:00:00.000Z', '2019-05-05T00:00:00.000Z', '1980-11-01T00:00:00.000Z');`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col9" IN ("col10");]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col9.in(col10))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col9" IN ("col10");`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col9" IN ($1, $2, $3);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col9.in$(date1, date2, date3))
+
+				const expected = {
+					sql: `SELECT * FROM "table1" WHERE "col9" IN ($1, $2, $3);`,
+					values: [date1, date2, date3],
 				}
 				expect(actual.getSQL()).toEqual(expected.sql)
 				expect(actual.getBindValues()).toEqual(expected.values)

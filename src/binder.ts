@@ -68,10 +68,6 @@ export class Binder implements IStatementGiver {
 export class BinderArray implements IStatementGiver {
 	public constructor(public readonly binders: Binder[]) {}
 
-	public toString(): string {
-		return this.getStmt()
-	}
-
 	public getStmt(): string {
 		return `(${this.binders.map(it => it.getStmt()).join(', ')})`
 	}

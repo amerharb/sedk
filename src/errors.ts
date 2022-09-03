@@ -1,3 +1,4 @@
+import { ComparisonOperator } from './operators'
 
 export class ColumnNotFoundError extends Error{}
 
@@ -28,5 +29,12 @@ export class InsertColumnsAndExpressionsNotEqualError extends Error{
 	constructor(columnsCount: number, expressionsCount: number) {
 		super()
 		this.message = `Number of expressions in Select does not match number of columns. Columns: ${columnsCount}, Expressions: ${expressionsCount}`
+	}
+}
+
+export class EmptyArrayError extends Error{
+	constructor(operator: ComparisonOperator) {
+		super()
+		this.message = `${operator} Operator's array cannot be empty`
 	}
 }

@@ -1,4 +1,4 @@
-import { Column } from './columns'
+import { Column } from './database'
 import { BuilderData } from './builder'
 import { IStatementGiver } from './models/IStatementGiver'
 

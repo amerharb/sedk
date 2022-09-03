@@ -75,6 +75,19 @@ so if you change from Postgres to Mysql then you will need to change the library
 ## What is New
 
 ### Version: 0.14.1
+- Support IN Operator
+```typescript
+sql.selectAsteriskFrom(Employee).where(name.in('John', 'Jane')).getSQL()
+// SELECT * FROM "Employee" WHERE "name" IN ('John', 'Jane');
+```
+IN with binder
+```typescript
+sql.selectAsteriskFrom(Employee).where(name.in$('John', 'Jane'))
+    .getSQL()
+    // SELECT * FROM "Employee" WHERE "name" IN ($1, $2);
+    .getBindValues()
+    // ['John', 'Jane']
+```
 
 ### Version: 0.14.0
 - Add Insert path

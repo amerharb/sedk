@@ -6,10 +6,10 @@ import {
 	Operator,
 	TextOperator,
 } from '../operators'
-import { Binder } from '../binder'
+import { Binder, BinderArray } from '../binder'
 import { BuilderData } from '../builder'
 import { SelectItemInfo } from '../SelectItemInfo'
-import { Column } from '../columns'
+import { Column } from '../database'
 import { InvalidExpressionError } from '../errors'
 import { Operand } from './Operand'
 import {
@@ -25,12 +25,14 @@ import { Condition } from './Condition'
 import { ItemInfo } from '../ItemInfo'
 
 export enum ExpressionType {
-  NOT_EXIST,
-  NULL,
-  BOOLEAN,
-  NUMBER,
-  TEXT,
-  DATE,
+	NOT_EXIST,
+	NULL,
+	BOOLEAN,
+	NUMBER,
+	TEXT,
+	DATE,
+	// TODO: make this type more specific like array of number, array of text, etc.
+	ARRAY
 }
 
 export class Expression implements IStatementGiver {
@@ -40,11 +42,13 @@ export class Expression implements IStatementGiver {
 	public readonly type: ExpressionType
 
 	constructor(binder: Binder)
+	constructor(binders: BinderArray)
+	constructor(leftOperandType: OperandType[])
 	constructor(leftOperandType: OperandType)
 	constructor(leftOperandType: OperandType, notLeft: boolean)
 	constructor(leftOperandType: OperandType, operator: Operator, rightOperandType: OperandType)
 	constructor(leftOperandType: OperandType, operator: Operator, rightOperandType: OperandType, notLeft: boolean, notRight: boolean)
-	constructor(leftOperandType: OperandType|Binder, operatorOrNotLeft?: boolean|Operator, rightOperandType?: OperandType, notLeft?: boolean, notRight?: boolean) {
+	constructor(leftOperandType: OperandType|Binder|OperandType[]|BinderArray, operatorOrNotLeft?: boolean|Operator, rightOperandType?: OperandType, notLeft?: boolean, notRight?: boolean) {
 		if (typeof operatorOrNotLeft === 'boolean') {
 			this.leftOperand = new Operand(leftOperandType, operatorOrNotLeft)
 			this.operator = undefined
@@ -134,76 +138,83 @@ export class Expression implements IStatementGiver {
 	}
 
 	private static getResultExpressionType(left: Operand, operator: Operator, right: Operand): ExpressionType {
-		if (this.isArithmeticOperator(operator)) {
+		if (Expression.isArithmeticOperator(operator)) {
 			if ((left.type === ExpressionType.NULL && right.type === ExpressionType.NUMBER)
-        || (left.type === ExpressionType.NUMBER && right.type === ExpressionType.NULL))
+				|| (left.type === ExpressionType.NUMBER && right.type === ExpressionType.NULL))
 				return ExpressionType.NULL
 
 			if (left.type === ExpressionType.NUMBER && right.type === ExpressionType.NUMBER)
 				return ExpressionType.NUMBER
 
 			if (((left.type === ExpressionType.TEXT && isTextNumber(left.value)) && right.type === ExpressionType.NUMBER)
-        || (left.type === ExpressionType.NUMBER && (right.type === ExpressionType.TEXT && isTextNumber(right.value))))
+				|| (left.type === ExpressionType.NUMBER && (right.type === ExpressionType.TEXT && isTextNumber(right.value))))
 				return ExpressionType.NUMBER
 
-			this.throwInvalidTypeError(left.type, operator, right.type)
+			Expression.throwInvalidTypeError(left.type, operator, right.type)
 		}
 
-		if (this.isBitwiseOperator(operator)) {
+		if (Expression.isBitwiseOperator(operator)) {
 			if (left.type === ExpressionType.NUMBER && right.type === ExpressionType.NUMBER)
 				return ExpressionType.NUMBER
 
 			if (left.type === ExpressionType.NUMBER && (right.type === ExpressionType.TEXT && isTextNumber(right.value))
-        || right.type === ExpressionType.NUMBER && (left.type === ExpressionType.TEXT && isTextNumber(left.value)))
+				|| right.type === ExpressionType.NUMBER && (left.type === ExpressionType.TEXT && isTextNumber(left.value)))
 				return ExpressionType.NUMBER
 
-			this.throwInvalidTypeError(left.type, operator, right.type)
+			Expression.throwInvalidTypeError(left.type, operator, right.type)
 		}
 
-		if (this.isComparisonOperator(operator)) {
-			if (left.type === ExpressionType.NULL || right.type === ExpressionType.NULL)
-				return ExpressionType.NULL
+		if (Expression.isComparisonOperator(operator)) {
+			if (Expression.isListComparisonOperator(operator)) {
+				// TODO: check the values of the right same type of the left
+				if (right.type === ExpressionType.ARRAY)
+					return ExpressionType.BOOLEAN
 
-			if (left.type === right.type)
-				return ExpressionType.BOOLEAN
+				Expression.throwInvalidTypeError(left.type, operator, right.type)
+			} else {
+				if (left.type === ExpressionType.NULL || right.type === ExpressionType.NULL)
+					return ExpressionType.NULL
 
-			if (left.type === ExpressionType.BOOLEAN && (right.type === ExpressionType.TEXT && isTextBoolean(right.value))
-        || right.type === ExpressionType.BOOLEAN && (left.type === ExpressionType.TEXT && isTextBoolean(left.value)))
-				return ExpressionType.BOOLEAN
+				if (left.type === right.type)
+					return ExpressionType.BOOLEAN
 
-			if (left.type === ExpressionType.NUMBER && (right.type === ExpressionType.TEXT && isTextNumber(right.value))
-        || right.type === ExpressionType.NUMBER && (left.type === ExpressionType.TEXT && isTextNumber(left.value)))
-				return ExpressionType.BOOLEAN
+				if (left.type === ExpressionType.BOOLEAN && (right.type === ExpressionType.TEXT && isTextBoolean(right.value))
+					|| right.type === ExpressionType.BOOLEAN && (left.type === ExpressionType.TEXT && isTextBoolean(left.value)))
+					return ExpressionType.BOOLEAN
 
-			this.throwInvalidTypeError(left.type, operator, right.type)
+				if (left.type === ExpressionType.NUMBER && (right.type === ExpressionType.TEXT && isTextNumber(right.value))
+					|| right.type === ExpressionType.NUMBER && (left.type === ExpressionType.TEXT && isTextNumber(left.value)))
+					return ExpressionType.BOOLEAN
+			}
+			Expression.throwInvalidTypeError(left.type, operator, right.type)
 		}
 
-		if (this.isNullOperator(operator)) {
+		if (Expression.isNullOperator(operator)) {
 			if (right.type === ExpressionType.NULL)
 				return ExpressionType.BOOLEAN
 
 			if (right.type === ExpressionType.BOOLEAN) {
 				if (left.type === ExpressionType.NULL || ExpressionType.BOOLEAN)
 					return ExpressionType.BOOLEAN
-				if (left.type === ExpressionType.TEXT && isTextNumber(left.value))
+				if (left.type === ExpressionType.TEXT && isTextBoolean(left.value))
 					return ExpressionType.BOOLEAN
 			}
 
-			this.throwInvalidTypeError(left.type, operator, right.type)
+			Expression.throwInvalidTypeError(left.type, operator, right.type)
 		}
 
-		if (this.isTextOperator(operator)) {
+		if (Expression.isTextOperator(operator)) {
 			if (left.type === ExpressionType.NULL || right.type === ExpressionType.NULL)
 				return ExpressionType.NULL
 
 			if (left.type === ExpressionType.TEXT
-        && (right.type === ExpressionType.TEXT || right.type === ExpressionType.NUMBER))
+				&& (right.type === ExpressionType.TEXT || right.type === ExpressionType.NUMBER))
 				return ExpressionType.TEXT
 
 			if (left.type === ExpressionType.NUMBER && right.type === ExpressionType.TEXT)
 				return ExpressionType.TEXT
 
-			this.throwInvalidTypeError(left.type, operator, right.type)
+			Expression.throwInvalidTypeError(left.type, operator, right.type)
 		}
 
 		throw new Error(`Function "getResultExpressionType" does not support operator: "${operator}"`)
@@ -223,6 +234,11 @@ export class Expression implements IStatementGiver {
 
 	private static isComparisonOperator(operator: Operator): boolean {
 		return Object.values(ComparisonOperator).includes(operator as ComparisonOperator)
+	}
+
+	private static isListComparisonOperator(operator: Operator): boolean {
+		// TODO: add NotIn operator
+		return [ComparisonOperator.In].includes(operator as ComparisonOperator)
 	}
 
 	private static isNullOperator(operator: Operator): boolean {

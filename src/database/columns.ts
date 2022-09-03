@@ -1,11 +1,11 @@
 import { Table } from './database'
-import { escapeDoubleQuote } from './util'
-import { Binder } from './binder'
-import { BooleanLike, DateLike, NumberLike, TextLike } from './models/types'
-import { Operand } from './models/Operand'
-import { Condition } from './models/Condition'
-import { Expression, ExpressionType } from './models/Expression'
-import { BitwiseOperator, ComparisonOperator, NullOperator, Operator, TextOperator } from './operators'
+import { escapeDoubleQuote } from '../util'
+import { Binder, BinderArray } from '../binder'
+import { BooleanLike, DateLike, NumberLike, PrimitiveType, TextLike, ValueLike } from '../models/types'
+import { Operand } from '../models/Operand'
+import { Condition } from '../models/Condition'
+import { Expression, ExpressionType } from '../models/Expression'
+import { BitwiseOperator, ComparisonOperator, NullOperator, Operator, TextOperator } from '../operators'
 import {
 	ASC,
 	DESC,
@@ -14,17 +14,18 @@ import {
 	NULLS_LAST,
 	NULLS_POSITION_NOT_EXIST,
 	OrderByItemInfo,
-} from './orderBy'
-import { SelectItemInfo } from './SelectItemInfo'
-import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
-import { IStatementGiver } from './models/IStatementGiver'
-import { BuilderData } from './builder'
-import { ItemInfo } from './ItemInfo'
-import { UpdateSetItemInfo } from './UpdateSetItemInfo'
-import { DEFAULT, Default } from './singletoneConstants'
+} from '../orderBy'
+import { SelectItemInfo } from '../SelectItemInfo'
+import { AggregateFunction, AggregateFunctionEnum } from '../AggregateFunction'
+import { IStatementGiver } from '../models/IStatementGiver'
+import { BuilderData } from '../builder'
+import { ItemInfo } from '../ItemInfo'
+import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
+import { DEFAULT, Default } from '../singletoneConstants'
+import { EmptyArrayError } from '../errors'
 
 type ColumnObj = {
-  name: string
+	name: string
 }
 
 export abstract class Column implements IStatementGiver {
@@ -104,11 +105,19 @@ export abstract class Column implements IStatementGiver {
 
 		const tableName = (
 			data.option.addTableName === 'always'
-      || (data.option.addTableName === 'when two tables or more'
-        && data.fromItemInfos.some(it => it.table !== this.table))
+			|| (data.option.addTableName === 'when two tables or more'
+				&& data.fromItemInfos.some(it => it.table !== this.table))
 		) ? `"${escapeDoubleQuote(this.table.name)}".` : ''
 
 		return `${schemaName}${tableName}"${escapeDoubleQuote(this.data.name)}"`
+	}
+
+	public abstract in(...values: ValueLike[]): Condition
+
+	public abstract in$(...values: PrimitiveType[]): Condition
+
+	protected static throwIfArrayIsEmpty(arr: ValueLike[], operator: ComparisonOperator): void {
+		if (arr.length === 0) throw new EmptyArrayError(operator)
 	}
 }
 
@@ -170,6 +179,17 @@ export class BooleanColumn extends Column implements Condition {
 
 	public get not(): Condition {
 		return new Condition(new Expression(this, true))
+	}
+
+	public in(...values: BooleanLike[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(values))
+	}
+
+	public in$(...values: boolean[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
+		const binderArray = new BinderArray(values.map(it => new Binder(it)))
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
 	}
 
 	public let(value: boolean|null|Default): UpdateSetItemInfo {
@@ -267,6 +287,17 @@ export class NumberColumn extends Column {
 	public le$(value: number): Condition {
 		const binder = new Binder(value)
 		return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
+	}
+
+	public in(...values: NumberLike[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(values))
+	}
+
+	public in$(...values: number[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
+		const binderArray = new BinderArray(values.map(it => new Binder(it)))
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
 	}
 
 	public bitwiseAnd(value: number): Expression {
@@ -387,6 +418,17 @@ export class TextColumn extends Column {
 	public let$(value: string|null): UpdateSetItemInfo {
 		return new UpdateSetItemInfo(this, new Binder(value))
 	}
+
+	public in(...values: TextLike[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(values))
+	}
+
+	public in$(...values: string[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
+		const binderArray = new BinderArray(values.map(it => new Binder(it)))
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
+	}
 }
 
 export class DateColumn extends Column {
@@ -476,5 +518,16 @@ export class DateColumn extends Column {
 
 	public let$(value: Date|null): UpdateSetItemInfo {
 		return new UpdateSetItemInfo(this, new Binder(value))
+	}
+
+	public in(...values: DateLike[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(values))
+	}
+
+	public in$(...values: Date[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
+		const binderArray = new BinderArray(values.map(it => new Binder(it)))
+		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
 	}
 }

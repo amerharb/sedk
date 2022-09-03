@@ -1,4 +1,4 @@
-import { $, Builder, e, ArithmeticOperator, TextOperator, ComparisonOperator } from '../../src'
+import { $, Builder, e, ArithmeticOperator, TextOperator, ComparisonOperator, NullOperator } from '../../src'
 import { database } from '../database'
 
 //Alias
@@ -7,6 +7,7 @@ const SUB = ArithmeticOperator.SUB
 const CONCAT = TextOperator.CONCAT
 const GT = ComparisonOperator.GreaterThan
 const EQ = ComparisonOperator.Equal
+const IS = NullOperator.Is
 
 const table = database.s.public.t.table1
 const col7 = database.s.public.t.table1.c.col7
@@ -101,6 +102,23 @@ describe('Expression', () => {
 				.getSQL()
 
 			expect(actual).toEqual(`SELECT * FROM "table1" WHERE ("col7" > 'tru');`)
+		})
+
+		it(`Produces [SELECT * FROM "table1" WHERE ("col7" IS NULL);]`, () => {
+			const actual = sql
+				.selectAsteriskFrom(table)
+				.where(e(col7, IS, null))
+				.getSQL()
+
+			expect(actual).toEqual(`SELECT * FROM "table1" WHERE ("col7" IS NULL);`)
+		})
+		it(`Produces [SELECT * FROM "table1" WHERE ("col7" IS TRUE);]`, () => {
+			const actual = sql
+				.selectAsteriskFrom(table)
+				.where(e(col7, IS, true))
+				.getSQL()
+
+			expect(actual).toEqual(`SELECT * FROM "table1" WHERE ("col7" IS TRUE);`)
 		})
 
 		describe('With TextBoolean', () => {

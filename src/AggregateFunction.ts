@@ -5,7 +5,7 @@ import { BuilderData } from './builder'
 import { ComparisonOperator } from './operators'
 import { Binder } from './binder'
 import { IStatementGiver } from './models/IStatementGiver'
-import { Column } from './columns'
+import { Column } from './database'
 import { ItemInfo } from './ItemInfo'
 
 export enum AggregateFunctionEnum {

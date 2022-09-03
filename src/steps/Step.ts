@@ -1,8 +1,7 @@
 import { PrimitiveType } from '../models/types'
 import { Condition } from '../models/Condition'
 import { Expression } from '../models/Expression'
-import { Column } from '../columns'
-import { AliasedTable, Table } from '../database'
+import { AliasedTable, Table, Column } from '../database'
 import {
 	ColumnNotFoundError,
 	InvalidLimitValueError,

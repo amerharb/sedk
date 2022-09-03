@@ -11,7 +11,7 @@ import { OnStep } from '../../src/steps/OnStep'
 import { BinderStore } from '../../src/binder'
 import { BuilderData } from '../../src/builder'
 import { ItemInfo } from '../../src/ItemInfo'
-import { Column } from '../../src/columns'
+import { Column } from '../../src/database/columns'
 
 import { database } from '../database'
 

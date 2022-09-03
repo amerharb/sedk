@@ -3,8 +3,14 @@ import { database } from '../database'
 
 //Alias
 const table1 = database.s.public.t.table1
+const col1 = table1.c.col1
+const col2 = table1.c.col2
 const col4 = table1.c.col4
 const col5 = table1.c.col5
+const col7 = table1.c.col7
+const col8 = table1.c.col8
+const col9 = table1.c.col9
+const col10 = table1.c.col10
 
 describe('Condition', () => {
 	const sql = new Builder(database)
@@ -105,6 +111,139 @@ describe('Condition', () => {
 
 			expect(actual.getSQL()).toEqual('SELECT * FROM "table1" WHERE (("col4" & 1) = 0) IS NOT $1;')
 			expect(actual.getBindValues()).toEqual([null])
+		})
+	})
+	describe('Condition from Condition in/in$', () => {
+		describe('Boolean column', () => {
+			it(`Produces [SELECT * FROM "table1" WHERE "col7" IN (TRUE);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col7.in(true))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col7" IN (TRUE);`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col7" IN ('tr');]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col7.in('tr'))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col7" IN ('tr');`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col7" IN ("col8");]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col7.in(col8))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col7" IN ("col8");`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col7" IN ($1);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col7.in$(true))
+
+				const expected = {
+					sql: `SELECT * FROM "table1" WHERE "col7" IN ($1);`,
+					values: [true],
+				}
+				expect(actual.getSQL()).toEqual(expected.sql)
+				expect(actual.getBindValues()).toEqual(expected.values)
+			})
+		})
+		describe('Number column', () => {
+			it(`Produces [SELECT * FROM "table1" WHERE "col4" IN (1, 2, 3);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col4.in(1, 2, 3))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col4" IN (1, 2, 3);`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col4" IN ("col5");]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col4.in(col5))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col4" IN ("col5");`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col4" IN ($1, $2, $3);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col4.in$(1, 2, 3))
+
+				const expected = {
+					sql: `SELECT * FROM "table1" WHERE "col4" IN ($1, $2, $3);`,
+					values: [1, 2, 3],
+				}
+				expect(actual.getSQL()).toEqual(expected.sql)
+				expect(actual.getBindValues()).toEqual(expected.values)
+			})
+		})
+		describe('Text column', () => {
+			it(`Produces [SELECT * FROM "table1" WHERE "col1" IN ('a', 'b', 'c');]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col1.in('a', 'b', 'c'))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col1" IN ('a', 'b', 'c');`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col1" IN ("col2");]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col1.in(col2))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col1" IN ("col2");`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col1" IN ($1, $2, $3);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col1.in$('a', 'b', 'c'))
+
+				const expected = {
+					sql: `SELECT * FROM "table1" WHERE "col1" IN ($1, $2, $3);`,
+					values: ['a', 'b', 'c'],
+				}
+				expect(actual.getSQL()).toEqual(expected.sql)
+				expect(actual.getBindValues()).toEqual(expected.values)
+			})
+		})
+		describe('Date column', () => {
+			const date1 = new Date('1979-11-14T00:00:00.000Z')
+			const date2 = new Date('2019-05-05T00:00:00.000Z')
+			const date3 = new Date('1980-11-01T00:00:00.000Z')
+			it(`Produces [SELECT * FROM "table1" WHERE "col9" IN ('1979-11-14T00:00:00.000Z', '2019-05-05T00:00:00.000Z', '1980-11-01T00:00:00.000Z');]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col9.in(date1, date2, date3))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col9" IN ('1979-11-14T00:00:00.000Z', '2019-05-05T00:00:00.000Z', '1980-11-01T00:00:00.000Z');`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col9" IN ("col10");]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col9.in(col10))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col9" IN ("col10");`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col9" IN ($1, $2, $3);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col9.in$(date1, date2, date3))
+
+				const expected = {
+					sql: `SELECT * FROM "table1" WHERE "col9" IN ($1, $2, $3);`,
+					values: [date1, date2, date3],
+				}
+				expect(actual.getSQL()).toEqual(expected.sql)
+				expect(actual.getBindValues()).toEqual(expected.values)
+			})
 		})
 	})
 })

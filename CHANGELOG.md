@@ -4,6 +4,7 @@
 ## [0.14.1]  2022-08-01
 ### Chagned
 - Use Tab for indentation
+- Add IN operator
 
 ## [0.14.0]  2022-07-31
 ### Added

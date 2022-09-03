@@ -1,4 +1,5 @@
 import { PrimitiveType } from './models/types'
+import { IStatementGiver } from './models/IStatementGiver'
 
 export class BinderStore {
 	private store: Binder[] = []
@@ -27,7 +28,7 @@ export class BinderStore {
 	}
 }
 
-export class Binder {
+export class Binder implements IStatementGiver {
 	private mNo?: number = undefined
 
 	public constructor(value: PrimitiveType)
@@ -61,5 +62,13 @@ export class Binder {
 			throw new Error(`You can't getStmt() from this binder, The binder is not stored and has undefined "No"`)
 		}
 		return `$${this.mNo}`
+	}
+}
+
+export class BinderArray implements IStatementGiver {
+	public constructor(public readonly binders: Binder[]) {}
+
+	public getStmt(): string {
+		return `(${this.binders.map(it => it.getStmt()).join(', ')})`
 	}
 }

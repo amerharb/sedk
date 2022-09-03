@@ -3,6 +3,7 @@ export { ASTERISK, DISTINCT, ALL, DEFAULT } from './singletoneConstants'
 export { LogicalOperator } from './operators'
 export { e, o, f, $ } from './functions'
 export {
+	NullOperator,
 	ComparisonOperator,
 	ArithmeticOperator,
 	TextOperator,
@@ -19,18 +20,18 @@ export {
 	InvalidLimitValueError,
 	InvalidOffsetValueError,
 	InsertColumnsAndValuesNotEqualError,
+	InsertColumnsAndExpressionsNotEqualError,
+	EmptyArrayError,
 } from './errors'
 export {
 	Database,
 	Schema,
 	Table,
-} from './database'
-export {
 	BooleanColumn,
 	NumberColumn,
 	TextColumn,
 	DateColumn,
-} from './columns'
+} from './database'
 export {
 	OrderByDirection,
 	DIRECTION_NOT_EXIST,

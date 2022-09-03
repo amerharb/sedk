@@ -1,4 +1,4 @@
-import { BooleanColumn, NumberColumn, TextColumn, DateColumn } from '../columns'
+import { BooleanColumn, NumberColumn, TextColumn, DateColumn } from '../database'
 import { AggregateFunction } from '../AggregateFunction'
 import { Expression } from './Expression'
 
@@ -15,7 +15,8 @@ export type TextLike = string|TextColumn
 export type DateLike = Date|DateColumn
 export type ValueLike = BooleanLike|NumberLike|TextLike|DateLike
 export type ValueType = null|ValueLike
-export type OperandType = ValueType|AggregateFunction|Expression
+export type ValueArrayType = ValueType[]
+export type OperandType = ValueType|AggregateFunction|Expression|ValueArrayType
 
 export function isTextBoolean(text: unknown): text is TextBoolean {
 	if (typeof text === 'string')

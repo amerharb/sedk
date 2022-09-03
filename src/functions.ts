@@ -9,6 +9,7 @@ import { Condition } from './models/Condition'
 import {
 	ArithmeticOperator,
 	ComparisonOperator,
+	NullOperator,
 	Operator,
 } from './operators'
 import {
@@ -18,12 +19,13 @@ import {
 	OrderByItemInfo,
 } from './orderBy'
 import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
-import { NumberColumn } from './columns'
+import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from './database'
 import { Binder } from './binder'
 import { PrimitiveType } from './models/types'
 
 export function e(left: OperandType): Expression
 export function e(left: BooleanLike, operator: ComparisonOperator, right: BooleanLike): Condition
+export function e(left: BooleanColumn|NumberColumn|TextColumn|DateColumn, operator: NullOperator, right: BooleanLike|null): Condition
 export function e(left: NumberLike|Binder, operator: ArithmeticOperator, right: NumberLike|Binder): Expression
 export function e(left: TextLike, operator: ComparisonOperator, right: TextLike): Condition
 export function e(left: OperandType, operator: Operator, right: OperandType): Expression
@@ -33,8 +35,8 @@ export function e(left: OperandType|Binder, operator?: Operator, right?: Operand
 		const r = right instanceof Binder ? new Expression(right) : right
 		if (
 			Object.values(ComparisonOperator).includes(operator as ComparisonOperator)
-      && l instanceof Expression
-      && r instanceof Expression
+			&& l instanceof Expression
+			&& r instanceof Expression
 		) {
 			return new Condition(l, operator as ComparisonOperator, r)
 		}

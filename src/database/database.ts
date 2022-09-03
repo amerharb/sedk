@@ -1,7 +1,7 @@
-import { escapeDoubleQuote } from './util'
+import { escapeDoubleQuote } from '../util'
 import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from './columns'
-import { IStatementGiver } from './models/IStatementGiver'
-import { BuilderData } from './builder'
+import { IStatementGiver } from '../models/IStatementGiver'
+import { BuilderData } from '../builder'
 
 type SchemasObj = {
   [schemaName: string]: Schema

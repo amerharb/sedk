@@ -379,4 +379,30 @@ describe('Condition', () => {
 			})
 		})
 	})
+	describe('Condition from Condition both In/In$/notIn/notIn$', () => {
+		describe('Text and Number ', () => {
+			it(`Produces [SELECT * FROM "table1" WHERE "col1" IN ('a', 'b', 'c') AND "col4" NOT IN (1, 2, 3);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col1.in('a', 'b', 'c'))
+					.and(col4.notIn(1, 2, 3))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col1" IN ('a', 'b', 'c') AND "col4" NOT IN (1, 2, 3);`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col1" IN ($1, $2, $3) AND "col4" NOT IN ($4, $5, $6);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col1.in$('a', 'b', 'c'))
+					.and(col4.notIn$(1, 2, 3))
+
+				const expected = {
+					sql: `SELECT * FROM "table1" WHERE "col1" IN ($1, $2, $3) AND "col4" NOT IN ($4, $5, $6);`,
+					values: ['a', 'b', 'c', 1, 2, 3],
+				}
+				expect(actual.getSQL()).toEqual(expected.sql)
+				expect(actual.getBindValues()).toEqual(expected.values)
+			})
+		})
+	})
 })

@@ -75,10 +75,10 @@ so if you change from Postgres to Mysql then you will need to change the library
 ## What is New
 
 ### Version: 0.14.1
-- Support IN Operator
+- Support IN and NOT IN Operator
 ```typescript
-sql.selectAsteriskFrom(Employee).where(name.in('John', 'Jane')).getSQL()
-// SELECT * FROM "Employee" WHERE "name" IN ('John', 'Jane');
+sql.selectAsteriskFrom(Employee).where(name.in('John', 'Jane')).and(age.notIn(18, 19, 20)).getSQL()
+// SELECT * FROM "Employee" WHERE "name" IN ('John', 'Jane') AND "age" NOT IN (18, 19, 20);
 ```
 IN with binder
 ```typescript

@@ -82,11 +82,11 @@ sql.selectAsteriskFrom(Employee).where(name.in('John', 'Jane')).and(age.notIn(18
 ```
 IN with binder
 ```typescript
-sql.selectAsteriskFrom(Employee).where(name.in$('John', 'Jane'))
+sql.selectAsteriskFrom(Employee).where(name.in$('John', 'Jane')).and(age.notIn$(18, 19, 20))
     .getSQL()
-    // SELECT * FROM "Employee" WHERE "name" IN ($1, $2);
+    // SELECT * FROM "Employee" WHERE "name" IN ($1, $2) AND "age" NOT IN ($3, $4, $5);
     .getBindValues()
-    // ['John', 'Jane']
+    // ['John', 'Jane', 18, 19, 20]
 ```
 
 ### Version: 0.14.0

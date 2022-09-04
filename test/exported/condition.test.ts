@@ -246,4 +246,137 @@ describe('Condition', () => {
 			})
 		})
 	})
+	describe('Condition from Condition notIn/notIn$', () => {
+		describe('Boolean column', () => {
+			it(`Produces [SELECT * FROM "table1" WHERE "col7" NOT IN (TRUE);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col7.notIn(true))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col7" NOT IN (TRUE);`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col7" NOT IN ('tr');]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col7.notIn('tr'))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col7" NOT IN ('tr');`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col7" NOT IN ("col8");]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col7.notIn(col8))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col7" NOT IN ("col8");`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col7" NOT IN ($1);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col7.notIn$(true))
+
+				const expected = {
+					sql: `SELECT * FROM "table1" WHERE "col7" NOT IN ($1);`,
+					values: [true],
+				}
+				expect(actual.getSQL()).toEqual(expected.sql)
+				expect(actual.getBindValues()).toEqual(expected.values)
+			})
+		})
+		describe('Number column', () => {
+			it(`Produces [SELECT * FROM "table1" WHERE "col4" NOT IN (1, 2, 3);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col4.notIn(1, 2, 3))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col4" NOT IN (1, 2, 3);`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col4" NOT IN ("col5");]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col4.notIn(col5))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col4" NOT IN ("col5");`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col4" NOT IN ($1, $2, $3);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col4.notIn$(1, 2, 3))
+
+				const expected = {
+					sql: `SELECT * FROM "table1" WHERE "col4" NOT IN ($1, $2, $3);`,
+					values: [1, 2, 3],
+				}
+				expect(actual.getSQL()).toEqual(expected.sql)
+				expect(actual.getBindValues()).toEqual(expected.values)
+			})
+		})
+		describe('Text column', () => {
+			it(`Produces [SELECT * FROM "table1" WHERE "col1" NOT IN ('a', 'b', 'c');]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col1.notIn('a', 'b', 'c'))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col1" NOT IN ('a', 'b', 'c');`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col1" NOT IN ("col2");]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col1.notIn(col2))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col1" NOT IN ("col2");`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col1" NOT IN ($1, $2, $3);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col1.notIn$('a', 'b', 'c'))
+
+				const expected = {
+					sql: `SELECT * FROM "table1" WHERE "col1" NOT IN ($1, $2, $3);`,
+					values: ['a', 'b', 'c'],
+				}
+				expect(actual.getSQL()).toEqual(expected.sql)
+				expect(actual.getBindValues()).toEqual(expected.values)
+			})
+		})
+		describe('Date column', () => {
+			const date1 = new Date('1979-11-14T00:00:00.000Z')
+			const date2 = new Date('2019-05-05T00:00:00.000Z')
+			const date3 = new Date('1980-11-01T00:00:00.000Z')
+			it(`Produces [SELECT * FROM "table1" WHERE "col9" NOT IN ('1979-11-14T00:00:00.000Z', '2019-05-05T00:00:00.000Z', '1980-11-01T00:00:00.000Z');]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col9.notIn(date1, date2, date3))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col9" NOT IN ('1979-11-14T00:00:00.000Z', '2019-05-05T00:00:00.000Z', '1980-11-01T00:00:00.000Z');`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col9" NOT IN ("col10");]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col9.notIn(col10))
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col9" NOT IN ("col10");`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE "col9" NOT IN ($1, $2, $3);]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col9.notIn$(date1, date2, date3))
+
+				const expected = {
+					sql: `SELECT * FROM "table1" WHERE "col9" NOT IN ($1, $2, $3);`,
+					values: [date1, date2, date3],
+				}
+				expect(actual.getSQL()).toEqual(expected.sql)
+				expect(actual.getBindValues()).toEqual(expected.values)
+			})
+		})
+	})
 })

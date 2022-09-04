@@ -11,6 +11,7 @@ export enum ComparisonOperator {
 	LesserThan = '<',
 	LesserOrEqual = '<=',
 	In = 'IN',
+	NotIn = 'NOT IN',
 }
 
 export type Qualifier = NullOperator|ComparisonOperator

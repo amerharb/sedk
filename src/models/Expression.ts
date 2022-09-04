@@ -12,14 +12,7 @@ import { SelectItemInfo } from '../SelectItemInfo'
 import { Column } from '../database'
 import { InvalidExpressionError } from '../errors'
 import { Operand } from './Operand'
-import {
-	isTextBoolean,
-	isTextNumber,
-	NonNullPrimitiveType,
-	OperandType,
-	PrimitiveType,
-	ValueLike,
-} from './types'
+import { isTextBoolean, isTextNumber, NonNullPrimitiveType, OperandType, PrimitiveType, ValueLike } from './types'
 import { IStatementGiver } from './IStatementGiver'
 import { Condition } from './Condition'
 import { ItemInfo } from '../ItemInfo'
@@ -237,8 +230,7 @@ export class Expression implements IStatementGiver {
 	}
 
 	private static isListComparisonOperator(operator: Operator): boolean {
-		// TODO: add NotIn operator
-		return [ComparisonOperator.In].includes(operator as ComparisonOperator)
+		return [ComparisonOperator.In, ComparisonOperator.NotIn].includes(operator as ComparisonOperator)
 	}
 
 	private static isNullOperator(operator: Operator): boolean {

@@ -146,8 +146,7 @@ export class Condition implements Expression, IStatementGiver {
 	}
 
 	private static isListComparisonOperator(operator: Operator): boolean {
-		// TODO: add NotIn operator
-		return [ComparisonOperator.In].includes(operator as ComparisonOperator)
+		return [ComparisonOperator.In, ComparisonOperator.NotIn].includes(operator as ComparisonOperator)
 	}
 
 	private static isNullOperator(operator: Operator): boolean {

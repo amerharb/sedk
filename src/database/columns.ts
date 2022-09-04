@@ -116,6 +116,10 @@ export abstract class Column implements IStatementGiver {
 
 	public abstract in$(...values: PrimitiveType[]): Condition
 
+	public abstract notIn(...values: ValueLike[]): Condition
+
+	public abstract notIn$(...values: PrimitiveType[]): Condition
+
 	protected static throwIfArrayIsEmpty(arr: ValueLike[], operator: ComparisonOperator): void {
 		if (arr.length === 0) throw new EmptyArrayError(operator)
 	}
@@ -190,6 +194,17 @@ export class BooleanColumn extends Column implements Condition {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		const binderArray = new BinderArray(values.map(it => new Binder(it)))
 		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
+	}
+
+	public notIn(...values: BooleanLike[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.NotIn)
+		return new Condition(new Expression(this), ComparisonOperator.NotIn, new Expression(values))
+	}
+
+	public notIn$(...values: boolean[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.NotIn)
+		const binderArray = new BinderArray(values.map(it => new Binder(it)))
+		return new Condition(new Expression(this), ComparisonOperator.NotIn, new Expression(binderArray))
 	}
 
 	public let(value: boolean|null|Default): UpdateSetItemInfo {
@@ -298,6 +313,17 @@ export class NumberColumn extends Column {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		const binderArray = new BinderArray(values.map(it => new Binder(it)))
 		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
+	}
+
+	public notIn(...values: NumberLike[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.NotIn)
+		return new Condition(new Expression(this), ComparisonOperator.NotIn, new Expression(values))
+	}
+
+	public notIn$(...values: number[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.NotIn)
+		const binderArray = new BinderArray(values.map(it => new Binder(it)))
+		return new Condition(new Expression(this), ComparisonOperator.NotIn, new Expression(binderArray))
 	}
 
 	public bitwiseAnd(value: number): Expression {
@@ -429,6 +455,17 @@ export class TextColumn extends Column {
 		const binderArray = new BinderArray(values.map(it => new Binder(it)))
 		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
 	}
+
+	public notIn(...values: TextLike[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.NotIn)
+		return new Condition(new Expression(this), ComparisonOperator.NotIn, new Expression(values))
+	}
+
+	public notIn$(...values: string[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.NotIn)
+		const binderArray = new BinderArray(values.map(it => new Binder(it)))
+		return new Condition(new Expression(this), ComparisonOperator.NotIn, new Expression(binderArray))
+	}
 }
 
 export class DateColumn extends Column {
@@ -529,5 +566,16 @@ export class DateColumn extends Column {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		const binderArray = new BinderArray(values.map(it => new Binder(it)))
 		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
+	}
+
+	public notIn(...values: DateLike[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.NotIn)
+		return new Condition(new Expression(this), ComparisonOperator.NotIn, new Expression(values))
+	}
+
+	public notIn$(...values: Date[]): Condition {
+		Column.throwIfArrayIsEmpty(values, ComparisonOperator.NotIn)
+		const binderArray = new BinderArray(values.map(it => new Binder(it)))
+		return new Condition(new Expression(this), ComparisonOperator.NotIn, new Expression(binderArray))
 	}
 }

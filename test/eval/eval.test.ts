@@ -31,7 +31,7 @@ describe('eval', () => {
 		const codeCypherArray = parseInputFile(file)
 		codeCypherArray.forEach(line => {
 			it(`Produce: [${line.sql}] for: <${line.code}>`, () => {
-				const actual = eval(line.code)
+				const actual = eval(`${line.code}.getSQL()`)
 				expect(actual).toBe(line.sql)
 			})
 		})

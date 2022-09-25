@@ -6,6 +6,7 @@
 - Use Tab for indentation
 - Add IN operator
 - Add NOT IN operator
+- Add unit test based of dynamic evaluation
 
 ## [0.14.0]  2022-07-31
 ### Added

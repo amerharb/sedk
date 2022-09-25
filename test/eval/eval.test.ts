@@ -28,8 +28,7 @@ describe('eval', () => {
 	})
 	describe('tests.csv', () => {
 		const file = fs.readFileSync('test/eval/tests.csv', 'utf8')
-		const codeCypherArray = parseInputFile(file)
-		codeCypherArray.forEach(line => {
+		parseInputFile(file).forEach(line => {
 			it(`Produce: [${line.sql}] for: <${line.code}>`, () => {
 				const actual = eval(line.code)
 				expect(actual.getSQL()).toBe(line.sql)
@@ -39,9 +38,9 @@ describe('eval', () => {
 	})
 })
 
-type CodeCypher = { code: string, sql: string, bindValues: any[] }
+type CodeSqlBindValues = { code: string, sql: string, bindValues: any[] }
 
-function parseInputFile(file: string): CodeCypher[] {
+function parseInputFile(file: string): CodeSqlBindValues[] {
 	const blocks = file.split(/[\r?\n]{2,}/g)
 	return blocks.map(block => {
 		const lines = block.split(/\r?\n/g)

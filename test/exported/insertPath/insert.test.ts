@@ -1,8 +1,9 @@
 import * as sedk from '../../../src'
 import { database } from '../../database'
-import { ASTERISK, DEFAULT } from '../../../src'
 
 //Alias
+const ASTERISK = sedk.ASTERISK
+const DEFAULT = sedk.DEFAULT
 const table1 = database.s.public.t.table1
 const col1 = table1.c.col1
 const col2 = table1.c.col2
@@ -54,6 +55,14 @@ describe('INSERT Path', () => {
 				.returning(col1)
 				.getSQL()
 			expect(actual).toEqual(`INSERT INTO "table1" VALUES('A') RETURNING "col1";`)
+		})
+		it(`Produces [INSERT INTO "table1" VALUES('A') RETURNING "col1" AS "C1";]`, () => {
+			const actual = sql
+				.insertInto(table1)
+				.values('A')
+				.returning(col1.as('C1'))
+				.getSQL()
+			expect(actual).toEqual(`INSERT INTO "table1" VALUES('A') RETURNING "col1" AS "C1";`)
 		})
 		it(`Produces [INSERT INTO "table1"("col1") VALUES('A') RETURNING "col1";]`, () => {
 			const actual = sql

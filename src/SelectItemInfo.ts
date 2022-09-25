@@ -8,8 +8,8 @@ import { ItemInfo } from './ItemInfo'
 
 export class SelectItemInfo extends ItemInfo {
 	constructor(
-    public readonly selectItem: SelectItem,
-    public readonly alias?: string,
+		public readonly selectItem: SelectItem,
+		public readonly alias?: string,
 	) {
 		super(alias)
 	}
@@ -29,8 +29,7 @@ export class SelectItemInfo extends ItemInfo {
 		if (this.alias !== undefined) {
 			// escape double quote by repeating it
 			const escapedAlias = escapeDoubleQuote(this.alias)
-			const asString = (data.option?.addAsBeforeColumnAlias === 'always')
-				? ' AS' : ''
+			const asString = (data.option.addAsBeforeColumnAlias === 'always') ? ' AS' : ''
 			return `${this.selectItem.getStmt(data)}${asString} "${escapedAlias}"`
 		}
 		return `${this.selectItem.getStmt(data)}`

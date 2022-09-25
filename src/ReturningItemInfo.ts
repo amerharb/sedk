@@ -11,8 +11,8 @@ export type ReturningItem = ColumnLike|Binder|Asterisk
 
 export class ReturningItemInfo extends ItemInfo {
 	constructor(
-    private readonly returningItem: ReturningItem,
-    public readonly alias?: string,
+		private readonly returningItem: ReturningItem,
+		public readonly alias?: string,
 	) {
 		super(alias)
 	}
@@ -30,8 +30,7 @@ export class ReturningItemInfo extends ItemInfo {
 		if (this.alias !== undefined) {
 			// escape double quote by repeating it
 			const escapedAlias = escapeDoubleQuote(this.alias)
-			const asString = (data.option?.addAsBeforeColumnAlias === 'always')
-				? ' AS' : ''
+			const asString = (data.option.addAsBeforeColumnAlias === 'always') ? ' AS' : ''
 			return `${this.returningItem.getStmt(data)}${asString} "${escapedAlias}"`
 		}
 		return `${this.returningItem.getStmt(data)}`

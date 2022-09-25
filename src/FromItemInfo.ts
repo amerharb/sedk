@@ -8,23 +8,23 @@ import { Parenthesis } from './steps/BaseStep'
 import { Expression } from './models/Expression'
 
 export enum FromItemRelation {
-  NO_RELATION = '',
-  COMMA = ', ',
-  JOIN = ' JOIN ',
-  LEFT_JOIN = ' LEFT JOIN ',
-  RIGHT_JOIN = ' RIGHT JOIN ',
-  INNER_JOIN = ' INNER JOIN ',
-  FULL_OUTER_JOIN = ' FULL OUTER JOIN ',
-  CROSS_JOIN = ' CROSS JOIN ',
+	NO_RELATION = '',
+	COMMA = ', ',
+	JOIN = ' JOIN ',
+	LEFT_JOIN = ' LEFT JOIN ',
+	RIGHT_JOIN = ' RIGHT JOIN ',
+	INNER_JOIN = ' INNER JOIN ',
+	FULL_OUTER_JOIN = ' FULL OUTER JOIN ',
+	CROSS_JOIN = ' CROSS JOIN ',
 }
 
 export class FromItemInfo implements IStatementGiver {
 	private readonly onParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
 
 	constructor(
-    public readonly fromItem: Table,
-    public readonly relation: FromItemRelation = FromItemRelation.COMMA,
-    public readonly alias?: string,
+		public readonly fromItem: Table,
+		public readonly relation: FromItemRelation = FromItemRelation.COMMA,
+		public readonly alias?: string,
 	) {}
 
 	public get table(): Table {
@@ -47,8 +47,7 @@ export class FromItemInfo implements IStatementGiver {
 		if (this.alias !== undefined) {
 			// escape double quote by repeating it
 			const escapedAlias = escapeDoubleQuote(this.alias)
-			const asString = (data.option?.addAsBeforeTableAlias === 'always')
-				? ' AS' : ''
+			const asString = (data.option.addAsBeforeTableAlias === 'always') ? ' AS' : ''
 			return `${this.relation}${this.fromItem.getStmt(data)}${asString} "${escapedAlias}"${this.getOnPartString(data)}`
 		}
 		return `${this.relation}${this.fromItem.getStmt(data)}${this.getOnPartString(data)}`

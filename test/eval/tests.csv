@@ -1,0 +1,5 @@
+sql.select().from(table1).getSQL()
+SELECT FROM "table1";
+
+sql.select(col1).from(table1).getSQL()
+SELECT "col1" FROM "table1";

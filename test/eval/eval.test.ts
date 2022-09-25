@@ -31,19 +31,23 @@ describe('eval', () => {
 		const codeCypherArray = parseInputFile(file)
 		codeCypherArray.forEach(line => {
 			it(`Produce: [${line.sql}] for: <${line.code}>`, () => {
-				const actual = eval(`${line.code}.getSQL()`)
-				expect(actual).toBe(line.sql)
+				const actual = eval(line.code)
+				expect(actual.getSQL()).toBe(line.sql)
+				expect(actual.getBindValues()).toStrictEqual(line.bindValues)
 			})
 		})
 	})
 })
 
-type CodeCypher = { code: string, sql: string }
+type CodeCypher = { code: string, sql: string, bindValues: any[] }
 
 function parseInputFile(file: string): CodeCypher[] {
 	const blocks = file.split(/[\r?\n]{2,}/g)
 	return blocks.map(block => {
 		const lines = block.split(/\r?\n/g)
-		return { code: lines[0], sql: lines[1] }
+		const code = lines[0]
+		const sql = lines[1]
+		const bindValues = lines[2] ? JSON.parse(lines[2]) : []
+		return { code, sql, bindValues }
 	})
 }

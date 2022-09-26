@@ -21,10 +21,6 @@ export class UpdateSetItemInfo implements IStatementGiver {
 		}
 	}
 
-	public getColumns(): Column[] {
-		return [this.column]
-	}
-
 	public getStmt(data: BuilderData): string {
 		return `${this.column.getStmt(data)} = ${this.operand.getStmt(data)}`
 	}

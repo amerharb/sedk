@@ -85,6 +85,19 @@ describe('Throw desired Errors', () => {
 			expect(actual).toThrowError('WHERE step already specified')
 			expect(actual).toThrowError(MoreThanOneWhereStepError)
 		})
+		it('Throws error when 2 WHERE steps added after update', () => {
+			function actual() {
+				const setStep = sql.update(table1).set(col1.let('something'))
+
+				// first Where Step
+				setStep.where(col1.eq('x1'))
+				// second Where Step, should throw
+				setStep.where(col1.eq('x2'))
+			}
+
+			expect(actual).toThrowError('WHERE step already specified')
+			expect(actual).toThrowError(MoreThanOneWhereStepError)
+		})
 	})
 
 	describe('Error: InvalidExpressionError', () => {
@@ -372,6 +385,7 @@ describe('Throw desired Errors', () => {
 
 	it(`Throws error "Value step has Unsupported value: x, type: y"`, () => {
 		const value = { unsupportedObject: 'something' }
+
 		function actual() {
 			// @ts-ignore
 			sql.insertInto(table1).values(value).getSQL()
@@ -383,12 +397,14 @@ describe('Throw desired Errors', () => {
 		function actual() {
 			sql.insertInto(table1).getSQL()
 		}
+
 		expect(actual).toThrow(`Insert statement must have values or select items`)
 	})
 	it(`Throws error "Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE"`, () => {
 		function actual() {
 			sql.selectAsteriskFrom(table1).returning(ASTERISK).getSQL()
 		}
+
 		expect(actual).toThrow(`Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE`)
 	})
 })

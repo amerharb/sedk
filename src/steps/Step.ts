@@ -53,7 +53,7 @@ export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
 
 export class Step extends BaseStep
 	implements RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
-    FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep, ValuesStep, DefaultValuesStep, UpdateStep {
+		FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep, ValuesStep, DefaultValuesStep, UpdateStep {
 	constructor(protected data: BuilderData) {
 		super(data)
 		data.step = this
@@ -187,56 +187,56 @@ export class Step extends BaseStep
 		if (orderByArgsElement.length === 0) {
 			throw new Error('Order by should have at lease one item')
 		}
-    type StoreType = { orderByItem?: OrderByItem, direction?: OrderByDirection, nullsPos?: OrderByNullsPosition }
-    const store: StoreType = { orderByItem: undefined, direction: undefined, nullsPos: undefined }
-    const pushWhenOrderByItemDefined = () => {
-    	if (store.orderByItem !== undefined) {
-    		this.data.orderByItemInfos.push(new OrderByItemInfo(
-    			store.orderByItem,
-    			store.direction,
-    			store.nullsPos,
-    		))
-    		store.orderByItem = undefined
-    		store.direction = undefined
-    		store.nullsPos = undefined
-    	}
-    }
+		type StoreType = { orderByItem?: OrderByItem, direction?: OrderByDirection, nullsPos?: OrderByNullsPosition }
+		const store: StoreType = { orderByItem: undefined, direction: undefined, nullsPos: undefined }
+		const pushWhenOrderByItemDefined = () => {
+			if (store.orderByItem !== undefined) {
+				this.data.orderByItemInfos.push(new OrderByItemInfo(
+					store.orderByItem,
+					store.direction,
+					store.nullsPos,
+				))
+				store.orderByItem = undefined
+				store.direction = undefined
+				store.nullsPos = undefined
+			}
+		}
 
-    orderByArgsElement.forEach(it => {
-    	if (it instanceof OrderByDirection) {
-    		if (store.orderByItem === undefined)
-    			throw new Error(`${it} expects to have column or alias before it`)
-    		if (store.direction !== undefined)
-    			throw new Error(`${it} shouldn't come after "ASC" or "DESC" without column or alias in between`)
-    		store.direction = it
-    	} else if (it instanceof OrderByNullsPosition) {
-    		if (store.orderByItem === undefined)
-    			throw new Error(`${it} expects to have column or alias before it`)
-    		if (store.nullsPos !== undefined)
-    			throw new Error(`${it} shouldn't come directly after "NULLS FIRST" or "NULLS LAST" without column or alias in between`)
-    		store.nullsPos = it
-    		pushWhenOrderByItemDefined()
-    	} else if (it instanceof OrderByItemInfo) {
-    		pushWhenOrderByItemDefined()
-    		this.data.orderByItemInfos.push(it)
-    	} else if (it instanceof Column) {
-    		pushWhenOrderByItemDefined()
-    		store.orderByItem = it
-    	} else if (it instanceof Expression) {
-    		pushWhenOrderByItemDefined()
-    		store.orderByItem = it
-    	} else { //it is a string
-    		pushWhenOrderByItemDefined()
-    		//look for the alias
-    		if (this.data.selectItemInfos.find(info => info.alias === it)) {
-    			store.orderByItem = `"${escapeDoubleQuote(it)}"`
-    		} else {
-    			throw new Error(`Alias ${it} is not exist, if this is a column, then it should be entered as Column class`)
-    		}
-    	}
-    })
-    pushWhenOrderByItemDefined()
-    return this
+		orderByArgsElement.forEach(it => {
+			if (it instanceof OrderByDirection) {
+				if (store.orderByItem === undefined)
+					throw new Error(`${it} expects to have column or alias before it`)
+				if (store.direction !== undefined)
+					throw new Error(`${it} shouldn't come after "ASC" or "DESC" without column or alias in between`)
+				store.direction = it
+			} else if (it instanceof OrderByNullsPosition) {
+				if (store.orderByItem === undefined)
+					throw new Error(`${it} expects to have column or alias before it`)
+				if (store.nullsPos !== undefined)
+					throw new Error(`${it} shouldn't come directly after "NULLS FIRST" or "NULLS LAST" without column or alias in between`)
+				store.nullsPos = it
+				pushWhenOrderByItemDefined()
+			} else if (it instanceof OrderByItemInfo) {
+				pushWhenOrderByItemDefined()
+				this.data.orderByItemInfos.push(it)
+			} else if (it instanceof Column) {
+				pushWhenOrderByItemDefined()
+				store.orderByItem = it
+			} else if (it instanceof Expression) {
+				pushWhenOrderByItemDefined()
+				store.orderByItem = it
+			} else { //it is a string
+				pushWhenOrderByItemDefined()
+				//look for the alias
+				if (this.data.selectItemInfos.find(info => info.alias === it)) {
+					store.orderByItem = `"${escapeDoubleQuote(it)}"`
+				} else {
+					throw new Error(`Alias ${it} is not exist, if this is a column, then it should be entered as Column class`)
+				}
+			}
+		})
+		pushWhenOrderByItemDefined()
+		return this
 	}
 
 	public limit(n: null|number|All): LimitStep {
@@ -306,8 +306,8 @@ export class Step extends BaseStep
 		for (const item of columns) {
 			if (
 				item instanceof Expression
-        || item instanceof SelectItemInfo
-        || item instanceof ReturningItemInfo
+				|| item instanceof SelectItemInfo
+				|| item instanceof ReturningItemInfo
 			) {
 				this.throwIfColumnsNotInDb(item.getColumns())
 				continue

@@ -1,12 +1,12 @@
 export type BuilderOption = {
-  useSemicolonAtTheEnd?: boolean
-  addAscAfterOrderByItem?: 'always'|'never'|'when mentioned'
-  addNullsLastAfterOrderByItem?: 'always'|'never'|'when mentioned'
-  addAsBeforeColumnAlias?: 'always'|'never'
-  addPublicSchemaName?: 'always'|'never'|'when other schema mentioned'
-  addTableName?: 'always'|'when two tables or more' //TODO: add more options like 'when needed' and 'when conflict'
-  addAsBeforeTableAlias?: 'always'|'never'
-  throwErrorIfDeleteHasNoCondition?: boolean
+	useSemicolonAtTheEnd?: boolean
+	addAscAfterOrderByItem?: 'always'|'never'|'when mentioned'
+	addNullsLastAfterOrderByItem?: 'always'|'never'|'when mentioned'
+	addAsBeforeColumnAlias?: 'always'|'never'
+	addPublicSchemaName?: 'always'|'never'|'when other schema mentioned'
+	addTableName?: 'always'|'when two tables or more' //TODO: add more options like 'when needed' and 'when conflict'
+	addAsBeforeTableAlias?: 'always'|'never'
+	throwErrorIfDeleteHasNoCondition?: boolean
 }
 
 export type BuilderOptionRequired = Required<BuilderOption>

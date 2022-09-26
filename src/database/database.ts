@@ -4,12 +4,12 @@ import { IStatementGiver } from '../models/IStatementGiver'
 import { BuilderData } from '../builder'
 
 type SchemasObj = {
-  [schemaName: string]: Schema
+	[schemaName: string]: Schema
 }
 
 type DatabaseObj<S extends SchemasObj> = {
-  version?: number
-  schemas: S
+	version?: number
+	schemas: S
 }
 
 export class Database<S extends SchemasObj = SchemasObj> {
@@ -64,12 +64,12 @@ export class Database<S extends SchemasObj = SchemasObj> {
 }
 
 type TablesObj = {
-  [tableName: string]: Table
+	[tableName: string]: Table
 }
 
 type SchemaObj<T extends TablesObj> = {
-  name?: string
-  tables: T
+	name?: string
+	tables: T
 }
 
 export class Schema<T extends TablesObj = TablesObj> {
@@ -134,12 +134,12 @@ export class Schema<T extends TablesObj = TablesObj> {
 }
 
 type ColumnsObj = {
-  [columnName: string]: BooleanColumn|NumberColumn|TextColumn|DateColumn
+	[columnName: string]: BooleanColumn|NumberColumn|TextColumn|DateColumn
 }
 
 type TableObj<C extends ColumnsObj> = {
-  name: string
-  columns: C
+	name: string
+	columns: C
 }
 
 export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver {
@@ -216,9 +216,9 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver
 
 		const schemaName = (
 			this.mSchema.name !== 'public'
-      || data.option.addPublicSchemaName === 'always'
-      || (data.option.addPublicSchemaName === 'when other schema mentioned'
-        && data.fromItemInfos.some(it => it.table.schema.name !== 'public'))
+			|| data.option.addPublicSchemaName === 'always'
+			|| (data.option.addPublicSchemaName === 'when other schema mentioned'
+				&& data.fromItemInfos.some(it => it.table.schema.name !== 'public'))
 		) ? `"${escapeDoubleQuote(this.mSchema.name)}".` : ''
 		return `${schemaName}"${escapeDoubleQuote(this.data.name)}"`
 	}

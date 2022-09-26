@@ -21,35 +21,35 @@ import { IntoStep } from './steps/IntoStep'
 import { UpdateSetItemInfo } from './UpdateSetItemInfo'
 
 export enum SqlPath {
-  SELECT = 'SELECT',
-  DELETE = 'DELETE',
-  INSERT = 'INSERT',
-  UPDATE = 'UPDATE',
+	SELECT = 'SELECT',
+	DELETE = 'DELETE',
+	INSERT = 'INSERT',
+	UPDATE = 'UPDATE',
 }
 
 export type BuilderData = {
-  step?: Step,
-  database: Database,
-  option: BuilderOptionRequired,
-  /** Below data used to generate SQL statement */
-  sqlPath?: SqlPath
-  selectItemInfos: SelectItemInfo[],
-  fromItemInfos: FromItemInfo[],
-  distinct?: Distinct|All,
-  whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
-  groupByItems: Column[],
-  havingParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
-  orderByItemInfos: OrderByItemInfo[],
-  limit?: null|number|Binder|All,
-  offset?: number|Binder,
-  insertIntoTable?: Table
-  insertIntoColumns: Column[],
-  insertIntoValues: (PrimitiveType|Binder|Default)[],
-  insertIntoDefaultValues: boolean,
-  updateTable?: Table,
-  updateSetItemInfos: UpdateSetItemInfo[],
-  returning: ReturningItemInfo[],
-  binderStore: BinderStore,
+	step?: Step,
+	database: Database,
+	option: BuilderOptionRequired,
+	/** Below data used to generate SQL statement */
+	sqlPath?: SqlPath
+	selectItemInfos: SelectItemInfo[],
+	fromItemInfos: FromItemInfo[],
+	distinct?: Distinct|All,
+	whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
+	groupByItems: Column[],
+	havingParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
+	orderByItemInfos: OrderByItemInfo[],
+	limit?: null|number|Binder|All,
+	offset?: number|Binder,
+	insertIntoTable?: Table
+	insertIntoColumns: Column[],
+	insertIntoValues: (PrimitiveType|Binder|Default)[],
+	insertIntoDefaultValues: boolean,
+	updateTable?: Table,
+	updateSetItemInfos: UpdateSetItemInfo[],
+	returning: ReturningItemInfo[],
+	binderStore: BinderStore,
 }
 
 export class Builder {

@@ -11,8 +11,8 @@ import { Binder } from '../binder'
 import { Default } from '../singletoneConstants'
 
 export enum Parenthesis {
-  Open = '(',
-  Close = ')',
+	Open = '(',
+	Close = ')',
 }
 
 export abstract class BaseStep {
@@ -274,9 +274,9 @@ export abstract class BaseStep {
 	}
 
 	/**
-   * This function throws error if WhereParts Array where invalid
-   * it check the number of open and close parentheses in the conditions
-   */
+	 * This function throws error if WhereParts Array where invalid
+	 * it check the number of open and close parentheses in the conditions
+	 */
 	private static throwIfConditionPartsInvalid(conditionsArray: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[]) {
 		let pCounter = 0
 		for (let i = 0; i < conditionsArray.length; i++) {

@@ -9,15 +9,16 @@ import { Column } from './database'
 import { ItemInfo } from './ItemInfo'
 
 export enum AggregateFunctionEnum {
-  SUM = 'SUM',
-  AVG = 'AVG',
-  COUNT = 'COUNT',
-  MAX = 'MAX',
-  MIN = 'MIN',
+	SUM = 'SUM',
+	AVG = 'AVG',
+	COUNT = 'COUNT',
+	MAX = 'MAX',
+	MIN = 'MIN',
 }
 
 export class AggregateFunction implements IStatementGiver {
 	private readonly unique: symbol = Symbol()
+
 	constructor(public readonly funcName: AggregateFunctionEnum, private readonly expression: Expression) {
 		if (expression.type !== ExpressionType.NUMBER)
 			throw new Error('Expression Type must be number in aggregate function')

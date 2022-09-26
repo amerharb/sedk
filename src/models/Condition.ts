@@ -99,7 +99,7 @@ export class Condition implements Expression, IStatementGiver {
 	}
 
 	private static getResultExpressionType(leftExpression: Expression, operator?: Qualifier, rightExpression?: Expression)
-    : ExpressionType.NULL|ExpressionType.BOOLEAN {
+		: ExpressionType.NULL|ExpressionType.BOOLEAN {
 		if (operator === undefined || rightExpression === undefined) {
 			if (leftExpression.type === ExpressionType.NULL || leftExpression.type === ExpressionType.BOOLEAN) {
 				return leftExpression.type

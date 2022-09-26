@@ -11,8 +11,8 @@ export class UpdateSetItemInfo implements IStatementGiver {
 	public readonly operand: Operand|Default
 
 	constructor(
-    public readonly column: Column,
-    value: PrimitiveType|Binder|Expression|Default,
+		public readonly column: Column,
+		value: PrimitiveType|Binder|Expression|Default,
 	) {
 		if (value instanceof Default) {
 			this.operand = value

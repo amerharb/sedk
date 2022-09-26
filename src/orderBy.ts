@@ -6,11 +6,11 @@ import { IStatementGiver } from './models/IStatementGiver'
 export type OrderByItem = Column|Expression|string
 export type OrderByArgsElement = OrderByItemInfo|OrderByItem|OrderByDirection|OrderByNullsPosition
 
-export class OrderByItemInfo implements IStatementGiver{
+export class OrderByItemInfo implements IStatementGiver {
 	constructor(
-    private readonly orderByItem: OrderByItem,
-    private readonly direction: OrderByDirection = DIRECTION_NOT_EXIST,
-    private readonly nullPosition: OrderByNullsPosition = NULLS_POSITION_NOT_EXIST,
+		private readonly orderByItem: OrderByItem,
+		private readonly direction: OrderByDirection = DIRECTION_NOT_EXIST,
+		private readonly nullPosition: OrderByNullsPosition = NULLS_POSITION_NOT_EXIST,
 	) {}
 
 	public getStmt(data: BuilderData): string {
@@ -56,7 +56,7 @@ export class OrderByItemInfo implements IStatementGiver{
 
 export abstract class OrderByDirection {}
 
-export class DirectionNotExist extends OrderByDirection{
+export class DirectionNotExist extends OrderByDirection {
 	private static instance: DirectionNotExist
 	private readonly unique: symbol = Symbol()
 
@@ -76,7 +76,7 @@ export class DirectionNotExist extends OrderByDirection{
 
 export const DIRECTION_NOT_EXIST = DirectionNotExist.getInstance()
 
-export class Asc extends OrderByDirection{
+export class Asc extends OrderByDirection {
 	private static instance: Asc
 	private readonly unique: symbol = Symbol()
 
@@ -96,7 +96,7 @@ export class Asc extends OrderByDirection{
 
 export const ASC = Asc.getInstance()
 
-export class Desc extends OrderByDirection{
+export class Desc extends OrderByDirection {
 	private static instance: Desc
 	private readonly unique: symbol = Symbol()
 
@@ -118,7 +118,7 @@ export const DESC = Desc.getInstance()
 
 export abstract class OrderByNullsPosition {}
 
-export class NullsPositionNotExist extends OrderByNullsPosition{
+export class NullsPositionNotExist extends OrderByNullsPosition {
 	private static instance: NullsPositionNotExist
 	private readonly unique: symbol = Symbol()
 
@@ -138,7 +138,7 @@ export class NullsPositionNotExist extends OrderByNullsPosition{
 
 export const NULLS_POSITION_NOT_EXIST = NullsPositionNotExist.getInstance()
 
-export class NullsFirst extends OrderByNullsPosition{
+export class NullsFirst extends OrderByNullsPosition {
 	private static instance: NullsFirst
 	private readonly unique: symbol = Symbol()
 
@@ -158,7 +158,7 @@ export class NullsFirst extends OrderByNullsPosition{
 
 export const NULLS_FIRST = NullsFirst.getInstance()
 
-export class NullsLast extends OrderByNullsPosition{
+export class NullsLast extends OrderByNullsPosition {
 	private static instance: NullsLast
 	private readonly unique: symbol = Symbol()
 

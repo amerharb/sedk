@@ -254,7 +254,7 @@ describe('Throw desired Errors', () => {
 		expect(actual).toThrow(/^ NULLS FIRST expects to have column or alias before it$/)
 	})
 
-	it('Throws error when DESC come before column or alias name', () => {
+	it('Throws error when DESC comes after NULLS_FIRST', () => {
 		function actual() {
 			sql
 				.selectAsteriskFrom(table1)

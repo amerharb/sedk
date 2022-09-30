@@ -46,10 +46,11 @@ import { ItemInfo } from '../ItemInfo'
 import { InsertStep } from './InsertStep'
 import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
 import { SetStep } from './SetStep'
+import { TableAsterisk } from '../TableAsterisk'
 
 export type ColumnLike = Column|Expression
 
-export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk
+export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk|TableAsterisk
 
 export class Step extends BaseStep
 	implements RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
@@ -66,7 +67,7 @@ export class Step extends BaseStep
 		const selectItemInfos: SelectItemInfo[] = items.map(it => {
 			if (it instanceof SelectItemInfo) {
 				return it
-			} else if (it instanceof Expression || it instanceof Column || it instanceof AggregateFunction || it instanceof Asterisk) {
+			} else if (it instanceof Expression || it instanceof Column || it instanceof AggregateFunction || it instanceof Asterisk || it instanceof TableAsterisk) {
 				return new SelectItemInfo(it, undefined)
 			} else if (it instanceof Binder) {
 				if (it.no === undefined) {
@@ -278,7 +279,7 @@ export class Step extends BaseStep
 		const returningItemInfo: ReturningItemInfo[] = items.map(it => {
 			if (it instanceof ReturningItemInfo) {
 				return it
-			} else if (it instanceof Expression || it instanceof Column || it instanceof Asterisk) {
+			} else if (it instanceof Expression || it instanceof Column || it instanceof Asterisk || it instanceof TableAsterisk) {
 				return new ReturningItemInfo(it, undefined)
 			} else if (it instanceof Binder) {
 				if (it.no === undefined) {

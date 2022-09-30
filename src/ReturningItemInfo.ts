@@ -6,8 +6,9 @@ import { Binder } from './binder'
 import { Asterisk } from './singletoneConstants'
 import { ColumnLike } from './steps/Step'
 import { ItemInfo } from './ItemInfo'
+import { TableAsterisk } from './TableAsterisk'
 
-export type ReturningItem = ColumnLike|Binder|Asterisk
+export type ReturningItem = ColumnLike|Binder|Asterisk|TableAsterisk
 
 export class ReturningItemInfo extends ItemInfo {
 	constructor(

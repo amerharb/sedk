@@ -2,6 +2,7 @@ import { escapeDoubleQuote } from '../util'
 import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from './columns'
 import { IStatementGiver } from '../models/IStatementGiver'
 import { BuilderData } from '../builder'
+import { TableAsterisk } from '../TableAsterisk'
 
 type SchemasObj = {
 	[schemaName: string]: Schema
@@ -186,6 +187,10 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver
 	/** Alias to get columns() */
 	public get c(): C {
 		return this.columns
+	}
+
+	public get ASTERISK(): TableAsterisk {
+		return new TableAsterisk(this)
 	}
 
 	public getColumn(columnName: string): Column|null {

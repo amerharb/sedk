@@ -85,6 +85,15 @@ describe(`test from one table`, () => {
 		expect(actual).toEqual(`SELECT *, NULL, 'a', '*', 1, TRUE, FALSE, -5, 3.14 FROM "table1";`)
 	})
 
+	it(`Produces [SELECT "table1".* FROM "table1";]`, () => {
+		const actual = sql
+			.select(table1.ASTERISK)
+			.from(table1)
+			.getSQL()
+
+		expect(actual).toEqual(`SELECT "table1".* FROM "table1";`)
+	})
+
 	describe(`select literal values`, () => {
 		it(`Produces [SELECT 'A';]`, () => {
 			const actual = sql.select(`A`).getSQL()

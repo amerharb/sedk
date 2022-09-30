@@ -7,3 +7,9 @@ SELECT "col1" FROM "table1";
 sql.selectAsteriskFrom(table1).where(col1.eq$('x'))
 SELECT * FROM "table1" WHERE "col1" = $1;
 [ "x" ]
+
+sql.select(table1.ASTERISK).from(table1)
+SELECT "table1".* FROM "table1";
+
+sql.select(table1.ASTERISK, col1).from(table1)
+SELECT "table1".*, "col1" FROM "table1";

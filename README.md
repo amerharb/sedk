@@ -88,7 +88,11 @@ sql.selectAsteriskFrom(Employee).where(name.in$('John', 'Jane')).and(age.notIn$(
     .getBindValues()
     // ['John', 'Jane', 18, 19, 20]
 ```
-
+- Support Asterisk after Table
+```typescript
+sql.select(Employee.ASTERISK).From(Employee).leftJoin(Manager).on(Employee.c.name.eq(Manager.c.name)).getSQL()
+// SELECT "Employee".* FROM "Employee" LEFT JOIN "Manager" ON "Employee"."name" = "Manager"."name";
+```
 ### Version: 0.14.0
 - Add Insert path
 ```typescript

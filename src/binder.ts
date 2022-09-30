@@ -37,9 +37,7 @@ export class Binder implements IStatementGiver {
 		public readonly value: PrimitiveType,
 		no?: number,
 	) {
-		if (no !== undefined) {
-			this.mNo = no
-		}
+		this.mNo = no
 	}
 
 	public set no(no: number|undefined) {

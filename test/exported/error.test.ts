@@ -1,4 +1,5 @@
 import {
+	$,
 	InvalidExpressionError,
 	ColumnNotFoundError,
 	TableNotFoundError,
@@ -380,6 +381,14 @@ describe('Throw desired Errors', () => {
 
 			expect(actual).toThrow(EmptyArrayError)
 			expect(actual).toThrow(`IN Operator's array cannot be empty`)
+		})
+	})
+
+	describe('Error: Binder', () => {
+		it(`Throws: You can't getStmt() from this binder, The binder is not stored and has undefined "No"`, () => {
+			const binder = $('value')
+
+			expect(() => binder.getStmt()).toThrow(`You can't getStmt() from this binder, The binder is not stored and has undefined "No"`)
 		})
 	})
 

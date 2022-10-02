@@ -4,7 +4,7 @@ import { Condition } from '../models/Condition'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import { LogicalOperator } from '../operators'
-import { LimitStep, OffsetStep, OrderByStep, HavingAndStep, HavingOrStep } from './stepInterfaces'
+import { HavingAndStep, HavingOrStep, LimitStep, OffsetStep, OrderByStep } from './stepInterfaces'
 import { returnStepOrThrow } from '../util'
 
 export class HavingStep extends BaseStep {

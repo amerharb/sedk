@@ -1,10 +1,10 @@
 import {
+	ASTERISK,
+	ArithmeticOperator,
 	Builder,
 	LogicalOperator,
-	ArithmeticOperator,
-	ASTERISK,
-} from '../../src'
-import { database } from '../database'
+} from 'src'
+import { database } from 'test/database'
 
 //Alias
 const AND = LogicalOperator.AND

@@ -1,8 +1,8 @@
 import {
 	BooleanLike,
 	NumberLike,
-	TextLike,
 	OperandType,
+	TextLike,
 } from './models/types'
 import { Expression } from './models/Expression'
 import { Condition } from './models/Condition'
@@ -14,9 +14,9 @@ import {
 } from './operators'
 import {
 	OrderByDirection,
-	OrderByNullsPosition,
 	OrderByItem,
 	OrderByItemInfo,
+	OrderByNullsPosition,
 } from './orderBy'
 import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
 import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from './database'

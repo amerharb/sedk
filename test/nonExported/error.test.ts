@@ -1,19 +1,19 @@
 import {
-	InvalidConditionError,
 	Builder,
+	InvalidConditionError,
 	e,
-} from '../../src'
+} from 'src'
 
 // test non-exported Classes
-import { Condition } from '../../src/models/Condition'
-import { Expression } from '../../src/models/Expression'
-import { OnStep } from '../../src/steps/OnStep'
-import { BinderStore } from '../../src/binder'
-import { BuilderData } from '../../src/builder'
-import { ItemInfo } from '../../src/ItemInfo'
-import { Column } from '../../src/database/columns'
+import { Condition } from 'Non-Exported/models/Condition'
+import { Expression } from 'Non-Exported/models/Expression'
+import { OnStep } from 'Non-Exported/steps/OnStep'
+import { Binder, BinderStore } from 'Non-Exported/binder'
+import { BuilderData } from 'Non-Exported/builder'
+import { ItemInfo } from 'Non-Exported/ItemInfo'
+import { Column } from 'Non-Exported/database'
 
-import { database } from '../database'
+import { database } from 'test/database'
 
 //Alias
 const table1 = database.s.public.t.table1
@@ -74,9 +74,32 @@ describe('Throw desired Errors', () => {
 		})
 	})
 
+	describe('Binder', () => {
+		it('Throws: "This binder already stored"', () => {
+			function actual() {
+				const binderStore = new BinderStore()
+				const binder = new Binder('value')
+				binderStore.add(binder)
+				binderStore.add(binder)
+			}
+
+			expect(actual).toThrow(`This binder already stored`)
+		})
+
+		it('Throws: "This Binder already has a number"', () => {
+			function actual() {
+				const binder = new Binder('value', 1)
+				binder.no = 2
+			}
+
+			expect(actual).toThrow(`This Binder already has a number`)
+		})
+	})
+
 	it(`Throws: ItemInfo is an abstract class`, () => {
 		class DummyItemInfo extends ItemInfo {
 			constructor() {super()}
+
 			getColumns(): Column[] {
 				return []
 			}
@@ -85,6 +108,7 @@ describe('Throw desired Errors', () => {
 				return ''
 			}
 		}
+
 		function actual() {
 			sql
 				.deleteFrom(table1)

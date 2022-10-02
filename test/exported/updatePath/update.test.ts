@@ -1,9 +1,10 @@
-import * as sedk from '../../../src'
-import { ASTERISK, DEFAULT } from '../../../src'
-import { database } from '../../database'
+import * as sedk from 'src'
+import { database } from 'test/database'
 
 //Alias
 const e = sedk.e
+const ASTERISK = sedk.ASTERISK
+const DEFAULT = sedk.DEFAULT
 const table1 = database.s.public.t.table1
 const col1 = table1.c.col1
 const col2 = table1.c.col2

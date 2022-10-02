@@ -1,5 +1,5 @@
-import { $, Builder, e, ArithmeticOperator, TextOperator, ComparisonOperator, NullOperator } from '../../src'
-import { database } from '../database'
+import { $, ArithmeticOperator, Builder, ComparisonOperator, NullOperator, TextOperator, e } from 'src'
+import { database } from 'test/database'
 
 //Alias
 const ADD = ArithmeticOperator.ADD

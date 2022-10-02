@@ -1,4 +1,4 @@
-import { BooleanColumn, NumberColumn, TextColumn, DateColumn } from '../database'
+import { BooleanColumn, DateColumn, NumberColumn, TextColumn } from '../database'
 import { AggregateFunction } from '../AggregateFunction'
 import { Expression } from './Expression'
 

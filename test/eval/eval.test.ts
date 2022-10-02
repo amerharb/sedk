@@ -1,5 +1,5 @@
-import * as sedk from '../../src'
-import { database } from '../database'
+import * as sedk from 'src'
+import { database } from 'test/database'
 import * as fs from 'fs'
 
 /** Aliases: they are used inside eval code */
@@ -26,8 +26,8 @@ describe('eval', () => {
 	afterEach(() => {
 		sql.cleanUp()
 	})
-	describe('tests.csv', () => {
-		const file = fs.readFileSync('test/eval/tests.csv', 'utf8')
+	describe('input.lsv', () => {
+		const file = fs.readFileSync('test/eval/input.lsv', 'utf8')
 		parseInputFile(file).forEach(line => {
 			it(`Produce: [${line.sql}] for: <${line.code}>`, () => {
 				const actual = eval(line.code)

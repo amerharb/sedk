@@ -1,7 +1,7 @@
 import { PrimitiveType } from '../models/types'
 import { Condition } from '../models/Condition'
 import { Expression } from '../models/Expression'
-import { AliasedTable, Table, Column } from '../database'
+import { AliasedTable, Column, Table } from '../database'
 import {
 	ColumnNotFoundError,
 	InvalidLimitValueError,
@@ -242,7 +242,7 @@ export class Step extends BaseStep
 
 	public limit(n: null|number|All): LimitStep {
 		if (typeof n === 'number' && (!Number.isFinite(n) || n < 0)) {
-			throw new InvalidLimitValueError(`Invalid limit value: ${n}, value must be positive numbers, null or "ALL"`)
+			throw new InvalidLimitValueError(`Invalid limit value: ${n}, value must be positive number, null or "ALL"`)
 		}
 		this.data.limit = n
 		return this
@@ -250,7 +250,7 @@ export class Step extends BaseStep
 
 	public limit$(n: null|number): LimitStep {
 		if (typeof n === 'number' && (!Number.isFinite(n) || n < 0)) {
-			throw new InvalidLimitValueError(`Invalid limit value: ${n}, value must be positive numbers or null`)
+			throw new InvalidLimitValueError(`Invalid limit value: ${n}, value must be positive number or null`)
 		}
 		this.data.limit = this.data.binderStore.getBinder(n)
 		return this
@@ -258,7 +258,7 @@ export class Step extends BaseStep
 
 	public offset(n: number): OffsetStep {
 		if (!Number.isFinite(n) || n < 0) {
-			throw new InvalidOffsetValueError(`Invalid offset value: ${n}, value must be positive numbers`)
+			throw new InvalidOffsetValueError(`Invalid offset value: ${n}, value must be positive number`)
 		}
 		this.data.offset = n
 		return this
@@ -266,7 +266,7 @@ export class Step extends BaseStep
 
 	public offset$(n: number): OffsetStep {
 		if (!Number.isFinite(n) || n < 0) {
-			throw new InvalidOffsetValueError(`Invalid offset value: ${n}, value must be positive numbers`)
+			throw new InvalidOffsetValueError(`Invalid offset value: ${n}, value must be positive number`)
 		}
 		this.data.offset = this.data.binderStore.getBinder(n)
 		return this

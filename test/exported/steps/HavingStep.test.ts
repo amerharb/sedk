@@ -1,5 +1,5 @@
-import { Builder, LogicalOperator, f } from '../../../src'
-import { database } from '../../database'
+import { Builder, LogicalOperator, f } from 'src'
+import { database } from 'test/database'
 
 //Alias
 const AND = LogicalOperator.AND

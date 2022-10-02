@@ -1,5 +1,5 @@
-import { Builder, e, DeleteWithoutConditionError } from '../../src'
-import { database } from '../database'
+import { Builder, DeleteWithoutConditionError, e } from 'src'
+import { database } from 'test/database'
 
 //Alias
 const publicTable1 = database.s.public.t.table1

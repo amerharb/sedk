@@ -1,6 +1,6 @@
 import { BaseStep } from './BaseStep'
 import { SelectItemInfo } from '../SelectItemInfo'
-import { AliasedTable, Table, Column } from '../database'
+import { AliasedTable, Column, Table } from '../database'
 import { PrimitiveType } from '../models/types'
 import { Condition } from '../models/Condition'
 import { OnStep } from './OnStep'

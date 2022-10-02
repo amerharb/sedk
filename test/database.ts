@@ -1,12 +1,12 @@
 // database schema
 import {
+	BooleanColumn,
 	Database,
+	DateColumn,
+	NumberColumn,
 	Schema,
 	Table,
-	BooleanColumn,
-	NumberColumn,
 	TextColumn,
-	DateColumn,
 } from '../src'
 
 export const database = new Database({

@@ -1,7 +1,7 @@
 import { escapeDoubleQuote } from './util'
 import { BuilderData } from './builder'
 import { IStatementGiver } from './models/IStatementGiver'
-import { Table, BooleanColumn } from './database'
+import { BooleanColumn, Table } from './database'
 import { Condition } from './models/Condition'
 import { LogicalOperator } from './operators'
 import { Parenthesis } from './steps/BaseStep'

@@ -1,12 +1,12 @@
 import {
+	ASC,
 	ArithmeticOperator,
 	Builder,
-	e,
-	o,
-	ASC,
 	DESC,
 	NULLS_FIRST,
 	NULLS_LAST,
+	e,
+	o,
 } from '../../../src'
 import { database } from '../../database'
 //Alias

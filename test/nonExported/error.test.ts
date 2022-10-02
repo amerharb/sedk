@@ -1,6 +1,6 @@
 import {
-	InvalidConditionError,
 	Builder,
+	InvalidConditionError,
 	e,
 } from '../../src'
 

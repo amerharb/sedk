@@ -28,6 +28,7 @@ module.exports = {
         'no-console': 'warn',
         'no-unused-private-class-members': ['off'],
         'no-trailing-spaces': ['warn'],
+        'sort-imports': ['warn', { 'ignoreDeclarationSort': true }],
       },
     },
   ],

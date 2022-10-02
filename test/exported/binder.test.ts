@@ -1,4 +1,4 @@
-import { Builder, $ } from '../../src'
+import { $, Builder } from '../../src'
 import { database } from '../database'
 
 //Alias

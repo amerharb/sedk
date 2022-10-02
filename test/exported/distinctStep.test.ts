@@ -1,6 +1,6 @@
 import {
-	Builder,
 	ALL,
+	Builder,
 	DISTINCT,
 } from '../../src'
 import { database } from '../database'

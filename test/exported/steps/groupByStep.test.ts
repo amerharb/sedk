@@ -1,4 +1,4 @@
-import { Builder, f, e, ArithmeticOperator } from '../../../src'
+import { ArithmeticOperator, Builder, e, f } from '../../../src'
 import { database } from '../../database'
 
 //Alias

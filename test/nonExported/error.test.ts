@@ -8,7 +8,7 @@ import {
 import { Condition } from 'Non-Exported/models/Condition'
 import { Expression } from 'Non-Exported/models/Expression'
 import { OnStep } from 'Non-Exported/steps/OnStep'
-import { BinderStore } from 'Non-Exported/binder'
+import { Binder, BinderStore } from 'Non-Exported/binder'
 import { BuilderData } from 'Non-Exported/builder'
 import { ItemInfo } from 'Non-Exported/ItemInfo'
 import { Column } from 'Non-Exported/database'
@@ -74,9 +74,32 @@ describe('Throw desired Errors', () => {
 		})
 	})
 
+	describe('Binder', () => {
+		it('Throws: "This binder already stored"', () => {
+			function actual() {
+				const binderStore = new BinderStore()
+				const binder = new Binder('value')
+				binderStore.add(binder)
+				binderStore.add(binder)
+			}
+
+			expect(actual).toThrow(`This binder already stored`)
+		})
+
+		it('Throws: "This Binder already has a number"', () => {
+			function actual() {
+				const binder = new Binder('value', 1)
+				binder.no = 2
+			}
+
+			expect(actual).toThrow(`This Binder already has a number`)
+		})
+	})
+
 	it(`Throws: ItemInfo is an abstract class`, () => {
 		class DummyItemInfo extends ItemInfo {
 			constructor() {super()}
+
 			getColumns(): Column[] {
 				return []
 			}
@@ -85,6 +108,7 @@ describe('Throw desired Errors', () => {
 				return ''
 			}
 		}
+
 		function actual() {
 			sql
 				.deleteFrom(table1)

@@ -1,9 +1,9 @@
-import { Builder } from '../../src'
+import { Builder } from 'src'
 
-// test non-exported Classes
-import { ReturningItemInfo } from '../../src/ReturningItemInfo'
-import { isTextBoolean, isTextNumber } from '../../src/models/types'
-import { database } from '../database'
+/** test non-exported Classes */
+import { ReturningItemInfo } from 'Non-Exported/ReturningItemInfo'
+import { isTextBoolean, isTextNumber } from 'Non-Exported/models/types'
+import { database } from 'test/database'
 
 //Alias
 const table1 = database.s.public.t.table1

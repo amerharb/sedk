@@ -2,18 +2,18 @@ import {
 	Builder,
 	InvalidConditionError,
 	e,
-} from '../../src'
+} from 'src'
 
 // test non-exported Classes
-import { Condition } from '../../src/models/Condition'
-import { Expression } from '../../src/models/Expression'
-import { OnStep } from '../../src/steps/OnStep'
-import { BinderStore } from '../../src/binder'
-import { BuilderData } from '../../src/builder'
-import { ItemInfo } from '../../src/ItemInfo'
-import { Column } from '../../src/database/columns'
+import { Condition } from 'Non-Exported/models/Condition'
+import { Expression } from 'Non-Exported/models/Expression'
+import { OnStep } from 'Non-Exported/steps/OnStep'
+import { BinderStore } from 'Non-Exported/binder'
+import { BuilderData } from 'Non-Exported/builder'
+import { ItemInfo } from 'Non-Exported/ItemInfo'
+import { Column } from 'Non-Exported/database'
 
-import { database } from '../database'
+import { database } from 'test/database'
 
 //Alias
 const table1 = database.s.public.t.table1

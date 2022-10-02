@@ -1,5 +1,5 @@
-import * as sedk from '../../src'
-import { database } from '../database'
+import * as sedk from 'src'
+import { database } from 'test/database'
 import * as fs from 'fs'
 
 /** Aliases: they are used inside eval code */

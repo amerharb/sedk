@@ -7,8 +7,8 @@ import {
 	NULLS_LAST,
 	e,
 	o,
-} from '../../../src'
-import { database } from '../../database'
+} from 'src'
+import { database } from 'test/database'
 //Alias
 const table = database.s.public.t.table1
 const col1 = database.s.public.t.table1.c.col1

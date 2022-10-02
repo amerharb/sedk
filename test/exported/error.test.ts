@@ -25,8 +25,8 @@ import {
 	TextColumn,
 	e,
 	f,
-} from '../../src'
-import { database } from '../database'
+} from 'src'
+import { database } from 'test/database'
 
 //Alias
 const ADD = ArithmeticOperator.ADD

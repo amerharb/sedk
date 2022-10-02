@@ -7,6 +7,7 @@ import {
 // test non-exported Classes
 import { Condition } from 'Non-Exported/models/Condition'
 import { Expression } from 'Non-Exported/models/Expression'
+import { Parenthesis } from 'Non-Exported/steps/BaseStep'
 import { OnStep } from 'Non-Exported/steps/OnStep'
 import { Binder, BinderStore } from 'Non-Exported/binder'
 import { BuilderData } from 'Non-Exported/builder'
@@ -93,6 +94,32 @@ describe('Throw desired Errors', () => {
 			}
 
 			expect(actual).toThrow(`This Binder already has a number`)
+		})
+	})
+
+	describe('BaseStep', () => {
+		it('Throws: "Invalid conditions build, opening parentheses are more than closing ones"', () => {
+			function actual() {
+				sql
+					.selectAsteriskFrom(table1)
+					// @ts-ignore
+					.where(Parenthesis.Open)
+					.getSQL()
+			}
+
+			expect(actual).toThrow(`Invalid conditions build, opening parentheses are more than closing ones`)
+		})
+
+		it('Throws: "Invalid conditions build, closing parenthesis must occur after Opening one"', () => {
+			function actual() {
+				sql
+					.selectAsteriskFrom(table1)
+					// @ts-ignore
+					.where(Parenthesis.Close)
+					.getSQL()
+			}
+
+			expect(actual).toThrow(`Invalid conditions build, closing parenthesis must occur after Opening one`)
 		})
 	})
 

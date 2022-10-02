@@ -1,6 +1,10 @@
 import { Builder } from 'src'
 import { database } from 'test/database'
-import { OnStep } from '../../../src/steps/OnStep'
+/**
+ * exceptional case where we import non-exported class in exported unit test
+ *  as we are using it as type only
+ */
+import { OnStep } from 'Non-Exported/steps/OnStep'
 
 //Alias
 const table1 = database.s.public.t.table1

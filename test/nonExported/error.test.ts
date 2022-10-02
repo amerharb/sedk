@@ -110,6 +110,18 @@ describe('Throw desired Errors', () => {
 			expect(actual).toThrow(`Invalid conditions build, opening parentheses are more than closing ones`)
 		})
 
+		it('Throws: "Invalid conditions build, empty parentheses are not allowed"', () => {
+			function actual() {
+				sql
+					.selectAsteriskFrom(table1)
+					// @ts-ignore
+					.where({}, Parenthesis.Open, Parenthesis.Close)
+					.getSQL()
+			}
+
+			expect(actual).toThrow(`Invalid conditions build, empty parentheses are not allowed`)
+		})
+
 		it('Throws: "Invalid conditions build, closing parenthesis must occur after Opening one"', () => {
 			function actual() {
 				sql

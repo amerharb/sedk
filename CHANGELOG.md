@@ -1,13 +1,13 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.14.1]  2022-08-01
+## [0.14.1]  2022-10-06
 ### Added
 - Add IN operator
 - Add NOT IN operator
 - Add unit test based of dynamic evaluation
 - Support Table Asterisk
-### Chagned
+### Changed
 - Use Tab for indentation
 
 ## [0.14.0]  2022-07-31

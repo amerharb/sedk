@@ -1,8 +1,8 @@
 # SEDK-postgres
-[![Version](https://img.shields.io/badge/version-0.14.0-blue.svg)](https://github.com/amerharb/sedk-postgres/tree/version/0.14.0)
+[![Version](https://img.shields.io/badge/version-0.14.1-blue.svg)](https://github.com/amerharb/sedk-postgres/tree/version/0.14.1)
 [![License: GPLv3](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
-[![Coverage Status](https://codecov.io/gh/amerharb/sedk-postgres/branch/main/graph/badge.svg)](https://codecov.io/gh/amerharb/sedk-postgres)
-![Github workflow](https://github.com/amerharb/sedk-postgres/actions/workflows/test-lint.yaml/badge.svg?branch=main)
+[![Coverage Status](https://codecov.io/gh/amerharb/sedk-postgres/branch/version/0.14.1/graph/badge.svg)](https://codecov.io/gh/amerharb/sedk-postgres)
+![Github workflow](https://github.com/amerharb/sedk-postgres/actions/workflows/test-lint.yaml/badge.svg?branch=version/0.14.1)
 
 SEDK is a SQL builder library for Postgres dialect, support binding parameters, and use a pre-defined database schema
 
@@ -73,6 +73,26 @@ so if you change from Postgres to Mysql then you will need to change the library
 ![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk-postgres/34a611aafc003c1b91a2ffaccbf50c30e00b5e73/doc/StepsRailRoad.svg)
 
 ## What is New
+
+### Version: 0.14.1
+- Support IN and NOT IN Operator
+```typescript
+sql.selectAsteriskFrom(Employee).where(name.in('John', 'Jane')).and(age.notIn(18, 19, 20)).getSQL()
+// SELECT * FROM "Employee" WHERE "name" IN ('John', 'Jane') AND "age" NOT IN (18, 19, 20);
+```
+IN with binder
+```typescript
+sql.selectAsteriskFrom(Employee).where(name.in$('John', 'Jane')).and(age.notIn$(18, 19, 20))
+    .getSQL()
+    // SELECT * FROM "Employee" WHERE "name" IN ($1, $2) AND "age" NOT IN ($3, $4, $5);
+    .getBindValues()
+    // ['John', 'Jane', 18, 19, 20]
+```
+- Support Asterisk after Table
+```typescript
+sql.select(Employee.ASTERISK).From(Employee).leftJoin(Manager).on(Employee.c.name.eq(Manager.c.name)).getSQL()
+// SELECT "Employee".* FROM "Employee" LEFT JOIN "Manager" ON "Employee"."name" = "Manager"."name";
+```
 ### Version: 0.14.0
 - Add Insert path
 ```typescript

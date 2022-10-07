@@ -1,15 +1,15 @@
-import { Column } from './columns'
+import { Column } from './database'
 import { BuilderData } from './builder'
 import { IStatementGiver } from './models/IStatementGiver'
 
 export abstract class ItemInfo implements IStatementGiver {
-  private readonly unique: symbol = Symbol()
+	private readonly unique: symbol = Symbol()
 
-  protected constructor(
-    public readonly alias?: string,
-  ) {}
+	protected constructor(
+		public readonly alias?: string,
+	) {}
 
-  public abstract getColumns(): Column[]
+	public abstract getColumns(): Column[]
 
-  public abstract getStmt(data: BuilderData): string
+	public abstract getStmt(data: BuilderData): string
 }

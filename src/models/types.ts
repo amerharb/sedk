@@ -1,4 +1,4 @@
-import { BooleanColumn, NumberColumn, TextColumn, DateColumn } from '../columns'
+import { BooleanColumn, DateColumn, NumberColumn, TextColumn } from '../database'
 import { AggregateFunction } from '../AggregateFunction'
 import { Expression } from './Expression'
 
@@ -15,18 +15,19 @@ export type TextLike = string|TextColumn
 export type DateLike = Date|DateColumn
 export type ValueLike = BooleanLike|NumberLike|TextLike|DateLike
 export type ValueType = null|ValueLike
-export type OperandType = ValueType|AggregateFunction|Expression
+export type ValueArrayType = ValueType[]
+export type OperandType = ValueType|AggregateFunction|Expression|ValueArrayType
 
 export function isTextBoolean(text: unknown): text is TextBoolean {
-  if (typeof text === 'string')
-    return booleanArray.includes(text.toLowerCase())
-  return false
+	if (typeof text === 'string')
+		return booleanArray.includes(text.toLowerCase())
+	return false
 }
 
 export function isTextNumber(text: unknown): text is number {
-  if (typeof text === 'string') {
-    const numberRegex = /^-?[0-9]+(\.[0-9]+)?$/
-    return numberRegex.test(text)
-  }
-  return false
+	if (typeof text === 'string') {
+		const numberRegex = /^-?[0-9]+(\.[0-9]+)?$/
+		return numberRegex.test(text)
+	}
+	return false
 }

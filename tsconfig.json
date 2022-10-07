@@ -12,6 +12,11 @@
     "strict": true,
     "resolveJsonModule": false,
     "strictFunctionTypes": true,
+    "paths": {
+      "src": ["./src"],
+      "Non-Exported/*": ["./src/*"],
+      "test/*": ["./test/*"],
+    }
   },
   "lib": [
     "es2015"

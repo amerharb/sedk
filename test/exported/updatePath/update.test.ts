@@ -28,10 +28,27 @@ describe('UPDATE Path', () => {
 				.getSQL()
 			expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A';`)
 		})
+		it(`Produces [UPDATE "table1" SET "col1" = 'A', "col4" = 1, "col7" = TRUE, "col9" = '2022-07-23T00:00:00.000Z';] using let()`, () => {
+			const actual = sql
+				.update(table1)
+				.set(
+					col1.let('A'),
+					col4.let(1),
+					col7.let(true),
+					col9.let(new Date(EPOCH_2022_07_23))
+				)
+				.getSQL()
+			expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A', "col4" = 1, "col7" = TRUE, "col9" = '2022-07-23T00:00:00.000Z';`)
+		})
 		it(`Produces [UPDATE "table1" SET "col1" = 'A', "col4" = 1, "col7" = TRUE, "col9" = '2022-07-23T00:00:00.000Z';]`, () => {
 			const actual = sql
 				.update(table1)
-				.set(col1.eq('A'), col4.let(1), col7.let(true), col9.let(new Date(EPOCH_2022_07_23)))
+				.set(
+					col1.eq('A'),
+					col4.let(1),
+					col7.let(true),
+					col9.let(new Date(EPOCH_2022_07_23))
+				)
 				.getSQL()
 			expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A', "col4" = 1, "col7" = TRUE, "col9" = '2022-07-23T00:00:00.000Z';`)
 		})

@@ -1,6 +1,8 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.15.0]  2022-10-08
+
 ## [0.14.1]  2022-10-06
 ### Added
 - Add IN operator

@@ -35,11 +35,23 @@ describe('UPDATE Path', () => {
 				.getSQL()
 			expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A', "col4" = 1, "col7" = TRUE, "col9" = '2022-07-23T00:00:00.000Z';`)
 		})
-		it(`Produces [UPDATE "table1" SET "col1" = NULL, "col4" = NULL, "col7" = NULL, "col9" = NULL;]`, () => {
+		it(`Produces [UPDATE "table1" SET "col1" = NULL, "col4" = NULL, "col7" = NULL, "col9" = NULL;] using let()`, () => {
 			const actual = sql
 				.update(table1)
 				.set(
 					col1.let(null),
+					col4.let(null),
+					col7.let(null),
+					col9.let(null),
+				)
+				.getSQL()
+			expect(actual).toEqual(`UPDATE "table1" SET "col1" = NULL, "col4" = NULL, "col7" = NULL, "col9" = NULL;`)
+		})
+		it(`Produces [UPDATE "table1" SET "col1" = NULL, "col4" = NULL, "col7" = NULL, "col9" = NULL;]`, () => {
+			const actual = sql
+				.update(table1)
+				.set(
+					col1.eq(null),
 					col4.let(null),
 					col7.let(null),
 					col9.let(null),
@@ -111,18 +123,37 @@ describe('UPDATE Path', () => {
 		})
 	})
 	describe('Update with Binders', () => {
-		it(`Produces [UPDATE "table1" SET "col1" = DEFAULT;]`, () => {
+		it(`Produces [UPDATE "table1" SET "col1" = DEFAULT;] using let()`, () => {
 			const actual = sql
 				.update(table1)
 				.set(col1.let(DEFAULT))
 
 			expect(actual.getSQL()).toEqual(`UPDATE "table1" SET "col1" = DEFAULT;`)
 		})
-		it(`Produces [UPDATE "table1" SET "col1" = DEFAULT, "col4" = DEFAULT, "col7" = DEFAULT, "col9" = DEFAULT;]`, () => {
+		it(`Produces [UPDATE "table1" SET "col1" = DEFAULT;]`, () => {
+			const actual = sql
+				.update(table1)
+				.set(col1.eq(DEFAULT))
+
+			expect(actual.getSQL()).toEqual(`UPDATE "table1" SET "col1" = DEFAULT;`)
+		})
+		it(`Produces [UPDATE "table1" SET "col1" = DEFAULT, "col4" = DEFAULT, "col7" = DEFAULT, "col9" = DEFAULT;] using let()`, () => {
 			const actual = sql
 				.update(table1)
 				.set(
 					col1.let(DEFAULT),
+					col4.let(DEFAULT),
+					col7.let(DEFAULT),
+					col9.let(DEFAULT),
+				)
+				.getSQL()
+			expect(actual).toEqual(`UPDATE "table1" SET "col1" = DEFAULT, "col4" = DEFAULT, "col7" = DEFAULT, "col9" = DEFAULT;`)
+		})
+		it(`Produces [UPDATE "table1" SET "col1" = DEFAULT, "col4" = DEFAULT, "col7" = DEFAULT, "col9" = DEFAULT;]`, () => {
+			const actual = sql
+				.update(table1)
+				.set(
+					col1.eq(DEFAULT),
 					col4.let(DEFAULT),
 					col7.let(DEFAULT),
 					col9.let(DEFAULT),

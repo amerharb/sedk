@@ -1,4 +1,3 @@
-import { Default } from 'Non-Exported/singletoneConstants'
 import { UpdateSetItemInfo } from 'Non-Exported/UpdateSetItemInfo'
 import { Binder } from '../binder'
 import { BuilderData } from '../builder'
@@ -164,7 +163,7 @@ export class Condition implements Expression, IStatementGiver {
 }
 
 export class UpdateCondition extends Condition implements UpdateSetItemInfo {
-	public readonly operand: Operand|Default
+	public readonly operand: Operand
 	public readonly column: Column
 	public constructor(leftExpression: TextColumn, rightExpression: Expression) {
 		super(new Expression(leftExpression), ComparisonOperator.Equal, rightExpression)

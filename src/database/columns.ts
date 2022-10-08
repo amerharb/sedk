@@ -392,9 +392,13 @@ export class TextColumn extends Column {
 		return new Condition(new Expression(this), qualifier, new Expression(value))
 	}
 
-	public eq(value: string|TextColumn|Expression): UpdateCondition {
+	public eq(value: string|TextColumn|Expression): UpdateCondition
+	public eq(value: null|Default): UpdateSetItemInfo
+	public eq(value: string|TextColumn|Expression|null|Default): UpdateCondition|UpdateSetItemInfo {
 		if (value instanceof Expression) {
 			return new UpdateCondition(this, value)
+		} else if (value === null || value instanceof Default) {
+			return new UpdateSetItemInfo(this, value)
 		}
 		return new UpdateCondition(this, new Expression(value))
 	}
@@ -437,6 +441,7 @@ export class TextColumn extends Column {
 		return new Expression(this, TextOperator.CONCAT, value)
 	}
 
+	/** @deprecated - since v.0.15.0 use eq() */
 	public let(value: string|null|Default): UpdateSetItemInfo {
 		return new UpdateSetItemInfo(this, value)
 	}

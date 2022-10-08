@@ -24,14 +24,14 @@ describe('UPDATE Path', () => {
 		it(`Produces [UPDATE "table1" SET "col1" = 'A';]`, () => {
 			const actual = sql
 				.update(table1)
-				.set(col1.let('A'))
+				.set(col1.eq('A'))
 				.getSQL()
 			expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A';`)
 		})
 		it(`Produces [UPDATE "table1" SET "col1" = 'A', "col4" = 1, "col7" = TRUE, "col9" = '2022-07-23T00:00:00.000Z';]`, () => {
 			const actual = sql
 				.update(table1)
-				.set(col1.let('A'), col4.let(1), col7.let(true), col9.let(new Date(EPOCH_2022_07_23)))
+				.set(col1.eq('A'), col4.let(1), col7.let(true), col9.let(new Date(EPOCH_2022_07_23)))
 				.getSQL()
 			expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A', "col4" = 1, "col7" = TRUE, "col9" = '2022-07-23T00:00:00.000Z';`)
 		})
@@ -52,7 +52,7 @@ describe('UPDATE Path', () => {
 		it(`Produces [UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1;]`, () => {
 			const actual = sql
 				.update(table1)
-				.set(col1.let('A'))
+				.set(col1.eq('A'))
 				.where(e(1).eq(1))
 				.getSQL()
 			expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1;`)
@@ -60,7 +60,7 @@ describe('UPDATE Path', () => {
 		it(`Produces [UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1 AND "col2" = 'B' OR "col3" = 'C';]`, () => {
 			const actual = sql
 				.update(table1)
-				.set(col1.let('A'))
+				.set(col1.eq('A'))
 				.where(e(1).eq(1))
 				.and(col2.eq('B'))
 				.or(col3.eq('C'))
@@ -72,7 +72,7 @@ describe('UPDATE Path', () => {
 		it(`Produces [UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1 RETURNING *;]`, () => {
 			const actual = sql
 				.update(table1)
-				.set(col1.let('A'))
+				.set(col1.eq('A'))
 				.where(e(1).eq(1))
 				.returning(ASTERISK)
 				.getSQL()
@@ -81,7 +81,7 @@ describe('UPDATE Path', () => {
 		it(`Produces [UPDATE "table1" SET "col1" = 'A' RETURNING *;]`, () => {
 			const actual = sql
 				.update(table1)
-				.set(col1.let('A'))
+				.set(col1.eq('A'))
 				.returning(ASTERISK)
 				.getSQL()
 			expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A' RETURNING *;`)

@@ -3,7 +3,7 @@ import { escapeDoubleQuote } from '../util'
 import { Binder, BinderArray } from '../binder'
 import { BooleanLike, DateLike, NumberLike, PrimitiveType, TextLike, ValueLike } from '../models/types'
 import { Operand } from '../models/Operand'
-import { Condition } from '../models/Condition'
+import { Condition, UpdateCondition } from '../models/Condition'
 import { Expression, ExpressionType } from '../models/Expression'
 import { BitwiseOperator, ComparisonOperator, NullOperator, Operator, TextOperator } from '../operators'
 import {
@@ -392,11 +392,11 @@ export class TextColumn extends Column {
 		return new Condition(new Expression(this), qualifier, new Expression(value))
 	}
 
-	public eq(value: string|TextColumn|Expression): Condition {
+	public eq(value: string|TextColumn|Expression): UpdateCondition {
 		if (value instanceof Expression) {
-			return new Condition(new Expression(this), ComparisonOperator.Equal, value)
+			return new UpdateCondition(this, value)
 		}
-		return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(value))
+		return new UpdateCondition(this, new Expression(value))
 	}
 
 	public isEq$(value: null|string): Condition {

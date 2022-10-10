@@ -69,7 +69,7 @@ describe('UPDATE Path', () => {
 				.update(table1)
 				.set(
 					col1.eq(null),
-					col4.let(null),
+					col4.eq(null),
 					col7.let(null),
 					col9.let(null),
 				)
@@ -139,7 +139,7 @@ describe('UPDATE Path', () => {
 			expect(actual.getBindValues()).toEqual(['A', 1, true, new Date(EPOCH_2022_07_23)])
 		})
 	})
-	describe('Update with Binders', () => {
+	describe('Update with DEFAULT', () => {
 		it(`Produces [UPDATE "table1" SET "col1" = DEFAULT;] using let()`, () => {
 			const actual = sql
 				.update(table1)
@@ -171,7 +171,7 @@ describe('UPDATE Path', () => {
 				.update(table1)
 				.set(
 					col1.eq(DEFAULT),
-					col4.let(DEFAULT),
+					col4.eq(DEFAULT),
 					col7.let(DEFAULT),
 					col9.let(DEFAULT),
 				)

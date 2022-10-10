@@ -1,7 +1,7 @@
 import { UpdateSetItemInfo } from 'Non-Exported/UpdateSetItemInfo'
 import { Binder } from '../binder'
 import { BuilderData } from '../builder'
-import { Column, TextColumn } from '../database'
+import { Column, NumberColumn, TextColumn } from '../database'
 import { InvalidConditionError } from '../errors'
 import { ItemInfo } from '../ItemInfo'
 import { ComparisonOperator, NullOperator, Operator, Qualifier } from '../operators'
@@ -165,9 +165,9 @@ export class Condition implements Expression, IStatementGiver {
 export class UpdateCondition extends Condition implements UpdateSetItemInfo {
 	public readonly operand: Operand
 	public readonly column: Column
-	public constructor(leftExpression: TextColumn, rightExpression: Expression) {
-		super(new Expression(leftExpression), ComparisonOperator.Equal, rightExpression)
+	public constructor(column: NumberColumn|TextColumn, rightExpression: Expression) {
+		super(new Expression(column), ComparisonOperator.Equal, rightExpression)
 		this.operand = new Operand(rightExpression)
-		this.column = leftExpression
+		this.column = column
 	}
 }

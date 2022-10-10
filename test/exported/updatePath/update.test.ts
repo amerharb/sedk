@@ -45,7 +45,7 @@ describe('UPDATE Path', () => {
 				.update(table1)
 				.set(
 					col1.eq('A'),
-					col4.let(1),
+					col4.eq(1),
 					col7.let(true),
 					col9.let(new Date(EPOCH_2022_07_23))
 				)

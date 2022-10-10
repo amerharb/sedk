@@ -226,14 +226,14 @@ export class NumberColumn extends Column {
 		return new Condition(new Expression(this), qualifier, new Expression(value))
 	}
 
-	public eq(value1: NumberLike): Condition
+	public eq(value: NumberLike): UpdateCondition
 	public eq(value1: NumberLike, op: Operator, value2: NumberLike): Condition
-	public eq(value1: NumberLike, op?: Operator, value2?: NumberLike): Condition {
-		const rightExpression = (op !== undefined && value2 !== undefined)
-			? new Expression(value1, op, value2)
-			: new Expression(value1)
-
-		return new Condition(new Expression(this), ComparisonOperator.Equal, rightExpression)
+	public eq(value1: NumberLike, op?: Operator, value2?: NumberLike): Condition|UpdateCondition {
+		if (op !== undefined && value2 !== undefined) {
+			return new UpdateCondition(this, new Expression(value1, op, value2))
+		} else {
+			return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(value1))
+		}
 	}
 
 	public isEq$(value: null|number): Condition {
@@ -373,6 +373,7 @@ export class NumberColumn extends Column {
 		return new AggregateFunction(AggregateFunctionEnum.MIN, new Expression(this))
 	}
 
+	/** @deprecated - use eq() */
 	public let(value: number|null|Default): UpdateSetItemInfo {
 		return new UpdateSetItemInfo(this, value)
 	}

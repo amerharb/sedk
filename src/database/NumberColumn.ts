@@ -37,9 +37,14 @@ export class NumberColumn extends Column {
 		return new Condition(new Expression(this), qualifier, new Expression(binder))
 	}
 
-	public eq$(value: number): Condition {
+	public eq$(value: null): UpdateSetItemInfo
+	public eq$(value: number): UpdateCondition
+	public eq$(value: number|null): UpdateCondition|UpdateSetItemInfo {
 		const binder = new Binder(value)
-		return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(binder))
+		if (value === null) {
+			return new UpdateSetItemInfo(this, new Expression(binder))
+		}
+		return new UpdateCondition(this, new Expression(binder))
 	}
 
 	public isNe(value: null|NumberLike): Condition {
@@ -168,11 +173,12 @@ export class NumberColumn extends Column {
 		return new AggregateFunction(AggregateFunctionEnum.MIN, new Expression(this))
 	}
 
-	/** @deprecated - use eq() */
+	/** @deprecated - since v0.15.0 use eq() */
 	public let(value: number|null|Default): UpdateSetItemInfo {
 		return new UpdateSetItemInfo(this, value)
 	}
 
+	/** @deprecated - since v0.15.0 use eq$() */
 	public let$(value: number|null): UpdateSetItemInfo {
 		return new UpdateSetItemInfo(this, new Binder(value))
 	}

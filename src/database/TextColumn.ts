@@ -34,9 +34,14 @@ export class TextColumn extends Column {
 		return new Condition(new Expression(this), qualifier, new Expression(binder))
 	}
 
-	public eq$(value: string): Condition {
+	public eq$(value: null): UpdateSetItemInfo
+	public eq$(value: string): UpdateCondition
+	public eq$(value: string|null): UpdateCondition|UpdateSetItemInfo {
 		const binder = new Binder(value)
-		return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(binder))
+		if (value === null) {
+			return new UpdateSetItemInfo(this, new Expression(binder))
+		}
+		return new UpdateCondition(this, new Expression(binder))
 	}
 
 	public isNe(value: null|string|TextColumn): Condition {
@@ -71,6 +76,7 @@ export class TextColumn extends Column {
 		return new UpdateSetItemInfo(this, value)
 	}
 
+	/** @deprecated - since v.0.15.0 use eq$() */
 	public let$(value: string|null): UpdateSetItemInfo {
 		return new UpdateSetItemInfo(this, new Binder(value))
 	}

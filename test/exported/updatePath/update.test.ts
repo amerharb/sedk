@@ -120,12 +120,12 @@ describe('UPDATE Path', () => {
 		it(`Produces [UPDATE "table1" SET "col1" = $1;]`, () => {
 			const actual = sql
 				.update(table1)
-				.set(col1.let$('A'))
+				.set(col1.eq$('A'))
 
 			expect(actual.getSQL()).toEqual(`UPDATE "table1" SET "col1" = $1;`)
 			expect(actual.getBindValues()).toEqual(['A'])
 		})
-		it(`Produces [UPDATE "table1" SET "col1" = $1, "col4" = $2, "col7" = $3, "col9" = $4;]`, () => {
+		it(`Produces [UPDATE "table1" SET "col1" = $1, "col4" = $2, "col7" = $3, "col9" = $4;] using let$()`, () => {
 			const actual = sql
 				.update(table1)
 				.set(
@@ -133,6 +133,19 @@ describe('UPDATE Path', () => {
 					col4.let$(1),
 					col7.let$(true),
 					col9.let$(new Date(EPOCH_2022_07_23))
+				)
+
+			expect(actual.getSQL()).toEqual(`UPDATE "table1" SET "col1" = $1, "col4" = $2, "col7" = $3, "col9" = $4;`)
+			expect(actual.getBindValues()).toEqual(['A', 1, true, new Date(EPOCH_2022_07_23)])
+		})
+		it(`Produces [UPDATE "table1" SET "col1" = $1, "col4" = $2, "col7" = $3, "col9" = $4;]`, () => {
+			const actual = sql
+				.update(table1)
+				.set(
+					col1.eq$('A'),
+					col4.eq$(1),
+					col7.eq$(true),
+					col9.eq$(new Date(EPOCH_2022_07_23))
 				)
 
 			expect(actual.getSQL()).toEqual(`UPDATE "table1" SET "col1" = $1, "col4" = $2, "col7" = $3, "col9" = $4;`)

@@ -32,9 +32,14 @@ export class DateColumn extends Column {
 		return new Condition(new Expression(this), qualifier, new Expression(binder))
 	}
 
-	public eq$(value: Date): Condition {
+	public eq$(value: null): UpdateSetItemInfo
+	public eq$(value: Date): UpdateCondition
+	public eq$(value: Date|null): UpdateCondition|UpdateSetItemInfo {
 		const binder = new Binder(value)
-		return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(binder))
+		if (value === null) {
+			return new UpdateSetItemInfo(this, new Expression(binder))
+		}
+		return new UpdateCondition(this, new Expression(binder))
 	}
 
 	public isNe(value: null|DateLike): Condition {
@@ -93,11 +98,12 @@ export class DateColumn extends Column {
 		return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
 	}
 
-	/** @deprecated */
+	/** @deprecated - since v0.15.0 use eq() */
 	public let(value: Date|null|Default): UpdateSetItemInfo {
 		return new UpdateSetItemInfo(this, value)
 	}
 
+	/** @deprecated - since v0.15.0 use eq$() */
 	public let$(value: Date|null): UpdateSetItemInfo {
 		return new UpdateSetItemInfo(this, new Binder(value))
 	}

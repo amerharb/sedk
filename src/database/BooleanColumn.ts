@@ -27,9 +27,14 @@ export class BooleanColumn extends Column implements Condition {
 		return new UpdateCondition(this, new Expression(value))
 	}
 
-	public eq$(value: boolean): Condition {
+	public eq$(value: null): UpdateSetItemInfo
+	public eq$(value: boolean): UpdateCondition
+	public eq$(value: boolean|null): UpdateCondition|UpdateSetItemInfo {
 		const binder = new Binder(value)
-		return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(binder))
+		if (value === null) {
+			return new UpdateSetItemInfo(this, new Expression(binder))
+		}
+		return new UpdateCondition(this, new Expression(binder))
 	}
 
 	public ne(value: BooleanLike): Condition {
@@ -95,11 +100,12 @@ export class BooleanColumn extends Column implements Condition {
 		return new Condition(new Expression(this), ComparisonOperator.NotIn, new Expression(binderArray))
 	}
 
-	/** @deprecated */
+	/** @deprecated - since v0.15.0 use eq() */
 	public let(value: boolean|null|Default): UpdateSetItemInfo {
 		return new UpdateSetItemInfo(this, value)
 	}
 
+	/** @deprecated - since v0.15.0 use eq$() */
 	public let$(value: boolean|null): UpdateSetItemInfo {
 		return new UpdateSetItemInfo(this, new Binder(value))
 	}

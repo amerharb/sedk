@@ -135,8 +135,13 @@ export class BooleanColumn extends Column implements Condition {
 		return [this]
 	}
 
-	public eq(value: BooleanLike): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(value))
+	public eq(value: null|Default): UpdateSetItemInfo
+	public eq(value: BooleanLike): UpdateCondition
+	public eq(value: BooleanLike|null|Default): UpdateCondition|UpdateSetItemInfo {
+		if (value === null || value instanceof Default) {
+			return new UpdateSetItemInfo(this, value)
+		}
+		return new UpdateCondition(this, new Expression(value))
 	}
 
 	public eq$(value: boolean): Condition {
@@ -207,6 +212,7 @@ export class BooleanColumn extends Column implements Condition {
 		return new Condition(new Expression(this), ComparisonOperator.NotIn, new Expression(binderArray))
 	}
 
+	/** @deprecated */
 	public let(value: boolean|null|Default): UpdateSetItemInfo {
 		return new UpdateSetItemInfo(this, value)
 	}
@@ -230,12 +236,12 @@ export class NumberColumn extends Column {
 	public eq(value: NumberLike): UpdateCondition
 	public eq(value1: NumberLike, op: Operator, value2: NumberLike): Condition
 	public eq(value1: NumberLike|null|Default, op?: Operator, value2?: NumberLike): Condition|UpdateCondition|UpdateSetItemInfo {
-	  if (value1 === null || value1 instanceof Default) {
+		if (value1 === null || value1 instanceof Default) {
 			return new UpdateSetItemInfo(this, value1)
 		} else if (op !== undefined && value2 !== undefined) {
-			return new UpdateCondition(this, new Expression(value1, op, value2))
+			return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(value1, op, value2))
 		} else {
-			return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(value1))
+			return new UpdateCondition(this, new Expression(value1))
 		}
 	}
 

@@ -46,7 +46,7 @@ describe('UPDATE Path', () => {
 				.set(
 					col1.eq('A'),
 					col4.eq(1),
-					col7.let(true),
+					col7.eq(true),
 					col9.let(new Date(EPOCH_2022_07_23))
 				)
 				.getSQL()
@@ -70,7 +70,7 @@ describe('UPDATE Path', () => {
 				.set(
 					col1.eq(null),
 					col4.eq(null),
-					col7.let(null),
+					col7.eq(null),
 					col9.let(null),
 				)
 				.getSQL()
@@ -172,7 +172,7 @@ describe('UPDATE Path', () => {
 				.set(
 					col1.eq(DEFAULT),
 					col4.eq(DEFAULT),
-					col7.let(DEFAULT),
+					col7.eq(DEFAULT),
 					col9.let(DEFAULT),
 				)
 				.getSQL()

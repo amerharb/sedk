@@ -1,6 +1,7 @@
 import { escapeDoubleQuote } from '../util'
-import { Column, DateColumn, NumberColumn, TextColumn } from './columns'
+import { Column, DateColumn, TextColumn } from './columns'
 import { BooleanColumn } from './BooleanColumn'
+import { NumberColumn } from './NumberColumn'
 import { IStatementGiver } from '../models/IStatementGiver'
 import { BuilderData } from '../builder'
 import { TableAsterisk } from '../TableAsterisk'

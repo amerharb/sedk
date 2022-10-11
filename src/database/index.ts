@@ -1,5 +1,6 @@
 export { Database, Schema, Table, AliasedTable } from './database'
-export { Column, DateColumn } from './columns'
+export { Column } from './columns'
 export { BooleanColumn } from './BooleanColumn'
 export { NumberColumn } from './NumberColumn'
 export { TextColumn } from './TextColumn'
+export { DateColumn } from './DateColumn'

@@ -21,3 +21,11 @@ INSERT INTO "table1"("col1", "col2") VALUES($1, $2) RETURNING "table1".*;
 sql.update(table1).set(col1.eq$("x")).where(col2.eq$("y"))
 UPDATE "table1" SET "col1" = $1 WHERE "col2" = $2;
 [ "x", "y" ]
+
+sql.selectAsteriskFrom(table1).where(col7.eq$(true))
+SELECT * FROM "table1" WHERE "col7" = $1;
+[ true ]
+
+sql.selectAsteriskFrom(table1).where(col7.ne$(true))
+SELECT * FROM "table1" WHERE "col7" <> $1;
+[ true ]

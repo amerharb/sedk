@@ -1,5 +1,5 @@
 export { Database, Schema, Table, AliasedTable } from './database'
-export { Column } from './columns'
+export { Column } from './Column'
 export { BooleanColumn } from './BooleanColumn'
 export { NumberColumn } from './NumberColumn'
 export { TextColumn } from './TextColumn'

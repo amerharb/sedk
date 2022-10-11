@@ -1,5 +1,5 @@
 import { escapeDoubleQuote } from '../util'
-import { Column } from './columns'
+import { Column } from './Column'
 import { BooleanColumn } from './BooleanColumn'
 import { NumberColumn } from './NumberColumn'
 import { TextColumn } from './TextColumn'

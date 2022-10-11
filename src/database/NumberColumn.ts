@@ -1,6 +1,6 @@
 import { AggregateFunction, AggregateFunctionEnum } from '../AggregateFunction'
 import { Binder, BinderArray } from '../binder'
-import { Column, ColumnObj } from '../database/columns'
+import { Column, ColumnObj } from './Column'
 import { Condition, UpdateCondition } from '../models/Condition'
 import { Expression } from '../models/Expression'
 import { NumberLike } from '../models/types'

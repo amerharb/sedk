@@ -1,6 +1,6 @@
 import { Binder, BinderArray } from '../binder'
 import { Column, ColumnObj } from '../database/columns'
-import { Condition } from '../models/Condition'
+import { Condition, UpdateCondition } from '../models/Condition'
 import { Expression } from '../models/Expression'
 import { DateLike } from '../models/types'
 import { ComparisonOperator, NullOperator } from '../operators'
@@ -17,8 +17,13 @@ export class DateColumn extends Column {
 		return new Condition(new Expression(this), qualifier, new Expression(value))
 	}
 
-	public eq(value: DateLike): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(value))
+	public eq(value: null|Default): UpdateSetItemInfo
+	public eq(value: DateLike): UpdateCondition
+	public eq(value: DateLike|null|Default): UpdateCondition|UpdateSetItemInfo {
+		if (value === null || value instanceof Default) {
+			return new UpdateSetItemInfo(this, value)
+		}
+		return new UpdateCondition(this, new Expression(value))
 	}
 
 	public isEq$(value: null|Date): Condition {
@@ -88,6 +93,7 @@ export class DateColumn extends Column {
 		return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
 	}
 
+	/** @deprecated */
 	public let(value: Date|null|Default): UpdateSetItemInfo {
 		return new UpdateSetItemInfo(this, value)
 	}

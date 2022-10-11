@@ -47,7 +47,7 @@ describe('UPDATE Path', () => {
 					col1.eq('A'),
 					col4.eq(1),
 					col7.eq(true),
-					col9.let(new Date(EPOCH_2022_07_23))
+					col9.eq(new Date(EPOCH_2022_07_23))
 				)
 				.getSQL()
 			expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A', "col4" = 1, "col7" = TRUE, "col9" = '2022-07-23T00:00:00.000Z';`)
@@ -71,7 +71,7 @@ describe('UPDATE Path', () => {
 					col1.eq(null),
 					col4.eq(null),
 					col7.eq(null),
-					col9.let(null),
+					col9.eq(null),
 				)
 				.getSQL()
 			expect(actual).toEqual(`UPDATE "table1" SET "col1" = NULL, "col4" = NULL, "col7" = NULL, "col9" = NULL;`)
@@ -173,7 +173,7 @@ describe('UPDATE Path', () => {
 					col1.eq(DEFAULT),
 					col4.eq(DEFAULT),
 					col7.eq(DEFAULT),
-					col9.let(DEFAULT),
+					col9.eq(DEFAULT),
 				)
 				.getSQL()
 			expect(actual).toEqual(`UPDATE "table1" SET "col1" = DEFAULT, "col4" = DEFAULT, "col7" = DEFAULT, "col9" = DEFAULT;`)

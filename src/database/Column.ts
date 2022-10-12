@@ -87,12 +87,12 @@ export abstract class Column implements IStatementGiver {
 		return new OrderByItemInfo(this, DESC, NULLS_LAST)
 	}
 
-	/** @deprecated - since v0.15.0 use eqDefault() */
+	/** @deprecated - since v0.15.0 use eqDEFAULT */
 	public get letDefault(): UpdateSetItemInfo {
-		return this.eqDefault
+		return this.eqDEFAULT
 	}
 
-	public get eqDefault(): UpdateSetItemInfo {
+	public get eqDEFAULT(): UpdateSetItemInfo {
 		return new UpdateSetItemInfo(this, DEFAULT)
 	}
 

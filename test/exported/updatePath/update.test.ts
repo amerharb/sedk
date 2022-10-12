@@ -207,10 +207,10 @@ describe('UPDATE Path', () => {
 			const actual = sql
 				.update(table1)
 				.set(
-					col2.eqDefault,
-					col5.eqDefault,
-					col8.eqDefault,
-					col10.eqDefault,
+					col2.eqDEFAULT,
+					col5.eqDEFAULT,
+					col8.eqDEFAULT,
+					col10.eqDEFAULT,
 				)
 				.getSQL()
 			expect(actual).toEqual(`UPDATE "table1" SET "col2" = DEFAULT, "col5" = DEFAULT, "col8" = DEFAULT, "col10" = DEFAULT;`)

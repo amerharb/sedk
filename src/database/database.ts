@@ -41,30 +41,15 @@ export class Database<S extends SchemasObj = SchemasObj> {
 	}
 
 	public isSchemaExist(schema: Schema): boolean {
-		for (const s of this.schemaArray) {
-			if (schema === s) {
-				return true
-			}
-		}
-		return false
+		return this.schemaArray.includes(schema)
 	}
 
 	public hasTable(table: Table): boolean {
-		for (const schema of this.schemaArray) {
-			if (schema.isTableExist(table)) {
-				return true
-			}
-		}
-		return false
+		return this.schemaArray.some(it => it.isTableExist(table))
 	}
 
 	public hasColumn(column: Column): boolean {
-		for (const schema of this.schemaArray) {
-			if (schema.isColumnExist(column)) {
-				return true
-			}
-		}
-		return false
+		return this.schemaArray.some(it => it.isColumnExist(column))
 	}
 }
 
@@ -120,21 +105,11 @@ export class Schema<T extends TablesObj = TablesObj> {
 	}
 
 	public isTableExist(table: Table): boolean {
-		for (const t of this.tableArray) {
-			if (table === t) {
-				return true
-			}
-		}
-		return false
+		return this.tableArray.includes(table)
 	}
 
 	public isColumnExist(column: Column): boolean {
-		for (const table of this.tableArray) {
-			if (table.isColumnExist(column)) {
-				return true
-			}
-		}
-		return false
+	  return this.tableArray.some(it => it.isColumnExist(column))
 	}
 }
 
@@ -198,21 +173,11 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver
 	}
 
 	public getColumn(columnName: string): Column|null {
-		for (const col of this.columnArray) {
-			if (col.name === columnName) {
-				return col
-			}
-		}
-		return null
+		return this.columnArray.find(it => it.name === columnName) ?? null
 	}
 
 	public isColumnExist(column: Column): boolean {
-		for (const col of this.columnArray) {
-			if (col === column) {
-				return true
-			}
-		}
-		return false
+		return this.columnArray.includes(column)
 	}
 
 	public getColumns() {

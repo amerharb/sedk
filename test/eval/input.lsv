@@ -29,3 +29,11 @@ SELECT * FROM "table1" WHERE "col7" = $1;
 sql.selectAsteriskFrom(table1).where(col7.ne$(true))
 SELECT * FROM "table1" WHERE "col7" <> $1;
 [ true ]
+
+sql.update(table1).set(col9.eq$(null))
+UPDATE "table1" SET "col9" = $1;
+[ null ]
+
+sql.select(col9).from(table1).where(col9.isEq$(null))
+SELECT "col9" FROM "table1" WHERE "col9" IS $1;
+[ null ]

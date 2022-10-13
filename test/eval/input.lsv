@@ -47,3 +47,13 @@ SELECT "col4" FROM "table1" WHERE "col4" = 1;
 
 sql.select(col4).from(table1).where(col4.isNe(1))
 SELECT "col4" FROM "table1" WHERE "col4" <> 1;
+
+sql.update(table1).set(col7.eq$(null))
+UPDATE "table1" SET "col7" = $1;
+[ null ]
+
+sql.select(col7).from(table1).where(col7.isEq(true))
+SELECT "col7" FROM "table1" WHERE "col7" = TRUE;
+
+sql.select(col7).from(table1).where(col7.isNe(true))
+SELECT "col7" FROM "table1" WHERE "col7" <> TRUE;

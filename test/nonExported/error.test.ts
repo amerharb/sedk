@@ -153,7 +153,6 @@ describe('Throw desired Errors', () => {
 				.deleteFrom(table1)
 				.where(e(1).eq(1))
 				.returning(new DummyItemInfo())
-				.getSQL()
 		}
 
 		expect(actual).toThrow(`ItemInfo is an abstract class`)

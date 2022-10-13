@@ -78,7 +78,7 @@ describe('test Options', () => {
 			const actual = sqlNever
 				.select(col1)
 				.from(publicTable1)
-				.orderBy(col1, col2.desc)
+				.orderBy(col1, col2.DESC)
 				.getSQL()
 
 			expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1", "col2" DESC;')
@@ -88,7 +88,7 @@ describe('test Options', () => {
 			const actual = sqlNever
 				.select(col1)
 				.from(publicTable1)
-				.orderBy(col1.asc)
+				.orderBy(col1.ASC)
 				.getSQL()
 
 			expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1";')
@@ -98,7 +98,7 @@ describe('test Options', () => {
 			const actual = sqlWhenMentioned
 				.select(col1)
 				.from(publicTable1)
-				.orderBy(col1.asc)
+				.orderBy(col1.ASC)
 				.getSQL()
 
 			expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1" ASC;')
@@ -128,7 +128,7 @@ describe('test Options', () => {
 			const actual = sqlDefault
 				.select(col1)
 				.from(publicTable1)
-				.orderBy(col1.asc)
+				.orderBy(col1.ASC)
 				.getSQL()
 
 			expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1" ASC;')
@@ -171,7 +171,7 @@ describe('test Options', () => {
 			const actual = sqlNever
 				.select(col1)
 				.from(publicTable1)
-				.orderBy(col1.nullsFirst)
+				.orderBy(col1.NULLS_FIRST)
 				.getSQL()
 
 			expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1" NULLS FIRST;')
@@ -181,7 +181,7 @@ describe('test Options', () => {
 			const actual = sqlNever
 				.select(col1)
 				.from(publicTable1)
-				.orderBy(col1.nullsLast)
+				.orderBy(col1.NULLS_LAST)
 				.getSQL()
 
 			expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1";')
@@ -191,7 +191,7 @@ describe('test Options', () => {
 			const actual = sqlWhenMentioned
 				.select(col1)
 				.from(publicTable1)
-				.orderBy(col1.asc)
+				.orderBy(col1.ASC)
 				.getSQL()
 
 			expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1" ASC;')
@@ -221,7 +221,7 @@ describe('test Options', () => {
 			const actual = sqlDefault
 				.select(col1)
 				.from(publicTable1)
-				.orderBy(col1.nullsLast)
+				.orderBy(col1.NULLS_LAST)
 				.getSQL()
 
 			expect(actual).toEqual('SELECT "col1" FROM "table1" ORDER BY "col1" NULLS LAST;')

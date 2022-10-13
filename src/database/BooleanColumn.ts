@@ -74,7 +74,12 @@ export class BooleanColumn extends Column implements Condition {
 		return new Condition(new Expression(this), qualifier, new Expression(binder))
 	}
 
+	/** @deprecated - since v0.15.0 use NOT */
 	public get not(): Condition {
+		return this.NOT
+	}
+
+	public get NOT(): Condition {
 		return new Condition(new Expression(this, true))
 	}
 

@@ -1,6 +1,7 @@
 import {
 	Builder,
 	InvalidConditionError,
+	NumberColumn,
 	e,
 } from 'src'
 
@@ -156,5 +157,34 @@ describe('Throw desired Errors', () => {
 		}
 
 		expect(actual).toThrow(`ItemInfo is an abstract class`)
+	})
+
+	describe('Column', () => {
+		it(`Throws: "Table can only be assigned one time"`, () => {
+			function actual() {
+				table1.c.col1.table = table1
+			}
+
+			expect(actual).toThrow(`Table can only be assigned one time`)
+		})
+
+		it(`Throws: "Table was not assigned"`, () => {
+			function actual() {
+				const col = new NumberColumn({ name: 'test_col' })
+				col.table // read table value
+			}
+
+			expect(actual).toThrow(`Table was not assigned`)
+		})
+
+		it(`Throws: "Table of this column is undefined"`, () => {
+			function actual() {
+				const col = new NumberColumn({ name: 'test_col' })
+				// @ts-ignore - data object is not needed for this test
+				col.getStmt({})
+			}
+
+			expect(actual).toThrow(`Table of this column is undefined`)
+		})
 	})
 })

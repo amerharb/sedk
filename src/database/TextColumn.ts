@@ -17,7 +17,8 @@ export class TextColumn extends Column {
 		return new Condition(new Expression(this), qualifier, new Expression(value))
 	}
 
-	public eq(value: string|TextColumn|Expression): UpdateCondition
+	public eq(value: Expression): UpdateCondition
+	public eq(value: string|TextColumn): UpdateCondition
 	public eq(value: null|Default): UpdateSetItemInfo
 	public eq(value: string|TextColumn|Expression|null|Default): UpdateCondition|UpdateSetItemInfo {
 		if (value instanceof Expression) {
@@ -49,6 +50,8 @@ export class TextColumn extends Column {
 		return new Condition(new Expression(this), qualifier, new Expression(value))
 	}
 
+	public ne(value: Expression): Condition
+	public ne(value: string|TextColumn): Condition
 	public ne(value: string|TextColumn|Expression): Condition {
 		if (value instanceof Expression) {
 			return new Condition(new Expression(this), ComparisonOperator.NotEqual, value)

@@ -37,3 +37,13 @@ UPDATE "table1" SET "col9" = $1;
 sql.select(col9).from(table1).where(col9.isEq$(null))
 SELECT "col9" FROM "table1" WHERE "col9" IS $1;
 [ null ]
+
+sql.update(table1).set(col4.eq$(null))
+UPDATE "table1" SET "col4" = $1;
+[ null ]
+
+sql.select(col4).from(table1).where(col4.isEq(1))
+SELECT "col4" FROM "table1" WHERE "col4" = 1;
+
+sql.select(col4).from(table1).where(col4.isNe(1))
+SELECT "col4" FROM "table1" WHERE "col4" <> 1;

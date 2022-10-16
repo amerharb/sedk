@@ -101,13 +101,13 @@ describe('test orderBy Step', () => {
 	it('Produces [SELECT * FROM "table1" ORDER BY "col1" ASC, "col2" DESC;]', () => {
 		const actual = sql
 			.selectAsteriskFrom(table)
-			.orderBy(col1.asc, col2.desc)
+			.orderBy(col1.ASC, col2.DESC)
 			.getSQL()
 
 		expect(actual).toEqual('SELECT * FROM "table1" ORDER BY "col1" ASC, "col2" DESC;')
 	})
 
-	it('Produces [SELECT * FROM "table1" ORDER BY "col1" ASC, "col2" DESC, "col3" NULLS FIRST, "col4" NULLS LAST;]', () => {
+	it('Produces [SELECT * FROM "table1" ORDER BY "col1" ASC, "col2" DESC, "col3" NULLS FIRST, "col4" NULLS LAST;] old sytle', () => {
 		const actual = sql
 			.selectAsteriskFrom(table)
 			.orderBy(col1.asc, col2.desc, col3.nullsFirst, col4.nullsLast)
@@ -116,10 +116,28 @@ describe('test orderBy Step', () => {
 		expect(actual).toEqual('SELECT * FROM "table1" ORDER BY "col1" ASC, "col2" DESC, "col3" NULLS FIRST, "col4" NULLS LAST;')
 	})
 
-	it('Produces [SELECT * FROM "table1" ORDER BY "col1" ASC NULLS FIRST, "col2" DESC NULLS FIRST, "col3" ASC NULLS LAST, "col4" DESC NULLS LAST;]', () => {
+	it('Produces [SELECT * FROM "table1" ORDER BY "col1" ASC, "col2" DESC, "col3" NULLS FIRST, "col4" NULLS LAST;]', () => {
+		const actual = sql
+			.selectAsteriskFrom(table)
+			.orderBy(col1.ASC, col2.DESC, col3.NULLS_FIRST, col4.NULLS_LAST)
+			.getSQL()
+
+		expect(actual).toEqual('SELECT * FROM "table1" ORDER BY "col1" ASC, "col2" DESC, "col3" NULLS FIRST, "col4" NULLS LAST;')
+	})
+
+	it('Produces [SELECT * FROM "table1" ORDER BY "col1" ASC NULLS FIRST, "col2" DESC NULLS FIRST, "col3" ASC NULLS LAST, "col4" DESC NULLS LAST;] using old style', () => {
 		const actual = sql
 			.selectAsteriskFrom(table)
 			.orderBy(col1.ascNullsFirst, col2.descNullsFirst, col3.ascNullsLast, col4.descNullsLast)
+			.getSQL()
+
+		expect(actual).toEqual('SELECT * FROM "table1" ORDER BY "col1" ASC NULLS FIRST, "col2" DESC NULLS FIRST, "col3" ASC NULLS LAST, "col4" DESC NULLS LAST;')
+	})
+
+	it('Produces [SELECT * FROM "table1" ORDER BY "col1" ASC NULLS FIRST, "col2" DESC NULLS FIRST, "col3" ASC NULLS LAST, "col4" DESC NULLS LAST;]', () => {
+		const actual = sql
+			.selectAsteriskFrom(table)
+			.orderBy(col1.ASC_NULLS_FIRST, col2.DESC_NULLS_FIRST, col3.ASC_NULLS_LAST, col4.DESC_NULLS_LAST)
 			.getSQL()
 
 		expect(actual).toEqual('SELECT * FROM "table1" ORDER BY "col1" ASC NULLS FIRST, "col2" DESC NULLS FIRST, "col3" ASC NULLS LAST, "col4" DESC NULLS LAST;')

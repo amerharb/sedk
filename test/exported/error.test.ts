@@ -88,7 +88,7 @@ describe('Throw desired Errors', () => {
 		})
 		it('Throws error when 2 WHERE steps added after update', () => {
 			function actual() {
-				const setStep = sql.update(table1).set(col1.let('something'))
+				const setStep = sql.update(table1).set(col1.eq('something'))
 
 				// first Where Step
 				setStep.where(col1.eq('x1'))

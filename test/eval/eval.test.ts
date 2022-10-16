@@ -20,6 +20,7 @@ const col5 = table1.c.col5
 const col6 = table1.c.col6
 const col7 = table1.c.col7
 const col8 = table1.c.col8
+const col9 = table1.c.col9
 
 describe('eval', () => {
 	const sql = new sedk.Builder(database)

@@ -797,7 +797,7 @@ describe(`test from one table`, () => {
 		expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE "col7";`)
 	})
 
-	it(`Produces [SELECT "col1" FROM "table1" WHERE NOT "col7";]`, () => {
+	it(`Produces [SELECT "col1" FROM "table1" WHERE NOT "col7";] using "not" old style`, () => {
 		const actual = sql
 			.select(col1)
 			.from(table1)
@@ -807,11 +807,21 @@ describe(`test from one table`, () => {
 		expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE NOT "col7";`)
 	})
 
+	it(`Produces [SELECT "col1" FROM "table1" WHERE NOT "col7";]`, () => {
+		const actual = sql
+			.select(col1)
+			.from(table1)
+			.where(col7.NOT)
+			.getSQL()
+
+		expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE NOT "col7";`)
+	})
+
 	it(`Produces [SELECT "col1" FROM "table1" WHERE (NOT "col7" OR NOT "col8");]`, () => {
 		const actual = sql
 			.select(col1)
 			.from(table1)
-			.where(col7.not, OR, col8.not)
+			.where(col7.NOT, OR, col8.NOT)
 			.getSQL()
 
 		expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE ( NOT "col7" OR NOT "col8" );`)
@@ -821,8 +831,8 @@ describe(`test from one table`, () => {
 		const actual = sql
 			.select(col1)
 			.from(table1)
-			.where(col7.not)
-			.and(col8.not)
+			.where(col7.NOT)
+			.and(col8.NOT)
 			.getSQL()
 
 		expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE NOT "col7" AND NOT "col8";`)
@@ -876,6 +886,16 @@ describe(`test from one table`, () => {
 			.getSQL()
 
 		expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE "col1" = ("col2" || "col3");`)
+	})
+
+	it(`Produces [SELECT "col1" FROM "table1" WHERE "col1" <> ("col2" || "col3");]`, () => {
+		const actual = sql
+			.select(col1)
+			.from(table1)
+			.where(col1.ne(col2.concat(col3)))
+			.getSQL()
+
+		expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE "col1" <> ("col2" || "col3");`)
 	})
 
 	it(`Produces [SELECT "col1" FROM "table1" WHERE "col1" = ("col2" || 'something');]`, () => {

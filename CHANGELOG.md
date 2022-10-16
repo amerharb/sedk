@@ -2,6 +2,10 @@
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
 ## [0.15.0]  2022-10-08
+### Changed
+- Use eq() and eq$() for UPDATE instead of let() and let$().
+- Change style adopt all Caps for some static statment like eqDEFAULT instead of letDefault, 
+ and NULLS_FIRST instead of nullsFirst.
 
 ## [0.14.1]  2022-10-06
 ### Added

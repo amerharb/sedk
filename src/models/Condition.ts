@@ -1,14 +1,15 @@
-import { Expression, ExpressionType } from './Expression'
-import { ComparisonOperator, NullOperator, Operator, Qualifier } from '../operators'
-import { BuilderData } from '../builder'
-import { SelectItemInfo } from '../SelectItemInfo'
-import { Column } from '../database'
-import { Operand } from './Operand'
-import { IStatementGiver } from './IStatementGiver'
+import { UpdateSetItemInfo } from 'Non-Exported/UpdateSetItemInfo'
 import { Binder } from '../binder'
+import { BuilderData } from '../builder'
+import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../database'
 import { InvalidConditionError } from '../errors'
-import { BooleanLike, isTextBoolean } from './types'
 import { ItemInfo } from '../ItemInfo'
+import { ComparisonOperator, NullOperator, Operator, Qualifier } from '../operators'
+import { SelectItemInfo } from '../SelectItemInfo'
+import { Expression, ExpressionType } from './Expression'
+import { IStatementGiver } from './IStatementGiver'
+import { Operand } from './Operand'
+import { BooleanLike, isTextBoolean } from './types'
 
 export class Condition implements Expression, IStatementGiver {
 	public readonly leftExpression: Expression
@@ -161,3 +162,12 @@ export class Condition implements Expression, IStatementGiver {
 	}
 }
 
+export class UpdateCondition extends Condition implements UpdateSetItemInfo {
+	public readonly operand: Operand
+	public readonly column: Column
+	public constructor(column: BooleanColumn|NumberColumn|TextColumn|DateColumn, rightExpression: Expression) {
+		super(new Expression(column), ComparisonOperator.Equal, rightExpression)
+		this.operand = new Operand(rightExpression)
+		this.column = column
+	}
+}

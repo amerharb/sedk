@@ -105,6 +105,7 @@ mindmapDiagram {
 **** LesserThan = '<' <<enumItem>>
 **** LesserOrEqual = '<=' <<enumItem>>
 **** In = 'IN' <<enumItem>>
+**** NotIn = 'NOT IN' <<enumItem>>
 *** NullOperator <<enum>>
 **** Is = 'IS' <<enumItem>>
 **** IsNot = 'IS NOT' <<enumItem>>
@@ -120,6 +121,7 @@ mindmapDiagram {
 ** NUMBER <<enumItem>>
 ** TEXT <<enumItem>>
 ** DATE <<enumItem>>
+** ARRAY <<enumItem>>
 
 * FromItemRelation <<enum>>
 ** NO_RELATION = '' <<enumItem>>

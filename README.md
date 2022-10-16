@@ -75,6 +75,7 @@ so if you change from Postgres to Mysql then you will need to change the library
 ## What is New
 
 ### Version: 0.15.0
+- Use eq() in UPDATE instead of let() to be more WYSIWYG
 
 ### Version: 0.14.1
 - Support IN and NOT IN Operator

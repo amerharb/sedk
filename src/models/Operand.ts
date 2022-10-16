@@ -24,6 +24,10 @@ export class Operand implements IStatementGiver {
 		return Operand.getStmtOfValue(this.value, this.isNot, data)
 	}
 
+	/**
+	 * written as static in separate function to be able to call it recursively
+	 * when the value is an array
+	 */
 	private static getStmtOfValue(
 		value: OperandType|Binder|OperandType[]|BinderArray,
 		isNot: boolean,
@@ -58,7 +62,7 @@ export class Operand implements IStatementGiver {
 		} else if (value instanceof Condition) { /** ignore IDE warning, "value" can be an instance of Condition */
 			return `${isNot ? 'NOT ' : ''}${value.getStmt(data)}`
 		} else if (Array.isArray(value)) {
-			return `${isNot ? 'NOT ' : ''}(${value.map(it => this.getStmtOfValue(it, isNot, data)).join(', ')})`
+			return `${isNot ? 'NOT ' : ''}(${value.map(it => Operand.getStmtOfValue(it, isNot, data)).join(', ')})`
 		} else if (value instanceof Column) {
 			return `${isNot ? 'NOT ' : ''}${value.getStmt(data)}`
 		}

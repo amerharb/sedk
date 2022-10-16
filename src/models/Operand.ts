@@ -9,15 +9,15 @@ import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString } from '../util
 import { Condition } from './Condition'
 
 export class Operand implements IStatementGiver {
-	// TODO: check why value can be undefined
-	public value?: OperandType|Binder|OperandType[]|BinderArray
 	public type: ExpressionType
-	public isNot: boolean
 
-	constructor(value?: OperandType|Binder|OperandType[]|BinderArray, isNot?: boolean) {
+	constructor(
+		public readonly value: OperandType|Binder|OperandType[]|BinderArray,
+		public readonly isNot: boolean = false,
+	) {
 		this.value = value
 		this.type = Operand.getExpressionType(value)
-		this.isNot = Operand.getNotValueOrThrow(isNot, this.type)
+		Operand.getNotValueOrThrow(isNot, this.type)
 	}
 
 	public getStmt(data: BuilderData): string {
@@ -25,7 +25,7 @@ export class Operand implements IStatementGiver {
 	}
 
 	private static getStmtOfValue(
-		value: OperandType|Binder|OperandType[]|BinderArray|undefined,
+		value: OperandType|Binder|OperandType[]|BinderArray,
 		isNot: boolean,
 		data: BuilderData,
 	): string {
@@ -43,26 +43,24 @@ export class Operand implements IStatementGiver {
 				}
 			})
 			return `${value.getStmt()}`
-		} else if (typeof value === 'string') {
-			return getStmtString(value)
 		} else if (typeof value === 'boolean') {
 			return `${isNot ? 'NOT ' : ''}${getStmtBoolean(value)}`
+		} else if (typeof value === 'number') {
+			return `${isNot ? 'NOT ' : ''}${value}`
+		} else if (typeof value === 'string') {
+			return getStmtString(value)
+		} else if (value instanceof Date) {
+			return `${isNot ? 'NOT ' : ''}${getStmtDate(value)}`
 		} else if (value instanceof AggregateFunction) {
 			return `${isNot ? 'NOT ' : ''}${value.getStmt(data)}`
 		} else if (value instanceof Expression) {
 			return `${isNot ? 'NOT ' : ''}${value.getStmt(data)}`
 		} else if (value instanceof Condition) { /** ignore IDE warning, "value" can be an instance of Condition */
 			return `${isNot ? 'NOT ' : ''}${value.getStmt(data)}`
-		} else if (value instanceof Column) {
-			return `${isNot ? 'NOT ' : ''}${value.getStmt(data)}`
-		} else if (typeof value === 'number') {
-			return `${isNot ? 'NOT ' : ''}${value}`
-		} else if (value instanceof Date) {
-			return `${isNot ? 'NOT ' : ''}${getStmtDate(value)}`
-		} else if (typeof value === 'undefined') {
-			return `${isNot ? 'NOT' : ''}`
 		} else if (Array.isArray(value)) {
 			return `${isNot ? 'NOT ' : ''}(${value.map(it => this.getStmtOfValue(it, isNot, data)).join(', ')})`
+		} else if (value instanceof Column) {
+			return `${isNot ? 'NOT ' : ''}${value.getStmt(data)}`
 		}
 		throw new Error('Operand type is not supported')
 	}
@@ -105,15 +103,9 @@ export class Operand implements IStatementGiver {
 		throw new Error('Operand type is not supported')
 	}
 
-	private static getNotValueOrThrow(notValue: boolean|undefined, expressionType: ExpressionType): boolean {
-		if (notValue === true) {
-			if (expressionType === ExpressionType.BOOLEAN) {
-				return true
-			} else {
-				throw new Error('You can not use "NOT" modifier unless expression type is boolean')
-			}
-		} else {
-			return false
+	private static getNotValueOrThrow(notValue: boolean|undefined, expressionType: ExpressionType): void {
+		if (notValue === true && expressionType !== ExpressionType.BOOLEAN) {
+			throw new Error('You can not use "NOT" modifier unless expression type is boolean')
 		}
 	}
 }

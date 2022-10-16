@@ -27,7 +27,7 @@ export class Condition implements Expression, IStatementGiver {
 	constructor(leftExpression: Expression, operator?: Qualifier, rightExpression?: Expression, notLeft?: boolean, notRight?: boolean) {
 		this.leftOperand = new Operand(leftExpression, notLeft)
 		this.operator = operator
-		this.rightOperand = new Operand(rightExpression, notRight)
+		this.rightOperand = rightExpression !== undefined ? new Operand(rightExpression, notRight) : undefined
 		this.type = Condition.getResultExpressionType(leftExpression, operator, rightExpression)
 		this.leftExpression = leftExpression
 		this.rightExpression = rightExpression

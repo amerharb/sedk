@@ -19,7 +19,7 @@ import {
 	OrderByNullsPosition,
 } from './orderBy'
 import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
-import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from './database'
+import { BooleanColumn, DateColumn, NumberColumn, TextColumn } from './database'
 import { Binder } from './binder'
 import { PrimitiveType } from './models/types'
 

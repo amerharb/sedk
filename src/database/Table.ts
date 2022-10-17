@@ -68,16 +68,8 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver
 		return new TableAsterisk(this)
 	}
 
-	public getColumn(columnName: string): Column|null {
-		return this.columnArray.find(it => it.name === columnName) ?? null
-	}
-
 	public isColumnExist(column: Column): boolean {
 		return this.columnArray.includes(column)
-	}
-
-	public getColumns() {
-		return this.data.columns
 	}
 
 	public getStmt(data: BuilderData): string {

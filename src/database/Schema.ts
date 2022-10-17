@@ -15,8 +15,10 @@ export class Schema<T extends TablesObj = TablesObj> {
 	private mDatabase?: Database
 	private readonly mTables: T
 	private readonly tableArray: readonly Table[]
+	private readonly mName: string
 
 	constructor(private readonly data: SchemaObj<T>) {
+		this.mName = data.name ?? 'public'
 		this.mTables = data.tables
 		const tableArray: Table[] = []
 		Object.values(data.tables).forEach(it => {
@@ -41,7 +43,7 @@ export class Schema<T extends TablesObj = TablesObj> {
 	}
 
 	public get name(): string {
-		return this.data.name ?? 'public'
+		return this.mName
 	}
 
 	public get tables(): T {

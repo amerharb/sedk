@@ -34,5 +34,9 @@ describe('database: Database/Schema/Table', () => {
 			schema.database = anotherDatabase
 			expect(schema.database).toBe(anotherDatabase)
 		})
+		it(`return public for schema without name `, () => {
+			const schema = new Schema({ tables: {} })
+			expect(schema.name).toBe('public')
+		})
 	})
 })

@@ -17,7 +17,7 @@ export class Operand implements IStatementGiver {
 	) {
 		this.value = value
 		this.type = Operand.getExpressionType(value)
-		Operand.getNotValueOrThrow(isNot, this.type)
+		Operand.throwIfInvalidUseOfNot(this.type, isNot)
 	}
 
 	public getStmt(data: BuilderData): string {
@@ -105,7 +105,7 @@ export class Operand implements IStatementGiver {
 		throw new Error(`Operand type of: ${operand} is not supported`)
 	}
 
-	private static getNotValueOrThrow(notValue: boolean|undefined, expressionType: ExpressionType): void {
+	private static throwIfInvalidUseOfNot(expressionType: ExpressionType, notValue: boolean|undefined): void {
 		if (notValue === true && expressionType !== ExpressionType.BOOLEAN) {
 			throw new Error('You can not use "NOT" modifier unless expression type is boolean')
 		}

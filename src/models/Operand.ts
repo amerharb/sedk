@@ -102,7 +102,7 @@ export class Operand implements IStatementGiver {
 		} else if (Array.isArray(operand)) {
 			return ExpressionType.ARRAY
 		}
-		throw new Error(`Operand type of: ${operand}  is not supported`)
+		throw new Error(`Operand type of: ${operand} is not supported`)
 	}
 
 	private static getNotValueOrThrow(notValue: boolean|undefined, expressionType: ExpressionType): void {

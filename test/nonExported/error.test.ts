@@ -8,6 +8,7 @@ import {
 // test non-exported Classes
 import { Condition } from 'Non-Exported/models/Condition'
 import { Expression } from 'Non-Exported/models/Expression'
+import { Operand } from 'Non-Exported/models/Operand'
 import { Parenthesis } from 'Non-Exported/steps/BaseStep'
 import { OnStep } from 'Non-Exported/steps/OnStep'
 import { Binder, BinderStore } from 'Non-Exported/binder'
@@ -185,6 +186,18 @@ describe('Throw desired Errors', () => {
 			}
 
 			expect(actual).toThrow(`Table of this column is undefined`)
+		})
+	})
+
+	describe('Operand', () => {
+		it(`Throws: "Operand type of: ? is not supported"`, () => {
+			const operandValue = { something: 'not supported' }
+			function actual() {
+				// @ts-ignore - any unsupported type
+				new Operand(operandValue)
+			}
+
+			expect(actual).toThrow(`Operand type of: ${operandValue} is not supported`)
 		})
 	})
 })

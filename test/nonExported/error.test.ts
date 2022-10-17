@@ -199,5 +199,12 @@ describe('Throw desired Errors', () => {
 
 			expect(actual).toThrow(`Operand type of: ${operandValue} is not supported`)
 		})
+		it(`Throws: "You can not use "NOT" modifier unless expression type is boolean"`, () => {
+			function actual() {
+				new Operand('not boolean', true)
+			}
+
+			expect(actual).toThrow(`You can not use "NOT" modifier unless expression type is boolean`)
+		})
 	})
 })

@@ -1,4 +1,4 @@
-import { Table } from './database'
+import { Table } from './Table'
 import { escapeDoubleQuote } from '../util'
 import { PrimitiveType, ValueLike } from '../models/types'
 import { Condition } from '../models/Condition'

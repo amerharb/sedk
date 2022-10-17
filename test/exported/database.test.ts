@@ -39,4 +39,11 @@ describe('database: Database/Schema/Table', () => {
 			expect(schema.name).toBe('public')
 		})
 	})
+	describe('Table', () => {
+		it(`set/get schema works`, () => {
+			const tableX = new Table({ name: 'tableX', columns: {} })
+			tableX.schema = anotherDatabase.s.public
+			expect(tableX.schema).toBe(anotherDatabase.s.public)
+		})
+	})
 })

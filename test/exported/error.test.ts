@@ -403,6 +403,23 @@ describe('Throw desired Errors', () => {
 		})
 	})
 
+	describe('Error: Table', () => {
+		it(`Throws: "Schema can only be assigned one time"`, () => {
+			const actual = () => {
+				const table1 = new Table({ name: 'table1', columns: {} })
+				table1.schema = new Schema({ name: 'public', tables: { table1 } }) // <-- This line throws
+			}
+			expect(actual).toThrow(`Schema can only be assigned one time`)
+		})
+		it(`Throws: "Schema is undefined"`, () => {
+			const actual = () => {
+				const table = new Table({ name: 'table', columns: {} })
+				table.schema // <-- This line throws
+			}
+			expect(actual).toThrow(`Schema is undefined`)
+		})
+	})
+
 	it(`Throws error "Value step has Unsupported value: x, type: y"`, () => {
 		const value = { unsupportedObject: 'something' }
 

@@ -82,23 +82,9 @@ export class Operand implements IStatementGiver {
 			return ExpressionType.DATE
 		} else if (operand instanceof AggregateFunction) {
 			return ExpressionType.NUMBER
-		} else if (operand instanceof Expression) {
+			/** ignore IDE warning, operand can be an instance of Condition */
+		} else if (operand instanceof Expression || operand instanceof Binder || operand instanceof BinderArray || operand instanceof Condition) {
 			return operand.type
-		} else if (operand instanceof Condition) { /** ignore IDE warning, operand can be an instance of Condition */
-			return operand.type
-		} else if (operand instanceof Binder || operand instanceof BinderArray) {
-			const operandValue = operand instanceof Binder ? operand.value : operand.binders[0].value
-			if (operandValue === null) {
-				return ExpressionType.NULL
-			} else if (typeof operandValue === 'boolean') {
-				return ExpressionType.BOOLEAN
-			} else if (typeof operandValue === 'number') {
-				return ExpressionType.NUMBER
-			} else if (typeof operandValue === 'string') {
-				return ExpressionType.TEXT
-			} else if (operandValue instanceof Date) {
-				return ExpressionType.DATE
-			}
 		} else if (Array.isArray(operand)) {
 			return ExpressionType.ARRAY
 		}

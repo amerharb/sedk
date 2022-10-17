@@ -11,7 +11,7 @@ import { Expression } from 'Non-Exported/models/Expression'
 import { Operand } from 'Non-Exported/models/Operand'
 import { Parenthesis } from 'Non-Exported/steps/BaseStep'
 import { OnStep } from 'Non-Exported/steps/OnStep'
-import { Binder, BinderStore } from 'Non-Exported/binder'
+import { Binder, BinderArray, BinderStore } from 'Non-Exported/binder'
 import { BuilderData } from 'Non-Exported/builder'
 import { ItemInfo } from 'Non-Exported/ItemInfo'
 import { Column } from 'Non-Exported/database'
@@ -88,7 +88,6 @@ describe('Throw desired Errors', () => {
 
 			expect(actual).toThrow(`This binder already stored`)
 		})
-
 		it('Throws: "This Binder already has a number"', () => {
 			function actual() {
 				const binder = new Binder('value', 1)
@@ -96,6 +95,31 @@ describe('Throw desired Errors', () => {
 			}
 
 			expect(actual).toThrow(`This Binder already has a number`)
+		})
+	})
+
+	describe('BinderArray', () => {
+		it('Throws: "BinderArray must have at least one element"', () => {
+			function actual() {
+				new BinderArray([])
+			}
+
+			expect(actual).toThrow(`BinderArray must have at least one element`)
+		})
+		it('Throws: "All binders in BinderArray must be same type"', () => {
+			function actual() {
+				new BinderArray([new Binder(1), new Binder('a')])
+			}
+
+			expect(actual).toThrow(`All binders in BinderArray must be same type`)
+		})
+		it('Not throws', () => {
+			function actual() {
+				new BinderArray([new Binder(1), new Binder(2)])
+			}
+
+			expect(actual).not.toThrow(`BinderArray must have at least one element`)
+			expect(actual).not.toThrow(`All binders in BinderArray must be same type`)
 		})
 	})
 

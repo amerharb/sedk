@@ -100,7 +100,7 @@ export class BinderArray implements IStatementGiver {
 		const type = binders[0].type
 		binders.forEach(it => {
 			if (it.type !== type) {
-				throw new Error('All binders must be same type')
+				throw new Error('All binders in BinderArray must be same type')
 			}
 		})
 	}

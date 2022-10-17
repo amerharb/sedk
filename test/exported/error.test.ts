@@ -418,6 +418,14 @@ describe('Throw desired Errors', () => {
 			}
 			expect(actual).toThrow(`Schema is undefined`)
 		})
+		it(`Throws: "Schema is undefined" when calling getStmt() before assigning schema to table`, () => {
+			const actual = () => {
+				const table = new Table({ name: 'table', columns: {} })
+				// @ts-ignore
+				table.getStmt() // <-- This line throws
+			}
+			expect(actual).toThrow(`Schema is undefined`)
+		})
 	})
 
 	it(`Throws error "Value step has Unsupported value: x, type: y"`, () => {

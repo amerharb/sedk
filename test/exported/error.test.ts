@@ -20,6 +20,7 @@ import {
 	MoreThanOneWhereStepError,
 	NULLS_FIRST,
 	NULLS_LAST,
+	Schema,
 	Table,
 	TableNotFoundError,
 	TextColumn,
@@ -381,6 +382,24 @@ describe('Throw desired Errors', () => {
 			const binder = $('value')
 
 			expect(() => binder.getStmt()).toThrow(`You can't getStmt() from this binder, The binder is not stored and has undefined "No"`)
+		})
+	})
+
+	describe('Error: Schema', () => {
+		it(`Throws: "Database can only be assigned one time"`, () => {
+			const actual = () => {
+				const schema = new Schema({ name: 'public', tables: {} })
+				schema.database = database
+				schema.database = database // <-- This line throws
+			}
+			expect(actual).toThrow(`Database can only be assigned one time`)
+		})
+		it(`Throws: "Database is undefined"`, () => {
+			const actual = () => {
+				const schema = new Schema({ name: 'public', tables: {} })
+				schema.database // <-- This line throws
+			}
+			expect(actual).toThrow(`Database is undefined`)
 		})
 	})
 

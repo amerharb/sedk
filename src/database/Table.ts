@@ -42,7 +42,7 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver
 
 	public get schema(): Schema {
 		if (this.mSchema === undefined)
-			throw new Error('Table is undefined')
+			throw new Error('Schema is undefined')
 
 		return this.mSchema
 	}

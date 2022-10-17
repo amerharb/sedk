@@ -66,13 +66,11 @@ export class Operand implements IStatementGiver {
 		} else if (value instanceof Column) {
 			return `${isNot ? 'NOT ' : ''}${value.getStmt(data)}`
 		}
-		throw new Error('Operand type is not supported')
+		throw new Error(`Operand type of value: ${value} is not supported`)
 	}
 
-	private static getExpressionType(operand?: OperandType|Binder|OperandType[]|BinderArray): ExpressionType {
-		if (operand === undefined) {
-			return ExpressionType.NOT_EXIST
-		} else if (operand === null) {
+	private static getExpressionType(operand: OperandType|Binder|OperandType[]|BinderArray): ExpressionType {
+		if (operand === null) {
 			return ExpressionType.NULL
 		} else if (typeof operand === 'boolean' || operand instanceof BooleanColumn) {
 			return ExpressionType.BOOLEAN
@@ -104,7 +102,7 @@ export class Operand implements IStatementGiver {
 		} else if (Array.isArray(operand)) {
 			return ExpressionType.ARRAY
 		}
-		throw new Error('Operand type is not supported')
+		throw new Error(`Operand type of: ${operand}  is not supported`)
 	}
 
 	private static getNotValueOrThrow(notValue: boolean|undefined, expressionType: ExpressionType): void {

@@ -8,9 +8,10 @@ import {
 // test non-exported Classes
 import { Condition } from 'Non-Exported/models/Condition'
 import { Expression } from 'Non-Exported/models/Expression'
+import { Operand } from 'Non-Exported/models/Operand'
 import { Parenthesis } from 'Non-Exported/steps/BaseStep'
 import { OnStep } from 'Non-Exported/steps/OnStep'
-import { Binder, BinderStore } from 'Non-Exported/binder'
+import { Binder, BinderArray, BinderStore } from 'Non-Exported/binder'
 import { BuilderData } from 'Non-Exported/builder'
 import { ItemInfo } from 'Non-Exported/ItemInfo'
 import { Column } from 'Non-Exported/database'
@@ -87,7 +88,6 @@ describe('Throw desired Errors', () => {
 
 			expect(actual).toThrow(`This binder already stored`)
 		})
-
 		it('Throws: "This Binder already has a number"', () => {
 			function actual() {
 				const binder = new Binder('value', 1)
@@ -95,6 +95,44 @@ describe('Throw desired Errors', () => {
 			}
 
 			expect(actual).toThrow(`This Binder already has a number`)
+		})
+		it('Throws: "Unknown type of value: ?"', () => {
+			const value = { something: 'Unknown type' }
+
+			function actual() {
+				// @ts-ignore - the value is not the correct type
+				new Binder(value)
+			}
+
+			expect(actual).toThrow(`Unknown type of value: ${value}`)
+		})
+		it.todo('Throws: "Unknown type of value: NaN"') // currently binder accept NaN as a valid number, this should be change
+		it.todo('Throws: "Unknown type of value: Infinity"') // currently binder accept Infinity as a valid number, this should be change
+		it.todo('Throws: "Unknown type of value: -Infinity"') // currently binder accept -Infinity as a valid number, this should be change
+	})
+
+	describe('BinderArray', () => {
+		it('Throws: "BinderArray must have at least one element"', () => {
+			function actual() {
+				new BinderArray([])
+			}
+
+			expect(actual).toThrow(`BinderArray must have at least one element`)
+		})
+		it('Throws: "All binders in BinderArray must be same type"', () => {
+			function actual() {
+				new BinderArray([new Binder(1), new Binder('a')])
+			}
+
+			expect(actual).toThrow(`All binders in BinderArray must be same type`)
+		})
+		it('Not throws', () => {
+			function actual() {
+				new BinderArray([new Binder(1), new Binder(2)])
+			}
+
+			expect(actual).not.toThrow(`BinderArray must have at least one element`)
+			expect(actual).not.toThrow(`All binders in BinderArray must be same type`)
 		})
 	})
 
@@ -185,6 +223,26 @@ describe('Throw desired Errors', () => {
 			}
 
 			expect(actual).toThrow(`Table of this column is undefined`)
+		})
+	})
+
+	describe('Operand', () => {
+		it(`Throws: "Operand type of: ? is not supported"`, () => {
+			const operandValue = { something: 'not supported' }
+
+			function actual() {
+				// @ts-ignore - any unsupported type
+				new Operand(operandValue)
+			}
+
+			expect(actual).toThrow(`Operand type of: ${operandValue} is not supported`)
+		})
+		it(`Throws: "You can not use "NOT" modifier unless expression type is boolean"`, () => {
+			function actual() {
+				new Operand('not boolean', true)
+			}
+
+			expect(actual).toThrow(`You can not use "NOT" modifier unless expression type is boolean`)
 		})
 	})
 })

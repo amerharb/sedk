@@ -20,6 +20,7 @@ import {
 	MoreThanOneWhereStepError,
 	NULLS_FIRST,
 	NULLS_LAST,
+	Schema,
 	Table,
 	TableNotFoundError,
 	TextColumn,
@@ -381,6 +382,49 @@ describe('Throw desired Errors', () => {
 			const binder = $('value')
 
 			expect(() => binder.getStmt()).toThrow(`You can't getStmt() from this binder, The binder is not stored and has undefined "No"`)
+		})
+	})
+
+	describe('Error: Schema', () => {
+		it(`Throws: "Database can only be assigned one time"`, () => {
+			const actual = () => {
+				const schema = new Schema({ name: 'public', tables: {} })
+				schema.database = database
+				schema.database = database // <-- This line throws
+			}
+			expect(actual).toThrow(`Database can only be assigned one time`)
+		})
+		it(`Throws: "Database is undefined"`, () => {
+			const actual = () => {
+				const schema = new Schema({ name: 'public', tables: {} })
+				schema.database // <-- This line throws
+			}
+			expect(actual).toThrow(`Database is undefined`)
+		})
+	})
+
+	describe('Error: Table', () => {
+		it(`Throws: "Schema can only be assigned one time"`, () => {
+			const actual = () => {
+				const table1 = new Table({ name: 'table1', columns: {} })
+				table1.schema = new Schema({ name: 'public', tables: { table1 } }) // <-- This line throws
+			}
+			expect(actual).toThrow(`Schema can only be assigned one time`)
+		})
+		it(`Throws: "Schema is undefined"`, () => {
+			const actual = () => {
+				const table = new Table({ name: 'table', columns: {} })
+				table.schema // <-- This line throws
+			}
+			expect(actual).toThrow(`Schema is undefined`)
+		})
+		it(`Throws: "Schema is undefined" when calling getStmt() before assigning schema to table`, () => {
+			const actual = () => {
+				const table = new Table({ name: 'table', columns: {} })
+				// @ts-ignore
+				table.getStmt() // <-- This line throws
+			}
+			expect(actual).toThrow(`Schema is undefined`)
 		})
 	})
 

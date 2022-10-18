@@ -1,3 +1,4 @@
+import { ExpressionType } from './models/Expression'
 import { PrimitiveType } from './models/types'
 import { IStatementGiver } from './models/IStatementGiver'
 
@@ -30,6 +31,7 @@ export class BinderStore {
 
 export class Binder implements IStatementGiver {
 	private mNo?: number = undefined
+	public readonly type: ExpressionType
 
 	public constructor(value: PrimitiveType)
 	public constructor(value: PrimitiveType, no: number)
@@ -38,6 +40,7 @@ export class Binder implements IStatementGiver {
 		no?: number,
 	) {
 		this.mNo = no
+		this.type = Binder.getType(value)
 	}
 
 	public set no(no: number|undefined) {
@@ -61,12 +64,44 @@ export class Binder implements IStatementGiver {
 		}
 		return `$${this.mNo}`
 	}
+
+	private static getType(value: PrimitiveType): ExpressionType {
+		if (value === null) {
+			return ExpressionType.NULL
+		} else if (typeof value === 'boolean') {
+			return ExpressionType.BOOLEAN
+		} else if (typeof value === 'number') {
+			return ExpressionType.NUMBER
+		} else if (typeof value === 'string') {
+			return ExpressionType.TEXT
+		} else if (value instanceof Date) {
+			return ExpressionType.DATE
+		}
+		throw new Error(`Unknown type of value: ${value}`)
+	}
 }
 
 export class BinderArray implements IStatementGiver {
-	public constructor(public readonly binders: Binder[]) {}
+	public type: ExpressionType
+
+	public constructor(public readonly binders: Binder[]) {
+		BinderArray.throwIfBindersIsInvalid(binders)
+		this.type = binders[0].type
+	}
 
 	public getStmt(): string {
 		return `(${this.binders.map(it => it.getStmt()).join(', ')})`
+	}
+
+	private static throwIfBindersIsInvalid(binders: Binder[]) {
+		if (binders.length === 0) {
+			throw new Error('BinderArray must have at least one element')
+		}
+		const type = binders[0].type
+		binders.forEach(it => {
+			if (it.type !== type) {
+				throw new Error('All binders in BinderArray must be same type')
+			}
+		})
 	}
 }

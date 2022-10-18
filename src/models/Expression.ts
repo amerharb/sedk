@@ -50,9 +50,9 @@ export class Expression implements IStatementGiver {
 			this.operator = operatorOrNotLeft
 		}
 
-		this.rightOperand = new Operand(rightOperandType, notRight)
+		this.rightOperand = rightOperandType !== undefined ? new Operand(rightOperandType, notRight) : undefined
 
-		if (this.rightOperand.type === ExpressionType.NOT_EXIST) {
+		if (this.rightOperand === undefined || this.rightOperand.type === ExpressionType.NOT_EXIST) {
 			this.type = this.leftOperand.type
 		} else if (typeof operatorOrNotLeft !== 'boolean' && operatorOrNotLeft !== undefined) {
 			this.type = Expression.getResultExpressionType(this.leftOperand, operatorOrNotLeft, this.rightOperand)

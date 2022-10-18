@@ -365,7 +365,6 @@ describe('Throw desired Errors', () => {
 			expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
 		})
 	})
-
 	describe('Error: EmptyArrayError', () => {
 		it(`IN Operator's array cannot be empty`, () => {
 			function actual() {
@@ -376,7 +375,6 @@ describe('Throw desired Errors', () => {
 			expect(actual).toThrow(`IN Operator's array cannot be empty`)
 		})
 	})
-
 	describe('Error: Binder', () => {
 		it(`Throws: You can't getStmt() from this binder, The binder is not stored and has undefined "No"`, () => {
 			const binder = $('value')
@@ -384,7 +382,6 @@ describe('Throw desired Errors', () => {
 			expect(() => binder.getStmt()).toThrow(`You can't getStmt() from this binder, The binder is not stored and has undefined "No"`)
 		})
 	})
-
 	describe('Error: Schema', () => {
 		it(`Throws: "Database can only be assigned one time"`, () => {
 			const actual = () => {
@@ -402,7 +399,6 @@ describe('Throw desired Errors', () => {
 			expect(actual).toThrow(`Database is undefined`)
 		})
 	})
-
 	describe('Error: Table', () => {
 		it(`Throws: "Schema can only be assigned one time"`, () => {
 			const actual = () => {
@@ -427,7 +423,14 @@ describe('Throw desired Errors', () => {
 			expect(actual).toThrow(`Schema is undefined`)
 		})
 	})
-
+	describe('Step', () => {
+		it(`Throws: "No tables specified"`, () => {
+			const actual = () => {
+				sql.selectAsteriskFrom()
+			}
+			expect(actual).toThrow(`No tables specified`)
+		})
+	})
 	it(`Throws error "Value step has Unsupported value: x, type: y"`, () => {
 		const value = { unsupportedObject: 'something' }
 

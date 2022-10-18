@@ -426,6 +426,7 @@ describe('Throw desired Errors', () => {
 	describe('Step', () => {
 		it(`Throws: "No tables specified"`, () => {
 			const actual = () => {
+				// @ts-ignore - selectAsteriskFrom() needs at least one table
 				sql.selectAsteriskFrom()
 			}
 			expect(actual).toThrow(`No tables specified`)

@@ -4,7 +4,7 @@ import { Condition } from './models/Condition'
 import { Binder, BinderStore } from './binder'
 import { ASTERISK, All, Default, Distinct } from './singletoneConstants'
 import { RootStep, SelectFromStep, SelectStep, UpdateStep } from './steps/stepInterfaces'
-import { SelectItem, Step } from './steps/Step'
+import { FromItems, SelectItem, Step } from './steps/Step'
 import { LogicalOperator } from './operators'
 import { Parenthesis } from './steps/BaseStep'
 import { OrderByItemInfo } from './orderBy'
@@ -111,7 +111,7 @@ export class Builder {
 		return this.rootStep.selectAll(...items)
 	}
 
-	public selectAsteriskFrom(...tables: (Table|AliasedTable)[]): SelectFromStep {
+	public selectAsteriskFrom(...tables: FromItems): SelectFromStep {
 		return this.rootStep.select(ASTERISK).from(...tables)
 	}
 

@@ -49,8 +49,9 @@ import { SetStep } from './SetStep'
 import { TableAsterisk } from '../TableAsterisk'
 
 export type ColumnLike = Column|Expression
-
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk|TableAsterisk
+type FromItem = Table|AliasedTable
+export type FromItems = [FromItem, ...FromItem[]]
 
 export class Step extends BaseStep
 	implements RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
@@ -115,7 +116,7 @@ export class Step extends BaseStep
 		return this
 	}
 
-	public from(...tables: (Table|AliasedTable)[]): SelectFromStep {
+	public from(...tables: FromItems): SelectFromStep {
 		if (tables.length === 0)
 			throw new Error('No tables specified')
 

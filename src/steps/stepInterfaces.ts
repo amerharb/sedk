@@ -1,6 +1,6 @@
 import { BaseStep } from './BaseStep'
 import { SelectItemInfo } from '../SelectItemInfo'
-import { AliasedTable, Column, Table } from '../database'
+import { Column, Table } from '../database'
 import { PrimitiveType } from '../models/types'
 import { Condition } from '../models/Condition'
 import { OnStep } from './OnStep'
@@ -9,7 +9,7 @@ import { DeleteStep } from './DeleteStep'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import { HavingStep } from './HavingStep'
-import { SelectItem } from './Step'
+import { FromItems, SelectItem } from './Step'
 import { LogicalOperator } from '../operators'
 import { InsertStep } from './InsertStep'
 import { ItemInfo } from '../ItemInfo'
@@ -32,7 +32,7 @@ export interface RootStep extends BaseStep {
 }
 
 export interface SelectStep extends BaseStep {
-	from(...tables: (Table|AliasedTable)[]): SelectFromStep
+	from(...tables: FromItems): SelectFromStep
 
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
 }

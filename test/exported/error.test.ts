@@ -295,18 +295,18 @@ describe('Throw desired Errors', () => {
 		expect(actual).toThrow(/^Invalid limit value: .*, value must be positive number.*/)
 	})
 
-	it.each([
-		() => {sql.selectAsteriskFrom(table1).offset(-1)},
-		() => {sql.selectAsteriskFrom(table1).offset$(-1)},
-		() => {sql.selectAsteriskFrom(table1).offset(NaN)},
-		() => {sql.selectAsteriskFrom(table1).offset$(NaN)},
-		() => {sql.selectAsteriskFrom(table1).offset(Number.POSITIVE_INFINITY)},
-		() => {sql.selectAsteriskFrom(table1).offset$(Number.POSITIVE_INFINITY)},
-		() => {sql.selectAsteriskFrom(table1).offset(Number.NEGATIVE_INFINITY)},
-		() => {sql.selectAsteriskFrom(table1).offset$(Number.NEGATIVE_INFINITY)},
-	])('Throws error when OFFSET step has invalid value', (actual) => {
+	it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
+	(`Throws error when OFFSET step has invalid value for %s`, (value) => {
+		const actual = () => sql.selectAsteriskFrom(table1).offset(value)
 		expect(actual).toThrow(InvalidOffsetValueError)
-		expect(actual).toThrow(/^Invalid offset value: .*, value must be positive number$/)
+		expect(actual).toThrow(`Invalid offset value: ${value}, value must be positive number`)
+	})
+
+	it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
+	(`Throws error when OFFSET$ step has invalid value for %s`, (value) => {
+		const actual = () => sql.selectAsteriskFrom(table1).offset$(value)
+		expect(actual).toThrow(InvalidOffsetValueError)
+		expect(actual).toThrow(`Invalid offset value: ${value}, value must be positive number`)
 	})
 
 	it('Throws error "Expression Type must be number in aggregate function"', () => {

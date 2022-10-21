@@ -281,18 +281,18 @@ describe('Throw desired Errors', () => {
 		expect(actual).toThrow(/^ DESC shouldn't come after "ASC" or "DESC" without column or alias in between$/)
 	})
 
-	it.each([
-		() => {sql.selectAsteriskFrom(table1).limit(-1)},
-		() => {sql.selectAsteriskFrom(table1).limit$(-1)},
-		() => {sql.selectAsteriskFrom(table1).limit(NaN)},
-		() => {sql.selectAsteriskFrom(table1).limit$(NaN)},
-		() => {sql.selectAsteriskFrom(table1).limit(Number.POSITIVE_INFINITY)},
-		() => {sql.selectAsteriskFrom(table1).limit$(Number.POSITIVE_INFINITY)},
-		() => {sql.selectAsteriskFrom(table1).limit(Number.NEGATIVE_INFINITY)},
-		() => {sql.selectAsteriskFrom(table1).limit$(Number.NEGATIVE_INFINITY)},
-	])('Throws error when LIMIT step has invalid value', (actual) => {
+	it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
+	('Throws error when LIMIT step has invalid value for %s', (value) => {
+		const actual = () => sql.selectAsteriskFrom(table1).limit(value)
 		expect(actual).toThrow(InvalidLimitValueError)
-		expect(actual).toThrow(/^Invalid limit value: .*, value must be positive number.*/)
+		expect(actual).toThrow(`Invalid limit value: ${value}, value must be positive number, null or "ALL"`)
+	})
+
+	it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
+	('Throws error when LIMIT$ step has invalid value for %s', (value) => {
+		const actual = () => sql.selectAsteriskFrom(table1).limit$(value)
+		expect(actual).toThrow(InvalidLimitValueError)
+		expect(actual).toThrow(`Invalid limit value: ${value}, value must be positive number or null`)
 	})
 
 	it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])

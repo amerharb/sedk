@@ -104,7 +104,7 @@ describe('Throw desired Errors', () => {
 			}
 			expect(actual).toThrow(`Unknown type of value: ${value}`)
 		})
-		it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY ])
+		it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
 		('Throws: "Unknown type of value: %s"', (value) => {
 			const actual = () => new Binder(value)
 			expect(actual).toThrow(`Unknown type of value: ${value}`)
@@ -243,6 +243,11 @@ describe('Throw desired Errors', () => {
 			}
 
 			expect(actual).toThrow(`You can not use "NOT" modifier unless expression type is boolean`)
+		})
+		it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
+		(`Throws: "Operand type of: %s is not supported""`, (value) => {
+			const actual = () => new Operand(value)
+			expect(actual).toThrow(`Operand type of: ${value} is not supported`)
 		})
 	})
 })

@@ -1,3 +1,4 @@
+import { isNumber } from 'Non-Exported/util'
 import { ExpressionType } from './models/Expression'
 import { PrimitiveType } from './models/types'
 import { IStatementGiver } from './models/IStatementGiver'
@@ -70,7 +71,7 @@ export class Binder implements IStatementGiver {
 			return ExpressionType.NULL
 		} else if (typeof value === 'boolean') {
 			return ExpressionType.BOOLEAN
-		} else if (typeof value === 'number') {
+		} else if (isNumber(value)) {
 			return ExpressionType.NUMBER
 		} else if (typeof value === 'string') {
 			return ExpressionType.TEXT

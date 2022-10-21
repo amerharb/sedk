@@ -96,19 +96,19 @@ describe('Throw desired Errors', () => {
 
 			expect(actual).toThrow(`This Binder already has a number`)
 		})
-		it('Throws: "Unknown type of value: ?"', () => {
+		it('Throws: "Unknown type of value: [object Object]"', () => {
 			const value = { something: 'Unknown type' }
-
-			function actual() {
+			const actual = () => {
 				// @ts-ignore - the value is not the correct type
 				new Binder(value)
 			}
-
 			expect(actual).toThrow(`Unknown type of value: ${value}`)
 		})
-		it.todo('Throws: "Unknown type of value: NaN"') // currently binder accept NaN as a valid number, this should be change
-		it.todo('Throws: "Unknown type of value: Infinity"') // currently binder accept Infinity as a valid number, this should be change
-		it.todo('Throws: "Unknown type of value: -Infinity"') // currently binder accept -Infinity as a valid number, this should be change
+		it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY ])
+		('Throws: "Unknown type of value: %s"', (value) => {
+			const actual = () => new Binder(value)
+			expect(actual).toThrow(`Unknown type of value: ${value}`)
+		})
 	})
 
 	describe('BinderArray', () => {

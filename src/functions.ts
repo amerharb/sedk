@@ -1,3 +1,4 @@
+import { isNumber } from 'Non-Exported/util'
 import {
 	BooleanLike,
 	NumberLike,
@@ -77,7 +78,7 @@ export const f = {
 }
 
 function aggregateFunction(functionName: AggregateFunctionEnum, column: Expression|NumberLike): AggregateFunction {
-	if (column instanceof NumberColumn || typeof column === 'number')
+	if (column instanceof NumberColumn || isNumber(column))
 		return new AggregateFunction(functionName, new Expression(column))
 	else
 		return new AggregateFunction(functionName, column)

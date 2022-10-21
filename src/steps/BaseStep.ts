@@ -6,7 +6,7 @@ import { LogicalOperator } from '../operators'
 import { DeleteWithoutConditionError, TableNotFoundError } from '../errors'
 import { AliasedTable, BooleanColumn, Table } from '../database'
 import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
-import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString } from '../util'
+import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString, isNumber } from '../util'
 import { Binder } from '../binder'
 import { Default } from '../singletoneConstants'
 
@@ -132,7 +132,7 @@ export abstract class BaseStep {
 						return getStmtNull()
 					} else if (typeof it === 'boolean') {
 						return getStmtBoolean(it)
-					} else if (typeof it === 'number') {
+					} else if (isNumber(it)) {
 						return it.toString()
 					} else if (typeof it === 'string') {
 						return getStmtString(it)

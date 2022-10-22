@@ -4,11 +4,11 @@
 ## [0.15.0]  2022-10-08
 ### Changed
 - Use eq() and eq$() for UPDATE instead of let() and let$().
-- Change style adopt all Caps for some static statment like eqDEFAULT instead of letDefault, 
+- Change style adopt all Caps for some static statement like eqDEFAULT instead of letDefault, 
  and NULLS_FIRST instead of nullsFirst.
 - Divided file database.ts into Table.ts, Schema.ts, and Database.ts.
 - refactor import, add index for both steps and model
-- only accept normal number exlude NaN, Infinity, -Infinity
+- only accept normal number exclude NaN, Infinity, -Infinity
 ### Breaking Changes
 - Delete getColumns() and getColumn() from Table class
 
@@ -51,7 +51,7 @@
 - Option `throwErrorIfDeleteHasNoCondition`
 - WHERE, OR and AND steps after DELETE step
 - Functions isEq(), isEq$(), isNe() and isNe$(), those function work with null and non-null values
-- Github Action for unit test at pushing code
+- GitHub Action for unit test at pushing code
 - Codecov badge to README.md
 - Throw error if limit or offer value is NaN or INFINITY
 ### Changed

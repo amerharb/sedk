@@ -6,11 +6,8 @@ import {
 } from 'src'
 
 // test non-exported Classes
-import { Condition } from 'Non-Exported/models/Condition'
-import { Expression } from 'Non-Exported/models/Expression'
-import { Operand } from 'Non-Exported/models/Operand'
-import { Parenthesis } from 'Non-Exported/steps/BaseStep'
-import { OnStep } from 'Non-Exported/steps/OnStep'
+import { Condition, Expression, Operand } from 'Non-Exported/models'
+import { OnStep, Parenthesis } from 'Non-Exported/steps'
 import { Binder, BinderArray, BinderStore } from 'Non-Exported/binder'
 import { BuilderData } from 'Non-Exported/builder'
 import { ItemInfo } from 'Non-Exported/ItemInfo'
@@ -96,19 +93,19 @@ describe('Throw desired Errors', () => {
 
 			expect(actual).toThrow(`This Binder already has a number`)
 		})
-		it('Throws: "Unknown type of value: ?"', () => {
+		it('Throws: "Unknown type of value: [object Object]"', () => {
 			const value = { something: 'Unknown type' }
-
-			function actual() {
+			const actual = () => {
 				// @ts-ignore - the value is not the correct type
 				new Binder(value)
 			}
-
 			expect(actual).toThrow(`Unknown type of value: ${value}`)
 		})
-		it.todo('Throws: "Unknown type of value: NaN"') // currently binder accept NaN as a valid number, this should be change
-		it.todo('Throws: "Unknown type of value: Infinity"') // currently binder accept Infinity as a valid number, this should be change
-		it.todo('Throws: "Unknown type of value: -Infinity"') // currently binder accept -Infinity as a valid number, this should be change
+		it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
+		('Throws: "Unknown type of value: %s"', (value) => {
+			const actual = () => new Binder(value)
+			expect(actual).toThrow(`Unknown type of value: ${value}`)
+		})
 	})
 
 	describe('BinderArray', () => {
@@ -243,6 +240,11 @@ describe('Throw desired Errors', () => {
 			}
 
 			expect(actual).toThrow(`You can not use "NOT" modifier unless expression type is boolean`)
+		})
+		it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
+		(`Throws: "Operand type of: %s is not supported""`, (value) => {
+			const actual = () => new Operand(value)
+			expect(actual).toThrow(`Operand type of: ${value} is not supported`)
 		})
 	})
 })

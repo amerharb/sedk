@@ -1,7 +1,5 @@
 import { BuilderData, SqlPath } from '../builder'
-import { PrimitiveType } from '../models/types'
-import { Condition } from '../models/Condition'
-import { Expression } from '../models/Expression'
+import { Condition, Expression, PrimitiveType, isNumber } from '../models'
 import { LogicalOperator } from '../operators'
 import { DeleteWithoutConditionError, TableNotFoundError } from '../errors'
 import { AliasedTable, BooleanColumn, Table } from '../database'
@@ -132,7 +130,7 @@ export abstract class BaseStep {
 						return getStmtNull()
 					} else if (typeof it === 'boolean') {
 						return getStmtBoolean(it)
-					} else if (typeof it === 'number') {
+					} else if (isNumber(it)) {
 						return it.toString()
 					} else if (typeof it === 'string') {
 						return getStmtString(it)

@@ -1,16 +1,19 @@
 import {
 	BooleanLike,
+	Condition,
+	Expression,
 	NumberLike,
 	OperandType,
+	PrimitiveType,
 	TextLike,
-} from './models/types'
-import { Expression } from './models/Expression'
-import { Condition } from './models/Condition'
+	isNumber,
+} from './models'
 import {
 	ArithmeticOperator,
 	ComparisonOperator,
 	NullOperator,
 	Operator,
+	isComparisonOperator,
 } from './operators'
 import {
 	OrderByDirection,
@@ -21,7 +24,6 @@ import {
 import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
 import { BooleanColumn, DateColumn, NumberColumn, TextColumn } from './database'
 import { Binder } from './binder'
-import { PrimitiveType } from './models/types'
 
 export function e(left: OperandType): Expression
 export function e(left: BooleanLike, operator: ComparisonOperator, right: BooleanLike): Condition
@@ -34,7 +36,7 @@ export function e(left: OperandType|Binder, operator?: Operator, right?: Operand
 	if (operator !== undefined && right !== undefined) {
 		const r = right instanceof Binder ? new Expression(right) : right
 		if (
-			Object.values(ComparisonOperator).includes(operator as ComparisonOperator)
+			isComparisonOperator(operator)
 			&& l instanceof Expression
 			&& r instanceof Expression
 		) {
@@ -77,7 +79,7 @@ export const f = {
 }
 
 function aggregateFunction(functionName: AggregateFunctionEnum, column: Expression|NumberLike): AggregateFunction {
-	if (column instanceof NumberColumn || typeof column === 'number')
+	if (column instanceof NumberColumn || isNumber(column))
 		return new AggregateFunction(functionName, new Expression(column))
 	else
 		return new AggregateFunction(functionName, column)

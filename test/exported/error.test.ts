@@ -281,32 +281,32 @@ describe('Throw desired Errors', () => {
 		expect(actual).toThrow(/^ DESC shouldn't come after "ASC" or "DESC" without column or alias in between$/)
 	})
 
-	it.each([
-		() => {sql.selectAsteriskFrom(table1).limit(-1)},
-		() => {sql.selectAsteriskFrom(table1).limit$(-1)},
-		() => {sql.selectAsteriskFrom(table1).limit(NaN)},
-		() => {sql.selectAsteriskFrom(table1).limit$(NaN)},
-		() => {sql.selectAsteriskFrom(table1).limit(Number.POSITIVE_INFINITY)},
-		() => {sql.selectAsteriskFrom(table1).limit$(Number.POSITIVE_INFINITY)},
-		() => {sql.selectAsteriskFrom(table1).limit(Number.NEGATIVE_INFINITY)},
-		() => {sql.selectAsteriskFrom(table1).limit$(Number.NEGATIVE_INFINITY)},
-	])('Throws error when LIMIT step has invalid value', (actual) => {
+	it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
+	('Throws error when LIMIT step has invalid value for %s', (value) => {
+		const actual = () => sql.selectAsteriskFrom(table1).limit(value)
 		expect(actual).toThrow(InvalidLimitValueError)
-		expect(actual).toThrow(/^Invalid limit value: .*, value must be positive number.*/)
+		expect(actual).toThrow(`Invalid limit value: ${value}, value must be positive number, null or "ALL"`)
 	})
 
-	it.each([
-		() => {sql.selectAsteriskFrom(table1).offset(-1)},
-		() => {sql.selectAsteriskFrom(table1).offset$(-1)},
-		() => {sql.selectAsteriskFrom(table1).offset(NaN)},
-		() => {sql.selectAsteriskFrom(table1).offset$(NaN)},
-		() => {sql.selectAsteriskFrom(table1).offset(Number.POSITIVE_INFINITY)},
-		() => {sql.selectAsteriskFrom(table1).offset$(Number.POSITIVE_INFINITY)},
-		() => {sql.selectAsteriskFrom(table1).offset(Number.NEGATIVE_INFINITY)},
-		() => {sql.selectAsteriskFrom(table1).offset$(Number.NEGATIVE_INFINITY)},
-	])('Throws error when OFFSET step has invalid value', (actual) => {
+	it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
+	('Throws error when LIMIT$ step has invalid value for %s', (value) => {
+		const actual = () => sql.selectAsteriskFrom(table1).limit$(value)
+		expect(actual).toThrow(InvalidLimitValueError)
+		expect(actual).toThrow(`Invalid limit value: ${value}, value must be positive number or null`)
+	})
+
+	it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
+	(`Throws error when OFFSET step has invalid value for %s`, (value) => {
+		const actual = () => sql.selectAsteriskFrom(table1).offset(value)
 		expect(actual).toThrow(InvalidOffsetValueError)
-		expect(actual).toThrow(/^Invalid offset value: .*, value must be positive number$/)
+		expect(actual).toThrow(`Invalid offset value: ${value}, value must be positive number`)
+	})
+
+	it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
+	(`Throws error when OFFSET$ step has invalid value for %s`, (value) => {
+		const actual = () => sql.selectAsteriskFrom(table1).offset$(value)
+		expect(actual).toThrow(InvalidOffsetValueError)
+		expect(actual).toThrow(`Invalid offset value: ${value}, value must be positive number`)
 	})
 
 	it('Throws error "Expression Type must be number in aggregate function"', () => {
@@ -365,7 +365,6 @@ describe('Throw desired Errors', () => {
 			expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
 		})
 	})
-
 	describe('Error: EmptyArrayError', () => {
 		it(`IN Operator's array cannot be empty`, () => {
 			function actual() {
@@ -376,7 +375,6 @@ describe('Throw desired Errors', () => {
 			expect(actual).toThrow(`IN Operator's array cannot be empty`)
 		})
 	})
-
 	describe('Error: Binder', () => {
 		it(`Throws: You can't getStmt() from this binder, The binder is not stored and has undefined "No"`, () => {
 			const binder = $('value')
@@ -384,7 +382,6 @@ describe('Throw desired Errors', () => {
 			expect(() => binder.getStmt()).toThrow(`You can't getStmt() from this binder, The binder is not stored and has undefined "No"`)
 		})
 	})
-
 	describe('Error: Schema', () => {
 		it(`Throws: "Database can only be assigned one time"`, () => {
 			const actual = () => {
@@ -402,7 +399,6 @@ describe('Throw desired Errors', () => {
 			expect(actual).toThrow(`Database is undefined`)
 		})
 	})
-
 	describe('Error: Table', () => {
 		it(`Throws: "Schema can only be assigned one time"`, () => {
 			const actual = () => {
@@ -427,7 +423,15 @@ describe('Throw desired Errors', () => {
 			expect(actual).toThrow(`Schema is undefined`)
 		})
 	})
-
+	describe('Step', () => {
+		it(`Throws: "No tables specified"`, () => {
+			const actual = () => {
+				// @ts-ignore - selectAsteriskFrom() needs at least one table
+				sql.selectAsteriskFrom()
+			}
+			expect(actual).toThrow(`No tables specified`)
+		})
+	})
 	it(`Throws error "Value step has Unsupported value: x, type: y"`, () => {
 		const value = { unsupportedObject: 'something' }
 

@@ -1,7 +1,6 @@
 import { Column } from './database'
-import { Expression } from './models/Expression'
+import { Expression, IStatementGiver } from './models'
 import { BuilderData } from './builder'
-import { IStatementGiver } from './models/IStatementGiver'
 
 export type OrderByItem = Column|Expression|string
 export type OrderByArgsElement = OrderByItemInfo|OrderByItem|OrderByDirection|OrderByNullsPosition

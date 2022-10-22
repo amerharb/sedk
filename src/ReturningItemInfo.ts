@@ -1,10 +1,10 @@
 import { Column } from './database'
-import { Expression } from './models/Expression'
+import { Expression } from './models'
 import { escapeDoubleQuote } from './util'
 import { BuilderData } from './builder'
 import { Binder } from './binder'
 import { Asterisk } from './singletoneConstants'
-import { ColumnLike } from './steps/Step'
+import { ColumnLike } from './steps'
 import { ItemInfo } from './ItemInfo'
 import { TableAsterisk } from './TableAsterisk'
 

@@ -1,23 +1,29 @@
 import { AliasedTable, BooleanColumn, Column, Database, Table } from './database'
-import { PrimitiveType } from './models/types'
-import { Condition } from './models/Condition'
+import { Condition, PrimitiveType } from './models'
 import { Binder, BinderStore } from './binder'
 import { ASTERISK, All, Default, Distinct } from './singletoneConstants'
-import { RootStep, SelectFromStep, SelectStep, UpdateStep } from './steps/stepInterfaces'
-import { SelectItem, Step } from './steps/Step'
+import {
+	DeleteFromStep,
+	DeleteStep,
+	FromItems,
+	InsertStep,
+	IntoStep,
+	Parenthesis,
+	RootStep,
+	SelectFromStep,
+	SelectItem,
+	SelectStep,
+	Step,
+	UpdateStep,
+} from './steps'
 import { LogicalOperator } from './operators'
-import { Parenthesis } from './steps/BaseStep'
 import { OrderByItemInfo } from './orderBy'
 import { SelectItemInfo } from './SelectItemInfo'
 import { BuilderOption, BuilderOptionRequired, fillUndefinedOptionsWithDefault } from './option'
 import { MoreThanOneDistinctOrAllError } from './errors'
 import { FromItemInfo } from './FromItemInfo'
-import { DeleteStep } from './steps/DeleteStep'
-import { DeleteFromStep } from './steps/DeleteFromStep'
 import { ReturningItemInfo } from './ReturningItemInfo'
 import { ItemInfo } from './ItemInfo'
-import { InsertStep } from './steps/InsertStep'
-import { IntoStep } from './steps/IntoStep'
 import { UpdateSetItemInfo } from './UpdateSetItemInfo'
 
 export enum SqlPath {
@@ -111,7 +117,7 @@ export class Builder {
 		return this.rootStep.selectAll(...items)
 	}
 
-	public selectAsteriskFrom(...tables: (Table|AliasedTable)[]): SelectFromStep {
+	public selectAsteriskFrom(...tables: FromItems): SelectFromStep {
 		return this.rootStep.select(ASTERISK).from(...tables)
 	}
 

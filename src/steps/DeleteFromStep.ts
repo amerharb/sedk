@@ -1,12 +1,11 @@
 import { BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
-import { Condition } from '../models/Condition'
+import { Condition, PrimitiveType } from '../models'
 import { DeleteWhereStep } from './DeleteWhereStep'
 import { LogicalOperator } from '../operators'
 import { MoreThanOneWhereStepError } from '../errors'
 import { ReturningStep } from './stepInterfaces'
 import { returnStepOrThrow } from '../util'
-import { PrimitiveType } from '../models/types'
 import { ReturningItem } from '../ReturningItemInfo'
 import { ItemInfo } from '../ItemInfo'
 

@@ -1,11 +1,9 @@
 import { escapeDoubleQuote } from './util'
 import { BuilderData } from './builder'
-import { IStatementGiver } from './models/IStatementGiver'
+import { Condition, Expression, IStatementGiver } from './models'
 import { BooleanColumn, Table } from './database'
-import { Condition } from './models/Condition'
 import { LogicalOperator } from './operators'
-import { Parenthesis } from './steps/BaseStep'
-import { Expression } from './models/Expression'
+import { Parenthesis } from './steps'
 
 export enum FromItemRelation {
 	NO_RELATION = '',

@@ -1,6 +1,6 @@
 import { BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
-import { Condition } from '../models/Condition'
+import { Condition, PrimitiveType } from '../models'
 import { Column, Table } from '../database'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
@@ -13,7 +13,6 @@ import { SelectWhereStep } from './SelectWhereStep'
 import { returnStepOrThrow } from '../util'
 import { ItemInfo } from '../ItemInfo'
 import { ReturningItem } from '../ReturningItemInfo'
-import { PrimitiveType } from '../models/types'
 
 export class OnStep extends BaseStep implements IAfterFromSteps {
 	constructor(protected data: BuilderData) { super(data) }

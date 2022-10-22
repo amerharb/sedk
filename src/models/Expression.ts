@@ -1,10 +1,12 @@
 import {
-	ArithmeticOperator,
-	BitwiseOperator,
 	ComparisonOperator,
 	NullOperator,
 	Operator,
-	TextOperator,
+	isArithmeticOperator,
+	isBitwiseOperator,
+	isComparisonOperator,
+	isNullOperator,
+	isTextOperator,
 } from '../operators'
 import { Binder, BinderArray } from '../binder'
 import { BuilderData } from '../builder'
@@ -12,7 +14,14 @@ import { SelectItemInfo } from '../SelectItemInfo'
 import { Column } from '../database'
 import { InvalidExpressionError } from '../errors'
 import { Operand } from './Operand'
-import { NonNullPrimitiveType, OperandType, PrimitiveType, ValueLike, isTextBoolean, isTextNumber } from './types'
+import {
+	NonNullPrimitiveType,
+	OperandType,
+	PrimitiveType,
+	ValueLike,
+	isTextBoolean,
+	isTextNumber,
+} from './types'
 import { IStatementGiver } from './IStatementGiver'
 import { Condition } from './Condition'
 import { ItemInfo } from '../ItemInfo'
@@ -131,7 +140,7 @@ export class Expression implements IStatementGiver {
 	}
 
 	private static getResultExpressionType(left: Operand, operator: Operator, right: Operand): ExpressionType {
-		if (Expression.isArithmeticOperator(operator)) {
+		if (isArithmeticOperator(operator)) {
 			if ((left.type === ExpressionType.NULL && right.type === ExpressionType.NUMBER)
 				|| (left.type === ExpressionType.NUMBER && right.type === ExpressionType.NULL))
 				return ExpressionType.NULL
@@ -146,7 +155,7 @@ export class Expression implements IStatementGiver {
 			Expression.throwInvalidTypeError(left.type, operator, right.type)
 		}
 
-		if (Expression.isBitwiseOperator(operator)) {
+		if (isBitwiseOperator(operator)) {
 			if (left.type === ExpressionType.NUMBER && right.type === ExpressionType.NUMBER)
 				return ExpressionType.NUMBER
 
@@ -157,7 +166,7 @@ export class Expression implements IStatementGiver {
 			Expression.throwInvalidTypeError(left.type, operator, right.type)
 		}
 
-		if (Expression.isComparisonOperator(operator)) {
+		if (isComparisonOperator(operator)) {
 			if (Expression.isListComparisonOperator(operator)) {
 				// TODO: check the values of the right same type of the left
 				if (right.type === ExpressionType.ARRAY)
@@ -182,7 +191,7 @@ export class Expression implements IStatementGiver {
 			Expression.throwInvalidTypeError(left.type, operator, right.type)
 		}
 
-		if (Expression.isNullOperator(operator)) {
+		if (isNullOperator(operator)) {
 			if (right.type === ExpressionType.NULL)
 				return ExpressionType.BOOLEAN
 
@@ -196,7 +205,7 @@ export class Expression implements IStatementGiver {
 			Expression.throwInvalidTypeError(left.type, operator, right.type)
 		}
 
-		if (Expression.isTextOperator(operator)) {
+		if (isTextOperator(operator)) {
 			if (left.type === ExpressionType.NULL || right.type === ExpressionType.NULL)
 				return ExpressionType.NULL
 
@@ -213,31 +222,11 @@ export class Expression implements IStatementGiver {
 		throw new Error(`Function "getResultExpressionType" does not support operator: "${operator}"`)
 	}
 
-	private static isArithmeticOperator(operator: Operator): boolean {
-		return Object.values(ArithmeticOperator).includes(operator as ArithmeticOperator)
-	}
-
-	private static isBitwiseOperator(operator: Operator): boolean {
-		return Object.values(BitwiseOperator).includes(operator as BitwiseOperator)
-	}
-
-	private static isTextOperator(operator: Operator): boolean {
-		return Object.values(TextOperator).includes(operator as TextOperator)
-	}
-
-	private static isComparisonOperator(operator: Operator): boolean {
-		return Object.values(ComparisonOperator).includes(operator as ComparisonOperator)
+	private static throwInvalidTypeError(leftType: ExpressionType, operator: Operator, rightType: ExpressionType): never {
+		throw new InvalidExpressionError(`You can not have "${ExpressionType[leftType]}" and "${ExpressionType[rightType]}" with operator "${operator}"`)
 	}
 
 	private static isListComparisonOperator(operator: Operator): boolean {
 		return [ComparisonOperator.In, ComparisonOperator.NotIn].includes(operator as ComparisonOperator)
-	}
-
-	private static isNullOperator(operator: Operator): boolean {
-		return Object.values(NullOperator).includes(operator as NullOperator)
-	}
-
-	private static throwInvalidTypeError(leftType: ExpressionType, operator: Operator, rightType: ExpressionType): never {
-		throw new InvalidExpressionError(`You can not have "${ExpressionType[leftType]}" and "${ExpressionType[rightType]}" with operator "${operator}"`)
 	}
 }

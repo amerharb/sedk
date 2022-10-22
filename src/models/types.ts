@@ -31,3 +31,7 @@ export function isTextNumber(text: unknown): text is number {
 	}
 	return false
 }
+
+export function isNumber(value: unknown): value is number {
+	return typeof value === 'number' && isFinite(value)
+}

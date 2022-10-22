@@ -5,7 +5,7 @@ import { DateColumn } from './DateColumn'
 import { NumberColumn } from './NumberColumn'
 import { Schema } from './Schema'
 import { TextColumn } from './TextColumn'
-import { IStatementGiver } from '../models/IStatementGiver'
+import { IStatementGiver } from '../models'
 import { TableAsterisk } from '../TableAsterisk'
 import { escapeDoubleQuote } from '../util'
 

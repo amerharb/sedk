@@ -3,7 +3,7 @@ import { Expression, ExpressionType } from './Expression'
 import { BuilderData } from '../builder'
 import { AggregateFunction } from '../AggregateFunction'
 import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../database'
-import { OperandType } from './types'
+import { OperandType, isNumber } from './types'
 import { IStatementGiver } from './IStatementGiver'
 import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString } from '../util'
 import { Condition } from './Condition'
@@ -49,7 +49,7 @@ export class Operand implements IStatementGiver {
 			return `${value.getStmt()}`
 		} else if (typeof value === 'boolean') {
 			return `${isNot ? 'NOT ' : ''}${getStmtBoolean(value)}`
-		} else if (typeof value === 'number') {
+		} else if (isNumber(value)) {
 			return `${isNot ? 'NOT ' : ''}${value}`
 		} else if (typeof value === 'string') {
 			return getStmtString(value)
@@ -74,7 +74,7 @@ export class Operand implements IStatementGiver {
 			return ExpressionType.NULL
 		} else if (typeof operand === 'boolean' || operand instanceof BooleanColumn) {
 			return ExpressionType.BOOLEAN
-		} else if (typeof operand === 'number' || operand instanceof NumberColumn) {
+		} else if (isNumber(operand) || operand instanceof NumberColumn) {
 			return ExpressionType.NUMBER
 		} else if (typeof operand === 'string' || operand instanceof TextColumn) {
 			return ExpressionType.TEXT

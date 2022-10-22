@@ -1,4 +1,11 @@
-import { ComparisonOperator, Operator } from '../operators'
+import {
+	ArithmeticOperator,
+	BitwiseOperator,
+	ComparisonOperator,
+	NullOperator,
+	Operator,
+	TextOperator,
+} from '../operators'
 import { BooleanColumn, DateColumn, NumberColumn, TextColumn } from '../database'
 import { AggregateFunction } from '../AggregateFunction'
 import { Expression } from './Expression'
@@ -37,7 +44,27 @@ export function isNumber(value: unknown): value is number {
 	return typeof value === 'number' && isFinite(value)
 }
 
-export function isComparisonOperator(value: Operator): value is ComparisonOperator {
-	// @ts-ignore - the type of value is unknown
-	return Object.values(ComparisonOperator).includes(value)
+export function isComparisonOperator(operator: Operator): operator is ComparisonOperator {
+	// @ts-ignore - the type of operator can be other operator
+	return Object.values(ComparisonOperator).includes(operator)
+}
+
+export function isArithmeticOperator(operator: Operator): operator is ArithmeticOperator {
+	// @ts-ignore - the type of operator can be other operator
+	return Object.values(ArithmeticOperator).includes(operator as ArithmeticOperator)
+}
+
+export function isBitwiseOperator(operator: Operator): operator is BitwiseOperator {
+	// @ts-ignore - the type of operator can be other operator
+	return Object.values(BitwiseOperator).includes(operator as BitwiseOperator)
+}
+
+export function isTextOperator(operator: Operator): operator is TextOperator {
+	// @ts-ignore - the type of operator can be other operator
+	return Object.values(TextOperator).includes(operator as TextOperator)
+}
+
+export function isNullOperator(operator: Operator): operator is NullOperator {
+	// @ts-ignore - the type of operator can be other operator
+	return Object.values(NullOperator).includes(operator as NullOperator)
 }

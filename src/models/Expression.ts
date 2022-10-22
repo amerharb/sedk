@@ -1,10 +1,7 @@
 import {
-	ArithmeticOperator,
-	BitwiseOperator,
 	ComparisonOperator,
 	NullOperator,
 	Operator,
-	TextOperator,
 } from '../operators'
 import { Binder, BinderArray } from '../binder'
 import { BuilderData } from '../builder'
@@ -17,9 +14,13 @@ import {
 	OperandType,
 	PrimitiveType,
 	ValueLike,
+	isArithmeticOperator,
+	isBitwiseOperator,
 	isComparisonOperator,
+	isNullOperator,
 	isTextBoolean,
 	isTextNumber,
+	isTextOperator,
 } from './types'
 import { IStatementGiver } from './IStatementGiver'
 import { Condition } from './Condition'
@@ -139,7 +140,7 @@ export class Expression implements IStatementGiver {
 	}
 
 	private static getResultExpressionType(left: Operand, operator: Operator, right: Operand): ExpressionType {
-		if (Expression.isArithmeticOperator(operator)) {
+		if (isArithmeticOperator(operator)) {
 			if ((left.type === ExpressionType.NULL && right.type === ExpressionType.NUMBER)
 				|| (left.type === ExpressionType.NUMBER && right.type === ExpressionType.NULL))
 				return ExpressionType.NULL
@@ -154,7 +155,7 @@ export class Expression implements IStatementGiver {
 			Expression.throwInvalidTypeError(left.type, operator, right.type)
 		}
 
-		if (Expression.isBitwiseOperator(operator)) {
+		if (isBitwiseOperator(operator)) {
 			if (left.type === ExpressionType.NUMBER && right.type === ExpressionType.NUMBER)
 				return ExpressionType.NUMBER
 
@@ -190,7 +191,7 @@ export class Expression implements IStatementGiver {
 			Expression.throwInvalidTypeError(left.type, operator, right.type)
 		}
 
-		if (Expression.isNullOperator(operator)) {
+		if (isNullOperator(operator)) {
 			if (right.type === ExpressionType.NULL)
 				return ExpressionType.BOOLEAN
 
@@ -204,7 +205,7 @@ export class Expression implements IStatementGiver {
 			Expression.throwInvalidTypeError(left.type, operator, right.type)
 		}
 
-		if (Expression.isTextOperator(operator)) {
+		if (isTextOperator(operator)) {
 			if (left.type === ExpressionType.NULL || right.type === ExpressionType.NULL)
 				return ExpressionType.NULL
 
@@ -221,27 +222,11 @@ export class Expression implements IStatementGiver {
 		throw new Error(`Function "getResultExpressionType" does not support operator: "${operator}"`)
 	}
 
-	private static isArithmeticOperator(operator: Operator): boolean {
-		return Object.values(ArithmeticOperator).includes(operator as ArithmeticOperator)
-	}
-
-	private static isBitwiseOperator(operator: Operator): boolean {
-		return Object.values(BitwiseOperator).includes(operator as BitwiseOperator)
-	}
-
-	private static isTextOperator(operator: Operator): boolean {
-		return Object.values(TextOperator).includes(operator as TextOperator)
+	private static throwInvalidTypeError(leftType: ExpressionType, operator: Operator, rightType: ExpressionType): never {
+		throw new InvalidExpressionError(`You can not have "${ExpressionType[leftType]}" and "${ExpressionType[rightType]}" with operator "${operator}"`)
 	}
 
 	private static isListComparisonOperator(operator: Operator): boolean {
 		return [ComparisonOperator.In, ComparisonOperator.NotIn].includes(operator as ComparisonOperator)
-	}
-
-	private static isNullOperator(operator: Operator): boolean {
-		return Object.values(NullOperator).includes(operator as NullOperator)
-	}
-
-	private static throwInvalidTypeError(leftType: ExpressionType, operator: Operator, rightType: ExpressionType): never {
-		throw new InvalidExpressionError(`You can not have "${ExpressionType[leftType]}" and "${ExpressionType[rightType]}" with operator "${operator}"`)
 	}
 }

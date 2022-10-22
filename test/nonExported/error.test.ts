@@ -6,9 +6,7 @@ import {
 } from 'src'
 
 // test non-exported Classes
-import { Condition } from 'Non-Exported/models/Condition'
-import { Expression } from 'Non-Exported/models/Expression'
-import { Operand } from 'Non-Exported/models/Operand'
+import { Condition, Expression, Operand } from 'Non-Exported/models'
 import { Parenthesis } from 'Non-Exported/steps/BaseStep'
 import { OnStep } from 'Non-Exported/steps/OnStep'
 import { Binder, BinderArray, BinderStore } from 'Non-Exported/binder'

@@ -3,8 +3,9 @@ export { Expression, ExpressionType } from './Expression'
 export { IStatementGiver } from './IStatementGiver'
 export { Operand } from './Operand'
 export {
-	TextLike,
 	BooleanLike,
+	DateLike,
+	TextLike,
 	NumberLike,
 	OperandType,
 	isTextBoolean,

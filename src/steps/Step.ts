@@ -1,6 +1,4 @@
-import { PrimitiveType } from '../models/types'
-import { Condition } from '../models/Condition'
-import { Expression } from '../models/Expression'
+import { Condition, Expression, PrimitiveType } from '../models'
 import { AliasedTable, Column, Table } from '../database'
 import {
 	ColumnNotFoundError,

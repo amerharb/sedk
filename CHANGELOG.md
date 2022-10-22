@@ -8,6 +8,7 @@
  and NULLS_FIRST instead of nullsFirst.
 - Divided file database.ts into Table.ts, Schema.ts, and Database.ts.
 - refactor import, add index for both steps and model
+- only accept normal number exlude NaN, Infinity, -Infinity
 ### Breaking Changes
 - Delete getColumns() and getColumn() from Table class
 

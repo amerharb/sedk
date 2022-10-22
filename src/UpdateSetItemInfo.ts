@@ -1,10 +1,12 @@
-import { IStatementGiver } from './models/IStatementGiver'
+import {
+	Expression,
+	IStatementGiver,
+	Operand,
+	PrimitiveType,
+} from './models'
 import { Column } from './database'
-import { Expression } from './models/Expression'
 import { BuilderData } from './builder'
 import { Binder } from './binder'
-import { PrimitiveType } from './models/types'
-import { Operand } from './models/Operand'
 import { Default } from './singletoneConstants'
 
 export class UpdateSetItemInfo implements IStatementGiver {

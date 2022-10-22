@@ -1,6 +1,6 @@
 import { BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
-import { Condition } from '../models/Condition'
+import { Condition } from '../models'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import { LogicalOperator } from '../operators'

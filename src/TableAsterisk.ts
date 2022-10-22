@@ -1,5 +1,5 @@
 import { Table } from './database'
-import { IStatementGiver } from './models/IStatementGiver'
+import { IStatementGiver } from './models'
 import { BuilderData } from './builder'
 
 export class TableAsterisk implements IStatementGiver{

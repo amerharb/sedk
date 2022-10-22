@@ -1,5 +1,5 @@
 import { Column } from './database'
-import { Expression } from './models/Expression'
+import { Expression } from './models'
 import { escapeDoubleQuote } from './util'
 import { BuilderData } from './builder'
 import { Binder } from './binder'

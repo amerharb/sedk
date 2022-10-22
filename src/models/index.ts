@@ -4,6 +4,9 @@ export { IStatementGiver } from './IStatementGiver'
 export { Operand } from './Operand'
 export {
 	TextLike,
+	BooleanLike,
+	NumberLike,
+	OperandType,
 	isTextBoolean,
 	isTextNumber,
 	isNumber,

@@ -1,12 +1,13 @@
 import {
 	BooleanLike,
+	Condition,
+	Expression,
 	NumberLike,
 	OperandType,
+	PrimitiveType,
 	TextLike,
 	isNumber,
-} from './models/types'
-import { Expression } from './models/Expression'
-import { Condition } from './models/Condition'
+} from './models'
 import {
 	ArithmeticOperator,
 	ComparisonOperator,
@@ -23,7 +24,6 @@ import {
 import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
 import { BooleanColumn, DateColumn, NumberColumn, TextColumn } from './database'
 import { Binder } from './binder'
-import { PrimitiveType } from './models/types'
 
 export function e(left: OperandType): Expression
 export function e(left: BooleanLike, operator: ComparisonOperator, right: BooleanLike): Condition

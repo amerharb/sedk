@@ -1,6 +1,6 @@
 import { BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
-import { PrimitiveType } from '../models/types'
+import { PrimitiveType } from '../models'
 import { DefaultValuesStep, ValuesStep } from './stepInterfaces'
 import { InsertColumnsAndExpressionsNotEqualError, InsertColumnsAndValuesNotEqualError } from '../errors'
 import { Binder } from '../binder'

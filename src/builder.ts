@@ -1,6 +1,5 @@
 import { AliasedTable, BooleanColumn, Column, Database, Table } from './database'
-import { PrimitiveType } from './models/types'
-import { Condition } from './models/Condition'
+import { Condition, PrimitiveType } from './models'
 import { Binder, BinderStore } from './binder'
 import { ASTERISK, All, Default, Distinct } from './singletoneConstants'
 import { RootStep, SelectFromStep, SelectStep, UpdateStep } from './steps/stepInterfaces'

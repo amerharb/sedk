@@ -1,10 +1,9 @@
 import { BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
-import { Condition } from '../models/Condition'
+import { Condition, PrimitiveType } from '../models'
 import { LogicalOperator } from '../operators'
 import { ReturningStep } from './stepInterfaces'
 import { ReturningItem } from '../ReturningItemInfo'
-import { PrimitiveType } from '../models/types'
 import { returnStepOrThrow } from '../util'
 import { ItemInfo } from '../ItemInfo'
 

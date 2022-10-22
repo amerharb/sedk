@@ -1,6 +1,6 @@
 import { BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
-import { Condition } from '../models/Condition'
+import { Condition, PrimitiveType } from '../models'
 import { Column } from '../database'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
@@ -17,7 +17,6 @@ import { LogicalOperator } from '../operators'
 import { returnStepOrThrow } from '../util'
 import { ItemInfo } from '../ItemInfo'
 import { ReturningItem } from '../ReturningItemInfo'
-import { PrimitiveType } from '../models/types'
 
 export class SelectWhereStep extends BaseStep {
 	constructor(protected data: BuilderData) { super(data) }

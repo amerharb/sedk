@@ -7,8 +7,7 @@ import {
 
 // test non-exported Classes
 import { Condition, Expression, Operand } from 'Non-Exported/models'
-import { Parenthesis } from 'Non-Exported/steps/BaseStep'
-import { OnStep } from 'Non-Exported/steps/OnStep'
+import { OnStep, Parenthesis } from 'Non-Exported/steps'
 import { Binder, BinderArray, BinderStore } from 'Non-Exported/binder'
 import { BuilderData } from 'Non-Exported/builder'
 import { ItemInfo } from 'Non-Exported/ItemInfo'

@@ -4,7 +4,7 @@ import { database } from 'test/database'
  * exceptional case where we import non-exported class in exported unit test
  *  as we are using it as type only
  */
-import { OnStep } from 'Non-Exported/steps/OnStep'
+import { OnStep } from 'Non-Exported/steps'
 
 //Alias
 const table1 = database.s.public.t.table1

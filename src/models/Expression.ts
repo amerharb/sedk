@@ -12,7 +12,15 @@ import { SelectItemInfo } from '../SelectItemInfo'
 import { Column } from '../database'
 import { InvalidExpressionError } from '../errors'
 import { Operand } from './Operand'
-import { NonNullPrimitiveType, OperandType, PrimitiveType, ValueLike, isTextBoolean, isTextNumber } from './types'
+import {
+	NonNullPrimitiveType,
+	OperandType,
+	PrimitiveType,
+	ValueLike,
+	isComparisonOperator,
+	isTextBoolean,
+	isTextNumber,
+} from './types'
 import { IStatementGiver } from './IStatementGiver'
 import { Condition } from './Condition'
 import { ItemInfo } from '../ItemInfo'
@@ -157,7 +165,7 @@ export class Expression implements IStatementGiver {
 			Expression.throwInvalidTypeError(left.type, operator, right.type)
 		}
 
-		if (Expression.isComparisonOperator(operator)) {
+		if (isComparisonOperator(operator)) {
 			if (Expression.isListComparisonOperator(operator)) {
 				// TODO: check the values of the right same type of the left
 				if (right.type === ExpressionType.ARRAY)
@@ -223,10 +231,6 @@ export class Expression implements IStatementGiver {
 
 	private static isTextOperator(operator: Operator): boolean {
 		return Object.values(TextOperator).includes(operator as TextOperator)
-	}
-
-	private static isComparisonOperator(operator: Operator): boolean {
-		return Object.values(ComparisonOperator).includes(operator as ComparisonOperator)
 	}
 
 	private static isListComparisonOperator(operator: Operator): boolean {

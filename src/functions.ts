@@ -3,7 +3,6 @@ import {
 	NumberLike,
 	OperandType,
 	TextLike,
-	isComparisonOperator,
 	isNumber,
 } from './models/types'
 import { Expression } from './models/Expression'
@@ -13,6 +12,7 @@ import {
 	ComparisonOperator,
 	NullOperator,
 	Operator,
+	isComparisonOperator,
 } from './operators'
 import {
 	OrderByDirection,

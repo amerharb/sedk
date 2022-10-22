@@ -4,12 +4,12 @@ import { BuilderData } from '../builder'
 import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../database'
 import { InvalidConditionError } from '../errors'
 import { ItemInfo } from '../ItemInfo'
-import { ComparisonOperator, NullOperator, Operator, Qualifier } from '../operators'
+import { ComparisonOperator, NullOperator, Operator, Qualifier, isComparisonOperator } from '../operators'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { Expression, ExpressionType } from './Expression'
 import { IStatementGiver } from './IStatementGiver'
 import { Operand } from './Operand'
-import { BooleanLike, isComparisonOperator, isTextBoolean } from './types'
+import { BooleanLike, isTextBoolean } from './types'
 
 export class Condition implements Expression, IStatementGiver {
 	public readonly leftExpression: Expression

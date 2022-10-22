@@ -2,6 +2,11 @@ import {
 	ComparisonOperator,
 	NullOperator,
 	Operator,
+	isArithmeticOperator,
+	isBitwiseOperator,
+	isComparisonOperator,
+	isNullOperator,
+	isTextOperator,
 } from '../operators'
 import { Binder, BinderArray } from '../binder'
 import { BuilderData } from '../builder'
@@ -14,13 +19,8 @@ import {
 	OperandType,
 	PrimitiveType,
 	ValueLike,
-	isArithmeticOperator,
-	isBitwiseOperator,
-	isComparisonOperator,
-	isNullOperator,
 	isTextBoolean,
 	isTextNumber,
-	isTextOperator,
 } from './types'
 import { IStatementGiver } from './IStatementGiver'
 import { Condition } from './Condition'

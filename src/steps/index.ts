@@ -8,11 +8,12 @@ export { IntoStep } from './IntoStep'
 export { OnStep } from './OnStep'
 export { SelectWhereStep } from './SelectWhereStep'
 export { SetStep } from './SetStep'
-export { Step,  } from './Step'
+export { Step, FromItems, SelectItem, ColumnLike } from './Step'
 export {
 	RootStep,
 	SelectStep,
 	IAfterFromSteps,
 	SelectFromStep,
+	UpdateStep,
 } from './stepInterfaces'
 export { UpdateWhereStep } from './UpdateWhereStep'

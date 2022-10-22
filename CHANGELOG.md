@@ -6,7 +6,8 @@
 - Use eq() and eq$() for UPDATE instead of let() and let$().
 - Change style adopt all Caps for some static statment like eqDEFAULT instead of letDefault, 
  and NULLS_FIRST instead of nullsFirst.
-- Divided file database.ts into Table.ts, Schema.ts, and Database.ts. 
+- Divided file database.ts into Table.ts, Schema.ts, and Database.ts.
+- refactor import, add index for both steps and model
 ### Breaking Changes
 - Delete getColumns() and getColumn() from Table class
 

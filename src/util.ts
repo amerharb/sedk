@@ -30,7 +30,3 @@ export function getStmtString(value: string): string {
 export function getStmtDate(value: Date): string {
 	return `'${escapeSingleQuote(value.toISOString())}'`
 }
-
-export function isNumber(value: unknown): value is number {
-	return typeof value === 'number' && isFinite(value)
-}

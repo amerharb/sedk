@@ -1,4 +1,4 @@
-import { isNumber } from 'Non-Exported/util'
+import { isNumber } from './models/types'
 import { ExpressionType } from './models/Expression'
 import { PrimitiveType } from './models/types'
 import { IStatementGiver } from './models/IStatementGiver'

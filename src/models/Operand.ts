@@ -3,9 +3,9 @@ import { Expression, ExpressionType } from './Expression'
 import { BuilderData } from '../builder'
 import { AggregateFunction } from '../AggregateFunction'
 import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../database'
-import { OperandType } from './types'
+import { OperandType, isNumber } from './types'
 import { IStatementGiver } from './IStatementGiver'
-import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString, isNumber } from '../util'
+import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString } from '../util'
 import { Condition } from './Condition'
 
 export class Operand implements IStatementGiver {

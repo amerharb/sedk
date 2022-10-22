@@ -1,9 +1,10 @@
-import { isNumber } from 'Non-Exported/util'
 import {
 	BooleanLike,
 	NumberLike,
 	OperandType,
 	TextLike,
+	isComparisonOperator,
+	isNumber,
 } from './models/types'
 import { Expression } from './models/Expression'
 import { Condition } from './models/Condition'
@@ -35,7 +36,7 @@ export function e(left: OperandType|Binder, operator?: Operator, right?: Operand
 	if (operator !== undefined && right !== undefined) {
 		const r = right instanceof Binder ? new Expression(right) : right
 		if (
-			Object.values(ComparisonOperator).includes(operator as ComparisonOperator)
+			isComparisonOperator(operator)
 			&& l instanceof Expression
 			&& r instanceof Expression
 		) {

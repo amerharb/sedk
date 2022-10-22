@@ -1,4 +1,4 @@
-import { UpdateSetItemInfo } from 'Non-Exported/UpdateSetItemInfo'
+import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
 import { Binder } from '../binder'
 import { BuilderData } from '../builder'
 import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../database'
@@ -9,7 +9,7 @@ import { SelectItemInfo } from '../SelectItemInfo'
 import { Expression, ExpressionType } from './Expression'
 import { IStatementGiver } from './IStatementGiver'
 import { Operand } from './Operand'
-import { BooleanLike, isTextBoolean } from './types'
+import { BooleanLike, isComparisonOperator, isTextBoolean } from './types'
 
 export class Condition implements Expression, IStatementGiver {
 	public readonly leftExpression: Expression
@@ -123,7 +123,7 @@ export class Condition implements Expression, IStatementGiver {
 				Condition.throwInvalidConditionError(leftExpression.type, operator, rightExpression.type)
 			}
 			Condition.throwInvalidConditionError(leftExpression.type, operator, rightExpression.type)
-		} else if (Condition.isComparisonOperator(operator)) {
+		} else if (isComparisonOperator(operator)) {
 			if (Condition.isListComparisonOperator(operator)) {
 				// TODO: Check if leftExpression list values are comparable with rightExpression
 				if (rightExpression.type === ExpressionType.ARRAY) {
@@ -140,10 +140,6 @@ export class Condition implements Expression, IStatementGiver {
 			Condition.throwInvalidConditionError(leftExpression.type, operator, rightExpression.type)
 		}
 		Condition.throwInvalidConditionError(leftExpression.type, operator, rightExpression.type)
-	}
-
-	private static isComparisonOperator(operator: Operator): boolean {
-		return Object.values(ComparisonOperator).includes(operator as ComparisonOperator)
 	}
 
 	private static isListComparisonOperator(operator: Operator): boolean {

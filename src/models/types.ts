@@ -1,3 +1,4 @@
+import { ComparisonOperator, Operator } from '../operators'
 import { BooleanColumn, DateColumn, NumberColumn, TextColumn } from '../database'
 import { AggregateFunction } from '../AggregateFunction'
 import { Expression } from './Expression'
@@ -30,4 +31,13 @@ export function isTextNumber(text: unknown): text is number {
 		return numberRegex.test(text)
 	}
 	return false
+}
+
+export function isNumber(value: unknown): value is number {
+	return typeof value === 'number' && isFinite(value)
+}
+
+export function isComparisonOperator(value: Operator): value is ComparisonOperator {
+	// @ts-ignore - the type of value is unknown
+	return Object.values(ComparisonOperator).includes(value)
 }

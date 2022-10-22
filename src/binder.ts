@@ -1,7 +1,9 @@
-import { isNumber } from './models/types'
-import { ExpressionType } from './models/Expression'
-import { PrimitiveType } from './models/types'
-import { IStatementGiver } from './models/IStatementGiver'
+import {
+	ExpressionType,
+	IStatementGiver,
+	PrimitiveType,
+	isNumber,
+} from './models'
 
 export class BinderStore {
 	private store: Binder[] = []

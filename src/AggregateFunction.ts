@@ -1,10 +1,13 @@
-import { Condition } from './models/Condition'
-import { Expression, ExpressionType } from './models/Expression'
+import {
+	Condition,
+	Expression,
+	ExpressionType,
+	IStatementGiver,
+} from './models'
 import { SelectItemInfo } from './SelectItemInfo'
 import { BuilderData } from './builder'
 import { ComparisonOperator } from './operators'
 import { Binder } from './binder'
-import { IStatementGiver } from './models/IStatementGiver'
 import { Column } from './database'
 import { ItemInfo } from './ItemInfo'
 

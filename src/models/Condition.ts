@@ -4,7 +4,14 @@ import { BuilderData } from '../builder'
 import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../database'
 import { InvalidConditionError } from '../errors'
 import { ItemInfo } from '../ItemInfo'
-import { ComparisonOperator, NullOperator, Operator, Qualifier, isComparisonOperator } from '../operators'
+import {
+	ComparisonOperator,
+	NullOperator,
+	Operator,
+	Qualifier,
+	isComparisonOperator,
+	isNullOperator,
+} from '../operators'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { Expression, ExpressionType } from './Expression'
 import { IStatementGiver } from './IStatementGiver'
@@ -112,7 +119,7 @@ export class Condition implements Expression, IStatementGiver {
 			return ExpressionType.BOOLEAN
 		}
 
-		if (Condition.isNullOperator(operator)) {
+		if (isNullOperator(operator)) {
 			if (rightExpression.type === ExpressionType.NULL) {
 				return ExpressionType.BOOLEAN
 			} else if (leftExpression.type === ExpressionType.NULL && rightExpression.type === ExpressionType.BOOLEAN) {
@@ -146,10 +153,6 @@ export class Condition implements Expression, IStatementGiver {
 		return [ComparisonOperator.In, ComparisonOperator.NotIn].includes(operator as ComparisonOperator)
 	}
 
-	private static isNullOperator(operator: Operator): boolean {
-		return Object.values(NullOperator).includes(operator as NullOperator)
-	}
-
 	private static throwInvalidConditionError(leftType: ExpressionType, operator?: Operator, rightType?: ExpressionType): never {
 		if (operator === undefined || rightType === undefined) {
 			throw new InvalidConditionError(`Condition can not created with only "${ExpressionType[leftType]}"`)
@@ -161,6 +164,7 @@ export class Condition implements Expression, IStatementGiver {
 export class UpdateCondition extends Condition implements UpdateSetItemInfo {
 	public readonly operand: Operand
 	public readonly column: Column
+
 	public constructor(column: BooleanColumn|NumberColumn|TextColumn|DateColumn, rightExpression: Expression) {
 		super(new Expression(column), ComparisonOperator.Equal, rightExpression)
 		this.operand = new Operand(rightExpression)

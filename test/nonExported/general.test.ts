@@ -2,7 +2,7 @@ import { Builder } from 'src'
 
 /** test non-exported Classes */
 import { ReturningItemInfo } from 'Non-Exported/ReturningItemInfo'
-import { isTextBoolean, isTextNumber } from 'Non-Exported/models/types'
+import { isTextBoolean, isTextNumber } from 'Non-Exported/models'
 import { database } from 'test/database'
 
 //Alias

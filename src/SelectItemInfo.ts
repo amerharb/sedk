@@ -1,4 +1,4 @@
-import { SelectItem } from './steps/Step'
+import { SelectItem } from './steps'
 import { Column } from './database'
 import { Expression } from './models'
 import { escapeDoubleQuote } from './util'

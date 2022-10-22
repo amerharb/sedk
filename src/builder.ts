@@ -8,6 +8,7 @@ import {
 	FromItems,
 	InsertStep,
 	IntoStep,
+	Parenthesis,
 	RootStep,
 	SelectFromStep,
 	SelectItem,
@@ -16,7 +17,6 @@ import {
 	UpdateStep,
 } from './steps'
 import { LogicalOperator } from './operators'
-import { Parenthesis } from './steps/BaseStep'
 import { OrderByItemInfo } from './orderBy'
 import { SelectItemInfo } from './SelectItemInfo'
 import { BuilderOption, BuilderOptionRequired, fillUndefinedOptionsWithDefault } from './option'

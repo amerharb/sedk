@@ -11,4 +11,5 @@ export {
 	isTextNumber,
 	isNumber,
 	PrimitiveType,
+	ValueLike,
 } from './types'

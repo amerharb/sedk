@@ -1,7 +1,5 @@
 import { BuilderData, SqlPath } from '../builder'
-import { PrimitiveType, isNumber } from '../models/types'
-import { Condition } from '../models/Condition'
-import { Expression } from '../models/Expression'
+import { Condition, Expression, PrimitiveType, isNumber } from '../models'
 import { LogicalOperator } from '../operators'
 import { DeleteWithoutConditionError, TableNotFoundError } from '../errors'
 import { AliasedTable, BooleanColumn, Table } from '../database'

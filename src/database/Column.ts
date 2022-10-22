@@ -1,7 +1,6 @@
 import { Table } from './Table'
 import { escapeDoubleQuote } from '../util'
-import { PrimitiveType, ValueLike } from '../models/types'
-import { Condition } from '../models/Condition'
+import { Condition, IStatementGiver, PrimitiveType, ValueLike } from '../models'
 import { ComparisonOperator } from '../operators'
 import {
 	ASC,
@@ -13,7 +12,6 @@ import {
 	OrderByItemInfo,
 } from '../orderBy'
 import { SelectItemInfo } from '../SelectItemInfo'
-import { IStatementGiver } from '../models/IStatementGiver'
 import { BuilderData } from '../builder'
 import { ItemInfo } from '../ItemInfo'
 import { UpdateSetItemInfo } from '../UpdateSetItemInfo'

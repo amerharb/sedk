@@ -1,9 +1,13 @@
 import { Binder, BinderArray } from '../binder'
 import { Column, ColumnObj } from './Column'
-import { Condition, UpdateCondition } from '../models/Condition'
-import { Expression, ExpressionType } from '../models/Expression'
-import { Operand } from '../models/Operand'
-import { BooleanLike } from '../models/types'
+import {
+	BooleanLike,
+	Condition,
+	Expression,
+	ExpressionType,
+	Operand,
+	UpdateCondition,
+} from '../models'
 import { ComparisonOperator, NullOperator } from '../operators'
 import { Default } from '../singletoneConstants'
 import { UpdateSetItemInfo } from '../UpdateSetItemInfo'

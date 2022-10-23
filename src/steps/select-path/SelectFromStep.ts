@@ -1,11 +1,11 @@
-import { ItemInfo } from 'Non-Exported/ItemInfo'
-import { Condition, PrimitiveType } from 'Non-Exported/models'
-import { LogicalOperator } from 'Non-Exported/operators'
-import { OrderByArgsElement } from 'Non-Exported/orderBy'
-import { ReturningItem } from 'Non-Exported/ReturningItemInfo'
-import { All } from 'Non-Exported/singletoneConstants'
-import { SelectWhereStep } from 'Non-Exported/steps'
-import { Column, Table } from '../../database'
+import { ItemInfo } from '../../ItemInfo'
+import { Condition, PrimitiveType } from '../../models'
+import { LogicalOperator } from '../../operators'
+import { OrderByArgsElement } from '../../orderBy'
+import { ReturningItem } from '../../ReturningItemInfo'
+import { All } from '../../singletoneConstants'
+import { Parenthesis, SelectWhereStep } from '../../steps'
+import { BooleanColumn, Column, Table } from '../../database'
 import { BuilderData } from '../../builder'
 import { BaseStep } from '../BaseStep'
 import {
@@ -95,8 +95,9 @@ export class SelectFromStep extends BaseStep implements IAfterFromSteps {
 	where(left: Condition, operator: LogicalOperator, right: Condition): SelectWhereStep
 	where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): SelectWhereStep
 	where(condition: Condition, operator?: LogicalOperator, middle?: Condition, operator2?: LogicalOperator, right?: Condition): SelectWhereStep {
-		throw new Error('Method not implemented.')
+		const whereParts: (Condition|LogicalOperator|BooleanColumn|Parenthesis)[] = []
+		BaseStep.addConditionParts(whereParts, condition, operator, middle, operator2, right)
+		return new SelectWhereStep(this.data, this, whereParts)
 	}
-
 }
 

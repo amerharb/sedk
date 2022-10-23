@@ -273,7 +273,7 @@ export abstract class BaseStep {
 		))
 	}
 
-	private static addConditionParts(conditionArray: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
+	protected static addConditionParts(conditionArray: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
 		cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
 		if (op1 === undefined && cond2 === undefined) {
 			conditionArray.push(cond1)
@@ -294,7 +294,7 @@ export abstract class BaseStep {
 	 * This function throws error if WhereParts Array where invalid
 	 * it check the number of open and close parentheses in the conditions
 	 */
-	private static throwIfConditionPartsInvalid(conditionsArray: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[]) {
+	protected static throwIfConditionPartsInvalid(conditionsArray: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[]) {
 		let pCounter = 0
 		for (let i = 0; i < conditionsArray.length; i++) {
 			if (conditionsArray[i] === Parenthesis.Open) {

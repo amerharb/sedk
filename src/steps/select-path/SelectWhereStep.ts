@@ -1,7 +1,7 @@
-import { BaseStep } from '../BaseStep'
+import { BaseStep, Parenthesis } from '../BaseStep'
 import { BuilderData } from '../../builder'
-import { Condition, PrimitiveType } from '../../models'
-import { Column } from '../../database'
+import { Condition, Expression, PrimitiveType } from '../../models'
+import { BooleanColumn, Column } from '../../database'
 import { OrderByArgsElement } from '../../orderBy'
 import { All } from '../../singletoneConstants'
 import {
@@ -19,12 +19,26 @@ import { ItemInfo } from '../../ItemInfo'
 import { ReturningItem } from '../../ReturningItemInfo'
 
 export class SelectWhereStep extends BaseStep {
-	constructor(protected data: BuilderData, prevStep: BaseStep) {
+	constructor(
+		data: BuilderData,
+		prevStep: BaseStep,
+		protected readonly whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
+	) {
 		super(data, prevStep)
 	}
 
 	public getStepStatement(): string {
-		throw new Error('Method not implemented.')
+		if (this.whereParts.length > 0) {
+			BaseStep.throwIfConditionPartsInvalid(this.data.whereParts)
+			const wherePartsString = this.whereParts.map(it => {
+				if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
+					return it.getStmt(this.data)
+				}
+				return it.toString()
+			})
+			return `WHERE ${wherePartsString.join(' ')}`
+		}
+		return ''
 	}
 
 	public and(condition: Condition): SelectWhereAndStep

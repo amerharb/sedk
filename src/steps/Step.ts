@@ -1,5 +1,5 @@
 import { Condition, Expression, PrimitiveType } from '../models'
-import { AliasedTable, Column, Table } from '../database'
+import { AliasedTable, BooleanColumn, Column, Table } from '../database'
 import {
 	ColumnNotFoundError,
 	InvalidLimitValueError,
@@ -13,7 +13,7 @@ import { SelectItemInfo } from '../SelectItemInfo'
 import { escapeDoubleQuote } from '../util'
 import { AggregateFunction } from '../AggregateFunction'
 import { Binder } from '../binder'
-import { BaseStep } from './BaseStep'
+import { BaseStep, Parenthesis } from './BaseStep'
 import { SelectWhereStep } from './select-path/SelectWhereStep'
 import { HavingStep } from './HavingStep'
 import {
@@ -173,7 +173,9 @@ export class Step extends BaseStep
 			throw new MoreThanOneWhereStepError('WHERE step already specified')
 		}
 		this.addWhereParts(cond1, op1, cond2, op2, cond3)
-		return new SelectWhereStep(this.data, this)
+		const whereParts:(LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
+		BaseStep.addConditionParts(whereParts, cond1, op1, cond2, op2, cond3)
+		return new SelectWhereStep(this.data, this, whereParts)
 	}
 
 	public groupBy(...groupByItems: Column[]): GroupByStep {

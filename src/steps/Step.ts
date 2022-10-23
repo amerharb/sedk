@@ -14,7 +14,7 @@ import { escapeDoubleQuote } from '../util'
 import { AggregateFunction } from '../AggregateFunction'
 import { Binder } from '../binder'
 import { BaseStep } from './BaseStep'
-import { SelectWhereStep } from './SelectWhereStep'
+import { SelectWhereStep } from './select-path/SelectWhereStep'
 import { HavingStep } from './HavingStep'
 import {
 	CrossJoinStep,

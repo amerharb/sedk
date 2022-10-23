@@ -1,9 +1,9 @@
-import { BaseStep } from './BaseStep'
-import { BuilderData } from '../builder'
-import { Condition, PrimitiveType } from '../models'
-import { Column } from '../database'
-import { OrderByArgsElement } from '../orderBy'
-import { All } from '../singletoneConstants'
+import { BaseStep } from '../BaseStep'
+import { BuilderData } from '../../builder'
+import { Condition, PrimitiveType } from '../../models'
+import { Column } from '../../database'
+import { OrderByArgsElement } from '../../orderBy'
+import { All } from '../../singletoneConstants'
 import {
 	GroupByStep,
 	LimitStep,
@@ -12,11 +12,11 @@ import {
 	ReturningStep,
 	SelectWhereAndStep,
 	SelectWhereOrStep,
-} from './stepInterfaces'
-import { LogicalOperator } from '../operators'
-import { returnStepOrThrow } from '../util'
-import { ItemInfo } from '../ItemInfo'
-import { ReturningItem } from '../ReturningItemInfo'
+} from '../stepInterfaces'
+import { LogicalOperator } from '../../operators'
+import { returnStepOrThrow } from '../../util'
+import { ItemInfo } from '../../ItemInfo'
+import { ReturningItem } from '../../ReturningItemInfo'
 
 export class SelectWhereStep extends BaseStep {
 	constructor(protected data: BuilderData, prevStep: BaseStep) {

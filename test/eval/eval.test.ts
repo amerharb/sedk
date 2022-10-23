@@ -3,6 +3,7 @@ import { database } from 'test/database'
 import * as fs from 'fs'
 
 /** Aliases: they are used inside eval code */
+const ASTERISK = sedk.ASTERISK
 const AND = sedk.LogicalOperator.AND
 const OR = sedk.LogicalOperator.OR
 const ADD = sedk.ArithmeticOperator.ADD

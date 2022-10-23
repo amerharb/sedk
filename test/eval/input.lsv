@@ -1,3 +1,15 @@
+sql.select(1)
+SELECT 1;
+
+sql.select('A')
+SELECT 'A';
+
+sql.select(new Date('2022-10-23T15:07:22.909Z'))
+SELECT '2022-10-23T15:07:22.909Z';
+
+sql.select(ASTERISK)
+SELECT *;
+
 sql.select().from(table1)
 SELECT FROM "table1";
 

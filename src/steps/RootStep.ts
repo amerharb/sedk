@@ -6,7 +6,8 @@ import { BaseStep } from './BaseStep'
 import { DeleteStep } from './DeleteStep'
 import { InsertStep } from './InsertStep'
 import { SelectItem, Step } from './Step'
-import { SelectStep, UpdateStep } from './stepInterfaces'
+import { UpdateStep } from './stepInterfaces'
+import { SelectStep } from './select-path/SelectStep'
 
 export class RootStep extends BaseStep {
 	constructor(data: BuilderData) {

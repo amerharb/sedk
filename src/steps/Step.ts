@@ -30,7 +30,6 @@ import {
 	ReturningStep,
 	RightJoinStep,
 	SelectFromStep,
-	SelectStep,
 	UpdateStep,
 	ValuesStep,
 } from './stepInterfaces'
@@ -45,6 +44,7 @@ import { InsertStep } from './InsertStep'
 import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
 import { SetStep } from './SetStep'
 import { TableAsterisk } from '../TableAsterisk'
+import { SelectStep } from './select-path/SelectStep'
 
 export type ColumnLike = Column|Expression
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk|TableAsterisk

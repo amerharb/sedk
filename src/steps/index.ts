@@ -1,4 +1,3 @@
-export { BaseStep, Parenthesis } from './BaseStep'
 export { DeleteFromStep } from './DeleteFromStep'
 export { DeleteStep } from './DeleteStep'
 export { DeleteWhereStep } from './DeleteWhereStep'
@@ -10,10 +9,11 @@ export { SelectWhereStep } from './SelectWhereStep'
 export { SetStep } from './SetStep'
 export { Step, FromItems, SelectItem, ColumnLike } from './Step'
 export {
-	SelectStep,
 	IAfterFromSteps,
 	SelectFromStep,
 	UpdateStep,
 } from './stepInterfaces'
 export { UpdateWhereStep } from './UpdateWhereStep'
+export { SelectStep } from './select-path/SelectStep'
 export { RootStep } from './RootStep'
+export { BaseStep, Parenthesis } from './BaseStep'

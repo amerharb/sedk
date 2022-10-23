@@ -10,10 +10,10 @@ export { SelectWhereStep } from './SelectWhereStep'
 export { SetStep } from './SetStep'
 export { Step, FromItems, SelectItem, ColumnLike } from './Step'
 export {
-	RootStep,
 	SelectStep,
 	IAfterFromSteps,
 	SelectFromStep,
 	UpdateStep,
 } from './stepInterfaces'
 export { UpdateWhereStep } from './UpdateWhereStep'
+export { RootStep } from './RootStep'

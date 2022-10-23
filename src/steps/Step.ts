@@ -29,7 +29,6 @@ import {
 	OrderByStep,
 	ReturningStep,
 	RightJoinStep,
-	RootStep,
 	SelectFromStep,
 	SelectStep,
 	UpdateStep,
@@ -40,6 +39,7 @@ import { FromItemRelation } from '../FromItemInfo'
 import { OnStep } from './OnStep'
 import { DeleteStep } from './DeleteStep'
 import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
+import { RootStep } from './RootStep'
 import { ItemInfo } from '../ItemInfo'
 import { InsertStep } from './InsertStep'
 import { UpdateSetItemInfo } from '../UpdateSetItemInfo'

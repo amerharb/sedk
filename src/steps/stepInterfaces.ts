@@ -8,53 +8,15 @@ import { Column, Table } from '../database'
 import { Condition, Expression, PrimitiveType } from '../models'
 import { OnStep } from './OnStep'
 import { SelectWhereStep } from './SelectWhereStep'
-import { DeleteStep } from './DeleteStep'
 import { OrderByArgsElement } from '../orderBy'
 import { All, Asterisk } from '../singletoneConstants'
 import { HavingStep } from './HavingStep'
 import { FromItems, SelectItem, Step } from './Step'
 import { LogicalOperator } from '../operators'
-import { InsertStep } from './InsertStep'
 import { ItemInfo } from '../ItemInfo'
 import { ReturningItem } from '../ReturningItemInfo'
 import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
 import { SetStep } from './SetStep'
-
-// TODO: move it to separate file
-export class RootStep extends BaseStep {
-	constructor(data: BuilderData) {
-		super(data, null)
-
-	}
-
-	public getStepStatement(): string {
-		return ''
-	}
-
-	select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-		return new SelectStep(this.data, this, items)
-	}
-
-	selectDistinct(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-		return new Step(this.data, this).selectDistinct(...items)
-	}
-
-	selectAll(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-		return new Step(this.data, this).selectAll(...items)
-	}
-
-	delete(): DeleteStep {
-		return new Step(this.data, this).delete()
-	}
-
-	insert(): InsertStep {
-		return new Step(this.data, this).insert()
-	}
-
-	update(table: Table): UpdateStep {
-		return new Step(this.data, this).update(table)
-	}
-}
 
 //TODO: seperate file
 export class SelectStep extends BaseStep {

@@ -29,7 +29,6 @@ import {
 	OrderByStep,
 	ReturningStep,
 	RightJoinStep,
-	SelectFromStep,
 	UpdateStep,
 	ValuesStep,
 } from './stepInterfaces'
@@ -45,6 +44,7 @@ import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
 import { SetStep } from './SetStep'
 import { TableAsterisk } from '../TableAsterisk'
 import { SelectStep } from './select-path/SelectStep'
+import { SelectFromStep } from './select-path/SelectFromStep'
 
 export type ColumnLike = Column|Expression
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk|TableAsterisk
@@ -52,7 +52,7 @@ type FromItem = Table|AliasedTable
 export type FromItems = [FromItem, ...FromItem[]]
 
 export class Step extends BaseStep
-	implements RootStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
+	implements RootStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
 		FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep, ValuesStep, DefaultValuesStep, UpdateStep {
 	constructor(protected data: BuilderData, protected prevStep: BaseStep) {
 		super(data, prevStep)
@@ -130,8 +130,7 @@ export class Step extends BaseStep
 			this.addFromItemInfo(tables[i], i === 0 ? FromItemRelation.NO_RELATION : FromItemRelation.COMMA)
 		}
 
-		// return new SelectFromStep(this.data)
-		return this
+		return new SelectFromStep(this.data, this, tables)
 	}
 
 	public crossJoin(table: Table|AliasedTable): CrossJoinStep {

@@ -86,6 +86,12 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver
 	}
 }
 
-export class AliasedTable {
+export class AliasedTable implements IStatementGiver {
 	constructor(public readonly table: Table, public readonly alias: string) {}
+
+	public getStmt(data: BuilderData): string {
+		const escapedAlias = escapeDoubleQuote(this.alias)
+		const asString = (data.option.addAsBeforeTableAlias === 'always') ? ' AS' : ''
+		return `${this.table.getStmt(data)}${asString} "${escapedAlias}"`
+	}
 }

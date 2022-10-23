@@ -8,8 +8,9 @@ import { ReturningItem } from '../../ReturningItemInfo'
 import { SelectItemInfo } from '../../SelectItemInfo'
 import { Asterisk } from '../../singletoneConstants'
 import { BaseStep } from '../BaseStep'
-import { FromItems, SelectFromStep, SelectItem, Step } from '../../steps'
-import { ReturningStep } from '../../steps/stepInterfaces'
+import { SelectFromStep } from './SelectFromStep'
+import { FromItems, SelectItem, Step } from '../Step'
+import { ReturningStep } from '../stepInterfaces'
 import { TableAsterisk } from '../../TableAsterisk'
 
 export class SelectStep extends BaseStep {
@@ -21,7 +22,7 @@ export class SelectStep extends BaseStep {
 	}
 
 	from(...tables: FromItems): SelectFromStep {
-		return new Step(this.data, this).from(...tables)
+		return new SelectFromStep(this.data, this, tables)
 	}
 
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
@@ -52,10 +53,8 @@ export class SelectStep extends BaseStep {
 			result += ` ${this.data.distinct}`
 		}
 
-		if (this.data.selectItemInfos.length > 0) {
-			const selectPartsString = this.data.selectItemInfos.map(it => {
-				return it.getStmt(this.data)
-			})
+		if (selectItemInfos.length > 0) {
+			const selectPartsString = selectItemInfos.map(it => it.getStmt(this.data))
 			result += ` ${selectPartsString.join(', ')}`
 		}
 

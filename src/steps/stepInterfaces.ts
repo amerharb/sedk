@@ -38,8 +38,6 @@ export interface IAfterFromSteps extends BaseStep, OrderByStep {
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
 }
 
-export interface SelectFromStep extends BaseStep, IAfterFromSteps {}
-
 export interface CrossJoinStep extends BaseStep, IAfterFromSteps {}
 
 interface IJoinStep extends BaseStep {

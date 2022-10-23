@@ -8,7 +8,16 @@ import { HavingAndStep, HavingOrStep, LimitStep, OffsetStep, OrderByStep } from 
 import { returnStepOrThrow } from '../util'
 
 export class HavingStep extends BaseStep {
-	constructor(protected data: BuilderData) { super(data) }
+	constructor(
+		protected readonly data: BuilderData,
+		protected readonly prevStep: BaseStep,
+	) {
+		super(data, prevStep)
+	}
+
+	public getStepStatement(): string {
+		throw new Error('Method not implemented.')
+	}
 
 	public and(condition: Condition): HavingAndStep
 	public and(left: Condition, operator: LogicalOperator, right: Condition): HavingAndStep

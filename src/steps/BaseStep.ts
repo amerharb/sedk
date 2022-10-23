@@ -14,18 +14,34 @@ export enum Parenthesis {
 }
 
 export abstract class BaseStep {
-	constructor(protected data: BuilderData) {}
+	constructor(
+		protected readonly data: BuilderData,
+		protected readonly prevStep: BaseStep|null,
+	) {}
 
 	public getSQL(): string {
-		return this.getStatement()
+		let result = this.getFullStatement()
+		if (this.data.option.useSemicolonAtTheEnd) result += ';'
+		return result
 	}
+
+	protected getFullStatement(): string {
+		let result = ''
+		if (this.prevStep !== null && this.prevStep.getFullStatement() !== '') {
+			result = this.prevStep.getFullStatement().trimRight() + ' '
+		}
+		result += this.getStepStatement()
+		return result
+	}
+
+	protected abstract getStepStatement(): string
 
 	public getBindValues(): PrimitiveType[] {
 		return [...this.data.binderStore.getValues()]
 	}
 
 	private getStatement(): string {
-		let result = ''
+		let result: string
 		switch (this.data.sqlPath) {
 		case SqlPath.SELECT:
 			result = this.getSelectStatement()
@@ -39,6 +55,9 @@ export abstract class BaseStep {
 		case SqlPath.UPDATE:
 			result = this.getUpdateStatement()
 			break
+			// TODO: change this later to throw error
+		default:
+			result = this.getSelectStatement()
 		}
 
 		if (this.data.option.useSemicolonAtTheEnd) result += ';'

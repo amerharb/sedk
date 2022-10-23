@@ -1,14 +1,18 @@
+import { AggregateFunction } from '../AggregateFunction'
+import { Binder } from '../binder'
+import { BuilderData } from '../builder'
+import { TableAsterisk } from '../TableAsterisk'
 import { BaseStep } from './BaseStep'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { Column, Table } from '../database'
-import { Condition, PrimitiveType } from '../models'
+import { Condition, Expression, PrimitiveType } from '../models'
 import { OnStep } from './OnStep'
 import { SelectWhereStep } from './SelectWhereStep'
 import { DeleteStep } from './DeleteStep'
 import { OrderByArgsElement } from '../orderBy'
-import { All } from '../singletoneConstants'
+import { All, Asterisk } from '../singletoneConstants'
 import { HavingStep } from './HavingStep'
-import { FromItems, SelectItem } from './Step'
+import { FromItems, SelectItem, Step } from './Step'
 import { LogicalOperator } from '../operators'
 import { InsertStep } from './InsertStep'
 import { ItemInfo } from '../ItemInfo'
@@ -16,24 +20,93 @@ import { ReturningItem } from '../ReturningItemInfo'
 import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
 import { SetStep } from './SetStep'
 
-export interface RootStep extends BaseStep {
-	select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
+// TODO: move it to separate file
+export class RootStep extends BaseStep {
+	constructor(data: BuilderData) {
+		super(data, null)
 
-	selectDistinct(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
+	}
 
-	selectAll(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
+	public getStepStatement(): string {
+		return ''
+	}
 
-	delete(): DeleteStep
+	select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
+		return new SelectStep(this.data, this, items)
+	}
 
-	insert(): InsertStep
+	selectDistinct(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
+		return new Step(this.data, this).selectDistinct(...items)
+	}
 
-	update(table: Table): UpdateStep
+	selectAll(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
+		return new Step(this.data, this).selectAll(...items)
+	}
+
+	delete(): DeleteStep {
+		return new Step(this.data, this).delete()
+	}
+
+	insert(): InsertStep {
+		return new Step(this.data, this).insert()
+	}
+
+	update(table: Table): UpdateStep {
+		return new Step(this.data, this).update(table)
+	}
 }
 
-export interface SelectStep extends BaseStep {
-	from(...tables: FromItems): SelectFromStep
+//TODO: seperate file
+export class SelectStep extends BaseStep {
 
-	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
+	constructor(
+		data: BuilderData,
+		prevStep: BaseStep,
+		private readonly items: (SelectItemInfo|SelectItem|PrimitiveType)[]) {
+		super(data, prevStep)
+	}
+
+	from(...tables: FromItems): SelectFromStep {
+		return new Step(this.data, this).from(...tables)
+	}
+
+	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
+		return new Step(this.data, this).returning(...items)
+	}
+
+	getStepStatement(): string {
+		const selectItemInfos: SelectItemInfo[] = this.items.map(it => {
+			if (it instanceof SelectItemInfo) {
+				return it
+			} else if (it instanceof Expression || it instanceof Column || it instanceof AggregateFunction || it instanceof Asterisk || it instanceof TableAsterisk) {
+				return new SelectItemInfo(it, undefined)
+			} else if (it instanceof Binder) {
+				if (it.no === undefined) {
+					this.data.binderStore.add(it)
+				}
+				return new SelectItemInfo(it, undefined)
+			} else {
+				return new SelectItemInfo(new Expression(it), undefined)
+			}
+		})
+		// this.throwIfColumnsNotInDb(selectItemInfos)
+		this.data.selectItemInfos.push(...selectItemInfos)
+
+		let result = `SELECT`
+
+		if (this.data.distinct) {
+			result += ` ${this.data.distinct}`
+		}
+
+		if (this.data.selectItemInfos.length > 0) {
+			const selectPartsString = this.data.selectItemInfos.map(it => {
+				return it.getStmt(this.data)
+			})
+			result += ` ${selectPartsString.join(', ')}`
+		}
+
+		return result
+	}
 }
 
 export interface IAfterFromSteps extends BaseStep, OrderByStep {

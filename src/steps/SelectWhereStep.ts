@@ -19,7 +19,13 @@ import { ItemInfo } from '../ItemInfo'
 import { ReturningItem } from '../ReturningItemInfo'
 
 export class SelectWhereStep extends BaseStep {
-	constructor(protected data: BuilderData) { super(data) }
+	constructor(protected data: BuilderData, prevStep: BaseStep) {
+		super(data, prevStep)
+	}
+
+	public getStepStatement(): string {
+		throw new Error('Method not implemented.')
+	}
 
 	public and(condition: Condition): SelectWhereAndStep
 	public and(left: Condition, operator: LogicalOperator, right: Condition): SelectWhereAndStep

@@ -10,7 +10,16 @@ import { ReturningItem } from '../ReturningItemInfo'
 import { ItemInfo } from '../ItemInfo'
 
 export class DeleteFromStep extends BaseStep {
-	constructor(protected data: BuilderData) { super(data) }
+	constructor(
+		protected readonly data: BuilderData,
+		protected readonly prevStep: BaseStep,
+	) {
+		super(data, prevStep)
+	}
+
+	public getStepStatement(): string {
+		throw new Error('Method not implemented.')
+	}
 
 	public where(condition: Condition): DeleteWhereStep
 	public where(left: Condition, operator: LogicalOperator, right: Condition): DeleteWhereStep
@@ -20,7 +29,7 @@ export class DeleteFromStep extends BaseStep {
 			throw new MoreThanOneWhereStepError('WHERE step already specified')
 		}
 		this.addWhereParts(cond1, op1, cond2, op2, cond3)
-		return new DeleteWhereStep(this.data)
+		return new DeleteWhereStep(this.data, this)
 	}
 
 	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {

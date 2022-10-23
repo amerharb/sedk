@@ -7,7 +7,7 @@ import {
 
 // test non-exported Classes
 import { Condition, Expression, Operand } from 'Non-Exported/models'
-import { OnStep, Parenthesis } from 'Non-Exported/steps'
+import { OnStep, Parenthesis, RootStep } from 'Non-Exported/steps'
 import { Binder, BinderArray, BinderStore } from 'Non-Exported/binder'
 import { BuilderData } from 'Non-Exported/builder'
 import { ItemInfo } from 'Non-Exported/ItemInfo'
@@ -67,7 +67,7 @@ describe('Throw desired Errors', () => {
 		}
 		it(`Throws error when Step is not initialized`, () => {
 			function actual() {
-				new OnStep(data).crossJoin(table1)
+				new OnStep(data, new RootStep(data)).crossJoin(table1)
 			}
 
 			expect(actual).toThrow(`Step property in builder data is not initialized`)

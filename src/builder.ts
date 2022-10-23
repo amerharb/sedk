@@ -83,7 +83,7 @@ export class Builder {
 			binderStore: new BinderStore(),
 			option: fillUndefinedOptionsWithDefault(option ?? {}),
 		}
-		this.rootStep = new Step(this.data)
+		this.rootStep = new RootStep(this.data)
 	}
 
 	public select(distinct: Distinct|All, ...items: (ItemInfo|SelectItem|PrimitiveType)[]): SelectStep

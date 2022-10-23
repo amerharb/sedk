@@ -52,11 +52,15 @@ type FromItem = Table|AliasedTable
 export type FromItems = [FromItem, ...FromItem[]]
 
 export class Step extends BaseStep
-	implements RootStep, SelectStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
+	implements RootStep, SelectFromStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
 		FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep, ValuesStep, DefaultValuesStep, UpdateStep {
-	constructor(protected data: BuilderData) {
-		super(data)
+	constructor(protected data: BuilderData, protected prevStep: BaseStep) {
+		super(data, prevStep)
 		data.step = this
+	}
+
+	public getStepStatement(): string {
+		throw new Error('Method not implemented.')
 	}
 
 	public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
@@ -79,7 +83,7 @@ export class Step extends BaseStep
 		})
 		this.throwIfColumnsNotInDb(selectItemInfos)
 		this.data.selectItemInfos.push(...selectItemInfos)
-		return this
+		return new SelectStep(this.data, this, items)
 	}
 
 	public selectDistinct(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
@@ -100,12 +104,12 @@ export class Step extends BaseStep
 
 	public delete(): DeleteStep {
 		this.data.sqlPath = SqlPath.DELETE
-		return new DeleteStep(this.data)
+		return new DeleteStep(this.data, this)
 	}
 
 	public insert(): InsertStep {
 		this.data.sqlPath = SqlPath.INSERT
-		return new InsertStep(this.data)
+		return new InsertStep(this.data, this)
 	}
 
 	public update(table: Table): UpdateStep {
@@ -162,7 +166,7 @@ export class Step extends BaseStep
 
 	public on(condition: Condition): OnStep {
 		this.data.fromItemInfos[this.data.fromItemInfos.length - 1].addFirstCondition(condition)
-		return new OnStep(this.data)
+		return new OnStep(this.data, this)
 	}
 
 	public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): SelectWhereStep {
@@ -170,7 +174,7 @@ export class Step extends BaseStep
 			throw new MoreThanOneWhereStepError('WHERE step already specified')
 		}
 		this.addWhereParts(cond1, op1, cond2, op2, cond3)
-		return new SelectWhereStep(this.data)
+		return new SelectWhereStep(this.data, this)
 	}
 
 	public groupBy(...groupByItems: Column[]): GroupByStep {
@@ -180,7 +184,7 @@ export class Step extends BaseStep
 
 	public having(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): HavingStep {
 		this.addHavingParts(cond1, op1, cond2, op2, cond3)
-		return new HavingStep(this.data)
+		return new HavingStep(this.data, this)
 	}
 
 	public orderBy(...orderByArgsElement: OrderByArgsElement[]): OrderByStep {
@@ -321,6 +325,6 @@ export class Step extends BaseStep
 
 	set(...items: UpdateSetItemInfo[]): SetStep {
 		this.data.updateSetItemInfos.push(...items)
-		return new SetStep(this.data)
+		return new SetStep(this.data, this)
 	}
 }

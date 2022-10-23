@@ -11,7 +11,16 @@ import { SelectItem } from './Step'
 import { Default } from '../singletoneConstants'
 
 export class IntoStep extends BaseStep {
-	constructor(protected data: BuilderData) { super(data) }
+	constructor(
+		protected readonly data: BuilderData,
+		protected readonly prevStep: BaseStep,
+	) {
+		super(data, prevStep)
+	}
+
+	public getStepStatement(): string {
+		throw new Error('Method not implemented.')
+	}
 
 	public values(...values: (PrimitiveType|Binder|Default)[]): ValuesStep {
 		this.throwForInvalidValuesNumber(values)

@@ -15,7 +15,16 @@ import { ItemInfo } from '../ItemInfo'
 import { ReturningItem } from '../ReturningItemInfo'
 
 export class OnStep extends BaseStep implements IAfterFromSteps {
-	constructor(protected data: BuilderData) { super(data) }
+	constructor(
+		protected readonly data: BuilderData,
+		protected readonly prevStep: BaseStep,
+	) {
+		super(data, prevStep)
+	}
+
+	public getStepStatement(): string {
+		throw new Error('Method not implemented.')
+	}
 
 	public or(condition: Condition): OnOrStep {
 		this.data.fromItemInfos[this.data.fromItemInfos.length - 1].addOrCondition(condition)

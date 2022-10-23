@@ -12,7 +12,16 @@ export interface UpdateWhereOrStep extends UpdateWhereStep {}
 export interface UpdateWhereAndStep extends UpdateWhereStep {}
 
 export class UpdateWhereStep extends BaseStep {
-	constructor(protected data: BuilderData) { super(data) }
+	constructor(
+		protected readonly data: BuilderData,
+		protected readonly prevStep: BaseStep,
+	) {
+		super(data, prevStep)
+	}
+
+	public getStepStatement(): string {
+		throw new Error('Method not implemented.')
+	}
 
 	public and(condition: Condition): UpdateWhereStep
 	public and(left: Condition, operator: LogicalOperator, right: Condition): UpdateWhereAndStep

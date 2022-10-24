@@ -4,7 +4,7 @@ import { UpdateWhereStep } from './UpdateWhereStep'
 import { LogicalOperator } from '../operators'
 import { ItemInfo } from '../ItemInfo'
 import { ReturningItem } from '../ReturningItemInfo'
-import { ReturningStep } from './stepInterfaces'
+import { ReturningStep } from './ReturningStep'
 import { returnStepOrThrow } from '../util'
 import { BuilderData } from '../builder'
 

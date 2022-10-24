@@ -26,7 +26,6 @@ import {
 	LimitStep,
 	OffsetStep,
 	OrderByStep,
-	ReturningStep,
 	RightJoinStep,
 	UpdateStep,
 	ValuesStep,
@@ -43,6 +42,7 @@ import { SetStep } from './SetStep'
 import { TableAsterisk } from '../TableAsterisk'
 import { SelectStep } from './select-path/SelectStep'
 import { SelectFromStep } from './select-path/SelectFromStep'
+import { ReturningStep } from './ReturningStep'
 
 export type ColumnLike = Column|Expression
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk|TableAsterisk
@@ -282,7 +282,7 @@ export class Step extends BaseStep
 		})
 		this.throwIfColumnsNotInDb(returningItemInfo)
 		this.data.returning.push(...returningItemInfo)
-		return this
+		return new ReturningStep(this.data, this, returningItemInfo)
 	}
 
 	private throwIfColumnsNotInDb(columns: (ReturningItemInfo|SelectItemInfo|ColumnLike)[]) {

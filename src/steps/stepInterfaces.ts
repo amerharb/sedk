@@ -1,3 +1,4 @@
+import { ReturningStep } from './ReturningStep'
 import { BaseStep } from './BaseStep'
 import { Column, Table } from '../database'
 import { Condition, PrimitiveType } from '../models'
@@ -87,8 +88,6 @@ export interface LimitStep extends BaseStep, OffsetStep {
 export interface OffsetStep extends BaseStep {
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
 }
-
-export interface ReturningStep extends BaseStep {}
 
 export interface ValuesStep extends BaseStep {
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep

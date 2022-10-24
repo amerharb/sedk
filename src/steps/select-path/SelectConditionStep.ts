@@ -10,12 +10,12 @@ import {
 	LimitStep,
 	OffsetStep,
 	OrderByStep,
-	ReturningStep,
 } from '../stepInterfaces'
 import { LogicalOperator } from '../../operators'
 import { returnStepOrThrow } from '../../util'
 import { ItemInfo } from '../../ItemInfo'
 import { ReturningItem } from '../../ReturningItemInfo'
+import { ReturningStep } from '../ReturningStep'
 
 abstract class SelectConditionStep extends ConditionStep {
 	public and(condition: Condition): SelectWhereAndStep

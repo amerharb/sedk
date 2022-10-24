@@ -21,9 +21,9 @@ import {
 	LimitStep,
 	OffsetStep,
 	OrderByStep,
-	ReturningStep,
 	RightJoinStep,
 } from '../stepInterfaces'
+import { ReturningStep } from '../ReturningStep'
 
 export class SelectFromStep extends BaseStep implements IAfterFromSteps {
 	public constructor(
@@ -95,6 +95,7 @@ export class SelectFromStep extends BaseStep implements IAfterFromSteps {
 		throw new Error('Method not implemented.')
 	}
 
+	// TODO: check if we can limit this to only update, insert and delete
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
 		throw new Error('Method not implemented.')
 	}

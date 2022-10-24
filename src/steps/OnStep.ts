@@ -6,13 +6,14 @@ import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import {
 	CrossJoinStep, FullOuterJoinStep, GroupByStep, IAfterFromSteps, InnerJoinStep, JoinStep, LeftJoinStep,
-	LimitStep, OffsetStep, OnAndStep, OnOrStep, OrderByStep, ReturningStep, RightJoinStep,
+	LimitStep, OffsetStep, OnAndStep, OnOrStep, OrderByStep, RightJoinStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { SelectWhereStep } from './select-path/SelectConditionStep'
 import { returnStepOrThrow } from '../util'
 import { ItemInfo } from '../ItemInfo'
 import { ReturningItem } from '../ReturningItemInfo'
+import { ReturningStep } from './ReturningStep'
 
 export class OnStep extends BaseStep implements IAfterFromSteps {
 	constructor(

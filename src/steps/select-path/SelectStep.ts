@@ -10,7 +10,7 @@ import { All, Asterisk, Distinct } from '../../singletoneConstants'
 import { BaseStep } from '../BaseStep'
 import { SelectFromStep } from './SelectFromStep'
 import { FromItems, SelectItem, Step } from '../Step'
-import { ReturningStep } from '../stepInterfaces'
+import { ReturningStep } from '../ReturningStep'
 import { TableAsterisk } from '../../TableAsterisk'
 
 export class SelectStep extends BaseStep {
@@ -27,6 +27,7 @@ export class SelectStep extends BaseStep {
 		return new SelectFromStep(this.data, this, tables)
 	}
 
+	// TODO: check if this needed here
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
 		return new Step(this.data, this).returning(...items)
 	}

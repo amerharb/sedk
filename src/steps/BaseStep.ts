@@ -192,16 +192,17 @@ export abstract class BaseStep {
 	}
 
 	private getWhereParts(): string {
-		if (this.data.whereParts.length > 0) {
-			BaseStep.throwIfConditionPartsInvalid(this.data.whereParts)
-			const wherePartsString = this.data.whereParts.map(it => {
-				if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
-					return it.getStmt(this.data)
-				}
-				return it.toString()
-			})
-			return ` WHERE ${wherePartsString.join(' ')}`
-		}
+		// TODO: this function to be remove later
+		// if (this.data.whereParts.length > 0) {
+		// 	BaseStep.throwIfConditionPartsInvalid(this.data.whereParts)
+		// 	const wherePartsString = this.data.whereParts.map(it => {
+		// 		if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
+		// 			return it.getStmt(this.data)
+		// 		}
+		// 		return it.toString()
+		// 	})
+		// 	return ` WHERE ${wherePartsString.join(' ')}`
+		// }
 
 		if (this.data.sqlPath === SqlPath.DELETE && this.data.option.throwErrorIfDeleteHasNoCondition) {
 			throw new DeleteWithoutConditionError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
@@ -224,7 +225,6 @@ export abstract class BaseStep {
 		this.data.sqlPath = undefined
 		this.data.selectItemInfos.length = 0
 		this.data.fromItemInfos.length = 0
-		this.data.whereParts.length = 0
 		this.data.groupByItems.length = 0
 		this.data.havingParts.length = 0
 		this.data.orderByItemInfos.length = 0
@@ -238,10 +238,6 @@ export abstract class BaseStep {
 		this.data.updateSetItemInfos.length = 0
 		this.data.returning.length = 0
 		this.data.binderStore.cleanUp()
-	}
-
-	protected addWhereParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
-		BaseStep.addConditionParts(this.data.whereParts, cond1, op1, cond2, op2, cond3)
 	}
 
 	protected addHavingParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {

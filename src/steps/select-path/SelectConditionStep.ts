@@ -28,7 +28,7 @@ abstract class SelectConditionStep extends BaseStep {
 
 	public getStepStatement(): string {
 		if (this.whereParts.length > 0) {
-			BaseStep.throwIfConditionPartsInvalid(this.data.whereParts)
+			BaseStep.throwIfConditionPartsInvalid(this.whereParts)
 			const wherePartsString = this.whereParts.map(it => {
 				if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
 					return it.getStmt(this.data)
@@ -44,10 +44,6 @@ abstract class SelectConditionStep extends BaseStep {
 	public and(left: Condition, operator: LogicalOperator, right: Condition): SelectWhereAndStep
 	public and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): SelectWhereAndStep
 	public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): SelectWhereAndStep {
-		//TODO: remove this part later
-		this.data.whereParts.push(LogicalOperator.AND)
-		this.addWhereParts(cond1, op1, cond2, op2, cond3)
-
 		const whereParts:(LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
 		BaseStep.addConditionParts(whereParts, cond1, op1, cond2, op2, cond3)
 		return new SelectWhereAndStep(this.data, this, whereParts)
@@ -57,10 +53,6 @@ abstract class SelectConditionStep extends BaseStep {
 	public or(left: Condition, operator: LogicalOperator, right: Condition): SelectWhereOrStep
 	public or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): SelectWhereOrStep
 	public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): SelectWhereOrStep {
-		//TODO: remove this part later
-		this.data.whereParts.push(LogicalOperator.OR)
-		this.addWhereParts(cond1, op1, cond2, op2, cond3)
-
 		const whereParts:(LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
 		BaseStep.addConditionParts(whereParts, cond1, op1, cond2, op2, cond3)
 		return new SelectWhereOrStep(this.data, this, whereParts)

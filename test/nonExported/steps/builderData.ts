@@ -20,7 +20,6 @@ export const builderData: BuilderData = {
 	},
 	orderByItemInfos: [],
 	selectItemInfos: [],
-	whereParts: [],
 	insertIntoTable: undefined,
 	insertIntoColumns: [],
 	insertIntoValues: [],

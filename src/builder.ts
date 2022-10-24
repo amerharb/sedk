@@ -41,7 +41,6 @@ export type BuilderData = {
 	sqlPath?: SqlPath
 	selectItemInfos: SelectItemInfo[],
 	fromItemInfos: FromItemInfo[],
-	whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
 	groupByItems: Column[],
 	havingParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
 	orderByItemInfos: OrderByItemInfo[],
@@ -67,7 +66,6 @@ export class Builder {
 			fromItemInfos: [],
 			sqlPath: undefined,
 			selectItemInfos: [],
-			whereParts: [],
 			groupByItems: [],
 			havingParts: [],
 			orderByItemInfos: [],

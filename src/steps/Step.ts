@@ -151,7 +151,6 @@ export class Step extends BaseStep
 	}
 
 	public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): SelectWhereStep {
-		this.addWhereParts(cond1, op1, cond2, op2, cond3)
 		const whereParts:(LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
 		BaseStep.addConditionParts(whereParts, cond1, op1, cond2, op2, cond3)
 		return new SelectWhereStep(this.data, this, whereParts)

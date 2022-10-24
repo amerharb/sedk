@@ -55,7 +55,6 @@ describe('Throw desired Errors', () => {
 			},
 			orderByItemInfos: [],
 			selectItemInfos: [],
-			whereParts: [],
 			insertIntoTable: undefined,
 			insertIntoColumns: [],
 			insertIntoValues: [],

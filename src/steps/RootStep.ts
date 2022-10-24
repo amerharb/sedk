@@ -33,14 +33,16 @@ export class RootStep extends BaseStep {
 	}
 
 	delete(): DeleteStep {
-		return new Step(this.data, this).delete()
+		return new DeleteStep(this.data, this)
 	}
 
 	insert(): InsertStep {
+		// TODO: code for the new way
 		return new Step(this.data, this).insert()
 	}
 
 	update(table: Table): UpdateStep {
+		// TODO: code for the new way
 		return new Step(this.data, this).update(table)
 	}
 }

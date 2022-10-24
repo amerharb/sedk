@@ -1,10 +1,10 @@
-import { Binder } from 'Non-Exported/binder'
-import { BuilderData } from 'Non-Exported/builder'
-import { InvalidOffsetValueError } from 'Non-Exported/errors'
-import { ItemInfo } from 'Non-Exported/ItemInfo'
-import { PrimitiveType } from 'Non-Exported/models'
-import { ReturningItem } from 'Non-Exported/ReturningItemInfo'
-import { ReturningStep } from 'Non-Exported/steps/ReturningStep'
+import { Binder } from '../../binder'
+import { BuilderData } from '../../builder'
+import { InvalidOffsetValueError } from '../../errors'
+import { ItemInfo } from '../../ItemInfo'
+import { PrimitiveType } from '../../models'
+import { ReturningItem } from '../../ReturningItemInfo'
+import { ReturningStep } from '../ReturningStep'
 import { BaseStep } from '../BaseStep'
 
 export class OffsetStep extends BaseStep {

@@ -17,7 +17,7 @@ import { ItemInfo } from '../../ItemInfo'
 import { ReturningItem } from '../../ReturningItemInfo'
 
 abstract class SelectConditionStep extends BaseStep {
-	constructor(
+	protected constructor(
 		protected readonly conditionName: 'WHERE' | 'AND' | 'OR',
 		data: BuilderData,
 		prevStep: BaseStep,

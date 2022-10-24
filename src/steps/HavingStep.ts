@@ -44,11 +44,11 @@ export class HavingStep extends BaseStep {
 	}
 
 	public limit(n: null|number|All): LimitStep {
-		return returnStepOrThrow(this.data.step).limit(n)
+		return new LimitStep(this.data, this, n)
 	}
 
 	public limit$(n: null|number): LimitStep {
-		return returnStepOrThrow(this.data.step).limit$(n)
+		return new LimitStep(this.data, this, n, true)
 	}
 
 	public offset(n: number): OffsetStep {

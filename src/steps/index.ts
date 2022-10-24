@@ -1,6 +1,6 @@
 export { DeleteFromStep } from './delete-path/DeleteFromStep'
 export { DeleteStep } from './delete-path/DeleteStep'
-export { DeleteWhereStep } from './delete-path/DeleteWhereStep'
+export { DeleteWhereStep } from './delete-path/DeleteConditionStep'
 export { HavingStep } from './HavingStep'
 export { InsertStep } from './InsertStep'
 export { IntoStep } from './IntoStep'

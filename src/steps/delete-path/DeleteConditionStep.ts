@@ -7,11 +7,7 @@ import { ReturningItem } from '../../ReturningItemInfo'
 import { returnStepOrThrow } from '../../util'
 import { ItemInfo } from '../../ItemInfo'
 
-export interface DeleteWhereOrStep extends DeleteWhereStep {}
-
-export interface DeleteWhereAndStep extends DeleteWhereStep {}
-
-export class DeleteWhereStep extends BaseStep {
+abstract class DeleteConditionStep extends BaseStep {
 	constructor(
 		protected readonly data: BuilderData,
 		protected readonly prevStep: BaseStep,
@@ -43,3 +39,10 @@ export class DeleteWhereStep extends BaseStep {
 		return returnStepOrThrow(this.data.step).returning(...items)
 	}
 }
+
+export class DeleteWhereStep extends DeleteConditionStep {}
+
+export class DeleteWhereOrStep extends DeleteConditionStep {}
+
+export class DeleteWhereAndStep extends DeleteConditionStep {}
+

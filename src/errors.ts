@@ -1,3 +1,4 @@
+import { All } from 'Non-Exported/singletoneConstants'
 import { ComparisonOperator } from './operators'
 
 export class ColumnNotFoundError extends Error {}
@@ -12,7 +13,11 @@ export class InvalidConditionError extends Error {}
 
 export class DeleteWithoutConditionError extends Error {}
 
-export class InvalidLimitValueError extends Error {}
+export class InvalidLimitValueError extends Error {
+	constructor(value: null|number|All) {
+		super(`Invalid limit value: ${value}, value must be positive number, null or "ALL"`)
+	}
+}
 
 export class InvalidOffsetValueError extends Error {
 	constructor(value: number) {

@@ -43,7 +43,6 @@ export type BuilderData = {
 	groupByItems: Column[],
 	havingParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
 	orderByItemInfos: OrderByItemInfo[],
-	limit?: null|number|Binder|All,
 	insertIntoTable?: Table
 	insertIntoColumns: Column[],
 	insertIntoValues: (PrimitiveType|Binder|Default)[],

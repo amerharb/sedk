@@ -281,7 +281,7 @@ describe('Throw desired Errors', () => {
 	('Throws error when LIMIT$ step has invalid value for %s', (value) => {
 		const actual = () => sql.selectAsteriskFrom(table1).limit$(value)
 		expect(actual).toThrow(InvalidLimitValueError)
-		expect(actual).toThrow(`Invalid limit value: ${value}, value must be positive number or null`)
+		expect(actual).toThrow(`Invalid limit value: ${value}, value must be positive number, null or "ALL"`)
 	})
 
 	it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])

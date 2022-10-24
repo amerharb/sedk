@@ -18,12 +18,12 @@ import {
 	InnerJoinStep,
 	JoinStep,
 	LeftJoinStep,
-	LimitStep,
 	OrderByStep,
 	RightJoinStep,
 } from '../stepInterfaces'
 import { ReturningStep } from '../ReturningStep'
 import { OffsetStep } from './OffsetStep'
+import { LimitStep } from './LimitStep'
 
 export class SelectFromStep extends BaseStep implements IAfterFromSteps {
 	public constructor(
@@ -76,11 +76,11 @@ export class SelectFromStep extends BaseStep implements IAfterFromSteps {
 	}
 
 	limit(n: number|All|null): LimitStep {
-		throw new Error('Method not implemented.')
+		return new LimitStep(this.data, this, n)
 	}
 
 	limit$(n: number|null): LimitStep {
-		throw new Error('Method not implemented.')
+		return new LimitStep(this.data, this, n, true)
 	}
 
 	offset(n: number): OffsetStep {

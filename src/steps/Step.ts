@@ -1,10 +1,8 @@
-import { OffsetStep } from 'Non-Exported/steps/select-path/OffsetStep'
+import { OffsetStep } from './select-path/OffsetStep'
+import { LimitStep } from './select-path/LimitStep'
 import { Condition, Expression, PrimitiveType } from '../models'
 import { AliasedTable, BooleanColumn, Column, Table } from '../database'
-import {
-	ColumnNotFoundError,
-	InvalidLimitValueError,
-} from '../errors'
+import { ColumnNotFoundError } from '../errors'
 import { BuilderData, SqlPath } from '../builder'
 import { All, Asterisk } from '../singletoneConstants'
 import { OrderByArgsElement, OrderByDirection, OrderByItem, OrderByItemInfo, OrderByNullsPosition } from '../orderBy'
@@ -23,7 +21,6 @@ import {
 	InnerJoinStep,
 	JoinStep,
 	LeftJoinStep,
-	LimitStep,
 	OrderByStep,
 	RightJoinStep,
 	UpdateStep,
@@ -50,7 +47,7 @@ export type FromItems = [FromItem, ...FromItem[]]
 
 export class Step extends BaseStep
 	implements CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
-		FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, ValuesStep, DefaultValuesStep, UpdateStep {
+		FullOuterJoinStep, GroupByStep, OrderByStep, ValuesStep, DefaultValuesStep, UpdateStep {
 	constructor(protected data: BuilderData, protected prevStep: BaseStep) {
 		super(data, prevStep)
 		data.step = this
@@ -192,19 +189,11 @@ export class Step extends BaseStep
 	}
 
 	public limit(n: null|number|All): LimitStep {
-		if (typeof n === 'number' && (!Number.isFinite(n) || n < 0)) {
-			throw new InvalidLimitValueError(`Invalid limit value: ${n}, value must be positive number, null or "ALL"`)
-		}
-		this.data.limit = n
-		return this
+		throw new Error('to be deleted')
 	}
 
 	public limit$(n: null|number): LimitStep {
-		if (typeof n === 'number' && (!Number.isFinite(n) || n < 0)) {
-			throw new InvalidLimitValueError(`Invalid limit value: ${n}, value must be positive number or null`)
-		}
-		this.data.limit = this.data.binderStore.getBinder(n)
-		return this
+		throw new Error('to be deleted')
 	}
 
 	public offset(n: number): OffsetStep {

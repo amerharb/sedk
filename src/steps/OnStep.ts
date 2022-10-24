@@ -5,8 +5,8 @@ import { Column, Table } from '../database'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import {
-	CrossJoinStep, FullOuterJoinStep, GroupByStep, IAfterFromSteps, InnerJoinStep, JoinStep, LeftJoinStep,
-	LimitStep, OnAndStep, OnOrStep, OrderByStep, RightJoinStep,
+	CrossJoinStep, FullOuterJoinStep, GroupByStep, IAfterFromSteps, InnerJoinStep, JoinStep,
+	LeftJoinStep, OnAndStep, OnOrStep, OrderByStep, RightJoinStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { SelectWhereStep } from './select-path/SelectConditionStep'
@@ -15,6 +15,8 @@ import { ItemInfo } from '../ItemInfo'
 import { ReturningItem } from '../ReturningItemInfo'
 import { ReturningStep } from './ReturningStep'
 import { OffsetStep } from './select-path/OffsetStep'
+import { LimitStep } from './select-path/LimitStep'
+
 
 export class OnStep extends BaseStep implements IAfterFromSteps {
 	constructor(

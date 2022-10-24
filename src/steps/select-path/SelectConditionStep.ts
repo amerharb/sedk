@@ -1,4 +1,5 @@
 import { OffsetStep } from './OffsetStep'
+import { LimitStep } from './LimitStep'
 import { ConditionStep } from '../ConditionStep'
 import { BaseStep, Parenthesis } from '../BaseStep'
 import { BuilderData } from '../../builder'
@@ -8,7 +9,6 @@ import { OrderByArgsElement } from '../../orderBy'
 import { All } from '../../singletoneConstants'
 import {
 	GroupByStep,
-	LimitStep,
 	OrderByStep,
 } from '../stepInterfaces'
 import { LogicalOperator } from '../../operators'

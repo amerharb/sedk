@@ -104,14 +104,6 @@ export abstract class BaseStep {
 			result += ` ORDER BY ${orderByPartsString.join(', ')}`
 		}
 
-		if (this.data.limit !== undefined) {
-			if (this.data.limit === null) {
-				result += ' LIMIT NULL'
-			} else {
-				result += ` LIMIT ${this.data.limit}`
-			}
-		}
-
 		return result
 	}
 
@@ -210,7 +202,6 @@ export abstract class BaseStep {
 		this.data.groupByItems.length = 0
 		this.data.havingParts.length = 0
 		this.data.orderByItemInfos.length = 0
-		this.data.limit = undefined
 		this.data.insertIntoTable = undefined
 		this.data.insertIntoColumns.length = 0
 		this.data.insertIntoValues.length = 0

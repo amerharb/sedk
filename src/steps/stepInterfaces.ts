@@ -1,3 +1,4 @@
+import { LimitStep } from './select-path/LimitStep'
 import { ReturningStep } from './ReturningStep'
 import { BaseStep } from './BaseStep'
 import { Column, Table } from '../database'
@@ -74,13 +75,13 @@ export interface HavingOrStep extends HavingStep {}
 
 export interface HavingAndStep extends HavingStep {}
 
-export interface OrderByStep extends BaseStep, LimitStep {
+export interface OrderByStep extends BaseStep, ILimitStep {
 	limit(n: null|number|All): LimitStep
 
 	limit$(n: null|number): LimitStep
 }
 
-export interface LimitStep extends BaseStep, IOffsetStep {
+export interface ILimitStep extends BaseStep, IOffsetStep {
 	offset(n: number): OffsetStep
 
 	offset$(n: number): OffsetStep

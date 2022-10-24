@@ -1,4 +1,4 @@
-import { ALL, DISTINCT } from 'Non-Exported/singletoneConstants'
+import { ALL, DISTINCT } from '../singletoneConstants'
 import { BuilderData } from '../builder'
 import { Table } from '../database'
 import { PrimitiveType } from '../models'
@@ -25,13 +25,11 @@ export class RootStep extends BaseStep {
 	}
 
 	selectDistinct(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-		this.data.distinct = DISTINCT
-		return new SelectStep(this.data, this, items)
+		return new SelectStep(this.data, this, items, DISTINCT)
 	}
 
 	selectAll(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-		this.data.distinct = ALL
-		return new SelectStep(this.data, this, items)
+		return new SelectStep(this.data, this, items, ALL)
 	}
 
 	delete(): DeleteStep {

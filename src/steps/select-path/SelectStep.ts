@@ -6,7 +6,7 @@ import { ItemInfo } from '../../ItemInfo'
 import { Expression, PrimitiveType } from '../../models'
 import { ReturningItem } from '../../ReturningItemInfo'
 import { SelectItemInfo } from '../../SelectItemInfo'
-import { Asterisk } from '../../singletoneConstants'
+import { All, Asterisk, Distinct } from '../../singletoneConstants'
 import { BaseStep } from '../BaseStep'
 import { SelectFromStep } from './SelectFromStep'
 import { FromItems, SelectItem, Step } from '../Step'
@@ -17,7 +17,9 @@ export class SelectStep extends BaseStep {
 	constructor(
 		data: BuilderData,
 		prevStep: BaseStep,
-		private readonly items: (SelectItemInfo|SelectItem|PrimitiveType)[]) {
+		private readonly items: (SelectItemInfo|SelectItem|PrimitiveType)[],
+		private readonly distinct?: Distinct|All,
+	) {
 		super(data, prevStep)
 	}
 
@@ -49,9 +51,8 @@ export class SelectStep extends BaseStep {
 
 		let result = `SELECT`
 
-		// TODO: read the value of distinct form constructor not from this.data
-		if (this.data.distinct) {
-			result += ` ${this.data.distinct}`
+		if (this.distinct) {
+			result += ` ${this.distinct}`
 		}
 
 		if (selectItemInfos.length > 0) {

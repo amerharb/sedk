@@ -7,7 +7,7 @@ import {
 	MoreThanOneWhereStepError,
 } from '../errors'
 import { BuilderData, SqlPath } from '../builder'
-import { ALL, All, Asterisk, DISTINCT } from '../singletoneConstants'
+import { All, Asterisk } from '../singletoneConstants'
 import { OrderByArgsElement, OrderByDirection, OrderByItem, OrderByItemInfo, OrderByNullsPosition } from '../orderBy'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { escapeDoubleQuote } from '../util'
@@ -37,7 +37,6 @@ import { FromItemRelation } from '../FromItemInfo'
 import { OnStep } from './OnStep'
 import { DeleteStep } from './DeleteStep'
 import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
-import { RootStep } from './RootStep'
 import { ItemInfo } from '../ItemInfo'
 import { InsertStep } from './InsertStep'
 import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
@@ -52,7 +51,7 @@ type FromItem = Table|AliasedTable
 export type FromItems = [FromItem, ...FromItem[]]
 
 export class Step extends BaseStep
-	implements RootStep, CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
+	implements CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
 		FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep, ValuesStep, DefaultValuesStep, UpdateStep {
 	constructor(protected data: BuilderData, protected prevStep: BaseStep) {
 		super(data, prevStep)
@@ -84,22 +83,6 @@ export class Step extends BaseStep
 		this.throwIfColumnsNotInDb(selectItemInfos)
 		this.data.selectItemInfos.push(...selectItemInfos)
 		return new SelectStep(this.data, this, items)
-	}
-
-	public selectDistinct(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-		if (this.data.sqlPath === undefined) {
-			this.data.sqlPath = SqlPath.SELECT
-		}
-		this.data.distinct = DISTINCT
-		return this.select(...items)
-	}
-
-	public selectAll(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-		if (this.data.sqlPath === undefined) {
-			this.data.sqlPath = SqlPath.SELECT
-		}
-		this.data.distinct = ALL
-		return this.select(...items)
 	}
 
 	public delete(): DeleteStep {

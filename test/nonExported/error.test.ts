@@ -40,7 +40,6 @@ describe('Throw desired Errors', () => {
 		const data: BuilderData = {
 			binderStore: new BinderStore(),
 			database,
-			distinct: undefined,
 			fromItemInfos: [],
 			groupByItems: [],
 			havingParts: [],

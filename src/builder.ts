@@ -44,7 +44,6 @@ export type BuilderData = {
 	havingParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
 	orderByItemInfos: OrderByItemInfo[],
 	limit?: null|number|Binder|All,
-	offset?: number|Binder,
 	insertIntoTable?: Table
 	insertIntoColumns: Column[],
 	insertIntoValues: (PrimitiveType|Binder|Default)[],

@@ -4,8 +4,9 @@ import { Condition } from '../models'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import { LogicalOperator } from '../operators'
-import { HavingAndStep, HavingOrStep, LimitStep, OffsetStep, OrderByStep } from './stepInterfaces'
+import { HavingAndStep, HavingOrStep, LimitStep, OrderByStep } from './stepInterfaces'
 import { returnStepOrThrow } from '../util'
+import { OffsetStep } from './select-path/OffsetStep'
 
 export class HavingStep extends BaseStep {
 	constructor(
@@ -50,10 +51,10 @@ export class HavingStep extends BaseStep {
 	}
 
 	public offset(n: number): OffsetStep {
-		return returnStepOrThrow(this.data.step).offset(n)
+		return new OffsetStep(this.data, this, n)
 	}
 
 	public offset$(n: number): OffsetStep {
-		return returnStepOrThrow(this.data.step).offset$(n)
+		return new OffsetStep(this.data, this, n, true)
 	}
 }

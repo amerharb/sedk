@@ -6,7 +6,7 @@ import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import {
 	CrossJoinStep, FullOuterJoinStep, GroupByStep, IAfterFromSteps, InnerJoinStep, JoinStep, LeftJoinStep,
-	LimitStep, OffsetStep, OnAndStep, OnOrStep, OrderByStep, RightJoinStep,
+	LimitStep, OnAndStep, OnOrStep, OrderByStep, RightJoinStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { SelectWhereStep } from './select-path/SelectConditionStep'
@@ -14,6 +14,7 @@ import { returnStepOrThrow } from '../util'
 import { ItemInfo } from '../ItemInfo'
 import { ReturningItem } from '../ReturningItemInfo'
 import { ReturningStep } from './ReturningStep'
+import { OffsetStep } from './select-path/OffsetStep'
 
 export class OnStep extends BaseStep implements IAfterFromSteps {
 	constructor(
@@ -85,11 +86,11 @@ export class OnStep extends BaseStep implements IAfterFromSteps {
 	}
 
 	public offset(n: number): OffsetStep {
-		return returnStepOrThrow(this.data.step).offset(n)
+		return new OffsetStep(this.data, this, n)
 	}
 
 	public offset$(n: number): OffsetStep {
-		return returnStepOrThrow(this.data.step).offset$(n)
+		return new OffsetStep(this.data, this, n, true)
 	}
 
 	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {

@@ -112,10 +112,6 @@ export abstract class BaseStep {
 			}
 		}
 
-		if (this.data.offset !== undefined) {
-			result += ` OFFSET ${this.data.offset}`
-		}
-
 		return result
 	}
 
@@ -215,7 +211,6 @@ export abstract class BaseStep {
 		this.data.havingParts.length = 0
 		this.data.orderByItemInfos.length = 0
 		this.data.limit = undefined
-		this.data.offset = undefined
 		this.data.insertIntoTable = undefined
 		this.data.insertIntoColumns.length = 0
 		this.data.insertIntoValues.length = 0

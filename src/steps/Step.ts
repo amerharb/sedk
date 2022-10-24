@@ -1,9 +1,9 @@
+import { OffsetStep } from 'Non-Exported/steps/select-path/OffsetStep'
 import { Condition, Expression, PrimitiveType } from '../models'
 import { AliasedTable, BooleanColumn, Column, Table } from '../database'
 import {
 	ColumnNotFoundError,
 	InvalidLimitValueError,
-	InvalidOffsetValueError,
 } from '../errors'
 import { BuilderData, SqlPath } from '../builder'
 import { All, Asterisk } from '../singletoneConstants'
@@ -24,7 +24,6 @@ import {
 	JoinStep,
 	LeftJoinStep,
 	LimitStep,
-	OffsetStep,
 	OrderByStep,
 	RightJoinStep,
 	UpdateStep,
@@ -51,7 +50,7 @@ export type FromItems = [FromItem, ...FromItem[]]
 
 export class Step extends BaseStep
 	implements CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
-		FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, OffsetStep, ValuesStep, DefaultValuesStep, UpdateStep {
+		FullOuterJoinStep, GroupByStep, OrderByStep, LimitStep, ValuesStep, DefaultValuesStep, UpdateStep {
 	constructor(protected data: BuilderData, protected prevStep: BaseStep) {
 		super(data, prevStep)
 		data.step = this
@@ -62,26 +61,7 @@ export class Step extends BaseStep
 	}
 
 	public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-		if (this.data.sqlPath === undefined) {
-			this.data.sqlPath = SqlPath.SELECT
-		}
-		const selectItemInfos: SelectItemInfo[] = items.map(it => {
-			if (it instanceof SelectItemInfo) {
-				return it
-			} else if (it instanceof Expression || it instanceof Column || it instanceof AggregateFunction || it instanceof Asterisk || it instanceof TableAsterisk) {
-				return new SelectItemInfo(it, undefined)
-			} else if (it instanceof Binder) {
-				if (it.no === undefined) {
-					this.data.binderStore.add(it)
-				}
-				return new SelectItemInfo(it, undefined)
-			} else {
-				return new SelectItemInfo(new Expression(it), undefined)
-			}
-		})
-		this.throwIfColumnsNotInDb(selectItemInfos)
-		this.data.selectItemInfos.push(...selectItemInfos)
-		return new SelectStep(this.data, this, items)
+		throw new Error('to be deleted')
 	}
 
 	public delete(): DeleteStep {
@@ -101,18 +81,7 @@ export class Step extends BaseStep
 	}
 
 	public from(...tables: FromItems): SelectFromStep {
-		if (tables.length === 0)
-			throw new Error('No tables specified')
-
-		tables.forEach(table => {
-			this.throwIfTableNotInDb(BaseStep.getTable(table))
-		})
-
-		for (let i = 0; i < tables.length; i++) {
-			this.addFromItemInfo(tables[i], i === 0 ? FromItemRelation.NO_RELATION : FromItemRelation.COMMA)
-		}
-
-		return new SelectFromStep(this.data, this, tables)
+		throw new Error('to be deleted')
 	}
 
 	public crossJoin(table: Table|AliasedTable): CrossJoinStep {
@@ -239,19 +208,11 @@ export class Step extends BaseStep
 	}
 
 	public offset(n: number): OffsetStep {
-		if (!Number.isFinite(n) || n < 0) {
-			throw new InvalidOffsetValueError(`Invalid offset value: ${n}, value must be positive number`)
-		}
-		this.data.offset = n
-		return this
+		throw new Error('to be deleted')
 	}
 
 	public offset$(n: number): OffsetStep {
-		if (!Number.isFinite(n) || n < 0) {
-			throw new InvalidOffsetValueError(`Invalid offset value: ${n}, value must be positive number`)
-		}
-		this.data.offset = this.data.binderStore.getBinder(n)
-		return this
+		throw new Error('to be deleted')
 	}
 
 	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {

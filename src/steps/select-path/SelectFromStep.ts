@@ -19,11 +19,11 @@ import {
 	JoinStep,
 	LeftJoinStep,
 	LimitStep,
-	OffsetStep,
 	OrderByStep,
 	RightJoinStep,
 } from '../stepInterfaces'
 import { ReturningStep } from '../ReturningStep'
+import { OffsetStep } from './OffsetStep'
 
 export class SelectFromStep extends BaseStep implements IAfterFromSteps {
 	public constructor(
@@ -84,11 +84,11 @@ export class SelectFromStep extends BaseStep implements IAfterFromSteps {
 	}
 
 	offset(n: number): OffsetStep {
-		throw new Error('Method not implemented.')
+		return new OffsetStep(this.data, this, n)
 	}
 
 	offset$(n: number): OffsetStep {
-		throw new Error('Method not implemented.')
+		return new OffsetStep(this.data, this, n, true)
 	}
 
 	orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep {

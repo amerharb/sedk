@@ -1,0 +1,36 @@
+import { Binder } from 'Non-Exported/binder'
+import { BuilderData } from 'Non-Exported/builder'
+import { InvalidOffsetValueError } from 'Non-Exported/errors'
+import { ItemInfo } from 'Non-Exported/ItemInfo'
+import { PrimitiveType } from 'Non-Exported/models'
+import { ReturningItem } from 'Non-Exported/ReturningItemInfo'
+import { ReturningStep } from 'Non-Exported/steps/ReturningStep'
+import { BaseStep } from '../BaseStep'
+
+export class OffsetStep extends BaseStep {
+	private readonly value: number|Binder
+	public constructor(
+		data: BuilderData,
+		prevStep: BaseStep,
+		value: number,
+		asBinder: boolean = false,
+	) {
+		super(data, prevStep)
+		if (!Number.isFinite(value) || value < 0) {
+			throw new InvalidOffsetValueError(value)
+		}
+		if (asBinder) {
+			this.value = this.data.binderStore.getBinder(value)
+		} else {
+			this.value = value
+		}
+	}
+
+	getStepStatement(): string {
+		return `OFFSET ${this.value}`
+	}
+
+	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
+		return new ReturningStep(this.data, this, items)
+	}
+}

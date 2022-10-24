@@ -1,3 +1,4 @@
+import { OffsetStep } from './OffsetStep'
 import { ConditionStep } from '../ConditionStep'
 import { BaseStep, Parenthesis } from '../BaseStep'
 import { BuilderData } from '../../builder'
@@ -8,7 +9,6 @@ import { All } from '../../singletoneConstants'
 import {
 	GroupByStep,
 	LimitStep,
-	OffsetStep,
 	OrderByStep,
 } from '../stepInterfaces'
 import { LogicalOperator } from '../../operators'
@@ -53,11 +53,11 @@ abstract class SelectConditionStep extends ConditionStep {
 	}
 
 	public offset(n: number): OffsetStep {
-		return returnStepOrThrow(this.data.step).offset(n)
+		return new OffsetStep(this.data, this, n)
 	}
 
 	public offset$(n: number): OffsetStep {
-		return returnStepOrThrow(this.data.step).offset$(n)
+		return new OffsetStep(this.data, this, n, true)
 	}
 
 	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {

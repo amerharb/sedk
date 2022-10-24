@@ -4,6 +4,7 @@ import { Column, Table } from '../database'
 import { Condition, PrimitiveType } from '../models'
 import { OnStep } from './OnStep'
 import { SelectWhereStep } from './select-path/SelectConditionStep'
+import { OffsetStep } from './select-path/OffsetStep'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import { HavingStep } from './HavingStep'
@@ -79,13 +80,13 @@ export interface OrderByStep extends BaseStep, LimitStep {
 	limit$(n: null|number): LimitStep
 }
 
-export interface LimitStep extends BaseStep, OffsetStep {
+export interface LimitStep extends BaseStep, IOffsetStep {
 	offset(n: number): OffsetStep
 
 	offset$(n: number): OffsetStep
 }
 
-export interface OffsetStep extends BaseStep {
+export interface IOffsetStep extends BaseStep {
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
 }
 

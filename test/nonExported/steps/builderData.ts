@@ -26,5 +26,4 @@ export const builderData: BuilderData = {
 	insertIntoDefaultValues: false,
 	updateTable: undefined,
 	updateSetItemInfos: [],
-	returning: [],
 }

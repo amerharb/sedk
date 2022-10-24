@@ -22,7 +22,6 @@ import { SelectItemInfo } from './SelectItemInfo'
 import { BuilderOption, BuilderOptionRequired, fillUndefinedOptionsWithDefault } from './option'
 import { MoreThanOneDistinctOrAllError } from './errors'
 import { FromItemInfo } from './FromItemInfo'
-import { ReturningItemInfo } from './ReturningItemInfo'
 import { ItemInfo } from './ItemInfo'
 import { UpdateSetItemInfo } from './UpdateSetItemInfo'
 
@@ -52,7 +51,6 @@ export type BuilderData = {
 	insertIntoDefaultValues: boolean,
 	updateTable?: Table,
 	updateSetItemInfos: UpdateSetItemInfo[],
-	returning: ReturningItemInfo[],
 	binderStore: BinderStore,
 }
 
@@ -75,7 +73,6 @@ export class Builder {
 			insertIntoDefaultValues: false,
 			updateTable: undefined,
 			updateSetItemInfos: [],
-			returning: [],
 			binderStore: new BinderStore(),
 			option: fillUndefinedOptionsWithDefault(option ?? {}),
 		}

@@ -61,7 +61,6 @@ describe('Throw desired Errors', () => {
 			insertIntoDefaultValues: false,
 			updateTable: undefined,
 			updateSetItemInfos: [],
-			returning: [],
 		}
 		it(`Throws error when Step is not initialized`, () => {
 			function actual() {

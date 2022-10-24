@@ -255,34 +255,7 @@ export class Step extends BaseStep
 	}
 
 	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		if (this.data.sqlPath === SqlPath.SELECT) {
-			throw new Error('Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE')
-		}
-		const returningItemInfo: ReturningItemInfo[] = items.map(it => {
-			if (it instanceof ReturningItemInfo) {
-				return it
-			} else if (it instanceof Expression || it instanceof Column || it instanceof Asterisk || it instanceof TableAsterisk) {
-				return new ReturningItemInfo(it, undefined)
-			} else if (it instanceof Binder) {
-				if (it.no === undefined) {
-					this.data.binderStore.add(it)
-				}
-				return new ReturningItemInfo(it, undefined)
-			} else if (it instanceof SelectItemInfo) {
-				if (it.selectItem instanceof AggregateFunction) {
-					throw new Error(`Aggregate function ${it.selectItem.funcName} cannot be used in RETURNING clause`)
-				} else {
-					return new ReturningItemInfo(it.selectItem, it.alias)
-				}
-			} else if (it instanceof ItemInfo) { // not possible as long as ItemInfo is an abstract class
-				throw new Error('ItemInfo is an abstract class')
-			} else { //it from here is a PrimitiveType
-				return new ReturningItemInfo(new Expression(it), undefined)
-			}
-		})
-		this.throwIfColumnsNotInDb(returningItemInfo)
-		this.data.returning.push(...returningItemInfo)
-		return new ReturningStep(this.data, this, returningItemInfo)
+		throw new Error('will be deleted')
 	}
 
 	private throwIfColumnsNotInDb(columns: (ReturningItemInfo|SelectItemInfo|ColumnLike)[]) {

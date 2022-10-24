@@ -128,7 +128,6 @@ export abstract class BaseStep {
 		}
 
 		result += this.getWhereParts()
-		result += this.getReturningParts()
 
 		return result
 	}
@@ -173,8 +172,6 @@ export abstract class BaseStep {
 			}
 		}
 
-		result += this.getReturningParts()
-
 		return result
 	}
 
@@ -186,7 +183,6 @@ export abstract class BaseStep {
 				result += ` SET ${this.data.updateSetItemInfos.map(it => it.getStmt(this.data)).join(', ')}`
 			}
 			result += this.getWhereParts()
-			result += this.getReturningParts()
 		}
 		return result
 	}
@@ -211,16 +207,6 @@ export abstract class BaseStep {
 		return ''
 	}
 
-	private getReturningParts(): string {
-		if (this.data.returning.length > 0) {
-			const returningPartsString = this.data.returning.map(it => {
-				return it.getStmt(this.data)
-			})
-			return ` RETURNING ${returningPartsString.join(', ')}`
-		}
-		return ''
-	}
-
 	public cleanUp() {
 		this.data.sqlPath = undefined
 		this.data.selectItemInfos.length = 0
@@ -236,7 +222,6 @@ export abstract class BaseStep {
 		this.data.insertIntoDefaultValues = false
 		this.data.updateTable = undefined
 		this.data.updateSetItemInfos.length = 0
-		this.data.returning.length = 0
 		this.data.binderStore.cleanUp()
 	}
 

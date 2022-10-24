@@ -6,7 +6,6 @@ import { Condition, PrimitiveType } from '../../models'
 import { LogicalOperator } from '../../operators'
 import { ReturningStep } from '../ReturningStep'
 import { ReturningItem } from '../../ReturningItemInfo'
-import { returnStepOrThrow } from '../../util'
 import { ItemInfo } from '../../ItemInfo'
 
 abstract class DeleteConditionStep extends ConditionStep {
@@ -29,7 +28,7 @@ abstract class DeleteConditionStep extends ConditionStep {
 	}
 
 	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return returnStepOrThrow(this.data.step).returning(...items)
+		return new ReturningStep(this.data, this, items)
 	}
 }
 

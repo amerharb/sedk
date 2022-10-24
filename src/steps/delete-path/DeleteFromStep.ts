@@ -6,7 +6,6 @@ import { Condition, PrimitiveType } from '../../models'
 import { DeleteWhereStep } from './DeleteConditionStep'
 import { LogicalOperator } from '../../operators'
 import { ReturningStep } from '../ReturningStep'
-import { returnStepOrThrow } from '../../util'
 import { ReturningItem } from '../../ReturningItemInfo'
 import { ItemInfo } from '../../ItemInfo'
 
@@ -33,6 +32,6 @@ export class DeleteFromStep extends BaseStep {
 	}
 
 	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return returnStepOrThrow(this.data.step).returning(...items)
+		return new ReturningStep(this.data, this, items)
 	}
 }

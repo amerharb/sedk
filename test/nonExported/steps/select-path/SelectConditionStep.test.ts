@@ -14,6 +14,9 @@ const CLOSE = Parenthesis.Close
 
 describe('SelectConditionStep', () => {
 	const rootStep = new RootStep(builderData)
+	describe('SelectConditionStep', () => {
+		// TODO: add unit test to test Abstract class SelectConditionStep if it make sense
+	})
 	describe('SelectWhereStep', () => {
 		// TODO: reevaluate the expected SQL here, maybe it should return only WHERE, or throw an error
 		it('returns: []', () => {
@@ -41,4 +44,11 @@ describe('SelectConditionStep', () => {
 			expect(actual).toEqual(`WHERE ( "col1" = 'A' AND "col4" = 1 )`)
 		})
 	})
+	describe('SelectWhereAndStep', () => {
+		// TODO: add unit test to test class SelectWhereAndStep if it make sense
+	})
+	describe('SelectWhereOrStep', () => {
+		// TODO: add unit test to test class SelectWhereOrStep if it make sense
+	})
+
 })

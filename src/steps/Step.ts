@@ -34,7 +34,7 @@ import {
 import { LogicalOperator } from '../operators'
 import { FromItemRelation } from '../FromItemInfo'
 import { OnStep } from './OnStep'
-import { DeleteStep } from './DeleteStep'
+import { DeleteStep } from './delete-path/DeleteStep'
 import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
 import { ItemInfo } from '../ItemInfo'
 import { InsertStep } from './InsertStep'
@@ -46,7 +46,7 @@ import { SelectFromStep } from './select-path/SelectFromStep'
 
 export type ColumnLike = Column|Expression
 export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk|TableAsterisk
-type FromItem = Table|AliasedTable
+export type FromItem = Table|AliasedTable
 export type FromItems = [FromItem, ...FromItem[]]
 
 export class Step extends BaseStep

@@ -1,11 +1,11 @@
-import { BaseStep } from './BaseStep'
-import { BuilderData } from '../builder'
-import { Condition, PrimitiveType } from '../models'
-import { LogicalOperator } from '../operators'
-import { ReturningStep } from './stepInterfaces'
-import { ReturningItem } from '../ReturningItemInfo'
-import { returnStepOrThrow } from '../util'
-import { ItemInfo } from '../ItemInfo'
+import { BaseStep } from '../BaseStep'
+import { BuilderData } from '../../builder'
+import { Condition, PrimitiveType } from '../../models'
+import { LogicalOperator } from '../../operators'
+import { ReturningStep } from '../stepInterfaces'
+import { ReturningItem } from '../../ReturningItemInfo'
+import { returnStepOrThrow } from '../../util'
+import { ItemInfo } from '../../ItemInfo'
 
 export interface DeleteWhereOrStep extends DeleteWhereStep {}
 

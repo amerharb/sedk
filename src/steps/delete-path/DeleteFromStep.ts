@@ -1,23 +1,25 @@
-import { BaseStep } from './BaseStep'
-import { BuilderData } from '../builder'
-import { Condition, PrimitiveType } from '../models'
+import { FromItem } from '../Step'
+import { BaseStep } from '../BaseStep'
+import { BuilderData } from '../../builder'
+import { Condition, PrimitiveType } from '../../models'
 import { DeleteWhereStep } from './DeleteWhereStep'
-import { LogicalOperator } from '../operators'
-import { ReturningStep } from './stepInterfaces'
-import { returnStepOrThrow } from '../util'
-import { ReturningItem } from '../ReturningItemInfo'
-import { ItemInfo } from '../ItemInfo'
+import { LogicalOperator } from '../../operators'
+import { ReturningStep } from '../stepInterfaces'
+import { returnStepOrThrow } from '../../util'
+import { ReturningItem } from '../../ReturningItemInfo'
+import { ItemInfo } from '../../ItemInfo'
 
 export class DeleteFromStep extends BaseStep {
 	constructor(
 		protected readonly data: BuilderData,
 		protected readonly prevStep: BaseStep,
+		protected readonly table: FromItem
 	) {
 		super(data, prevStep)
 	}
 
 	public getStepStatement(): string {
-		throw new Error('Method not implemented.')
+		return 'FROM ' + this.table.getStmt(this.data)
 	}
 
 	public where(condition: Condition): DeleteWhereStep

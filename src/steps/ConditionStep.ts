@@ -14,7 +14,7 @@ export abstract class ConditionStep extends BaseStep {
 		super(data, prevStep)
 	}
 
-	public getStepStatement(): string {
+	getStepStatement(): string {
 		if (this.whereParts.length > 0) {
 			BaseStep.throwIfConditionPartsInvalid(this.whereParts)
 			const wherePartsString = this.whereParts.map(it => {

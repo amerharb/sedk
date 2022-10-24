@@ -45,7 +45,7 @@ export class SelectFromStep extends BaseStep implements IAfterFromSteps {
 		})
 	}
 
-	protected getStepStatement(): string {
+	getStepStatement(): string {
 		let result = 'FROM '
 		result += this.fromItems.map(it => it.getStmt(this.data)).join(', ')
 		return result

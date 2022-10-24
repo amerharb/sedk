@@ -34,7 +34,7 @@ export abstract class BaseStep {
 		return result
 	}
 
-	protected abstract getStepStatement(): string
+	public abstract getStepStatement(): string
 
 	public getBindValues(): PrimitiveType[] {
 		return [...this.data.binderStore.getValues()]

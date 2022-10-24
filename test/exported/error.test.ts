@@ -17,7 +17,6 @@ import {
 	InvalidLimitValueError,
 	InvalidOffsetValueError,
 	MoreThanOneDistinctOrAllError,
-	MoreThanOneWhereStepError,
 	NULLS_FIRST,
 	NULLS_LAST,
 	Schema,
@@ -43,62 +42,52 @@ describe('Throw desired Errors', () => {
 	const sql = new Builder(database)
 	afterEach(() => { sql.cleanUp() })
 
+	// TODO: This is not error anymore, move it to diffreant test file and change description
 	describe('Error: MoreThanOneWhereStepError', () => {
 		it('Throws error when 2 WHERE steps added', () => {
-			function actual() {
-				const fromStep = sql.select(col1).from(table1)
+			const fromStep = sql.select(col1).from(table1)
 
-				// first Where Step
-				fromStep.where(col1.eq('x1'))
-				// second Where Step, should throw
-				fromStep.where(col1.eq('x2'))
-			}
+			// first Where Step
+			const whereStep1 = fromStep.where(col1.eq('x1'))
+			// second Where Step, should throw
+			const whereStep2 = fromStep.where(col1.eq('x2'))
 
-			expect(actual).toThrowError('WHERE step already specified')
-			expect(actual).toThrowError(MoreThanOneWhereStepError)
+			expect(whereStep1.getSQL()).toEqual(`SELECT "col1" FROM "table1" WHERE "col1" = 'x1';`)
+			expect(whereStep2.getSQL()).toEqual(`SELECT "col1" FROM "table1" WHERE "col1" = 'x2';`)
 		})
-		it('Throws error when 2 WHERE steps added after ON step', () => {
-			function actual() {
-				const fromStep = sql
-					.select(col1)
-					.from(table1)
-					.leftJoin(table2)
-					.on(col1.eq(table2.c.col1))
+	  // TODO: remove skip when leftJoin is implemented
+		it.skip('Throws error when 2 WHERE steps added after ON step', () => {
+			const fromStep = sql
+				.select(col1)
+				.from(table1)
+				.leftJoin(table2)
+				.on(col1.eq(table2.c.col1))
 
-				// first Where Step
-				fromStep.where(col3.eq('x1'))
-				// second Where Step, should throw
-				fromStep.where(col3.eq('x2'))
-			}
+			// first Where Step
+			const whereStep1 = fromStep.where(col3.eq('x1'))
+			// second Where Step, should throw
+			const whereStep2 = fromStep.where(col3.eq('x2'))
 
-			expect(actual).toThrowError('WHERE step already specified')
-			expect(actual).toThrowError(MoreThanOneWhereStepError)
+			expect(whereStep1.getSQL()).toEqual(`SELECT "col1" FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1" WHERE "col1" = 'x1';`)
+			expect(whereStep2.getSQL()).toEqual(`SELECT "col1" FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1" WHERE "col1" = 'x2';`)
 		})
-		it('Throws error when 2 WHERE steps added after delete', () => {
-			function actual() {
-				const fromStep = sql.deleteFrom(table1)
+		// TODO:
+		it.skip('Throws error when 2 WHERE steps added after delete', () => {
+			const fromStep = sql.deleteFrom(table1)
 
-				// first Where Step
-				fromStep.where(col1.eq('x1'))
-				// second Where Step, should throw
-				fromStep.where(col1.eq('x2'))
-			}
-
-			expect(actual).toThrowError('WHERE step already specified')
-			expect(actual).toThrowError(MoreThanOneWhereStepError)
+			// first Where Step
+			fromStep.where(col1.eq('x1'))
+			// second Where Step, should throw
+			fromStep.where(col1.eq('x2'))
 		})
-		it('Throws error when 2 WHERE steps added after update', () => {
-			function actual() {
-				const setStep = sql.update(table1).set(col1.eq('something'))
+		// TODO: this is not error anymore
+		it.skip('Throws error when 2 WHERE steps added after update', () => {
+			const setStep = sql.update(table1).set(col1.eq('something'))
 
-				// first Where Step
-				setStep.where(col1.eq('x1'))
-				// second Where Step, should throw
-				setStep.where(col1.eq('x2'))
-			}
-
-			expect(actual).toThrowError('WHERE step already specified')
-			expect(actual).toThrowError(MoreThanOneWhereStepError)
+			// first Where Step
+			setStep.where(col1.eq('x1'))
+			// second Where Step, should throw
+			setStep.where(col1.eq('x2'))
 		})
 	})
 

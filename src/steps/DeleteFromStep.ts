@@ -3,7 +3,6 @@ import { BuilderData } from '../builder'
 import { Condition, PrimitiveType } from '../models'
 import { DeleteWhereStep } from './DeleteWhereStep'
 import { LogicalOperator } from '../operators'
-import { MoreThanOneWhereStepError } from '../errors'
 import { ReturningStep } from './stepInterfaces'
 import { returnStepOrThrow } from '../util'
 import { ReturningItem } from '../ReturningItemInfo'
@@ -25,9 +24,6 @@ export class DeleteFromStep extends BaseStep {
 	public where(left: Condition, operator: LogicalOperator, right: Condition): DeleteWhereStep
 	public where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): DeleteWhereStep
 	public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): DeleteWhereStep {
-		if (this.data.whereParts.length > 0) {
-			throw new MoreThanOneWhereStepError('WHERE step already specified')
-		}
 		this.addWhereParts(cond1, op1, cond2, op2, cond3)
 		return new DeleteWhereStep(this.data, this)
 	}

@@ -8,8 +8,6 @@ export class InvalidExpressionError extends Error{}
 
 export class MoreThanOneDistinctOrAllError extends Error{}
 
-export class MoreThanOneWhereStepError extends Error{}
-
 export class InvalidConditionError extends Error{}
 
 export class DeleteWithoutConditionError extends Error{}

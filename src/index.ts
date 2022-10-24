@@ -14,7 +14,6 @@ export {
 	TableNotFoundError,
 	InvalidExpressionError,
 	MoreThanOneDistinctOrAllError,
-	MoreThanOneWhereStepError,
 	InvalidConditionError,
 	DeleteWithoutConditionError,
 	InvalidLimitValueError,

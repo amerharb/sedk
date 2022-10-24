@@ -9,7 +9,7 @@ import {
 	LimitStep, OffsetStep, OnAndStep, OnOrStep, OrderByStep, ReturningStep, RightJoinStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
-import { SelectWhereStep } from './select-path/SelectWhereStep'
+import { SelectWhereStep } from './select-path/SelectConditionStep'
 import { returnStepOrThrow } from '../util'
 import { ItemInfo } from '../ItemInfo'
 import { ReturningItem } from '../ReturningItemInfo'

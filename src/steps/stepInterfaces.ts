@@ -2,7 +2,7 @@ import { BaseStep } from './BaseStep'
 import { Column, Table } from '../database'
 import { Condition, PrimitiveType } from '../models'
 import { OnStep } from './OnStep'
-import { SelectWhereStep } from './select-path/SelectWhereStep'
+import { SelectWhereStep } from './select-path/SelectConditionStep'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import { HavingStep } from './HavingStep'
@@ -57,10 +57,6 @@ export interface FullOuterJoinStep extends IJoinStep {}
 export interface OnOrStep extends OnStep {}
 
 export interface OnAndStep extends OnStep {}
-
-export interface SelectWhereOrStep extends SelectWhereStep {}
-
-export interface SelectWhereAndStep extends SelectWhereStep {}
 
 export interface GroupByStep extends BaseStep, OrderByStep {
 	having(condition: Condition): HavingStep

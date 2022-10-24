@@ -5,7 +5,7 @@ export { HavingStep } from './HavingStep'
 export { InsertStep } from './InsertStep'
 export { IntoStep } from './IntoStep'
 export { OnStep } from './OnStep'
-export { SelectWhereStep } from './select-path/SelectWhereStep'
+export { SelectWhereStep, SelectWhereAndStep, SelectWhereOrStep } from './select-path/SelectConditionStep'
 export { SetStep } from './SetStep'
 export { Step, FromItems, SelectItem, ColumnLike } from './Step'
 export {

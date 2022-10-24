@@ -1,3 +1,6 @@
+import { FromItemInfo, FromItemRelation } from '../../FromItemInfo'
+import { BuilderData } from '../../builder'
+import { AliasedTable, BooleanColumn, Column, Table } from '../../database'
 import { ItemInfo } from '../../ItemInfo'
 import { Condition, PrimitiveType } from '../../models'
 import { LogicalOperator } from '../../operators'
@@ -5,9 +8,8 @@ import { OrderByArgsElement } from '../../orderBy'
 import { ReturningItem } from '../../ReturningItemInfo'
 import { All } from '../../singletoneConstants'
 import { Parenthesis, SelectWhereStep } from '../../steps'
-import { BooleanColumn, Column, Table } from '../../database'
-import { BuilderData } from '../../builder'
 import { BaseStep } from '../BaseStep'
+import { FromItems } from '../step'
 import {
 	CrossJoinStep,
 	FullOuterJoinStep,
@@ -22,7 +24,6 @@ import {
 	ReturningStep,
 	RightJoinStep,
 } from '../stepInterfaces'
-import { FromItems } from '../step'
 
 export class SelectFromStep extends BaseStep implements IAfterFromSteps {
 	public constructor(
@@ -31,6 +32,17 @@ export class SelectFromStep extends BaseStep implements IAfterFromSteps {
 		protected readonly fromItems: FromItems,
 	) {
 		super(data, prevStep)
+		/**
+		 *  Add FromItems to FromItemInfos so database object (schema, table, columns) knows the table that included in quote
+		 *  TODO: change this to make data more generic, to include all tables in sql not just in FROM clause
+		 */
+		this.fromItems.forEach(it => {
+			this.data.fromItemInfos.push(new FromItemInfo(
+				BaseStep.getTable(it),
+				FromItemRelation.NO_RELATION, //TODO: to be removed, as relation doesn't matter any more
+				it instanceof AliasedTable ? it.alias : undefined,
+			))
+		})
 	}
 
 	protected getStepStatement(): string {

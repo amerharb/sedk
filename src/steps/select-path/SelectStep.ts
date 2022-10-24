@@ -49,6 +49,7 @@ export class SelectStep extends BaseStep {
 
 		let result = `SELECT`
 
+		// TODO: read the value of distinct form constructor not from this.data
 		if (this.data.distinct) {
 			result += ` ${this.data.distinct}`
 		}

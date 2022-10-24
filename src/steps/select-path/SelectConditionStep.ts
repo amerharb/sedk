@@ -1,6 +1,7 @@
+import { ConditionStep } from '../ConditionStep'
 import { BaseStep, Parenthesis } from '../BaseStep'
 import { BuilderData } from '../../builder'
-import { Condition, Expression, PrimitiveType } from '../../models'
+import { Condition, PrimitiveType } from '../../models'
 import { BooleanColumn, Column } from '../../database'
 import { OrderByArgsElement } from '../../orderBy'
 import { All } from '../../singletoneConstants'
@@ -16,30 +17,7 @@ import { returnStepOrThrow } from '../../util'
 import { ItemInfo } from '../../ItemInfo'
 import { ReturningItem } from '../../ReturningItemInfo'
 
-abstract class SelectConditionStep extends BaseStep {
-	protected constructor(
-		protected readonly conditionName: 'WHERE' | 'AND' | 'OR',
-		data: BuilderData,
-		prevStep: BaseStep,
-		protected readonly whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
-	) {
-		super(data, prevStep)
-	}
-
-	public getStepStatement(): string {
-		if (this.whereParts.length > 0) {
-			BaseStep.throwIfConditionPartsInvalid(this.whereParts)
-			const wherePartsString = this.whereParts.map(it => {
-				if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
-					return it.getStmt(this.data)
-				}
-				return it.toString()
-			})
-			return `${this.conditionName} ${wherePartsString.join(' ')}`
-		}
-		return ''
-	}
-
+abstract class SelectConditionStep extends ConditionStep {
 	public and(condition: Condition): SelectWhereAndStep
 	public and(left: Condition, operator: LogicalOperator, right: Condition): SelectWhereAndStep
 	public and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): SelectWhereAndStep

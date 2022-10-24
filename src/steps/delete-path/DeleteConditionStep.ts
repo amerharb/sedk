@@ -1,37 +1,15 @@
+import { ConditionStep } from '../ConditionStep'
 import { BooleanColumn } from '../../database'
 import { BaseStep, Parenthesis } from '../BaseStep'
 import { BuilderData } from '../../builder'
-import { Condition, Expression, PrimitiveType } from '../../models'
+import { Condition, PrimitiveType } from '../../models'
 import { LogicalOperator } from '../../operators'
 import { ReturningStep } from '../stepInterfaces'
 import { ReturningItem } from '../../ReturningItemInfo'
 import { returnStepOrThrow } from '../../util'
 import { ItemInfo } from '../../ItemInfo'
 
-abstract class DeleteConditionStep extends BaseStep {
-	protected constructor(
-		protected readonly conditionName: 'WHERE' | 'AND' | 'OR',
-		data: BuilderData,
-		prevStep: BaseStep,
-		protected readonly whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
-	) {
-		super(data, prevStep)
-	}
-
-	public getStepStatement(): string {
-		if (this.whereParts.length > 0) {
-			BaseStep.throwIfConditionPartsInvalid(this.whereParts)
-			const wherePartsString = this.whereParts.map(it => {
-				if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
-					return it.getStmt(this.data)
-				}
-				return it.toString()
-			})
-			return `${this.conditionName} ${wherePartsString.join(' ')}`
-		}
-		return ''
-	}
-
+abstract class DeleteConditionStep extends ConditionStep {
 	public and(condition: Condition): DeleteWhereStep
 	public and(left: Condition, operator: LogicalOperator, right: Condition): DeleteWhereAndStep
 	public and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): DeleteWhereAndStep

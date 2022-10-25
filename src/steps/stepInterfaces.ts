@@ -91,10 +91,6 @@ export interface IOffsetStep extends BaseStep {
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
 }
 
-export interface ValuesStep extends BaseStep {
-	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
-}
-
 export interface DefaultValuesStep extends BaseStep {
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
 }

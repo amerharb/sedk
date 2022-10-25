@@ -24,7 +24,6 @@ import {
 	OrderByStep,
 	RightJoinStep,
 	UpdateStep,
-	ValuesStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { FromItemRelation } from '../FromItemInfo'
@@ -33,6 +32,7 @@ import { DeleteStep } from './delete-path/DeleteStep'
 import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
 import { ItemInfo } from '../ItemInfo'
 import { InsertStep } from './insert-path/InsertStep'
+import { ValuesStep } from './insert-path/ValuesStep'
 import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
 import { SetStep } from './SetStep'
 import { TableAsterisk } from '../TableAsterisk'

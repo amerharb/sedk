@@ -1,8 +1,8 @@
-import { Table } from 'Non-Exported/database'
+import { Column, Table } from 'Non-Exported/database'
 import { BaseStep } from '../BaseStep'
 import { BuilderData } from '../../builder'
 import { PrimitiveType } from '../../models'
-import { DefaultValuesStep, ValuesStep } from '../stepInterfaces'
+import { DefaultValuesStep } from '../stepInterfaces'
 import { InsertColumnsAndExpressionsNotEqualError, InsertColumnsAndValuesNotEqualError } from '../../errors'
 import { Binder } from '../../binder'
 import { SelectStep } from '../select-path/SelectStep'
@@ -10,19 +10,25 @@ import { returnStepOrThrow } from '../../util'
 import { SelectItemInfo } from '../../SelectItemInfo'
 import { SelectItem } from '../Step'
 import { Default } from '../../singletoneConstants'
+import { ValuesStep } from './ValuesStep'
 
 export class IntoStep extends BaseStep {
 	constructor(
 		data: BuilderData,
 		prevStep: BaseStep,
 		private readonly table: Table,
+		private readonly columns: Column[] = [],
 	) {
 		super(data, prevStep)
 		this.throwIfTableNotInDb(table)
 	}
 
 	public getStepStatement(): string {
-		return `INTO ${this.table.getStmt(this.data)}`
+		let result =  `INTO ${this.table.getStmt(this.data)}`
+		if (this.columns.length > 0) {
+			result += `(${this.columns.map(it => it.getDoubleQuotedName()).join(', ')})`
+		}
+		return result
 	}
 
 	public values(...values: (PrimitiveType|Binder|Default)[]): ValuesStep {

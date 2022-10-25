@@ -1,6 +1,6 @@
 import {
 	ALL,
-	Builder,
+	builder,
 	DISTINCT,
 } from 'src'
 import { database } from 'test/database'
@@ -11,7 +11,7 @@ const col2 = database.s.public.t.table1.c.col2
 
 
 describe('test orderBy Step', () => {
-	const sql = new Builder(database)
+	const sql = builder(database)
 	afterEach(() => { sql.cleanUp() })
 
 	/* In Postgres it is allowed to have FROM directly

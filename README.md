@@ -39,7 +39,7 @@ const salary = Employee.c.salary
 const AND = sedk.LogicalOperator.AND
 
 // Start to build SQL & Binder
-const sql = new sedk.Builder(database)
+const sql = sedk.builder(database)
 
 const stmt1 = sql.select(name, salary).from(Employee).where(name.eq('John'), AND, salary.gt(1500)).getSQL()
 console.log(stmt1)

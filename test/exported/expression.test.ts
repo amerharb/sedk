@@ -1,4 +1,4 @@
-import { $, ArithmeticOperator, Builder, ComparisonOperator, NullOperator, TextOperator, e } from 'src'
+import { $, ArithmeticOperator, builder, ComparisonOperator, NullOperator, TextOperator, e } from 'src'
 import { database } from 'test/database'
 
 //Alias
@@ -13,7 +13,7 @@ const table = database.s.public.t.table1
 const col7 = database.s.public.t.table1.c.col7
 
 describe('Expression', () => {
-	const sql = new Builder(database)
+	const sql = builder(database)
 	afterEach(() => { sql.cleanUp() })
 	describe('Basic use', () => {
 		it(`Produces [SELECT TRUE;]`, () => {

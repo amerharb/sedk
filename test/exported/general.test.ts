@@ -1,7 +1,7 @@
 import {
 	ASTERISK,
 	ArithmeticOperator,
-	Builder,
+	builder,
 	LogicalOperator,
 } from 'src'
 import { database } from 'test/database'
@@ -26,7 +26,7 @@ const col7 = table1.c.col7
 const col8 = table1.c.col8
 
 describe(`test from one table`, () => {
-	const sql = new Builder(database)
+	const sql = builder(database)
 	afterEach(() => { sql.cleanUp() })
 
 	/** In Postgres it is ok to have FROM directly after SELECT */

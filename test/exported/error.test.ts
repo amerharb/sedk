@@ -4,7 +4,7 @@ import {
 	ASC,
 	ASTERISK,
 	ArithmeticOperator,
-	Builder,
+	builder,
 	ColumnNotFoundError,
 	ComparisonOperator,
 	DESC,
@@ -39,7 +39,7 @@ const col4 = table1.c.col4
 const table2 = database.s.public.t.table2
 
 describe('Throw desired Errors', () => {
-	const sql = new Builder(database)
+	const sql = builder(database)
 	afterEach(() => { sql.cleanUp() })
 
 	// TODO: This is not error anymore, move it to diffreant test file and change description
@@ -312,7 +312,7 @@ describe('Throw desired Errors', () => {
 	})
 
 	describe('Delete Path Errors', () => {
-		const deleteSql = new Builder(database, { throwErrorIfDeleteHasNoCondition: false })
+		const deleteSql = builder(database, { throwErrorIfDeleteHasNoCondition: false })
 		afterEach(() => { deleteSql.cleanUp() })
 		it(`Throws error "Aggregate function SUM cannot be used in RETURNING clause"`, () => {
 			function actual() {

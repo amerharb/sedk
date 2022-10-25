@@ -1,7 +1,7 @@
 import {
 	ASC,
 	ArithmeticOperator,
-	Builder,
+	builder,
 	DESC,
 	NULLS_FIRST,
 	NULLS_LAST,
@@ -18,7 +18,7 @@ const col4 = database.s.public.t.table1.c.col4
 const col5 = database.s.public.t.table1.c.col5
 
 describe('test orderBy Step', () => {
-	const sql = new Builder(database)
+	const sql = builder(database)
 	afterEach(() => { sql.cleanUp() })
 
 	it('Produces [SELECT * FROM "table1" ORDER BY "col1", "col2";]', () => {

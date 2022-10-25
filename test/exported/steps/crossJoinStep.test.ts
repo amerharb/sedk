@@ -1,4 +1,4 @@
-import { Builder } from 'src'
+import { builder } from 'src'
 import { database } from 'test/database'
 //Alias
 const table1 = database.s.public.t.table1
@@ -8,7 +8,7 @@ const table2 = database.s.public.t.table2
 const table3 = database.s.public.t.table3
 
 describe('Test CROSS JOIN Step', () => {
-	const sql = new Builder(database)
+	const sql = builder(database)
 	afterEach(() => { sql.cleanUp() })
 	describe('Diffreant steps after cross join', () => {
 		it(`Produces [SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" WHERE "table1"."col1" = 'a';]`, () => {

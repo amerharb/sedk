@@ -1,4 +1,4 @@
-import { Builder, DeleteWithoutConditionError, e } from 'src'
+import { builder, DeleteWithoutConditionError, e } from 'src'
 import { database } from 'test/database'
 
 //Alias
@@ -11,9 +11,9 @@ const table1 = database.s.schema1.t.table1
 
 describe('test Options', () => {
 	describe('test useSemicolonAtTheEnd Option', () => {
-		const sqlWithoutSemicolon = new Builder(database, { useSemicolonAtTheEnd: false })
-		const sqlWithSemicolon = new Builder(database, { useSemicolonAtTheEnd: true })
-		const sqlDefault = new Builder(database)
+		const sqlWithoutSemicolon = builder(database, { useSemicolonAtTheEnd: false })
+		const sqlWithSemicolon = builder(database, { useSemicolonAtTheEnd: true })
+		const sqlDefault = builder(database)
 		it('Produces [SELECT 1 FROM "table1"] without semicolon', () => {
 			const actual = sqlWithoutSemicolon
 				.select(1)
@@ -43,10 +43,10 @@ describe('test Options', () => {
 	})
 
 	describe('test addAscAfterOrderByItem Option', () => {
-		const sqlAlways = new Builder(database, { addAscAfterOrderByItem: 'always' })
-		const sqlNever = new Builder(database, { addAscAfterOrderByItem: 'never' })
-		const sqlWhenMentioned = new Builder(database, { addAscAfterOrderByItem: 'when mentioned' })
-		const sqlDefault = new Builder(database)
+		const sqlAlways = builder(database, { addAscAfterOrderByItem: 'always' })
+		const sqlNever = builder(database, { addAscAfterOrderByItem: 'never' })
+		const sqlWhenMentioned = builder(database, { addAscAfterOrderByItem: 'when mentioned' })
+		const sqlDefault = builder(database)
 		afterEach(() => {
 			sqlAlways.cleanUp()
 			sqlNever.cleanUp()
@@ -136,10 +136,10 @@ describe('test Options', () => {
 	})
 
 	describe('test addNullsLastAfterOrderByItem Option', () => {
-		const sqlAlways = new Builder(database, { addNullsLastAfterOrderByItem: 'always' })
-		const sqlNever = new Builder(database, { addNullsLastAfterOrderByItem: 'never' })
-		const sqlWhenMentioned = new Builder(database, { addNullsLastAfterOrderByItem: 'when mentioned' })
-		const sqlDefault = new Builder(database)
+		const sqlAlways = builder(database, { addNullsLastAfterOrderByItem: 'always' })
+		const sqlNever = builder(database, { addNullsLastAfterOrderByItem: 'never' })
+		const sqlWhenMentioned = builder(database, { addNullsLastAfterOrderByItem: 'when mentioned' })
+		const sqlDefault = builder(database)
 		afterEach(() => {
 			sqlAlways.cleanUp()
 			sqlNever.cleanUp()
@@ -229,9 +229,9 @@ describe('test Options', () => {
 	})
 
 	describe('test addAsBeforeColumnAlias Option', () => {
-		const sqlAlways = new Builder(database, { addAsBeforeColumnAlias: 'always' })
-		const sqlNever = new Builder(database, { addAsBeforeColumnAlias: 'never' })
-		const sqlDefault = new Builder(database)
+		const sqlAlways = builder(database, { addAsBeforeColumnAlias: 'always' })
+		const sqlNever = builder(database, { addAsBeforeColumnAlias: 'never' })
+		const sqlDefault = builder(database)
 
 		afterEach(() => {
 			sqlAlways.cleanUp()
@@ -279,7 +279,7 @@ describe('test Options', () => {
 
 	describe('test addPublicSchemaName Option', () => {
 		describe('Option: always', () => {
-			const sql = new Builder(database, { addPublicSchemaName: 'always' })
+			const sql = builder(database, { addPublicSchemaName: 'always' })
 			afterEach(() => { sql.cleanUp() })
 
 			it('Produces [SELECT "col1" FROM "public"."table1";]', () => {
@@ -293,7 +293,7 @@ describe('test Options', () => {
 		})
 
 		describe('Option: when other schema mentioned', () => {
-			const sql = new Builder(database, { addPublicSchemaName: 'when other schema mentioned' })
+			const sql = builder(database, { addPublicSchemaName: 'when other schema mentioned' })
 			afterEach(() => { sql.cleanUp() })
 
 			it('Produces [SELECT "public"."table1"."col2", "schema1"."table1"."col1" FROM "public"."table1", "schema1"."table1";', () => {
@@ -307,7 +307,7 @@ describe('test Options', () => {
 		})
 
 		describe('Option: never', () => {
-			const sql = new Builder(database, { addPublicSchemaName: 'never' })
+			const sql = builder(database, { addPublicSchemaName: 'never' })
 			afterEach(() => { sql.cleanUp() })
 
 			it('Produces [SELECT "public"."table2"."col1", "schema1"."table2"."col1" FROM "table2", "schema1"."table2";]', () => {
@@ -335,7 +335,7 @@ describe('test Options', () => {
 			})
 		})
 		describe('Option: default', () => {
-			const sql = new Builder(database)
+			const sql = builder(database)
 			afterEach(() => { sql.cleanUp() })
 
 			it('Produces [SELECT "public"."table2"."col1", "schema1"."table2"."col1" FROM "table2", "schema1"."table2";]', () => {
@@ -365,9 +365,9 @@ describe('test Options', () => {
 	})
 
 	describe('test addTableName Option', () => {
-		const sqlAlways = new Builder(database, { addTableName: 'always' })
-		const sqlWhen = new Builder(database, { addTableName: 'when two tables or more' })
-		const sqlDefault = new Builder(database)
+		const sqlAlways = builder(database, { addTableName: 'always' })
+		const sqlWhen = builder(database, { addTableName: 'when two tables or more' })
+		const sqlDefault = builder(database)
 
 		afterEach(() => {
 			sqlAlways.cleanUp()
@@ -423,7 +423,7 @@ describe('test Options', () => {
 
 	describe('test addAsBeforeTableAlias Option', () => {
 		describe('Option: always', () => {
-			const sqlAlways = new Builder(database, { addAsBeforeTableAlias: 'always' })
+			const sqlAlways = builder(database, { addAsBeforeTableAlias: 'always' })
 			afterEach(() => { sqlAlways.cleanUp() })
 			it('Produces [SELECT "table1"."col1" FROM "table1" AS "TEST Table";]', () => {
 				const actual = sqlAlways
@@ -436,7 +436,7 @@ describe('test Options', () => {
 		})
 
 		describe('Option: never', () => {
-			const sqlNever = new Builder(database, { addAsBeforeTableAlias: 'never' })
+			const sqlNever = builder(database, { addAsBeforeTableAlias: 'never' })
 			afterEach(() => { sqlNever.cleanUp() })
 			it('Produces [SELECT "table1"."col1" FROM "table1" "TEST Table";]', () => {
 				const actual = sqlNever
@@ -449,7 +449,7 @@ describe('test Options', () => {
 		})
 
 		describe('Option: default', () => {
-			const sqlDefault = new Builder(database)
+			const sqlDefault = builder(database)
 			afterEach(() => { sqlDefault.cleanUp() })
 			it('Produces [SELECT "table1"."col1" FROM "table1" AS "TEST Table";]', () => {
 				const actual = sqlDefault
@@ -464,7 +464,7 @@ describe('test Options', () => {
 
 	describe('test throwErrorIfDeleteHasNoCondition Option', () => {
 		describe('Option: false', () => {
-			const sqlFalse = new Builder(database, { throwErrorIfDeleteHasNoCondition: false })
+			const sqlFalse = builder(database, { throwErrorIfDeleteHasNoCondition: false })
 			afterEach(() => { sqlFalse.cleanUp() })
 			it('Produces [DELETE FROM "table1";]', () => {
 				const actual = sqlFalse.deleteFrom(publicTable1).getSQL()
@@ -481,7 +481,7 @@ describe('test Options', () => {
 		})
 
 		describe('Option: true', () => {
-			const sqlTrue = new Builder(database, { throwErrorIfDeleteHasNoCondition: true })
+			const sqlTrue = builder(database, { throwErrorIfDeleteHasNoCondition: true })
 			afterEach(() => { sqlTrue.cleanUp() })
 			it('Produces [DELETE FROM "table1";] Will throw error', () => {
 				function actual() {
@@ -504,7 +504,7 @@ describe('test Options', () => {
 		})
 
 		describe('Option: default', () => {
-			const sqlDefault = new Builder(database)
+			const sqlDefault = builder(database)
 			afterEach(() => { sqlDefault.cleanUp() })
 			it('Produces [DELETE FROM "table1";] Will throw error', () => {
 				function actual() {

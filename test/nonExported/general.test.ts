@@ -1,4 +1,4 @@
-import { Builder } from 'src'
+import { builder } from 'src'
 
 /** test non-exported Classes */
 import { ReturningItemInfo } from 'Non-Exported/ReturningItemInfo'
@@ -9,7 +9,7 @@ import { database } from 'test/database'
 const table1 = database.s.public.t.table1
 
 describe('Import non-exported Classes', () => {
-	const sql = new Builder(database, { throwErrorIfDeleteHasNoCondition: false })
+	const sql = builder(database, { throwErrorIfDeleteHasNoCondition: false })
 	afterEach(() => { sql.cleanUp() })
 	describe('Import: ReturningItemInfo', () => {
 		it(`Produces [DELETE FROM "table1" RETURNING "col1" AS "someAlias";]`, () => {

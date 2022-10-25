@@ -38,7 +38,7 @@ export type BuilderData = {
 	option: BuilderOptionRequired,
 	/** Below data used to generate SQL statement */
 	sqlPath?: SqlPath
-	selectItemInfos: SelectItemInfo[],
+	selectItemInfos: ItemInfo[],
 	fromItemInfos: FromItemInfo[],
 	groupByItems: Column[],
 	havingParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
@@ -52,33 +52,20 @@ export type BuilderData = {
 	binderStore: BinderStore,
 }
 
+/**
+ * @deprecated - use builder() function instead
+ */
 export class Builder {
 	private readonly data: BuilderData
 	private rootStep: RootStep
 
 	constructor(database: Database, option?: BuilderOption) {
-		this.data = {
-			database: database,
-			fromItemInfos: [],
-			sqlPath: undefined,
-			selectItemInfos: [],
-			groupByItems: [],
-			havingParts: [],
-			orderByItemInfos: [],
-			insertIntoTable: undefined,
-			insertIntoColumns: [],
-			insertIntoValues: [],
-			insertIntoDefaultValues: false,
-			updateTable: undefined,
-			updateSetItemInfos: [],
-			binderStore: new BinderStore(),
-			option: fillUndefinedOptionsWithDefault(option ?? {}),
-		}
+		this.data = getDataObj(database, option)
 		this.rootStep = new RootStep(this.data)
 	}
 
-	public select(distinct: Distinct|All, ...items: (ItemInfo|SelectItem|PrimitiveType)[]): SelectStep
-	public select(...items: (ItemInfo|SelectItem|PrimitiveType)[]): SelectStep
+	public select(distinct: Distinct|All, ...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
+	public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
 	public select(...items: (Distinct|All|ItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
 		if (items[0] instanceof Distinct) {
 			if (items.length <= 1) throw new Error('Select step must have at least one parameter after DISTINCT')
@@ -142,5 +129,29 @@ export class Builder {
 			if (it instanceof Distinct || it instanceof All)
 				throw new MoreThanOneDistinctOrAllError('You can not have more than one DISTINCT or ALL')
 		})
+	}
+}
+
+export function builder(database: Database, option?: BuilderOption): RootStep {
+	return new RootStep(getDataObj(database, option))
+}
+
+function getDataObj(database: Database, option?: BuilderOption): BuilderData {
+	return {
+		database: database,
+		fromItemInfos: [],
+		sqlPath: undefined,
+		selectItemInfos: [],
+		groupByItems: [],
+		havingParts: [],
+		orderByItemInfos: [],
+		insertIntoTable: undefined,
+		insertIntoColumns: [],
+		insertIntoValues: [],
+		insertIntoDefaultValues: false,
+		updateTable: undefined,
+		updateSetItemInfos: [],
+		binderStore: new BinderStore(),
+		option: fillUndefinedOptionsWithDefault(option ?? {}),
 	}
 }

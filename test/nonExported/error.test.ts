@@ -1,5 +1,5 @@
 import {
-	Builder,
+	builder,
 	InvalidConditionError,
 	NumberColumn,
 	e,
@@ -19,7 +19,7 @@ import { database } from 'test/database'
 const table1 = database.s.public.t.table1
 
 describe('Throw desired Errors', () => {
-	const sql = new Builder(database)
+	const sql = builder(database)
 	afterEach(() => { sql.cleanUp() })
 
 	describe('Error: InvalidConditionError', () => {

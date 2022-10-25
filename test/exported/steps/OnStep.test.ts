@@ -1,4 +1,4 @@
-import { Builder } from 'src'
+import { builder } from 'src'
 import { database } from 'test/database'
 /**
  * exceptional case where we import non-exported class in exported unit test
@@ -15,7 +15,7 @@ const table3 = database.s.public.t.table3
 const table3Col1 = table3.c.col1
 
 describe('test on step', () => {
-	const sql = new Builder(database)
+	const sql = builder(database)
 	let onStep: OnStep
 
 	beforeEach(() => {

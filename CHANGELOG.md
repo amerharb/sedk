@@ -2,6 +2,8 @@
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
 ## [0.15.0]  2022-10-08
+### Added
+- make builder() function return a new instance RootStep `const sql = sedk.builder()`
 ### Changed
 - Use eq() and eq$() for UPDATE instead of let() and let$().
 - Change style adopt all Caps for some static statement like eqDEFAULT instead of letDefault, 
@@ -9,6 +11,7 @@
 - Divided file database.ts into Table.ts, Schema.ts, and Database.ts.
 - refactor import, add index for both steps and model
 - only accept normal number exclude NaN, Infinity, -Infinity
+- deprecate class Builder and replace it with function builder()
 ### Breaking Changes
 - Delete getColumns() and getColumn() from Table class
 

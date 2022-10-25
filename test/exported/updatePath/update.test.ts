@@ -17,7 +17,7 @@ const col9 = table1.c.col9
 const col10 = table1.c.col10
 
 describe('UPDATE Path', () => {
-	const sql = new sedk.Builder(database)
+	const sql = sedk.builder(database)
 	afterEach(() => { sql.cleanUp() })
 	const EPOCH_2022_07_23 = Date.UTC(2022, 6, 23)
 	describe('Basic update all', () => {

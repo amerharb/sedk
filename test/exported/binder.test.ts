@@ -1,13 +1,13 @@
-import { $, Builder } from 'src'
+import { $, builder } from 'src'
 import { database } from 'test/database'
 
 //Alias
 const table1 = database.s.public.t.table1
 
 describe('Test binder with multi builders', () => {
-	const sql = new Builder(database)
-	const sql1 = new Builder(database)
-	const sql2 = new Builder(database)
+	const sql = builder(database)
+	const sql1 = builder(database)
+	const sql2 = builder(database)
 	afterEach(() => {
 		sql.cleanUp()
 		sql1.cleanUp()

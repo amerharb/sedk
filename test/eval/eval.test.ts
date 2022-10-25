@@ -24,7 +24,7 @@ const col8 = table1.c.col8
 const col9 = table1.c.col9
 
 describe('eval', () => {
-	const sql = new sedk.Builder(database)
+	const sql = sedk.builder(database)
 	afterEach(() => {
 		sql.cleanUp()
 	})

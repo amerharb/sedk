@@ -1,4 +1,4 @@
-import { Builder } from 'src'
+import { builder } from 'src'
 import { database } from 'test/database'
 //Alias
 const table1 = database.s.public.t.table1
@@ -8,7 +8,7 @@ const table2 = database.s.public.t.table2
 const table2Col1 = database.s.public.t.table2.c.col1
 
 describe('test leftJoin step', () => {
-	const sql = new Builder(database)
+	const sql = builder(database)
 	afterEach(() => { sql.cleanUp() })
 	describe('basic left join', () => {
 		it('Produces [SELECT * FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1";]', () => {

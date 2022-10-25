@@ -1,4 +1,4 @@
-import { builder, LogicalOperator, f } from 'src'
+import { LogicalOperator, builder, f } from 'src'
 import { database } from 'test/database'
 
 //Alias

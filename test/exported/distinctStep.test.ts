@@ -1,7 +1,7 @@
 import {
 	ALL,
-	builder,
 	DISTINCT,
+	builder,
 } from 'src'
 import { database } from 'test/database'
 //Alias

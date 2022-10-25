@@ -1,8 +1,8 @@
 import {
 	ASTERISK,
 	ArithmeticOperator,
-	builder,
 	LogicalOperator,
+	builder,
 } from 'src'
 import { database } from 'test/database'
 

@@ -1,4 +1,4 @@
-import { builder, DeleteWithoutConditionError, e } from 'src'
+import { DeleteWithoutConditionError, builder, e } from 'src'
 import { database } from 'test/database'
 
 //Alias

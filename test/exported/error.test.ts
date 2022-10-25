@@ -4,7 +4,6 @@ import {
 	ASC,
 	ASTERISK,
 	ArithmeticOperator,
-	builder,
 	ColumnNotFoundError,
 	ComparisonOperator,
 	DESC,
@@ -23,6 +22,7 @@ import {
 	Table,
 	TableNotFoundError,
 	TextColumn,
+	builder,
 	e,
 	f,
 } from 'src'

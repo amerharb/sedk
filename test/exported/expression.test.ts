@@ -1,4 +1,4 @@
-import { $, ArithmeticOperator, builder, ComparisonOperator, NullOperator, TextOperator, e } from 'src'
+import { $, ArithmeticOperator, ComparisonOperator, NullOperator, TextOperator, builder, e } from 'src'
 import { database } from 'test/database'
 
 //Alias

@@ -1,10 +1,10 @@
 import {
 	ASC,
 	ArithmeticOperator,
-	builder,
 	DESC,
 	NULLS_FIRST,
 	NULLS_LAST,
+	builder,
 	e,
 	o,
 } from 'src'

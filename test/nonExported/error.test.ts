@@ -1,7 +1,7 @@
 import {
-	builder,
 	InvalidConditionError,
 	NumberColumn,
+	builder,
 	e,
 } from 'src'
 

@@ -1,3 +1,4 @@
+import { Table } from 'Non-Exported/database'
 import { BaseStep } from '../BaseStep'
 import { BuilderData } from '../../builder'
 import { PrimitiveType } from '../../models'
@@ -12,14 +13,16 @@ import { Default } from '../../singletoneConstants'
 
 export class IntoStep extends BaseStep {
 	constructor(
-		protected readonly data: BuilderData,
-		protected readonly prevStep: BaseStep,
+		data: BuilderData,
+		prevStep: BaseStep,
+		private readonly table: Table,
 	) {
 		super(data, prevStep)
+		this.throwIfTableNotInDb(table)
 	}
 
 	public getStepStatement(): string {
-		throw new Error('Method not implemented.')
+		return `INTO ${this.table.getStmt(this.data)}`
 	}
 
 	public values(...values: (PrimitiveType|Binder|Default)[]): ValuesStep {

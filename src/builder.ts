@@ -43,10 +43,13 @@ export type BuilderData = {
 	groupByItems: Column[],
 	havingParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
 	orderByItemInfos: OrderByItemInfo[],
+
+	// TODO: delete insert data
 	insertIntoTable?: Table
 	insertIntoColumns: Column[],
 	insertIntoValues: (PrimitiveType|Binder|Default)[],
 	insertIntoDefaultValues: boolean,
+
 	updateTable?: Table,
 	updateSetItemInfos: UpdateSetItemInfo[],
 	binderStore: BinderStore,

@@ -5,20 +5,20 @@ import { IntoStep } from './IntoStep'
 
 export class InsertStep extends BaseStep {
 	constructor(
-		protected readonly data: BuilderData,
-		protected readonly prevStep: BaseStep,
+		data: BuilderData,
+		prevStep: BaseStep,
 	) {
 		super(data, prevStep)
 	}
 
 	public getStepStatement(): string {
-		throw new Error('Method not implemented.')
+		return 'INSERT'
 	}
 
 	public into(table: Table, ...columns:Column[]): IntoStep {
 		this.throwIfTableNotInDb(table)
 		this.data.insertIntoTable = table
 		this.data.insertIntoColumns.push(...columns)
-		return new IntoStep(this.data, this)
+		return new IntoStep(this.data, this, table)
 	}
 }

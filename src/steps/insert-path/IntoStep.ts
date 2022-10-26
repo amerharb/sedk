@@ -6,7 +6,6 @@ import { DefaultValuesStep } from './DefaultValuesStep'
 import { InsertColumnsAndExpressionsNotEqualError, InsertColumnsAndValuesNotEqualError } from '../../errors'
 import { Binder } from '../../binder'
 import { SelectStep } from '../select-path/SelectStep'
-import { returnStepOrThrow } from '../../util'
 import { SelectItemInfo } from '../../SelectItemInfo'
 import { SelectItem } from '../Step'
 import { Default } from '../../singletoneConstants'
@@ -47,7 +46,7 @@ export class IntoStep extends BaseStep {
 
 	public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
 		this.throwForInvalidExpressionsNumber(items)
-		return returnStepOrThrow(this.data.step).select(...items)
+		return new SelectStep(this.data, this, items)
 	}
 
 	private throwForInvalidValuesNumber(values: (PrimitiveType|Binder|Default)[]) {

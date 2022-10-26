@@ -62,7 +62,7 @@ abstract class SelectConditionStep extends ConditionStep {
 
 	//TODO: check if we should have returning as this is path of select
 	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return returnStepOrThrow(this.data.step).returning(...items)
+		return new ReturningStep(this.data, this, items)
 	}
 }
 

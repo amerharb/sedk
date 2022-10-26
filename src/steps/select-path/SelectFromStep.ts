@@ -97,7 +97,7 @@ export class SelectFromStep extends BaseStep implements IAfterFromSteps {
 
 	// TODO: check if we can limit this to only update, insert and delete
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		throw new Error('Method not implemented.')
+		return new ReturningStep(this.data, this, items)
 	}
 
 	rightJoin(table: Table): RightJoinStep {

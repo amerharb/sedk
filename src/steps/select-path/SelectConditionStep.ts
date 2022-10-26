@@ -60,6 +60,7 @@ abstract class SelectConditionStep extends ConditionStep {
 		return new OffsetStep(this.data, this, n, true)
 	}
 
+	//TODO: check if we should have returning as this is path of select
 	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
 		return returnStepOrThrow(this.data.step).returning(...items)
 	}

@@ -8,17 +8,17 @@ const col1 = table1.c.col1
 
 describe('SelectStep', () => {
 	const rootStep = new RootStep(builderData)
-	it('Select return: [SELECT 1]', () => {
+	it('returns: [SELECT 1]', () => {
 		const actual = new SelectStep(builderData, rootStep, [1]).getStepStatement()
 		expect(actual).toEqual('SELECT 1')
 	})
 
-	it(`Select return: [SELECT 'A']`, () => {
+	it(`returns: [SELECT 'A']`, () => {
 		const actual = new SelectStep(builderData, rootStep, ['A']).getStepStatement()
 		expect(actual).toEqual(`SELECT 'A'`)
 	})
 
-	it(`Select return: [SELECT "col1"]`, () => {
+	it(`returns: [SELECT "col1"]`, () => {
 		const actual = new SelectStep(builderData, rootStep, [col1]).getStepStatement()
 		expect(actual).toEqual(`SELECT "col1"`)
 	})

@@ -10,7 +10,7 @@ import { BuilderData } from '../builder'
 import { AliasedTable, Column, Table } from '../database'
 import { PrimitiveType } from '../models'
 import { BaseStep } from './BaseStep'
-import { FromItems, SelectItem, Step } from './Step'
+import { FromItems, SelectItem } from './Step'
 import { UpdateStep } from './update-path/UpdateStep'
 
 export class RootStep extends BaseStep {
@@ -58,8 +58,6 @@ export class RootStep extends BaseStep {
 	}
 
 	update(table: Table): UpdateStep {
-		// TODO: code for the new way
-		return new Step(this.data, this).update(table)
+		return new UpdateStep(this.data, this, table)
 	}
 }
-

@@ -4,9 +4,6 @@ import { LogicalOperator } from '../operators'
 import { DeleteWithoutConditionError, TableNotFoundError } from '../errors'
 import { AliasedTable, BooleanColumn, Table } from '../database'
 import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
-import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString } from '../util'
-import { Binder } from '../binder'
-import { Default } from '../singletoneConstants'
 
 export enum Parenthesis {
 	Open = '(',
@@ -121,46 +118,47 @@ export abstract class BaseStep {
 	}
 
 	private getInsertStatement(): string {
-		let result = 'INSERT'
-		if (this.data.insertIntoTable !== undefined) {
-			result += ` INTO ${this.data.insertIntoTable.getStmt(this.data)}`
-			if (this.data.insertIntoColumns.length > 0) {
-				result += `(${this.data.insertIntoColumns.map(it => it.getDoubleQuotedName()).join(', ')})`
-			}
-			if (this.data.insertIntoValues.length > 0) {
-				const valueStringArray = this.data.insertIntoValues.map(it => {
-					if (it === null) {
-						return getStmtNull()
-					} else if (typeof it === 'boolean') {
-						return getStmtBoolean(it)
-					} else if (isNumber(it)) {
-						return it.toString()
-					} else if (typeof it === 'string') {
-						return getStmtString(it)
-					} else if (it instanceof Date) {
-						return getStmtDate(it)
-					} else if (it instanceof Binder) {
-						if (it.no === undefined) {
-							this.data.binderStore.add(it)
-						}
-						return it.getStmt()
-					} else if (it instanceof Default) {
-						return it.getStmt()
-					} else {
-						throw new Error(`Value step has Unsupported value: ${it}, type: ${typeof it}`)
-					}
-				})
-				result += ` VALUES(${valueStringArray.join(', ')})`
-			} else if (this.data.insertIntoDefaultValues) {
-				result += ' DEFAULT VALUES'
-			} else if (this.data.selectItemInfos.length > 0) {
-				result += ` ${this.getSelectStatement()}`
-			} else {
-				throw new Error('Insert statement must have values or select items')
-			}
-		}
+		// let result = 'INSERT'
+		// if (this.data.insertIntoTable !== undefined) {
+		// 	result += ` INTO ${this.data.insertIntoTable.getStmt(this.data)}`
+		// 	if (this.data.insertIntoColumns.length > 0) {
+		// 		result += `(${this.data.insertIntoColumns.map(it => it.getDoubleQuotedName()).join(', ')})`
+		// 	}
+		// 	if (this.data.insertIntoValues.length > 0) {
+		// 		const valueStringArray = this.data.insertIntoValues.map(it => {
+		// 			if (it === null) {
+		// 				return getStmtNull()
+		// 			} else if (typeof it === 'boolean') {
+		// 				return getStmtBoolean(it)
+		// 			} else if (isNumber(it)) {
+		// 				return it.toString()
+		// 			} else if (typeof it === 'string') {
+		// 				return getStmtString(it)
+		// 			} else if (it instanceof Date) {
+		// 				return getStmtDate(it)
+		// 			} else if (it instanceof Binder) {
+		// 				if (it.no === undefined) {
+		// 					this.data.binderStore.add(it)
+		// 				}
+		// 				return it.getStmt()
+		// 			} else if (it instanceof Default) {
+		// 				return it.getStmt()
+		// 			} else {
+		// 				throw new Error(`Value step has Unsupported value: ${it}, type: ${typeof it}`)
+		// 			}
+		// 		})
+		// 		result += ` VALUES(${valueStringArray.join(', ')})`
+		// 	} else if (this.data.insertIntoDefaultValues) {
+		// 		result += ' DEFAULT VALUES'
+		// 	} else if (this.data.selectItemInfos.length > 0) {
+		// 		result += ` ${this.getSelectStatement()}`
+		// 	} else {
+		// 		throw new Error('Insert statement must have values or select items')
+		// 	}
+		// }
 
-		return result
+		// return result
+		throw new Error('To be deleted')
 	}
 
 	private getUpdateStatement(): string {
@@ -202,9 +200,6 @@ export abstract class BaseStep {
 		this.data.groupByItems.length = 0
 		this.data.havingParts.length = 0
 		this.data.orderByItemInfos.length = 0
-		this.data.insertIntoTable = undefined
-		this.data.insertIntoColumns.length = 0
-		this.data.insertIntoValues.length = 0
 		this.data.insertIntoDefaultValues = false
 		this.data.updateTable = undefined
 		this.data.updateSetItemInfos.length = 0

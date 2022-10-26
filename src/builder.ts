@@ -1,7 +1,7 @@
 import { AliasedTable, BooleanColumn, Column, Database, Table } from './database'
 import { Condition, PrimitiveType } from './models'
-import { Binder, BinderStore } from './binder'
-import { ASTERISK, All, Default, Distinct } from './singletoneConstants'
+import { BinderStore } from './binder'
+import { ASTERISK, All, Distinct } from './singletoneConstants'
 import {
 	DeleteFromStep,
 	DeleteStep,
@@ -45,9 +45,6 @@ export type BuilderData = {
 	orderByItemInfos: OrderByItemInfo[],
 
 	// TODO: delete insert data
-	insertIntoTable?: Table
-	insertIntoColumns: Column[],
-	insertIntoValues: (PrimitiveType|Binder|Default)[],
 	insertIntoDefaultValues: boolean,
 
 	updateTable?: Table,
@@ -148,9 +145,6 @@ function getDataObj(database: Database, option?: BuilderOption): BuilderData {
 		groupByItems: [],
 		havingParts: [],
 		orderByItemInfos: [],
-		insertIntoTable: undefined,
-		insertIntoColumns: [],
-		insertIntoValues: [],
 		insertIntoDefaultValues: false,
 		updateTable: undefined,
 		updateSetItemInfos: [],

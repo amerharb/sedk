@@ -33,15 +33,11 @@ export class IntoStep extends BaseStep {
 
 	public values(...values: (PrimitiveType|Binder|Default)[]): ValuesStep {
 		this.throwForInvalidValuesNumber(values)
-		this.data.insertIntoValues.push(...values)
-		// return returnStepOrThrow(this.data.step)
 		return new ValuesStep(this.data, this, values)
 	}
 
 	public values$(...values: PrimitiveType[]): ValuesStep {
 		this.throwForInvalidValuesNumber(values)
-		this.data.insertIntoValues.push(...values.map(it => new Binder(it)))
-		// return returnStepOrThrow(this.data.step)
 		return new ValuesStep(this.data, this, values.map(it => new Binder(it)))
 	}
 
@@ -56,14 +52,14 @@ export class IntoStep extends BaseStep {
 	}
 
 	private throwForInvalidValuesNumber(values: (PrimitiveType|Binder|Default)[]) {
-		const columnsCount = this.data.insertIntoColumns.length
+		const columnsCount = this.columns.length
 		if (columnsCount > 0 && columnsCount !== values.length) {
 			throw new InsertColumnsAndValuesNotEqualError(columnsCount, values.length)
 		}
 	}
 
 	private throwForInvalidExpressionsNumber(items: (SelectItemInfo|SelectItem|PrimitiveType)[]) {
-		const columnsCount = this.data.insertIntoColumns.length
+		const columnsCount = this.columns.length
 		if (columnsCount > 0 && columnsCount !== items.length) {
 			throw new InsertColumnsAndExpressionsNotEqualError(columnsCount, items.length)
 		}

@@ -2,7 +2,7 @@ import { Column, Table } from '../../database'
 import { BaseStep } from '../BaseStep'
 import { BuilderData } from '../../builder'
 import { PrimitiveType } from '../../models'
-import { DefaultValuesStep } from '../stepInterfaces'
+import { DefaultValuesStep } from './DefaultValueStep'
 import { InsertColumnsAndExpressionsNotEqualError, InsertColumnsAndValuesNotEqualError } from '../../errors'
 import { Binder } from '../../binder'
 import { SelectStep } from '../select-path/SelectStep'
@@ -42,8 +42,7 @@ export class IntoStep extends BaseStep {
 	}
 
 	public defaultValues(): DefaultValuesStep {
-		this.data.insertIntoDefaultValues = true
-		return returnStepOrThrow(this.data.step)
+		return new DefaultValuesStep(this.data, this)
 	}
 
 	public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {

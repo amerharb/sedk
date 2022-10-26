@@ -15,7 +15,6 @@ import { SelectWhereStep } from './select-path/SelectConditionStep'
 import { HavingStep } from './HavingStep'
 import {
 	CrossJoinStep,
-	DefaultValuesStep,
 	FullOuterJoinStep,
 	GroupByStep,
 	InnerJoinStep,
@@ -34,6 +33,7 @@ import { InsertStep } from './insert-path/InsertStep'
 import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
 import { SetStep } from './update-path/SetStep'
 import { UpdateStep } from './update-path/UpdateStep'
+import { DefaultValuesStep } from './insert-path/DefaultValueStep'
 import { TableAsterisk } from '../TableAsterisk'
 import { SelectStep } from './select-path/SelectStep'
 import { SelectFromStep } from './select-path/SelectFromStep'

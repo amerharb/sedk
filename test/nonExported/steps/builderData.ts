@@ -20,5 +20,4 @@ export const builderData: BuilderData = {
 	},
 	orderByItemInfos: [],
 	selectItemInfos: [],
-	insertIntoDefaultValues: false,
 }

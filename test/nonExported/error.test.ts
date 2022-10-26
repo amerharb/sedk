@@ -55,7 +55,6 @@ describe('Throw desired Errors', () => {
 			},
 			orderByItemInfos: [],
 			selectItemInfos: [],
-			insertIntoDefaultValues: false,
 		}
 		it(`Throws error when Step is not initialized`, () => {
 			function actual() {

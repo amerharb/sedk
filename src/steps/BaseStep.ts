@@ -201,7 +201,6 @@ export abstract class BaseStep {
 		this.data.groupByItems.length = 0
 		this.data.havingParts.length = 0
 		this.data.orderByItemInfos.length = 0
-		this.data.insertIntoDefaultValues = false
 		this.data.binderStore.cleanUp()
 	}
 

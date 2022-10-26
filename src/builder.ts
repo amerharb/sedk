@@ -42,10 +42,6 @@ export type BuilderData = {
 	groupByItems: Column[],
 	havingParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
 	orderByItemInfos: OrderByItemInfo[],
-
-	// TODO: delete insert data
-	insertIntoDefaultValues: boolean,
-
 	binderStore: BinderStore,
 }
 
@@ -142,7 +138,6 @@ function getDataObj(database: Database, option?: BuilderOption): BuilderData {
 		groupByItems: [],
 		havingParts: [],
 		orderByItemInfos: [],
-		insertIntoDefaultValues: false,
 		binderStore: new BinderStore(),
 		option: fillUndefinedOptionsWithDefault(option ?? {}),
 	}

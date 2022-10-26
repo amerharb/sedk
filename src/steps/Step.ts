@@ -72,7 +72,7 @@ export class Step extends BaseStep
 
 	public update(table: Table): UpdateStep {
 		this.data.sqlPath = SqlPath.UPDATE
-		this.data.updateTable = table
+		// this.data.updateTable = table
 		// return this
 		throw new Error('to be deleted')
 	}
@@ -226,7 +226,7 @@ export class Step extends BaseStep
 	}
 
 	set(...items: UpdateSetItemInfo[]): SetStep {
-		this.data.updateSetItemInfos.push(...items)
+		// this.data.updateSetItemInfos.push(...items)
 		// return new SetStep(this.data, this)
 		throw new Error('to be deleted')
 	}

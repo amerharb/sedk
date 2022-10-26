@@ -23,7 +23,6 @@ import { BuilderOption, BuilderOptionRequired, fillUndefinedOptionsWithDefault }
 import { MoreThanOneDistinctOrAllError } from './errors'
 import { FromItemInfo } from './FromItemInfo'
 import { ItemInfo } from './ItemInfo'
-import { UpdateSetItemInfo } from './UpdateSetItemInfo'
 
 export enum SqlPath {
 	SELECT = 'SELECT',
@@ -47,8 +46,6 @@ export type BuilderData = {
 	// TODO: delete insert data
 	insertIntoDefaultValues: boolean,
 
-	updateTable?: Table,
-	updateSetItemInfos: UpdateSetItemInfo[],
 	binderStore: BinderStore,
 }
 
@@ -146,8 +143,6 @@ function getDataObj(database: Database, option?: BuilderOption): BuilderData {
 		havingParts: [],
 		orderByItemInfos: [],
 		insertIntoDefaultValues: false,
-		updateTable: undefined,
-		updateSetItemInfos: [],
 		binderStore: new BinderStore(),
 		option: fillUndefinedOptionsWithDefault(option ?? {}),
 	}

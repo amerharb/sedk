@@ -1,5 +1,5 @@
 import { BuilderData, SqlPath } from '../builder'
-import { Condition, Expression, PrimitiveType, isNumber } from '../models'
+import { Condition, Expression, PrimitiveType } from '../models'
 import { LogicalOperator } from '../operators'
 import { DeleteWithoutConditionError, TableNotFoundError } from '../errors'
 import { AliasedTable, BooleanColumn, Table } from '../database'
@@ -162,15 +162,16 @@ export abstract class BaseStep {
 	}
 
 	private getUpdateStatement(): string {
-		let result = 'UPDATE'
-		if (this.data.updateTable !== undefined) {
-			result += ` ${this.data.updateTable.getStmt(this.data)}`
-			if (this.data.updateSetItemInfos.length > 0) {
-				result += ` SET ${this.data.updateSetItemInfos.map(it => it.getStmt(this.data)).join(', ')}`
-			}
-			result += this.getWhereParts()
-		}
-		return result
+		throw new Error('To be deleted')
+		// let result = 'UPDATE'
+		// if (this.data.updateTable !== undefined) {
+		// 	result += ` ${this.data.updateTable.getStmt(this.data)}`
+		// 	if (this.data.updateSetItemInfos.length > 0) {
+		// 		result += ` SET ${this.data.updateSetItemInfos.map(it => it.getStmt(this.data)).join(', ')}`
+		// 	}
+		// 	result += this.getWhereParts()
+		// }
+		// return result
 	}
 
 	private getWhereParts(): string {
@@ -201,8 +202,6 @@ export abstract class BaseStep {
 		this.data.havingParts.length = 0
 		this.data.orderByItemInfos.length = 0
 		this.data.insertIntoDefaultValues = false
-		this.data.updateTable = undefined
-		this.data.updateSetItemInfos.length = 0
 		this.data.binderStore.cleanUp()
 	}
 

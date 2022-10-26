@@ -21,6 +21,4 @@ export const builderData: BuilderData = {
 	orderByItemInfos: [],
 	selectItemInfos: [],
 	insertIntoDefaultValues: false,
-	updateTable: undefined,
-	updateSetItemInfos: [],
 }

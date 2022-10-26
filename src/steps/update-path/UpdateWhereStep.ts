@@ -1,11 +1,11 @@
-import { BaseStep } from './BaseStep'
-import { BuilderData } from '../builder'
-import { Condition, PrimitiveType } from '../models'
-import { LogicalOperator } from '../operators'
-import { ReturningStep } from './ReturningStep'
-import { ReturningItem } from '../ReturningItemInfo'
-import { returnStepOrThrow } from '../util'
-import { ItemInfo } from '../ItemInfo'
+import { BaseStep } from '../BaseStep'
+import { BuilderData } from '../../builder'
+import { Condition, PrimitiveType } from '../../models'
+import { LogicalOperator } from '../../operators'
+import { ReturningStep } from '../ReturningStep'
+import { ReturningItem } from '../../ReturningItemInfo'
+import { returnStepOrThrow } from '../../util'
+import { ItemInfo } from '../../ItemInfo'
 
 export interface UpdateWhereOrStep extends UpdateWhereStep {}
 
@@ -13,8 +13,8 @@ export interface UpdateWhereAndStep extends UpdateWhereStep {}
 
 export class UpdateWhereStep extends BaseStep {
 	constructor(
-		protected readonly data: BuilderData,
-		protected readonly prevStep: BaseStep,
+		data: BuilderData,
+		prevStep: BaseStep,
 	) {
 		super(data, prevStep)
 	}

@@ -1,23 +1,24 @@
-import { BaseStep } from './BaseStep'
-import { Condition, PrimitiveType } from '../models'
+import { UpdateSetItemInfo } from '../../UpdateSetItemInfo'
+import { BaseStep } from '../BaseStep'
+import { Condition, PrimitiveType } from '../../models'
 import { UpdateWhereStep } from './UpdateWhereStep'
-import { LogicalOperator } from '../operators'
-import { ItemInfo } from '../ItemInfo'
-import { ReturningItem } from '../ReturningItemInfo'
-import { ReturningStep } from './ReturningStep'
-import { returnStepOrThrow } from '../util'
-import { BuilderData } from '../builder'
+import { LogicalOperator } from '../../operators'
+import { ItemInfo } from '../../ItemInfo'
+import { ReturningItem } from '../../ReturningItemInfo'
+import { ReturningStep } from '../ReturningStep'
+import { BuilderData } from '../../builder'
 
 export class SetStep extends BaseStep {
 	constructor(
-		protected readonly data: BuilderData,
-		protected readonly prevStep: BaseStep,
+		data: BuilderData,
+		prevStep: BaseStep,
+		private readonly items: UpdateSetItemInfo[],
 	) {
 		super(data, prevStep)
 	}
 
 	public getStepStatement(): string {
-		throw new Error('Method not implemented.')
+		return `SET ${this.items.map(it => it.getStmt(this.data)).join(', ')}`
 	}
 
 	public where(condition: Condition): UpdateWhereStep
@@ -29,6 +30,6 @@ export class SetStep extends BaseStep {
 	}
 
 	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return returnStepOrThrow(this.data.step).returning(...items)
+		return new ReturningStep(this.data, this, items)
 	}
 }

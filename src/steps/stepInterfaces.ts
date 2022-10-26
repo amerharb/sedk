@@ -12,8 +12,6 @@ import { HavingStep } from './HavingStep'
 import { LogicalOperator } from '../operators'
 import { ItemInfo } from '../ItemInfo'
 import { ReturningItem } from '../ReturningItemInfo'
-import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
-import { SetStep } from './SetStep'
 
 export interface IAfterFromSteps extends BaseStep, OrderByStep {
 	crossJoin(table: Table): CrossJoinStep
@@ -93,8 +91,4 @@ export interface IOffsetStep extends BaseStep {
 
 export interface DefaultValuesStep extends BaseStep {
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
-}
-
-export interface UpdateStep extends BaseStep {
-	set(...items: UpdateSetItemInfo[]): SetStep
 }

@@ -11,7 +11,7 @@ import { AliasedTable, Column, Table } from '../database'
 import { PrimitiveType } from '../models'
 import { BaseStep } from './BaseStep'
 import { FromItems, SelectItem, Step } from './Step'
-import { UpdateStep } from './stepInterfaces'
+import { UpdateStep } from './update-path/UpdateStep'
 
 export class RootStep extends BaseStep {
 	constructor(data: BuilderData) {

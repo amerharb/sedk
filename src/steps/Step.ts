@@ -23,7 +23,6 @@ import {
 	LeftJoinStep,
 	OrderByStep,
 	RightJoinStep,
-	UpdateStep,
 } from './stepInterfaces'
 import { LogicalOperator } from '../operators'
 import { FromItemRelation } from '../FromItemInfo'
@@ -33,7 +32,8 @@ import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
 import { ItemInfo } from '../ItemInfo'
 import { InsertStep } from './insert-path/InsertStep'
 import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
-import { SetStep } from './SetStep'
+import { SetStep } from './update-path/SetStep'
+import { UpdateStep } from './update-path/UpdateStep'
 import { TableAsterisk } from '../TableAsterisk'
 import { SelectStep } from './select-path/SelectStep'
 import { SelectFromStep } from './select-path/SelectFromStep'
@@ -46,7 +46,7 @@ export type FromItems = [FromItem, ...FromItem[]]
 
 export class Step extends BaseStep
 	implements CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
-		FullOuterJoinStep, GroupByStep, OrderByStep, DefaultValuesStep, UpdateStep {
+		FullOuterJoinStep, GroupByStep, OrderByStep, DefaultValuesStep {
 	constructor(protected data: BuilderData, protected prevStep: BaseStep) {
 		super(data, prevStep)
 		data.step = this
@@ -73,7 +73,8 @@ export class Step extends BaseStep
 	public update(table: Table): UpdateStep {
 		this.data.sqlPath = SqlPath.UPDATE
 		this.data.updateTable = table
-		return this
+		// return this
+		throw new Error('to be deleted')
 	}
 
 	public from(...tables: FromItems): SelectFromStep {
@@ -226,6 +227,7 @@ export class Step extends BaseStep
 
 	set(...items: UpdateSetItemInfo[]): SetStep {
 		this.data.updateSetItemInfos.push(...items)
-		return new SetStep(this.data, this)
+		// return new SetStep(this.data, this)
+		throw new Error('to be deleted')
 	}
 }

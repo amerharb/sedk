@@ -19,6 +19,6 @@ export class InsertStep extends BaseStep {
 		this.throwIfTableNotInDb(table)
 		this.data.insertIntoTable = table
 		this.data.insertIntoColumns.push(...columns)
-		return new IntoStep(this.data, this, table)
+		return new IntoStep(this.data, this, table, columns)
 	}
 }

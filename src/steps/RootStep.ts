@@ -50,13 +50,11 @@ export class RootStep extends BaseStep {
 	}
 
 	insert(): InsertStep {
-		// TODO: code for the new way
-		return new Step(this.data, this).insert()
+		return new InsertStep(this.data, this)
 	}
 
 	insertInto(table: Table, ...columns: Column[]): IntoStep {
-		// TODO: code for the new way
-		return new Step(this.data, this).insert().into(table, ...columns)
+		return new InsertStep(this.data, this).into(table, ...columns)
 	}
 
 	update(table: Table): UpdateStep {

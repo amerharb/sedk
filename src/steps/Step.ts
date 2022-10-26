@@ -32,7 +32,6 @@ import { DeleteStep } from './delete-path/DeleteStep'
 import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
 import { ItemInfo } from '../ItemInfo'
 import { InsertStep } from './insert-path/InsertStep'
-import { ValuesStep } from './insert-path/ValuesStep'
 import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
 import { SetStep } from './SetStep'
 import { TableAsterisk } from '../TableAsterisk'
@@ -47,7 +46,7 @@ export type FromItems = [FromItem, ...FromItem[]]
 
 export class Step extends BaseStep
 	implements CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
-		FullOuterJoinStep, GroupByStep, OrderByStep, ValuesStep, DefaultValuesStep, UpdateStep {
+		FullOuterJoinStep, GroupByStep, OrderByStep, DefaultValuesStep, UpdateStep {
 	constructor(protected data: BuilderData, protected prevStep: BaseStep) {
 		super(data, prevStep)
 		data.step = this

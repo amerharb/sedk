@@ -1,4 +1,4 @@
-import { Column, Table } from 'Non-Exported/database'
+import { Column, Table } from '../../database'
 import { BaseStep } from '../BaseStep'
 import { BuilderData } from '../../builder'
 import { PrimitiveType } from '../../models'
@@ -34,13 +34,15 @@ export class IntoStep extends BaseStep {
 	public values(...values: (PrimitiveType|Binder|Default)[]): ValuesStep {
 		this.throwForInvalidValuesNumber(values)
 		this.data.insertIntoValues.push(...values)
-		return returnStepOrThrow(this.data.step)
+		// return returnStepOrThrow(this.data.step)
+		return new ValuesStep(this.data, this, values)
 	}
 
 	public values$(...values: PrimitiveType[]): ValuesStep {
 		this.throwForInvalidValuesNumber(values)
 		this.data.insertIntoValues.push(...values.map(it => new Binder(it)))
-		return returnStepOrThrow(this.data.step)
+		// return returnStepOrThrow(this.data.step)
+		return new ValuesStep(this.data, this, values.map(it => new Binder(it)))
 	}
 
 	public defaultValues(): DefaultValuesStep {

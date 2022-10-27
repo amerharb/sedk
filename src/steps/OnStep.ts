@@ -31,14 +31,15 @@ import { LimitStep } from './select-path/LimitStep'
 
 export class OnStep extends BaseStep implements IAfterFromSteps {
 	constructor(
-		protected readonly data: BuilderData,
-		protected readonly prevStep: BaseStep,
+		data: BuilderData,
+		prevStep: BaseStep,
+		private readonly condition: Condition
 	) {
 		super(data, prevStep)
 	}
 
 	public getStepStatement(): string {
-		throw new Error('Method not implemented.')
+		return `ON ${this.condition.getStmt(this.data)}`
 	}
 
 	public or(condition: Condition): OnOrStep {

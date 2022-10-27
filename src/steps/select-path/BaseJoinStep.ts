@@ -15,8 +15,7 @@ abstract class BaseJoinStep extends BaseStep {
 	}
 
 	public on(condition: Condition): OnStep {
-		// TODO: write new way
-		return new OnStep(this.data, this)
+		return new OnStep(this.data, this, condition)
 	}
 
 	getStepStatement(): string {

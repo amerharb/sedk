@@ -119,7 +119,7 @@ export class Step extends BaseStep
 
 	public on(condition: Condition): OnStep {
 		this.data.fromItemInfos[this.data.fromItemInfos.length - 1].addFirstCondition(condition)
-		return new OnStep(this.data, this)
+		return new OnStep(this.data, this, condition)
 	}
 
 	public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): SelectWhereStep {

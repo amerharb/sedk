@@ -58,7 +58,7 @@ describe('Throw desired Errors', () => {
 		}
 		it(`Throws error when Step is not initialized`, () => {
 			function actual() {
-				new OnStep(data, new RootStep(data)).crossJoin(table1)
+				new OnStep(data, new RootStep(data), table1.c.col1.eq('a')).crossJoin(table1)
 			}
 
 			expect(actual).toThrow(`Step property in builder data is not initialized`)

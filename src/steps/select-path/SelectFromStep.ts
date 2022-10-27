@@ -57,23 +57,27 @@ export class SelectFromStep extends BaseStep implements IAfterFromSteps {
 		throw new Error('Method not implemented.')
 	}
 
-	fullOuterJoin(table: Table): FullOuterJoinStep {
-		throw new Error('Method not implemented.')
+	leftJoin(table: Table): LeftJoinStep {
+		return new LeftJoinStep(this.data, this, table)
 	}
 
-	groupBy(...groupByItems: Column[]): GroupByStep {
-		throw new Error('Method not implemented.')
+	rightJoin(table: Table): RightJoinStep {
+		return new RightJoinStep(this.data, this, table)
+	}
+
+	fullOuterJoin(table: Table): FullOuterJoinStep {
+		return new FullOuterJoinStep(this.data, this, table)
 	}
 
 	innerJoin(table: Table): InnerJoinStep {
-		throw new Error('Method not implemented.')
+		return new InnerJoinStep(this.data, this, table)
 	}
 
 	join(table: Table): JoinStep {
-		throw new Error('Method not implemented.')
+		return new JoinStep(this.data, this, table)
 	}
 
-	leftJoin(table: Table): LeftJoinStep {
+	groupBy(...groupByItems: Column[]): GroupByStep {
 		throw new Error('Method not implemented.')
 	}
 
@@ -100,10 +104,6 @@ export class SelectFromStep extends BaseStep implements IAfterFromSteps {
 	// TODO: check if we can limit this to only update, insert and delete
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
 		return new ReturningStep(this.data, this, items)
-	}
-
-	rightJoin(table: Table): RightJoinStep {
-		throw new Error('Method not implemented.')
 	}
 
 	where(condition: Condition): SelectWhereStep

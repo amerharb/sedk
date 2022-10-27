@@ -1,7 +1,7 @@
 import { LimitStep } from './select-path/LimitStep'
 import { ReturningStep } from './ReturningStep'
 import { BaseStep } from './BaseStep'
-import { Column, Table } from '../database'
+import { AliasedTable, Column, Table } from '../database'
 import { Condition, PrimitiveType } from '../models'
 import { OnStep } from './OnStep'
 import { SelectWhereStep } from './select-path/SelectConditionStep'
@@ -12,19 +12,20 @@ import { HavingStep } from './HavingStep'
 import { LogicalOperator } from '../operators'
 import { ItemInfo } from '../ItemInfo'
 import { ReturningItem } from '../ReturningItemInfo'
+import { FullOuterJoinStep, InnerJoinStep, JoinStep, LeftJoinStep, RightJoinStep } from './select-path/BaseJoinStep'
 
 export interface IAfterFromSteps extends BaseStep, OrderByStep {
-	crossJoin(table: Table): CrossJoinStep
+	crossJoin(table: Table|AliasedTable): CrossJoinStep
 
-	join(table: Table): JoinStep
+	join(table: Table|AliasedTable): JoinStep
 
-	leftJoin(table: Table): LeftJoinStep
+	leftJoin(table: Table|AliasedTable): LeftJoinStep
 
-	rightJoin(table: Table): RightJoinStep
+	rightJoin(table: Table|AliasedTable): RightJoinStep
 
-	innerJoin(table: Table): InnerJoinStep
+	innerJoin(table: Table|AliasedTable): InnerJoinStep
 
-	fullOuterJoin(table: Table): FullOuterJoinStep
+	fullOuterJoin(table: Table|AliasedTable): FullOuterJoinStep
 
 	where(condition: Condition): SelectWhereStep
 
@@ -37,23 +38,11 @@ export interface IAfterFromSteps extends BaseStep, OrderByStep {
 	orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
 
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
+
+	getStepStatement(): string
 }
 
 export interface CrossJoinStep extends BaseStep, IAfterFromSteps {}
-
-interface IJoinStep extends BaseStep {
-	on(condition: Condition): OnStep
-}
-
-export interface JoinStep extends IJoinStep {}
-
-export interface LeftJoinStep extends IJoinStep {}
-
-export interface RightJoinStep extends IJoinStep {}
-
-export interface InnerJoinStep extends IJoinStep {}
-
-export interface FullOuterJoinStep extends IJoinStep {}
 
 export interface OnOrStep extends OnStep {}
 

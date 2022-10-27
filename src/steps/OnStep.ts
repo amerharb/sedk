@@ -5,9 +5,20 @@ import { Column, Table } from '../database'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import {
-	CrossJoinStep, FullOuterJoinStep, GroupByStep, IAfterFromSteps, InnerJoinStep, JoinStep,
-	LeftJoinStep, OnAndStep, OnOrStep, OrderByStep, RightJoinStep,
+	CrossJoinStep,
+	GroupByStep,
+	IAfterFromSteps,
+	OnAndStep,
+	OnOrStep,
+	OrderByStep,
 } from './stepInterfaces'
+import {
+	FullOuterJoinStep,
+	InnerJoinStep,
+	JoinStep,
+	LeftJoinStep,
+	RightJoinStep,
+} from './select-path/BaseJoinStep'
 import { LogicalOperator } from '../operators'
 import { SelectWhereStep } from './select-path/SelectConditionStep'
 import { returnStepOrThrow } from '../util'

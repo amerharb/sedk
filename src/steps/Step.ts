@@ -15,14 +15,16 @@ import { SelectWhereStep } from './select-path/SelectConditionStep'
 import { HavingStep } from './HavingStep'
 import {
 	CrossJoinStep,
-	FullOuterJoinStep,
 	GroupByStep,
+	OrderByStep,
+} from './stepInterfaces'
+import {
+	FullOuterJoinStep,
 	InnerJoinStep,
 	JoinStep,
 	LeftJoinStep,
-	OrderByStep,
 	RightJoinStep,
-} from './stepInterfaces'
+} from './select-path/BaseJoinStep'
 import { LogicalOperator } from '../operators'
 import { FromItemRelation } from '../FromItemInfo'
 import { OnStep } from './OnStep'
@@ -45,8 +47,7 @@ export type FromItem = Table|AliasedTable
 export type FromItems = [FromItem, ...FromItem[]]
 
 export class Step extends BaseStep
-	implements CrossJoinStep, JoinStep, LeftJoinStep, RightJoinStep, InnerJoinStep,
-		FullOuterJoinStep, GroupByStep, OrderByStep, DefaultValuesStep {
+	implements CrossJoinStep, GroupByStep, OrderByStep, DefaultValuesStep {
 	constructor(protected data: BuilderData, protected prevStep: BaseStep) {
 		super(data, prevStep)
 		data.step = this
@@ -87,28 +88,33 @@ export class Step extends BaseStep
 	}
 
 	public join(table: Table|AliasedTable): JoinStep {
-		this.addFromItemInfo(table, FromItemRelation.JOIN)
-		return this
+		// this.addFromItemInfo(table, FromItemRelation.JOIN)
+		// return this
+		throw new Error('to be deleted')
 	}
 
 	public leftJoin(table: Table|AliasedTable): LeftJoinStep {
-		this.addFromItemInfo(table, FromItemRelation.LEFT_JOIN)
-		return this
+		// this.addFromItemInfo(table, FromItemRelation.LEFT_JOIN)
+		// return this
+		throw new Error('to be deleted')
 	}
 
 	public rightJoin(table: Table|AliasedTable): RightJoinStep {
-		this.addFromItemInfo(table, FromItemRelation.RIGHT_JOIN)
-		return this
+		// this.addFromItemInfo(table, FromItemRelation.RIGHT_JOIN)
+		// return this
+		throw new Error('to be deleted')
 	}
 
 	public innerJoin(table: Table|AliasedTable): InnerJoinStep {
-		this.addFromItemInfo(table, FromItemRelation.INNER_JOIN)
-		return this
+		// this.addFromItemInfo(table, FromItemRelation.INNER_JOIN)
+		// return this
+		throw new Error('to be deleted')
 	}
 
 	public fullOuterJoin(table: Table|AliasedTable): FullOuterJoinStep {
-		this.addFromItemInfo(table, FromItemRelation.FULL_OUTER_JOIN)
-		return this
+		// this.addFromItemInfo(table, FromItemRelation.FULL_OUTER_JOIN)
+		// return this
+		throw new Error('to be deleted')
 	}
 
 	public on(condition: Condition): OnStep {

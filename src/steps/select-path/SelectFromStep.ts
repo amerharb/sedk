@@ -12,15 +12,17 @@ import { BaseStep } from '../BaseStep'
 import { FromItems } from '../step'
 import {
 	CrossJoinStep,
-	FullOuterJoinStep,
 	GroupByStep,
 	IAfterFromSteps,
+	OrderByStep,
+} from '../stepInterfaces'
+import {
+	FullOuterJoinStep,
 	InnerJoinStep,
 	JoinStep,
 	LeftJoinStep,
-	OrderByStep,
 	RightJoinStep,
-} from '../stepInterfaces'
+} from './BaseJoinStep'
 import { ReturningStep } from '../ReturningStep'
 import { OffsetStep } from './OffsetStep'
 import { LimitStep } from './LimitStep'

@@ -9,7 +9,7 @@ import { ALL, ASTERISK, All, DISTINCT, Distinct } from '../singletoneConstants'
 import { BuilderData } from '../builder'
 import { AliasedTable, Column, Table } from '../database'
 import { PrimitiveType } from '../models'
-import { BaseStep } from './BaseStep'
+import { Artifacts, BaseStep } from './BaseStep'
 import { FromItems, SelectItem } from './Step'
 import { UpdateStep } from './update-path/UpdateStep'
 
@@ -21,6 +21,10 @@ export class RootStep extends BaseStep {
 
 	public getStepStatement(): string {
 		return ''
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		return { tables: new Set(), columns: new Set() }
 	}
 
 	public select(distinct: Distinct|All, ...items: (ItemInfo|SelectItem|PrimitiveType)[]): SelectStep

@@ -1,5 +1,5 @@
 import { FromItem } from '../Step'
-import { BaseStep } from '../BaseStep'
+import { Artifacts, BaseStep } from '../BaseStep'
 import { BuilderData } from '../../builder'
 import { DeleteFromStep } from './DeleteFromStep'
 import { FromItemRelation } from '../../FromItemInfo'
@@ -14,6 +14,10 @@ export class DeleteStep extends BaseStep {
 
 	public getStepStatement(): string {
 		return 'DELETE'
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		return { tables: new Set(), columns: new Set() }
 	}
 
 	public from(table: FromItem): DeleteFromStep {

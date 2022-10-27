@@ -8,7 +8,7 @@ import { OrderByArgsElement } from '../../orderBy'
 import { ReturningItem } from '../../ReturningItemInfo'
 import { All } from '../../singletoneConstants'
 import { Parenthesis, SelectWhereStep } from '../../steps'
-import { BaseStep } from '../BaseStep'
+import { Artifacts, BaseStep } from '../BaseStep'
 import { FromItems } from '../step'
 import {
 	CrossJoinStep,
@@ -51,6 +51,10 @@ export class SelectFromStep extends BaseStep implements IAfterFromSteps {
 		let result = 'FROM '
 		result += this.fromItems.map(it => it.getStmt(this.data)).join(', ')
 		return result
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		return { tables: new Set(this.fromItems.map(it => it instanceof Table ? it : it.table)), columns: new Set() }
 	}
 
 	crossJoin(table: Table): CrossJoinStep {

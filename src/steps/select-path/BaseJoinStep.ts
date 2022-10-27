@@ -1,8 +1,8 @@
-import { Condition } from 'Non-Exported/models'
-import { OnStep } from 'Non-Exported/steps'
+import { Condition } from '../../models'
+import { OnStep } from './OnStep'
 import { BuilderData } from '../../builder'
 import { AliasedTable, Table } from '../../database'
-import { BaseStep } from '../BaseStep'
+import { Artifacts, BaseStep } from '../BaseStep'
 
 abstract class BaseJoinStep extends BaseStep {
 	protected constructor(
@@ -20,6 +20,10 @@ abstract class BaseJoinStep extends BaseStep {
 
 	getStepStatement(): string {
 		return `${this.joinType} ${this.table.getStmt(this.data)}`
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		return { tables: new Set([this.table instanceof Table ? this.table : this.table.table]), columns: new Set() }
 	}
 }
 

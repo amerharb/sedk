@@ -8,10 +8,11 @@ import { Asterisk } from '../singletoneConstants'
 import { TableAsterisk } from '../TableAsterisk'
 import { BuilderData, SqlPath } from '../builder'
 import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
-import { BaseStep } from './BaseStep'
+import { Artifacts, BaseStep } from './BaseStep'
 
 export class ReturningStep extends BaseStep {
 	private readonly returningItemInfo: ReturningItemInfo[]
+
 	constructor(
 		data: BuilderData,
 		prevStep: BaseStep,
@@ -56,5 +57,10 @@ export class ReturningStep extends BaseStep {
 			})
 			return `RETURNING ${returningPartsString.join(', ')}`
 		}
-		return ''	}
+		return ''
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		return { tables: new Set(), columns: new Set(this.returningItemInfo.map(it => it.getColumns()).flat(1)) }
+	}
 }

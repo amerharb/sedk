@@ -2,13 +2,15 @@ import { BuilderData, SqlPath } from '../builder'
 import { Condition, Expression, PrimitiveType } from '../models'
 import { LogicalOperator } from '../operators'
 import { DeleteWithoutConditionError, TableNotFoundError } from '../errors'
-import { AliasedTable, BooleanColumn, Table } from '../database'
+import { AliasedTable, BooleanColumn, Column, Table } from '../database'
 import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
 
 export enum Parenthesis {
 	Open = '(',
 	Close = ')',
 }
+
+export type Artifacts = { tables: ReadonlySet<Table>, columns: ReadonlySet<Column> }
 
 export abstract class BaseStep {
 	constructor(
@@ -17,15 +19,16 @@ export abstract class BaseStep {
 	) {}
 
 	public getSQL(): string {
-		let result = this.getFullStatement()
+		let result = this.getFullStatement({ tables: new Set(), columns: new Set() })
 		if (this.data.option.useSemicolonAtTheEnd) result += ';'
 		return result
 	}
 
-	protected getFullStatement(): string {
+	protected getFullStatement(nextArtifacts: Artifacts): string {
 		let result = ''
+		const artifacts = this.mergeArtifacts(this.getStepArtifacts(), nextArtifacts)
 		if (this.prevStep !== null) {
-			const stmt = this.prevStep.getFullStatement().trimRight()
+			const stmt = this.prevStep.getFullStatement(artifacts).trimRight()
 			if (stmt !== '') {
 				result += `${stmt} `
 			}
@@ -34,7 +37,15 @@ export abstract class BaseStep {
 		return result
 	}
 
+	private mergeArtifacts(ud1: Artifacts, ud2: Artifacts): Artifacts {
+		const tables = new Set([...ud1.tables, ...ud2.tables])
+		const columns = new Set([...ud1.columns, ...ud2.columns])
+		return { tables, columns }
+	}
+
 	public abstract getStepStatement(): string
+
+	protected abstract getStepArtifacts(): Artifacts
 
 	public getBindValues(): PrimitiveType[] {
 		return [...this.data.binderStore.getValues()]

@@ -1,6 +1,6 @@
-import { BooleanColumn } from '../../database'
+import { BooleanColumn, Table } from '../../database'
 import { FromItem } from '../Step'
-import { BaseStep, Parenthesis } from '../BaseStep'
+import { Artifacts, BaseStep, Parenthesis } from '../BaseStep'
 import { BuilderData } from '../../builder'
 import { Condition, PrimitiveType } from '../../models'
 import { DeleteWhereStep } from './DeleteConditionStep'
@@ -20,6 +20,11 @@ export class DeleteFromStep extends BaseStep {
 
 	public getStepStatement(): string {
 		return 'FROM ' + this.table.getStmt(this.data)
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		const table = this.table instanceof Table ? this.table : this.table.table
+		return { tables: new Set([table]), columns: new Set() }
 	}
 
 	public where(condition: Condition): DeleteWhereStep

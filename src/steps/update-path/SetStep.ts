@@ -1,6 +1,6 @@
 import { BooleanColumn } from '../../database'
 import { UpdateSetItemInfo } from '../../UpdateSetItemInfo'
-import { BaseStep, Parenthesis } from '../BaseStep'
+import { Artifacts, BaseStep, Parenthesis } from '../BaseStep'
 import { Condition, PrimitiveType } from '../../models'
 import { UpdateWhereStep } from './UpdateConditionStep'
 import { LogicalOperator } from '../../operators'
@@ -20,6 +20,10 @@ export class SetStep extends BaseStep {
 
 	public getStepStatement(): string {
 		return `SET ${this.items.map(it => it.getStmt(this.data)).join(', ')}`
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		return { tables: new Set(), columns: new Set(this.items.map(it => it.column)) }
 	}
 
 	public where(condition: Condition): UpdateWhereStep

@@ -1,4 +1,4 @@
-import { BaseStep } from '../BaseStep'
+import { Artifacts, BaseStep } from '../BaseStep'
 import { BuilderData } from '../../builder'
 import { Column, Table } from '../../database'
 import { IntoStep } from './IntoStep'
@@ -13,6 +13,10 @@ export class InsertStep extends BaseStep {
 
 	public getStepStatement(): string {
 		return 'INSERT'
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		return { tables: new Set(), columns: new Set() }
 	}
 
 	public into(table: Table, ...columns:Column[]): IntoStep {

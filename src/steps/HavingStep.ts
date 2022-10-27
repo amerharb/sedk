@@ -1,4 +1,4 @@
-import { BaseStep } from './BaseStep'
+import { Artifacts, BaseStep } from './BaseStep'
 import { BuilderData } from '../builder'
 import { Condition } from '../models'
 import { OrderByArgsElement } from '../orderBy'
@@ -18,6 +18,10 @@ export class HavingStep extends BaseStep {
 	}
 
 	public getStepStatement(): string {
+		throw new Error('Method not implemented.')
+	}
+
+	protected getStepArtifacts(): Artifacts {
 		throw new Error('Method not implemented.')
 	}
 

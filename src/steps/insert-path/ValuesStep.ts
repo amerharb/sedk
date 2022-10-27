@@ -5,7 +5,7 @@ import { BuilderData } from '../../builder'
 import { ItemInfo } from '../../ItemInfo'
 import { PrimitiveType, isNumber } from '../../models'
 import { ReturningItem } from '../../ReturningItemInfo'
-import { BaseStep } from '../BaseStep'
+import { Artifacts, BaseStep } from '../BaseStep'
 import { ReturningStep } from '../ReturningStep'
 
 export class ValuesStep extends BaseStep {
@@ -49,5 +49,9 @@ export class ValuesStep extends BaseStep {
 		}
 		// TODO: validate this error
 		throw new Error('Insert statement must have values or select items')
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		return { tables: new Set(), columns: new Set() }
 	}
 }

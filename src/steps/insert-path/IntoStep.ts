@@ -1,5 +1,5 @@
 import { Column, Table } from '../../database'
-import { BaseStep } from '../BaseStep'
+import { Artifacts, BaseStep } from '../BaseStep'
 import { BuilderData } from '../../builder'
 import { PrimitiveType } from '../../models'
 import { DefaultValuesStep } from './DefaultValuesStep'
@@ -28,6 +28,10 @@ export class IntoStep extends BaseStep {
 			result += `(${this.columns.map(it => it.getDoubleQuotedName()).join(', ')})`
 		}
 		return result
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		return { tables: new Set(), columns: new Set() }
 	}
 
 	public values(...values: (PrimitiveType|Binder|Default)[]): ValuesStep {

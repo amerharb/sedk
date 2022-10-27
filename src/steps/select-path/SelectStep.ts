@@ -8,7 +8,7 @@ import { Expression, PrimitiveType } from '../../models'
 import { ReturningItem } from '../../ReturningItemInfo'
 import { SelectItemInfo } from '../../SelectItemInfo'
 import { ALL, All, Asterisk, DISTINCT, Distinct } from '../../singletoneConstants'
-import { BaseStep } from '../BaseStep'
+import { Artifacts, BaseStep } from '../BaseStep'
 import { SelectFromStep } from './SelectFromStep'
 import { FromItems, SelectItem, Step } from '../Step'
 import { ReturningStep } from '../ReturningStep'
@@ -53,7 +53,7 @@ export class SelectStep extends BaseStep {
 		return new Step(this.data, this).returning(...items)
 	}
 
-	getStepStatement(): string {
+	public getStepStatement(): string {
 		const selectItemInfos: ItemInfo[] = this.items.map(it => {
 			if (it instanceof SelectItemInfo || it instanceof ItemInfo) {
 				return it
@@ -89,6 +89,28 @@ export class SelectStep extends BaseStep {
 		}
 
 		return result
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		return { tables: new Set(), columns: new Set(this.getColumns()) }
+	}
+
+	private getColumns(): Column[] {
+		return this.items.map(it => {
+			if (it instanceof SelectItemInfo) {
+				return it.getColumns()
+			} else if (it instanceof ItemInfo) {
+				return it.getColumns()
+			} else if (it instanceof Expression) {
+				return it.getColumns()
+			} else if (it instanceof Column) {
+				return it
+			} else if (it instanceof AggregateFunction) {
+				return it.getColumns()
+			} else {
+				return []
+			}
+		}).flat()
 	}
 
 	private static throwIfMoreThanOneDistinctOrAll(items: (Distinct|All|ItemInfo|SelectItem|PrimitiveType)[]):

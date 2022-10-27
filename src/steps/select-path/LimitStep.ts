@@ -7,7 +7,7 @@ import { ItemInfo } from '../../ItemInfo'
 import { PrimitiveType } from '../../models'
 import { ReturningItem } from '../../ReturningItemInfo'
 import { ReturningStep } from '../ReturningStep'
-import { BaseStep } from '../BaseStep'
+import { Artifacts, BaseStep } from '../BaseStep'
 
 export class LimitStep extends BaseStep {
 	private readonly value: null|number|Binder|All
@@ -37,6 +37,10 @@ export class LimitStep extends BaseStep {
 			return `LIMIT NULL`
 		}
 		return `LIMIT ${this.value}`
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		return { tables: new Set(), columns: new Set() }
 	}
 
 	offset(value: number): OffsetStep {

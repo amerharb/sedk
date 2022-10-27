@@ -5,7 +5,7 @@ import { ItemInfo } from '../../ItemInfo'
 import { PrimitiveType } from '../../models'
 import { ReturningItem } from '../../ReturningItemInfo'
 import { ReturningStep } from '../ReturningStep'
-import { BaseStep } from '../BaseStep'
+import { Artifacts, BaseStep } from '../BaseStep'
 
 export class OffsetStep extends BaseStep {
 	private readonly value: number|Binder
@@ -28,6 +28,10 @@ export class OffsetStep extends BaseStep {
 
 	getStepStatement(): string {
 		return `OFFSET ${this.value}`
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		return { tables: new Set(), columns: new Set() }
 	}
 
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {

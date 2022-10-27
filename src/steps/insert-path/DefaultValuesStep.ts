@@ -1,7 +1,7 @@
 import { ItemInfo } from '../../ItemInfo'
 import { PrimitiveType } from '../../models'
 import { ReturningItem } from '../../ReturningItemInfo'
-import { BaseStep } from '../BaseStep'
+import { Artifacts, BaseStep } from '../BaseStep'
 import { ReturningStep } from '../ReturningStep'
 
 export class DefaultValuesStep extends BaseStep {
@@ -11,5 +11,9 @@ export class DefaultValuesStep extends BaseStep {
 
 	getStepStatement(): string {
 		return 'DEFAULT VALUES'
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		return { tables: new Set(), columns: new Set() }
 	}
 }

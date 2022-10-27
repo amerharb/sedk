@@ -1,9 +1,9 @@
-import { BaseStep, Parenthesis } from './BaseStep'
-import { BuilderData } from '../builder'
-import { Condition, PrimitiveType } from '../models'
-import { BooleanColumn, Column, Table } from '../database'
-import { OrderByArgsElement } from '../orderBy'
-import { All } from '../singletoneConstants'
+import { Artifacts, BaseStep, Parenthesis } from '../BaseStep'
+import { BuilderData } from '../../builder'
+import { Condition, PrimitiveType } from '../../models'
+import { BooleanColumn, Column, Table } from '../../database'
+import { OrderByArgsElement } from '../../orderBy'
+import { All } from '../../singletoneConstants'
 import {
 	CrossJoinStep,
 	GroupByStep,
@@ -11,22 +11,22 @@ import {
 	OnAndStep,
 	OnOrStep,
 	OrderByStep,
-} from './stepInterfaces'
+} from '../stepInterfaces'
 import {
 	FullOuterJoinStep,
 	InnerJoinStep,
 	JoinStep,
 	LeftJoinStep,
 	RightJoinStep,
-} from './select-path/BaseJoinStep'
-import { LogicalOperator } from '../operators'
-import { SelectWhereStep } from './select-path/SelectConditionStep'
-import { returnStepOrThrow } from '../util'
-import { ItemInfo } from '../ItemInfo'
-import { ReturningItem } from '../ReturningItemInfo'
-import { ReturningStep } from './ReturningStep'
-import { OffsetStep } from './select-path/OffsetStep'
-import { LimitStep } from './select-path/LimitStep'
+} from './BaseJoinStep'
+import { LogicalOperator } from '../../operators'
+import { SelectWhereStep } from './SelectConditionStep'
+import { returnStepOrThrow } from '../../util'
+import { ItemInfo } from '../../ItemInfo'
+import { ReturningItem } from '../../ReturningItemInfo'
+import { ReturningStep } from '../../steps/ReturningStep'
+import { OffsetStep } from './OffsetStep'
+import { LimitStep } from './LimitStep'
 
 
 export class OnStep extends BaseStep implements IAfterFromSteps {
@@ -40,6 +40,10 @@ export class OnStep extends BaseStep implements IAfterFromSteps {
 
 	public getStepStatement(): string {
 		return `ON ${this.condition.getStmt(this.data)}`
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		return { tables: new Set(), columns: new Set(this.condition.getColumns()) }
 	}
 
 	public or(condition: Condition): OnOrStep {

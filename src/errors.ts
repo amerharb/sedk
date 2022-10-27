@@ -1,4 +1,4 @@
-import { All } from 'Non-Exported/singletoneConstants'
+import { All } from './singletoneConstants'
 import { ComparisonOperator } from './operators'
 
 export class ColumnNotFoundError extends Error {}

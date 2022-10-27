@@ -10,7 +10,7 @@ import { SelectItemInfo } from '../SelectItemInfo'
 import { escapeDoubleQuote } from '../util'
 import { AggregateFunction } from '../AggregateFunction'
 import { Binder } from '../binder'
-import { BaseStep, Parenthesis } from './BaseStep'
+import { Artifacts, BaseStep, Parenthesis } from './BaseStep'
 import { SelectWhereStep } from './select-path/SelectConditionStep'
 import { HavingStep } from './HavingStep'
 import {
@@ -27,7 +27,7 @@ import {
 } from './select-path/BaseJoinStep'
 import { LogicalOperator } from '../operators'
 import { FromItemRelation } from '../FromItemInfo'
-import { OnStep } from './OnStep'
+import { OnStep } from './select-path/OnStep'
 import { DeleteStep } from './delete-path/DeleteStep'
 import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
 import { ItemInfo } from '../ItemInfo'
@@ -35,7 +35,6 @@ import { InsertStep } from './insert-path/InsertStep'
 import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
 import { SetStep } from './update-path/SetStep'
 import { UpdateStep } from './update-path/UpdateStep'
-import { DefaultValuesStep } from './insert-path/DefaultValuesStep'
 import { TableAsterisk } from '../TableAsterisk'
 import { SelectStep } from './select-path/SelectStep'
 import { SelectFromStep } from './select-path/SelectFromStep'
@@ -47,7 +46,7 @@ export type FromItem = Table|AliasedTable
 export type FromItems = [FromItem, ...FromItem[]]
 
 export class Step extends BaseStep
-	implements CrossJoinStep, GroupByStep, OrderByStep, DefaultValuesStep {
+	implements CrossJoinStep, GroupByStep, OrderByStep {
 	constructor(protected data: BuilderData, protected prevStep: BaseStep) {
 		super(data, prevStep)
 		data.step = this
@@ -55,6 +54,10 @@ export class Step extends BaseStep
 
 	public getStepStatement(): string {
 		throw new Error('Method not implemented.')
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		throw new Error('to be deleted')
 	}
 
 	public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {

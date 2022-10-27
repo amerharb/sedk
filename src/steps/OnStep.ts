@@ -57,23 +57,23 @@ export class OnStep extends BaseStep implements IAfterFromSteps {
 	}
 
 	public join(table: Table): JoinStep {
-		return returnStepOrThrow(this.data.step).join(table)
+		return new JoinStep(this.data, this, table)
 	}
 
 	public leftJoin(table: Table): LeftJoinStep {
-		return returnStepOrThrow(this.data.step).leftJoin(table)
+		return new LeftJoinStep(this.data, this, table)
 	}
 
 	public rightJoin(table: Table): RightJoinStep {
-		return returnStepOrThrow(this.data.step).rightJoin(table)
+		return new RightJoinStep(this.data, this, table)
 	}
 
 	public innerJoin(table: Table): InnerJoinStep {
-		return returnStepOrThrow(this.data.step).innerJoin(table)
+		return new InnerJoinStep(this.data, this, table)
 	}
 
 	public fullOuterJoin(table: Table): FullOuterJoinStep {
-		return returnStepOrThrow(this.data.step).fullOuterJoin(table)
+		return new FullOuterJoinStep(this.data, this, table)
 	}
 
 	where(condition: Condition): SelectWhereStep

@@ -1,7 +1,7 @@
-import { BaseStep } from './BaseStep'
+import { BaseStep, Parenthesis } from './BaseStep'
 import { BuilderData } from '../builder'
 import { Condition, PrimitiveType } from '../models'
-import { Column, Table } from '../database'
+import { BooleanColumn, Column, Table } from '../database'
 import { OrderByArgsElement } from '../orderBy'
 import { All } from '../singletoneConstants'
 import {
@@ -80,7 +80,9 @@ export class OnStep extends BaseStep implements IAfterFromSteps {
 	where(left: Condition, operator: LogicalOperator, right: Condition): SelectWhereStep
 	where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): SelectWhereStep
 	public where(left: Condition, operator?: LogicalOperator, right?: Condition): SelectWhereStep {
-		return returnStepOrThrow(this.data.step).where(left, operator, right)
+		const whereParts:(LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
+		BaseStep.addConditionParts(whereParts, left, operator, right)
+		return new SelectWhereStep(this.data, this, whereParts)
 	}
 
 	public groupBy(...groupByItems: Column[]): GroupByStep {

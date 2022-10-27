@@ -24,8 +24,11 @@ export abstract class BaseStep {
 
 	protected getFullStatement(): string {
 		let result = ''
-		if (this.prevStep !== null && this.prevStep.getFullStatement() !== '') {
-			result = this.prevStep.getFullStatement().trimRight() + ' '
+		if (this.prevStep !== null) {
+			const stmt = this.prevStep.getFullStatement().trimRight()
+			if (stmt !== '') {
+				result += `${stmt} `
+			}
 		}
 		result += this.getStepStatement()
 		return result

@@ -26,15 +26,23 @@ export abstract class BaseStep {
 
 	protected getFullStatement(nextArtifacts: Artifacts): string {
 		let result = ''
-		const artifacts = this.mergeArtifacts(this.getStepArtifacts(), nextArtifacts)
+		const artifacts = this.mergeArtifacts(this.getFullArtifacts(), nextArtifacts)
+		this.data.artifact = artifacts
 		if (this.prevStep !== null) {
 			const stmt = this.prevStep.getFullStatement(artifacts).trimRight()
 			if (stmt !== '') {
 				result += `${stmt} `
 			}
 		}
-		result += this.getStepStatement()
+		result += this.getStepStatement(artifacts)
 		return result
+	}
+
+	protected getFullArtifacts(): Artifacts {
+		if (this.prevStep !== null) {
+			return this.mergeArtifacts(this.getStepArtifacts(), this.prevStep?.getFullArtifacts())
+		}
+		return this.getStepArtifacts()
 	}
 
 	private mergeArtifacts(ud1: Artifacts, ud2: Artifacts): Artifacts {
@@ -43,7 +51,7 @@ export abstract class BaseStep {
 		return { tables, columns }
 	}
 
-	public abstract getStepStatement(): string
+	public abstract getStepStatement(artifacts: Artifacts): string
 
 	protected abstract getStepArtifacts(): Artifacts
 

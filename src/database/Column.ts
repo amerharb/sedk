@@ -138,14 +138,17 @@ export abstract class Column implements IStatementGiver {
 		if (this.mTable === undefined)
 			throw new Error('Table of this column is undefined')
 
-		const schemaName = data.fromItemInfos.some(it => (it.table !== this.table && it.table.name === this.table.name))
+		const schemaName = Array
+			.from(data.artifact?.tables ?? [])
+			.some(it => it !== this.table && it.name === this.table.name)
 			? `"${escapeDoubleQuote(this.table.schema.name)}".`
 			: ''
 
 		const tableName = (
 			data.option.addTableName === 'always'
 			|| (data.option.addTableName === 'when two tables or more'
-				&& data.fromItemInfos.some(it => it.table !== this.table))
+				&& Array.from(data.artifact?.columns ?? [])
+					.some(it => it.table !== this.table))
 		) ? `"${escapeDoubleQuote(this.table.name)}".` : ''
 
 		return `${schemaName}${tableName}"${escapeDoubleQuote(this.data.name)}"`

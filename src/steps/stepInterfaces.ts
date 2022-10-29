@@ -1,6 +1,6 @@
 import { LimitStep } from './select-path/LimitStep'
 import { ReturningStep } from './ReturningStep'
-import { BaseStep } from './BaseStep'
+import { Artifacts, BaseStep } from './BaseStep'
 import { AliasedTable, Column, Table } from '../database'
 import { Condition, PrimitiveType } from '../models'
 import { OnStep } from './select-path/OnStep'
@@ -39,10 +39,10 @@ export interface IAfterFromSteps extends BaseStep, OrderByStep {
 
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
 
-	getStepStatement(): string
+	getStepStatement(artifacts?: Artifacts): string
 }
 
-export interface CrossJoinStep extends BaseStep, IAfterFromSteps {}
+export interface CrossJoinStep extends IAfterFromSteps {}
 
 export interface OnOrStep extends OnStep {}
 

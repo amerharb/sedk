@@ -53,7 +53,7 @@ export class SelectStep extends BaseStep {
 		return new Step(this.data, this).returning(...items)
 	}
 
-	public getStepStatement(): string {
+	public getStepStatement(artifacts?: Artifacts): string {
 		const selectItemInfos: ItemInfo[] = this.items.map(it => {
 			if (it instanceof SelectItemInfo || it instanceof ItemInfo) {
 				return it

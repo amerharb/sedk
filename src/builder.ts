@@ -1,3 +1,4 @@
+import { Artifacts } from './steps/BaseStep'
 import { AliasedTable, BooleanColumn, Column, Database, Table } from './database'
 import { Condition, PrimitiveType } from './models'
 import { BinderStore } from './binder'
@@ -43,6 +44,8 @@ export type BuilderData = {
 	havingParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
 	orderByItemInfos: OrderByItemInfo[],
 	binderStore: BinderStore,
+	// TODO: temp use, evaluate later to keep it here or not
+	artifact?: Artifacts,
 }
 
 /**

@@ -13,8 +13,7 @@ import { FromItems } from '../step'
 import {
 	CrossJoinStep,
 	GroupByStep,
-	IAfterFromSteps,
-	OrderByStep,
+	IAfterFromSteps
 } from '../stepInterfaces'
 import {
 	FullOuterJoinStep,
@@ -26,6 +25,7 @@ import {
 import { ReturningStep } from '../ReturningStep'
 import { OffsetStep } from './OffsetStep'
 import { LimitStep } from './LimitStep'
+import { OrderByStep } from './OrderByStep'
 
 export class SelectFromStep extends BaseStep implements IAfterFromSteps {
 	public constructor(

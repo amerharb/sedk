@@ -13,11 +13,7 @@ import { Binder } from '../binder'
 import { Artifacts, BaseStep, Parenthesis } from './BaseStep'
 import { SelectWhereStep } from './select-path/SelectConditionStep'
 import { HavingStep } from './HavingStep'
-import {
-	CrossJoinStep,
-	GroupByStep,
-	OrderByStep,
-} from './stepInterfaces'
+import { CrossJoinStep, GroupByStep } from './stepInterfaces'
 import {
 	FullOuterJoinStep,
 	InnerJoinStep,
@@ -28,6 +24,7 @@ import {
 import { LogicalOperator } from '../operators'
 import { FromItemRelation } from '../FromItemInfo'
 import { OnStep } from './select-path/OnStep'
+import { OrderByStep } from './select-path/OrderByStep'
 import { DeleteStep } from './delete-path/DeleteStep'
 import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
 import { ItemInfo } from '../ItemInfo'

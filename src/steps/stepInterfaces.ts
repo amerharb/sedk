@@ -1,20 +1,18 @@
-import { LimitStep } from './select-path/LimitStep'
 import { ReturningStep } from './ReturningStep'
 import { Artifacts, BaseStep } from './BaseStep'
 import { AliasedTable, Column, Table } from '../database'
 import { Condition, PrimitiveType } from '../models'
 import { OnStep } from './select-path/OnStep'
+import { OrderByStep } from './select-path/OrderByStep'
 import { SelectWhereStep } from './select-path/SelectConditionStep'
-import { OffsetStep } from './select-path/OffsetStep'
 import { OrderByArgsElement } from '../orderBy'
-import { All } from '../singletoneConstants'
 import { HavingStep } from './HavingStep'
 import { LogicalOperator } from '../operators'
 import { ItemInfo } from '../ItemInfo'
 import { ReturningItem } from '../ReturningItemInfo'
 import { FullOuterJoinStep, InnerJoinStep, JoinStep, LeftJoinStep, RightJoinStep } from './select-path/BaseJoinStep'
 
-export interface IAfterFromSteps extends BaseStep, OrderByStep {
+export interface IAfterFromSteps extends OrderByStep {
 	crossJoin(table: Table|AliasedTable): CrossJoinStep
 
 	join(table: Table|AliasedTable): JoinStep
@@ -61,15 +59,3 @@ export interface GroupByStep extends BaseStep, OrderByStep {
 export interface HavingOrStep extends HavingStep {}
 
 export interface HavingAndStep extends HavingStep {}
-
-export interface OrderByStep extends BaseStep {
-	limit(n: null|number|All): LimitStep
-
-	limit$(n: null|number): LimitStep
-
-	offset(n: number): OffsetStep
-
-	offset$(n: number): OffsetStep
-
-	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
-}

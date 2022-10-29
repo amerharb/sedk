@@ -10,7 +10,6 @@ import {
 	IAfterFromSteps,
 	OnAndStep,
 	OnOrStep,
-	OrderByStep,
 } from '../stepInterfaces'
 import {
 	FullOuterJoinStep,
@@ -27,6 +26,7 @@ import { ReturningItem } from '../../ReturningItemInfo'
 import { ReturningStep } from '../../steps/ReturningStep'
 import { OffsetStep } from './OffsetStep'
 import { LimitStep } from './LimitStep'
+import { OrderByStep } from './OrderByStep'
 
 
 export class OnStep extends BaseStep implements IAfterFromSteps {

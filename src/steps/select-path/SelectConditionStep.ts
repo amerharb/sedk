@@ -1,5 +1,6 @@
 import { OffsetStep } from './OffsetStep'
 import { LimitStep } from './LimitStep'
+import { OrderByStep } from './OrderByStep'
 import { ConditionStep } from '../ConditionStep'
 import { BaseStep, Parenthesis } from '../BaseStep'
 import { BuilderData } from '../../builder'
@@ -7,10 +8,7 @@ import { Condition, PrimitiveType } from '../../models'
 import { BooleanColumn, Column } from '../../database'
 import { OrderByArgsElement } from '../../orderBy'
 import { All } from '../../singletoneConstants'
-import {
-	GroupByStep,
-	OrderByStep,
-} from '../stepInterfaces'
+import { GroupByStep } from '../stepInterfaces'
 import { LogicalOperator } from '../../operators'
 import { returnStepOrThrow } from '../../util'
 import { ItemInfo } from '../../ItemInfo'

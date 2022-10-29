@@ -62,18 +62,14 @@ export interface HavingOrStep extends HavingStep {}
 
 export interface HavingAndStep extends HavingStep {}
 
-export interface OrderByStep extends BaseStep, ILimitStep {
+export interface OrderByStep extends BaseStep {
 	limit(n: null|number|All): LimitStep
 
 	limit$(n: null|number): LimitStep
-}
 
-export interface ILimitStep extends BaseStep, IOffsetStep {
 	offset(n: number): OffsetStep
 
 	offset$(n: number): OffsetStep
-}
 
-export interface IOffsetStep extends BaseStep {
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep
 }

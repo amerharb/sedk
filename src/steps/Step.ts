@@ -43,7 +43,7 @@ export type FromItem = Table|AliasedTable
 export type FromItems = [FromItem, ...FromItem[]]
 
 export class Step extends BaseStep
-	implements CrossJoinStep, GroupByStep, OrderByStep {
+	implements CrossJoinStep, GroupByStep {
 	constructor(protected data: BuilderData, protected prevStep: BaseStep) {
 		super(data, prevStep)
 		data.step = this
@@ -191,7 +191,7 @@ export class Step extends BaseStep
 			}
 		})
 		pushWhenOrderByItemDefined()
-		return this
+		return new OrderByStep(this.data, this, orderByArgsElement)
 	}
 
 	public limit(n: null|number|All): LimitStep {

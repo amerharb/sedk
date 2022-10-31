@@ -1,3 +1,5 @@
+import { LimitStep } from 'Non-Exported/steps/select-path/LimitStep'
+import { OffsetStep } from 'Non-Exported/steps/select-path/OffsetStep'
 import { ReturningStep } from './ReturningStep'
 import { Artifacts, BaseStep } from './BaseStep'
 import { AliasedTable, Column, Table } from '../database'
@@ -12,7 +14,7 @@ import { ItemInfo } from '../ItemInfo'
 import { ReturningItem } from '../ReturningItemInfo'
 import { FullOuterJoinStep, InnerJoinStep, JoinStep, LeftJoinStep, RightJoinStep } from './select-path/BaseJoinStep'
 
-export interface IAfterFromSteps extends OrderByStep {
+export interface IAfterFromSteps extends BaseStep{
 	crossJoin(table: Table|AliasedTable): CrossJoinStep
 
 	join(table: Table|AliasedTable): JoinStep
@@ -40,13 +42,16 @@ export interface IAfterFromSteps extends OrderByStep {
 	getStepStatement(artifacts?: Artifacts): string
 }
 
-export interface CrossJoinStep extends IAfterFromSteps {}
+export interface CrossJoinStep extends IAfterFromSteps {
+	limit(n: number): LimitStep
+	offset(n: number): OffsetStep
+}
 
 export interface OnOrStep extends OnStep {}
 
 export interface OnAndStep extends OnStep {}
 
-export interface GroupByStep extends BaseStep, OrderByStep {
+export interface GroupByStep extends BaseStep {
 	having(condition: Condition): HavingStep
 
 	having(left: Condition, operator: LogicalOperator, right: Condition): HavingStep

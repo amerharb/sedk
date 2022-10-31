@@ -114,6 +114,6 @@ export class OnStep extends BaseStep implements IAfterFromSteps {
 	}
 
 	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return returnStepOrThrow(this.data.step).returning(...items)
+		return new ReturningStep(this.data, this, items)
 	}
 }

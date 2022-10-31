@@ -3,7 +3,7 @@ import { BuilderData } from './builder'
 import { Condition, Expression, IStatementGiver } from './models'
 import { BooleanColumn, Table } from './database'
 import { LogicalOperator } from './operators'
-import { Parenthesis } from './steps'
+import { Parenthesis } from './steps/BaseStep'
 
 export enum FromItemRelation {
 	NO_RELATION = '',

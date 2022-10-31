@@ -1,4 +1,4 @@
-import { Step } from './steps'
+import { Step } from './steps/Step'
 
 export function escapeDoubleQuote(source: string): string {
 	return source.replace(/"/g, '""')

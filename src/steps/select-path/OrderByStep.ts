@@ -1,12 +1,12 @@
-import { Column } from 'Non-Exported/database'
+import { Column } from '../../database'
 import {
 	OrderByArgsElement,
 	OrderByDirection,
 	OrderByItem,
 	OrderByItemInfo,
 	OrderByNullsPosition,
-} from 'Non-Exported/orderBy'
-import { escapeDoubleQuote } from 'Non-Exported/util'
+} from '../../orderBy'
+import { escapeDoubleQuote } from '../../util'
 import { BuilderData } from '../../builder'
 import { ItemInfo } from '../../ItemInfo'
 import { Expression, PrimitiveType } from '../..//models'

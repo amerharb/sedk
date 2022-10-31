@@ -1,5 +1,5 @@
-import { LimitStep } from 'Non-Exported/steps/select-path/LimitStep'
-import { OffsetStep } from 'Non-Exported/steps/select-path/OffsetStep'
+import { LimitStep } from './select-path/LimitStep'
+import { OffsetStep } from './select-path/OffsetStep'
 import { ReturningStep } from './ReturningStep'
 import { Artifacts, BaseStep } from './BaseStep'
 import { AliasedTable, Column, Table } from '../database'

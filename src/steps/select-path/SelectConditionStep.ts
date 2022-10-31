@@ -39,7 +39,7 @@ abstract class SelectConditionStep extends ConditionStep {
 	}
 
 	public orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep {
-		return returnStepOrThrow(this.data.step).orderBy(...orderByItems)
+		return new OrderByStep(this.data, this, orderByItems)
 	}
 
 	public limit(n: null|number|All): LimitStep {

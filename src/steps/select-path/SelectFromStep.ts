@@ -102,7 +102,7 @@ export class SelectFromStep extends BaseStep implements IAfterFromSteps {
 	}
 
 	orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep {
-		throw new Error('Method not implemented.')
+		return new OrderByStep(this.data, this, orderByItems)
 	}
 
 	// TODO: check if we can limit this to only update, insert and delete

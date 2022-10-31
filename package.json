@@ -8,8 +8,7 @@
     "dist/src/**/*.d.ts",
     "dist/src/**/*.js",
     "LICENSE",
-    "README.md",
-    "doc/StepsRailRoad.svg"
+    "README.md"
   ],
   "repository": {
     "type": "git",
@@ -19,8 +18,9 @@
   "url": "https://github.com/amerharb/sedk-postgres/issues",
   "email": "sedk@amerharb.com",
   "scripts": {
-    "start": "tsc && node dist/src/index.js",
+    "start": "node dist/src/index.js",
     "build": "tsc",
+    "build&start": "tsc && node dist/src/index.js",
     "test": "jest",
     "build&test": "tsc && jest",
     "lint": "eslint .",

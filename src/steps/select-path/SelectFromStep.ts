@@ -3,7 +3,9 @@ import { FromItemInfo, FromItemRelation } from '../../FromItemInfo'
 import { BuilderData } from '../../builder'
 import { AliasedTable, Table } from '../../database'
 import { Artifacts, BaseStep } from '../BaseStep'
-import { FromItems } from '../step'
+
+export type FromItem = Table|AliasedTable
+export type FromItems = [FromItem, ...FromItem[]]
 
 export class SelectFromStep extends AfterFromStep {
 	public constructor(

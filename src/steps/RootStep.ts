@@ -1,5 +1,5 @@
 import { SelectStep } from './select-path/SelectStep'
-import { SelectFromStep } from './select-path/SelectFromStep'
+import { FromItems, SelectFromStep } from './select-path/SelectFromStep'
 import { DeleteStep } from './delete-path/DeleteStep'
 import { DeleteFromStep } from './delete-path/DeleteFromStep'
 import { InsertStep } from './insert-path/InsertStep'
@@ -10,7 +10,7 @@ import { BuilderData } from '../builder'
 import { AliasedTable, Column, Table } from '../database'
 import { PrimitiveType } from '../models'
 import { Artifacts, BaseStep } from './BaseStep'
-import { FromItems, SelectItem } from './Step'
+import { SelectItem } from './Step'
 import { UpdateStep } from './update-path/UpdateStep'
 
 export class RootStep extends BaseStep {

@@ -1,5 +1,5 @@
 import { BuilderData } from '../../builder'
-import { FromItem } from '../Step'
+import { FromItem } from './SelectFromStep'
 import { Artifacts, BaseStep, Parenthesis } from '../BaseStep'
 import { All } from '../../singletoneConstants'
 import { LimitStep } from './LimitStep'

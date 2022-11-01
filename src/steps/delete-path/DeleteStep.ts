@@ -1,4 +1,4 @@
-import { FromItem } from '../Step'
+import { FromItem } from '../select-path/SelectFromStep'
 import { Artifacts, BaseStep } from '../BaseStep'
 import { BuilderData } from '../../builder'
 import { DeleteFromStep } from './DeleteFromStep'

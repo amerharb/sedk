@@ -1,5 +1,5 @@
 import { BooleanColumn, Table } from '../../database'
-import { FromItem } from '../Step'
+import { FromItem } from '../select-path/SelectFromStep'
 import { Artifacts, BaseStep, Parenthesis } from '../BaseStep'
 import { BuilderData } from '../../builder'
 import { Condition, PrimitiveType } from '../../models'

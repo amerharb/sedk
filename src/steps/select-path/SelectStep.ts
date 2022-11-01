@@ -10,9 +10,11 @@ import { SelectItemInfo } from '../../SelectItemInfo'
 import { ALL, All, Asterisk, DISTINCT, Distinct } from '../../singletoneConstants'
 import { Artifacts, BaseStep } from '../BaseStep'
 import { FromItems, SelectFromStep } from './SelectFromStep'
-import { SelectItem } from '../Step'
 import { ReturningStep } from '../ReturningStep'
 import { TableAsterisk } from '../../TableAsterisk'
+
+export type ColumnLike = Column|Expression
+export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk|TableAsterisk
 
 export class SelectStep extends BaseStep {
 	public readonly items: (ItemInfo|SelectItem|PrimitiveType)[]

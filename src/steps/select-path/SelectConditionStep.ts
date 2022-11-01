@@ -19,7 +19,7 @@ abstract class SelectConditionStep extends ConditionStep {
 	public and(left: Condition, operator: LogicalOperator, right: Condition): SelectWhereAndStep
 	public and(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): SelectWhereAndStep
 	public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): SelectWhereAndStep {
-		const whereParts:(LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
+		const whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
 		BaseStep.addConditionParts(whereParts, cond1, op1, cond2, op2, cond3)
 		return new SelectWhereAndStep(this.data, this, whereParts)
 	}
@@ -28,7 +28,7 @@ abstract class SelectConditionStep extends ConditionStep {
 	public or(left: Condition, operator: LogicalOperator, right: Condition): SelectWhereOrStep
 	public or(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): SelectWhereOrStep
 	public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): SelectWhereOrStep {
-		const whereParts:(LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
+		const whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
 		BaseStep.addConditionParts(whereParts, cond1, op1, cond2, op2, cond3)
 		return new SelectWhereOrStep(this.data, this, whereParts)
 	}
@@ -64,19 +64,31 @@ abstract class SelectConditionStep extends ConditionStep {
 }
 
 export class SelectWhereStep extends SelectConditionStep {
-	constructor(data: BuilderData, prevStep: BaseStep, whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[]) {
+	constructor(
+		data: BuilderData,
+		prevStep: BaseStep,
+		whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
+	) {
 		super('WHERE', data, prevStep, whereParts)
 	}
 }
 
 export class SelectWhereAndStep extends SelectConditionStep {
-	constructor(data: BuilderData, prevStep: BaseStep, whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[]) {
+	constructor(
+		data: BuilderData,
+		prevStep: BaseStep,
+		whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
+	) {
 		super('AND', data, prevStep, whereParts)
 	}
 }
 
 export class SelectWhereOrStep extends SelectConditionStep {
-	constructor(data: BuilderData, prevStep: BaseStep, whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[]) {
+	constructor(
+		data: BuilderData,
+		prevStep: BaseStep,
+		whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
+	) {
 		super('OR', data, prevStep, whereParts)
 	}
 }

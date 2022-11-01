@@ -1,9 +1,10 @@
 import { BuilderData } from '../builder'
 import { Condition, PrimitiveType } from '../models'
 import { LogicalOperator } from '../operators'
-import { TableNotFoundError } from '../errors'
+import { DeleteWithoutConditionError, TableNotFoundError } from '../errors'
 import { AliasedTable, BooleanColumn, Column, Table } from '../database'
 import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
+import { isDeleteStep, isDeleteWhereStep } from '../util'
 
 export enum Parenthesis {
 	Open = '(',
@@ -20,6 +21,22 @@ export abstract class BaseStep {
 
 	public getSQL(): string {
 		let result = this.getFullStatement({ tables: new Set(), columns: new Set() })
+		if (this.data.option.throwErrorIfDeleteHasNoCondition) {
+			//look if the path is DELETE and there is no WHERE step
+			let foundDELETE = false
+			let foundWHERE = false
+			let step:BaseStep|null = this
+			do {
+				if (isDeleteStep(step))
+					foundDELETE = true
+				if (isDeleteWhereStep(step))
+					foundWHERE = true
+				step = step.prevStep
+			} while (step !== null)
+			if (foundDELETE && !foundWHERE) {
+				throw new DeleteWithoutConditionError()
+			}
+		}
 		if (this.data.option.useSemicolonAtTheEnd) result += ';'
 		return result
 	}
@@ -93,7 +110,7 @@ export abstract class BaseStep {
 		op1?: LogicalOperator,
 		cond2?: Condition,
 		op2?: LogicalOperator,
-		cond3?: Condition
+		cond3?: Condition,
 	) {
 		if (op1 === undefined && cond2 === undefined) {
 			conditionArray.push(cond1)

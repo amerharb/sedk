@@ -20,7 +20,7 @@ import {
 	RightJoinStep,
 } from './BaseJoinStep'
 import { OrderByStep } from './OrderByStep'
-import { GroupByStep } from '../stepInterfaces'
+import { GroupByStep } from './GroupByStep'
 
 export abstract class AfterFromStep extends BaseStep {
 	public crossJoin(table: Table): CrossJoinStep {
@@ -57,7 +57,7 @@ export abstract class AfterFromStep extends BaseStep {
 	}
 
 	groupBy(...groupByItems: Column[]): GroupByStep {
-		throw new Error('Method not implemented.')
+		return new GroupByStep(this.data, this, groupByItems)
 	}
 
 	limit(n: number|All|null): LimitStep {

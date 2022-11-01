@@ -8,9 +8,8 @@ import { Condition, PrimitiveType } from '../../models'
 import { BooleanColumn, Column } from '../../database'
 import { OrderByArgsElement } from '../../orderBy'
 import { All } from '../../singletoneConstants'
-import { GroupByStep } from '../stepInterfaces'
+import { GroupByStep } from './GroupByStep'
 import { LogicalOperator } from '../../operators'
-import { returnStepOrThrow } from '../../util'
 import { ItemInfo } from '../../ItemInfo'
 import { ReturningItem } from '../../ReturningItemInfo'
 import { ReturningStep } from '../ReturningStep'
@@ -35,7 +34,7 @@ abstract class SelectConditionStep extends ConditionStep {
 	}
 
 	public groupBy(...groupByItems: Column[]): GroupByStep {
-		return returnStepOrThrow(this.data.step).groupBy(...groupByItems)
+		return new GroupByStep(this.data, this, groupByItems)
 	}
 
 	public orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep {

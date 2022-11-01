@@ -1,19 +1,4 @@
-import { BaseStep } from './BaseStep'
-import { Condition } from '../models'
-import { OrderByStep } from './select-path/OrderByStep'
-import { OrderByArgsElement } from '../orderBy'
 import { HavingStep } from './select-path/HavingStep'
-import { LogicalOperator } from '../operators'
-
-export interface GroupByStep extends BaseStep {
-	having(condition: Condition): HavingStep
-
-	having(left: Condition, operator: LogicalOperator, right: Condition): HavingStep
-
-	having(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): HavingStep
-
-	orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep
-}
 
 export interface HavingOrStep extends HavingStep {}
 

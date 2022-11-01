@@ -1,3 +1,4 @@
+import { GroupByStep } from './select-path/GroupByStep'
 import { OffsetStep } from './select-path/OffsetStep'
 import { LimitStep } from './select-path/LimitStep'
 import { Condition, Expression, PrimitiveType } from '../models'
@@ -13,7 +14,6 @@ import { Binder } from '../binder'
 import { Artifacts, BaseStep, Parenthesis } from './BaseStep'
 import { SelectWhereStep } from './select-path/SelectConditionStep'
 import { HavingStep } from './select-path/HavingStep'
-import { GroupByStep } from './stepInterfaces'
 import {
 	FullOuterJoinStep,
 	InnerJoinStep,
@@ -41,8 +41,7 @@ export type SelectItem = ColumnLike|AggregateFunction|Binder|Asterisk|TableAster
 export type FromItem = Table|AliasedTable
 export type FromItems = [FromItem, ...FromItem[]]
 
-export class Step extends BaseStep
-	implements GroupByStep {
+export class Step extends BaseStep {
 	constructor(data: BuilderData, prevStep: BaseStep) {
 		super(data, prevStep)
 		data.step = this
@@ -129,8 +128,9 @@ export class Step extends BaseStep
 	}
 
 	public groupBy(...groupByItems: Column[]): GroupByStep {
-		this.data.groupByItems.push(...groupByItems)
-		return this
+		// this.data.groupByItems.push(...groupByItems)
+		// return this
+		throw new Error('to be deleted')
 	}
 
 	public having(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): HavingStep {

@@ -52,7 +52,6 @@ describe('Throw desired Errors', () => {
 				addAsBeforeTableAlias: 'always',
 				throwErrorIfDeleteHasNoCondition: true,
 			},
-			orderByItemInfos: [],
 			selectItemInfos: [],
 		}
 		it(`Throws error when Step is not initialized`, () => {

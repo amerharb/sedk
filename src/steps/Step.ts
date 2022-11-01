@@ -146,11 +146,12 @@ export class Step extends BaseStep {
 		const store: StoreType = { orderByItem: undefined, direction: undefined, nullsPos: undefined }
 		const pushWhenOrderByItemDefined = () => {
 			if (store.orderByItem !== undefined) {
-				this.data.orderByItemInfos.push(new OrderByItemInfo(
-					store.orderByItem,
-					store.direction,
-					store.nullsPos,
-				))
+				// to be deleted
+				// this.data.orderByItemInfos.push(new OrderByItemInfo(
+				// 	store.orderByItem,
+				// 	store.direction,
+				// 	store.nullsPos,
+				// ))
 				store.orderByItem = undefined
 				store.direction = undefined
 				store.nullsPos = undefined
@@ -173,7 +174,8 @@ export class Step extends BaseStep {
 				pushWhenOrderByItemDefined()
 			} else if (it instanceof OrderByItemInfo) {
 				pushWhenOrderByItemDefined()
-				this.data.orderByItemInfos.push(it)
+				// to be deleted
+				// this.data.orderByItemInfos.push(it)
 			} else if (it instanceof Column) {
 				pushWhenOrderByItemDefined()
 				store.orderByItem = it

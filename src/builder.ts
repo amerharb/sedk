@@ -18,7 +18,6 @@ import {
 	UpdateStep,
 } from './steps'
 import { LogicalOperator } from './operators'
-import { OrderByItemInfo } from './orderBy'
 import { SelectItemInfo } from './SelectItemInfo'
 import { BuilderOption, BuilderOptionRequired, fillUndefinedOptionsWithDefault } from './option'
 import { MoreThanOneDistinctOrAllError } from './errors'
@@ -41,7 +40,6 @@ export type BuilderData = {
 	selectItemInfos: ItemInfo[],
 	fromItemInfos: FromItemInfo[],
 	havingParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
-	orderByItemInfos: OrderByItemInfo[],
 	binderStore: BinderStore,
 	// TODO: temp use, evaluate later to keep it here or not
 	artifact?: Artifacts,
@@ -138,7 +136,6 @@ function getDataObj(database: Database, option?: BuilderOption): BuilderData {
 		sqlPath: undefined,
 		selectItemInfos: [],
 		havingParts: [],
-		orderByItemInfos: [],
 		binderStore: new BinderStore(),
 		option: fillUndefinedOptionsWithDefault(option ?? {}),
 	}

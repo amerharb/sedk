@@ -116,12 +116,13 @@ export abstract class BaseStep {
 			result += ` HAVING ${havingPartsString.join(' ')}`
 		}
 
-		if (this.data.orderByItemInfos.length > 0) {
-			const orderByPartsString = this.data.orderByItemInfos.map(it => {
-				return it.getStmt(this.data)
-			})
-			result += ` ORDER BY ${orderByPartsString.join(', ')}`
-		}
+		// to be deleted
+		// if (this.data.orderByItemInfos.length > 0) {
+		// 	const orderByPartsString = this.data.orderByItemInfos.map(it => {
+		// 		return it.getStmt(this.data)
+		// 	})
+		// 	result += ` ORDER BY ${orderByPartsString.join(', ')}`
+		// }
 
 		return result
 	}
@@ -221,7 +222,6 @@ export abstract class BaseStep {
 		this.data.selectItemInfos.length = 0
 		this.data.fromItemInfos.length = 0
 		this.data.havingParts.length = 0
-		this.data.orderByItemInfos.length = 0
 		this.data.binderStore.cleanUp()
 	}
 

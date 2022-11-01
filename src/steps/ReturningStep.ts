@@ -1,3 +1,5 @@
+import { RootStep } from './RootStep'
+import { SelectStep } from './select-path/SelectStep'
 import { AggregateFunction } from '../AggregateFunction'
 import { Binder } from '../binder'
 import { Column } from '../database'
@@ -6,7 +8,7 @@ import { Expression, PrimitiveType } from '../models'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { Asterisk } from '../singletoneConstants'
 import { TableAsterisk } from '../TableAsterisk'
-import { BuilderData, SqlPath } from '../builder'
+import { BuilderData } from '../builder'
 import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
 import { Artifacts, BaseStep } from './BaseStep'
 
@@ -19,8 +21,12 @@ export class ReturningStep extends BaseStep {
 		returningItems: (ItemInfo|ReturningItem|PrimitiveType)[],
 	) {
 		super(data, prevStep)
-		// TODO: check if this needed here
-		if (this.data.sqlPath === SqlPath.SELECT) {
+		// find first step and check if it is Select
+		let step: BaseStep|null = prevStep
+		while (step !== null && !(step.prevStep instanceof RootStep)) {
+			step = step.prevStep
+		}
+		if (step instanceof SelectStep) {
 			throw new Error('Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE')
 		}
 		const returningItemInfo: ReturningItemInfo[] = returningItems.map(it => {

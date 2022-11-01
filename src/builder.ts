@@ -32,7 +32,6 @@ export type BuilderData = {
 	database: Database,
 	option: BuilderOptionRequired,
 	/** Below data used to generate SQL statement */
-	sqlPath?: SqlPath
 	selectItemInfos: ItemInfo[],
 	fromItemInfos: FromItemInfo[],
 	binderStore: BinderStore,
@@ -128,7 +127,6 @@ function getDataObj(database: Database, option?: BuilderOption): BuilderData {
 	return {
 		database: database,
 		fromItemInfos: [],
-		sqlPath: undefined,
 		selectItemInfos: [],
 		binderStore: new BinderStore(),
 		option: fillUndefinedOptionsWithDefault(option ?? {}),

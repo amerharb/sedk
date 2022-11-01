@@ -77,7 +77,6 @@ export abstract class BaseStep {
 	}
 
 	public cleanUp() {
-		this.data.sqlPath = undefined
 		this.data.selectItemInfos.length = 0
 		this.data.fromItemInfos.length = 0
 		this.data.binderStore.cleanUp()

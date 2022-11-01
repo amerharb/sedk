@@ -13,7 +13,7 @@ import { Binder } from '../binder'
 import { Artifacts, BaseStep, Parenthesis } from './BaseStep'
 import { SelectWhereStep } from './select-path/SelectConditionStep'
 import { HavingStep } from './HavingStep'
-import { CrossJoinStep, GroupByStep } from './stepInterfaces'
+import { GroupByStep } from './stepInterfaces'
 import {
 	FullOuterJoinStep,
 	InnerJoinStep,
@@ -22,8 +22,7 @@ import {
 	RightJoinStep,
 } from './select-path/BaseJoinStep'
 import { LogicalOperator } from '../operators'
-import { FromItemRelation } from '../FromItemInfo'
-import { OnStep } from './select-path/AfterFromStep'
+import { CrossJoinStep, OnStep } from './select-path/AfterFromStep'
 import { OrderByStep } from './select-path/OrderByStep'
 import { DeleteStep } from './delete-path/DeleteStep'
 import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
@@ -43,7 +42,7 @@ export type FromItem = Table|AliasedTable
 export type FromItems = [FromItem, ...FromItem[]]
 
 export class Step extends BaseStep
-	implements CrossJoinStep, GroupByStep {
+	implements GroupByStep {
 	constructor(protected data: BuilderData, protected prevStep: BaseStep) {
 		super(data, prevStep)
 		data.step = this
@@ -83,8 +82,9 @@ export class Step extends BaseStep
 	}
 
 	public crossJoin(table: Table|AliasedTable): CrossJoinStep {
-		this.addFromItemInfo(table, FromItemRelation.CROSS_JOIN)
-		return this
+		throw new Error('to be deleted')
+		// this.addFromItemInfo(table, FromItemRelation.CROSS_JOIN)
+		// return this
 	}
 
 	public join(table: Table|AliasedTable): JoinStep {

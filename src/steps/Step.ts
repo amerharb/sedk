@@ -134,8 +134,9 @@ export class Step extends BaseStep {
 	}
 
 	public having(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): HavingStep {
-		this.addHavingParts(cond1, op1, cond2, op2, cond3)
-		return new HavingStep(this.data, this)
+		const havingParts:(LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
+		BaseStep.addConditionParts(havingParts, cond1, op1, cond2, op2, cond3)
+		return new HavingStep(this.data, this, havingParts)
 	}
 
 	public orderBy(...orderByArgsElement: OrderByArgsElement[]): OrderByStep {

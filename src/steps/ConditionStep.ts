@@ -6,7 +6,7 @@ import { LogicalOperator } from '../operators'
 
 export abstract class ConditionStep extends BaseStep {
 	protected constructor(
-		protected readonly conditionName: 'WHERE'|'AND'|'OR',
+		protected readonly conditionName: 'WHERE'|'HAVING'|'AND'|'OR',
 		data: BuilderData,
 		prevStep: BaseStep,
 		protected readonly whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],

@@ -13,7 +13,6 @@ import {
 	SelectFromStep,
 	SelectItem,
 	SelectStep,
-	Step,
 	UpdateStep,
 } from './steps'
 import { SelectItemInfo } from './SelectItemInfo'
@@ -30,7 +29,6 @@ export enum SqlPath {
 }
 
 export type BuilderData = {
-	step?: Step,
 	database: Database,
 	option: BuilderOptionRequired,
 	/** Below data used to generate SQL statement */

@@ -6,7 +6,6 @@ export const builderData: BuilderData = {
 	binderStore: new BinderStore(),
 	database,
 	fromItemInfos: [],
-	groupByItems: [],
 	havingParts: [],
 	option: {
 		useSemicolonAtTheEnd: true,

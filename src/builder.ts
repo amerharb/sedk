@@ -40,7 +40,6 @@ export type BuilderData = {
 	sqlPath?: SqlPath
 	selectItemInfos: ItemInfo[],
 	fromItemInfos: FromItemInfo[],
-	groupByItems: Column[],
 	havingParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
 	orderByItemInfos: OrderByItemInfo[],
 	binderStore: BinderStore,
@@ -138,7 +137,6 @@ function getDataObj(database: Database, option?: BuilderOption): BuilderData {
 		fromItemInfos: [],
 		sqlPath: undefined,
 		selectItemInfos: [],
-		groupByItems: [],
 		havingParts: [],
 		orderByItemInfos: [],
 		binderStore: new BinderStore(),

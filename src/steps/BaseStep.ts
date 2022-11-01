@@ -101,9 +101,9 @@ export abstract class BaseStep {
 
 		result += this.getWhereParts()
 
-		if (this.data.groupByItems.length > 0) {
-			result += ` GROUP BY ${this.data.groupByItems.map(it => it.getStmt(this.data)).join(', ')}`
-		}
+		// if (this.data.groupByItems.length > 0) {
+		// 	result += ` GROUP BY ${this.data.groupByItems.map(it => it.getStmt(this.data)).join(', ')}`
+		// }
 
 		if (this.data.havingParts.length > 0) {
 			BaseStep.throwIfConditionPartsInvalid(this.data.havingParts)
@@ -220,7 +220,6 @@ export abstract class BaseStep {
 		this.data.sqlPath = undefined
 		this.data.selectItemInfos.length = 0
 		this.data.fromItemInfos.length = 0
-		this.data.groupByItems.length = 0
 		this.data.havingParts.length = 0
 		this.data.orderByItemInfos.length = 0
 		this.data.binderStore.cleanUp()

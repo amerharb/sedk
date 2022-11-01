@@ -4,7 +4,7 @@ import { Binder } from '../../binder'
 import { BuilderData } from '../../builder'
 import { Column } from '../../database'
 import { ItemInfo } from '../../ItemInfo'
-import { Expression, PrimitiveType } from '../../models'
+import { Condition, Expression, PrimitiveType } from '../../models'
 import { ReturningItem } from '../../ReturningItemInfo'
 import { SelectItemInfo } from '../../SelectItemInfo'
 import { ALL, All, Asterisk, DISTINCT, Distinct } from '../../singletoneConstants'
@@ -43,6 +43,15 @@ export class SelectStep extends BaseStep {
 		}
 
 		SelectStep.throwIfMoreThanOneDistinctOrAll(items)
+		const columns = items.map(it => {
+			if (it instanceof Column || it instanceof ItemInfo) {
+				return it
+			} else if (it instanceof Expression || it instanceof AggregateFunction || it instanceof Condition) {
+				return it.getColumns()
+			}
+			return []
+		}).flat(1)
+		this.throwIfColumnsNotInDb(columns)
 		this.items = items as (ItemInfo|SelectItem|PrimitiveType)[]
 	}
 
@@ -67,7 +76,7 @@ export class SelectStep extends BaseStep {
 				return new SelectItemInfo(new Expression(it), undefined)
 			}
 		})
-		// this.throwIfColumnsNotInDb(selectItemInfos)
+		this.throwIfColumnsNotInDb(selectItemInfos)
 		this.data.selectItemInfos.push(...selectItemInfos)
 
 		let result = `SELECT`

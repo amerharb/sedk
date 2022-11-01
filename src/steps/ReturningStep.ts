@@ -51,8 +51,7 @@ export class ReturningStep extends BaseStep {
 				return new ReturningItemInfo(new Expression(it), undefined)
 			}
 		})
-		// TODO: check later to activate this
-		// this.throwIfColumnsNotInDb(returningItemInfo)
+		this.throwIfColumnsNotInDb(returningItemInfo)
 		this.returningItemInfo = returningItemInfo
 	}
 

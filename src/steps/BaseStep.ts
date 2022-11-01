@@ -1,7 +1,9 @@
+import { ItemInfo } from '../ItemInfo'
+import { ColumnLike } from './select-path/SelectStep'
 import { BuilderData } from '../builder'
-import { Condition, PrimitiveType } from '../models'
+import { Condition, Expression, PrimitiveType } from '../models'
 import { LogicalOperator } from '../operators'
-import { DeleteWithoutConditionError, TableNotFoundError } from '../errors'
+import { ColumnNotFoundError, DeleteWithoutConditionError, TableNotFoundError } from '../errors'
 import { AliasedTable, BooleanColumn, Column, Table } from '../database'
 import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
 import { isDeleteStep, isDeleteWhereStep } from '../util'
@@ -92,6 +94,23 @@ export abstract class BaseStep {
 	protected throwIfTableNotInDb(table: Table) {
 		if (!this.data.database.hasTable(table))
 			throw new TableNotFoundError(`Table: "${table.name}" not found`)
+	}
+
+	// TODO: refactor this call the way it been call or itself
+	protected throwIfColumnsNotInDb(columns: (ItemInfo|ColumnLike)[]) {
+		for (const item of columns) {
+			if (
+				item instanceof Expression
+				|| item instanceof ItemInfo
+			) {
+				this.throwIfColumnsNotInDb(item.getColumns())
+				continue
+			}
+			// after this, item is type Column
+			if (!this.data.database.hasColumn(item)) {
+				throw new ColumnNotFoundError(`Column: "${item.name}" not found in database`)
+			}
+		}
 	}
 
 	protected addFromItemInfo(table: Table|AliasedTable, relation: FromItemRelation) {

@@ -7,7 +7,7 @@ import {
 
 // test non-exported Classes
 import { Condition, Expression, Operand } from 'Non-Exported/models'
-import { OnStep, Parenthesis, RootStep } from 'Non-Exported/steps'
+import { Parenthesis } from 'Non-Exported/steps'
 import { Binder, BinderArray, BinderStore } from 'Non-Exported/binder'
 import { BuilderData } from 'Non-Exported/builder'
 import { ItemInfo } from 'Non-Exported/ItemInfo'
@@ -33,33 +33,6 @@ describe('Throw desired Errors', () => {
 
 			expect(actual).toThrow(InvalidConditionError)
 			expect(actual).toThrow(`Condition can not created with only "NUMBER"`)
-		})
-	})
-
-	describe('Error: "Step property in builder data is not initialized"', () => {
-		const data: BuilderData = {
-			binderStore: new BinderStore(),
-			database,
-			fromItemInfos: [],
-			havingParts: [],
-			option: {
-				useSemicolonAtTheEnd: true,
-				addAscAfterOrderByItem: 'when mentioned',
-				addNullsLastAfterOrderByItem: 'when mentioned',
-				addAsBeforeColumnAlias: 'always',
-				addPublicSchemaName: 'never',
-				addTableName: 'when two tables or more',
-				addAsBeforeTableAlias: 'always',
-				throwErrorIfDeleteHasNoCondition: true,
-			},
-			selectItemInfos: [],
-		}
-		it(`Throws error when Step is not initialized`, () => {
-			function actual() {
-				new OnStep(data, new RootStep(data), table1.c.col1.eq('a')).crossJoin(table1)
-			}
-
-			expect(actual).toThrow(`Step property in builder data is not initialized`)
 		})
 	})
 

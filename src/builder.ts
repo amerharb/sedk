@@ -1,6 +1,6 @@
 import { Artifacts } from './steps/BaseStep'
-import { AliasedTable, BooleanColumn, Column, Database, Table } from './database'
-import { Condition, PrimitiveType } from './models'
+import { AliasedTable, Column, Database, Table } from './database'
+import { PrimitiveType } from './models'
 import { BinderStore } from './binder'
 import { ASTERISK, All, Distinct } from './singletoneConstants'
 import {
@@ -9,7 +9,6 @@ import {
 	FromItems,
 	InsertStep,
 	IntoStep,
-	Parenthesis,
 	RootStep,
 	SelectFromStep,
 	SelectItem,
@@ -17,7 +16,6 @@ import {
 	Step,
 	UpdateStep,
 } from './steps'
-import { LogicalOperator } from './operators'
 import { SelectItemInfo } from './SelectItemInfo'
 import { BuilderOption, BuilderOptionRequired, fillUndefinedOptionsWithDefault } from './option'
 import { MoreThanOneDistinctOrAllError } from './errors'
@@ -39,7 +37,6 @@ export type BuilderData = {
 	sqlPath?: SqlPath
 	selectItemInfos: ItemInfo[],
 	fromItemInfos: FromItemInfo[],
-	havingParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
 	binderStore: BinderStore,
 	// TODO: temp use, evaluate later to keep it here or not
 	artifact?: Artifacts,
@@ -135,7 +132,6 @@ function getDataObj(database: Database, option?: BuilderOption): BuilderData {
 		fromItemInfos: [],
 		sqlPath: undefined,
 		selectItemInfos: [],
-		havingParts: [],
 		binderStore: new BinderStore(),
 		option: fillUndefinedOptionsWithDefault(option ?? {}),
 	}

@@ -1,7 +1,7 @@
-import { BuilderData, SqlPath } from '../builder'
+import { BuilderData } from '../builder'
 import { Condition, PrimitiveType } from '../models'
 import { LogicalOperator } from '../operators'
-import { DeleteWithoutConditionError, TableNotFoundError } from '../errors'
+import { TableNotFoundError } from '../errors'
 import { AliasedTable, BooleanColumn, Column, Table } from '../database'
 import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
 
@@ -59,36 +59,11 @@ export abstract class BaseStep {
 		return [...this.data.binderStore.getValues()]
 	}
 
-	private getWhereParts(): string {
-		// TODO: this function to be remove later
-		// if (this.data.whereParts.length > 0) {
-		// 	BaseStep.throwIfConditionPartsInvalid(this.data.whereParts)
-		// 	const wherePartsString = this.data.whereParts.map(it => {
-		// 		if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
-		// 			return it.getStmt(this.data)
-		// 		}
-		// 		return it.toString()
-		// 	})
-		// 	return ` WHERE ${wherePartsString.join(' ')}`
-		// }
-
-		if (this.data.sqlPath === SqlPath.DELETE && this.data.option.throwErrorIfDeleteHasNoCondition) {
-			throw new DeleteWithoutConditionError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
-		}
-
-		return ''
-	}
-
 	public cleanUp() {
 		this.data.sqlPath = undefined
 		this.data.selectItemInfos.length = 0
 		this.data.fromItemInfos.length = 0
-		this.data.havingParts.length = 0
 		this.data.binderStore.cleanUp()
-	}
-
-	protected addHavingParts(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
-		BaseStep.addConditionParts(this.data.havingParts, cond1, op1, cond2, op2, cond3)
 	}
 
 	protected static getTable(tableOrAliasedTable: Table|AliasedTable): Table {
@@ -112,8 +87,14 @@ export abstract class BaseStep {
 		))
 	}
 
-	protected static addConditionParts(conditionArray: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
-		cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition) {
+	protected static addConditionParts(
+		conditionArray: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
+		cond1: Condition,
+		op1?: LogicalOperator,
+		cond2?: Condition,
+		op2?: LogicalOperator,
+		cond3?: Condition
+	) {
 		if (op1 === undefined && cond2 === undefined) {
 			conditionArray.push(cond1)
 		} else if (op1 !== undefined && cond2 !== undefined) {

@@ -11,7 +11,11 @@ export class MoreThanOneDistinctOrAllError extends Error {}
 
 export class InvalidConditionError extends Error {}
 
-export class DeleteWithoutConditionError extends Error {}
+export class DeleteWithoutConditionError extends Error {
+	constructor() {
+		super('Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false')
+	}
+}
 
 export class InvalidLimitValueError extends Error {
 	constructor(value: null|number|All) {

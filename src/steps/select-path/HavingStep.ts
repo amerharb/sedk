@@ -57,7 +57,6 @@ export class HavingStep extends HavingConditionStep {
 		havingParts: (Condition|LogicalOperator|BooleanColumn|Parenthesis)[],
 	) {
 		super('HAVING', data, step, havingParts)
-		this.data.havingParts = havingParts
 	}
 }
 
@@ -68,7 +67,6 @@ export class HavingAndStep extends HavingConditionStep {
 		havingParts: (Condition|LogicalOperator|BooleanColumn|Parenthesis)[],
 	) {
 		super('AND', data, step, havingParts)
-		this.data.havingParts = havingParts
 	}
 }
 
@@ -79,6 +77,5 @@ export class HavingOrStep extends HavingConditionStep {
 		havingParts: (Condition|LogicalOperator|BooleanColumn|Parenthesis)[],
 	) {
 		super('OR', data, step, havingParts)
-		this.data.havingParts = havingParts
 	}
 }

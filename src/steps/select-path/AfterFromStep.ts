@@ -1,6 +1,6 @@
 import { BuilderData } from '../../builder'
-import { BaseStep, Parenthesis } from '../BaseStep'
-import { CrossJoinStep } from './CrossJoinStep'
+import { FromItem } from '../Step'
+import { Artifacts, BaseStep, Parenthesis } from '../BaseStep'
 import { All } from '../../singletoneConstants'
 import { LimitStep } from './LimitStep'
 import { OffsetStep } from './OffsetStep'
@@ -23,12 +23,8 @@ import { OrderByStep } from './OrderByStep'
 import { GroupByStep } from '../stepInterfaces'
 
 export abstract class AfterFromStep extends BaseStep {
-	protected constructor(data: BuilderData, prevStep: BaseStep) {
-		super(data, prevStep)
-	}
-
 	public crossJoin(table: Table): CrossJoinStep {
-		throw new Error('Method not implemented.')
+		return new CrossJoinStep(this.data, this, table)
 	}
 
 	public leftJoin(table: Table): LeftJoinStep {
@@ -87,5 +83,24 @@ export abstract class AfterFromStep extends BaseStep {
 	// TODO: check if we can limit this to only update, insert and delete
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
 		return new ReturningStep(this.data, this, items)
+	}
+}
+
+export class CrossJoinStep extends AfterFromStep {
+	constructor(
+		data: BuilderData,
+		prevStep: BaseStep,
+		private readonly fromItem: FromItem,
+	) {
+		super(data, prevStep)
+	}
+
+	public getStepStatement(artifacts?: Artifacts): string {
+		return `CROSS JOIN ${this.fromItem.getStmt(this.data)}`
+	}
+
+	protected getStepArtifacts(): Artifacts {
+		const table = this.fromItem instanceof Table ? this.fromItem : this.fromItem.table
+		return { tables: new Set([table]), columns: new Set() }
 	}
 }

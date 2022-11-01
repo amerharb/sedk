@@ -2,7 +2,7 @@ import { BaseStep } from './BaseStep'
 import { Condition } from '../models'
 import { OrderByStep } from './select-path/OrderByStep'
 import { OrderByArgsElement } from '../orderBy'
-import { HavingStep } from './HavingStep'
+import { HavingStep } from './select-path/HavingStep'
 import { LogicalOperator } from '../operators'
 
 export interface GroupByStep extends BaseStep {

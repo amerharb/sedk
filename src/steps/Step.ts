@@ -12,7 +12,7 @@ import { AggregateFunction } from '../AggregateFunction'
 import { Binder } from '../binder'
 import { Artifacts, BaseStep, Parenthesis } from './BaseStep'
 import { SelectWhereStep } from './select-path/SelectConditionStep'
-import { HavingStep } from './HavingStep'
+import { HavingStep } from './select-path/HavingStep'
 import { GroupByStep } from './stepInterfaces'
 import {
 	FullOuterJoinStep,

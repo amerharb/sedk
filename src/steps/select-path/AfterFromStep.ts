@@ -20,7 +20,7 @@ import {
 	RightJoinStep,
 } from './BaseJoinStep'
 import { OrderByStep } from './OrderByStep'
-import { GroupByStep, OnAndStep, OnOrStep } from '../stepInterfaces'
+import { GroupByStep } from '../stepInterfaces'
 
 export abstract class AfterFromStep extends BaseStep {
 	public crossJoin(table: Table): CrossJoinStep {
@@ -109,7 +109,7 @@ export class OnStep extends AfterFromStep {
 	constructor(
 		data: BuilderData,
 		prevStep: BaseStep,
-		private readonly condition: Condition
+		protected readonly condition: Condition
 	) {
 		super(data, prevStep)
 	}
@@ -123,12 +123,22 @@ export class OnStep extends AfterFromStep {
 	}
 
 	public or(condition: Condition): OnOrStep {
-		this.data.fromItemInfos[this.data.fromItemInfos.length - 1].addOrCondition(condition)
-		return this
+		return new OnOrStep(this.data, this, condition)
 	}
 
 	public and(condition: Condition): OnAndStep {
-		this.data.fromItemInfos[this.data.fromItemInfos.length - 1].addAndCondition(condition)
-		return this
+		return new OnAndStep(this.data, this, condition)
+	}
+}
+
+export class OnAndStep extends OnStep {
+	public override getStepStatement(): string {
+		return `AND ${this.condition.getStmt(this.data)}`
+	}
+}
+
+export class OnOrStep extends OnStep {
+	public override getStepStatement(): string {
+		return `OR ${this.condition.getStmt(this.data)}`
 	}
 }

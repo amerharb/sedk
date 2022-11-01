@@ -23,7 +23,7 @@ import {
 } from './select-path/BaseJoinStep'
 import { LogicalOperator } from '../operators'
 import { FromItemRelation } from '../FromItemInfo'
-import { OnStep } from './select-path/OnStep'
+import { OnStep } from './select-path/AfterFromStep'
 import { OrderByStep } from './select-path/OrderByStep'
 import { DeleteStep } from './delete-path/DeleteStep'
 import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'

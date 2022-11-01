@@ -1,5 +1,5 @@
 import { Condition } from '../../models'
-import { OnStep } from './OnStep'
+import { OnStep } from './AfterFromStep'
 import { BuilderData } from '../../builder'
 import { AliasedTable, Table } from '../../database'
 import { Artifacts, BaseStep } from '../BaseStep'

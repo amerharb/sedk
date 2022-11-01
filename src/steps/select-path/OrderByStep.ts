@@ -1,3 +1,4 @@
+import { SelectStep } from './SelectStep'
 import { Column } from '../../database'
 import {
 	OrderByArgsElement,
@@ -68,9 +69,16 @@ export class OrderByStep extends BaseStep {
 				store.orderByItem = it
 			} else { //it is a string
 				pushWhenOrderByItemDefined()
-				// TODO: remove this.data, replace this with logic that check artifacts
-				//look for the alias
-				if (this.data.selectItemInfos.find(info => info.alias === it)) {
+				/** look for the alias */
+				let prevStep = this.prevStep
+				while (!(prevStep instanceof SelectStep)) {
+					prevStep = prevStep?.prevStep ?? null
+					if (prevStep === null) {
+						throw new Error(`Can't find select step to look for aliases`)
+					}
+				}
+				const aliases = prevStep.getAliases()
+				if (aliases.find(alias => alias === it)) {
 					store.orderByItem = `"${escapeDoubleQuote(it)}"`
 				} else {
 					throw new Error(`Alias ${it} is not exist, if this is a column, then it should be entered as Column class`)

@@ -10,12 +10,12 @@ import { SelectItemInfo } from '../../SelectItemInfo'
 import { ALL, All, Asterisk, DISTINCT, Distinct } from '../../singletoneConstants'
 import { Artifacts, BaseStep } from '../BaseStep'
 import { SelectFromStep } from './SelectFromStep'
-import { FromItems, SelectItem, Step } from '../Step'
+import { FromItems, SelectItem } from '../Step'
 import { ReturningStep } from '../ReturningStep'
 import { TableAsterisk } from '../../TableAsterisk'
 
 export class SelectStep extends BaseStep {
-	private readonly items: (ItemInfo|SelectItem|PrimitiveType)[]
+	public readonly items: (ItemInfo|SelectItem|PrimitiveType)[]
 	private readonly distinct?: Distinct|All
 
 	constructor(
@@ -42,15 +42,6 @@ export class SelectStep extends BaseStep {
 
 		SelectStep.throwIfMoreThanOneDistinctOrAll(items)
 		this.items = items as (ItemInfo|SelectItem|PrimitiveType)[]
-	}
-
-	from(...tables: FromItems): SelectFromStep {
-		return new SelectFromStep(this.data, this, tables)
-	}
-
-	// TODO: check if this needed here
-	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new Step(this.data, this).returning(...items)
 	}
 
 	public getStepStatement(artifacts?: Artifacts): string {
@@ -95,6 +86,26 @@ export class SelectStep extends BaseStep {
 		return { tables: new Set(), columns: new Set(this.getColumns()) }
 	}
 
+	public getAliases(): string[] {
+		return this.items
+			.map(it => {
+				if (this.isSelectItemInfo(it) && it.alias !== undefined) {
+					return it.alias
+				}
+				return []
+			})
+			.flat(1)
+	}
+
+	from(...tables: FromItems): SelectFromStep {
+		return new SelectFromStep(this.data, this, tables)
+	}
+
+	// TODO: check if this needed here
+	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
+		return new ReturningStep(this.data, this, items)
+	}
+
 	private getColumns(): Column[] {
 		return this.items.map(it => {
 			if (it instanceof SelectItemInfo) {
@@ -111,6 +122,10 @@ export class SelectStep extends BaseStep {
 				return []
 			}
 		}).flat()
+	}
+
+	private isSelectItemInfo(item: ItemInfo|SelectItem|PrimitiveType): item is SelectItemInfo|ItemInfo {
+		return item instanceof SelectItemInfo || item instanceof ItemInfo
 	}
 
 	private static throwIfMoreThanOneDistinctOrAll(items: (Distinct|All|ItemInfo|SelectItem|PrimitiveType)[]):

@@ -12,8 +12,8 @@ import { OrderByStep } from './select-path/OrderByStep'
 
 export class HavingStep extends BaseStep {
 	constructor(
-		protected readonly data: BuilderData,
-		protected readonly prevStep: BaseStep,
+		data: BuilderData,
+		prevStep: BaseStep,
 	) {
 		super(data, prevStep)
 	}

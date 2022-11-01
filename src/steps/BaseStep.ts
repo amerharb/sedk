@@ -15,7 +15,7 @@ export type Artifacts = { tables: ReadonlySet<Table>, columns: ReadonlySet<Colum
 export abstract class BaseStep {
 	constructor(
 		protected readonly data: BuilderData,
-		protected readonly prevStep: BaseStep|null,
+		public readonly prevStep: BaseStep|null,
 	) {}
 
 	public getSQL(): string {

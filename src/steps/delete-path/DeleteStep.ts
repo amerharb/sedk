@@ -6,8 +6,8 @@ import { FromItemRelation } from '../../FromItemInfo'
 
 export class DeleteStep extends BaseStep {
 	constructor(
-		protected readonly data: BuilderData,
-		protected readonly prevStep: BaseStep,
+		data: BuilderData,
+		prevStep: BaseStep,
 	) {
 		super(data, prevStep)
 	}

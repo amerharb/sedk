@@ -43,7 +43,7 @@ export type FromItems = [FromItem, ...FromItem[]]
 
 export class Step extends BaseStep
 	implements GroupByStep {
-	constructor(protected data: BuilderData, protected prevStep: BaseStep) {
+	constructor(data: BuilderData, prevStep: BaseStep) {
 		super(data, prevStep)
 		data.step = this
 	}

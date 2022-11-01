@@ -11,8 +11,8 @@ import { ItemInfo } from '../../ItemInfo'
 
 export class DeleteFromStep extends BaseStep {
 	constructor(
-		protected readonly data: BuilderData,
-		protected readonly prevStep: BaseStep,
+		data: BuilderData,
+		prevStep: BaseStep,
 		protected readonly table: FromItem
 	) {
 		super(data, prevStep)

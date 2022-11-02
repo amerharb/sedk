@@ -5,7 +5,6 @@ import { database } from 'test/database'
 export const builderData: BuilderData = {
 	binderStore: new BinderStore(),
 	database,
-	fromItemInfos: [],
 	option: {
 		useSemicolonAtTheEnd: true,
 		addAscAfterOrderByItem: 'when mentioned',

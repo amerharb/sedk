@@ -5,7 +5,6 @@ import { Condition, Expression, PrimitiveType } from '../models'
 import { LogicalOperator } from '../operators'
 import { ColumnNotFoundError, DeleteWithoutConditionError, TableNotFoundError } from '../errors'
 import { AliasedTable, BooleanColumn, Column, Table } from '../database'
-import { FromItemInfo, FromItemRelation } from '../FromItemInfo'
 import { isDeleteStep, isDeleteWhereStep } from '../util'
 
 export enum Parenthesis {
@@ -80,7 +79,6 @@ export abstract class BaseStep {
 
 	public cleanUp() {
 		this.data.selectItemInfos.length = 0
-		this.data.fromItemInfos.length = 0
 		this.data.binderStore.cleanUp()
 	}
 
@@ -111,15 +109,6 @@ export abstract class BaseStep {
 				throw new ColumnNotFoundError(`Column: "${item.name}" not found in database`)
 			}
 		}
-	}
-
-	protected addFromItemInfo(table: Table|AliasedTable, relation: FromItemRelation) {
-		this.throwIfTableNotInDb(BaseStep.getTable(table))
-		this.data.fromItemInfos.push(new FromItemInfo(
-			BaseStep.getTable(table),
-			relation,
-			table instanceof AliasedTable ? table.alias : undefined,
-		))
 	}
 
 	protected static addConditionParts(

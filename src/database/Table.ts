@@ -86,7 +86,9 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements INameGiver, ISt
 			|| data.option.addPublicSchemaName === 'always'
 			|| (data.option.addPublicSchemaName === 'when other schema mentioned'
 				&& Array.from(data.artifact?.tables ?? []).some(it => it.schema.name !== 'public'))
-		) ? `"${escapeDoubleQuote(this.mSchema.name)}".` : ''
+		)
+			? `${this.mSchema.fqName}.`
+			: ''
 		return `${schemaName}"${escapeDoubleQuote(this.data.name)}"`
 	}
 }

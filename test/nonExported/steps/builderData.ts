@@ -15,5 +15,4 @@ export const builderData: BuilderData = {
 		addAsBeforeTableAlias: 'always',
 		throwErrorIfDeleteHasNoCondition: true,
 	},
-	selectItemInfos: [],
 }

@@ -77,7 +77,6 @@ export class SelectStep extends BaseStep {
 			}
 		})
 		this.throwIfColumnsNotInDb(selectItemInfos)
-		this.data.selectItemInfos.push(...selectItemInfos)
 
 		let result = `SELECT`
 

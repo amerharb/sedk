@@ -78,7 +78,6 @@ export abstract class BaseStep {
 	}
 
 	public cleanUp() {
-		this.data.selectItemInfos.length = 0
 		this.data.binderStore.cleanUp()
 	}
 

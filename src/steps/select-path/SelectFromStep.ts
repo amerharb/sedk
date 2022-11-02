@@ -13,6 +13,9 @@ export class SelectFromStep extends AfterFromStep {
 		protected readonly fromItems: FromItems,
 	) {
 		super(data, prevStep)
+		if (fromItems.length === 0) {
+			throw new Error('No tables specified')
+		}
 		fromItems.forEach(it => this.throwIfTableNotInDb(BaseStep.getTable(it)))
 	}
 

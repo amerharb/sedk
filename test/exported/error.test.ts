@@ -433,11 +433,13 @@ describe('Throw desired Errors', () => {
 	})
 	it(`Throws error "Insert statement must have values or select items"`, () => {
 		function actual() {
-			sql.insertInto(table1).getSQL()
+			sql.insertInto(table1).values().getSQL()
 		}
 
 		expect(actual).toThrow(`Insert statement must have values or select items`)
 	})
+	it.todo(`Throws error "Insert statement must have values or select items" for empty select step`)
+	// sql.insertInto(table1).select().getSQL()
 	it(`Throws error "Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE"`, () => {
 		function actual() {
 			sql.selectAsteriskFrom(table1).returning(ASTERISK).getSQL()

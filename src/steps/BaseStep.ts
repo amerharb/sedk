@@ -51,7 +51,7 @@ export abstract class BaseStep {
 	protected getFullStatement(nextArtifacts: Artifacts): string {
 		let result = ''
 		const artifacts = this.mergeArtifacts(this.getFullArtifacts(), nextArtifacts)
-		this.data.artifact = artifacts
+		this.data.artifacts = artifacts
 		if (this.prevStep !== null) {
 			const stmt = this.prevStep.getFullStatement(artifacts).trimRight()
 			if (stmt !== '') {

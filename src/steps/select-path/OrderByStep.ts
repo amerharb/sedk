@@ -101,7 +101,7 @@ export class OrderByStep extends BaseStep {
 		return { tables: new Set(), columns: new Set(columns) }
 	}
 
-	getStepStatement(artifacts: Artifacts): string {
+	getStepStatement(): string {
 		if (this.orderByItemInfos.length > 0) {
 			const orderByPartsString = this.orderByItemInfos.map(it => {
 				return it.getStmt(this.data)

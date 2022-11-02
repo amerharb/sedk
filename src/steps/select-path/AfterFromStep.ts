@@ -93,7 +93,7 @@ export class CrossJoinStep extends AfterFromStep {
 		super(prevStep)
 	}
 
-	public getStepStatement(artifacts?: Artifacts): string {
+	public getStepStatement(): string {
 		return `CROSS JOIN ${this.fromItem.getStmt(this.data)}`
 	}
 

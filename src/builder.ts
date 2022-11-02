@@ -23,10 +23,9 @@ import { ItemInfo } from './ItemInfo'
 export type BuilderData = {
 	database: Database,
 	option: BuilderOptionRequired,
-	/** Below data used to generate SQL statement */
+	// TODO: move artifacts and binderStore to Step level
 	binderStore: BinderStore,
-	// TODO: temp use, evaluate later to keep it here or not
-	artifact?: Artifacts,
+	artifacts: Artifacts,
 }
 
 /**
@@ -116,7 +115,8 @@ export function builder(database: Database, option?: BuilderOption): RootStep {
 function getDataObj(database: Database, option?: BuilderOption): BuilderData {
 	return {
 		database: database,
-		binderStore: new BinderStore(),
 		option: fillUndefinedOptionsWithDefault(option ?? {}),
+		binderStore: new BinderStore(),
+		artifacts: { tables: new Set(), columns: new Set() },
 	}
 }

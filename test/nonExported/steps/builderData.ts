@@ -3,6 +3,7 @@ import { BuilderData } from 'Non-Exported/builder'
 import { database } from 'test/database'
 
 export const builderData: BuilderData = {
+	artifacts: { tables: new Set(), columns: new Set() },
 	binderStore: new BinderStore(),
 	database,
 	option: {

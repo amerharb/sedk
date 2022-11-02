@@ -144,7 +144,7 @@ export abstract class Column implements INameGiver, IStatementGiver {
 			throw new Error('Table of this column is undefined')
 
 		const schemaName = Array
-			.from(data.artifact?.tables ?? [])
+			.from(data.artifacts.tables)
 			.some(it => it !== this.table && it.name === this.table.name)
 			? `"${escapeDoubleQuote(this.table.schema.name)}".`
 			: ''
@@ -152,7 +152,7 @@ export abstract class Column implements INameGiver, IStatementGiver {
 		const tableName = (
 			data.option.addTableName === 'always'
 			|| (data.option.addTableName === 'when two tables or more'
-				&& Array.from(data.artifact?.tables ?? [])
+				&& Array.from(data.artifacts.tables)
 					.some(it => it !== this.table))
 		) ? `"${escapeDoubleQuote(this.table.name)}".` : ''
 

@@ -1,3 +1,4 @@
+import { INameGiver } from './INameGiver'
 import { Table } from './Table'
 import { escapeDoubleQuote } from '../util'
 import { Condition, IStatementGiver, PrimitiveType, ValueLike } from '../models'
@@ -22,7 +23,7 @@ export type ColumnObj = {
 	name: string
 }
 
-export abstract class Column implements IStatementGiver {
+export abstract class Column implements INameGiver, IStatementGiver {
 	private mTable?: Table
 
 	protected constructor(protected readonly data: ColumnObj) {}
@@ -43,6 +44,10 @@ export abstract class Column implements IStatementGiver {
 
 	public get name(): string {
 		return this.data.name
+	}
+
+	public get fqName(): string {
+		return `${this.table.fqName}."${escapeDoubleQuote(this.data.name)}"`
 	}
 
 	public getDoubleQuotedName(): string {

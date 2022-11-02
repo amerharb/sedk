@@ -1,3 +1,5 @@
+import { escapeDoubleQuote } from '../util'
+import { INameGiver } from './INameGiver'
 import { Column } from './Column'
 import { Database } from './Database'
 import { Table } from './Table'
@@ -11,7 +13,7 @@ type SchemaObj<T extends TablesObj> = {
 	tables: T
 }
 
-export class Schema<T extends TablesObj = TablesObj> {
+export class Schema<T extends TablesObj = TablesObj> implements INameGiver {
 	private mDatabase?: Database
 	private readonly mTables: T
 	private readonly tableArray: readonly Table[]
@@ -44,6 +46,10 @@ export class Schema<T extends TablesObj = TablesObj> {
 
 	public get name(): string {
 		return this.mName
+	}
+
+	public get fqName(): string {
+		return `"${escapeDoubleQuote(this.mName)}"`
 	}
 
 	public get tables(): T {

@@ -1,3 +1,4 @@
+import { INameGiver } from './INameGiver'
 import { BuilderData } from '../builder'
 import { BooleanColumn } from './BooleanColumn'
 import { Column } from './Column'
@@ -18,7 +19,7 @@ type TableObj<C extends ColumnsObj> = {
 	columns: C
 }
 
-export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver {
+export class Table<C extends ColumnsObj = ColumnsObj> implements INameGiver, IStatementGiver {
 	private mSchema?: Schema
 	private readonly mColumns: C
 	private readonly columnArray: readonly Column[]
@@ -49,6 +50,10 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver
 
 	public get name(): string {
 		return this.data.name
+	}
+
+	public get fqName(): string {
+		return `${this.schema.fqName}."${escapeDoubleQuote(this.data.name)}"`
 	}
 
 	public as(alias: string): AliasedTable {
@@ -86,12 +91,20 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver
 	}
 }
 
-export class AliasedTable implements IStatementGiver {
+export class AliasedTable implements INameGiver, IStatementGiver {
 	constructor(public readonly table: Table, public readonly alias: string) {}
 
 	public getStmt(data: BuilderData): string {
 		const escapedAlias = escapeDoubleQuote(this.alias)
 		const asString = (data.option.addAsBeforeTableAlias === 'always') ? ' AS' : ''
 		return `${this.table.getStmt(data)}${asString} "${escapedAlias}"`
+	}
+
+	get name(): string {
+		return this.table.name
+	}
+
+	public get fqName(): string {
+		return this.table.fqName
 	}
 }

@@ -20,13 +20,6 @@ import { BuilderOption, BuilderOptionRequired, fillUndefinedOptionsWithDefault }
 import { MoreThanOneDistinctOrAllError } from './errors'
 import { ItemInfo } from './ItemInfo'
 
-export enum SqlPath {
-	SELECT = 'SELECT',
-	DELETE = 'DELETE',
-	INSERT = 'INSERT',
-	UPDATE = 'UPDATE',
-}
-
 export type BuilderData = {
 	database: Database,
 	option: BuilderOptionRequired,

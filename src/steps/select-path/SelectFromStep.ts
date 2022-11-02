@@ -13,6 +13,7 @@ export class SelectFromStep extends AfterFromStep {
 		protected readonly fromItems: FromItems,
 	) {
 		super(data, prevStep)
+		fromItems.forEach(it => this.throwIfTableNotInDb(BaseStep.getTable(it)))
 	}
 
 	getStepStatement(): string {

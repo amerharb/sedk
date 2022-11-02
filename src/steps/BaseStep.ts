@@ -1,10 +1,11 @@
+import { FromItem } from './select-path/SelectFromStep'
 import { ItemInfo } from '../ItemInfo'
 import { ColumnLike } from './select-path/SelectStep'
 import { BuilderData } from '../builder'
 import { Condition, Expression, PrimitiveType } from '../models'
 import { LogicalOperator } from '../operators'
 import { ColumnNotFoundError, DeleteWithoutConditionError, TableNotFoundError } from '../errors'
-import { AliasedTable, BooleanColumn, Column, Table } from '../database'
+import { BooleanColumn, Column, Table } from '../database'
 import { isDeleteStep, isDeleteWhereStep } from '../util'
 
 export enum Parenthesis {
@@ -81,11 +82,11 @@ export abstract class BaseStep {
 		this.data.binderStore.cleanUp()
 	}
 
-	protected static getTable(tableOrAliasedTable: Table|AliasedTable): Table {
-		if (tableOrAliasedTable instanceof Table)
-			return tableOrAliasedTable
+	protected static getTable(item: FromItem): Table {
+		if (item instanceof Table)
+			return item
 		else
-			return tableOrAliasedTable.table
+			return item.table
 	}
 
 	protected throwIfTableNotInDb(table: Table) {

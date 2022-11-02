@@ -11,17 +11,17 @@ import { ItemInfo } from '../../ItemInfo'
 export class DeleteFromStep extends BaseStep {
 	constructor(
 		prevStep: BaseStep,
-		protected readonly table: FromItem,
+		protected readonly fromItem: FromItem,
 	) {
 		super(prevStep)
 	}
 
 	public getStepStatement(): string {
-		return 'FROM ' + this.table.getStmt(this.data)
+		return 'FROM ' + this.fromItem.getStmt(this.data)
 	}
 
 	protected getStepArtifacts(): Artifacts {
-		const table = this.table instanceof Table ? this.table : this.table.table
+		const table = this.fromItem instanceof Table ? this.fromItem : this.fromItem.table
 		return { tables: new Set([table]), columns: new Set() }
 	}
 

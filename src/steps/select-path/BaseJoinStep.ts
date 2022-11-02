@@ -16,8 +16,8 @@ abstract class BaseJoinStep extends BaseStep {
 		return new OnStep(this, condition)
 	}
 
-	getStepStatement(): string {
-		return `${this.joinType} ${this.table.getStmt(this.data)}`
+	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+		return `${this.joinType} ${this.table.getStmt(this.data, artifacts)}`
 	}
 
 	protected getStepArtifacts(): Artifacts {

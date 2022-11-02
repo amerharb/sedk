@@ -1,3 +1,4 @@
+import { Artifacts } from './steps/BaseStep'
 import { Column } from './database'
 import { Expression } from './models'
 import { escapeDoubleQuote } from './util'
@@ -27,13 +28,13 @@ export class ReturningItemInfo extends ItemInfo {
 		return []
 	}
 
-	public getStmt(data: BuilderData): string {
+	public getStmt(data: BuilderData, artifacts: Artifacts): string {
 		if (this.alias !== undefined) {
 			// escape double quote by repeating it
 			const escapedAlias = escapeDoubleQuote(this.alias)
 			const asString = (data.option.addAsBeforeColumnAlias === 'always') ? ' AS' : ''
-			return `${this.returningItem.getStmt(data)}${asString} "${escapedAlias}"`
+			return `${this.returningItem.getStmt(data, artifacts)}${asString} "${escapedAlias}"`
 		}
-		return `${this.returningItem.getStmt(data)}`
+		return `${this.returningItem.getStmt(data, artifacts)}`
 	}
 }

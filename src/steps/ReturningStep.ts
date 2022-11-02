@@ -53,10 +53,10 @@ export class ReturningStep extends BaseStep {
 		this.returningItemInfo = returningItemInfo
 	}
 
-	public getStepStatement(): string {
+	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
 		if (this.returningItemInfo.length > 0) {
 			const returningPartsString = this.returningItemInfo.map(it => {
-				return it.getStmt(this.data)
+				return it.getStmt(this.data, artifacts)
 			})
 			return `RETURNING ${returningPartsString.join(', ')}`
 		}

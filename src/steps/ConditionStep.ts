@@ -12,12 +12,12 @@ export abstract class ConditionStep extends BaseStep {
 		super(prevStep)
 	}
 
-	getStepStatement(): string {
+	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
 		if (this.whereParts.length > 0) {
 			BaseStep.throwIfConditionPartsInvalid(this.whereParts)
 			const wherePartsString = this.whereParts.map(it => {
 				if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
-					return it.getStmt(this.data)
+					return it.getStmt(this.data, artifacts)
 				}
 				return it.toString()
 			})

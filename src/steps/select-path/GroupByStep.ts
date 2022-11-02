@@ -21,8 +21,8 @@ export class GroupByStep extends BaseStep {
 		return { tables: new Set(), columns: new Set(this.groupByItems) }
 	}
 
-	getStepStatement(): string {
-		return `GROUP BY ${this.groupByItems.map(it => it.getStmt(this.data)).join(', ')}`
+	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+		return `GROUP BY ${this.groupByItems.map(it => it.getStmt(this.data, artifacts)).join(', ')}`
 	}
 
 	having(condition: Condition): HavingStep

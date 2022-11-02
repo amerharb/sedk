@@ -1,5 +1,6 @@
+import { Artifacts } from '../steps/BaseStep'
 import { BuilderData } from '../builder'
 
 export interface IStatementGiver {
-	getStmt(data: BuilderData): string
+	getStmt(data: BuilderData, artifacts: Artifacts): string
 }

@@ -93,8 +93,8 @@ export class CrossJoinStep extends AfterFromStep {
 		super(prevStep)
 	}
 
-	public getStepStatement(): string {
-		return `CROSS JOIN ${this.fromItem.getStmt(this.data)}`
+	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+		return `CROSS JOIN ${this.fromItem.getStmt(this.data, artifacts)}`
 	}
 
 	protected getStepArtifacts(): Artifacts {
@@ -111,8 +111,8 @@ export class OnStep extends AfterFromStep {
 		super(prevStep)
 	}
 
-	public getStepStatement(): string {
-		return `ON ${this.condition.getStmt(this.data)}`
+	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+		return `ON ${this.condition.getStmt(this.data, artifacts)}`
 	}
 
 	protected getStepArtifacts(): Artifacts {
@@ -129,13 +129,13 @@ export class OnStep extends AfterFromStep {
 }
 
 export class OnAndStep extends OnStep {
-	public override getStepStatement(): string {
-		return `AND ${this.condition.getStmt(this.data)}`
+	override getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+		return `AND ${this.condition.getStmt(this.data, artifacts)}`
 	}
 }
 
 export class OnOrStep extends OnStep {
-	public override getStepStatement(): string {
-		return `OR ${this.condition.getStmt(this.data)}`
+	override getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+		return `OR ${this.condition.getStmt(this.data, artifacts)}`
 	}
 }

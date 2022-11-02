@@ -1,3 +1,4 @@
+import { Artifacts } from '../steps/BaseStep'
 import { INameGiver } from './INameGiver'
 import { Table } from './Table'
 import { escapeDoubleQuote } from '../util'
@@ -139,12 +140,12 @@ export abstract class Column implements INameGiver, IStatementGiver {
 		return new UpdateSetItemInfo(this, DEFAULT)
 	}
 
-	public getStmt(data: BuilderData): string {
+	public getStmt(data: BuilderData, artifacts: Artifacts): string {
 		if (this.mTable === undefined)
 			throw new Error('Table of this column is undefined')
 
 		const schemaName = Array
-			.from(data.artifacts.tables)
+			.from(artifacts.tables)
 			.some(it => it !== this.table && it.name === this.table.name)
 			? `"${escapeDoubleQuote(this.table.schema.name)}".`
 			: ''
@@ -152,7 +153,7 @@ export abstract class Column implements INameGiver, IStatementGiver {
 		const tableName = (
 			data.option.addTableName === 'always'
 			|| (data.option.addTableName === 'when two tables or more'
-				&& Array.from(data.artifacts.tables)
+				&& Array.from(artifacts.tables)
 					.some(it => it !== this.table))
 		) ? `"${escapeDoubleQuote(this.table.name)}".` : ''
 

@@ -1,3 +1,4 @@
+import { Artifacts } from '../steps/BaseStep'
 import { INameGiver } from './INameGiver'
 import { BuilderData } from '../builder'
 import { BooleanColumn } from './BooleanColumn'
@@ -77,7 +78,7 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements INameGiver, ISt
 		return this.columnArray.includes(column)
 	}
 
-	public getStmt(data: BuilderData): string {
+	public getStmt(data: BuilderData, artifacts: Artifacts): string {
 		if (this.mSchema === undefined)
 			throw new Error('Schema is undefined')
 
@@ -85,7 +86,7 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements INameGiver, ISt
 			this.mSchema.name !== 'public'
 			|| data.option.addPublicSchemaName === 'always'
 			|| (data.option.addPublicSchemaName === 'when other schema mentioned'
-				&& Array.from(data.artifacts.tables).some(it => it.schema.name !== 'public'))
+				&& Array.from(artifacts.tables).some(it => it.schema.name !== 'public'))
 		)
 			? `${this.mSchema.fqName}.`
 			: ''
@@ -96,10 +97,10 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements INameGiver, ISt
 export class AliasedTable implements INameGiver, IStatementGiver {
 	constructor(public readonly table: Table, public readonly alias: string) {}
 
-	public getStmt(data: BuilderData): string {
+	public getStmt(data: BuilderData, artifacts: Artifacts): string {
 		const escapedAlias = escapeDoubleQuote(this.alias)
 		const asString = (data.option.addAsBeforeTableAlias === 'always') ? ' AS' : ''
-		return `${this.table.getStmt(data)}${asString} "${escapedAlias}"`
+		return `${this.table.getStmt(data, artifacts)}${asString} "${escapedAlias}"`
 	}
 
 	get name(): string {

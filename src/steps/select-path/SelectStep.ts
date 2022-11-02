@@ -53,7 +53,7 @@ export class SelectStep extends BaseStep {
 		this.items = items as (ItemInfo|SelectItem|PrimitiveType)[]
 	}
 
-	public getStepStatement(): string {
+	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
 		const selectItemInfos: ItemInfo[] = this.items.map(it => {
 			if (it instanceof SelectItemInfo || it instanceof ItemInfo) {
 				return it
@@ -83,7 +83,7 @@ export class SelectStep extends BaseStep {
 		}
 
 		if (selectItemInfos.length > 0) {
-			const selectPartsString = selectItemInfos.map(it => it.getStmt(this.data))
+			const selectPartsString = selectItemInfos.map(it => it.getStmt(this.data, artifacts))
 			result += ` ${selectPartsString.join(', ')}`
 		}
 

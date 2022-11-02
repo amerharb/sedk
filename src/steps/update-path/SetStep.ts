@@ -16,8 +16,8 @@ export class SetStep extends BaseStep {
 		super(prevStep)
 	}
 
-	public getStepStatement(): string {
-		return `SET ${this.items.map(it => it.getStmt(this.data)).join(', ')}`
+	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+		return `SET ${this.items.map(it => it.getStmt(this.data, artifacts)).join(', ')}`
 	}
 
 	protected getStepArtifacts(): Artifacts {

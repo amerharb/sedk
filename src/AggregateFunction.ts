@@ -1,3 +1,4 @@
+import { Artifacts } from './steps/BaseStep'
 import {
 	Condition,
 	Expression,
@@ -79,10 +80,10 @@ export class AggregateFunction implements IStatementGiver {
 		return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(new Binder(value)))
 	}
 
-	public getStmt(data: BuilderData): string {
+	public getStmt(data: BuilderData, artifacts: Artifacts): string {
 		if (this.expression.rightOperand === undefined || this.expression.rightOperand.type === ExpressionType.NOT_EXIST)
-			return `${this.funcName}(${this.expression.getStmt(data)})`
-		return `${this.funcName}${this.expression.getStmt(data)}`
+			return `${this.funcName}(${this.expression.getStmt(data, artifacts)})`
+		return `${this.funcName}${this.expression.getStmt(data, artifacts)}`
 	}
 
 	public getColumns(): Column[] {

@@ -17,8 +17,8 @@ export class SelectFromStep extends AfterFromStep {
 		fromItems.forEach(it => this.throwIfTableNotInDb(BaseStep.getTable(it)))
 	}
 
-	getStepStatement(): string {
-		return `FROM ${this.fromItems.map(it => it.getStmt(this.data)).join(', ')}`
+	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+		return `FROM ${this.fromItems.map(it => it.getStmt(this.data, artifacts)).join(', ')}`
 	}
 
 	protected getStepArtifacts(): Artifacts {

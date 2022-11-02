@@ -1,4 +1,3 @@
-import { Artifacts } from './steps/BaseStep'
 import { AliasedTable, Column, Database, Table } from './database'
 import { PrimitiveType } from './models'
 import { BinderStore } from './binder'
@@ -23,9 +22,8 @@ import { ItemInfo } from './ItemInfo'
 export type BuilderData = {
 	database: Database,
 	option: BuilderOptionRequired,
-	// TODO: move artifacts and binderStore to Step level
+	// TODO: move binderStore to Step level
 	binderStore: BinderStore,
-	artifacts: Artifacts,
 }
 
 /**
@@ -117,6 +115,5 @@ function getDataObj(database: Database, option?: BuilderOption): BuilderData {
 		database: database,
 		option: fillUndefinedOptionsWithDefault(option ?? {}),
 		binderStore: new BinderStore(),
-		artifacts: { tables: new Set(), columns: new Set() },
 	}
 }

@@ -19,8 +19,8 @@ export class IntoStep extends BaseStep {
 		this.throwIfTableNotInDb(table)
 	}
 
-	public getStepStatement(): string {
-		let result = `INTO ${this.table.getStmt(this.data)}`
+	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+		let result = `INTO ${this.table.getStmt(this.data, artifacts)}`
 		if (this.columns.length > 0) {
 			result += `(${this.columns.map(it => it.getDoubleQuotedName()).join(', ')})`
 		}

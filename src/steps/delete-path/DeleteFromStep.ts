@@ -16,8 +16,8 @@ export class DeleteFromStep extends BaseStep {
 		super(prevStep)
 	}
 
-	public getStepStatement(): string {
-		return 'FROM ' + this.fromItem.getStmt(this.data)
+	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+		return 'FROM ' + this.fromItem.getStmt(this.data, artifacts)
 	}
 
 	protected getStepArtifacts(): Artifacts {

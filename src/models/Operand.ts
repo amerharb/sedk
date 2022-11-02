@@ -1,3 +1,4 @@
+import { Artifacts } from '../steps/BaseStep'
 import { Binder, BinderArray } from '../binder'
 import { Expression, ExpressionType } from './Expression'
 import { BuilderData } from '../builder'
@@ -20,8 +21,8 @@ export class Operand implements IStatementGiver {
 		Operand.throwIfInvalidUseOfNot(this.type, isNot)
 	}
 
-	public getStmt(data: BuilderData): string {
-		return Operand.getStmtOfValue(this.value, this.isNot, data)
+	public getStmt(data: BuilderData, artifacts: Artifacts): string {
+		return Operand.getStmtOfValue(this.value, this.isNot, data, artifacts)
 	}
 
 	/**
@@ -32,6 +33,7 @@ export class Operand implements IStatementGiver {
 		value: OperandType|Binder|OperandType[]|BinderArray,
 		isNot: boolean,
 		data: BuilderData,
+		artifacts: Artifacts,
 	): string {
 		if (value === null) {
 			return getStmtNull()
@@ -56,15 +58,15 @@ export class Operand implements IStatementGiver {
 		} else if (value instanceof Date) {
 			return `${isNot ? 'NOT ' : ''}${getStmtDate(value)}`
 		} else if (value instanceof AggregateFunction) {
-			return `${isNot ? 'NOT ' : ''}${value.getStmt(data)}`
+			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts)}`
 		} else if (value instanceof Expression) {
-			return `${isNot ? 'NOT ' : ''}${value.getStmt(data)}`
+			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts)}`
 		} else if (value instanceof Condition) { /** ignore IDE warning, "value" can be an instance of Condition */
-			return `${isNot ? 'NOT ' : ''}${value.getStmt(data)}`
+			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts)}`
 		} else if (Array.isArray(value)) {
-			return `${isNot ? 'NOT ' : ''}(${value.map(it => Operand.getStmtOfValue(it, isNot, data)).join(', ')})`
+			return `${isNot ? 'NOT ' : ''}(${value.map(it => Operand.getStmtOfValue(it, isNot, data, artifacts)).join(', ')})`
 		} else if (value instanceof Column) {
-			return `${isNot ? 'NOT ' : ''}${value.getStmt(data)}`
+			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts)}`
 		}
 		throw new Error(`Operand type of value: ${value} is not supported`)
 	}

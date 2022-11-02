@@ -12,8 +12,8 @@ export class UpdateStep extends BaseStep {
 		this.throwIfTableNotInDb(table)
 	}
 
-	public getStepStatement(): string {
-		return `UPDATE ${this.table.getStmt(this.data)}`
+	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+		return `UPDATE ${this.table.getStmt(this.data, artifacts)}`
 	}
 
 	protected getStepArtifacts(): Artifacts {

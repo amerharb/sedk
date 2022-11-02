@@ -36,60 +36,10 @@ const col1 = table1.c.col1
 const col2 = table1.c.col2
 const col3 = table1.c.col3
 const col4 = table1.c.col4
-const table2 = database.s.public.t.table2
 
 describe('Throw desired Errors', () => {
 	const sql = builder(database)
 	afterEach(() => { sql.cleanUp() })
-
-	// TODO: This is not error anymore, move it to diffreant test file and change description
-	describe('Error: MoreThanOneWhereStepError', () => {
-		it('Throws error when 2 WHERE steps added', () => {
-			const fromStep = sql.select(col1).from(table1)
-
-			// first Where Step
-			const whereStep1 = fromStep.where(col1.eq('x1'))
-			// second Where Step, should throw
-			const whereStep2 = fromStep.where(col1.eq('x2'))
-
-			expect(whereStep1.getSQL()).toEqual(`SELECT "col1" FROM "table1" WHERE "col1" = 'x1';`)
-			expect(whereStep2.getSQL()).toEqual(`SELECT "col1" FROM "table1" WHERE "col1" = 'x2';`)
-		})
-	  // TODO: remove skip when leftJoin is implemented
-		it.skip('Throws error when 2 WHERE steps added after ON step', () => {
-			const fromStep = sql
-				.select(col1)
-				.from(table1)
-				.leftJoin(table2)
-				.on(col1.eq(table2.c.col1))
-
-			// first Where Step
-			const whereStep1 = fromStep.where(col3.eq('x1'))
-			// second Where Step, should throw
-			const whereStep2 = fromStep.where(col3.eq('x2'))
-
-			expect(whereStep1.getSQL()).toEqual(`SELECT "col1" FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1" WHERE "col1" = 'x1';`)
-			expect(whereStep2.getSQL()).toEqual(`SELECT "col1" FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1" WHERE "col1" = 'x2';`)
-		})
-		// TODO:
-		it.skip('Throws error when 2 WHERE steps added after delete', () => {
-			const fromStep = sql.deleteFrom(table1)
-
-			// first Where Step
-			fromStep.where(col1.eq('x1'))
-			// second Where Step, should throw
-			fromStep.where(col1.eq('x2'))
-		})
-		// TODO: this is not error anymore
-		it.skip('Throws error when 2 WHERE steps added after update', () => {
-			const setStep = sql.update(table1).set(col1.eq('something'))
-
-			// first Where Step
-			setStep.where(col1.eq('x1'))
-			// second Where Step, should throw
-			setStep.where(col1.eq('x2'))
-		})
-	})
 
 	describe('Error: InvalidExpressionError', () => {
 		it('Throws error when add invalid operator', () => {

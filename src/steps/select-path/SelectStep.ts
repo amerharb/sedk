@@ -1,7 +1,6 @@
 import { MoreThanOneDistinctOrAllError } from '../../errors'
 import { AggregateFunction } from '../../AggregateFunction'
 import { Binder } from '../../binder'
-import { BuilderData } from '../../builder'
 import { Column } from '../../database'
 import { ItemInfo } from '../../ItemInfo'
 import { Condition, Expression, PrimitiveType } from '../../models'
@@ -21,11 +20,10 @@ export class SelectStep extends BaseStep {
 	private readonly distinct?: Distinct|All
 
 	constructor(
-		data: BuilderData,
 		prevStep: BaseStep,
 		items: (Distinct|All|ItemInfo|SelectItem|PrimitiveType)[],
 	) {
-		super(data, prevStep)
+		super(prevStep)
 		if (items[0] instanceof Distinct) {
 			if (items.length <= 1) throw new Error('Select step must have at least one parameter after DISTINCT')
 			items.shift() //remove first item the DISTINCT item
@@ -108,12 +106,12 @@ export class SelectStep extends BaseStep {
 	}
 
 	from(...tables: FromItems): SelectFromStep {
-		return new SelectFromStep(this.data, this, tables)
+		return new SelectFromStep(this, tables)
 	}
 
 	// TODO: check if this needed here
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this.data, this, items)
+		return new ReturningStep(this, items)
 	}
 
 	private getColumns(): Column[] {

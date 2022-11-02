@@ -6,7 +6,7 @@ import { ReturningStep } from '../ReturningStep'
 
 export class DefaultValuesStep extends BaseStep {
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this.data, this, items)
+		return new ReturningStep(this, items)
 	}
 
 	getStepStatement(): string {

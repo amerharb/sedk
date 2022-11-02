@@ -8,7 +8,6 @@ import {
 	OrderByNullsPosition,
 } from '../../orderBy'
 import { escapeDoubleQuote } from '../../util'
-import { BuilderData } from '../../builder'
 import { ItemInfo } from '../../ItemInfo'
 import { Expression, PrimitiveType } from '../..//models'
 import { ReturningItem } from '../../ReturningItemInfo'
@@ -20,12 +19,11 @@ import { ReturningStep } from '../ReturningStep'
 
 export class OrderByStep extends BaseStep {
 	private readonly orderByItemInfos: OrderByItemInfo[] = []
-	public constructor(
-		data: BuilderData,
+	constructor(
 		prevStep: BaseStep,
 		private readonly orderByArgsElement: OrderByArgsElement[],
 	) {
-		super(data, prevStep)
+		super(prevStep)
 		if (orderByArgsElement.length === 0) {
 			throw new Error('Order by should have at lease one item')
 		}
@@ -114,22 +112,22 @@ export class OrderByStep extends BaseStep {
 	}
 
 	public limit(n: null|number|All): LimitStep {
-		return new LimitStep(this.data, this, n)
+		return new LimitStep(this, n)
 	}
 
 	public limit$(n: null|number): LimitStep {
-		return new LimitStep(this.data, this, n, true)
+		return new LimitStep(this, n, true)
 	}
 
 	public offset(n: number): OffsetStep {
-		return new OffsetStep(this.data, this, n)
+		return new OffsetStep(this, n)
 	}
 
 	public offset$(n: number): OffsetStep {
-		return new OffsetStep(this.data, this, n, true)
+		return new OffsetStep(this, n, true)
 	}
 
 	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this.data, this, items)
+		return new ReturningStep(this, items)
 	}
 }

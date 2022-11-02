@@ -1,7 +1,6 @@
 import { Binder } from '../../binder'
 import { Default } from '../../singletoneConstants'
 import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString } from '../../util'
-import { BuilderData } from '../../builder'
 import { ItemInfo } from '../../ItemInfo'
 import { PrimitiveType, isNumber } from '../../models'
 import { ReturningItem } from '../../ReturningItemInfo'
@@ -10,15 +9,14 @@ import { ReturningStep } from '../ReturningStep'
 
 export class ValuesStep extends BaseStep {
 	constructor(
-		data: BuilderData,
 		prevStep: BaseStep,
 		private readonly values: (PrimitiveType|Binder|Default)[],
 	) {
-		super(data, prevStep)
+		super(prevStep)
 	}
 
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this.data, this, items)
+		return new ReturningStep(this, items)
 	}
 
 	getStepStatement(): string {

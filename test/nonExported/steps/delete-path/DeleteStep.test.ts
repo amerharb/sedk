@@ -4,7 +4,7 @@ import { builderData } from 'test/nonExported/steps/builderData'
 describe('DeleteStep', () => {
 	const rootStep = new RootStep(builderData)
 	it('returns: [DELETE]', () => {
-		const actual = new DeleteStep(builderData, rootStep).getStepStatement()
+		const actual = new DeleteStep(rootStep).getStepStatement()
 		expect(actual).toEqual('DELETE')
 	})
 })

@@ -4,7 +4,7 @@ import { builderData } from 'test/nonExported/steps/builderData'
 describe('ValuesStep', () => {
 	const rootStep = new RootStep(builderData)
 	it(`returns: [VALUES(1, 'A')]`, () => {
-		const actual = new ValuesStep(builderData, rootStep, [1, 'A']).getStepStatement()
+		const actual = new ValuesStep(rootStep, [1, 'A']).getStepStatement()
 		expect(actual).toEqual(`VALUES(1, 'A')`)
 	})
 	it.todo('returns: values with dates')

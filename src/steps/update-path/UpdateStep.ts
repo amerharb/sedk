@@ -2,15 +2,13 @@ import { UpdateSetItemInfo } from '../../UpdateSetItemInfo'
 import { SetStep } from './SetStep'
 import { Table } from '../../database'
 import { Artifacts, BaseStep } from '../BaseStep'
-import { BuilderData } from '../../builder'
 
 export class UpdateStep extends BaseStep {
 	constructor(
-		data: BuilderData,
 		prevStep: BaseStep,
 		private readonly table: Table,
 	) {
-		super(data, prevStep)
+		super(prevStep)
 		this.throwIfTableNotInDb(table)
 	}
 
@@ -23,6 +21,6 @@ export class UpdateStep extends BaseStep {
 	}
 
 	public set(...values: UpdateSetItemInfo[]): SetStep {
-		return new SetStep(this.data, this, values)
+		return new SetStep(this, values)
 	}
 }

@@ -1,4 +1,3 @@
-import { BuilderData } from '../../builder'
 import { FromItem } from './SelectFromStep'
 import { Artifacts, BaseStep, Parenthesis } from '../BaseStep'
 import { All } from '../../singletoneConstants'
@@ -24,27 +23,27 @@ import { GroupByStep } from './GroupByStep'
 
 export abstract class AfterFromStep extends BaseStep {
 	public crossJoin(table: Table): CrossJoinStep {
-		return new CrossJoinStep(this.data, this, table)
+		return new CrossJoinStep(this, table)
 	}
 
 	public leftJoin(table: Table): LeftJoinStep {
-		return new LeftJoinStep(this.data, this, table)
+		return new LeftJoinStep(this, table)
 	}
 
 	public rightJoin(table: Table): RightJoinStep {
-		return new RightJoinStep(this.data, this, table)
+		return new RightJoinStep(this, table)
 	}
 
 	public fullOuterJoin(table: Table): FullOuterJoinStep {
-		return new FullOuterJoinStep(this.data, this, table)
+		return new FullOuterJoinStep(this, table)
 	}
 
 	public innerJoin(table: Table): InnerJoinStep {
-		return new InnerJoinStep(this.data, this, table)
+		return new InnerJoinStep(this, table)
 	}
 
 	public join(table: Table): JoinStep {
-		return new JoinStep(this.data, this, table)
+		return new JoinStep(this, table)
 	}
 
 	public where(condition: Condition): SelectWhereStep
@@ -53,46 +52,45 @@ export abstract class AfterFromStep extends BaseStep {
 	public where(condition: Condition, operator?: LogicalOperator, middle?: Condition, operator2?: LogicalOperator, right?: Condition): SelectWhereStep {
 		const whereParts: (Condition|LogicalOperator|BooleanColumn|Parenthesis)[] = []
 		BaseStep.addConditionParts(whereParts, condition, operator, middle, operator2, right)
-		return new SelectWhereStep(this.data, this, whereParts)
+		return new SelectWhereStep(this, whereParts)
 	}
 
 	groupBy(...groupByItems: Column[]): GroupByStep {
-		return new GroupByStep(this.data, this, groupByItems)
+		return new GroupByStep(this, groupByItems)
 	}
 
 	limit(n: number|All|null): LimitStep {
-		return new LimitStep(this.data, this, n)
+		return new LimitStep(this, n)
 	}
 
 	limit$(n: number|null): LimitStep {
-		return new LimitStep(this.data, this, n, true)
+		return new LimitStep(this, n, true)
 	}
 
 	offset(n: number): OffsetStep {
-		return new OffsetStep(this.data, this, n)
+		return new OffsetStep(this, n)
 	}
 
 	offset$(n: number): OffsetStep {
-		return new OffsetStep(this.data, this, n, true)
+		return new OffsetStep(this, n, true)
 	}
 
 	orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep {
-		return new OrderByStep(this.data, this, orderByItems)
+		return new OrderByStep(this, orderByItems)
 	}
 
 	// TODO: check if we can limit this to only update, insert and delete
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this.data, this, items)
+		return new ReturningStep(this, items)
 	}
 }
 
 export class CrossJoinStep extends AfterFromStep {
 	constructor(
-		data: BuilderData,
 		prevStep: BaseStep,
 		private readonly fromItem: FromItem,
 	) {
-		super(data, prevStep)
+		super(prevStep)
 	}
 
 	public getStepStatement(artifacts?: Artifacts): string {
@@ -107,11 +105,10 @@ export class CrossJoinStep extends AfterFromStep {
 
 export class OnStep extends AfterFromStep {
 	constructor(
-		data: BuilderData,
 		prevStep: BaseStep,
-		protected readonly condition: Condition
+		protected readonly condition: Condition,
 	) {
-		super(data, prevStep)
+		super(prevStep)
 	}
 
 	public getStepStatement(): string {
@@ -123,11 +120,11 @@ export class OnStep extends AfterFromStep {
 	}
 
 	public or(condition: Condition): OnOrStep {
-		return new OnOrStep(this.data, this, condition)
+		return new OnOrStep(this, condition)
 	}
 
 	public and(condition: Condition): OnAndStep {
-		return new OnAndStep(this.data, this, condition)
+		return new OnAndStep(this, condition)
 	}
 }
 

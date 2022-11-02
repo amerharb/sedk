@@ -16,10 +16,15 @@ export enum Parenthesis {
 export type Artifacts = { tables: ReadonlySet<Table>, columns: ReadonlySet<Column> }
 
 export abstract class BaseStep {
+	public readonly rootStep: BaseStep
+	protected readonly data: BuilderData
+
 	constructor(
-		protected readonly data: BuilderData,
 		public readonly prevStep: BaseStep|null,
-	) {}
+	) {
+		this.rootStep = prevStep === null ? this : prevStep.rootStep
+		this.data = this.rootStep.data
+	}
 
 	public getSQL(): string {
 		let result = this.getFullStatement({ tables: new Set(), columns: new Set() })
@@ -27,7 +32,7 @@ export abstract class BaseStep {
 			//look if the path is DELETE and there is no WHERE step
 			let foundDELETE = false
 			let foundWHERE = false
-			let step:BaseStep|null = this
+			let step: BaseStep|null = this
 			do {
 				if (isDeleteStep(step))
 					foundDELETE = true

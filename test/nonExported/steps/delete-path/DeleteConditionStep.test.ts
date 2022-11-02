@@ -21,7 +21,6 @@ describe('DeleteConditionStep', () => {
 		// TODO: reevaluate the expected SQL here, maybe it should return only WHERE, or throw an error
 		it('returns: []', () => {
 			const actual = new DeleteWhereStep(
-				builderData,
 				rootStep,
 				[],
 			).getStepStatement()
@@ -29,7 +28,6 @@ describe('DeleteConditionStep', () => {
 		})
 		it('returns: [WHERE "col7"]', () => {
 			const actual = new DeleteWhereStep(
-				builderData,
 				rootStep,
 				[col7],
 			).getStepStatement()
@@ -37,7 +35,6 @@ describe('DeleteConditionStep', () => {
 		})
 		it(`returns: [WHERE "col1" = 'A' AND "col4" = 1]`, () => {
 			const actual = new DeleteWhereStep(
-				builderData,
 				rootStep,
 				[OPEN, col1.eq('A'), AND, col4.eq(1), CLOSE],
 			).getStepStatement()

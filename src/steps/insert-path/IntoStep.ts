@@ -1,6 +1,5 @@
 import { Column, Table } from '../../database'
 import { Artifacts, BaseStep } from '../BaseStep'
-import { BuilderData } from '../../builder'
 import { PrimitiveType } from '../../models'
 import { DefaultValuesStep } from './DefaultValuesStep'
 import { InsertColumnsAndExpressionsNotEqualError, InsertColumnsAndValuesNotEqualError } from '../../errors'
@@ -12,17 +11,16 @@ import { ValuesStep } from './ValuesStep'
 
 export class IntoStep extends BaseStep {
 	constructor(
-		data: BuilderData,
 		prevStep: BaseStep,
 		private readonly table: Table,
 		private readonly columns: Column[] = [],
 	) {
-		super(data, prevStep)
+		super(prevStep)
 		this.throwIfTableNotInDb(table)
 	}
 
 	public getStepStatement(): string {
-		let result =  `INTO ${this.table.getStmt(this.data)}`
+		let result = `INTO ${this.table.getStmt(this.data)}`
 		if (this.columns.length > 0) {
 			result += `(${this.columns.map(it => it.getDoubleQuotedName()).join(', ')})`
 		}
@@ -35,21 +33,21 @@ export class IntoStep extends BaseStep {
 
 	public values(...values: (PrimitiveType|Binder|Default)[]): ValuesStep {
 		this.throwForInvalidValuesNumber(values)
-		return new ValuesStep(this.data, this, values)
+		return new ValuesStep(this, values)
 	}
 
 	public values$(...values: PrimitiveType[]): ValuesStep {
 		this.throwForInvalidValuesNumber(values)
-		return new ValuesStep(this.data, this, values.map(it => new Binder(it)))
+		return new ValuesStep(this, values.map(it => new Binder(it)))
 	}
 
 	public defaultValues(): DefaultValuesStep {
-		return new DefaultValuesStep(this.data, this)
+		return new DefaultValuesStep(this)
 	}
 
 	public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
 		this.throwForInvalidExpressionsNumber(items)
-		return new SelectStep(this.data, this, items)
+		return new SelectStep(this, items)
 	}
 
 	private throwForInvalidValuesNumber(values: (PrimitiveType|Binder|Default)[]) {

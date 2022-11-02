@@ -1,14 +1,12 @@
 import { FromItem } from '../select-path/SelectFromStep'
 import { Artifacts, BaseStep } from '../BaseStep'
-import { BuilderData } from '../../builder'
 import { DeleteFromStep } from './DeleteFromStep'
 
 export class DeleteStep extends BaseStep {
 	constructor(
-		data: BuilderData,
 		prevStep: BaseStep,
 	) {
-		super(data, prevStep)
+		super(prevStep)
 	}
 
 	public getStepStatement(): string {
@@ -21,6 +19,6 @@ export class DeleteStep extends BaseStep {
 
 	public from(table: FromItem): DeleteFromStep {
 		this.throwIfTableNotInDb(BaseStep.getTable(table))
-		return new DeleteFromStep(this.data, this, table)
+		return new DeleteFromStep(this, table)
 	}
 }

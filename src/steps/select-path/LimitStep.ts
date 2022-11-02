@@ -1,7 +1,6 @@
 import { OffsetStep } from './OffsetStep'
 import { All } from '../../singletoneConstants'
 import { Binder } from '../../binder'
-import { BuilderData } from '../../builder'
 import { InvalidLimitValueError } from '../../errors'
 import { ItemInfo } from '../../ItemInfo'
 import { PrimitiveType } from '../../models'
@@ -12,13 +11,12 @@ import { Artifacts, BaseStep } from '../BaseStep'
 export class LimitStep extends BaseStep {
 	private readonly value: null|number|Binder|All
 
-	public constructor(
-		data: BuilderData,
+	constructor(
 		prevStep: BaseStep,
 		value: null|number|All,
 		asBinder: boolean = false,
 	) {
-		super(data, prevStep)
+		super(prevStep)
 		if (typeof value === 'number' && (!Number.isFinite(value) || value < 0)) {
 			throw new InvalidLimitValueError(value)
 		}
@@ -44,14 +42,14 @@ export class LimitStep extends BaseStep {
 	}
 
 	offset(value: number): OffsetStep {
-		return new OffsetStep(this.data, this, value)
+		return new OffsetStep(this, value)
 	}
 
 	offset$(value: number): OffsetStep {
-		return new OffsetStep(this.data, this, value, true)
+		return new OffsetStep(this, value, true)
 	}
 
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this.data, this, items)
+		return new ReturningStep(this, items)
 	}
 }

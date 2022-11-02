@@ -1,5 +1,4 @@
 import { AfterFromStep } from './AfterFromStep'
-import { BuilderData } from '../../builder'
 import { AliasedTable, Table } from '../../database'
 import { Artifacts, BaseStep } from '../BaseStep'
 
@@ -7,12 +6,11 @@ export type FromItem = Table|AliasedTable
 export type FromItems = [FromItem, ...FromItem[]]
 
 export class SelectFromStep extends AfterFromStep {
-	public constructor(
-		data: BuilderData,
+	constructor(
 		prevStep: BaseStep,
 		protected readonly fromItems: FromItems,
 	) {
-		super(data, prevStep)
+		super(prevStep)
 		if (fromItems.length === 0) {
 			throw new Error('No tables specified')
 		}
@@ -27,4 +25,3 @@ export class SelectFromStep extends AfterFromStep {
 		return { tables: new Set(this.fromItems.map(it => it instanceof Table ? it : it.table)), columns: new Set() }
 	}
 }
-

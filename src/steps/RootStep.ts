@@ -13,9 +13,8 @@ import { Artifacts, BaseStep } from './BaseStep'
 import { UpdateStep } from './update-path/UpdateStep'
 
 export class RootStep extends BaseStep {
-	constructor(data: BuilderData) {
-		super(data, null)
-
+	constructor(protected readonly data: BuilderData) {
+		super(null)
 	}
 
 	public getStepStatement(): string {
@@ -29,38 +28,38 @@ export class RootStep extends BaseStep {
 	public select(distinct: Distinct|All, ...items: (ItemInfo|SelectItem|PrimitiveType)[]): SelectStep
 	public select(...items: (ItemInfo|SelectItem|PrimitiveType)[]): SelectStep
 	public select(...items: (Distinct|All|ItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-		return new SelectStep(this.data, this, items)
+		return new SelectStep(this, items)
 	}
 
 	selectDistinct(...items: (ItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-		return new SelectStep(this.data, this, [DISTINCT, ...items])
+		return new SelectStep(this, [DISTINCT, ...items])
 	}
 
 	selectAll(...items: (ItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
-		return new SelectStep(this.data, this, [ALL, ...items])
+		return new SelectStep(this, [ALL, ...items])
 	}
 
 	selectAsteriskFrom(...tables: FromItems): SelectFromStep {
-		return new SelectStep(this.data, this, [ASTERISK]).from(...tables)
+		return new SelectStep(this, [ASTERISK]).from(...tables)
 	}
 
 	delete(): DeleteStep {
-		return new DeleteStep(this.data, this)
+		return new DeleteStep(this)
 	}
 
 	deleteFrom(table: Table|AliasedTable): DeleteFromStep {
-		return new DeleteStep(this.data, this).from(table)
+		return new DeleteStep(this).from(table)
 	}
 
 	insert(): InsertStep {
-		return new InsertStep(this.data, this)
+		return new InsertStep(this)
 	}
 
 	insertInto(table: Table, ...columns: Column[]): IntoStep {
-		return new InsertStep(this.data, this).into(table, ...columns)
+		return new InsertStep(this).into(table, ...columns)
 	}
 
 	update(table: Table): UpdateStep {
-		return new UpdateStep(this.data, this, table)
+		return new UpdateStep(this, table)
 	}
 }

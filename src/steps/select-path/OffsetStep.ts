@@ -1,5 +1,4 @@
 import { Binder } from '../../binder'
-import { BuilderData } from '../../builder'
 import { InvalidOffsetValueError } from '../../errors'
 import { ItemInfo } from '../../ItemInfo'
 import { PrimitiveType } from '../../models'
@@ -9,13 +8,12 @@ import { Artifacts, BaseStep } from '../BaseStep'
 
 export class OffsetStep extends BaseStep {
 	private readonly value: number|Binder
-	public constructor(
-		data: BuilderData,
+	constructor(
 		prevStep: BaseStep,
 		value: number,
 		asBinder: boolean = false,
 	) {
-		super(data, prevStep)
+		super(prevStep)
 		if (!Number.isFinite(value) || value < 0) {
 			throw new InvalidOffsetValueError(value)
 		}
@@ -35,6 +33,6 @@ export class OffsetStep extends BaseStep {
 	}
 
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this.data, this, items)
+		return new ReturningStep(this, items)
 	}
 }

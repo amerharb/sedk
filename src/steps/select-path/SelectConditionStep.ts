@@ -3,7 +3,6 @@ import { LimitStep } from './LimitStep'
 import { OrderByStep } from './OrderByStep'
 import { ConditionStep } from '../ConditionStep'
 import { BaseStep, Parenthesis } from '../BaseStep'
-import { BuilderData } from '../../builder'
 import { Condition, PrimitiveType } from '../../models'
 import { BooleanColumn, Column } from '../../database'
 import { OrderByArgsElement } from '../../orderBy'
@@ -21,7 +20,7 @@ abstract class SelectConditionStep extends ConditionStep {
 	public and(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): SelectWhereAndStep {
 		const whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
 		BaseStep.addConditionParts(whereParts, cond1, op1, cond2, op2, cond3)
-		return new SelectWhereAndStep(this.data, this, whereParts)
+		return new SelectWhereAndStep(this, whereParts)
 	}
 
 	public or(condition: Condition): SelectWhereOrStep
@@ -30,65 +29,62 @@ abstract class SelectConditionStep extends ConditionStep {
 	public or(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): SelectWhereOrStep {
 		const whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
 		BaseStep.addConditionParts(whereParts, cond1, op1, cond2, op2, cond3)
-		return new SelectWhereOrStep(this.data, this, whereParts)
+		return new SelectWhereOrStep(this, whereParts)
 	}
 
 	public groupBy(...groupByItems: Column[]): GroupByStep {
-		return new GroupByStep(this.data, this, groupByItems)
+		return new GroupByStep(this, groupByItems)
 	}
 
 	public orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep {
-		return new OrderByStep(this.data, this, orderByItems)
+		return new OrderByStep(this, orderByItems)
 	}
 
 	public limit(n: null|number|All): LimitStep {
-		return new LimitStep(this.data, this, n)
+		return new LimitStep(this, n)
 	}
 
 	public limit$(n: null|number): LimitStep {
-		return new LimitStep(this.data, this, n, true)
+		return new LimitStep(this, n, true)
 	}
 
 	public offset(n: number): OffsetStep {
-		return new OffsetStep(this.data, this, n)
+		return new OffsetStep(this, n)
 	}
 
 	public offset$(n: number): OffsetStep {
-		return new OffsetStep(this.data, this, n, true)
+		return new OffsetStep(this, n, true)
 	}
 
 	//TODO: check if we should have returning as this is path of select
 	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this.data, this, items)
+		return new ReturningStep(this, items)
 	}
 }
 
 export class SelectWhereStep extends SelectConditionStep {
 	constructor(
-		data: BuilderData,
 		prevStep: BaseStep,
 		whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
 	) {
-		super('WHERE', data, prevStep, whereParts)
+		super('WHERE', prevStep, whereParts)
 	}
 }
 
 export class SelectWhereAndStep extends SelectConditionStep {
 	constructor(
-		data: BuilderData,
 		prevStep: BaseStep,
 		whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
 	) {
-		super('AND', data, prevStep, whereParts)
+		super('AND', prevStep, whereParts)
 	}
 }
 
 export class SelectWhereOrStep extends SelectConditionStep {
 	constructor(
-		data: BuilderData,
 		prevStep: BaseStep,
 		whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
 	) {
-		super('OR', data, prevStep, whereParts)
+		super('OR', prevStep, whereParts)
 	}
 }

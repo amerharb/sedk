@@ -8,7 +8,6 @@ import { Expression, PrimitiveType } from '../models'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { Asterisk } from '../singletoneConstants'
 import { TableAsterisk } from '../TableAsterisk'
-import { BuilderData } from '../builder'
 import { ReturningItem, ReturningItemInfo } from '../ReturningItemInfo'
 import { Artifacts, BaseStep } from './BaseStep'
 
@@ -16,11 +15,10 @@ export class ReturningStep extends BaseStep {
 	private readonly returningItemInfo: ReturningItemInfo[]
 
 	constructor(
-		data: BuilderData,
 		prevStep: BaseStep,
 		returningItems: (ItemInfo|ReturningItem|PrimitiveType)[],
 	) {
-		super(data, prevStep)
+		super(prevStep)
 		// find first step and check if it is Select
 		let step: BaseStep|null = prevStep
 		while (step !== null && !(step.prevStep instanceof RootStep)) {

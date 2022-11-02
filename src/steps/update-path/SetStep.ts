@@ -7,15 +7,13 @@ import { LogicalOperator } from '../../operators'
 import { ItemInfo } from '../../ItemInfo'
 import { ReturningItem } from '../../ReturningItemInfo'
 import { ReturningStep } from '../ReturningStep'
-import { BuilderData } from '../../builder'
 
 export class SetStep extends BaseStep {
 	constructor(
-		data: BuilderData,
 		prevStep: BaseStep,
 		private readonly items: UpdateSetItemInfo[],
 	) {
-		super(data, prevStep)
+		super(prevStep)
 	}
 
 	public getStepStatement(): string {
@@ -30,12 +28,12 @@ export class SetStep extends BaseStep {
 	public where(left: Condition, operator: LogicalOperator, right: Condition): UpdateWhereStep
 	public where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): UpdateWhereStep
 	public where(cond1: Condition, op1?: LogicalOperator, cond2?: Condition, op2?: LogicalOperator, cond3?: Condition): UpdateWhereStep {
-		const whereParts:(LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
+		const whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
 		BaseStep.addConditionParts(whereParts, cond1, op1, cond2, op2, cond3)
-		return new UpdateWhereStep(this.data, this, whereParts)
+		return new UpdateWhereStep(this, whereParts)
 	}
 
 	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this.data, this, items)
+		return new ReturningStep(this, items)
 	}
 }

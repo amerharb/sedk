@@ -4,7 +4,7 @@ import { builderData } from 'test/nonExported/steps/builderData'
 describe('DefaultValuesStep', () => {
 	const rootStep = new RootStep(builderData)
 	it('returns: [DEFAULT VALUES]', () => {
-		const actual = new DefaultValuesStep(builderData, rootStep).getStepStatement()
+		const actual = new DefaultValuesStep(rootStep).getStepStatement()
 		expect(actual).toEqual('DEFAULT VALUES')
 	})
 })

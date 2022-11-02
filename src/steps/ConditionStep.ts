@@ -1,17 +1,15 @@
 import { BooleanColumn, Column } from '../database'
 import { Artifacts, BaseStep, Parenthesis } from './BaseStep'
-import { BuilderData } from '../builder'
 import { Condition, Expression } from '../models'
 import { LogicalOperator } from '../operators'
 
 export abstract class ConditionStep extends BaseStep {
 	protected constructor(
 		protected readonly conditionName: 'WHERE'|'HAVING'|'AND'|'OR',
-		data: BuilderData,
 		prevStep: BaseStep,
 		protected readonly whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
 	) {
-		super(data, prevStep)
+		super(prevStep)
 	}
 
 	getStepStatement(): string {

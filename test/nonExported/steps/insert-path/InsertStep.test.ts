@@ -4,7 +4,7 @@ import { builderData } from 'test/nonExported/steps/builderData'
 describe('InsertStep', () => {
 	const rootStep = new RootStep(builderData)
 	it('returns: [INSERT]', () => {
-		const actual = new InsertStep(builderData, rootStep).getStepStatement()
+		const actual = new InsertStep(rootStep).getStepStatement()
 		expect(actual).toEqual('INSERT')
 	})
 })

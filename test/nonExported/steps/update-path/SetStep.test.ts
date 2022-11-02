@@ -14,19 +14,19 @@ describe('SetStep', () => {
 	describe('use Primitive values', () => {
 		it(`returns: [SET "col1" = 'A']`, () => {
 			const items = [new UpdateSetItemInfo(col1, 'A')]
-			const actual = new SetStep(builderData, rootStep, items).getStepStatement()
+			const actual = new SetStep(rootStep, items).getStepStatement()
 			expect(actual).toEqual(`SET "col1" = 'A'`)
 		})
 		it(`returns: [SET "col1" = 'A', "col4" = 1]`, () => {
 			const items = [new UpdateSetItemInfo(col1, 'A'), new UpdateSetItemInfo(col4, 1)]
-			const actual = new SetStep(builderData, rootStep, items).getStepStatement()
+			const actual = new SetStep(rootStep, items).getStepStatement()
 			expect(actual).toEqual(`SET "col1" = 'A', "col4" = 1`)
 		})
 	})
 	describe('use Binders', () => {
 		it(`returns: [SET "col1" = $1, "col4" = $2]`, () => {
 			const items = [new UpdateSetItemInfo(col1, new Binder('A')), new UpdateSetItemInfo(col4, new Binder(1))]
-			const actual = new SetStep(builderData, rootStep, items).getStepStatement()
+			const actual = new SetStep(rootStep, items).getStepStatement()
 			expect(actual).toEqual(`SET "col1" = $1, "col4" = $2`)
 		})
 	})

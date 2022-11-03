@@ -110,7 +110,7 @@ export abstract class BaseStep {
 			}
 			// after this, item is type Column
 			if (!this.data.database.hasColumn(item)) {
-				throw new ColumnNotFoundError(`Column: "${item.name}" not found in database`)
+				throw new ColumnNotFoundError(item.name)
 			}
 		}
 	}

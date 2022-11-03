@@ -1,7 +1,11 @@
 import { All } from './singletoneConstants'
 import { ComparisonOperator } from './operators'
 
-export class ColumnNotFoundError extends Error {}
+export class ColumnNotFoundError extends Error {
+	constructor(columnName: string) {
+		super(`Column: "${columnName}" not found in database`)
+	}
+}
 
 export class TableNotFoundError extends Error {}
 

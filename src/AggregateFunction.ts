@@ -8,7 +8,7 @@ import {
 import { SelectItemInfo } from './SelectItemInfo'
 import { BuilderData } from './builder'
 import { ComparisonOperator } from './operators'
-import { Binder } from './binder'
+import { Binder, BinderStore } from './binder'
 import { Column } from './database'
 import { ItemInfo } from './ItemInfo'
 
@@ -80,10 +80,10 @@ export class AggregateFunction implements IStatementGiver {
 		return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(new Binder(value)))
 	}
 
-	public getStmt(data: BuilderData, artifacts: Artifacts): string {
+	public getStmt(data: BuilderData, artifacts: Artifacts, binderStore: BinderStore): string {
 		if (this.expression.rightOperand === undefined || this.expression.rightOperand.type === ExpressionType.NOT_EXIST)
-			return `${this.funcName}(${this.expression.getStmt(data, artifacts)})`
-		return `${this.funcName}${this.expression.getStmt(data, artifacts)}`
+			return `${this.funcName}(${this.expression.getStmt(data, artifacts, binderStore)})`
+		return `${this.funcName}${this.expression.getStmt(data, artifacts, binderStore)}`
 	}
 
 	public getColumns(): Column[] {

@@ -34,7 +34,7 @@ export class ValuesStep extends BaseStep {
 					return getStmtDate(it)
 				} else if (it instanceof Binder) {
 					if (it.no === undefined) {
-						this.data.binderStore.add(it)
+						this.binderStore.add(it)
 					}
 					return it.getStmt()
 				} else if (it instanceof Default) {

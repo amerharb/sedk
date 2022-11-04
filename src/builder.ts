@@ -1,6 +1,5 @@
 import { AliasedTable, Column, Database, Table } from './database'
 import { PrimitiveType } from './models'
-import { BinderStore } from './binder'
 import { ASTERISK, All, Distinct } from './singletoneConstants'
 import {
 	DeleteFromStep,
@@ -22,8 +21,6 @@ import { ItemInfo } from './ItemInfo'
 export type BuilderData = {
 	database: Database,
 	option: BuilderOptionRequired,
-	// TODO: move binderStore to Step level
-	binderStore: BinderStore,
 }
 
 /**
@@ -93,6 +90,7 @@ export class Builder {
 		return this.rootStep.update(table)
 	}
 
+	/** @deprecated */
 	public cleanUp(): Builder {
 		this.rootStep.cleanUp()
 		return this
@@ -114,6 +112,5 @@ function getDataObj(database: Database, option?: BuilderOption): BuilderData {
 	return {
 		database: database,
 		option: fillUndefinedOptionsWithDefault(option ?? {}),
-		binderStore: new BinderStore(0),
 	}
 }

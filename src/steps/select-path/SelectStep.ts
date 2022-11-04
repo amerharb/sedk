@@ -67,7 +67,7 @@ export class SelectStep extends BaseStep {
 				return new SelectItemInfo(it, undefined)
 			} else if (it instanceof Binder) {
 				if (it.no === undefined) {
-					this.data.binderStore.add(it)
+					this.binderStore.add(it)
 				}
 				return new SelectItemInfo(it, undefined)
 			} else {
@@ -83,7 +83,7 @@ export class SelectStep extends BaseStep {
 		}
 
 		if (selectItemInfos.length > 0) {
-			const selectPartsString = selectItemInfos.map(it => it.getStmt(this.data, artifacts))
+			const selectPartsString = selectItemInfos.map(it => it.getStmt(this.data, artifacts, this.binderStore))
 			result += ` ${selectPartsString.join(', ')}`
 		}
 

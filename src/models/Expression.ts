@@ -9,7 +9,7 @@ import {
 	isNullOperator,
 	isTextOperator,
 } from '../operators'
-import { Binder, BinderArray } from '../binder'
+import { Binder, BinderArray, BinderStore } from '../binder'
 import { BuilderData } from '../builder'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { Column } from '../database'
@@ -71,11 +71,11 @@ export class Expression implements IStatementGiver {
 		}
 	}
 
-	public getStmt(data: BuilderData, artifacts: Artifacts): string {
+	public getStmt(data: BuilderData, artifacts: Artifacts, binderStore: BinderStore): string {
 		if (this.operator !== undefined && this.rightOperand !== undefined) {
-			return `(${this.leftOperand.getStmt(data, artifacts)} ${this.operator.toString()} ${this.rightOperand.getStmt(data, artifacts)})`
+			return `(${this.leftOperand.getStmt(data, artifacts, binderStore)} ${this.operator.toString()} ${this.rightOperand.getStmt(data, artifacts, binderStore)})`
 		}
-		return this.leftOperand.getStmt(data, artifacts)
+		return this.leftOperand.getStmt(data, artifacts, binderStore)
 	}
 
 	public as(alias: string): ItemInfo {

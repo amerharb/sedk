@@ -24,7 +24,7 @@ export class LimitStep extends BaseStep {
 			if (value instanceof All) {
 				throw new Error('ALL cannot be used as binder')
 			}
-			this.value = this.data.binderStore.getBinder(value)
+			this.value = this.binderStore.getBinder(value)
 		} else {
 			this.value = value
 		}

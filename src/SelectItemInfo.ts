@@ -1,3 +1,4 @@
+import { BinderStore } from './binder'
 import { Artifacts } from './steps/BaseStep'
 import { SelectItem } from './steps'
 import { Column } from './database'
@@ -26,13 +27,13 @@ export class SelectItemInfo extends ItemInfo {
 		return []
 	}
 
-	public getStmt(data: BuilderData, artifacts: Artifacts): string {
+	public getStmt(data: BuilderData, artifacts: Artifacts, binderStore: BinderStore): string {
 		if (this.alias !== undefined) {
 			// escape double quote by repeating it
 			const escapedAlias = escapeDoubleQuote(this.alias)
 			const asString = (data.option.addAsBeforeColumnAlias === 'always') ? ' AS' : ''
-			return `${this.selectItem.getStmt(data, artifacts)}${asString} "${escapedAlias}"`
+			return `${this.selectItem.getStmt(data, artifacts, binderStore)}${asString} "${escapedAlias}"`
 		}
-		return `${this.selectItem.getStmt(data, artifacts)}`
+		return `${this.selectItem.getStmt(data, artifacts, binderStore)}`
 	}
 }

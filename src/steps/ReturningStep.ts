@@ -37,7 +37,7 @@ export class ReturningStep extends BaseStep {
 				return new ReturningItemInfo(it, undefined)
 			} else if (it instanceof Binder) {
 				if (it.no === undefined) {
-					this.data.binderStore.add(it)
+					this.binderStore.add(it)
 				}
 				return new ReturningItemInfo(it, undefined)
 			} else if (it instanceof SelectItemInfo) {
@@ -58,7 +58,7 @@ export class ReturningStep extends BaseStep {
 
 	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
 		const returningPartsString = this.returningItemInfo.map(it => {
-			return it.getStmt(this.data, artifacts)
+			return it.getStmt(this.data, artifacts, this.binderStore)
 		})
 		return `RETURNING ${returningPartsString.join(', ')}`
 	}

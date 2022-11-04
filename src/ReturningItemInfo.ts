@@ -3,7 +3,7 @@ import { Column } from './database'
 import { Expression } from './models'
 import { escapeDoubleQuote } from './util'
 import { BuilderData } from './builder'
-import { Binder } from './binder'
+import { Binder, BinderStore } from './binder'
 import { Asterisk } from './singletoneConstants'
 import { ColumnLike } from './steps'
 import { ItemInfo } from './ItemInfo'
@@ -28,13 +28,13 @@ export class ReturningItemInfo extends ItemInfo {
 		return []
 	}
 
-	public getStmt(data: BuilderData, artifacts: Artifacts): string {
+	public getStmt(data: BuilderData, artifacts: Artifacts, binderStore: BinderStore): string {
 		if (this.alias !== undefined) {
 			// escape double quote by repeating it
 			const escapedAlias = escapeDoubleQuote(this.alias)
 			const asString = (data.option.addAsBeforeColumnAlias === 'always') ? ' AS' : ''
-			return `${this.returningItem.getStmt(data, artifacts)}${asString} "${escapedAlias}"`
+			return `${this.returningItem.getStmt(data, artifacts, binderStore)}${asString} "${escapedAlias}"`
 		}
-		return `${this.returningItem.getStmt(data, artifacts)}`
+		return `${this.returningItem.getStmt(data, artifacts, binderStore)}`
 	}
 }

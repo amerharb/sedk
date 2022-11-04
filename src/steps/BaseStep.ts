@@ -1,3 +1,4 @@
+import { BinderStore } from '../binder'
 import { FromItem } from './select-path/SelectFromStep'
 import { ItemInfo } from '../ItemInfo'
 import { ColumnLike } from './select-path/SelectStep'
@@ -18,12 +19,14 @@ export type Artifacts = { tables: ReadonlySet<Table>, columns: ReadonlySet<Colum
 export abstract class BaseStep {
 	public readonly rootStep: BaseStep
 	protected readonly data: BuilderData
+	protected readonly binderStore: BinderStore
 
 	constructor(
 		public readonly prevStep: BaseStep|null,
 	) {
 		this.rootStep = prevStep === null ? this : prevStep.rootStep
 		this.data = this.rootStep.data
+		this.binderStore = new BinderStore(prevStep?.getBindValues().length ?? 0)
 	}
 
 	public getSQL(): string {
@@ -79,11 +82,16 @@ export abstract class BaseStep {
 	protected abstract getStepArtifacts(): Artifacts
 
 	public getBindValues(): PrimitiveType[] {
-		return [...this.data.binderStore.getValues()]
+		if (this.prevStep !== null) {
+			return [...this.prevStep.getBindValues(), ...this.binderStore.getValues()]
+		}
+		return [...this.binderStore.getValues()]
 	}
 
+	/** @deprecated */
 	public cleanUp() {
-		this.data.binderStore.cleanUp()
+		// TODO: remove binderstore cleanUp method
+		this.binderStore.cleanUp()
 	}
 
 	protected static getTable(item: FromItem): Table {

@@ -17,7 +17,7 @@ export abstract class ConditionStep extends BaseStep {
 			BaseStep.throwIfConditionPartsInvalid(this.whereParts)
 			const wherePartsString = this.whereParts.map(it => {
 				if (it instanceof Condition || it instanceof Expression || it instanceof BooleanColumn) {
-					return it.getStmt(this.data, artifacts)
+					return it.getStmt(this.data, artifacts, this.binderStore)
 				}
 				return it.toString()
 			})

@@ -33,6 +33,7 @@ export class BinderStore {
 		return Array.from(this.store).map(it => it.value)
 	}
 
+	/** @deprecated */
 	public cleanUp() {
 		this.store.clear()
 	}

@@ -1,6 +1,6 @@
 import { Artifacts } from '../steps/BaseStep'
 import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
-import { Binder } from '../binder'
+import { Binder, BinderStore } from '../binder'
 import { BuilderData } from '../builder'
 import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../database'
 import { InvalidConditionError } from '../errors'
@@ -41,15 +41,15 @@ export class Condition implements Expression, IStatementGiver {
 		this.rightExpression = rightExpression
 	}
 
-	public getStmt(data: BuilderData, artifacts: Artifacts): string {
+	public getStmt(data: BuilderData, artifacts: Artifacts, binderStore: BinderStore): string {
 		if (this.operator !== undefined && this.rightOperand !== undefined)
 			if (this.leftOperand.value instanceof Condition) {
-				return `(${this.leftOperand.getStmt(data, artifacts)}) ${this.operator} ${this.rightOperand.getStmt(data, artifacts)}`
+				return `(${this.leftOperand.getStmt(data, artifacts, binderStore)}) ${this.operator} ${this.rightOperand.getStmt(data, artifacts, binderStore)}`
 			} else {
-				return `${this.leftOperand.getStmt(data, artifacts)} ${this.operator} ${this.rightOperand.getStmt(data, artifacts)}`
+				return `${this.leftOperand.getStmt(data, artifacts, binderStore)} ${this.operator} ${this.rightOperand.getStmt(data, artifacts, binderStore)}`
 			}
 		else
-			return this.leftOperand.getStmt(data, artifacts)
+			return this.leftOperand.getStmt(data, artifacts, binderStore)
 	}
 
 	// Implement Expression, We don't really need it

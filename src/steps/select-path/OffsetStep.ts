@@ -18,7 +18,7 @@ export class OffsetStep extends BaseStep {
 			throw new InvalidOffsetValueError(value)
 		}
 		if (asBinder) {
-			this.value = this.data.binderStore.getBinder(value)
+			this.value = this.binderStore.getBinder(value)
 		} else {
 			this.value = value
 		}

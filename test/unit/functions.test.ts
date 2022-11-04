@@ -1,4 +1,4 @@
-import { Binder } from 'Non-Exported/binder'
+import { Binder, BinderStore } from 'Non-Exported/binder'
 import { Condition, Expression } from 'Non-Exported/models'
 import { Artifacts } from 'Non-Exported/steps/BaseStep'
 import { ArithmeticOperator, ComparisonOperator, e } from 'src'
@@ -17,7 +17,7 @@ describe('functions', () => {
 		it('takes Binder', () => {
 			const actual = e(new Binder(1), ADD, 1)
 			expect(actual).toBeInstanceOf(Expression)
-			expect(actual.getStmt(builderData, emptyArtifacts)).toEqual('($1 + 1)')
+			expect(actual.getStmt(builderData, emptyArtifacts, new BinderStore(0))).toEqual('($1 + 1)')
 		})
 	})
 })

@@ -1,9 +1,7 @@
-import { BinderStore } from 'Non-Exported/binder'
 import { BuilderData } from 'Non-Exported/builder'
 import { database } from 'test/database'
 
 export const builderData: BuilderData = {
-	binderStore: new BinderStore(0),
 	database,
 	option: {
 		useSemicolonAtTheEnd: true,

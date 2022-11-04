@@ -1,5 +1,5 @@
 import { Artifacts } from '../steps/BaseStep'
-import { Binder, BinderArray } from '../binder'
+import { Binder, BinderArray, BinderStore } from '../binder'
 import { Expression, ExpressionType } from './Expression'
 import { BuilderData } from '../builder'
 import { AggregateFunction } from '../AggregateFunction'
@@ -21,8 +21,8 @@ export class Operand implements IStatementGiver {
 		Operand.throwIfInvalidUseOfNot(this.type, isNot)
 	}
 
-	public getStmt(data: BuilderData, artifacts: Artifacts): string {
-		return Operand.getStmtOfValue(this.value, this.isNot, data, artifacts)
+	public getStmt(data: BuilderData, artifacts: Artifacts, binderStore: BinderStore): string {
+		return Operand.getStmtOfValue(this.value, this.isNot, data, artifacts, binderStore)
 	}
 
 	/**
@@ -34,18 +34,19 @@ export class Operand implements IStatementGiver {
 		isNot: boolean,
 		data: BuilderData,
 		artifacts: Artifacts,
+		binderStore: BinderStore,
 	): string {
 		if (value === null) {
 			return getStmtNull()
 		} else if (value instanceof Binder) {
 			if (value.no === undefined) {
-				data.binderStore.add(value)
+				binderStore.add(value)
 			}
 			return `${value.getStmt()}`
 		} else if (value instanceof BinderArray) {
 			value.binders.forEach(it => {
 				if (it.no === undefined) {
-					data.binderStore.add(it)
+					binderStore.add(it)
 				}
 			})
 			return `${value.getStmt()}`
@@ -58,13 +59,13 @@ export class Operand implements IStatementGiver {
 		} else if (value instanceof Date) {
 			return `${isNot ? 'NOT ' : ''}${getStmtDate(value)}`
 		} else if (value instanceof AggregateFunction) {
-			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts)}`
+			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts, binderStore)}`
 		} else if (value instanceof Expression) {
-			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts)}`
+			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts, binderStore)}`
 		} else if (value instanceof Condition) { /** ignore IDE warning, "value" can be an instance of Condition */
-			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts)}`
+			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts, binderStore)}`
 		} else if (Array.isArray(value)) {
-			return `${isNot ? 'NOT ' : ''}(${value.map(it => Operand.getStmtOfValue(it, isNot, data, artifacts)).join(', ')})`
+			return `${isNot ? 'NOT ' : ''}(${value.map(it => Operand.getStmtOfValue(it, isNot, data, artifacts, binderStore)).join(', ')})`
 		} else if (value instanceof Column) {
 			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts)}`
 		}

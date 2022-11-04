@@ -1,0 +1,9 @@
+sql.insertInto(table1, col1, col2).values$("x", "y").returning(table1.ASTERISK)
+INSERT INTO "table1"("col1", "col2") VALUES($1, $2) RETURNING "table1".*;
+[ "x", "y" ]
+
+sql.insertInto(table1, col1, col2).select('x', 'y').returning(ASTERISK)
+INSERT INTO "table1"("col1", "col2") SELECT 'x', 'y' RETURNING *;
+
+sql.insertInto(table1, col1).select(col2).from(table1).orderBy(col2).returning(ASTERISK)
+INSERT INTO "table1"("col1") SELECT "col2" FROM "table1" ORDER BY "col2" RETURNING *;

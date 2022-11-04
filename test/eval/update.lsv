@@ -1,0 +1,19 @@
+sql.update(table1).set(col1.eq$("x")).where(col2.eq$("y"))
+UPDATE "table1" SET "col1" = $1 WHERE "col2" = $2;
+[ "x", "y" ]
+
+sql.update(table1).set(col9.eq$(null))
+UPDATE "table1" SET "col9" = $1;
+[ null ]
+
+sql.update(table1).set(col4.eq$(null))
+UPDATE "table1" SET "col4" = $1;
+[ null ]
+
+sql.update(table1).set(col7.eq$(null))
+UPDATE "table1" SET "col7" = $1;
+[ null ]
+
+sql.update(table1).set(col1.eq$(null))
+UPDATE "table1" SET "col1" = $1;
+[ null ]

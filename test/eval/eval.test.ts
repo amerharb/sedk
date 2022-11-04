@@ -28,7 +28,11 @@ describe('eval', () => {
 	afterEach(() => {
 		sql.cleanUp()
 	})
-	const filenames = ['test/eval/input.lsv']
+	const filenames = [
+		'test/eval/select.lsv',
+		'test/eval/insert.lsv',
+		'test/eval/update.lsv',
+	]
 	filenames.forEach(filename => {
 		describe(filename, () => {
 			parseInputFile(filename).forEach(line => {

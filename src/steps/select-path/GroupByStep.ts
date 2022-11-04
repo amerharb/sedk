@@ -1,5 +1,8 @@
+import { ItemInfo } from '../../ItemInfo'
+import { ReturningItem } from '../../ReturningItemInfo'
+import { ReturningStep } from '../ReturningStep'
 import { BooleanColumn, Column } from '../../database'
-import { Condition } from '../../models'
+import { Condition, PrimitiveType } from '../../models'
 import { LogicalOperator } from '../../operators'
 import { OrderByArgsElement } from '../../orderBy'
 import { HavingStep } from './HavingStep'
@@ -36,5 +39,9 @@ export class GroupByStep extends BaseStep {
 
 	orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep {
 		return new OrderByStep(this, orderByItems)
+	}
+
+	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
+		return new ReturningStep(this, items)
 	}
 }

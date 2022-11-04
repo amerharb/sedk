@@ -116,9 +116,7 @@ export class SelectStep extends BaseStep {
 
 	private getColumns(): Column[] {
 		return this.items.map(it => {
-			if (it instanceof SelectItemInfo) {
-				return it.getColumns()
-			} else if (it instanceof ItemInfo) {
+			if (it instanceof ItemInfo) {
 				return it.getColumns()
 			} else if (it instanceof Expression) {
 				return it.getColumns()

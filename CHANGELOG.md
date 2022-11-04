@@ -1,7 +1,7 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.15.0]  2022-11-03
+## [0.15.0]  2022-11-04
 ### Added
 - make builder() function return a new instance RootStep `const sql = sedk.builder()`
 ### Changed

@@ -6,29 +6,29 @@ import {
 } from './models'
 
 export class BinderStore {
-	private store: Binder[] = []
+	private store: Set<Binder> = new Set()
 
 	public add(binder: Binder): void {
 		if (binder.no !== undefined) {
 			throw new Error('This binder already stored')
 		}
 
-		binder.no = this.store.length + 1
-		this.store.push(binder)
+		binder.no = this.store.size + 1
+		this.store.add(binder)
 	}
 
 	public getBinder(value: PrimitiveType): Binder {
-		const binder = new Binder(value, this.store.length + 1)
-		this.store.push(binder)
+		const binder = new Binder(value, this.store.size + 1)
+		this.store.add(binder)
 		return binder
 	}
 
 	public getValues(): PrimitiveType[] {
-		return this.store.map(it => it.value)
+		return Array.from(this.store).map(it => it.value)
 	}
 
 	public cleanUp() {
-		this.store.length = 0
+		this.store.clear()
 	}
 }
 

@@ -39,7 +39,7 @@ describe('Throw desired Errors', () => {
 	describe('Binder', () => {
 		it('Throws: "This binder already stored"', () => {
 			function actual() {
-				const binderStore = new BinderStore()
+				const binderStore = new BinderStore(0)
 				const binder = new Binder('value')
 				binderStore.add(binder)
 				binderStore.add(binder)

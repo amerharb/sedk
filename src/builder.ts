@@ -114,6 +114,6 @@ function getDataObj(database: Database, option?: BuilderOption): BuilderData {
 	return {
 		database: database,
 		option: fillUndefinedOptionsWithDefault(option ?? {}),
-		binderStore: new BinderStore(),
+		binderStore: new BinderStore(0),
 	}
 }

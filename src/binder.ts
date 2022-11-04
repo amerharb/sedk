@@ -8,17 +8,23 @@ import {
 export class BinderStore {
 	private store: Set<Binder> = new Set()
 
+	constructor(private readonly offset: number) {
+		if (!Number.isInteger(offset) || offset < 0) {
+			throw new Error('Offset should be a positive integer')
+		}
+	}
+
 	public add(binder: Binder): void {
 		if (this.store.has(binder)) {
 			throw new Error('This binder already stored')
 		}
 
-		binder.no = this.store.size + 1
+		binder.no = this.store.size + 1 + this.offset
 		this.store.add(binder)
 	}
 
 	public getBinder(value: PrimitiveType): Binder {
-		const binder = new Binder(value, this.store.size + 1)
+		const binder = new Binder(value, this.store.size + 1 + this.offset)
 		this.store.add(binder)
 		return binder
 	}

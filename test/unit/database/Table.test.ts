@@ -9,9 +9,10 @@ describe('Table', () => {
 	})
 	describe('class AliasedTable', () => {
 		const aliasedTable = table1.as('t1')
-		it('fqName/name', () => {
+		it('fqName/name/alias', () => {
 			expect(aliasedTable.fqName).toEqual('"public"."table1"')
 			expect(aliasedTable.name).toEqual('table1')
+			expect(aliasedTable.alias).toEqual('t1')
 		})
 	})
 })

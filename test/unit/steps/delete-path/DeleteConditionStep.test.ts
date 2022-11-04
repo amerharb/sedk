@@ -1,7 +1,7 @@
 import { LogicalOperator } from 'src'
-import { Parenthesis, RootStep, SelectWhereStep } from 'Non-Exported/steps'
+import { DeleteWhereStep, Parenthesis, RootStep } from 'Non-Exported/steps'
 import { database } from 'test/database'
-import { builderData } from 'test/nonExported/steps/builderData'
+import { builderData } from 'test/unit/steps/builderData'
 
 //Aliases
 const table1 = database.s.public.t.table1
@@ -12,40 +12,40 @@ const AND = LogicalOperator.AND
 const OPEN = Parenthesis.Open
 const CLOSE = Parenthesis.Close
 
-describe('SelectConditionStep', () => {
+describe('DeleteConditionStep', () => {
 	const rootStep = new RootStep(builderData)
-	describe('SelectConditionStep', () => {
-		// TODO: add unit test to test Abstract class SelectConditionStep if it make sense
+	describe('DeleteConditionStep', () => {
+		// TODO: add unit test to test Abstract class DeleteConditionStep if it make sense
 	})
-	describe('SelectWhereStep', () => {
+	describe('DeleteWhereStep', () => {
 		// TODO: reevaluate the expected SQL here, maybe it should return only WHERE, or throw an error
 		it('returns: []', () => {
-			const actual = new SelectWhereStep(
+			const actual = new DeleteWhereStep(
 				rootStep,
 				[],
 			).getStepStatement()
 			expect(actual).toEqual('')
 		})
 		it('returns: [WHERE "col7"]', () => {
-			const actual = new SelectWhereStep(
+			const actual = new DeleteWhereStep(
 				rootStep,
 				[col7],
 			).getStepStatement()
 			expect(actual).toEqual(`WHERE "col7"`)
 		})
 		it(`returns: [WHERE "col1" = 'A' AND "col4" = 1]`, () => {
-			const actual = new SelectWhereStep(
+			const actual = new DeleteWhereStep(
 				rootStep,
 				[OPEN, col1.eq('A'), AND, col4.eq(1), CLOSE],
 			).getStepStatement()
 			expect(actual).toEqual(`WHERE ( "col1" = 'A' AND "col4" = 1 )`)
 		})
 	})
-	describe('SelectWhereAndStep', () => {
-		// TODO: add unit test to test class SelectWhereAndStep if it make sense
+	describe('DeleteWhereAndStep', () => {
+		// TODO: add unit test to test class DeleteWhereAndStep if it make sense
 	})
-	describe('SelectWhereOrStep', () => {
-		// TODO: add unit test to test class SelectWhereOrStep if it make sense
+	describe('DeleteWhereOrStep', () => {
+		// TODO: add unit test to test class DeleteWhereOrStep if it make sense
 	})
 
 })

@@ -1,5 +1,5 @@
 import { DefaultValuesStep, RootStep } from 'Non-Exported/steps'
-import { builderData } from 'test/nonExported/steps/builderData'
+import { builderData } from 'test/unit/steps/builderData'
 
 describe('DefaultValuesStep', () => {
 	const rootStep = new RootStep(builderData)

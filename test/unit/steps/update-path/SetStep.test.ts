@@ -2,7 +2,7 @@ import { Binder } from 'Non-Exported/binder'
 import { RootStep, SetStep } from 'Non-Exported/steps'
 import { UpdateSetItemInfo } from 'Non-Exported/UpdateSetItemInfo'
 import { database } from 'test/database'
-import { builderData } from 'test/nonExported/steps/builderData'
+import { builderData } from 'test/unit/steps/builderData'
 
 //Aliases
 const table1 = database.s.public.t.table1

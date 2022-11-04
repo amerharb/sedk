@@ -1,5 +1,5 @@
 import { DeleteStep, RootStep } from 'Non-Exported/steps'
-import { builderData } from 'test/nonExported/steps/builderData'
+import { builderData } from 'test/unit/steps/builderData'
 
 describe('DeleteStep', () => {
 	const rootStep = new RootStep(builderData)

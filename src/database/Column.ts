@@ -1,3 +1,5 @@
+import { Artifacts } from '../steps/BaseStep'
+import { INameGiver } from './INameGiver'
 import { Table } from './Table'
 import { escapeDoubleQuote } from '../util'
 import { Condition, IStatementGiver, PrimitiveType, ValueLike } from '../models'
@@ -22,7 +24,7 @@ export type ColumnObj = {
 	name: string
 }
 
-export abstract class Column implements IStatementGiver {
+export abstract class Column implements INameGiver, IStatementGiver {
 	private mTable?: Table
 
 	protected constructor(protected readonly data: ColumnObj) {}
@@ -43,6 +45,10 @@ export abstract class Column implements IStatementGiver {
 
 	public get name(): string {
 		return this.data.name
+	}
+
+	public get fqName(): string {
+		return `${this.table.fqName}."${escapeDoubleQuote(this.data.name)}"`
 	}
 
 	public getDoubleQuotedName(): string {
@@ -134,18 +140,21 @@ export abstract class Column implements IStatementGiver {
 		return new UpdateSetItemInfo(this, DEFAULT)
 	}
 
-	public getStmt(data: BuilderData): string {
+	public getStmt(data: BuilderData, artifacts: Artifacts): string {
 		if (this.mTable === undefined)
 			throw new Error('Table of this column is undefined')
 
-		const schemaName = data.fromItemInfos.some(it => (it.table !== this.table && it.table.name === this.table.name))
+		const schemaName = Array
+			.from(artifacts.tables)
+			.some(it => it !== this.table && it.name === this.table.name)
 			? `"${escapeDoubleQuote(this.table.schema.name)}".`
 			: ''
 
 		const tableName = (
 			data.option.addTableName === 'always'
 			|| (data.option.addTableName === 'when two tables or more'
-				&& data.fromItemInfos.some(it => it.table !== this.table))
+				&& Array.from(artifacts.tables)
+					.some(it => it !== this.table))
 		) ? `"${escapeDoubleQuote(this.table.name)}".` : ''
 
 		return `${schemaName}${tableName}"${escapeDoubleQuote(this.data.name)}"`

@@ -1,4 +1,4 @@
-import { Builder, LogicalOperator, f } from 'src'
+import { LogicalOperator, builder, f } from 'src'
 import { database } from 'test/database'
 
 //Alias
@@ -13,7 +13,7 @@ const col5 = table.c.col5
 const col6 = table.c.col6
 
 describe('test having step', () => {
-	const sql = new Builder(database)
+	const sql = builder(database)
 	afterEach(() => { sql.cleanUp() })
 
 	describe('test getSQL() without binders', () => {

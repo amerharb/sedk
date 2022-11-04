@@ -1,3 +1,4 @@
+import { Artifacts } from '../steps/BaseStep'
 import {
 	ComparisonOperator,
 	NullOperator,
@@ -70,11 +71,11 @@ export class Expression implements IStatementGiver {
 		}
 	}
 
-	public getStmt(data: BuilderData): string {
+	public getStmt(data: BuilderData, artifacts: Artifacts): string {
 		if (this.operator !== undefined && this.rightOperand !== undefined) {
-			return `(${this.leftOperand.getStmt(data)} ${this.operator.toString()} ${this.rightOperand.getStmt(data)})`
+			return `(${this.leftOperand.getStmt(data, artifacts)} ${this.operator.toString()} ${this.rightOperand.getStmt(data, artifacts)})`
 		}
-		return this.leftOperand.getStmt(data)
+		return this.leftOperand.getStmt(data, artifacts)
 	}
 
 	public as(alias: string): ItemInfo {

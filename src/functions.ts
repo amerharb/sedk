@@ -32,7 +32,9 @@ export function e(left: NumberLike|Binder, operator: ArithmeticOperator, right: 
 export function e(left: TextLike, operator: ComparisonOperator, right: TextLike): Condition
 export function e(left: OperandType, operator: Operator, right: OperandType): Expression
 export function e(left: OperandType|Binder, operator?: Operator, right?: OperandType|Binder): Expression {
-	const l = left instanceof Binder ? new Expression(left) : left
+	const l = left instanceof Binder
+		? new Expression(left)
+		: left
 	if (operator !== undefined && right !== undefined) {
 		const r = right instanceof Binder ? new Expression(right) : right
 		if (
@@ -40,7 +42,7 @@ export function e(left: OperandType|Binder, operator?: Operator, right?: Operand
 			&& l instanceof Expression
 			&& r instanceof Expression
 		) {
-			return new Condition(l, operator as ComparisonOperator, r)
+			return new Condition(l, operator, r)
 		}
 		return new Expression(l, operator, r)
 	} else {

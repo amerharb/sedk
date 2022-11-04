@@ -17,7 +17,7 @@ const T2col2 = table2.c.col2
 const $ = sedk.$
 
 describe('INSERT Path', () => {
-	const sql = new sedk.Builder(database)
+	const sql = sedk.builder(database)
 	afterEach(() => { sql.cleanUp() })
 	const EPOCH_2022_07_20 = Date.UTC(2022, 6, 20)
 	describe('Basic insert all', () => {

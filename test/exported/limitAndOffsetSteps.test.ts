@@ -1,6 +1,6 @@
 import {
 	ALL,
-	Builder,
+	builder,
 } from 'src'
 import { database } from 'test/database'
 
@@ -8,7 +8,7 @@ import { database } from 'test/database'
 const table = database.s.public.t.table1
 
 describe('Test LIMIT and OFFSET Steps', () => {
-	const sql = new Builder(database)
+	const sql = builder(database)
 	afterEach(() => { sql.cleanUp() })
 
 	it('Produces [SELECT * FROM "table1" LIMIT 50 OFFSET 10;]', () => {

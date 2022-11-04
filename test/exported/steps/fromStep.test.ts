@@ -1,4 +1,4 @@
-import { Builder } from 'src'
+import { builder } from 'src'
 import { database } from 'test/database'
 //Alias
 const publicTable1 = database.s.public.t.table1
@@ -10,7 +10,7 @@ const table1col1 = database.s.schema1.t.table1.c.col1
 
 describe('Test From Step', () => {
 	describe('Multi Tables comma separated', () => {
-		const sql = new Builder(database)
+		const sql = builder(database)
 		afterEach(() => { sql.cleanUp() })
 		describe('Two Tables', () => {
 			it('Produces [SELECT "table1"."col1", "table2"."col1" FROM "table1", "table2";]', () => {
@@ -36,7 +36,7 @@ describe('Test From Step', () => {
 	})
 
 	describe('Multi Tables CROSS JOIN separated', () => {
-		const sql = new Builder(database)
+		const sql = builder(database)
 		afterEach(() => { sql.cleanUp() })
 		describe('Two Tables', () => {
 			it('Produces [SELECT "table1"."col1", "table2"."col1" FROM "table1" CROSS JOIN "table2";]', () => {

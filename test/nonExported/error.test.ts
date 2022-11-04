@@ -1,13 +1,13 @@
 import {
-	Builder,
 	InvalidConditionError,
 	NumberColumn,
+	builder,
 	e,
 } from 'src'
 
 // test non-exported Classes
 import { Condition, Expression, Operand } from 'Non-Exported/models'
-import { OnStep, Parenthesis } from 'Non-Exported/steps'
+import { Parenthesis } from 'Non-Exported/steps'
 import { Binder, BinderArray, BinderStore } from 'Non-Exported/binder'
 import { BuilderData } from 'Non-Exported/builder'
 import { ItemInfo } from 'Non-Exported/ItemInfo'
@@ -19,7 +19,7 @@ import { database } from 'test/database'
 const table1 = database.s.public.t.table1
 
 describe('Throw desired Errors', () => {
-	const sql = new Builder(database)
+	const sql = builder(database)
 	afterEach(() => { sql.cleanUp() })
 
 	describe('Error: InvalidConditionError', () => {
@@ -33,44 +33,6 @@ describe('Throw desired Errors', () => {
 
 			expect(actual).toThrow(InvalidConditionError)
 			expect(actual).toThrow(`Condition can not created with only "NUMBER"`)
-		})
-	})
-
-	describe('Error: "Step property in builder data is not initialized"', () => {
-		const data: BuilderData = {
-			binderStore: new BinderStore(),
-			database,
-			distinct: undefined,
-			fromItemInfos: [],
-			groupByItems: [],
-			havingParts: [],
-			option: {
-				useSemicolonAtTheEnd: true,
-				addAscAfterOrderByItem: 'when mentioned',
-				addNullsLastAfterOrderByItem: 'when mentioned',
-				addAsBeforeColumnAlias: 'always',
-				addPublicSchemaName: 'never',
-				addTableName: 'when two tables or more',
-				addAsBeforeTableAlias: 'always',
-				throwErrorIfDeleteHasNoCondition: true,
-			},
-			orderByItemInfos: [],
-			selectItemInfos: [],
-			whereParts: [],
-			insertIntoTable: undefined,
-			insertIntoColumns: [],
-			insertIntoValues: [],
-			insertIntoDefaultValues: false,
-			updateTable: undefined,
-			updateSetItemInfos: [],
-			returning: [],
-		}
-		it(`Throws error when Step is not initialized`, () => {
-			function actual() {
-				new OnStep(data).crossJoin(table1)
-			}
-
-			expect(actual).toThrow(`Step property in builder data is not initialized`)
 		})
 	})
 

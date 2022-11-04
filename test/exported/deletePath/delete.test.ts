@@ -12,7 +12,7 @@ const table2 = database.s.public.t.table2
 const $ = sedk.$
 
 describe('DELETE Path', () => {
-	const sql = new sedk.Builder(database, { throwErrorIfDeleteHasNoCondition: false })
+	const sql = sedk.builder(database, { throwErrorIfDeleteHasNoCondition: false })
 	afterEach(() => { sql.cleanUp() })
 	describe('Basic delete all', () => {
 		it('Produces [DELETE FROM "table1"]', () => {

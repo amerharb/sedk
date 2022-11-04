@@ -1,3 +1,5 @@
+import { Artifacts } from '../steps/BaseStep'
+import { INameGiver } from './INameGiver'
 import { BuilderData } from '../builder'
 import { BooleanColumn } from './BooleanColumn'
 import { Column } from './Column'
@@ -18,7 +20,7 @@ type TableObj<C extends ColumnsObj> = {
 	columns: C
 }
 
-export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver {
+export class Table<C extends ColumnsObj = ColumnsObj> implements INameGiver, IStatementGiver {
 	private mSchema?: Schema
 	private readonly mColumns: C
 	private readonly columnArray: readonly Column[]
@@ -51,6 +53,10 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver
 		return this.data.name
 	}
 
+	public get fqName(): string {
+		return `${this.schema.fqName}."${escapeDoubleQuote(this.data.name)}"`
+	}
+
 	public as(alias: string): AliasedTable {
 		return new AliasedTable(this, alias)
 	}
@@ -72,7 +78,7 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver
 		return this.columnArray.includes(column)
 	}
 
-	public getStmt(data: BuilderData): string {
+	public getStmt(data: BuilderData, artifacts: Artifacts): string {
 		if (this.mSchema === undefined)
 			throw new Error('Schema is undefined')
 
@@ -80,12 +86,28 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements IStatementGiver
 			this.mSchema.name !== 'public'
 			|| data.option.addPublicSchemaName === 'always'
 			|| (data.option.addPublicSchemaName === 'when other schema mentioned'
-				&& data.fromItemInfos.some(it => it.table.schema.name !== 'public'))
-		) ? `"${escapeDoubleQuote(this.mSchema.name)}".` : ''
+				&& Array.from(artifacts.tables).some(it => it.schema.name !== 'public'))
+		)
+			? `${this.mSchema.fqName}.`
+			: ''
 		return `${schemaName}"${escapeDoubleQuote(this.data.name)}"`
 	}
 }
 
-export class AliasedTable {
+export class AliasedTable implements INameGiver, IStatementGiver {
 	constructor(public readonly table: Table, public readonly alias: string) {}
+
+	public getStmt(data: BuilderData, artifacts: Artifacts): string {
+		const escapedAlias = escapeDoubleQuote(this.alias)
+		const asString = (data.option.addAsBeforeTableAlias === 'always') ? ' AS' : ''
+		return `${this.table.getStmt(data, artifacts)}${asString} "${escapedAlias}"`
+	}
+
+	get name(): string {
+		return this.table.name
+	}
+
+	public get fqName(): string {
+		return this.table.fqName
+	}
 }

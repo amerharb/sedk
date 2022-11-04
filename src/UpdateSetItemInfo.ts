@@ -1,3 +1,4 @@
+import { Artifacts } from './steps/BaseStep'
 import {
 	Expression,
 	IStatementGiver,
@@ -23,7 +24,7 @@ export class UpdateSetItemInfo implements IStatementGiver {
 		}
 	}
 
-	public getStmt(data: BuilderData): string {
-		return `${this.column.getStmt(data)} = ${this.operand.getStmt(data)}`
+	public getStmt(data: BuilderData, artifacts: Artifacts): string {
+		return `${this.column.getStmt(data, artifacts)} = ${this.operand.getStmt(data, artifacts)}`
 	}
 }

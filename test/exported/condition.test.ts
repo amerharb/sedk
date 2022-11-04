@@ -1,4 +1,4 @@
-import { Builder } from 'src'
+import { builder } from 'src'
 import { database } from 'test/database'
 
 //Alias
@@ -13,7 +13,7 @@ const col9 = table1.c.col9
 const col10 = table1.c.col10
 
 describe('Condition', () => {
-	const sql = new Builder(database)
+	const sql = builder(database)
 	afterEach(() => { sql.cleanUp() })
 	describe('Condition from Condition eq/isEq', () => {
 		it('Produces [SELECT * FROM "table1" WHERE (("col4" & 1) = 0) = TRUE;]', () => {

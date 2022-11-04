@@ -1,4 +1,4 @@
-import { ArithmeticOperator, Builder, e, f } from 'src'
+import { ArithmeticOperator, builder, e, f } from 'src'
 import { database } from 'test/database'
 
 //Alias
@@ -12,7 +12,7 @@ const col5 = database.s.public.t.table1.c.col5
 const col6 = database.s.public.t.table1.c.col6
 
 describe('test groupBy Step', () => {
-	const sql = new Builder(database)
+	const sql = builder(database)
 	afterEach(() => { sql.cleanUp() })
 
 	it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1";]', () => {

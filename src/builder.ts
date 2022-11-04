@@ -1,93 +1,45 @@
-import { AliasedTable, BooleanColumn, Column, Database, Table } from './database'
-import { Condition, PrimitiveType } from './models'
-import { Binder, BinderStore } from './binder'
-import { ASTERISK, All, Default, Distinct } from './singletoneConstants'
+import { AliasedTable, Column, Database, Table } from './database'
+import { PrimitiveType } from './models'
+import { BinderStore } from './binder'
+import { ASTERISK, All, Distinct } from './singletoneConstants'
 import {
 	DeleteFromStep,
 	DeleteStep,
 	FromItems,
 	InsertStep,
 	IntoStep,
-	Parenthesis,
 	RootStep,
 	SelectFromStep,
 	SelectItem,
 	SelectStep,
-	Step,
 	UpdateStep,
 } from './steps'
-import { LogicalOperator } from './operators'
-import { OrderByItemInfo } from './orderBy'
 import { SelectItemInfo } from './SelectItemInfo'
 import { BuilderOption, BuilderOptionRequired, fillUndefinedOptionsWithDefault } from './option'
 import { MoreThanOneDistinctOrAllError } from './errors'
-import { FromItemInfo } from './FromItemInfo'
-import { ReturningItemInfo } from './ReturningItemInfo'
 import { ItemInfo } from './ItemInfo'
-import { UpdateSetItemInfo } from './UpdateSetItemInfo'
-
-export enum SqlPath {
-	SELECT = 'SELECT',
-	DELETE = 'DELETE',
-	INSERT = 'INSERT',
-	UPDATE = 'UPDATE',
-}
 
 export type BuilderData = {
-	step?: Step,
 	database: Database,
 	option: BuilderOptionRequired,
-	/** Below data used to generate SQL statement */
-	sqlPath?: SqlPath
-	selectItemInfos: SelectItemInfo[],
-	fromItemInfos: FromItemInfo[],
-	distinct?: Distinct|All,
-	whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
-	groupByItems: Column[],
-	havingParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[],
-	orderByItemInfos: OrderByItemInfo[],
-	limit?: null|number|Binder|All,
-	offset?: number|Binder,
-	insertIntoTable?: Table
-	insertIntoColumns: Column[],
-	insertIntoValues: (PrimitiveType|Binder|Default)[],
-	insertIntoDefaultValues: boolean,
-	updateTable?: Table,
-	updateSetItemInfos: UpdateSetItemInfo[],
-	returning: ReturningItemInfo[],
+	// TODO: move binderStore to Step level
 	binderStore: BinderStore,
 }
 
+/**
+ * @deprecated - use builder() function instead
+ */
 export class Builder {
 	private readonly data: BuilderData
 	private rootStep: RootStep
 
 	constructor(database: Database, option?: BuilderOption) {
-		this.data = {
-			database: database,
-			fromItemInfos: [],
-			sqlPath: undefined,
-			selectItemInfos: [],
-			distinct: undefined,
-			whereParts: [],
-			groupByItems: [],
-			havingParts: [],
-			orderByItemInfos: [],
-			insertIntoTable: undefined,
-			insertIntoColumns: [],
-			insertIntoValues: [],
-			insertIntoDefaultValues: false,
-			updateTable: undefined,
-			updateSetItemInfos: [],
-			returning: [],
-			binderStore: new BinderStore(),
-			option: fillUndefinedOptionsWithDefault(option ?? {}),
-		}
-		this.rootStep = new Step(this.data)
+		this.data = getDataObj(database, option)
+		this.rootStep = new RootStep(this.data)
 	}
 
-	public select(distinct: Distinct|All, ...items: (ItemInfo|SelectItem|PrimitiveType)[]): SelectStep
-	public select(...items: (ItemInfo|SelectItem|PrimitiveType)[]): SelectStep
+	public select(distinct: Distinct|All, ...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
+	public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep
 	public select(...items: (Distinct|All|ItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
 		if (items[0] instanceof Distinct) {
 			if (items.length <= 1) throw new Error('Select step must have at least one parameter after DISTINCT')
@@ -151,5 +103,17 @@ export class Builder {
 			if (it instanceof Distinct || it instanceof All)
 				throw new MoreThanOneDistinctOrAllError('You can not have more than one DISTINCT or ALL')
 		})
+	}
+}
+
+export function builder(database: Database, option?: BuilderOption): RootStep {
+	return new RootStep(getDataObj(database, option))
+}
+
+function getDataObj(database: Database, option?: BuilderOption): BuilderData {
+	return {
+		database: database,
+		option: fillUndefinedOptionsWithDefault(option ?? {}),
+		binderStore: new BinderStore(),
 	}
 }

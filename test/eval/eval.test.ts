@@ -3,6 +3,7 @@ import { database } from 'test/database'
 import * as fs from 'fs'
 
 /** Aliases: they are used inside eval code */
+const ASTERISK = sedk.ASTERISK
 const AND = sedk.LogicalOperator.AND
 const OR = sedk.LogicalOperator.OR
 const ADD = sedk.ArithmeticOperator.ADD
@@ -23,17 +24,23 @@ const col8 = table1.c.col8
 const col9 = table1.c.col9
 
 describe('eval', () => {
-	const sql = new sedk.Builder(database)
+	const sql = sedk.builder(database)
 	afterEach(() => {
 		sql.cleanUp()
 	})
-	describe('input.lsv', () => {
-		const file = fs.readFileSync('test/eval/input.lsv', 'utf8')
-		parseInputFile(file).forEach(line => {
-			it(`Produce: [${line.sql}] for: <${line.code}>`, () => {
-				const actual = eval(line.code)
-				expect(actual.getSQL()).toBe(line.sql)
-				expect(actual.getBindValues()).toStrictEqual(line.bindValues)
+	const filenames = [
+		'test/eval/select.lsv',
+		'test/eval/insert.lsv',
+		'test/eval/update.lsv',
+	]
+	filenames.forEach(filename => {
+		describe(filename, () => {
+			parseInputFile(filename).forEach(line => {
+				it(`Produce: [${line.sql}] for: <${line.code}>`, () => {
+					const actual = eval(line.code)
+					expect(actual.getSQL()).toBe(line.sql)
+					expect(actual.getBindValues()).toStrictEqual(line.bindValues)
+				})
 			})
 		})
 	})
@@ -41,7 +48,8 @@ describe('eval', () => {
 
 type CodeSqlBindValues = { code: string, sql: string, bindValues: any[] }
 
-function parseInputFile(file: string): CodeSqlBindValues[] {
+function parseInputFile(filename: string): CodeSqlBindValues[] {
+	const file = fs.readFileSync(filename, 'utf8')
 	const blocks = file.split(/[\r?\n]{2,}/g)
 	return blocks.map(block => {
 		const lines = block.split(/\r?\n/g)

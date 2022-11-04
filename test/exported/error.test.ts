@@ -4,7 +4,6 @@ import {
 	ASC,
 	ASTERISK,
 	ArithmeticOperator,
-	Builder,
 	ColumnNotFoundError,
 	ComparisonOperator,
 	DESC,
@@ -17,13 +16,13 @@ import {
 	InvalidLimitValueError,
 	InvalidOffsetValueError,
 	MoreThanOneDistinctOrAllError,
-	MoreThanOneWhereStepError,
 	NULLS_FIRST,
 	NULLS_LAST,
 	Schema,
 	Table,
 	TableNotFoundError,
 	TextColumn,
+	builder,
 	e,
 	f,
 } from 'src'
@@ -37,70 +36,10 @@ const col1 = table1.c.col1
 const col2 = table1.c.col2
 const col3 = table1.c.col3
 const col4 = table1.c.col4
-const table2 = database.s.public.t.table2
 
 describe('Throw desired Errors', () => {
-	const sql = new Builder(database)
+	const sql = builder(database)
 	afterEach(() => { sql.cleanUp() })
-
-	describe('Error: MoreThanOneWhereStepError', () => {
-		it('Throws error when 2 WHERE steps added', () => {
-			function actual() {
-				const fromStep = sql.select(col1).from(table1)
-
-				// first Where Step
-				fromStep.where(col1.eq('x1'))
-				// second Where Step, should throw
-				fromStep.where(col1.eq('x2'))
-			}
-
-			expect(actual).toThrowError('WHERE step already specified')
-			expect(actual).toThrowError(MoreThanOneWhereStepError)
-		})
-		it('Throws error when 2 WHERE steps added after ON step', () => {
-			function actual() {
-				const fromStep = sql
-					.select(col1)
-					.from(table1)
-					.leftJoin(table2)
-					.on(col1.eq(table2.c.col1))
-
-				// first Where Step
-				fromStep.where(col3.eq('x1'))
-				// second Where Step, should throw
-				fromStep.where(col3.eq('x2'))
-			}
-
-			expect(actual).toThrowError('WHERE step already specified')
-			expect(actual).toThrowError(MoreThanOneWhereStepError)
-		})
-		it('Throws error when 2 WHERE steps added after delete', () => {
-			function actual() {
-				const fromStep = sql.deleteFrom(table1)
-
-				// first Where Step
-				fromStep.where(col1.eq('x1'))
-				// second Where Step, should throw
-				fromStep.where(col1.eq('x2'))
-			}
-
-			expect(actual).toThrowError('WHERE step already specified')
-			expect(actual).toThrowError(MoreThanOneWhereStepError)
-		})
-		it('Throws error when 2 WHERE steps added after update', () => {
-			function actual() {
-				const setStep = sql.update(table1).set(col1.eq('something'))
-
-				// first Where Step
-				setStep.where(col1.eq('x1'))
-				// second Where Step, should throw
-				setStep.where(col1.eq('x2'))
-			}
-
-			expect(actual).toThrowError('WHERE step already specified')
-			expect(actual).toThrowError(MoreThanOneWhereStepError)
-		})
-	})
 
 	describe('Error: InvalidExpressionError', () => {
 		it('Throws error when add invalid operator', () => {
@@ -292,7 +231,7 @@ describe('Throw desired Errors', () => {
 	('Throws error when LIMIT$ step has invalid value for %s', (value) => {
 		const actual = () => sql.selectAsteriskFrom(table1).limit$(value)
 		expect(actual).toThrow(InvalidLimitValueError)
-		expect(actual).toThrow(`Invalid limit value: ${value}, value must be positive number or null`)
+		expect(actual).toThrow(`Invalid limit value: ${value}, value must be positive number, null or "ALL"`)
 	})
 
 	it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
@@ -323,7 +262,7 @@ describe('Throw desired Errors', () => {
 	})
 
 	describe('Delete Path Errors', () => {
-		const deleteSql = new Builder(database, { throwErrorIfDeleteHasNoCondition: false })
+		const deleteSql = builder(database, { throwErrorIfDeleteHasNoCondition: false })
 		afterEach(() => { deleteSql.cleanUp() })
 		it(`Throws error "Aggregate function SUM cannot be used in RETURNING clause"`, () => {
 			function actual() {
@@ -444,11 +383,13 @@ describe('Throw desired Errors', () => {
 	})
 	it(`Throws error "Insert statement must have values or select items"`, () => {
 		function actual() {
-			sql.insertInto(table1).getSQL()
+			sql.insertInto(table1).values().getSQL()
 		}
 
 		expect(actual).toThrow(`Insert statement must have values or select items`)
 	})
+	it.todo(`Throws error "Insert statement must have values or select items" for empty select step`)
+	// sql.insertInto(table1).select().getSQL()
 	it(`Throws error "Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE"`, () => {
 		function actual() {
 			sql.selectAsteriskFrom(table1).returning(ASTERISK).getSQL()

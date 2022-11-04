@@ -9,7 +9,7 @@ export class BinderStore {
 	private store: Set<Binder> = new Set()
 
 	public add(binder: Binder): void {
-		if (binder.no !== undefined) {
+		if (this.store.has(binder)) {
 			throw new Error('This binder already stored')
 		}
 

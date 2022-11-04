@@ -19,6 +19,9 @@ export class ReturningStep extends BaseStep {
 		returningItems: (ItemInfo|ReturningItem|PrimitiveType)[],
 	) {
 		super(prevStep)
+		if (returningItems.length === 0) {
+			throw new Error('RETURNING step items cannot be empty')
+		}
 		// find first step and check if it is Select
 		let step: BaseStep|null = prevStep
 		while (step !== null && !(step.prevStep instanceof RootStep)) {
@@ -54,13 +57,10 @@ export class ReturningStep extends BaseStep {
 	}
 
 	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
-		if (this.returningItemInfo.length > 0) {
-			const returningPartsString = this.returningItemInfo.map(it => {
-				return it.getStmt(this.data, artifacts)
-			})
-			return `RETURNING ${returningPartsString.join(', ')}`
-		}
-		return ''
+		const returningPartsString = this.returningItemInfo.map(it => {
+			return it.getStmt(this.data, artifacts)
+		})
+		return `RETURNING ${returningPartsString.join(', ')}`
 	}
 
 	protected getStepArtifacts(): Artifacts {

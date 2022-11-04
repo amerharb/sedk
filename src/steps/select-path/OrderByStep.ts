@@ -102,13 +102,10 @@ export class OrderByStep extends BaseStep {
 	}
 
 	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
-		if (this.orderByItemInfos.length > 0) {
-			const orderByPartsString = this.orderByItemInfos.map(it => {
-				return it.getStmt(this.data, artifacts)
-			})
-			return `ORDER BY ${orderByPartsString.join(', ')}`
-		}
-		return ''
+		const orderByPartsString = this.orderByItemInfos.map(it => {
+			return it.getStmt(this.data, artifacts)
+		})
+		return `ORDER BY ${orderByPartsString.join(', ')}`
 	}
 
 	public limit(n: null|number|All): LimitStep {

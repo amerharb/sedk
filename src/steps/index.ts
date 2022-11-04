@@ -4,6 +4,7 @@ export { SelectWhereStep, SelectWhereAndStep, SelectWhereOrStep } from './select
 export { HavingStep } from './select-path/HavingStep'
 export { OnStep } from './select-path/AfterFromStep'
 export { OffsetStep } from './select-path/OffsetStep'
+export { OrderByStep } from './select-path/OrderByStep'
 export { LimitStep } from './select-path/LimitStep'
 export { DeleteStep } from './delete-path/DeleteStep'
 export { DeleteFromStep } from './delete-path/DeleteFromStep'

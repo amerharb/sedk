@@ -125,25 +125,23 @@ describe('Expression', () => {
 			const boolCapital = boolSmall.map(it => it.replace('t', 'T').replace('f', 'F'))
 			const boolCaps = boolSmall.map(it => it.toUpperCase())
 			const textBooleanArray = [...boolSmall, ...boolCapital, ...boolCaps]
-			it(`Produces [SELECT * FROM "table1" WHERE ("col7" = '<TextBoolean>');]`, () => {
-				textBooleanArray.forEach(it => {
-					const actual = sql
-						.selectAsteriskFrom(table)
-						.where(e(col7, EQ, it))
-						.getSQL()
+			it.each(textBooleanArray)
+			(`Produces [SELECT * FROM "table1" WHERE ("col7" = '%s');]`, (bool) => {
+				const actual = sql
+					.selectAsteriskFrom(table)
+					.where(e(col7, EQ, bool))
+					.getSQL()
 
-					expect(actual).toEqual(`SELECT * FROM "table1" WHERE ("col7" = '${it}');`)
-				})
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE ("col7" = '${bool}');`)
 			})
-			it(`Produces [SELECT * FROM "table1" WHERE "col7" = '<TextBoolean>';]`, () => {
-				textBooleanArray.forEach(it => {
-					const actual = sql
-						.selectAsteriskFrom(table)
-						.where(col7.eq(it))
-						.getSQL()
+			it.each(textBooleanArray)
+			(`Produces [SELECT * FROM "table1" WHERE "col7" = '%s';]`, (bool) => {
+				const actual = sql
+					.selectAsteriskFrom(table)
+					.where(col7.eq(bool))
+					.getSQL()
 
-					expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col7" = '${it}';`)
-				})
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col7" = '${bool}';`)
 			})
 		})
 	})

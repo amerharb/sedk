@@ -31,7 +31,6 @@ describe('Test binder with multi builders', () => {
 		expect(actual2.getSQL()).toEqual('SELECT $1 FROM "table1";')
 		expect(actual2.getBindValues()).toEqual([2])
 	})
-
 	it(`Produces [SELECT $1 FROM "table1";]`, () => {
 		const actual = sql
 			.select($(5))
@@ -44,7 +43,6 @@ describe('Test binder with multi builders', () => {
 		expect(actual.getSQL()).toEqual(expected.sql)
 		expect(actual.getBindValues()).toEqual(expected.values)
 	})
-
 	it(`Produces [SELECT $1, $2, $3, $4 FROM "table1";]`, () => {
 		const actual = sql
 			.select($(null), $(true), $(1), $(`a`))
@@ -57,7 +55,6 @@ describe('Test binder with multi builders', () => {
 		expect(actual.getSQL()).toEqual(expected.sql)
 		expect(actual.getBindValues()).toEqual(expected.values)
 	})
-
 	it(`Produces [['a', 'b', 'c']] without calling getSQL first`, () => {
 		const select = sql.selectAsteriskFrom(table1)
 		const getStmtSelect = jest.spyOn(select, 'getStepStatement')

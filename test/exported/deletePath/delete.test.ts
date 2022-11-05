@@ -13,7 +13,6 @@ const $ = sedk.$
 
 describe('DELETE Path', () => {
 	const sql = sedk.builder(database, { throwErrorIfDeleteHasNoCondition: false })
-	afterEach(() => { sql.cleanUp() })
 	describe('Basic delete all', () => {
 		it('Produces [DELETE FROM "table1"]', () => {
 			const actual = sql.deleteFrom(table1).getSQL()

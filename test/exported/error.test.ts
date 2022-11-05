@@ -39,7 +39,6 @@ const col4 = table1.c.col4
 
 describe('Throw desired Errors', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 
 	describe('Error: InvalidExpressionError', () => {
 		it('Throws error when add invalid operator', () => {
@@ -263,7 +262,6 @@ describe('Throw desired Errors', () => {
 
 	describe('Delete Path Errors', () => {
 		const deleteSql = builder(database, { throwErrorIfDeleteHasNoCondition: false })
-		afterEach(() => { deleteSql.cleanUp() })
 		it(`Throws error "Aggregate function SUM cannot be used in RETURNING clause"`, () => {
 			function actual() {
 				deleteSql.deleteFrom(table1).returning(f.sum(table1.c.col4).as('whatEver')).getSQL()

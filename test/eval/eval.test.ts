@@ -25,9 +25,6 @@ const col9 = table1.c.col9
 
 describe('eval', () => {
 	const sql = sedk.builder(database)
-	afterEach(() => {
-		sql.cleanUp()
-	})
 	const filenames = [
 		'test/eval/select.lsv',
 		'test/eval/insert.lsv',

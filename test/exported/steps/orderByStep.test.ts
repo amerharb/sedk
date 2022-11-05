@@ -19,7 +19,6 @@ const col5 = database.s.public.t.table1.c.col5
 
 describe('test orderBy Step', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 
 	it('Produces [SELECT * FROM "table1" ORDER BY "col1", "col2";]', () => {
 		const actual = sql

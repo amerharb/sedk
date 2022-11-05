@@ -24,7 +24,6 @@ describe('test on step', () => {
 			.join(table2)
 			.on(table1Col1.eq(table2.c.col1))
 	})
-	afterEach(() => { sql.cleanUp() })
 
 	describe('test getSQL() without binders', () => {
 		it('Produces [SELECT * FROM "table1" JOIN "table2" ON "table1"."col1" = "table2"."col1" CROSS JOIN "table3";]', () => {

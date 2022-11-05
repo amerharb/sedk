@@ -8,7 +8,6 @@ const col10 = table1.c.col10
 
 describe(`test Date column`, () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 	const EPOCH_2022_06_20 = Date.UTC(2022, 5, 20)
 	describe(`IsEqual operator`, () => {
 		it(`Produces [SELECT * FROM "table1" WHERE "col9" = "col10";]`, () => {

@@ -27,7 +27,6 @@ const col8 = table1.c.col8
 
 describe(`test from one table`, () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 
 	/** In Postgres it is ok to have FROM directly after SELECT */
 	it(`Produces [SELECT FROM "table1";]`, () => {

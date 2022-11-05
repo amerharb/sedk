@@ -13,7 +13,6 @@ const col6 = database.s.public.t.table1.c.col6
 
 describe('test groupBy Step', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 
 	it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1";]', () => {
 		const actual = sql

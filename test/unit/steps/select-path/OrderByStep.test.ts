@@ -9,7 +9,6 @@ const col1 = table1.c.col1
 
 describe('OrderByStep', () => {
 	const rootStep = new RootStep(builderData)
-	afterEach(() => { rootStep.cleanUp() }) // clean up is still needed for binders
 	describe('getStepStatement()', () => {
 		it('returns: [ORDER BY "col1"]', () => {
 			const actual = new OrderByStep(rootStep, [col1]).getStepStatement()

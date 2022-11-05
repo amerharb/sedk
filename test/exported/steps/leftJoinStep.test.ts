@@ -9,7 +9,6 @@ const table2Col1 = database.s.public.t.table2.c.col1
 
 describe('test leftJoin step', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 	describe('basic left join', () => {
 		it('Produces [SELECT * FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1";]', () => {
 			const actual = sql

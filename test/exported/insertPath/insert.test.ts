@@ -18,7 +18,6 @@ const $ = sedk.$
 
 describe('INSERT Path', () => {
 	const sql = sedk.builder(database)
-	afterEach(() => { sql.cleanUp() })
 	const EPOCH_2022_07_20 = Date.UTC(2022, 6, 20)
 	describe('Basic insert all', () => {
 		it(`Produces [INSERT INTO "table1" VALUES('A', 1, TRUE, '2022-07-20T00:00:00.000Z');]`, () => {

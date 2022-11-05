@@ -12,11 +12,6 @@ describe('Test binder with multi builders', () => {
 	const sql = builder(database)
 	const sql1 = builder(database)
 	const sql2 = builder(database)
-	afterEach(() => {
-		sql.cleanUp()
-		sql1.cleanUp()
-		sql2.cleanUp()
-	})
 
 	it('Produces [SELECT $1 FROM "table1";] 2 binds at the same time', () => {
 		const actual1 = sql1

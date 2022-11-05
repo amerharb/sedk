@@ -14,7 +14,6 @@ const col6 = table.c.col6
 
 describe('test having step', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 
 	describe('test getSQL() without binders', () => {
 		it(`Produces [SELECT "col1" FROM "table1" GROUP BY "col1" HAVING "col1" = 'a';]`, () => {

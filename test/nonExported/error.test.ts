@@ -20,7 +20,6 @@ const table1 = database.s.public.t.table1
 
 describe('Throw desired Errors', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 
 	describe('Error: InvalidConditionError', () => {
 		it(`Throws error when condition created with only "NUMBER"`, () => {

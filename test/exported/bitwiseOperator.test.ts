@@ -7,7 +7,6 @@ const col4 = database.s.public.t.table1.c.col4
 
 describe('Bitwise Operators', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 	describe('bitwise AND', () => {
 		it('Produces [SELECT * FROM "table1" WHERE ("col4" & 1) = 0;]', () => {
 			const actual = sql

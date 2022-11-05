@@ -14,7 +14,6 @@ const col7 = database.s.public.t.table1.c.col7
 
 describe('Expression', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 	describe('Basic use', () => {
 		it(`Produces [SELECT TRUE;]`, () => {
 			const actual = sql.select(e(true)).getSQL()

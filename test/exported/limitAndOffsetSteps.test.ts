@@ -9,7 +9,6 @@ const table = database.s.public.t.table1
 
 describe('Test LIMIT and OFFSET Steps', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 
 	it('Produces [SELECT * FROM "table1" LIMIT 50 OFFSET 10;]', () => {
 		const actual = sql
@@ -57,7 +56,7 @@ describe('Test LIMIT and OFFSET Steps', () => {
 			expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col1" = 'a' OFFSET 10;`)
 		})
 
-		it( `Produces [SELECT * FROM "table1" WHERE "col1" = 'a' LIMIT $1;]`, () => {
+		it(`Produces [SELECT * FROM "table1" WHERE "col1" = 'a' LIMIT $1;]`, () => {
 			const actual = sql
 				.selectAsteriskFrom(table)
 				.where(table.c.col1.eq('a'))
@@ -162,7 +161,7 @@ describe('Test LIMIT and OFFSET Steps', () => {
 		})
 		it(`Produces [SELECT * FROM "table1" LIMIT 0.3333333333333333;]`, () => {
 			/** value will be rounded */
-			const actual = sql.selectAsteriskFrom(table).limit(1/3).getSQL()
+			const actual = sql.selectAsteriskFrom(table).limit(1 / 3).getSQL()
 
 			expect(actual).toEqual(`SELECT * FROM "table1" LIMIT 0.3333333333333333;`)
 		})

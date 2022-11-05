@@ -1,4 +1,4 @@
-import { ALL, Builder, DISTINCT, builder,  } from 'src'
+import { ALL, Builder, DISTINCT, builder } from 'src'
 
 import { database } from 'test/database'
 
@@ -75,7 +75,6 @@ describe('builder', () => {
 	})
 	describe('function builder()', () => {
 		const sql = builder(database)
-		afterEach(() => { sql.cleanUp() })
 		it(`returns for select()`, () => {
 			const actual = sql.select('a').getStepStatement()
 			expect(actual).toEqual(`SELECT 'a'`)

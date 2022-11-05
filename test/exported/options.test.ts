@@ -461,8 +461,6 @@ describe('test Options', () => {
 			it('Produces [DELETE FROM "table1" WHERE 1 = 1;] Will not throw error', () => {
 				function actual() {
 					sqlTrue.deleteFrom(publicTable1).where(e(1).eq(1)).getSQL()
-					/** cleanUp() is needed as we run the function more than once */
-					sqlTrue.cleanUp()
 				}
 
 				expect(actual).not.toThrowError(DeleteWithoutConditionError)
@@ -483,8 +481,6 @@ describe('test Options', () => {
 			it('Produces [DELETE FROM "table1" WHERE 1 = 1;] Will not throw error', () => {
 				function actual() {
 					sqlDefault.deleteFrom(publicTable1).where(e(1).eq(1)).getSQL()
-					/** cleanUp() is needed as we run the function more than once */
-					sqlDefault.cleanUp()
 				}
 
 				expect(actual).not.toThrowError(DeleteWithoutConditionError)

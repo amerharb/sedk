@@ -10,7 +10,7 @@ export class BinderStore {
 
 	constructor(private readonly offset: number) {
 		if (!Number.isInteger(offset) || offset < 0) {
-			throw new Error('Offset should be a positive integer')
+			throw new Error('Binder offset should be a positive integer')
 		}
 	}
 

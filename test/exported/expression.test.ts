@@ -143,6 +143,14 @@ describe('Expression', () => {
 
 				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col7" = '${bool}';`)
 			})
+			it.each(['yes', 'no', 'invalid', '', 'any string'])
+			(`Produces [SELECT * FROM "table1" WHERE "col7" = '%s';]`, (bool) => {
+				const actual = () => sql
+					.selectAsteriskFrom(table)
+					.where(col7.eq(bool))
+
+				expect(actual).toThrow(`Condition can not created with "BOOLEAN" "=" "TEXT"`)
+			})
 		})
 	})
 

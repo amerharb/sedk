@@ -133,7 +133,6 @@ describe('Expression', () => {
 						.getSQL()
 
 					expect(actual).toEqual(`SELECT * FROM "table1" WHERE ("col7" = '${it}');`)
-					sql.cleanUp()
 				})
 			})
 			it(`Produces [SELECT * FROM "table1" WHERE "col7" = '<TextBoolean>';]`, () => {
@@ -144,7 +143,6 @@ describe('Expression', () => {
 						.getSQL()
 
 					expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col7" = '${it}';`)
-					sql.cleanUp()
 				})
 			})
 		})

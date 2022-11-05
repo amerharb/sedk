@@ -46,6 +46,10 @@ export class IntoStep extends BaseStep {
 	}
 
 	public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
+		// TODO: consider adding DISTINCT and ALL to items without effecting matching number of values
+		if (items.length === 0) {
+			throw new Error('Invalid empty SELECT step')
+		}
 		this.throwForInvalidExpressionsNumber(items)
 		return new SelectStep(this, items)
 	}
@@ -58,6 +62,7 @@ export class IntoStep extends BaseStep {
 	}
 
 	private throwForInvalidExpressionsNumber(items: (SelectItemInfo|SelectItem|PrimitiveType)[]) {
+		// TODO: in case columnCount = 0 we should check number of column in schema
 		const columnsCount = this.columns.length
 		if (columnsCount > 0 && columnsCount !== items.length) {
 			throw new InsertColumnsAndExpressionsNotEqualError(columnsCount, items.length)

@@ -388,6 +388,13 @@ describe('Throw desired Errors', () => {
 
 		expect(actual).toThrow(`VALUES step must have at least one value`)
 	})
+	it(`throws "Invalid empty SELECT step" for empty select step`, () => {
+		function actual() {
+			sql.insertInto(table1).select().getSQL()
+		}
+
+		expect(actual).toThrow(`Invalid empty SELECT step`)
+	})
 	it(`throws "Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE"`, () => {
 		function actual() {
 			sql.selectAsteriskFrom(table1).returning(ASTERISK)

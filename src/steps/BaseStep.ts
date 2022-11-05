@@ -81,7 +81,15 @@ export abstract class BaseStep {
 
 	protected abstract getStepArtifacts(): Artifacts
 
+	private getStepStatementCalled = false
+
 	public getBindValues(): PrimitiveType[] {
+		// TODO: change the way we fill and call BinderStore
+		/** call getStepStmt one time before getBindValues, so binderStore filled with binders */
+		if (!this.getStepStatementCalled) {
+			this.getStepStatement({ tables: new Set(), columns: new Set() })
+			this.getStepStatementCalled = true
+		}
 		if (this.prevStep !== null) {
 			return [...this.prevStep.getBindValues(), ...this.binderStore.getValues()]
 		}

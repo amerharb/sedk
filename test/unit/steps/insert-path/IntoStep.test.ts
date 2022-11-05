@@ -13,7 +13,10 @@ describe('IntoStep', () => {
 		const actual = new IntoStep(rootStep, table1).getStepStatement()
 		expect(actual).toEqual('INTO "table1"')
 	})
-	it.todo('returns: [INTO "schema1"."table1"]')
+	it('returns: [INTO "schema1"."table1"]', () => {
+		const actual = new IntoStep(rootStep, database.s.schema1.t.table1).getStepStatement()
+		expect(actual).toEqual('INTO "schema1"."table1"')
+	})
 	it('returns: [INTO "table1"("col1", "col4")]', () => {
 		const actual = new IntoStep(rootStep, table1, [col1, col4]).getStepStatement()
 		expect(actual).toEqual('INTO "table1"("col1", "col4")')

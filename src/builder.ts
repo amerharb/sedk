@@ -1,4 +1,5 @@
-import { AliasedTable, Column, Database, Table } from './database'
+import { FromItem } from './steps/select-path/SelectFromStep'
+import { Column, Database, Table } from './database'
 import { PrimitiveType } from './models'
 import { ASTERISK, All, Distinct } from './singletoneConstants'
 import {
@@ -74,8 +75,8 @@ export class Builder {
 		return this.rootStep.delete()
 	}
 
-	public deleteFrom(table: Table|AliasedTable): DeleteFromStep {
-		return this.rootStep.delete().from(table)
+	public deleteFrom(fromItem: FromItem): DeleteFromStep {
+		return this.rootStep.delete().from(fromItem)
 	}
 
 	public insert(): InsertStep {

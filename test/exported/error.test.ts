@@ -381,18 +381,16 @@ describe('Throw desired Errors', () => {
 
 		expect(actual).toThrow(`Value step has Unsupported value: ${value}, type: ${typeof value}`)
 	})
-	it(`Throws error "Insert statement must have values or select items"`, () => {
+	it(`throws "VALUES step must have at least one value"`, () => {
 		function actual() {
-			sql.insertInto(table1).values().getSQL()
+			sql.insertInto(table1).values()
 		}
 
-		expect(actual).toThrow(`Insert statement must have values or select items`)
+		expect(actual).toThrow(`VALUES step must have at least one value`)
 	})
-	it.todo(`Throws error "Insert statement must have values or select items" for empty select step`)
-	// sql.insertInto(table1).select().getSQL()
-	it(`Throws error "Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE"`, () => {
+	it(`throws "Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE"`, () => {
 		function actual() {
-			sql.selectAsteriskFrom(table1).returning(ASTERISK).getSQL()
+			sql.selectAsteriskFrom(table1).returning(ASTERISK)
 		}
 
 		expect(actual).toThrow(`Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE`)

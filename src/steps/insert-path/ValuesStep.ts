@@ -13,6 +13,9 @@ export class ValuesStep extends BaseStep {
 		private readonly values: (PrimitiveType|Binder|Default)[],
 	) {
 		super(prevStep)
+		if (values.length === 0) {
+			throw new Error('VALUES step must have at least one value')
+		}
 	}
 
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
@@ -20,33 +23,29 @@ export class ValuesStep extends BaseStep {
 	}
 
 	getStepStatement(): string {
-		if (this.values.length > 0) {
-			const valueStringArray = this.values.map(it => {
-				if (it === null) {
-					return getStmtNull()
-				} else if (typeof it === 'boolean') {
-					return getStmtBoolean(it)
-				} else if (isNumber(it)) {
-					return it.toString()
-				} else if (typeof it === 'string') {
-					return getStmtString(it)
-				} else if (it instanceof Date) {
-					return getStmtDate(it)
-				} else if (it instanceof Binder) {
-					if (it.no === undefined) {
-						this.binderStore.add(it)
-					}
-					return it.getStmt()
-				} else if (it instanceof Default) {
-					return it.getStmt()
-				} else {
-					throw new Error(`Value step has Unsupported value: ${it}, type: ${typeof it}`)
+		const valueStringArray = this.values.map(it => {
+			if (it === null) {
+				return getStmtNull()
+			} else if (typeof it === 'boolean') {
+				return getStmtBoolean(it)
+			} else if (isNumber(it)) {
+				return it.toString()
+			} else if (typeof it === 'string') {
+				return getStmtString(it)
+			} else if (it instanceof Date) {
+				return getStmtDate(it)
+			} else if (it instanceof Binder) {
+				if (it.no === undefined) {
+					this.binderStore.add(it)
 				}
-			})
-			return `VALUES(${valueStringArray.join(', ')})`
-		}
-		// TODO: validate this error
-		throw new Error('Insert statement must have values or select items')
+				return it.getStmt()
+			} else if (it instanceof Default) {
+				return it.getStmt()
+			} else {
+				throw new Error(`Value step has Unsupported value: ${it}, type: ${typeof it}`)
+			}
+		})
+		return `VALUES(${valueStringArray.join(', ')})`
 	}
 
 	protected getStepArtifacts(): Artifacts {

@@ -96,10 +96,9 @@ export abstract class BaseStep {
 		return [...this.binderStore.getValues()]
 	}
 
-	/** @deprecated */
-	public cleanUp() {
-		// TODO: remove binderstore cleanUp method
-		this.binderStore.cleanUp()
+	/** @deprecated - Not needed since version 0.15.0 */
+	public cleanUp(): void {
+		// Do nothing
 	}
 
 	protected static getTable(item: FromItem): Table {

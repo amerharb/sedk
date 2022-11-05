@@ -90,9 +90,9 @@ export class Builder {
 		return this.rootStep.update(table)
 	}
 
-	/** @deprecated */
+	/** @deprecated - Not needed since version 0.15.0 */
 	public cleanUp(): Builder {
-		this.rootStep.cleanUp()
+		// Do nothing
 		return this
 	}
 

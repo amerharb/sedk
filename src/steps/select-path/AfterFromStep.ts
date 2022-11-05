@@ -22,28 +22,28 @@ import { OrderByStep } from './OrderByStep'
 import { GroupByStep } from './GroupByStep'
 
 export abstract class AfterFromStep extends BaseStep {
-	public crossJoin(table: Table): CrossJoinStep {
-		return new CrossJoinStep(this, table)
+	public crossJoin(fromItem: FromItem): CrossJoinStep {
+		return new CrossJoinStep(this, fromItem)
 	}
 
-	public leftJoin(table: Table): LeftJoinStep {
-		return new LeftJoinStep(this, table)
+	public leftJoin(fromItem: FromItem): LeftJoinStep {
+		return new LeftJoinStep(this, fromItem)
 	}
 
-	public rightJoin(table: Table): RightJoinStep {
-		return new RightJoinStep(this, table)
+	public rightJoin(fromItem: FromItem): RightJoinStep {
+		return new RightJoinStep(this, fromItem)
 	}
 
-	public fullOuterJoin(table: Table): FullOuterJoinStep {
-		return new FullOuterJoinStep(this, table)
+	public fullOuterJoin(fromItem: FromItem): FullOuterJoinStep {
+		return new FullOuterJoinStep(this, fromItem)
 	}
 
-	public innerJoin(table: Table): InnerJoinStep {
-		return new InnerJoinStep(this, table)
+	public innerJoin(fromItem: FromItem): InnerJoinStep {
+		return new InnerJoinStep(this, fromItem)
 	}
 
-	public join(table: Table): JoinStep {
-		return new JoinStep(this, table)
+	public join(fromItem: FromItem): JoinStep {
+		return new JoinStep(this, fromItem)
 	}
 
 	public where(condition: Condition): SelectWhereStep

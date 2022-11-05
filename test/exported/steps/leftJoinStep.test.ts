@@ -41,6 +41,18 @@ describe('test leftJoin step', () => {
 		})
 	})
 
+	describe('basic left join with alias', () => {
+		it('Produces [SELECT * FROM "table1" LEFT JOIN "table2" AS "t2" ON "table1"."col1" = "table2"."col1";]', () => {
+			const actual = sql
+				.selectAsteriskFrom(table1)
+				.leftJoin(table2.as('t2'))
+				.on(table1Col1.eq(table2.c.col1))
+				.getSQL()
+
+			expect(actual).toEqual('SELECT * FROM "table1" LEFT JOIN "table2" AS "t2" ON "table1"."col1" = "table2"."col1";')
+		})
+	})
+
 	describe('Different steps after left join', () => {
 		it(`Produces [SELECT * FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1" WHERE "table1"."col1" = 'a';]`, () => {
 			const actual = sql

@@ -59,20 +59,35 @@ describe('Test binder with multi builders', () => {
 	})
 
 	it(`Produces [['a', 'b', 'c']] without calling getSQL first`, () => {
-		const actual = sql
-			.selectAsteriskFrom(table1)
-			.where(col1.eq$('a'), AND, col2.eq$('b'))
-			.and(col3.eq$('c'))
+		const select = sql.selectAsteriskFrom(table1)
+		const getStmtSelect = jest.spyOn(select, 'getStepStatement')
+		const where = select.where(col1.eq$('a'), AND, col2.eq$('b'))
+		const getStmtWhere = jest.spyOn(where, 'getStepStatement')
+		const and = where.and(col3.eq$('c'))
+		const getStmtAnd = jest.spyOn(and, 'getStepStatement')
 
 		const expected = ['a', 'b', 'c']
 
-		expect(actual.getBindValues()).toEqual(expected)
+		expect(and.getBindValues()).toEqual(expected)
+		expect(getStmtSelect).toHaveBeenCalledTimes(1)
+		expect(getStmtWhere).toHaveBeenCalledTimes(1)
+		expect(getStmtAnd).toHaveBeenCalledTimes(1)
 
 		// result the same second time
-		expect(actual.getBindValues()).toEqual(expected)
+		expect(and.getBindValues()).toEqual(expected)
+		expect(getStmtSelect).toHaveBeenCalledTimes(1)
+		expect(getStmtWhere).toHaveBeenCalledTimes(1)
+		expect(getStmtAnd).toHaveBeenCalledTimes(1)
 
 		// result the same after calling getSQL
-		actual.getSQL()
-		expect(actual.getBindValues()).toEqual(expected)
+		and.getSQL()
+		expect(getStmtSelect).toHaveBeenCalledTimes(2)
+		expect(getStmtWhere).toHaveBeenCalledTimes(2)
+		expect(getStmtAnd).toHaveBeenCalledTimes(2)
+
+		expect(and.getBindValues()).toEqual(expected)
+		expect(getStmtSelect).toHaveBeenCalledTimes(2)
+		expect(getStmtWhere).toHaveBeenCalledTimes(2)
+		expect(getStmtAnd).toHaveBeenCalledTimes(2)
 	})
 })

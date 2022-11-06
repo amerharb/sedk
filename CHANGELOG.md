@@ -4,6 +4,8 @@
 ## [0.15.0]  2022-11-04
 ### Added
 - make builder() function return a new instance RootStep `const sql = sedk.builder()`
+- Add function `NOT` for class Condition also as standalone
+
 ### Changed
 - Use eq() and eq$() for UPDATE instead of let() and let$().
 - Change style adopt all Caps for some static statement like eqDEFAULT instead of letDefault, 

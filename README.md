@@ -73,7 +73,16 @@ so if you change from Postgres to Mysql then you will need to change the library
 
 ### Version: 0.15.0
 - Use eq() in UPDATE instead of let() to be more WYSIWYG
-
+- Add NOT function to Condition also as standalone function
+```typescript
+sql.selectAsteriskFrom(Employee).where(name.eq('John').NOT).getSQL()
+// SELECT * FROM "Employee" WHERE NOT "name" = 'John';
+```
+or
+```typescript
+sql.selectAsteriskFrom(Employee).where(NOT(name.eq('John'))).getSQL()
+// SELECT * FROM "Employee" WHERE NOT "name" = 'John';
+```
 ### Version: 0.14.1
 - Support IN and NOT IN Operator
 ```typescript

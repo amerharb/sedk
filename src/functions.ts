@@ -58,6 +58,10 @@ export function $(value: PrimitiveType): Binder {
 	return new Binder(value)
 }
 
+export function NOT(condition: Condition): Condition {
+	return new Condition(condition,true)
+}
+
 export const f = {
 	sum: function (column: Expression|NumberLike): AggregateFunction {
 		return aggregateFunction(AggregateFunctionEnum.SUM, column)

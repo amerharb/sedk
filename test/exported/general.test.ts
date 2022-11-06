@@ -2,6 +2,7 @@ import {
 	ASTERISK,
 	ArithmeticOperator,
 	LogicalOperator,
+	NOT,
 	builder,
 } from 'src'
 import { database } from 'test/database'
@@ -131,6 +132,12 @@ describe(`test from one table`, () => {
 			const actual = sql.selectAsteriskFrom(table1).where(col1.eq('a').NOT.NOT).getSQL()
 
 			expect(actual).toEqual(`SELECT * FROM "table1" WHERE NOT NOT "col1" = 'a';`)
+		})
+
+		it(`Produces [SELECT * FROM "table1" WHERE NOT "col1" = 'b';]`, () => {
+			const actual = sql.selectAsteriskFrom(table1).where(NOT(col1.eq('b'))).getSQL()
+
+			expect(actual).toEqual(`SELECT * FROM "table1" WHERE NOT ("col1" = 'b');`)
 		})
 
 		it(`Produces [SELECT * FROM "table1" WHERE "col1" = 'b';]`, () => {

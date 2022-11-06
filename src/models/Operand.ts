@@ -61,13 +61,15 @@ export class Operand implements IStatementGiver {
 			// TODO: why NOT needed for date?
 			return `${isNot ? 'NOT ' : ''}${getStmtDate(value)}`
 		} else if (value instanceof AggregateFunction) {
-			// TODO: why NOT for aggregate function?
+			// TODO: why NOT needed for aggregate function?
 			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts, binderStore)}`
 		} else if (value instanceof Expression) {
+			// TODO: why NOT needed for expression?
 			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts, binderStore)}`
 		} else if (value instanceof Condition) { /** ignore IDE warning, "value" can be an instance of Condition */
 			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts, binderStore)}`
 		} else if (Array.isArray(value)) {
+			// TODO: why NOT needed for Array?
 			return `${isNot ? 'NOT ' : ''}(${value.map(it => Operand.getStmtOfValue(it, isNot, data, artifacts, binderStore)).join(', ')})`
 		} else if (value instanceof Column) {
 			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts)}`

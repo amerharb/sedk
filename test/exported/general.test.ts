@@ -28,7 +28,7 @@ const col8 = table1.c.col8
 describe(`test from one table`, () => {
 	const sql = builder(database)
 
-	/** In Postgres it is ok to have FROM directly after SELECT */
+	/** In Postgres, it is ok to have FROM directly after SELECT */
 	it(`Produces [SELECT FROM "table1";]`, () => {
 		const actual = sql
 			.select().from(table1).getSQL()
@@ -122,13 +122,13 @@ describe(`test from one table`, () => {
 		})
 
 		it(`Produces [SELECT * FROM "table1" WHERE NOT "col1" = 'a';]`, () => {
-			const actual = sql.selectAsteriskFrom(table1).where(col1.eq('a').not).getSQL()
+			const actual = sql.selectAsteriskFrom(table1).where(col1.eq('a').NOT).getSQL()
 
 			expect(actual).toEqual(`SELECT * FROM "table1" WHERE NOT "col1" = 'a';`)
 		})
 
 		it(`Produces [SELECT * FROM "table1" WHERE NOT NOT "col1" = 'a';]`, () => {
-			const actual = sql.selectAsteriskFrom(table1).where(col1.eq('a').not.not).getSQL()
+			const actual = sql.selectAsteriskFrom(table1).where(col1.eq('a').NOT.NOT).getSQL()
 
 			expect(actual).toEqual(`SELECT * FROM "table1" WHERE NOT NOT "col1" = 'a';`)
 		})

@@ -102,7 +102,7 @@ export class Condition implements Expression, IStatementGiver {
 		return new Condition(this, qualifier, new Expression(binder))
 	}
 
-	public get not(): Condition {
+	public get NOT(): Condition {
 		return new Condition(this, true)
 	}
 

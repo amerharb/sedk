@@ -19,6 +19,14 @@ import { IStatementGiver } from './IStatementGiver'
 import { ConditionOperand, Operand } from './Operand'
 import { BooleanLike, isTextBoolean } from './types'
 
+type ConditionConstructor = {
+	leftExpression: Expression,
+	operator?: Qualifier,
+	rightExpression?: Expression,
+	notLeft?: boolean,
+	notRight?: boolean,
+}
+
 export class Condition implements Expression, IStatementGiver {
 	public readonly operator?: Qualifier
 
@@ -27,19 +35,11 @@ export class Condition implements Expression, IStatementGiver {
 	public readonly rightOperand?: ConditionOperand
 	public readonly type: ExpressionType.NULL|ExpressionType.BOOLEAN
 
-	constructor(leftExpression: Expression)
-	constructor(leftExpression: Expression, notLeft: boolean)
-	constructor(leftExpression: Expression, operator: Qualifier, rightExpression: Expression)
-	constructor(leftExpression: Expression, operator: Qualifier, rightExpression: Expression, notLeft: boolean, notRight: boolean)
-	constructor(leftExpression: Expression, operator?: Qualifier|boolean, rightExpression?: Expression, notLeft?: boolean, notRight?: boolean) {
-		if (typeof operator === 'boolean') {
-			notLeft = operator
-			operator = undefined
-		}
-		this.leftOperand = new ConditionOperand(leftExpression, notLeft)
-		this.operator = operator
-		this.rightOperand = rightExpression !== undefined ? new ConditionOperand(rightExpression, notRight) : undefined
-		this.type = Condition.getResultExpressionType(leftExpression, operator, rightExpression)
+	constructor(con: ConditionConstructor) {
+		this.leftOperand = new ConditionOperand(con.leftExpression, con.notLeft)
+		this.operator = con.operator
+		this.rightOperand = con.rightExpression !== undefined ? new ConditionOperand(con.rightExpression, con.notRight) : undefined
+		this.type = Condition.getResultExpressionType(con.leftExpression, con.operator, con.rightExpression)
 	}
 
 	public getStmt(data: BuilderData, artifacts: Artifacts, binderStore: BinderStore): string {
@@ -59,47 +59,86 @@ export class Condition implements Expression, IStatementGiver {
 	}
 
 	public eq(value: BooleanLike): Condition {
-		return new Condition(this, ComparisonOperator.Equal, new Expression(value))
+		return new Condition({
+			leftExpression: this,
+			operator: ComparisonOperator.Equal,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public eq$(value: boolean): Condition {
 		const binder = new Binder(value)
-		return new Condition(this, ComparisonOperator.Equal, new Expression(binder))
+		return new Condition({
+			leftExpression: this,
+			operator: ComparisonOperator.Equal,
+			rightExpression: new Expression(binder),
+		})
+
 	}
 
 	public ne(value: BooleanLike): Condition {
-		return new Condition(this, ComparisonOperator.NotEqual, new Expression(value))
+		return new Condition({
+			leftExpression: this,
+			operator: ComparisonOperator.NotEqual,
+			rightExpression: new Expression(value),
+		})
+
 	}
 
 	public ne$(value: boolean): Condition {
 		const binder = new Binder(value)
-		return new Condition(this, ComparisonOperator.NotEqual, new Expression(binder))
+		return new Condition({
+			leftExpression: this,
+			operator: ComparisonOperator.NotEqual,
+			rightExpression: new Expression(binder),
+		})
+
 	}
 
 	public isEq(value: null|boolean): Condition {
 		const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
-		return new Condition(this, qualifier, new Expression(value))
+		return new Condition({
+			leftExpression: this,
+			operator: qualifier,
+			rightExpression: new Expression(value),
+		})
+
 	}
 
 	public isEq$(value: null|boolean): Condition {
 		const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
 		const binder = new Binder(value)
-		return new Condition(this, qualifier, new Expression(binder))
+		return new Condition({
+			leftExpression: this,
+			operator: qualifier,
+			rightExpression: new Expression(binder),
+		})
+
 	}
 
 	public isNe(value: null|boolean): Condition {
 		const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
-		return new Condition(this, qualifier, new Expression(value))
+		return new Condition({
+			leftExpression: this,
+			operator: qualifier,
+			rightExpression: new Expression(value),
+		})
+
 	}
 
 	public isNe$(value: null|boolean): Condition {
 		const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
 		const binder = new Binder(value)
-		return new Condition(this, qualifier, new Expression(binder))
+		return new Condition({
+			leftExpression: this,
+			operator: qualifier,
+			rightExpression: new Expression(binder),
+		})
+
 	}
 
 	public get NOT(): Condition {
-		return new Condition(this, true)
+		return new Condition({ leftExpression: this, notLeft: true })
 	}
 
 	// Implement Expression, but still good to keep it
@@ -172,7 +211,11 @@ export class UpdateCondition extends Condition implements UpdateSetItemInfo {
 	public readonly column: Column
 
 	public constructor(column: BooleanColumn|NumberColumn|TextColumn|DateColumn, rightExpression: Expression) {
-		super(new Expression(column), ComparisonOperator.Equal, rightExpression)
+		super({
+			leftExpression: new Expression(column),
+			operator: ComparisonOperator.Equal,
+			rightExpression,
+		})
 		this.operand = new Operand(rightExpression)
 		this.column = column
 	}

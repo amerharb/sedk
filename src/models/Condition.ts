@@ -30,9 +30,14 @@ export class Condition implements Expression, IStatementGiver {
 	public readonly type: ExpressionType.NULL|ExpressionType.BOOLEAN
 
 	constructor(leftExpression: Expression)
+	constructor(leftExpression: Expression, notLeft: boolean)
 	constructor(leftExpression: Expression, operator: Qualifier, rightExpression: Expression)
 	constructor(leftExpression: Expression, operator: Qualifier, rightExpression: Expression, notLeft: boolean, notRight: boolean)
-	constructor(leftExpression: Expression, operator?: Qualifier, rightExpression?: Expression, notLeft?: boolean, notRight?: boolean) {
+	constructor(leftExpression: Expression, operator?: Qualifier|boolean, rightExpression?: Expression, notLeft?: boolean, notRight?: boolean) {
+		if (typeof operator === 'boolean') {
+			notLeft = operator
+			operator = undefined
+		}
 		this.leftOperand = new Operand(leftExpression, notLeft)
 		this.operator = operator
 		this.rightOperand = rightExpression !== undefined ? new Operand(rightExpression, notRight) : undefined
@@ -95,6 +100,10 @@ export class Condition implements Expression, IStatementGiver {
 		const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
 		const binder = new Binder(value)
 		return new Condition(this, qualifier, new Expression(binder))
+	}
+
+	public get not(): Condition {
+		return new Condition(this, true)
 	}
 
 	// Implement Expression, but still good to keep it

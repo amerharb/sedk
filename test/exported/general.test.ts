@@ -121,6 +121,18 @@ describe(`test from one table`, () => {
 			expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col1" = 'a';`)
 		})
 
+		it(`Produces [SELECT * FROM "table1" WHERE NOT "col1" = 'a';]`, () => {
+			const actual = sql.selectAsteriskFrom(table1).where(col1.eq('a').not).getSQL()
+
+			expect(actual).toEqual(`SELECT * FROM "table1" WHERE NOT "col1" = 'a';`)
+		})
+
+		it(`Produces [SELECT * FROM "table1" WHERE NOT NOT "col1" = 'a';]`, () => {
+			const actual = sql.selectAsteriskFrom(table1).where(col1.eq('a').not.not).getSQL()
+
+			expect(actual).toEqual(`SELECT * FROM "table1" WHERE NOT NOT "col1" = 'a';`)
+		})
+
 		it(`Produces [SELECT * FROM "table1" WHERE "col1" = 'b';]`, () => {
 			const actual = sql.selectAsteriskFrom(table1).where(col1.eq('b')).getSQL()
 

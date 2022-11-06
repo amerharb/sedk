@@ -39,5 +39,16 @@ describe('Operand', () => {
 			)
 			expect(actual).toEqual(`NOT 1`)
 		})
+		it(`returns [NOT '1979-11-14T02:00:00.000Z']`, () => {
+			// @ts-ignore - for testing we are calling a private function
+			const actual = Operand.getStmtOfValue(
+				new Date('1979-11-14T02:00:00.000Z'),
+				true,
+				builderData,
+				{ tables: new Set(), columns: new Set() },
+				new BinderStore(0),
+			)
+			expect(actual).toEqual(`NOT '1979-11-14T02:00:00.000Z'`)
+		})
 	})
 })

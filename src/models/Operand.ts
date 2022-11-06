@@ -105,3 +105,12 @@ export class Operand implements IStatementGiver {
 		}
 	}
 }
+
+export class ConditionOperand extends Operand {
+	constructor(
+		public readonly value: Expression,
+		public readonly isNot: boolean = false,
+	) {
+		super(value, isNot)
+	}
+}

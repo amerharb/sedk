@@ -3,9 +3,9 @@ import { Column, ColumnObj } from './Column'
 import {
 	BooleanLike,
 	Condition,
+	ConditionOperand,
 	Expression,
 	ExpressionType,
-	Operand,
 	UpdateCondition,
 } from '../models'
 import { ComparisonOperator, NullOperator } from '../operators'
@@ -14,8 +14,7 @@ import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
 
 export class BooleanColumn extends Column implements Condition {
 	// START implement Condition
-	public readonly leftExpression: Expression = new Expression(this)
-	public readonly leftOperand: Operand = this.leftExpression.leftOperand
+	public readonly leftOperand: ConditionOperand = new ConditionOperand(new Expression(this))
 	public readonly type: ExpressionType.BOOLEAN|ExpressionType.NULL = ExpressionType.BOOLEAN
 
 	public getColumns(): BooleanColumn[] {

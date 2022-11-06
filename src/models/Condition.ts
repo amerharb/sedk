@@ -16,17 +16,15 @@ import {
 import { SelectItemInfo } from '../SelectItemInfo'
 import { Expression, ExpressionType } from './Expression'
 import { IStatementGiver } from './IStatementGiver'
-import { Operand } from './Operand'
+import { ConditionOperand, Operand } from './Operand'
 import { BooleanLike, isTextBoolean } from './types'
 
 export class Condition implements Expression, IStatementGiver {
-	public readonly leftExpression: Expression
 	public readonly operator?: Qualifier
-	public readonly rightExpression?: Expression
 
 	// Implement Expression
-	public readonly leftOperand: Operand
-	public readonly rightOperand?: Operand
+	public readonly leftOperand: ConditionOperand
+	public readonly rightOperand?: ConditionOperand
 	public readonly type: ExpressionType.NULL|ExpressionType.BOOLEAN
 
 	constructor(leftExpression: Expression)
@@ -38,12 +36,10 @@ export class Condition implements Expression, IStatementGiver {
 			notLeft = operator
 			operator = undefined
 		}
-		this.leftOperand = new Operand(leftExpression, notLeft)
+		this.leftOperand = new ConditionOperand(leftExpression, notLeft)
 		this.operator = operator
-		this.rightOperand = rightExpression !== undefined ? new Operand(rightExpression, notRight) : undefined
+		this.rightOperand = rightExpression !== undefined ? new ConditionOperand(rightExpression, notRight) : undefined
 		this.type = Condition.getResultExpressionType(leftExpression, operator, rightExpression)
-		this.leftExpression = leftExpression
-		this.rightExpression = rightExpression
 	}
 
 	public getStmt(data: BuilderData, artifacts: Artifacts, binderStore: BinderStore): string {
@@ -109,9 +105,9 @@ export class Condition implements Expression, IStatementGiver {
 	// Implement Expression, but still good to keep it
 	public getColumns(): Column[] {
 		const columns: Column[] = []
-		columns.push(...this.leftExpression.getColumns())
-		if (this.rightExpression !== undefined)
-			columns.push(...this.rightExpression.getColumns())
+		columns.push(...this.leftOperand.value.getColumns())
+		if (this.rightOperand?.value !== undefined)
+			columns.push(...this.rightOperand.value.getColumns())
 
 		return columns
 	}

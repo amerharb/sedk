@@ -83,43 +83,75 @@ export class Expression implements IStatementGiver {
 	}
 
 	public eq(value: ValueLike): Condition {
-		return new Condition(this, ComparisonOperator.Equal, new Expression(value))
+		return new Condition({
+			leftExpression: this,
+			operator: ComparisonOperator.Equal,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public eq$(value: NonNullPrimitiveType): Condition {
 		const binder = new Binder(value)
-		return new Condition(this, ComparisonOperator.Equal, new Expression(binder))
+		return new Condition({
+			leftExpression: this,
+			operator: ComparisonOperator.Equal,
+			rightExpression: new Expression(binder),
+		})
 	}
 
 	public ne(value: ValueLike): Condition {
-		return new Condition(this, ComparisonOperator.NotEqual, new Expression(value))
+		return new Condition({
+			leftExpression: this,
+			operator: ComparisonOperator.NotEqual,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public ne$(value: NonNullPrimitiveType): Condition {
 		const binder = new Binder(value)
-		return new Condition(this, ComparisonOperator.NotEqual, new Expression(binder))
+		return new Condition({
+			leftExpression: this,
+			operator: ComparisonOperator.NotEqual,
+			rightExpression: new Expression(binder),
+		})
 	}
 
 	public isEq(value: PrimitiveType): Condition {
 		const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
-		return new Condition(this, qualifier, new Expression(value))
+		return new Condition({
+			leftExpression: this,
+			operator: qualifier,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public isEq$(value: PrimitiveType): Condition {
 		const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
 		const binder = new Binder(value)
-		return new Condition(this, qualifier, new Expression(binder))
+		return new Condition({
+			leftExpression: this,
+			operator: qualifier,
+			rightExpression: new Expression(binder),
+		})
 	}
 
 	public isNe(value: PrimitiveType): Condition {
 		const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
-		return new Condition(this, qualifier, new Expression(value))
+		return new Condition({
+			leftExpression: this,
+			operator: qualifier,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public isNe$(value: PrimitiveType): Condition {
 		const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
 		const binder = new Binder(value)
-		return new Condition(this, qualifier, new Expression(binder))
+		return new Condition({
+			leftExpression: this,
+			operator: qualifier,
+			rightExpression: new Expression(binder),
+		})
 	}
 
 	public getColumns(): Column[] {

@@ -33,51 +33,99 @@ export class AggregateFunction implements IStatementGiver {
 	}
 
 	public eq(value: number): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(value))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.Equal,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public eq$(value: number): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(new Binder(value)))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.Equal,
+			rightExpression: new Expression(new Binder(value)),
+		})
 	}
 
 	public ne(value: number): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(value))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.NotEqual,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public ne$(value: number): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(new Binder(value)))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.NotEqual,
+			rightExpression: new Expression(new Binder(value)),
+		})
 	}
 
 	public gt(value: number): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.GreaterThan, new Expression(value))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.GreaterThan,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public gt$(value: number): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.GreaterThan, new Expression(new Binder(value)))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.GreaterThan,
+			rightExpression: new Expression(new Binder(value)),
+		})
 	}
 
 	public ge(value: number): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.GreaterOrEqual, new Expression(value))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.GreaterOrEqual,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public ge$(value: number): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.GreaterOrEqual, new Expression(new Binder(value)))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.GreaterOrEqual,
+			rightExpression: new Expression(new Binder(value)),
+		})
 	}
 
 	public lt(value: number): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.LesserThan, new Expression(value))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.LesserThan,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public lt$(value: number): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.LesserThan, new Expression(new Binder(value)))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.LesserThan,
+			rightExpression: new Expression(new Binder(value)),
+		})
 	}
 
 	public le(value: number): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(value))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.LesserOrEqual,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public le$(value: number): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(new Binder(value)))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.LesserOrEqual,
+			rightExpression: new Expression(new Binder(value)),
+		})
 	}
 
 	public getStmt(data: BuilderData, artifacts: Artifacts, binderStore: BinderStore): string {

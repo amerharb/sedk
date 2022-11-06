@@ -17,7 +17,11 @@ export class TextColumn extends Column {
 
 	public isEq(value: null|string|TextColumn): Condition {
 		const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
-		return new Condition(new Expression(this), qualifier, new Expression(value))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: qualifier,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public eq(value: Expression): UpdateCondition
@@ -35,7 +39,11 @@ export class TextColumn extends Column {
 	public isEq$(value: null|string): Condition {
 		const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
 		const binder = new Binder(value)
-		return new Condition(new Expression(this), qualifier, new Expression(binder))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: qualifier,
+			rightExpression: new Expression(binder),
+		})
 	}
 
 	public eq$(value: null): UpdateSetItemInfo
@@ -50,27 +58,47 @@ export class TextColumn extends Column {
 
 	public isNe(value: null|string|TextColumn): Condition {
 		const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
-		return new Condition(new Expression(this), qualifier, new Expression(value))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: qualifier,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public ne(value: Expression): Condition
 	public ne(value: string|TextColumn): Condition
 	public ne(value: string|TextColumn|Expression): Condition {
 		if (value instanceof Expression) {
-			return new Condition(new Expression(this), ComparisonOperator.NotEqual, value)
+			return new Condition({
+				leftExpression: new Expression(this),
+				operator: ComparisonOperator.NotEqual,
+				rightExpression: value,
+			})
 		}
-		return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(value))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.NotEqual,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public isNe$(value: null|string): Condition {
 		const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
 		const binder = new Binder(value)
-		return new Condition(new Expression(this), qualifier, new Expression(binder))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: qualifier,
+			rightExpression: new Expression(binder),
+		})
 	}
 
 	public ne$(value: string): Condition {
 		const binder = new Binder(value)
-		return new Condition(new Expression(this), ComparisonOperator.NotEqual, new Expression(binder))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.NotEqual,
+			rightExpression: new Expression(binder),
+		})
 	}
 
 	public concat(value: TextLike): Expression {
@@ -89,24 +117,40 @@ export class TextColumn extends Column {
 
 	public in(...values: TextLike[]): Condition {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
-		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(values))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.In,
+			rightExpression: new Expression(values),
+		})
 	}
 
 	public in$(...values: string[]): Condition {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		const binderArray = new BinderArray(values.map(it => new Binder(it)))
-		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.In,
+			rightExpression: new Expression(binderArray),
+		})
 	}
 
 	public notIn(...values: TextLike[]): Condition {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.NotIn)
-		return new Condition(new Expression(this), ComparisonOperator.NotIn, new Expression(values))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.NotIn,
+			rightExpression: new Expression(values),
+		})
 	}
 
 	public notIn$(...values: string[]): Condition {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.NotIn)
 		const binderArray = new BinderArray(values.map(it => new Binder(it)))
-		return new Condition(new Expression(this), ComparisonOperator.NotIn, new Expression(binderArray))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.NotIn,
+			rightExpression: new Expression(binderArray),
+		})
 	}
 }
 

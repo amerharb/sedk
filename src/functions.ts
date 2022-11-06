@@ -42,7 +42,7 @@ export function e(left: OperandType|Binder, operator?: Operator, right?: Operand
 			&& l instanceof Expression
 			&& r instanceof Expression
 		) {
-			return new Condition(l, operator, r)
+			return new Condition({ leftExpression: l, operator, rightExpression: r })
 		}
 		return new Expression(l, operator, r)
 	} else {
@@ -59,7 +59,7 @@ export function $(value: PrimitiveType): Binder {
 }
 
 export function NOT(condition: Condition): Condition {
-	return new Condition(condition,true)
+	return new Condition({ leftExpression: condition, notLeft: true })
 }
 
 export const f = {

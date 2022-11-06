@@ -18,7 +18,11 @@ export class NumberColumn extends Column {
 
 	public isEq(value: null|NumberLike): Condition {
 		const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
-		return new Condition(new Expression(this), qualifier, new Expression(value))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: qualifier,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public eq(value: null|Default): UpdateSetItemInfo
@@ -28,7 +32,11 @@ export class NumberColumn extends Column {
 		if (value1 === null || value1 instanceof Default) {
 			return new UpdateSetItemInfo(this, value1)
 		} else if (op !== undefined && value2 !== undefined) {
-			return new Condition(new Expression(this), ComparisonOperator.Equal, new Expression(value1, op, value2))
+			return new Condition({
+				leftExpression: new Expression(this),
+				operator: ComparisonOperator.Equal,
+				rightExpression: new Expression(value1, op, value2),
+			})
 		} else {
 			return new UpdateCondition(this, new Expression(value1))
 		}
@@ -37,7 +45,11 @@ export class NumberColumn extends Column {
 	public isEq$(value: null|number): Condition {
 		const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
 		const binder = new Binder(value)
-		return new Condition(new Expression(this), qualifier, new Expression(binder))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: qualifier,
+			rightExpression: new Expression(binder),
+		})
 	}
 
 	public eq$(value: null): UpdateSetItemInfo
@@ -52,7 +64,11 @@ export class NumberColumn extends Column {
 
 	public isNe(value: null|NumberLike): Condition {
 		const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
-		return new Condition(new Expression(this), qualifier, new Expression(value))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: qualifier,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public ne(value1: NumberLike): Condition
@@ -62,71 +78,127 @@ export class NumberColumn extends Column {
 			? new Expression(value1, op, value2)
 			: new Expression(value1)
 
-		return new Condition(new Expression(this), ComparisonOperator.NotEqual, rightExpression)
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.NotEqual,
+			rightExpression: rightExpression,
+		})
 	}
 
 	public isNe$(value: null|number): Condition {
 		const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
 		const binder = new Binder(value)
-		return new Condition(new Expression(this), qualifier, new Expression(binder))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: qualifier,
+			rightExpression: new Expression(binder),
+		})
 	}
 
 	public gt(value: NumberLike): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.GreaterThan, new Expression(value))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.GreaterThan,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public gt$(value: number): Condition {
 		const binder = new Binder(value)
-		return new Condition(new Expression(this), ComparisonOperator.GreaterThan, new Expression(binder))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.GreaterThan,
+			rightExpression: new Expression(binder),
+		})
 	}
 
 	public ge(value: NumberLike): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.GreaterOrEqual, new Expression(value))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.GreaterOrEqual,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public ge$(value: number): Condition {
 		const binder = new Binder(value)
-		return new Condition(new Expression(this), ComparisonOperator.GreaterOrEqual, new Expression(binder))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.GreaterOrEqual,
+			rightExpression: new Expression(binder),
+		})
 	}
 
 	public lt(value: NumberLike): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.LesserThan, new Expression(value))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.LesserThan,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public lt$(value: number): Condition {
 		const binder = new Binder(value)
-		return new Condition(new Expression(this), ComparisonOperator.LesserThan, new Expression(binder))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.LesserThan,
+			rightExpression: new Expression(binder),
+		})
 	}
 
 	public le(value: NumberLike): Condition {
-		return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(value))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.LesserOrEqual,
+			rightExpression: new Expression(value),
+		})
 	}
 
 	public le$(value: number): Condition {
 		const binder = new Binder(value)
-		return new Condition(new Expression(this), ComparisonOperator.LesserOrEqual, new Expression(binder))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.LesserOrEqual,
+			rightExpression: new Expression(binder),
+		})
 	}
 
 	public in(...values: NumberLike[]): Condition {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
-		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(values))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.In,
+			rightExpression: new Expression(values),
+		})
 	}
 
 	public in$(...values: number[]): Condition {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		const binderArray = new BinderArray(values.map(it => new Binder(it)))
-		return new Condition(new Expression(this), ComparisonOperator.In, new Expression(binderArray))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.In,
+			rightExpression: new Expression(binderArray),
+		})
 	}
 
 	public notIn(...values: NumberLike[]): Condition {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.NotIn)
-		return new Condition(new Expression(this), ComparisonOperator.NotIn, new Expression(values))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.NotIn,
+			rightExpression: new Expression(values),
+		})
 	}
 
 	public notIn$(...values: number[]): Condition {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.NotIn)
 		const binderArray = new BinderArray(values.map(it => new Binder(it)))
-		return new Condition(new Expression(this), ComparisonOperator.NotIn, new Expression(binderArray))
+		return new Condition({
+			leftExpression: new Expression(this),
+			operator: ComparisonOperator.NotIn,
+			rightExpression: new Expression(binderArray),
+		})
 	}
 
 	public bitwiseAnd(value: number): Expression {

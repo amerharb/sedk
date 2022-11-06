@@ -22,7 +22,8 @@ abstract class BaseJoinStep extends BaseStep {
 	}
 
 	protected getStepArtifacts(): Artifacts {
-		return { tables: new Set([this.fromItem instanceof Table ? this.fromItem : this.fromItem.table]), columns: new Set() }
+		const table = this.fromItem instanceof Table ? this.fromItem : this.fromItem.table
+		return { tables: new Set([table]), columns: new Set() }
 	}
 }
 

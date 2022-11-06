@@ -835,6 +835,15 @@ describe(`test from one table`, () => {
 		expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE NOT "col7";`)
 	})
 
+	it(`Produces [SELECT * FROM "table1" WHERE NOT "col8";]`, () => {
+		const actual = sql
+			.selectAsteriskFrom(table1)
+			.where(NOT(col8))
+			.getSQL()
+
+		expect(actual).toEqual(`SELECT * FROM "table1" WHERE NOT "col8";`)
+	})
+
 	it(`Produces [SELECT "col1" FROM "table1" WHERE (NOT "col7" OR NOT "col8");]`, () => {
 		const actual = sql
 			.select(col1)

@@ -17,5 +17,27 @@ describe('Operand', () => {
 			)
 			expect(actual).toThrow(`Operand type of value: ${arg} is not supported`)
 		})
+		it('returns [NOT TRUE]', () => {
+			// @ts-ignore - for testing we are calling a private function
+			const actual = Operand.getStmtOfValue(
+				true,
+				true,
+				builderData,
+				{ tables: new Set(), columns: new Set() },
+				new BinderStore(0),
+			)
+			expect(actual).toEqual(`NOT TRUE`)
+		})
+		it('returns [NOT 1]', () => {
+			// @ts-ignore - for testing we are calling a private function
+			const actual = Operand.getStmtOfValue(
+				1,
+				true,
+				builderData,
+				{ tables: new Set(), columns: new Set() },
+				new BinderStore(0),
+			)
+			expect(actual).toEqual(`NOT 1`)
+		})
 	})
 })

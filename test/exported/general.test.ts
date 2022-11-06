@@ -137,7 +137,7 @@ describe(`test from one table`, () => {
 		it(`Produces [SELECT * FROM "table1" WHERE NOT "col1" = 'b';]`, () => {
 			const actual = sql.selectAsteriskFrom(table1).where(NOT(col1.eq('b'))).getSQL()
 
-			expect(actual).toEqual(`SELECT * FROM "table1" WHERE NOT ("col1" = 'b');`)
+			expect(actual).toEqual(`SELECT * FROM "table1" WHERE NOT "col1" = 'b';`)
 		})
 
 		it(`Produces [SELECT * FROM "table1" WHERE "col1" = 'b';]`, () => {

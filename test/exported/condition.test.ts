@@ -190,6 +190,14 @@ describe('Condition', () => {
 
 				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col1" IN ('a', 'b', 'c');`)
 			})
+			it(`Produces [SELECT * FROM "table1" WHERE NOT "col1" IN ('a', 'b', 'c');]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col1.in('a', 'b', 'c').NOT)
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE NOT "col1" IN ('a', 'b', 'c');`)
+			})
 			it(`Produces [SELECT * FROM "table1" WHERE "col1" IN ("col2");]`, () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)

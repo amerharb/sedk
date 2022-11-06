@@ -53,12 +53,15 @@ export class Operand implements IStatementGiver {
 		} else if (typeof value === 'boolean') {
 			return `${isNot ? 'NOT ' : ''}${getStmtBoolean(value)}`
 		} else if (isNumber(value)) {
+			// TODO: why NOT needed for numbers?
 			return `${isNot ? 'NOT ' : ''}${value}`
 		} else if (typeof value === 'string') {
 			return getStmtString(value)
 		} else if (value instanceof Date) {
+			// TODO: why NOT needed for date?
 			return `${isNot ? 'NOT ' : ''}${getStmtDate(value)}`
 		} else if (value instanceof AggregateFunction) {
+			// TODO: why NOT for aggregate function?
 			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts, binderStore)}`
 		} else if (value instanceof Expression) {
 			return `${isNot ? 'NOT ' : ''}${value.getStmt(data, artifacts, binderStore)}`

@@ -60,6 +60,10 @@ describe('builder', () => {
 			const actual = sql.insertInto(table1).getStepStatement()
 			expect(actual).toEqual(`INTO "table1"`)
 		})
+		it(`returns for insertInto(table1, table1.c.col1)`, () => {
+			const actual = sql.insertInto(table1, table1.c.col1).getStepStatement()
+			expect(actual).toEqual(`("col1")`)
+		})
 		it(`returns for update()`, () => {
 			const actual = sql.update(table1).getStepStatement()
 			expect(actual).toEqual(`UPDATE "table1"`)

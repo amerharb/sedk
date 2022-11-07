@@ -9,28 +9,7 @@ import { SelectItemInfo } from '../../SelectItemInfo'
 import { Default } from '../../singletoneConstants'
 import { ValuesStep } from './ValuesStep'
 
-export class IntoStep extends BaseStep {
-	constructor(
-		prevStep: BaseStep,
-		private readonly table: Table,
-		private readonly columns: Column[] = [],
-	) {
-		super(prevStep)
-		this.throwIfTableNotInDb(table)
-	}
-
-	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
-		let result = `INTO ${this.table.getStmt(this.data, artifacts)}`
-		if (this.columns.length > 0) {
-			result += `(${this.columns.map(it => it.getDoubleQuotedName()).join(', ')})`
-		}
-		return result
-	}
-
-	getStepArtifacts(): Artifacts {
-		return { tables: new Set([this.table]), columns: new Set(this.columns) }
-	}
-
+export abstract class IntoStep extends BaseStep {
 	public values(...values: (PrimitiveType|Binder|Default)[]): ValuesStep {
 		return new ValuesStep(this, values)
 	}
@@ -54,9 +33,53 @@ export class IntoStep extends BaseStep {
 
 	private throwForInvalidExpressionsNumber(items: (SelectItemInfo|SelectItem|PrimitiveType)[]) {
 		// TODO: in case columnCount = 0 we should check number of column in schema
-		const columnsCount = this.columns.length
+		const columnsCount = this.getStepArtifacts().columns.size ?? 0
 		if (columnsCount > 0 && columnsCount !== items.length) {
 			throw new InsertColumnsAndExpressionsNotEqualError(columnsCount, items.length)
 		}
+	}
+}
+
+export class IntoTableStep extends IntoStep {
+	constructor(
+		prevStep: BaseStep,
+		private readonly table: Table,
+	) {
+		super(prevStep)
+		this.throwIfTableNotInDb(table)
+		return new Proxy(
+			this,
+			{ apply: (target, thisArg, args) => target.selfCall(...args) },
+		)
+	}
+
+	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+		return `INTO ${this.table.getStmt(this.data, artifacts)}`
+	}
+
+	getStepArtifacts(): Artifacts {
+		return { tables: new Set([this.table]), columns: new Set() }
+	}
+
+	private selfCall(...columns: Column[]): IntoColumnsStep {
+		return new IntoColumnsStep(this, columns)
+	}
+}
+
+export class IntoColumnsStep extends IntoStep {
+	override prefixSeparator = ''
+	constructor(
+		prevStep: BaseStep,
+		private readonly columns: Column[],
+	) {
+		super(prevStep)
+	}
+
+	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+		return `(${this.columns.map(it => it.getDoubleQuotedName()).join(', ')})`
+	}
+
+	getStepArtifacts(): Artifacts {
+		return { tables: new Set(), columns: new Set(this.columns) }
 	}
 }

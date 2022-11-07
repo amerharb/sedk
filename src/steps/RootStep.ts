@@ -3,7 +3,7 @@ import { FromItem, FromItems, SelectFromStep } from './select-path/SelectFromSte
 import { DeleteStep } from './delete-path/DeleteStep'
 import { DeleteFromStep } from './delete-path/DeleteFromStep'
 import { InsertStep } from './insert-path/InsertStep'
-import { IntoStep } from './insert-path/IntoStep'
+import { IntoColumnsStep, IntoStep, IntoTableStep } from './insert-path/IntoStep'
 import { ItemInfo } from '../ItemInfo'
 import { ALL, ASTERISK, All, DISTINCT, Distinct } from '../singletoneConstants'
 import { BuilderData } from '../builder'
@@ -55,7 +55,12 @@ export class RootStep extends BaseStep {
 		return new InsertStep(this)
 	}
 
+	insertInto(table: Table): IntoTableStep
+	insertInto(table: Table, ...columns: Column[]): IntoColumnsStep
 	insertInto(table: Table, ...columns: Column[]): IntoStep {
+	  if (columns.length === 0) {
+			return new InsertStep(this).into(table)
+		}
 		return new InsertStep(this).into(table, ...columns)
 	}
 

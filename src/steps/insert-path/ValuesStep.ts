@@ -16,9 +16,10 @@ export class ValuesStep extends BaseStep {
 		if (values.length === 0) {
 			throw new Error('VALUES step must have at least one value')
 		}
-		return new Proxy(this, {
-			apply: (target, thisArg, args) => target.selfCall(...args),
-		})
+		return new Proxy(
+			this,
+			{ apply: (target, thisArg, args) => target.selfCall(...args) },
+		)
 	}
 
 	private selfCall(...values: (PrimitiveType|Binder|Default)[]): MoreValuesStep {
@@ -40,9 +41,7 @@ export class ValuesStep extends BaseStep {
 }
 
 export class MoreValuesStep extends ValuesStep {
-	constructor(prevStep: BaseStep, values: (PrimitiveType|Binder|Default)[]) {
-		super(prevStep, values)
-	}
+	override readonly prefixSeparator = ''
 
 	override getStepStatement(): string {
 		const valueStringArray = getValueStringArray(this.values, this.binderStore)

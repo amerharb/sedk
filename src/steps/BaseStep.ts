@@ -16,10 +16,11 @@ export enum Parenthesis {
 
 export type Artifacts = { tables: ReadonlySet<Table>, columns: ReadonlySet<Column> }
 
-export abstract class BaseStep extends Function{
+export abstract class BaseStep extends Function {
 	public readonly rootStep: BaseStep
 	protected readonly data: BuilderData
 	protected readonly binderStore: BinderStore
+	protected readonly prefixSeparator: string = ' '
 
 	constructor(
 		public readonly prevStep: BaseStep|null,
@@ -53,12 +54,12 @@ export abstract class BaseStep extends Function{
 	}
 
 	protected getFullStatement(nextArtifacts: Artifacts): string {
-		let result = ''
+		let result: string = ''
 		const artifacts = this.mergeArtifacts(this.getFullArtifacts(), nextArtifacts)
 		if (this.prevStep !== null) {
 			const stmt = this.prevStep.getFullStatement(artifacts).trimRight()
 			if (stmt !== '') {
-				result += `${stmt} `
+				result += `${stmt}${this.prefixSeparator}`
 			}
 		}
 		result += this.getStepStatement(artifacts)

@@ -27,12 +27,12 @@ describe('INSERT Path', () => {
 				.getSQL()
 			expect(actual).toEqual(`INSERT INTO "table1" VALUES('a');`)
 		})
-		it(`Produces [INSERT INTO "table1" VALUES('a') ,('b') ,('c');]`, () => {
+		it(`Produces [INSERT INTO "table1" VALUES('a'),('b'),('c');]`, () => {
 			const actual = sql
 				.insertInto(table1)
 				.values('a')('b')('c')
 				.getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1" VALUES('a') ,('b') ,('c');`)
+			expect(actual).toEqual(`INSERT INTO "table1" VALUES('a'),('b'),('c');`)
 		})
 		it(`Produces [INSERT INTO "table1" VALUES('A', 1, TRUE, '2022-07-20T00:00:00.000Z');]`, () => {
 			const actual = sql

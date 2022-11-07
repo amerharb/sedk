@@ -1,4 +1,4 @@
-import { Binder } from '../../binder'
+import { Binder, BinderStore } from '../../binder'
 import { Default } from '../../singletoneConstants'
 import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString } from '../../util'
 import { ItemInfo } from '../../ItemInfo'
@@ -10,8 +10,7 @@ import { ReturningStep } from '../ReturningStep'
 export class ValuesStep extends BaseStep {
 	constructor(
 		prevStep: BaseStep,
-		private readonly values: (PrimitiveType|Binder|Default)[],
-		private readonly isExtraValuesStep = false,
+		protected readonly values: (PrimitiveType|Binder|Default)[],
 	) {
 		super(prevStep)
 		if (values.length === 0) {
@@ -22,8 +21,8 @@ export class ValuesStep extends BaseStep {
 		})
 	}
 
-	private selfCall(...values: (PrimitiveType|Binder|Default)[]): ValuesStep {
-		return new ValuesStep(this, values, true)
+	private selfCall(...values: (PrimitiveType|Binder|Default)[]): MoreValuesStep {
+		return new MoreValuesStep(this, values)
 	}
 
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
@@ -31,35 +30,47 @@ export class ValuesStep extends BaseStep {
 	}
 
 	getStepStatement(): string {
-		const valueStringArray = this.values.map(it => {
-			if (it === null) {
-				return getStmtNull()
-			} else if (typeof it === 'boolean') {
-				return getStmtBoolean(it)
-			} else if (isNumber(it)) {
-				return it.toString()
-			} else if (typeof it === 'string') {
-				return getStmtString(it)
-			} else if (it instanceof Date) {
-				return getStmtDate(it)
-			} else if (it instanceof Binder) {
-				if (it.no === undefined) {
-					this.binderStore.add(it)
-				}
-				return it.getStmt()
-			} else if (it instanceof Default) {
-				return it.getStmt()
-			} else {
-				throw new Error(`Value step has Unsupported value: ${it}, type: ${typeof it}`)
-			}
-		})
-
-		const prefix = (this.isExtraValuesStep) ? ',' : 'VALUES'
-
-		return `${prefix}(${valueStringArray.join(', ')})`
+		const valueStringArray = getValueStringArray(this.values, this.binderStore)
+		return `VALUES(${valueStringArray.join(', ')})`
 	}
 
 	protected getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set() }
 	}
+}
+
+export class MoreValuesStep extends ValuesStep {
+	constructor(prevStep: BaseStep, values: (PrimitiveType|Binder|Default)[]) {
+		super(prevStep, values)
+	}
+
+	override getStepStatement(): string {
+		const valueStringArray = getValueStringArray(this.values, this.binderStore)
+		return `,(${valueStringArray.join(', ')})`
+	}
+}
+
+function getValueStringArray(values: (PrimitiveType|Binder|Default)[], binderStore: BinderStore): string[] {
+	return values.map(it => {
+		if (it === null) {
+			return getStmtNull()
+		} else if (typeof it === 'boolean') {
+			return getStmtBoolean(it)
+		} else if (isNumber(it)) {
+			return it.toString()
+		} else if (typeof it === 'string') {
+			return getStmtString(it)
+		} else if (it instanceof Date) {
+			return getStmtDate(it)
+		} else if (it instanceof Binder) {
+			if (it.no === undefined) {
+				binderStore.add(it)
+			}
+			return it.getStmt()
+		} else if (it instanceof Default) {
+			return it.getStmt()
+		} else {
+			throw new Error(`Value step has Unsupported value: ${it}, type: ${typeof it}`)
+		}
+	})
 }

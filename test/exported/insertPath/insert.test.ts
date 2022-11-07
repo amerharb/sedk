@@ -60,6 +60,16 @@ describe('INSERT Path', () => {
 			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col4", "col7") VALUES('A', 1, TRUE);`)
 		})
 	})
+	describe.skip('Insert specific column with object callable way', () => {
+		it(`Produces [INSERT INTO "table1"("col1") VALUES('A');]`, () => {
+			const actual = sql.insertInto(table1)(col1).values('A').getSQL()
+			expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES('A');`)
+		})
+		it(`Produces [INSERT INTO "table1"("col1", "col4", "col7") VALUES('A', 1, TRUE);]`, () => {
+			const actual = sql.insertInto(table1)(col1, col4, col7).values('A', 1, true).getSQL()
+			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col4", "col7") VALUES('A', 1, TRUE);`)
+		})
+	})
 	describe('Insert with returning step', () => {
 		it(`Produces [INSERT INTO "table1" VALUES('A') RETURNING "col1";]`, () => {
 			const actual = sql
@@ -134,7 +144,7 @@ describe('INSERT Path', () => {
 				.from(table2)
 				.getSQL()
 
-			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2";`)
+			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2") SELECT "table2"."col1", "table2"."col2" FROM "table2";`)
 		})
 		it(`Produces [INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2" RETURNING *;]`, () => {
 			const actual = sql
@@ -144,7 +154,7 @@ describe('INSERT Path', () => {
 				.returning(ASTERISK)
 				.getSQL()
 
-			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2" RETURNING *;`)
+			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2") SELECT "table2"."col1", "table2"."col2" FROM "table2" RETURNING *;`)
 		})
 		it(`Produces [INSERT INTO "table1"("col2") SELECT "table2"."col2" FROM "table2" LEFT JOIN "table1" ON "table1"."col1" = "table2"."col1" RETURNING *;]`, () => {
 			const actual = sql
@@ -167,7 +177,7 @@ describe('INSERT Path', () => {
 				.returning(ASTERISK)
 				.getSQL()
 
-			expect(actual).toEqual(`INSERT INTO "table1"("col2") SELECT "col2" FROM "table2" WHERE "col1" = 'A' RETURNING *;`)
+			expect(actual).toEqual(`INSERT INTO "table1"("col2") SELECT "table2"."col2" FROM "table2" WHERE "table2"."col1" = 'A' RETURNING *;`)
 		})
 	})
 	describe('Insert with DEFAULT keyword', () => {

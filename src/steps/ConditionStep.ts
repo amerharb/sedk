@@ -26,7 +26,7 @@ export abstract class ConditionStep extends BaseStep {
 		return ''
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set(this.getColumns()) }
 	}
 

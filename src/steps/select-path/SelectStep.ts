@@ -90,7 +90,7 @@ export class SelectStep extends BaseStep {
 		return result
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set(this.getColumns()) }
 	}
 

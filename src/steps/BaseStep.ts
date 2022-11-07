@@ -81,7 +81,7 @@ export abstract class BaseStep extends Function {
 
 	public abstract getStepStatement(artifacts: Artifacts): string
 
-	protected abstract getStepArtifacts(): Artifacts
+	public abstract getStepArtifacts(): Artifacts
 
 	private getStepStatementCalled = false
 

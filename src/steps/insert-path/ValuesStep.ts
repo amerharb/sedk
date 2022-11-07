@@ -1,3 +1,4 @@
+import { InsertColumnsAndValuesNotEqualError } from '../../errors'
 import { Binder, BinderStore } from '../../binder'
 import { Default } from '../../singletoneConstants'
 import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString } from '../../util'
@@ -13,6 +14,7 @@ export class ValuesStep extends BaseStep {
 		protected readonly values: (PrimitiveType|Binder|Default)[],
 	) {
 		super(prevStep)
+		ValuesStep.throwForInvalidValuesNumber(values, prevStep)
 		if (values.length === 0) {
 			throw new Error('VALUES step must have at least one value')
 		}
@@ -20,6 +22,17 @@ export class ValuesStep extends BaseStep {
 			this,
 			{ apply: (target, thisArg, args) => target.selfCall(...args) },
 		)
+	}
+
+	private static throwForInvalidValuesNumber(
+		values: (PrimitiveType|Binder|Default)[],
+		prevStep: BaseStep,
+	) {
+		const columnsCount = prevStep.getStepArtifacts().columns.size
+		// TODO: in case columnCount = 0 we should check number of column in schema
+		if (columnsCount > 0 && columnsCount !== values.length) {
+			throw new InsertColumnsAndValuesNotEqualError(columnsCount, values.length)
+		}
 	}
 
 	private selfCall(...values: (PrimitiveType|Binder|Default)[]): MoreValuesStep {
@@ -35,7 +48,7 @@ export class ValuesStep extends BaseStep {
 		return `VALUES(${valueStringArray.join(', ')})`
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	public getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set() }
 	}
 }

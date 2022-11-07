@@ -20,7 +20,7 @@ export class SetStep extends BaseStep {
 		return `SET ${this.items.map(it => it.getStmt(this.data, artifacts, this.binderStore)).join(', ')}`
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set(this.items.map(it => it.column)) }
 	}
 

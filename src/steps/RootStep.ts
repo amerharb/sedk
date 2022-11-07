@@ -21,7 +21,7 @@ export class RootStep extends BaseStep {
 		return ''
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set() }
 	}
 

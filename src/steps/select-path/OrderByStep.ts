@@ -86,7 +86,7 @@ export class OrderByStep extends BaseStep {
 		pushWhenOrderByItemDefined()
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		const columns = this.orderByArgsElement
 			.map(it => {
 				if (it instanceof Column) {

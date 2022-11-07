@@ -13,11 +13,11 @@ export class InsertStep extends BaseStep {
 		return 'INSERT'
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set() }
 	}
 
-	public into(table: Table, ...columns:Column[]): IntoStep {
+	public into(table: Table, ...columns: Column[]): IntoStep {
 		this.throwIfTableNotInDb(table)
 		return new IntoStep(this, table, columns)
 	}

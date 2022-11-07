@@ -2,7 +2,7 @@ import { Column, Table } from '../../database'
 import { Artifacts, BaseStep } from '../BaseStep'
 import { PrimitiveType } from '../../models'
 import { DefaultValuesStep } from './DefaultValuesStep'
-import { InsertColumnsAndExpressionsNotEqualError, InsertColumnsAndValuesNotEqualError } from '../../errors'
+import { InsertColumnsAndExpressionsNotEqualError } from '../../errors'
 import { Binder } from '../../binder'
 import { SelectItem, SelectStep } from '../select-path/SelectStep'
 import { SelectItemInfo } from '../../SelectItemInfo'
@@ -27,17 +27,15 @@ export class IntoStep extends BaseStep {
 		return result
 	}
 
-	protected getStepArtifacts(): Artifacts {
-		return { tables: new Set(), columns: new Set() }
+	getStepArtifacts(): Artifacts {
+		return { tables: new Set([this.table]), columns: new Set(this.columns) }
 	}
 
 	public values(...values: (PrimitiveType|Binder|Default)[]): ValuesStep {
-		this.throwForInvalidValuesNumber(values)
 		return new ValuesStep(this, values)
 	}
 
 	public values$(...values: PrimitiveType[]): ValuesStep {
-		this.throwForInvalidValuesNumber(values)
 		return new ValuesStep(this, values.map(it => new Binder(it)))
 	}
 
@@ -52,13 +50,6 @@ export class IntoStep extends BaseStep {
 		}
 		this.throwForInvalidExpressionsNumber(items)
 		return new SelectStep(this, items)
-	}
-
-	private throwForInvalidValuesNumber(values: (PrimitiveType|Binder|Default)[]) {
-		const columnsCount = this.columns.length
-		if (columnsCount > 0 && columnsCount !== values.length) {
-			throw new InsertColumnsAndValuesNotEqualError(columnsCount, values.length)
-		}
 	}
 
 	private throwForInvalidExpressionsNumber(items: (SelectItemInfo|SelectItem|PrimitiveType)[]) {

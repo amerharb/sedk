@@ -37,7 +37,7 @@ export class LimitStep extends BaseStep {
 		return `LIMIT ${this.value}`
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set() }
 	}
 

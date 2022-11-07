@@ -16,7 +16,7 @@ export class UpdateStep extends BaseStep {
 		return `UPDATE ${this.table.getStmt(this.data, artifacts)}`
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set([this.table]), columns: new Set() }
 	}
 

@@ -13,7 +13,7 @@ export class DefaultValuesStep extends BaseStep {
 		return 'DEFAULT VALUES'
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set() }
 	}
 }

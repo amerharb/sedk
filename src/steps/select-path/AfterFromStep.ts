@@ -97,7 +97,7 @@ export class CrossJoinStep extends AfterFromStep {
 		return `CROSS JOIN ${this.fromItem.getStmt(this.data, artifacts)}`
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		const table = this.fromItem instanceof Table ? this.fromItem : this.fromItem.table
 		return { tables: new Set([table]), columns: new Set() }
 	}
@@ -115,7 +115,7 @@ export class OnStep extends AfterFromStep {
 		return `ON ${this.condition.getStmt(this.data, artifacts, this.binderStore)}`
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set(this.condition.getColumns()) }
 	}
 

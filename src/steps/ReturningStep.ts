@@ -63,7 +63,7 @@ export class ReturningStep extends BaseStep {
 		return `RETURNING ${returningPartsString.join(', ')}`
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set(this.returningItemInfo.map(it => it.getColumns()).flat(1)) }
 	}
 }

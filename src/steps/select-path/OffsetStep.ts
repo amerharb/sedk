@@ -28,7 +28,7 @@ export class OffsetStep extends BaseStep {
 		return `OFFSET ${this.value}`
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set() }
 	}
 

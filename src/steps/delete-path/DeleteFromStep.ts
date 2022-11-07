@@ -20,7 +20,7 @@ export class DeleteFromStep extends BaseStep {
 		return 'FROM ' + this.fromItem.getStmt(this.data, artifacts)
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		const table = this.fromItem instanceof Table ? this.fromItem : this.fromItem.table
 		return { tables: new Set([table]), columns: new Set() }
 	}

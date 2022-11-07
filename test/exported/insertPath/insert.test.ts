@@ -20,6 +20,13 @@ describe('INSERT Path', () => {
 	const sql = sedk.builder(database)
 	const EPOCH_2022_07_20 = Date.UTC(2022, 6, 20)
 	describe('Basic insert all', () => {
+		it(`Produces [INSERT INTO "table1" VALUES('a');]`, () => {
+			const actual = sql
+				.insertInto(table1)
+				.values('a')
+				.getSQL()
+			expect(actual).toEqual(`INSERT INTO "table1" VALUES('a');`)
+		})
 		it(`Produces [INSERT INTO "table1" VALUES('A', 1, TRUE, '2022-07-20T00:00:00.000Z');]`, () => {
 			const actual = sql
 				.insert()

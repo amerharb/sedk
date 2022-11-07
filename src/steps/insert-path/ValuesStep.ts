@@ -11,11 +11,19 @@ export class ValuesStep extends BaseStep {
 	constructor(
 		prevStep: BaseStep,
 		private readonly values: (PrimitiveType|Binder|Default)[],
+		private readonly isExtraValuesStep = false,
 	) {
 		super(prevStep)
 		if (values.length === 0) {
 			throw new Error('VALUES step must have at least one value')
 		}
+		return new Proxy(this, {
+			apply: (target, thisArg, args) => target.selfCall(...args),
+		})
+	}
+
+	private selfCall(...values: (PrimitiveType|Binder|Default)[]): ValuesStep {
+		return new ValuesStep(this, values, true)
 	}
 
 	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
@@ -45,7 +53,10 @@ export class ValuesStep extends BaseStep {
 				throw new Error(`Value step has Unsupported value: ${it}, type: ${typeof it}`)
 			}
 		})
-		return `VALUES(${valueStringArray.join(', ')})`
+
+		const prefix = (this.isExtraValuesStep) ? ',' : 'VALUES'
+
+		return `${prefix}(${valueStringArray.join(', ')})`
 	}
 
 	protected getStepArtifacts(): Artifacts {

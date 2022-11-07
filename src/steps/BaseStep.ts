@@ -16,7 +16,7 @@ export enum Parenthesis {
 
 export type Artifacts = { tables: ReadonlySet<Table>, columns: ReadonlySet<Column> }
 
-export abstract class BaseStep {
+export abstract class BaseStep extends Function{
 	public readonly rootStep: BaseStep
 	protected readonly data: BuilderData
 	protected readonly binderStore: BinderStore
@@ -24,6 +24,7 @@ export abstract class BaseStep {
 	constructor(
 		public readonly prevStep: BaseStep|null,
 	) {
+		super()
 		this.rootStep = prevStep === null ? this : prevStep.rootStep
 		this.data = this.rootStep.data
 		this.binderStore = new BinderStore(prevStep?.getBindValues().length ?? 0)

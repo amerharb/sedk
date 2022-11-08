@@ -32,12 +32,8 @@ export {
 	DateColumn,
 } from './database'
 export {
-	OrderByDirection,
-	DIRECTION_NOT_EXIST,
 	ASC,
 	DESC,
-	OrderByNullsPosition,
-	NULLS_POSITION_NOT_EXIST,
 	NULLS_FIRST,
 	NULLS_LAST,
 } from './orderBy'

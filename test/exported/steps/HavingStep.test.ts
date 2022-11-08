@@ -1,4 +1,4 @@
-import { LogicalOperator, builder, f } from 'src'
+import { LogicalOperator, builder, f } from 'sedk-postgres'
 import { database } from 'test/database'
 
 //Alias

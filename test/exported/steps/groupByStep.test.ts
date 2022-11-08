@@ -1,4 +1,4 @@
-import { ArithmeticOperator, builder, e, f } from 'src'
+import { ArithmeticOperator, builder, e, f } from 'sedk-postgres'
 import { database } from 'test/database'
 
 //Alias

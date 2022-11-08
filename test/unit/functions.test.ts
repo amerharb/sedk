@@ -1,7 +1,7 @@
 import { Binder, BinderStore } from 'Non-Exported/binder'
 import { Condition, Expression } from 'Non-Exported/models'
 import { Artifacts } from 'Non-Exported/steps/BaseStep'
-import { ArithmeticOperator, ComparisonOperator, e } from 'src'
+import { ArithmeticOperator, ComparisonOperator, e } from 'sedk-postgres'
 import { builderData } from 'test/unit/steps/builderData'
 
 //Aliases

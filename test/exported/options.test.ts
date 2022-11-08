@@ -1,4 +1,4 @@
-import { DeleteWithoutConditionError, builder, e } from 'src'
+import { DeleteWithoutConditionError, builder, e } from 'sedk-postgres'
 import { database } from 'test/database'
 
 //Alias

@@ -1,4 +1,4 @@
-import * as sedk from 'src'
+import * as sedk from 'sedk-postgres'
 import { database } from 'test/database'
 
 //Alias

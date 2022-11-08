@@ -1,7 +1,7 @@
 import {
 	ALL,
 	builder,
-} from 'src'
+} from 'sedk-postgres'
 import { database } from 'test/database'
 
 //Alias

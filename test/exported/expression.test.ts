@@ -1,4 +1,4 @@
-import { $, ArithmeticOperator, ComparisonOperator, NullOperator, TextOperator, builder, e } from 'src'
+import { $, ArithmeticOperator, ComparisonOperator, NullOperator, TextOperator, builder, e } from 'sedk-postgres'
 import { database } from 'test/database'
 
 //Alias

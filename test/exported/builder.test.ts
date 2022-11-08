@@ -1,4 +1,4 @@
-import { ALL, Builder, DISTINCT, builder } from 'src'
+import { ALL, Builder, DISTINCT, builder } from 'sedk-postgres'
 
 import { database } from 'test/database'
 

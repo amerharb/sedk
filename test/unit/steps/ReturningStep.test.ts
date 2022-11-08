@@ -1,4 +1,4 @@
-import { ASTERISK } from 'src'
+import { ASTERISK } from 'sedk-postgres'
 import { ReturningStep, RootStep } from 'Non-Exported/steps'
 import { builderData } from 'test/unit/steps/builderData'
 

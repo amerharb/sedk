@@ -1,4 +1,4 @@
-import { ASTERISK, InvalidOffsetValueError } from 'src'
+import { ASTERISK, InvalidOffsetValueError } from 'sedk-postgres'
 import { OffsetStep, RootStep } from 'Non-Exported/steps'
 import { builderData } from 'test/unit/steps/builderData'
 

@@ -6,7 +6,7 @@ module.exports = {
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
   moduleNameMapper: {
-    'src': '<rootDir>/src',
+    'sedk-postgres': '<rootDir>/src',
     'Non-Exported/(.*)': '<rootDir>/src/$1',
     'test/(.*)': '<rootDir>/test/$1',
   },

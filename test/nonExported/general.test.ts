@@ -1,4 +1,4 @@
-import { builder } from 'src'
+import { builder } from 'sedk-postgres'
 
 /** test non-exported Classes */
 import { ReturningItemInfo } from 'Non-Exported/ReturningItemInfo'

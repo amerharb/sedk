@@ -25,7 +25,7 @@ import {
 	builder,
 	e,
 	f,
-} from 'src'
+} from 'sedk-postgres'
 import { database } from 'test/database'
 
 //Alias

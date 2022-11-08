@@ -3,7 +3,7 @@ import {
 	NumberColumn,
 	builder,
 	e,
-} from 'src'
+} from 'sedk-postgres'
 
 // test non-exported Classes
 import { Condition, Expression, Operand } from 'Non-Exported/models'

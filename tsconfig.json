@@ -14,7 +14,7 @@
     "strictFunctionTypes": true,
     "removeComments": false,
     "paths": {
-      "src": ["./src"],
+      "sedk-postgres": ["./src"],
       "Non-Exported/*": ["./src/*"],
       "test/*": ["./test/*"],
     },

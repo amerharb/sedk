@@ -1,4 +1,4 @@
-import { builder } from 'src'
+import { builder } from 'sedk-postgres'
 import { database } from 'test/database'
 /**
  * exceptional case where we import non-exported class in exported unit test

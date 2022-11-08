@@ -1,4 +1,4 @@
-import { builder } from 'src'
+import { builder } from 'sedk-postgres'
 import { database } from 'test/database'
 //Alias
 const publicTable1 = database.s.public.t.table1

@@ -1,4 +1,4 @@
-import { ALL, ASTERISK, InvalidLimitValueError } from 'src'
+import { ALL, ASTERISK, InvalidLimitValueError } from 'sedk-postgres'
 import { LimitStep, RootStep } from 'Non-Exported/steps'
 import { builderData } from 'test/unit/steps/builderData'
 

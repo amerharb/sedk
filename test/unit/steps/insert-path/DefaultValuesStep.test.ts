@@ -1,6 +1,6 @@
-import { ASTERISK } from 'Non-Exported/singletoneConstants'
-import { DefaultValuesStep, RootStep } from 'Non-Exported/steps'
-import { builderData } from 'test/unit/steps/builderData'
+import { ASTERISK } from 'sedk-postgres'
+import { DefaultValuesStep, RootStep } from '@src/steps'
+import { builderData } from '@test/unit/steps/builderData'
 
 describe('DefaultValuesStep', () => {
 	const rootStep = new RootStep(builderData)

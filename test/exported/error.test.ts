@@ -26,7 +26,7 @@ import {
 	e,
 	f,
 } from 'sedk-postgres'
-import { database } from 'test/database'
+import { database } from '@test/database'
 
 //Alias
 const ADD = ArithmeticOperator.ADD

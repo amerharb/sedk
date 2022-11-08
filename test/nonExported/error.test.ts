@@ -6,14 +6,14 @@ import {
 } from 'sedk-postgres'
 
 // test non-exported Classes
-import { Condition, Expression, Operand } from 'Non-Exported/models'
-import { Parenthesis } from 'Non-Exported/steps'
-import { Binder, BinderArray, BinderStore } from 'Non-Exported/binder'
-import { BuilderData } from 'Non-Exported/builder'
-import { ItemInfo } from 'Non-Exported/ItemInfo'
-import { Column } from 'Non-Exported/database'
+import { Condition, Expression, Operand } from '@src/models'
+import { Parenthesis } from '@src/steps'
+import { Binder, BinderArray, BinderStore } from '@src/binder'
+import { BuilderData } from '@src/builder'
+import { ItemInfo } from '@src/ItemInfo'
+import { Column } from '@src/database'
 
-import { database } from 'test/database'
+import { database } from '@test/database'
 
 //Alias
 const table1 = database.s.public.t.table1

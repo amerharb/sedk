@@ -1,4 +1,4 @@
-import { BinderStore } from 'Non-Exported/binder'
+import { BinderStore } from '@src/binder'
 
 describe('binder', () => {
 	describe('BinderStore', () => {

@@ -1,5 +1,5 @@
-import { BuilderData } from 'Non-Exported/builder'
-import { database } from 'test/database'
+import { BuilderData } from '@src/builder'
+import { database } from '@test/database'
 
 export const builderData: BuilderData = {
 	database,

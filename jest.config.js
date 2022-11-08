@@ -6,9 +6,9 @@ module.exports = {
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
   moduleNameMapper: {
-    'sedk-postgres': '<rootDir>/src',
-    'Non-Exported/(.*)': '<rootDir>/src/$1',
-    'test/(.*)': '<rootDir>/test/$1',
+    'sedk-postgres': '<rootDir>/src/index.ts',
+    '@src/(.*)': '<rootDir>/src/$1',
+    '@test/(.*)': '<rootDir>/test/$1',
   },
   testMatch: [
     '**/?(*.)+(test.ts)',

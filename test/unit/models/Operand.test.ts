@@ -1,6 +1,6 @@
-import { BinderStore } from 'Non-Exported/binder'
-import { Operand } from 'Non-Exported/models/Operand'
-import { builderData } from 'test/unit/steps/builderData'
+import { BinderStore } from '@src/binder'
+import { Operand } from '@src/models/Operand'
+import { builderData } from '@test/unit/steps/builderData'
 
 describe('Operand', () => {
 	describe('getStmtOfValue()', () => {

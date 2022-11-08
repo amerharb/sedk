@@ -1,4 +1,4 @@
-import { database } from 'test/database'
+import { database } from '@test/database'
 
 describe('BooleanColumn', () => {
 	describe('getColumns()', () => {

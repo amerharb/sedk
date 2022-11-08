@@ -1,6 +1,6 @@
 import { ASTERISK, InvalidOffsetValueError } from 'sedk-postgres'
-import { OffsetStep, RootStep } from 'Non-Exported/steps'
-import { builderData } from 'test/unit/steps/builderData'
+import { OffsetStep, RootStep } from '@src/steps'
+import { builderData } from '@test/unit/steps/builderData'
 
 describe('OffsetStep', () => {
 	const rootStep = new RootStep(builderData)

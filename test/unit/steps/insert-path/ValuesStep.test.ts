@@ -1,6 +1,6 @@
-import { DEFAULT } from 'Non-Exported/singletoneConstants'
-import { RootStep, ValuesStep } from 'Non-Exported/steps'
-import { builderData } from 'test/unit/steps/builderData'
+import { DEFAULT } from '@src/singletoneConstants'
+import { RootStep, ValuesStep } from '@src/steps'
+import { builderData } from '@test/unit/steps/builderData'
 
 describe('ValuesStep', () => {
 	const rootStep = new RootStep(builderData)

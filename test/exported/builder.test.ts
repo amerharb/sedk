@@ -1,6 +1,6 @@
 import { ALL, Builder, DISTINCT, builder } from 'sedk-postgres'
 
-import { database } from 'test/database'
+import { database } from '@test/database'
 
 //Alias
 const table1 = database.s.public.t.table1

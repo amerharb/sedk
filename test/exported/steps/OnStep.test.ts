@@ -1,10 +1,10 @@
 import { builder } from 'sedk-postgres'
-import { database } from 'test/database'
+import { database } from '@test/database'
 /**
  * exceptional case where we import non-exported class in exported unit test
  *  as we are using it as type only
  */
-import { OnStep } from 'Non-Exported/steps'
+import { OnStep } from '@src/steps'
 
 //Alias
 const table1 = database.s.public.t.table1

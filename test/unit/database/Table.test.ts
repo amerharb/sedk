@@ -1,4 +1,4 @@
-import { database } from 'test/database'
+import { database } from '@test/database'
 
 //Aliases
 const table1 = database.s.public.t.table1

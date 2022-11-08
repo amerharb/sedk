@@ -1,5 +1,5 @@
 import * as sedk from 'sedk-postgres'
-import { database } from 'test/database'
+import { database } from '@test/database'
 import * as fs from 'fs'
 
 /** Aliases: they are used inside eval code */

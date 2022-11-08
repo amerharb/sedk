@@ -1,6 +1,6 @@
 import { ASTERISK } from 'sedk-postgres'
-import { ReturningStep, RootStep } from 'Non-Exported/steps'
-import { builderData } from 'test/unit/steps/builderData'
+import { ReturningStep, RootStep } from '@src/steps'
+import { builderData } from '@test/unit/steps/builderData'
 
 describe('ReturningStep', () => {
 	const rootStep = new RootStep(builderData)

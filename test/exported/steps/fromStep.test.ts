@@ -1,5 +1,5 @@
 import { builder } from 'sedk-postgres'
-import { database } from 'test/database'
+import { database } from '@test/database'
 //Alias
 const publicTable1 = database.s.public.t.table1
 const col1 = database.s.public.t.table1.c.col1

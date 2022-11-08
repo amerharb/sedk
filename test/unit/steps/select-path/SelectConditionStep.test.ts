@@ -1,7 +1,7 @@
 import { LogicalOperator } from 'sedk-postgres'
-import { Parenthesis, RootStep, SelectWhereStep } from 'Non-Exported/steps'
-import { database } from 'test/database'
-import { builderData } from 'test/unit/steps/builderData'
+import { Parenthesis, RootStep, SelectWhereStep } from '@src/steps'
+import { database } from '@test/database'
+import { builderData } from '@test/unit/steps/builderData'
 
 //Aliases
 const table1 = database.s.public.t.table1

@@ -1,6 +1,6 @@
 import { ALL, ASTERISK, InvalidLimitValueError } from 'sedk-postgres'
-import { LimitStep, RootStep } from 'Non-Exported/steps'
-import { builderData } from 'test/unit/steps/builderData'
+import { LimitStep, RootStep } from '@src/steps'
+import { builderData } from '@test/unit/steps/builderData'
 
 describe('LimitStep', () => {
 	const rootStep = new RootStep(builderData)

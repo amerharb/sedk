@@ -60,7 +60,7 @@ describe('INSERT Path', () => {
 			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col4", "col7") VALUES('A', 1, TRUE);`)
 		})
 	})
-	describe.skip('Insert specific column with object callable way', () => {
+	describe('Insert specific column with object callable way', () => {
 		it(`Produces [INSERT INTO "table1"("col1") VALUES('A');]`, () => {
 			const actual = sql.insertInto(table1)(col1).values('A').getSQL()
 			expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES('A');`)

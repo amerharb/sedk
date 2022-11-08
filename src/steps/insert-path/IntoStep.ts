@@ -33,7 +33,7 @@ export abstract class IntoStep extends BaseStep {
 
 	private throwForInvalidExpressionsNumber(items: (SelectItemInfo|SelectItem|PrimitiveType)[]) {
 		// TODO: in case columnCount = 0 we should check number of column in schema
-		const columnsCount = this.getStepArtifacts().columns.size ?? 0
+		const columnsCount = this.getStepArtifacts().columns.size
 		if (columnsCount > 0 && columnsCount !== items.length) {
 			throw new InsertColumnsAndExpressionsNotEqualError(columnsCount, items.length)
 		}

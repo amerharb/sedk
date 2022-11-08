@@ -5,6 +5,8 @@
 ### Added
 - make builder() function return a new instance RootStep `const sql = sedk.builder()`
 - Add function `NOT` for class Condition also as standalone
+- Support insert more than one row
+- Support object callable style in insert statement (old style still supported)
 
 ### Changed
 - Use eq() and eq$() for UPDATE instead of let() and let$().

@@ -83,6 +83,17 @@ or
 sql.selectAsteriskFrom(Employee).where(NOT(name.eq('John'))).getSQL()
 // SELECT * FROM "Employee" WHERE NOT "name" = 'John';
 ```
+- Support insert more than one row
+```typescript
+sql.insertInto(Employee, name).values('John')('Tahsin')('Khaldon').getSQL()
+// INSERT INTO Employee(name) VALUES ('John'),('Tahsin'),('Khaldon');
+```
+- Support object callable style in insert statement (old style still supported)
+```typescript
+sql.insertInto(Employee)(name, salary).values('John', 11_000).getSQL()
+// INSERT INTO Employee(name, salary) VALUES ('John', 11000);
+```
+
 ### Version: 0.14.1
 - Support IN and NOT IN Operator
 ```typescript

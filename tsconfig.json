@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "experimentalDecorators": true,
+    "experimentalDecorators": false,
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es6",

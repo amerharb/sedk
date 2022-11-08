@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noEmit": false,
     "declaration": true,
     "experimentalDecorators": false,
     "module": "commonjs",

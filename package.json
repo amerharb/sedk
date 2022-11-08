@@ -19,8 +19,9 @@
   "email": "sedk@amerharb.com",
   "scripts": {
     "start": "node dist/src/index.js",
+    "prebuild": "rm -rf dist",
     "build": "tsc",
-    "build&start": "tsc && node dist/src/index.js",
+    "build&start": "npm run build && npm run start",
     "test": "jest",
     "build&test": "tsc && jest",
     "lint": "eslint .",

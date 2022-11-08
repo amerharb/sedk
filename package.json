@@ -23,7 +23,7 @@
     "build": "tsc",
     "build&start": "npm run build && npm run start",
     "test": "jest",
-    "build&test": "tsc && jest",
+    "build&test": "npm run build && npm run test",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix"
   },
@@ -37,9 +37,6 @@
   "author": "Amer Harb",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.16.5",
-    "@babel/preset-env": "^7.16.5",
-    "@babel/preset-typescript": "^7.16.5",
     "@types/jest": "^29.2.2",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",

@@ -1,4 +1,4 @@
-import { IntoColumnsStep, IntoTableStep } from 'Non-Exported/steps/insert-path/IntoStep'
+import { IntoColumnsStep, IntoTableStep } from './steps/insert-path/IntoStep'
 import { FromItem } from './steps/select-path/SelectFromStep'
 import { Column, Database, Table } from './database'
 import { PrimitiveType } from './models'

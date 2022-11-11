@@ -1,6 +1,6 @@
 import { DEFAULT } from '@src/singletoneConstants'
 import { RootStep, ValuesStep } from '@src/steps'
-import { builderData } from '@test/unit/steps/builderData'
+import { builderData } from '@test/builderData'
 
 describe('ValuesStep', () => {
 	const rootStep = new RootStep(builderData)

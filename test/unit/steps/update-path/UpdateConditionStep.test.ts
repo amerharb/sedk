@@ -1,6 +1,6 @@
 import { RootStep, UpdateWhereStep } from '@src/steps'
 import { database } from '@test/database'
-import { builderData } from '@test/unit/steps/builderData'
+import { builderData } from '@test/builderData'
 
 //Alias
 const table1 = database.s.public.t.table1

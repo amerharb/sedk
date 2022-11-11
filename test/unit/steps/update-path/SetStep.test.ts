@@ -2,7 +2,7 @@ import { Binder } from '@src/binder'
 import { RootStep, SetStep } from '@src/steps'
 import { UpdateSetItemInfo } from '@src/UpdateSetItemInfo'
 import { database } from '@test/database'
-import { builderData } from '@test/unit/steps/builderData'
+import { builderData } from '@test/builderData'
 
 //Aliases
 const table1 = database.s.public.t.table1

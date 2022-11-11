@@ -12,10 +12,5 @@ module.exports = {
   },
   testMatch: [
     '**/?(*.)+(test.ts)',
-  ],
-  globals: {
-    'ts-jest': {
-      isolatedModules: false,
-    }
-  }
+  ]
 };

@@ -1,6 +1,6 @@
 import { BinderStore } from '@src/binder'
 import { Operand } from '@src/models/Operand'
-import { builderData } from '@test/unit/steps/builderData'
+import { builderData } from '@test/builderData'
 
 describe('Operand', () => {
 	describe('getStmtOfValue()', () => {

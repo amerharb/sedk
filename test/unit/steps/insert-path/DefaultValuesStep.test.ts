@@ -1,6 +1,6 @@
 import { ASTERISK } from 'sedk-postgres'
 import { DefaultValuesStep, RootStep } from '@src/steps'
-import { builderData } from '@test/unit/steps/builderData'
+import { builderData } from '@test/builderData'
 
 describe('DefaultValuesStep', () => {
 	const rootStep = new RootStep(builderData)

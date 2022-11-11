@@ -1,5 +1,5 @@
 import { RootStep } from '@src/steps'
-import { builderData } from '@test/unit/steps/builderData'
+import { builderData } from '@test/builderData'
 
 describe('RootStep', () => {
 	it('getSQL return [;]',()=> {

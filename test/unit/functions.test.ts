@@ -2,7 +2,7 @@ import { Binder, BinderStore } from '@src/binder'
 import { Condition, Expression } from '@src/models'
 import { Artifacts } from '@src/steps/BaseStep'
 import { ArithmeticOperator, ComparisonOperator, e } from 'sedk-postgres'
-import { builderData } from '@test/unit/steps/builderData'
+import { builderData } from '@test/builderData'
 
 //Aliases
 const Equal = ComparisonOperator.Equal

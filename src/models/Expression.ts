@@ -42,8 +42,8 @@ type ExpressionConstruction = {
 	left: OperandType|Binder|OperandType[]|BinderArray
 	operator?: Operator
 	right?: OperandType
-	notLeft?: boolean
-	notRight?: boolean
+	notLeft: boolean
+	notRight: boolean
 }
 
 export class Expression implements IStatementGiver {
@@ -169,8 +169,8 @@ export class Expression implements IStatementGiver {
 		return columns
 	}
 
-	public static getSimpleExp(left: OperandType|Binder|OperandType[]|BinderArray, notLeft?: boolean): Expression {
-		return new Expression({ left, notLeft })
+	public static getSimpleExp(left: OperandType|Binder|OperandType[]|BinderArray, notLeft: boolean = false): Expression {
+		return new Expression({ left, notLeft, notRight: false })
 	}
 
 	public static getComplexExp(
@@ -178,7 +178,7 @@ export class Expression implements IStatementGiver {
 		operator: Operator,
 		right: OperandType,
 	): Expression {
-		return new Expression({ left, operator, right })
+		return new Expression({ left, operator, right, notLeft: false, notRight: false })
 	}
 
 	private static getResultExpressionType(left: Operand, operator: Operator, right: Operand): ExpressionType {

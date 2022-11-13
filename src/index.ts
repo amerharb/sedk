@@ -1,7 +1,7 @@
 export { Builder, builder } from './builder'
 export { ASTERISK, DISTINCT, ALL, DEFAULT } from './singletoneConstants'
 export { LogicalOperator } from './operators'
-export { e, o, f, $ } from './functions'
+export { e, o, f, $, NOT } from './functions'
 export {
 	NullOperator,
 	ComparisonOperator,
@@ -32,12 +32,8 @@ export {
 	DateColumn,
 } from './database'
 export {
-	OrderByDirection,
-	DIRECTION_NOT_EXIST,
 	ASC,
 	DESC,
-	OrderByNullsPosition,
-	NULLS_POSITION_NOT_EXIST,
 	NULLS_FIRST,
 	NULLS_LAST,
 } from './orderBy'

@@ -1,5 +1,5 @@
-import { builder } from 'src'
-import { database } from 'test/database'
+import { builder } from 'sedk-postgres'
+import { database } from '@test/database'
 
 //Alias
 const table = database.s.public.t.table1
@@ -7,7 +7,6 @@ const col4 = database.s.public.t.table1.c.col4
 
 describe('Bitwise Operators', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 	describe('bitwise AND', () => {
 		it('Produces [SELECT * FROM "table1" WHERE ("col4" & 1) = 0;]', () => {
 			const actual = sql

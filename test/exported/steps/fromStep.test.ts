@@ -1,5 +1,5 @@
-import { builder } from 'src'
-import { database } from 'test/database'
+import { builder } from 'sedk-postgres'
+import { database } from '@test/database'
 //Alias
 const publicTable1 = database.s.public.t.table1
 const col1 = database.s.public.t.table1.c.col1
@@ -11,7 +11,6 @@ const table1col1 = database.s.schema1.t.table1.c.col1
 describe('Test From Step', () => {
 	describe('Multi Tables comma separated', () => {
 		const sql = builder(database)
-		afterEach(() => { sql.cleanUp() })
 		describe('Two Tables', () => {
 			it('Produces [SELECT "table1"."col1", "table2"."col1" FROM "table1", "table2";]', () => {
 				const actual = sql
@@ -30,14 +29,13 @@ describe('Test From Step', () => {
 					.getSQL()
 
 				expect(actual).toEqual('SELECT "public"."table1"."col1", "table2"."col1", "schema1"."table1"."col1"'
-          + ' FROM "table1", "table2", "schema1"."table1";')
+					+ ' FROM "table1", "table2", "schema1"."table1";')
 			})
 		})
 	})
 
 	describe('Multi Tables CROSS JOIN separated', () => {
 		const sql = builder(database)
-		afterEach(() => { sql.cleanUp() })
 		describe('Two Tables', () => {
 			it('Produces [SELECT "table1"."col1", "table2"."col1" FROM "table1" CROSS JOIN "table2";]', () => {
 				const actual = sql
@@ -60,7 +58,7 @@ describe('Test From Step', () => {
 					.getSQL()
 
 				expect(actual).toEqual('SELECT "public"."table1"."col1", "table2"."col1", "schema1"."table1"."col1"'
-          + ' FROM "table1" CROSS JOIN "table2" CROSS JOIN "schema1"."table1";')
+					+ ' FROM "table1" CROSS JOIN "table2" CROSS JOIN "schema1"."table1";')
 			})
 		})
 	})

@@ -3,31 +3,30 @@ import {
 	NumberColumn,
 	builder,
 	e,
-} from 'src'
+} from 'sedk-postgres'
 
 // test non-exported Classes
-import { Condition, Expression, Operand } from 'Non-Exported/models'
-import { Parenthesis } from 'Non-Exported/steps'
-import { Binder, BinderArray, BinderStore } from 'Non-Exported/binder'
-import { BuilderData } from 'Non-Exported/builder'
-import { ItemInfo } from 'Non-Exported/ItemInfo'
-import { Column } from 'Non-Exported/database'
+import { Condition, Expression, Operand } from '@src/models'
+import { Parenthesis } from '@src/steps'
+import { Binder, BinderArray, BinderStore } from '@src/binder'
+import { BuilderData } from '@src/builder'
+import { ItemInfo } from '@src/ItemInfo'
+import { Column } from '@src/database'
 
-import { database } from 'test/database'
+import { database } from '@test/database'
 
 //Alias
 const table1 = database.s.public.t.table1
 
 describe('Throw desired Errors', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 
 	describe('Error: InvalidConditionError', () => {
 		it(`Throws error when condition created with only "NUMBER"`, () => {
 			function actual() {
 				sql
 					.selectAsteriskFrom(table1)
-					.where(new Condition(new Expression(1)))
+					.where(new Condition({ leftExpression: Expression.getSimpleExp(1) }))
 					.getSQL()
 			}
 
@@ -39,7 +38,7 @@ describe('Throw desired Errors', () => {
 	describe('Binder', () => {
 		it('Throws: "This binder already stored"', () => {
 			function actual() {
-				const binderStore = new BinderStore()
+				const binderStore = new BinderStore(0)
 				const binder = new Binder('value')
 				binderStore.add(binder)
 				binderStore.add(binder)

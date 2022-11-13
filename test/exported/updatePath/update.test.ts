@@ -1,5 +1,5 @@
-import * as sedk from 'src'
-import { database } from 'test/database'
+import * as sedk from 'sedk-postgres'
+import { database } from '@test/database'
 
 //Alias
 const e = sedk.e
@@ -18,7 +18,6 @@ const col10 = table1.c.col10
 
 describe('UPDATE Path', () => {
 	const sql = sedk.builder(database)
-	afterEach(() => { sql.cleanUp() })
 	const EPOCH_2022_07_23 = Date.UTC(2022, 6, 23)
 	describe('Basic update all', () => {
 		it(`Produces [UPDATE "table1" SET "col1" = 'A';]`, () => {
@@ -35,7 +34,7 @@ describe('UPDATE Path', () => {
 					col1.let('A'),
 					col4.let(1),
 					col7.let(true),
-					col9.let(new Date(EPOCH_2022_07_23))
+					col9.let(new Date(EPOCH_2022_07_23)),
 				)
 				.getSQL()
 			expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A', "col4" = 1, "col7" = TRUE, "col9" = '2022-07-23T00:00:00.000Z';`)
@@ -47,7 +46,7 @@ describe('UPDATE Path', () => {
 					col1.eq('A'),
 					col4.eq(1),
 					col7.eq(true),
-					col9.eq(new Date(EPOCH_2022_07_23))
+					col9.eq(new Date(EPOCH_2022_07_23)),
 				)
 				.getSQL()
 			expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A', "col4" = 1, "col7" = TRUE, "col9" = '2022-07-23T00:00:00.000Z';`)
@@ -132,7 +131,7 @@ describe('UPDATE Path', () => {
 					col1.let$('A'),
 					col4.let$(1),
 					col7.let$(true),
-					col9.let$(new Date(EPOCH_2022_07_23))
+					col9.let$(new Date(EPOCH_2022_07_23)),
 				)
 
 			expect(actual.getSQL()).toEqual(`UPDATE "table1" SET "col1" = $1, "col4" = $2, "col7" = $3, "col9" = $4;`)
@@ -145,7 +144,7 @@ describe('UPDATE Path', () => {
 					col1.eq$('A'),
 					col4.eq$(1),
 					col7.eq$(true),
-					col9.eq$(new Date(EPOCH_2022_07_23))
+					col9.eq$(new Date(EPOCH_2022_07_23)),
 				)
 
 			expect(actual.getSQL()).toEqual(`UPDATE "table1" SET "col1" = $1, "col4" = $2, "col7" = $3, "col9" = $4;`)

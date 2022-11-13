@@ -1,5 +1,5 @@
-import { builder } from 'src'
-import { database } from 'test/database'
+import { builder } from 'sedk-postgres'
+import { database } from '@test/database'
 
 //Alias
 const table1 = database.s.public.t.table1
@@ -14,7 +14,6 @@ const col10 = table1.c.col10
 
 describe('Condition', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 	describe('Condition from Condition eq/isEq', () => {
 		it('Produces [SELECT * FROM "table1" WHERE (("col4" & 1) = 0) = TRUE;]', () => {
 			const actual = sql
@@ -190,6 +189,14 @@ describe('Condition', () => {
 					.getSQL()
 
 				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col1" IN ('a', 'b', 'c');`)
+			})
+			it(`Produces [SELECT * FROM "table1" WHERE NOT "col1" IN ('a', 'b', 'c');]`, () => {
+				const actual = sql
+					.selectAsteriskFrom(table1)
+					.where(col1.in('a', 'b', 'c').NOT)
+					.getSQL()
+
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE NOT "col1" IN ('a', 'b', 'c');`)
 			})
 			it(`Produces [SELECT * FROM "table1" WHERE "col1" IN ("col2");]`, () => {
 				const actual = sql

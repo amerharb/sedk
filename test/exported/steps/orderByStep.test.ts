@@ -7,8 +7,8 @@ import {
 	builder,
 	e,
 	o,
-} from 'src'
-import { database } from 'test/database'
+} from 'sedk-postgres'
+import { database } from '@test/database'
 //Alias
 const table = database.s.public.t.table1
 const col1 = database.s.public.t.table1.c.col1
@@ -19,7 +19,6 @@ const col5 = database.s.public.t.table1.c.col5
 
 describe('test orderBy Step', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 
 	it('Produces [SELECT * FROM "table1" ORDER BY "col1", "col2";]', () => {
 		const actual = sql

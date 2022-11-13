@@ -1,16 +1,15 @@
-import { builder } from 'src'
+import { builder } from 'sedk-postgres'
 
 /** test non-exported Classes */
-import { ReturningItemInfo } from 'Non-Exported/ReturningItemInfo'
-import { isTextBoolean, isTextNumber } from 'Non-Exported/models'
-import { database } from 'test/database'
+import { ReturningItemInfo } from '@src/ReturningItemInfo'
+import { isTextBoolean, isTextNumber } from '@src/models'
+import { database } from '@test/database'
 
 //Alias
 const table1 = database.s.public.t.table1
 
 describe('Import non-exported Classes', () => {
 	const sql = builder(database, { throwErrorIfDeleteHasNoCondition: false })
-	afterEach(() => { sql.cleanUp() })
 	describe('Import: ReturningItemInfo', () => {
 		it(`Produces [DELETE FROM "table1" RETURNING "col1" AS "someAlias";]`, () => {
 			const rii = new ReturningItemInfo(table1.c.col1, 'someAlias')

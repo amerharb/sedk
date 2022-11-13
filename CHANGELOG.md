@@ -1,9 +1,13 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.15.0]  2022-11-03
+## [0.15.0]  2022-11-04
 ### Added
 - make builder() function return a new instance RootStep `const sql = sedk.builder()`
+- Add function `NOT` for class Condition also as standalone
+- Support insert more than one row
+- Support object callable style in insert statement (old style still supported)
+
 ### Changed
 - Use eq() and eq$() for UPDATE instead of let() and let$().
 - Change style adopt all Caps for some static statement like eqDEFAULT instead of letDefault, 
@@ -13,6 +17,7 @@
 - Only accept normal number exclude NaN, Infinity, -Infinity
 - Deprecate class Builder and replace it with function builder()
 - Major refactor in the way sql generated, each step now hold its data and remove dependency on builder data
+- Deprecate cleanUp() function in all Step, Builder and BinderStore
 ### Breaking Changes
 - Delete getColumns() and getColumn() from Table class
 

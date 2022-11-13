@@ -37,7 +37,7 @@ export class ReturningStep extends BaseStep {
 				return new ReturningItemInfo(it, undefined)
 			} else if (it instanceof Binder) {
 				if (it.no === undefined) {
-					this.data.binderStore.add(it)
+					this.binderStore.add(it)
 				}
 				return new ReturningItemInfo(it, undefined)
 			} else if (it instanceof SelectItemInfo) {
@@ -49,7 +49,7 @@ export class ReturningStep extends BaseStep {
 			} else if (it instanceof ItemInfo) { // not possible as long as ItemInfo is an abstract class
 				throw new Error('ItemInfo is an abstract class')
 			} else { //it from here is a PrimitiveType
-				return new ReturningItemInfo(new Expression(it), undefined)
+				return new ReturningItemInfo(Expression.getSimpleExp(it), undefined)
 			}
 		})
 		this.throwIfColumnsNotInDb(returningItemInfo)
@@ -58,12 +58,12 @@ export class ReturningStep extends BaseStep {
 
 	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
 		const returningPartsString = this.returningItemInfo.map(it => {
-			return it.getStmt(this.data, artifacts)
+			return it.getStmt(this.data, artifacts, this.binderStore)
 		})
 		return `RETURNING ${returningPartsString.join(', ')}`
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set(this.returningItemInfo.map(it => it.getColumns()).flat(1)) }
 	}
 }

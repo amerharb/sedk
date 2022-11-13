@@ -1,5 +1,5 @@
-import { builder } from 'src'
-import { database } from 'test/database'
+import { builder } from 'sedk-postgres'
+import { database } from '@test/database'
 
 //Alias
 const table1 = database.s.public.t.table1
@@ -9,7 +9,6 @@ const table2 = database.s.public.t.table2
 
 describe('Branches', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 	describe('WHERE', () => {
 		it('produce 2 different statements for 2 basic WHERE steps added', () => {
 			const fromStep = sql.select(col1).from(table1)

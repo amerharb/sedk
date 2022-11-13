@@ -24,7 +24,7 @@ export class LimitStep extends BaseStep {
 			if (value instanceof All) {
 				throw new Error('ALL cannot be used as binder')
 			}
-			this.value = this.data.binderStore.getBinder(value)
+			this.value = this.binderStore.getBinder(value)
 		} else {
 			this.value = value
 		}
@@ -37,7 +37,7 @@ export class LimitStep extends BaseStep {
 		return `LIMIT ${this.value}`
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set() }
 	}
 

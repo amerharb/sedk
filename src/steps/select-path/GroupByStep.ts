@@ -20,7 +20,7 @@ export class GroupByStep extends BaseStep {
 		}
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set(this.groupByItems) }
 	}
 

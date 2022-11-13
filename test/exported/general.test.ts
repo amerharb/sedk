@@ -2,9 +2,10 @@ import {
 	ASTERISK,
 	ArithmeticOperator,
 	LogicalOperator,
+	NOT,
 	builder,
-} from 'src'
-import { database } from 'test/database'
+} from 'sedk-postgres'
+import { database } from '@test/database'
 
 //Alias
 const AND = LogicalOperator.AND
@@ -27,9 +28,8 @@ const col8 = table1.c.col8
 
 describe(`test from one table`, () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 
-	/** In Postgres it is ok to have FROM directly after SELECT */
+	/** In Postgres, it is ok to have FROM directly after SELECT */
 	it(`Produces [SELECT FROM "table1";]`, () => {
 		const actual = sql
 			.select().from(table1).getSQL()
@@ -120,6 +120,24 @@ describe(`test from one table`, () => {
 			const actual = sql.selectAsteriskFrom(table1).where(col1.eq('a')).getSQL()
 
 			expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col1" = 'a';`)
+		})
+
+		it(`Produces [SELECT * FROM "table1" WHERE NOT "col1" = 'a';]`, () => {
+			const actual = sql.selectAsteriskFrom(table1).where(col1.eq('a').NOT).getSQL()
+
+			expect(actual).toEqual(`SELECT * FROM "table1" WHERE NOT "col1" = 'a';`)
+		})
+
+		it(`Produces [SELECT * FROM "table1" WHERE NOT NOT "col1" = 'a';]`, () => {
+			const actual = sql.selectAsteriskFrom(table1).where(col1.eq('a').NOT.NOT).getSQL()
+
+			expect(actual).toEqual(`SELECT * FROM "table1" WHERE NOT NOT "col1" = 'a';`)
+		})
+
+		it(`Produces [SELECT * FROM "table1" WHERE NOT "col1" = 'b';]`, () => {
+			const actual = sql.selectAsteriskFrom(table1).where(NOT(col1.eq('b'))).getSQL()
+
+			expect(actual).toEqual(`SELECT * FROM "table1" WHERE NOT "col1" = 'b';`)
 		})
 
 		it(`Produces [SELECT * FROM "table1" WHERE "col1" = 'b';]`, () => {
@@ -815,6 +833,15 @@ describe(`test from one table`, () => {
 			.getSQL()
 
 		expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE NOT "col7";`)
+	})
+
+	it(`Produces [SELECT * FROM "table1" WHERE NOT "col8";]`, () => {
+		const actual = sql
+			.selectAsteriskFrom(table1)
+			.where(NOT(col8))
+			.getSQL()
+
+		expect(actual).toEqual(`SELECT * FROM "table1" WHERE NOT "col8";`)
 	})
 
 	it(`Produces [SELECT "col1" FROM "table1" WHERE (NOT "col7" OR NOT "col8");]`, () => {

@@ -1,6 +1,7 @@
-import { AliasedTable, Column, Database, Table } from './database'
+import { IntoColumnsStep, IntoTableStep } from './steps/insert-path/IntoStep'
+import { FromItem } from './steps/select-path/SelectFromStep'
+import { Column, Database, Table } from './database'
 import { PrimitiveType } from './models'
-import { BinderStore } from './binder'
 import { ASTERISK, All, Distinct } from './singletoneConstants'
 import {
 	DeleteFromStep,
@@ -22,8 +23,6 @@ import { ItemInfo } from './ItemInfo'
 export type BuilderData = {
 	database: Database,
 	option: BuilderOptionRequired,
-	// TODO: move binderStore to Step level
-	binderStore: BinderStore,
 }
 
 /**
@@ -77,15 +76,20 @@ export class Builder {
 		return this.rootStep.delete()
 	}
 
-	public deleteFrom(table: Table|AliasedTable): DeleteFromStep {
-		return this.rootStep.delete().from(table)
+	public deleteFrom(fromItem: FromItem): DeleteFromStep {
+		return this.rootStep.delete().from(fromItem)
 	}
 
 	public insert(): InsertStep {
 		return this.rootStep.insert()
 	}
 
+	public insertInto(table: Table): IntoTableStep
+	public insertInto(table: Table, ...columns: Column[]): IntoColumnsStep
 	public insertInto(table: Table, ...columns: Column[]): IntoStep {
+		if (columns.length === 0) {
+			return this.rootStep.insert().into(table)
+		}
 		return this.rootStep.insert().into(table, ...columns)
 	}
 
@@ -93,8 +97,9 @@ export class Builder {
 		return this.rootStep.update(table)
 	}
 
+	/** @deprecated - Not needed since version 0.15.0 */
 	public cleanUp(): Builder {
-		this.rootStep.cleanUp()
+		// Do nothing
 		return this
 	}
 
@@ -114,6 +119,5 @@ function getDataObj(database: Database, option?: BuilderOption): BuilderData {
 	return {
 		database: database,
 		option: fillUndefinedOptionsWithDefault(option ?? {}),
-		binderStore: new BinderStore(),
 	}
 }

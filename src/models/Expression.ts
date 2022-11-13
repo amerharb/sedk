@@ -9,7 +9,7 @@ import {
 	isNullOperator,
 	isTextOperator,
 } from '../operators'
-import { Binder, BinderArray } from '../binder'
+import { Binder, BinderArray, BinderStore } from '../binder'
 import { BuilderData } from '../builder'
 import { SelectItemInfo } from '../SelectItemInfo'
 import { Column } from '../database'
@@ -38,44 +38,41 @@ export enum ExpressionType {
 	ARRAY
 }
 
+type ExpressionConstruction = {
+	left: OperandType|Binder|OperandType[]|BinderArray
+	operator?: Operator
+	right?: OperandType
+	notLeft: boolean
+	notRight: boolean
+}
+
 export class Expression implements IStatementGiver {
 	public readonly leftOperand: Operand
 	public readonly operator?: Operator
 	public readonly rightOperand?: Operand
 	public readonly type: ExpressionType
 
-	constructor(binder: Binder)
-	constructor(binders: BinderArray)
-	constructor(leftOperandType: OperandType[])
-	constructor(leftOperandType: OperandType)
-	constructor(leftOperandType: OperandType, notLeft: boolean)
-	constructor(leftOperandType: OperandType, operator: Operator, rightOperandType: OperandType)
-	constructor(leftOperandType: OperandType, operator: Operator, rightOperandType: OperandType, notLeft: boolean, notRight: boolean)
-	constructor(leftOperandType: OperandType|Binder|OperandType[]|BinderArray, operatorOrNotLeft?: boolean|Operator, rightOperandType?: OperandType, notLeft?: boolean, notRight?: boolean) {
-		if (typeof operatorOrNotLeft === 'boolean') {
-			this.leftOperand = new Operand(leftOperandType, operatorOrNotLeft)
-			this.operator = undefined
-		} else {
-			this.leftOperand = new Operand(leftOperandType, notLeft)
-			this.operator = operatorOrNotLeft
-		}
-
-		this.rightOperand = rightOperandType !== undefined ? new Operand(rightOperandType, notRight) : undefined
+	constructor(con: ExpressionConstruction) {
+		this.leftOperand = new Operand(con.left, con.notLeft)
+		this.operator = con.operator
+		this.rightOperand = con.right !== undefined
+			? new Operand(con.right, con.notRight)
+			: undefined
 
 		if (this.rightOperand === undefined || this.rightOperand.type === ExpressionType.NOT_EXIST) {
 			this.type = this.leftOperand.type
-		} else if (typeof operatorOrNotLeft !== 'boolean' && operatorOrNotLeft !== undefined) {
-			this.type = Expression.getResultExpressionType(this.leftOperand, operatorOrNotLeft, this.rightOperand)
+		} else if (con.operator !== undefined) {
+			this.type = Expression.getResultExpressionType(this.leftOperand, con.operator, this.rightOperand)
 		} else {
 			throw new Error('Error while calculate Expression Type, failed to create object Expression')
 		}
 	}
 
-	public getStmt(data: BuilderData, artifacts: Artifacts): string {
+	public getStmt(data: BuilderData, artifacts: Artifacts, binderStore: BinderStore): string {
 		if (this.operator !== undefined && this.rightOperand !== undefined) {
-			return `(${this.leftOperand.getStmt(data, artifacts)} ${this.operator.toString()} ${this.rightOperand.getStmt(data, artifacts)})`
+			return `(${this.leftOperand.getStmt(data, artifacts, binderStore)} ${this.operator.toString()} ${this.rightOperand.getStmt(data, artifacts, binderStore)})`
 		}
-		return this.leftOperand.getStmt(data, artifacts)
+		return this.leftOperand.getStmt(data, artifacts, binderStore)
 	}
 
 	public as(alias: string): ItemInfo {
@@ -83,43 +80,75 @@ export class Expression implements IStatementGiver {
 	}
 
 	public eq(value: ValueLike): Condition {
-		return new Condition(this, ComparisonOperator.Equal, new Expression(value))
+		return new Condition({
+			leftExpression: this,
+			operator: ComparisonOperator.Equal,
+			rightExpression: Expression.getSimpleExp(value),
+		})
 	}
 
 	public eq$(value: NonNullPrimitiveType): Condition {
 		const binder = new Binder(value)
-		return new Condition(this, ComparisonOperator.Equal, new Expression(binder))
+		return new Condition({
+			leftExpression: this,
+			operator: ComparisonOperator.Equal,
+			rightExpression: Expression.getSimpleExp(binder),
+		})
 	}
 
 	public ne(value: ValueLike): Condition {
-		return new Condition(this, ComparisonOperator.NotEqual, new Expression(value))
+		return new Condition({
+			leftExpression: this,
+			operator: ComparisonOperator.NotEqual,
+			rightExpression: Expression.getSimpleExp(value),
+		})
 	}
 
 	public ne$(value: NonNullPrimitiveType): Condition {
 		const binder = new Binder(value)
-		return new Condition(this, ComparisonOperator.NotEqual, new Expression(binder))
+		return new Condition({
+			leftExpression: this,
+			operator: ComparisonOperator.NotEqual,
+			rightExpression: Expression.getSimpleExp(binder),
+		})
 	}
 
 	public isEq(value: PrimitiveType): Condition {
 		const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
-		return new Condition(this, qualifier, new Expression(value))
+		return new Condition({
+			leftExpression: this,
+			operator: qualifier,
+			rightExpression: Expression.getSimpleExp(value),
+		})
 	}
 
 	public isEq$(value: PrimitiveType): Condition {
 		const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
 		const binder = new Binder(value)
-		return new Condition(this, qualifier, new Expression(binder))
+		return new Condition({
+			leftExpression: this,
+			operator: qualifier,
+			rightExpression: Expression.getSimpleExp(binder),
+		})
 	}
 
 	public isNe(value: PrimitiveType): Condition {
 		const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
-		return new Condition(this, qualifier, new Expression(value))
+		return new Condition({
+			leftExpression: this,
+			operator: qualifier,
+			rightExpression: Expression.getSimpleExp(value),
+		})
 	}
 
 	public isNe$(value: PrimitiveType): Condition {
 		const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
 		const binder = new Binder(value)
-		return new Condition(this, qualifier, new Expression(binder))
+		return new Condition({
+			leftExpression: this,
+			operator: qualifier,
+			rightExpression: Expression.getSimpleExp(binder),
+		})
 	}
 
 	public getColumns(): Column[] {
@@ -138,6 +167,18 @@ export class Expression implements IStatementGiver {
 			columns.push(...right.getColumns())
 
 		return columns
+	}
+
+	public static getSimpleExp(left: OperandType|Binder|OperandType[]|BinderArray, notLeft: boolean = false): Expression {
+		return new Expression({ left, notLeft, notRight: false })
+	}
+
+	public static getComplexExp(
+		left: OperandType|Binder|OperandType[]|BinderArray,
+		operator: Operator,
+		right: OperandType,
+	): Expression {
+		return new Expression({ left, operator, right, notLeft: false, notRight: false })
 	}
 
 	private static getResultExpressionType(left: Operand, operator: Operator, right: Operand): ExpressionType {

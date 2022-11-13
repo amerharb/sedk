@@ -13,7 +13,7 @@ export class DeleteStep extends BaseStep {
 		return 'DELETE'
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set() }
 	}
 

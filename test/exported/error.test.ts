@@ -25,8 +25,8 @@ import {
 	builder,
 	e,
 	f,
-} from 'src'
-import { database } from 'test/database'
+} from 'sedk-postgres'
+import { database } from '@test/database'
 
 //Alias
 const ADD = ArithmeticOperator.ADD
@@ -39,7 +39,6 @@ const col4 = table1.c.col4
 
 describe('Throw desired Errors', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 
 	describe('Error: InvalidExpressionError', () => {
 		it('Throws error when add invalid operator', () => {
@@ -263,7 +262,6 @@ describe('Throw desired Errors', () => {
 
 	describe('Delete Path Errors', () => {
 		const deleteSql = builder(database, { throwErrorIfDeleteHasNoCondition: false })
-		afterEach(() => { deleteSql.cleanUp() })
 		it(`Throws error "Aggregate function SUM cannot be used in RETURNING clause"`, () => {
 			function actual() {
 				deleteSql.deleteFrom(table1).returning(f.sum(table1.c.col4).as('whatEver')).getSQL()
@@ -381,18 +379,23 @@ describe('Throw desired Errors', () => {
 
 		expect(actual).toThrow(`Value step has Unsupported value: ${value}, type: ${typeof value}`)
 	})
-	it(`Throws error "Insert statement must have values or select items"`, () => {
+	it(`throws "VALUES step must have at least one value"`, () => {
 		function actual() {
-			sql.insertInto(table1).values().getSQL()
+			sql.insertInto(table1).values()
 		}
 
-		expect(actual).toThrow(`Insert statement must have values or select items`)
+		expect(actual).toThrow(`VALUES step must have at least one value`)
 	})
-	it.todo(`Throws error "Insert statement must have values or select items" for empty select step`)
-	// sql.insertInto(table1).select().getSQL()
-	it(`Throws error "Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE"`, () => {
+	it(`throws "Invalid empty SELECT step" for empty select step`, () => {
 		function actual() {
-			sql.selectAsteriskFrom(table1).returning(ASTERISK).getSQL()
+			sql.insertInto(table1).select().getSQL()
+		}
+
+		expect(actual).toThrow(`Invalid empty SELECT step`)
+	})
+	it(`throws "Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE"`, () => {
+		function actual() {
+			sql.selectAsteriskFrom(table1).returning(ASTERISK)
 		}
 
 		expect(actual).toThrow(`Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE`)

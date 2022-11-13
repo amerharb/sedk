@@ -1,5 +1,5 @@
-import * as sedk from 'src'
-import { database } from 'test/database'
+import * as sedk from 'sedk-postgres'
+import { database } from '@test/database'
 
 //Alias
 const ASTERISK = sedk.ASTERISK
@@ -18,9 +18,22 @@ const $ = sedk.$
 
 describe('INSERT Path', () => {
 	const sql = sedk.builder(database)
-	afterEach(() => { sql.cleanUp() })
 	const EPOCH_2022_07_20 = Date.UTC(2022, 6, 20)
 	describe('Basic insert all', () => {
+		it(`Produces [INSERT INTO "table1" VALUES('a');]`, () => {
+			const actual = sql
+				.insertInto(table1)
+				.values('a')
+				.getSQL()
+			expect(actual).toEqual(`INSERT INTO "table1" VALUES('a');`)
+		})
+		it(`Produces [INSERT INTO "table1" VALUES('a'),('b'),('c');]`, () => {
+			const actual = sql
+				.insertInto(table1)
+				.values('a')('b')('c')
+				.getSQL()
+			expect(actual).toEqual(`INSERT INTO "table1" VALUES('a'),('b'),('c');`)
+		})
 		it(`Produces [INSERT INTO "table1" VALUES('A', 1, TRUE, '2022-07-20T00:00:00.000Z');]`, () => {
 			const actual = sql
 				.insert()
@@ -44,6 +57,16 @@ describe('INSERT Path', () => {
 		})
 		it(`Produces [INSERT INTO "table1"("col1", "col4", "col7") VALUES('A', 1, TRUE);]`, () => {
 			const actual = sql.insertInto(table1, col1, col4, col7).values('A', 1, true).getSQL()
+			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col4", "col7") VALUES('A', 1, TRUE);`)
+		})
+	})
+	describe('Insert specific column with object callable way', () => {
+		it(`Produces [INSERT INTO "table1"("col1") VALUES('A');]`, () => {
+			const actual = sql.insertInto(table1)(col1).values('A').getSQL()
+			expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES('A');`)
+		})
+		it(`Produces [INSERT INTO "table1"("col1", "col4", "col7") VALUES('A', 1, TRUE);]`, () => {
+			const actual = sql.insertInto(table1)(col1, col4, col7).values('A', 1, true).getSQL()
 			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col4", "col7") VALUES('A', 1, TRUE);`)
 		})
 	})
@@ -121,7 +144,7 @@ describe('INSERT Path', () => {
 				.from(table2)
 				.getSQL()
 
-			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2";`)
+			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2") SELECT "table2"."col1", "table2"."col2" FROM "table2";`)
 		})
 		it(`Produces [INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2" RETURNING *;]`, () => {
 			const actual = sql
@@ -131,7 +154,7 @@ describe('INSERT Path', () => {
 				.returning(ASTERISK)
 				.getSQL()
 
-			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2" RETURNING *;`)
+			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2") SELECT "table2"."col1", "table2"."col2" FROM "table2" RETURNING *;`)
 		})
 		it(`Produces [INSERT INTO "table1"("col2") SELECT "table2"."col2" FROM "table2" LEFT JOIN "table1" ON "table1"."col1" = "table2"."col1" RETURNING *;]`, () => {
 			const actual = sql
@@ -154,7 +177,7 @@ describe('INSERT Path', () => {
 				.returning(ASTERISK)
 				.getSQL()
 
-			expect(actual).toEqual(`INSERT INTO "table1"("col2") SELECT "col2" FROM "table2" WHERE "col1" = 'A' RETURNING *;`)
+			expect(actual).toEqual(`INSERT INTO "table1"("col2") SELECT "table2"."col2" FROM "table2" WHERE "table2"."col1" = 'A' RETURNING *;`)
 		})
 	})
 	describe('Insert with DEFAULT keyword', () => {

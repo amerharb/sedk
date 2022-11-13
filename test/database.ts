@@ -7,7 +7,7 @@ import {
 	Schema,
 	Table,
 	TextColumn,
-} from 'src'
+} from 'sedk-postgres'
 
 export const database = new Database({
 	version: 1,

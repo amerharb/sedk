@@ -86,7 +86,7 @@ export class OrderByStep extends BaseStep {
 		pushWhenOrderByItemDefined()
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		const columns = this.orderByArgsElement
 			.map(it => {
 				if (it instanceof Column) {
@@ -103,7 +103,7 @@ export class OrderByStep extends BaseStep {
 
 	getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
 		const orderByPartsString = this.orderByItemInfos.map(it => {
-			return it.getStmt(this.data, artifacts)
+			return it.getStmt(this.data, artifacts, this.binderStore)
 		})
 		return `ORDER BY ${orderByPartsString.join(', ')}`
 	}

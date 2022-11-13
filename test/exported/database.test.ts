@@ -1,5 +1,5 @@
-import { Database, Schema, Table, TextColumn } from 'src'
-import { database } from 'test/database'
+import { Database, Schema, Table, TextColumn } from 'sedk-postgres'
+import { database } from '@test/database'
 
 const anotherDatabase = new Database({
 	version: 1,

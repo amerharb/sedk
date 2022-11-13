@@ -6,29 +6,36 @@ import {
 } from './models'
 
 export class BinderStore {
-	private store: Binder[] = []
+	private store: Set<Binder> = new Set()
+
+	constructor(private readonly offset: number) {
+		if (!Number.isInteger(offset) || offset < 0) {
+			throw new Error('Binder offset should be a positive integer')
+		}
+	}
 
 	public add(binder: Binder): void {
-		if (binder.no !== undefined) {
+		if (this.store.has(binder)) {
 			throw new Error('This binder already stored')
 		}
 
-		binder.no = this.store.length + 1
-		this.store.push(binder)
+		binder.no = this.store.size + 1 + this.offset
+		this.store.add(binder)
 	}
 
 	public getBinder(value: PrimitiveType): Binder {
-		const binder = new Binder(value, this.store.length + 1)
-		this.store.push(binder)
+		const binder = new Binder(value, this.store.size + 1 + this.offset)
+		this.store.add(binder)
 		return binder
 	}
 
 	public getValues(): PrimitiveType[] {
-		return this.store.map(it => it.value)
+		return Array.from(this.store).map(it => it.value)
 	}
 
-	public cleanUp() {
-		this.store.length = 0
+	/** @deprecated - Not needed since version 0.15.0 */
+	public cleanUp(): void {
+		// Do nothing
 	}
 }
 

@@ -21,7 +21,7 @@ export class SelectFromStep extends AfterFromStep {
 		return `FROM ${this.fromItems.map(it => it.getStmt(this.data, artifacts)).join(', ')}`
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set(this.fromItems.map(it => it instanceof Table ? it : it.table)), columns: new Set() }
 	}
 }

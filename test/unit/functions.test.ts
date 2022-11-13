@@ -1,8 +1,8 @@
-import { Binder } from 'Non-Exported/binder'
-import { Condition, Expression } from 'Non-Exported/models'
-import { Artifacts } from 'Non-Exported/steps/BaseStep'
-import { ArithmeticOperator, ComparisonOperator, e } from 'src'
-import { builderData } from 'test/unit/steps/builderData'
+import { Binder, BinderStore } from '@src/binder'
+import { Condition, Expression } from '@src/models'
+import { Artifacts } from '@src/steps/BaseStep'
+import { ArithmeticOperator, ComparisonOperator, e } from 'sedk-postgres'
+import { builderData } from '@test/builderData'
 
 //Aliases
 const Equal = ComparisonOperator.Equal
@@ -17,7 +17,7 @@ describe('functions', () => {
 		it('takes Binder', () => {
 			const actual = e(new Binder(1), ADD, 1)
 			expect(actual).toBeInstanceOf(Expression)
-			expect(actual.getStmt(builderData, emptyArtifacts)).toEqual('($1 + 1)')
+			expect(actual.getStmt(builderData, emptyArtifacts, new BinderStore(0))).toEqual('($1 + 1)')
 		})
 	})
 })

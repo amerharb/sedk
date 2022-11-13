@@ -1,5 +1,5 @@
-import * as sedk from 'src'
-import { database } from 'test/database'
+import * as sedk from 'sedk-postgres'
+import { database } from '@test/database'
 import * as fs from 'fs'
 
 /** Aliases: they are used inside eval code */
@@ -25,9 +25,6 @@ const col9 = table1.c.col9
 
 describe('eval', () => {
 	const sql = sedk.builder(database)
-	afterEach(() => {
-		sql.cleanUp()
-	})
 	const filenames = [
 		'test/eval/select.lsv',
 		'test/eval/insert.lsv',

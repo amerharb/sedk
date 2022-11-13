@@ -1,5 +1,5 @@
-import { DeleteWithoutConditionError, builder, e } from 'src'
-import { database } from 'test/database'
+import { DeleteWithoutConditionError, builder, e } from 'sedk-postgres'
+import { database } from '@test/database'
 
 //Alias
 const publicTable1 = database.s.public.t.table1
@@ -47,12 +47,6 @@ describe('test Options', () => {
 		const sqlNever = builder(database, { addAscAfterOrderByItem: 'never' })
 		const sqlWhenMentioned = builder(database, { addAscAfterOrderByItem: 'when mentioned' })
 		const sqlDefault = builder(database)
-		afterEach(() => {
-			sqlAlways.cleanUp()
-			sqlNever.cleanUp()
-			sqlWhenMentioned.cleanUp()
-			sqlDefault.cleanUp()
-		})
 
 		it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1" ASC;] option(always)', () => {
 			const actual = sqlAlways
@@ -140,12 +134,6 @@ describe('test Options', () => {
 		const sqlNever = builder(database, { addNullsLastAfterOrderByItem: 'never' })
 		const sqlWhenMentioned = builder(database, { addNullsLastAfterOrderByItem: 'when mentioned' })
 		const sqlDefault = builder(database)
-		afterEach(() => {
-			sqlAlways.cleanUp()
-			sqlNever.cleanUp()
-			sqlWhenMentioned.cleanUp()
-			sqlDefault.cleanUp()
-		})
 
 		it('Produces [SELECT "col1" FROM "table1" ORDER BY "col1" NULLS LAST;] option(always)', () => {
 			const actual = sqlAlways
@@ -233,12 +221,6 @@ describe('test Options', () => {
 		const sqlNever = builder(database, { addAsBeforeColumnAlias: 'never' })
 		const sqlDefault = builder(database)
 
-		afterEach(() => {
-			sqlAlways.cleanUp()
-			sqlNever.cleanUp()
-			sqlDefault.cleanUp()
-		})
-
 		it('Produces [SELECT "col1" AS "C1" FROM "table1";] option(always)', () => {
 			const actual = sqlAlways
 				.select(col1.as('C1'))
@@ -280,7 +262,6 @@ describe('test Options', () => {
 	describe('test addPublicSchemaName Option', () => {
 		describe('Option: always', () => {
 			const sql = builder(database, { addPublicSchemaName: 'always' })
-			afterEach(() => { sql.cleanUp() })
 
 			it('Produces [SELECT "col1" FROM "public"."table1";]', () => {
 				const actual = sql
@@ -294,7 +275,6 @@ describe('test Options', () => {
 
 		describe('Option: when other schema mentioned', () => {
 			const sql = builder(database, { addPublicSchemaName: 'when other schema mentioned' })
-			afterEach(() => { sql.cleanUp() })
 
 			it('Produces [SELECT "public"."table1"."col2", "schema1"."table1"."col1" FROM "public"."table1", "schema1"."table1";', () => {
 				const actual = sql
@@ -308,7 +288,6 @@ describe('test Options', () => {
 
 		describe('Option: never', () => {
 			const sql = builder(database, { addPublicSchemaName: 'never' })
-			afterEach(() => { sql.cleanUp() })
 
 			it('Produces [SELECT "public"."table2"."col1", "schema1"."table2"."col1" FROM "table2", "schema1"."table2";]', () => {
 				const actual = sql
@@ -336,7 +315,6 @@ describe('test Options', () => {
 		})
 		describe('Option: default', () => {
 			const sql = builder(database)
-			afterEach(() => { sql.cleanUp() })
 
 			it('Produces [SELECT "public"."table2"."col1", "schema1"."table2"."col1" FROM "table2", "schema1"."table2";]', () => {
 				const actual = sql
@@ -368,12 +346,6 @@ describe('test Options', () => {
 		const sqlAlways = builder(database, { addTableName: 'always' })
 		const sqlWhen = builder(database, { addTableName: 'when two tables or more' })
 		const sqlDefault = builder(database)
-
-		afterEach(() => {
-			sqlAlways.cleanUp()
-			sqlWhen.cleanUp()
-			sqlDefault.cleanUp()
-		})
 
 		it('Produces [SELECT "table1"."col1" FROM "table1";] option(always)', () => {
 			const actual = sqlAlways
@@ -424,7 +396,6 @@ describe('test Options', () => {
 	describe('test addAsBeforeTableAlias Option', () => {
 		describe('Option: always', () => {
 			const sqlAlways = builder(database, { addAsBeforeTableAlias: 'always' })
-			afterEach(() => { sqlAlways.cleanUp() })
 			it('Produces [SELECT "table1"."col1" FROM "table1" AS "TEST Table";]', () => {
 				const actual = sqlAlways
 					.select(col1)
@@ -437,7 +408,6 @@ describe('test Options', () => {
 
 		describe('Option: never', () => {
 			const sqlNever = builder(database, { addAsBeforeTableAlias: 'never' })
-			afterEach(() => { sqlNever.cleanUp() })
 			it('Produces [SELECT "table1"."col1" FROM "table1" "TEST Table";]', () => {
 				const actual = sqlNever
 					.select(col1)
@@ -450,7 +420,6 @@ describe('test Options', () => {
 
 		describe('Option: default', () => {
 			const sqlDefault = builder(database)
-			afterEach(() => { sqlDefault.cleanUp() })
 			it('Produces [SELECT "table1"."col1" FROM "table1" AS "TEST Table";]', () => {
 				const actual = sqlDefault
 					.select(col1)
@@ -465,7 +434,6 @@ describe('test Options', () => {
 	describe('test throwErrorIfDeleteHasNoCondition Option', () => {
 		describe('Option: false', () => {
 			const sqlFalse = builder(database, { throwErrorIfDeleteHasNoCondition: false })
-			afterEach(() => { sqlFalse.cleanUp() })
 			it('Produces [DELETE FROM "table1";]', () => {
 				const actual = sqlFalse.deleteFrom(publicTable1).getSQL()
 
@@ -482,7 +450,6 @@ describe('test Options', () => {
 
 		describe('Option: true', () => {
 			const sqlTrue = builder(database, { throwErrorIfDeleteHasNoCondition: true })
-			afterEach(() => { sqlTrue.cleanUp() })
 			it('Produces [DELETE FROM "table1";] Will throw error', () => {
 				function actual() {
 					sqlTrue.deleteFrom(publicTable1).getSQL()
@@ -494,8 +461,6 @@ describe('test Options', () => {
 			it('Produces [DELETE FROM "table1" WHERE 1 = 1;] Will not throw error', () => {
 				function actual() {
 					sqlTrue.deleteFrom(publicTable1).where(e(1).eq(1)).getSQL()
-					/** cleanUp() is needed as we run the function more than once */
-					sqlTrue.cleanUp()
 				}
 
 				expect(actual).not.toThrowError(DeleteWithoutConditionError)
@@ -505,7 +470,6 @@ describe('test Options', () => {
 
 		describe('Option: default', () => {
 			const sqlDefault = builder(database)
-			afterEach(() => { sqlDefault.cleanUp() })
 			it('Produces [DELETE FROM "table1";] Will throw error', () => {
 				function actual() {
 					sqlDefault.deleteFrom(publicTable1).getSQL()
@@ -517,8 +481,6 @@ describe('test Options', () => {
 			it('Produces [DELETE FROM "table1" WHERE 1 = 1;] Will not throw error', () => {
 				function actual() {
 					sqlDefault.deleteFrom(publicTable1).where(e(1).eq(1)).getSQL()
-					/** cleanUp() is needed as we run the function more than once */
-					sqlDefault.cleanUp()
 				}
 
 				expect(actual).not.toThrowError(DeleteWithoutConditionError)

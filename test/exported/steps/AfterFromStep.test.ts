@@ -1,5 +1,6 @@
-import { builder } from 'src'
-import { database } from 'test/database'
+import { builder } from 'sedk-postgres'
+import { database } from '@test/database'
+
 //Alias
 const table1 = database.s.public.t.table1
 const col1 = table1.c.col1
@@ -9,8 +10,7 @@ const table3 = database.s.public.t.table3
 
 describe('Test CROSS JOIN Step', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
-	describe('Diffreant steps after cross join', () => {
+	describe('Different steps after CROSS JOIN', () => {
 		it(`Produces [SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" WHERE "table1"."col1" = 'a';]`, () => {
 			const actual = sql
 				.select(col1)
@@ -21,7 +21,6 @@ describe('Test CROSS JOIN Step', () => {
 
 			expect(actual).toEqual(`SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" WHERE "table1"."col1" = 'a';`)
 		})
-
 		it('Produces [SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" GROUP BY "table1"."col2";]', () => {
 			const actual = sql
 				.select(col1)
@@ -32,7 +31,6 @@ describe('Test CROSS JOIN Step', () => {
 
 			expect(actual).toEqual('SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" GROUP BY "table1"."col2";')
 		})
-
 		it('Produces [SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" ORDER BY "table1"."col2";]', () => {
 			const actual = sql
 				.select(col1)
@@ -43,7 +41,6 @@ describe('Test CROSS JOIN Step', () => {
 
 			expect(actual).toEqual('SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" ORDER BY "table1"."col2";')
 		})
-
 		it('Produces [SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" LIMIT 10;]', () => {
 			const actual = sql
 				.select(col1)
@@ -54,7 +51,6 @@ describe('Test CROSS JOIN Step', () => {
 
 			expect(actual).toEqual('SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" LIMIT 10;')
 		})
-
 		it('Produces [SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" OFFSET 20;]', () => {
 			const actual = sql
 				.select(col1)
@@ -65,7 +61,6 @@ describe('Test CROSS JOIN Step', () => {
 
 			expect(actual).toEqual('SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" OFFSET 20;')
 		})
-
 		it('Produces [SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2"  CROSS JOIN "table3";]', () => {
 			const actual = sql
 				.select(col1)
@@ -75,6 +70,17 @@ describe('Test CROSS JOIN Step', () => {
 				.getSQL()
 
 			expect(actual).toEqual('SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" CROSS JOIN "table3";')
+		})
+	})
+	describe('Aliased Table in CROSS JOIN', () => {
+		it(`Produces [SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" WHERE "table1"."col1" = 'a';]`, () => {
+			const actual = sql
+				.select(col1)
+				.from(table1)
+				.crossJoin(table2.as('t2'))
+				.getSQL()
+
+			expect(actual).toEqual(`SELECT "table1"."col1" FROM "table1" CROSS JOIN "table2" AS "t2";`)
 		})
 	})
 })

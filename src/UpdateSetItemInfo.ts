@@ -7,7 +7,7 @@ import {
 } from './models'
 import { Column } from './database'
 import { BuilderData } from './builder'
-import { Binder } from './binder'
+import { Binder, BinderStore } from './binder'
 import { Default } from './singletoneConstants'
 
 export class UpdateSetItemInfo implements IStatementGiver {
@@ -24,7 +24,7 @@ export class UpdateSetItemInfo implements IStatementGiver {
 		}
 	}
 
-	public getStmt(data: BuilderData, artifacts: Artifacts): string {
-		return `${this.column.getStmt(data, artifacts)} = ${this.operand.getStmt(data, artifacts)}`
+	public getStmt(data: BuilderData, artifacts: Artifacts, binderStore: BinderStore): string {
+		return `${this.column.getStmt(data, artifacts)} = ${this.operand.getStmt(data, artifacts, binderStore)}`
 	}
 }

@@ -44,20 +44,17 @@ const sql = sedk.builder(database)
 const stmt1 = sql.select(name, salary).from(Employee).where(name.eq('John'), AND, salary.gt(1500)).getSQL()
 console.log(stmt1)
 // SELECT "name", "age" FROM "Employee" WHERE ( "name" = 'John' AND "salary" > 1500 );
-sql.cleanUp()
 
 // Also it can be written as
 const stmt2 = sql.select(name, salary).from(Employee).where(name.eq('John')).and(salary.gt(1500)).getSQL()
 console.log(stmt2)
 // SELECT "name", "age" FROM "Employee" WHERE "name" = 'John' AND "salary" > 1500;
-sql.cleanUp()
 
 const binderExample = sql.select(name, salary).from(Employee).where(name.eq$('John'), AND, salary.gt$(1500))
 console.log(binderExample.getSQL())
 // SELECT "name", "age" FROM "Employee" WHERE ( "name" = $1 AND "salary" > $2 );
 console.log(binderExample.getBindValues())
 //  [ 'john', 1500 ]
-sql.cleanUp()
 ```
 
 ## SEDK-postgres Principles
@@ -76,6 +73,26 @@ so if you change from Postgres to Mysql then you will need to change the library
 
 ### Version: 0.15.0
 - Use eq() in UPDATE instead of let() to be more WYSIWYG
+- Add NOT function to Condition also as standalone function
+```typescript
+sql.selectAsteriskFrom(Employee).where(name.eq('John').NOT).getSQL()
+// SELECT * FROM "Employee" WHERE NOT "name" = 'John';
+```
+or
+```typescript
+sql.selectAsteriskFrom(Employee).where(NOT(name.eq('John'))).getSQL()
+// SELECT * FROM "Employee" WHERE NOT "name" = 'John';
+```
+- Support insert more than one row
+```typescript
+sql.insertInto(Employee, name).values('John')('Tahsin')('Khaldon').getSQL()
+// INSERT INTO Employee(name) VALUES ('John'),('Tahsin'),('Khaldon');
+```
+- Support object callable style in insert statement (old style still supported)
+```typescript
+sql.insertInto(Employee)(name, salary).values('John', 11_000).getSQL()
+// INSERT INTO Employee(name, salary) VALUES ('John', 11000);
+```
 
 ### Version: 0.14.1
 - Support IN and NOT IN Operator

@@ -1,5 +1,5 @@
-import { $, ArithmeticOperator, ComparisonOperator, NullOperator, TextOperator, builder, e } from 'src'
-import { database } from 'test/database'
+import { $, ArithmeticOperator, ComparisonOperator, NullOperator, TextOperator, builder, e } from 'sedk-postgres'
+import { database } from '@test/database'
 
 //Alias
 const ADD = ArithmeticOperator.ADD
@@ -14,7 +14,6 @@ const col7 = database.s.public.t.table1.c.col7
 
 describe('Expression', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 	describe('Basic use', () => {
 		it(`Produces [SELECT TRUE;]`, () => {
 			const actual = sql.select(e(true)).getSQL()
@@ -126,27 +125,31 @@ describe('Expression', () => {
 			const boolCapital = boolSmall.map(it => it.replace('t', 'T').replace('f', 'F'))
 			const boolCaps = boolSmall.map(it => it.toUpperCase())
 			const textBooleanArray = [...boolSmall, ...boolCapital, ...boolCaps]
-			it(`Produces [SELECT * FROM "table1" WHERE ("col7" = '<TextBoolean>');]`, () => {
-				textBooleanArray.forEach(it => {
-					const actual = sql
-						.selectAsteriskFrom(table)
-						.where(e(col7, EQ, it))
-						.getSQL()
+			it.each(textBooleanArray)
+			(`Produces [SELECT * FROM "table1" WHERE ("col7" = '%s');]`, (bool) => {
+				const actual = sql
+					.selectAsteriskFrom(table)
+					.where(e(col7, EQ, bool))
+					.getSQL()
 
-					expect(actual).toEqual(`SELECT * FROM "table1" WHERE ("col7" = '${it}');`)
-					sql.cleanUp()
-				})
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE ("col7" = '${bool}');`)
 			})
-			it(`Produces [SELECT * FROM "table1" WHERE "col7" = '<TextBoolean>';]`, () => {
-				textBooleanArray.forEach(it => {
-					const actual = sql
-						.selectAsteriskFrom(table)
-						.where(col7.eq(it))
-						.getSQL()
+			it.each(textBooleanArray)
+			(`Produces [SELECT * FROM "table1" WHERE "col7" = '%s';]`, (bool) => {
+				const actual = sql
+					.selectAsteriskFrom(table)
+					.where(col7.eq(bool))
+					.getSQL()
 
-					expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col7" = '${it}';`)
-					sql.cleanUp()
-				})
+				expect(actual).toEqual(`SELECT * FROM "table1" WHERE "col7" = '${bool}';`)
+			})
+			it.each(['yes', 'no', 'invalid', '', 'any string'])
+			(`Produces [SELECT * FROM "table1" WHERE "col7" = '%s';]`, (bool) => {
+				const actual = () => sql
+					.selectAsteriskFrom(table)
+					.where(col7.eq(bool))
+
+				expect(actual).toThrow(`Condition can not created with "BOOLEAN" "=" "TEXT"`)
 			})
 		})
 	})

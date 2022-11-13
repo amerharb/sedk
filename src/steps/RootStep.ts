@@ -1,13 +1,13 @@
 import { SelectItem, SelectStep } from './select-path/SelectStep'
-import { FromItems, SelectFromStep } from './select-path/SelectFromStep'
+import { FromItem, FromItems, SelectFromStep } from './select-path/SelectFromStep'
 import { DeleteStep } from './delete-path/DeleteStep'
 import { DeleteFromStep } from './delete-path/DeleteFromStep'
 import { InsertStep } from './insert-path/InsertStep'
-import { IntoStep } from './insert-path/IntoStep'
+import { IntoColumnsStep, IntoStep, IntoTableStep } from './insert-path/IntoStep'
 import { ItemInfo } from '../ItemInfo'
 import { ALL, ASTERISK, All, DISTINCT, Distinct } from '../singletoneConstants'
 import { BuilderData } from '../builder'
-import { AliasedTable, Column, Table } from '../database'
+import { Column, Table } from '../database'
 import { PrimitiveType } from '../models'
 import { Artifacts, BaseStep } from './BaseStep'
 import { UpdateStep } from './update-path/UpdateStep'
@@ -21,7 +21,7 @@ export class RootStep extends BaseStep {
 		return ''
 	}
 
-	protected getStepArtifacts(): Artifacts {
+	getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set() }
 	}
 
@@ -47,15 +47,20 @@ export class RootStep extends BaseStep {
 		return new DeleteStep(this)
 	}
 
-	deleteFrom(table: Table|AliasedTable): DeleteFromStep {
-		return new DeleteStep(this).from(table)
+	deleteFrom(fromItem: FromItem): DeleteFromStep {
+		return new DeleteStep(this).from(fromItem)
 	}
 
 	insert(): InsertStep {
 		return new InsertStep(this)
 	}
 
+	insertInto(table: Table): IntoTableStep
+	insertInto(table: Table, ...columns: Column[]): IntoColumnsStep
 	insertInto(table: Table, ...columns: Column[]): IntoStep {
+	  if (columns.length === 0) {
+			return new InsertStep(this).into(table)
+		}
 		return new InsertStep(this).into(table, ...columns)
 	}
 

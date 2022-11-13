@@ -1,6 +1,6 @@
-import { ALL, Builder, DISTINCT, builder,  } from 'src'
+import { ALL, Builder, DISTINCT, builder } from 'sedk-postgres'
 
-import { database } from 'test/database'
+import { database } from '@test/database'
 
 //Alias
 const table1 = database.s.public.t.table1
@@ -60,6 +60,10 @@ describe('builder', () => {
 			const actual = sql.insertInto(table1).getStepStatement()
 			expect(actual).toEqual(`INTO "table1"`)
 		})
+		it(`returns for insertInto(table1, table1.c.col1)`, () => {
+			const actual = sql.insertInto(table1, table1.c.col1).getStepStatement()
+			expect(actual).toEqual(`("col1")`)
+		})
 		it(`returns for update()`, () => {
 			const actual = sql.update(table1).getStepStatement()
 			expect(actual).toEqual(`UPDATE "table1"`)
@@ -75,7 +79,6 @@ describe('builder', () => {
 	})
 	describe('function builder()', () => {
 		const sql = builder(database)
-		afterEach(() => { sql.cleanUp() })
 		it(`returns for select()`, () => {
 			const actual = sql.select('a').getStepStatement()
 			expect(actual).toEqual(`SELECT 'a'`)

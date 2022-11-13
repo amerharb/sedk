@@ -1,3 +1,4 @@
+import { BinderStore } from './binder'
 import { Artifacts } from './steps/BaseStep'
 import { Column } from './database'
 import { Expression, IStatementGiver } from './models'
@@ -13,11 +14,11 @@ export class OrderByItemInfo implements IStatementGiver {
 		private readonly nullPosition: OrderByNullsPosition = NULLS_POSITION_NOT_EXIST,
 	) {}
 
-	public getStmt(data: BuilderData, artifacts: Artifacts): string {
+	public getStmt(data: BuilderData, artifacts: Artifacts, binderStore: BinderStore): string {
 		const direction = this.getDirectionFromOption(data)
 		const nullPosition = this.getNullLastFromOption(data)
 		const orderByString = (this.orderByItem instanceof Column || this.orderByItem instanceof Expression)
-			? this.orderByItem.getStmt(data, artifacts)
+			? this.orderByItem.getStmt(data, artifacts, binderStore)
 			: this.orderByItem
 
 		return `${orderByString}${direction}${nullPosition}`

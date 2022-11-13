@@ -1,5 +1,5 @@
-import { InsertStep, RootStep } from 'Non-Exported/steps'
-import { builderData } from 'test/unit/steps/builderData'
+import { InsertStep, RootStep } from '@src/steps'
+import { builderData } from '@test/builderData'
 
 describe('InsertStep', () => {
 	const rootStep = new RootStep(builderData)

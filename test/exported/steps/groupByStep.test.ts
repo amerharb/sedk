@@ -1,5 +1,5 @@
-import { ArithmeticOperator, builder, e, f } from 'src'
-import { database } from 'test/database'
+import { ArithmeticOperator, builder, e, f } from 'sedk-postgres'
+import { database } from '@test/database'
 
 //Alias
 const ADD = ArithmeticOperator.ADD
@@ -13,7 +13,6 @@ const col6 = database.s.public.t.table1.c.col6
 
 describe('test groupBy Step', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 
 	it('Produces [SELECT "col1" FROM "table1" GROUP BY "col1";]', () => {
 		const actual = sql

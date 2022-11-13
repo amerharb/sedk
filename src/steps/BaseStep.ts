@@ -1,3 +1,4 @@
+import { BinderStore } from '../binder'
 import { FromItem } from './select-path/SelectFromStep'
 import { ItemInfo } from '../ItemInfo'
 import { ColumnLike } from './select-path/SelectStep'
@@ -15,15 +16,19 @@ export enum Parenthesis {
 
 export type Artifacts = { tables: ReadonlySet<Table>, columns: ReadonlySet<Column> }
 
-export abstract class BaseStep {
+export abstract class BaseStep extends Function {
 	public readonly rootStep: BaseStep
 	protected readonly data: BuilderData
+	protected readonly binderStore: BinderStore
+	protected readonly prefixSeparator: string = ' '
 
 	constructor(
 		public readonly prevStep: BaseStep|null,
 	) {
+		super()
 		this.rootStep = prevStep === null ? this : prevStep.rootStep
 		this.data = this.rootStep.data
+		this.binderStore = new BinderStore(prevStep?.getBindValues().length ?? 0)
 	}
 
 	public getSQL(): string {
@@ -49,12 +54,12 @@ export abstract class BaseStep {
 	}
 
 	protected getFullStatement(nextArtifacts: Artifacts): string {
-		let result = ''
+		let result: string = ''
 		const artifacts = this.mergeArtifacts(this.getFullArtifacts(), nextArtifacts)
 		if (this.prevStep !== null) {
 			const stmt = this.prevStep.getFullStatement(artifacts).trimRight()
 			if (stmt !== '') {
-				result += `${stmt} `
+				result += `${stmt}${this.prefixSeparator}`
 			}
 		}
 		result += this.getStepStatement(artifacts)
@@ -76,14 +81,26 @@ export abstract class BaseStep {
 
 	public abstract getStepStatement(artifacts: Artifacts): string
 
-	protected abstract getStepArtifacts(): Artifacts
+	public abstract getStepArtifacts(): Artifacts
+
+	private getStepStatementCalled = false
 
 	public getBindValues(): PrimitiveType[] {
-		return [...this.data.binderStore.getValues()]
+		// TODO: change the way we fill and call BinderStore
+		/** call getStepStmt one time before getBindValues, so binderStore filled with binders */
+		if (!this.getStepStatementCalled) {
+			this.getStepStatement({ tables: new Set(), columns: new Set() })
+			this.getStepStatementCalled = true
+		}
+		if (this.prevStep !== null) {
+			return [...this.prevStep.getBindValues(), ...this.binderStore.getValues()]
+		}
+		return [...this.binderStore.getValues()]
 	}
 
-	public cleanUp() {
-		this.data.binderStore.cleanUp()
+	/** @deprecated - Not needed since version 0.15.0 */
+	public cleanUp(): void {
+		// Do nothing
 	}
 
 	protected static getTable(item: FromItem): Table {

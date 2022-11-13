@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
+    "noEmit": false,
     "declaration": true,
-    "experimentalDecorators": true,
+    "experimentalDecorators": false,
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es6",
@@ -14,9 +15,9 @@
     "strictFunctionTypes": true,
     "removeComments": false,
     "paths": {
-      "src": ["./src"],
-      "Non-Exported/*": ["./src/*"],
-      "test/*": ["./test/*"],
+      "sedk-postgres": ["./src/index.ts"],
+      "@src/*": ["./src/*"],
+      "@test/*": ["./test/*"],
     },
   },
   "lib": [

@@ -1,5 +1,5 @@
-import * as sedk from 'src'
-import { database } from 'test/database'
+import * as sedk from 'sedk-postgres'
+import { database } from '@test/database'
 
 //Alias
 const AND = sedk.LogicalOperator.AND
@@ -13,7 +13,6 @@ const $ = sedk.$
 
 describe('DELETE Path', () => {
 	const sql = sedk.builder(database, { throwErrorIfDeleteHasNoCondition: false })
-	afterEach(() => { sql.cleanUp() })
 	describe('Basic delete all', () => {
 		it('Produces [DELETE FROM "table1"]', () => {
 			const actual = sql.deleteFrom(table1).getSQL()

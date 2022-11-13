@@ -1,5 +1,5 @@
-import { builder } from 'src'
-import { database } from 'test/database'
+import { builder } from 'sedk-postgres'
+import { database } from '@test/database'
 //Alias
 const table1 = database.s.public.t.table1
 const table1Col1 = database.s.public.t.table1.c.col1
@@ -9,7 +9,6 @@ const table2Col1 = database.s.public.t.table2.c.col1
 
 describe('test leftJoin step', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 	describe('basic left join', () => {
 		it('Produces [SELECT * FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1";]', () => {
 			const actual = sql
@@ -39,6 +38,18 @@ describe('test leftJoin step', () => {
 				.getSQL()
 
 			expect(actual).toEqual('SELECT * FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1" OR "table1"."col2" = "table2"."col2";')
+		})
+	})
+
+	describe('basic left join with alias', () => {
+		it('Produces [SELECT * FROM "table1" LEFT JOIN "table2" AS "t2" ON "table1"."col1" = "table2"."col1";]', () => {
+			const actual = sql
+				.selectAsteriskFrom(table1)
+				.leftJoin(table2.as('t2'))
+				.on(table1Col1.eq(table2.c.col1))
+				.getSQL()
+
+			expect(actual).toEqual('SELECT * FROM "table1" LEFT JOIN "table2" AS "t2" ON "table1"."col1" = "table2"."col1";')
 		})
 	})
 

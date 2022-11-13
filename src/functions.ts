@@ -33,20 +33,20 @@ export function e(left: TextLike, operator: ComparisonOperator, right: TextLike)
 export function e(left: OperandType, operator: Operator, right: OperandType): Expression
 export function e(left: OperandType|Binder, operator?: Operator, right?: OperandType|Binder): Expression {
 	const l = left instanceof Binder
-		? new Expression(left)
+		? Expression.getSimpleExp(left)
 		: left
 	if (operator !== undefined && right !== undefined) {
-		const r = right instanceof Binder ? new Expression(right) : right
+		const r = right instanceof Binder ? Expression.getSimpleExp(right) : right
 		if (
 			isComparisonOperator(operator)
 			&& l instanceof Expression
 			&& r instanceof Expression
 		) {
-			return new Condition(l, operator, r)
+			return new Condition({ leftExpression: l, operator, rightExpression: r })
 		}
-		return new Expression(l, operator, r)
+		return Expression.getComplexExp(l, operator, r)
 	} else {
-		return new Expression(l)
+		return Expression.getSimpleExp(l)
 	}
 }
 
@@ -56,6 +56,10 @@ export function o(alias: OrderByItem, direction?: OrderByDirection, nullsPositio
 
 export function $(value: PrimitiveType): Binder {
 	return new Binder(value)
+}
+
+export function NOT(condition: Condition): Condition {
+	return new Condition({ leftExpression: condition, notLeft: true })
 }
 
 export const f = {
@@ -82,7 +86,7 @@ export const f = {
 
 function aggregateFunction(functionName: AggregateFunctionEnum, column: Expression|NumberLike): AggregateFunction {
 	if (column instanceof NumberColumn || isNumber(column))
-		return new AggregateFunction(functionName, new Expression(column))
+		return new AggregateFunction(functionName, Expression.getSimpleExp(column))
 	else
 		return new AggregateFunction(functionName, column)
 }

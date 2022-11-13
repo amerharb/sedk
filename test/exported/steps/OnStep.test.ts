@@ -1,10 +1,10 @@
-import { builder } from 'src'
-import { database } from 'test/database'
+import { builder } from 'sedk-postgres'
+import { database } from '@test/database'
 /**
  * exceptional case where we import non-exported class in exported unit test
  *  as we are using it as type only
  */
-import { OnStep } from 'Non-Exported/steps'
+import { OnStep } from '@src/steps'
 
 //Alias
 const table1 = database.s.public.t.table1
@@ -24,7 +24,6 @@ describe('test on step', () => {
 			.join(table2)
 			.on(table1Col1.eq(table2.c.col1))
 	})
-	afterEach(() => { sql.cleanUp() })
 
 	describe('test getSQL() without binders', () => {
 		it('Produces [SELECT * FROM "table1" JOIN "table2" ON "table1"."col1" = "table2"."col1" CROSS JOIN "table3";]', () => {

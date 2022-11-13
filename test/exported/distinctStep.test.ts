@@ -2,8 +2,8 @@ import {
 	ALL,
 	DISTINCT,
 	builder,
-} from 'src'
-import { database } from 'test/database'
+} from 'sedk-postgres'
+import { database } from '@test/database'
 //Alias
 const table = database.s.public.t.table1
 const col1 = database.s.public.t.table1.c.col1
@@ -12,7 +12,6 @@ const col2 = database.s.public.t.table1.c.col2
 
 describe('test orderBy Step', () => {
 	const sql = builder(database)
-	afterEach(() => { sql.cleanUp() })
 
 	/* In Postgres it is allowed to have FROM directly
    after SELECT with or without ALL

@@ -18,9 +18,9 @@ export class TextColumn extends Column {
 	public isEq(value: null|string|TextColumn): Condition {
 		const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: qualifier,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
@@ -33,16 +33,16 @@ export class TextColumn extends Column {
 		} else if (value === null || value instanceof Default) {
 			return new UpdateSetItemInfo(this, value)
 		}
-		return new UpdateCondition(this, new Expression(value))
+		return new UpdateCondition(this, Expression.getSimpleExp(value))
 	}
 
 	public isEq$(value: null|string): Condition {
 		const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
 		const binder = new Binder(value)
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: qualifier,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 	}
 
@@ -51,17 +51,17 @@ export class TextColumn extends Column {
 	public eq$(value: string|null): UpdateCondition|UpdateSetItemInfo {
 		const binder = new Binder(value)
 		if (value === null) {
-			return new UpdateSetItemInfo(this, new Expression(binder))
+			return new UpdateSetItemInfo(this, Expression.getSimpleExp(binder))
 		}
-		return new UpdateCondition(this, new Expression(binder))
+		return new UpdateCondition(this, Expression.getSimpleExp(binder))
 	}
 
 	public isNe(value: null|string|TextColumn): Condition {
 		const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: qualifier,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
@@ -70,15 +70,15 @@ export class TextColumn extends Column {
 	public ne(value: string|TextColumn|Expression): Condition {
 		if (value instanceof Expression) {
 			return new Condition({
-				leftExpression: new Expression(this),
+				leftExpression: Expression.getSimpleExp(this),
 				operator: ComparisonOperator.NotEqual,
 				rightExpression: value,
 			})
 		}
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.NotEqual,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
@@ -86,23 +86,23 @@ export class TextColumn extends Column {
 		const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
 		const binder = new Binder(value)
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: qualifier,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 	}
 
 	public ne$(value: string): Condition {
 		const binder = new Binder(value)
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.NotEqual,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 	}
 
 	public concat(value: TextLike): Expression {
-		return new Expression(this, TextOperator.CONCAT, value)
+		return Expression.getComplexExp(this, TextOperator.CONCAT, value)
 	}
 
 	/** @deprecated - since v.0.15.0 use eq() */
@@ -118,9 +118,9 @@ export class TextColumn extends Column {
 	public in(...values: TextLike[]): Condition {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.In,
-			rightExpression: new Expression(values),
+			rightExpression: Expression.getSimpleExp(values),
 		})
 	}
 
@@ -128,18 +128,18 @@ export class TextColumn extends Column {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		const binderArray = new BinderArray(values.map(it => new Binder(it)))
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.In,
-			rightExpression: new Expression(binderArray),
+			rightExpression: Expression.getSimpleExp(binderArray),
 		})
 	}
 
 	public notIn(...values: TextLike[]): Condition {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.NotIn)
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.NotIn,
-			rightExpression: new Expression(values),
+			rightExpression: Expression.getSimpleExp(values),
 		})
 	}
 
@@ -147,9 +147,9 @@ export class TextColumn extends Column {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.NotIn)
 		const binderArray = new BinderArray(values.map(it => new Binder(it)))
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.NotIn,
-			rightExpression: new Expression(binderArray),
+			rightExpression: Expression.getSimpleExp(binderArray),
 		})
 	}
 }

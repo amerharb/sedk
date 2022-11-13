@@ -62,7 +62,7 @@ export class Condition implements Expression, IStatementGiver {
 		return new Condition({
 			leftExpression: this,
 			operator: ComparisonOperator.Equal,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
@@ -71,7 +71,7 @@ export class Condition implements Expression, IStatementGiver {
 		return new Condition({
 			leftExpression: this,
 			operator: ComparisonOperator.Equal,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 
 	}
@@ -80,7 +80,7 @@ export class Condition implements Expression, IStatementGiver {
 		return new Condition({
 			leftExpression: this,
 			operator: ComparisonOperator.NotEqual,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 
 	}
@@ -90,7 +90,7 @@ export class Condition implements Expression, IStatementGiver {
 		return new Condition({
 			leftExpression: this,
 			operator: ComparisonOperator.NotEqual,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 
 	}
@@ -100,7 +100,7 @@ export class Condition implements Expression, IStatementGiver {
 		return new Condition({
 			leftExpression: this,
 			operator: qualifier,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 
 	}
@@ -111,7 +111,7 @@ export class Condition implements Expression, IStatementGiver {
 		return new Condition({
 			leftExpression: this,
 			operator: qualifier,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 
 	}
@@ -121,7 +121,7 @@ export class Condition implements Expression, IStatementGiver {
 		return new Condition({
 			leftExpression: this,
 			operator: qualifier,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 
 	}
@@ -132,7 +132,7 @@ export class Condition implements Expression, IStatementGiver {
 		return new Condition({
 			leftExpression: this,
 			operator: qualifier,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 
 	}
@@ -212,7 +212,7 @@ export class UpdateCondition extends Condition implements UpdateSetItemInfo {
 
 	public constructor(column: BooleanColumn|NumberColumn|TextColumn|DateColumn, rightExpression: Expression) {
 		super({
-			leftExpression: new Expression(column),
+			leftExpression: Expression.getSimpleExp(column),
 			operator: ComparisonOperator.Equal,
 			rightExpression,
 		})

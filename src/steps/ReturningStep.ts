@@ -49,7 +49,7 @@ export class ReturningStep extends BaseStep {
 			} else if (it instanceof ItemInfo) { // not possible as long as ItemInfo is an abstract class
 				throw new Error('ItemInfo is an abstract class')
 			} else { //it from here is a PrimitiveType
-				return new ReturningItemInfo(new Expression(it), undefined)
+				return new ReturningItemInfo(Expression.getSimpleExp(it), undefined)
 			}
 		})
 		this.throwIfColumnsNotInDb(returningItemInfo)

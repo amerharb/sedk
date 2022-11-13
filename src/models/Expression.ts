@@ -38,34 +38,31 @@ export enum ExpressionType {
 	ARRAY
 }
 
+type ExpressionConstruction = {
+	left: OperandType|Binder|OperandType[]|BinderArray
+	operator?: Operator
+	right?: OperandType
+	notLeft?: boolean
+	notRight?: boolean
+}
+
 export class Expression implements IStatementGiver {
 	public readonly leftOperand: Operand
 	public readonly operator?: Operator
 	public readonly rightOperand?: Operand
 	public readonly type: ExpressionType
 
-	constructor(binder: Binder)
-	constructor(binders: BinderArray)
-	constructor(leftOperandType: OperandType[])
-	constructor(leftOperandType: OperandType)
-	constructor(leftOperandType: OperandType, notLeft: boolean)
-	constructor(leftOperandType: OperandType, operator: Operator, rightOperandType: OperandType)
-	constructor(leftOperandType: OperandType, operator: Operator, rightOperandType: OperandType, notLeft: boolean, notRight: boolean)
-	constructor(leftOperandType: OperandType|Binder|OperandType[]|BinderArray, operatorOrNotLeft?: boolean|Operator, rightOperandType?: OperandType, notLeft?: boolean, notRight?: boolean) {
-		if (typeof operatorOrNotLeft === 'boolean') {
-			this.leftOperand = new Operand(leftOperandType, operatorOrNotLeft)
-			this.operator = undefined
-		} else {
-			this.leftOperand = new Operand(leftOperandType, notLeft)
-			this.operator = operatorOrNotLeft
-		}
-
-		this.rightOperand = rightOperandType !== undefined ? new Operand(rightOperandType, notRight) : undefined
+	constructor(con: ExpressionConstruction) {
+		this.leftOperand = new Operand(con.left, con.notLeft)
+		this.operator = con.operator
+		this.rightOperand = con.right !== undefined
+			? new Operand(con.right, con.notRight)
+			: undefined
 
 		if (this.rightOperand === undefined || this.rightOperand.type === ExpressionType.NOT_EXIST) {
 			this.type = this.leftOperand.type
-		} else if (typeof operatorOrNotLeft !== 'boolean' && operatorOrNotLeft !== undefined) {
-			this.type = Expression.getResultExpressionType(this.leftOperand, operatorOrNotLeft, this.rightOperand)
+		} else if (con.operator !== undefined) {
+			this.type = Expression.getResultExpressionType(this.leftOperand, con.operator, this.rightOperand)
 		} else {
 			throw new Error('Error while calculate Expression Type, failed to create object Expression')
 		}
@@ -86,7 +83,7 @@ export class Expression implements IStatementGiver {
 		return new Condition({
 			leftExpression: this,
 			operator: ComparisonOperator.Equal,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
@@ -95,7 +92,7 @@ export class Expression implements IStatementGiver {
 		return new Condition({
 			leftExpression: this,
 			operator: ComparisonOperator.Equal,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 	}
 
@@ -103,7 +100,7 @@ export class Expression implements IStatementGiver {
 		return new Condition({
 			leftExpression: this,
 			operator: ComparisonOperator.NotEqual,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
@@ -112,7 +109,7 @@ export class Expression implements IStatementGiver {
 		return new Condition({
 			leftExpression: this,
 			operator: ComparisonOperator.NotEqual,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 	}
 
@@ -121,7 +118,7 @@ export class Expression implements IStatementGiver {
 		return new Condition({
 			leftExpression: this,
 			operator: qualifier,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
@@ -131,7 +128,7 @@ export class Expression implements IStatementGiver {
 		return new Condition({
 			leftExpression: this,
 			operator: qualifier,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 	}
 
@@ -140,7 +137,7 @@ export class Expression implements IStatementGiver {
 		return new Condition({
 			leftExpression: this,
 			operator: qualifier,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
@@ -150,7 +147,7 @@ export class Expression implements IStatementGiver {
 		return new Condition({
 			leftExpression: this,
 			operator: qualifier,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 	}
 
@@ -170,6 +167,18 @@ export class Expression implements IStatementGiver {
 			columns.push(...right.getColumns())
 
 		return columns
+	}
+
+	public static getSimpleExp(left: OperandType|Binder|OperandType[]|BinderArray, notLeft?: boolean): Expression {
+		return new Expression({ left, notLeft })
+	}
+
+	public static getComplexExp(
+		left: OperandType|Binder|OperandType[]|BinderArray,
+		operator: Operator,
+		right: OperandType,
+	): Expression {
+		return new Expression({ left, operator, right })
 	}
 
 	private static getResultExpressionType(left: Operand, operator: Operator, right: Operand): ExpressionType {

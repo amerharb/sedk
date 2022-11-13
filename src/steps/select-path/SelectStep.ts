@@ -71,7 +71,7 @@ export class SelectStep extends BaseStep {
 				}
 				return new SelectItemInfo(it, undefined)
 			} else {
-				return new SelectItemInfo(new Expression(it), undefined)
+				return new SelectItemInfo(Expression.getSimpleExp(it), undefined)
 			}
 		})
 		this.throwIfColumnsNotInDb(selectItemInfos)

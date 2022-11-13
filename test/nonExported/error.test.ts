@@ -26,7 +26,7 @@ describe('Throw desired Errors', () => {
 			function actual() {
 				sql
 					.selectAsteriskFrom(table1)
-					.where(new Condition({ leftExpression: new Expression(1) }))
+					.where(new Condition({ leftExpression: Expression.getSimpleExp(1) }))
 					.getSQL()
 			}
 

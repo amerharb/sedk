@@ -34,97 +34,97 @@ export class AggregateFunction implements IStatementGiver {
 
 	public eq(value: number): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.Equal,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
 	public eq$(value: number): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.Equal,
-			rightExpression: new Expression(new Binder(value)),
+			rightExpression: Expression.getSimpleExp(new Binder(value)),
 		})
 	}
 
 	public ne(value: number): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.NotEqual,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
 	public ne$(value: number): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.NotEqual,
-			rightExpression: new Expression(new Binder(value)),
+			rightExpression: Expression.getSimpleExp(new Binder(value)),
 		})
 	}
 
 	public gt(value: number): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.GreaterThan,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
 	public gt$(value: number): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.GreaterThan,
-			rightExpression: new Expression(new Binder(value)),
+			rightExpression: Expression.getSimpleExp(new Binder(value)),
 		})
 	}
 
 	public ge(value: number): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.GreaterOrEqual,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
 	public ge$(value: number): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.GreaterOrEqual,
-			rightExpression: new Expression(new Binder(value)),
+			rightExpression: Expression.getSimpleExp(new Binder(value)),
 		})
 	}
 
 	public lt(value: number): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.LesserThan,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
 	public lt$(value: number): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.LesserThan,
-			rightExpression: new Expression(new Binder(value)),
+			rightExpression: Expression.getSimpleExp(new Binder(value)),
 		})
 	}
 
 	public le(value: number): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.LesserOrEqual,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
 	public le$(value: number): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.LesserOrEqual,
-			rightExpression: new Expression(new Binder(value)),
+			rightExpression: Expression.getSimpleExp(new Binder(value)),
 		})
 	}
 

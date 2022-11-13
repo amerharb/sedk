@@ -18,9 +18,9 @@ export class DateColumn extends Column {
 	public isEq(value: null|DateLike): Condition {
 		const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: qualifier,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
@@ -30,16 +30,16 @@ export class DateColumn extends Column {
 		if (value === null || value instanceof Default) {
 			return new UpdateSetItemInfo(this, value)
 		}
-		return new UpdateCondition(this, new Expression(value))
+		return new UpdateCondition(this, Expression.getSimpleExp(value))
 	}
 
 	public isEq$(value: null|Date): Condition {
 		const qualifier = value === null ? NullOperator.Is : ComparisonOperator.Equal
 		const binder = new Binder(value)
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: qualifier,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 	}
 
@@ -48,25 +48,25 @@ export class DateColumn extends Column {
 	public eq$(value: Date|null): UpdateCondition|UpdateSetItemInfo {
 		const binder = new Binder(value)
 		if (value === null) {
-			return new UpdateSetItemInfo(this, new Expression(binder))
+			return new UpdateSetItemInfo(this, Expression.getSimpleExp(binder))
 		}
-		return new UpdateCondition(this, new Expression(binder))
+		return new UpdateCondition(this, Expression.getSimpleExp(binder))
 	}
 
 	public isNe(value: null|DateLike): Condition {
 		const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: qualifier,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
 	public ne(value: DateLike): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.NotEqual,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
@@ -74,86 +74,86 @@ export class DateColumn extends Column {
 		const qualifier = value === null ? NullOperator.IsNot : ComparisonOperator.NotEqual
 		const binder = new Binder(value)
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: qualifier,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 	}
 
 	public ne$(value: Date): Condition {
 		const binder = new Binder(value)
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.NotEqual,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 	}
 
 	public gt(value: DateLike): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.GreaterThan,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
 	public gt$(value: Date): Condition {
 		const binder = new Binder(value)
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.GreaterThan,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 	}
 
 	public ge(value: DateLike): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.GreaterOrEqual,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
 	public ge$(value: Date): Condition {
 		const binder = new Binder(value)
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.GreaterOrEqual,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 	}
 
 	public lt(value: DateLike): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.LesserThan,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
 	public lt$(value: Date): Condition {
 		const binder = new Binder(value)
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.LesserThan,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 	}
 
 	public le(value: DateLike): Condition {
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.LesserOrEqual,
-			rightExpression: new Expression(value),
+			rightExpression: Expression.getSimpleExp(value),
 		})
 	}
 
 	public le$(value: Date): Condition {
 		const binder = new Binder(value)
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.LesserOrEqual,
-			rightExpression: new Expression(binder),
+			rightExpression: Expression.getSimpleExp(binder),
 		})
 	}
 
@@ -170,9 +170,9 @@ export class DateColumn extends Column {
 	public in(...values: DateLike[]): Condition {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.In,
-			rightExpression: new Expression(values),
+			rightExpression: Expression.getSimpleExp(values),
 		})
 	}
 
@@ -180,18 +180,18 @@ export class DateColumn extends Column {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		const binderArray = new BinderArray(values.map(it => new Binder(it)))
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.In,
-			rightExpression: new Expression(binderArray),
+			rightExpression: Expression.getSimpleExp(binderArray),
 		})
 	}
 
 	public notIn(...values: DateLike[]): Condition {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.NotIn)
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.NotIn,
-			rightExpression: new Expression(values),
+			rightExpression: Expression.getSimpleExp(values),
 		})
 	}
 
@@ -199,9 +199,9 @@ export class DateColumn extends Column {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.NotIn)
 		const binderArray = new BinderArray(values.map(it => new Binder(it)))
 		return new Condition({
-			leftExpression: new Expression(this),
+			leftExpression: Expression.getSimpleExp(this),
 			operator: ComparisonOperator.NotIn,
-			rightExpression: new Expression(binderArray),
+			rightExpression: Expression.getSimpleExp(binderArray),
 		})
 	}
 }

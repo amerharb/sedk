@@ -32,9 +32,16 @@ export abstract class IntoStep extends BaseStep {
 	}
 
 	private throwForInvalidExpressionsNumber(items: (SelectItemInfo|SelectItem|PrimitiveType)[]) {
-		// TODO: in case columnCount = 0 we should check number of column in schema
 		const columnsCount = this.getStepArtifacts().columns.size
-		if (columnsCount > 0 && columnsCount !== items.length) {
+		if (columnsCount === 0) {
+			const tables = Array.from(this.getStepArtifacts().tables) // it contains only one table or empty
+			if (tables.length > 0) {
+				const tableColumnCount = tables[0].getColumns().length
+				if (items.length !== tableColumnCount) {
+					throw new InsertColumnsAndExpressionsNotEqualError(tableColumnCount, items.length)
+				}
+			}
+		} else if (items.length !== columnsCount) {
 			throw new InsertColumnsAndExpressionsNotEqualError(columnsCount, items.length)
 		}
 	}
@@ -68,6 +75,7 @@ export class IntoTableStep extends IntoStep {
 
 export class IntoColumnsStep extends IntoStep {
 	override prefixSeparator = ''
+
 	constructor(
 		prevStep: BaseStep,
 		private readonly columns: Column[],

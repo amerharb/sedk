@@ -36,6 +36,7 @@ const col1 = table1.c.col1
 const col2 = table1.c.col2
 const col3 = table1.c.col3
 const col4 = table1.c.col4
+const table2 = database.s.public.t.table2
 
 describe('Throw desired Errors', () => {
 	const sql = builder(database)
@@ -300,6 +301,34 @@ describe('Throw desired Errors', () => {
 			}
 
 			expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+		})
+		it(`won't throw for expressions equal columns`, () => {
+			function actual() {
+				sql.insertInto(table2)(col1, col2).select('A', 'B')
+			}
+
+			expect(actual).not.toThrow(InsertColumnsAndExpressionsNotEqualError)
+		})
+		it(`expressions more than columns (table only)`, () => {
+			function actual() {
+				sql.insertInto(table2).select('A', 'B', 'C')
+			}
+
+			expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+		})
+		it(`expressions less than columns (table only)`, () => {
+			function actual() {
+				sql.insertInto(table2).select('A')
+			}
+
+			expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+		})
+		it(`won't throw for expressions equal columns (table only)`, () => {
+			function actual() {
+				sql.insertInto(table2).select('A', 'B')
+			}
+
+			expect(actual).not.toThrow(InsertColumnsAndExpressionsNotEqualError)
 		})
 	})
 	describe('Error: EmptyArrayError', () => {

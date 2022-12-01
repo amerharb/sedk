@@ -320,7 +320,7 @@ describe('Throw desired Errors', () => {
 		})
 	})
 	describe('Error: InsertColumnsAndExpressionsNotEqualError', () => {
-		describe('Table and columns', () => {
+		describe('Table and columns one step', () => {
 			it(`columns more than expressions`, () => {
 				function actual() {
 					sql.insertInto(table1, col1, col2).select('A')
@@ -331,6 +331,29 @@ describe('Throw desired Errors', () => {
 			it(`expressions more than columns`, () => {
 				function actual() {
 					sql.insertInto(table1, col1, col2).select('A', 'B', 'C')
+				}
+
+				expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+			})
+			it(`won't throw for expressions equal columns`, () => {
+				function actual() {
+					sql.insertInto(table2, col1, col2).select('A', 'B')
+				}
+
+				expect(actual).not.toThrow(InsertColumnsAndExpressionsNotEqualError)
+			})
+		})
+		describe('Table and columns two steps', () => {
+			it(`columns more than expressions`, () => {
+				function actual() {
+					sql.insertInto(table1)(col1, col2).select('A')
+				}
+
+				expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+			})
+			it(`expressions more than columns`, () => {
+				function actual() {
+					sql.insertInto(table1)(col1, col2).select('A', 'B', 'C')
 				}
 
 				expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)

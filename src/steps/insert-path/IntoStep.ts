@@ -24,6 +24,7 @@ export abstract class IntoStep extends BaseStep {
 
 	public select(...items: (SelectItemInfo|SelectItem|PrimitiveType)[]): SelectStep {
 		// TODO: consider adding DISTINCT and ALL to items without effecting matching number of values
+		// TODO: consider adding ASTERISK and Table Asterisk to items without throwing error if matching column number
 		if (items.length === 0) {
 			throw new Error('Invalid empty SELECT step')
 		}

@@ -318,6 +318,29 @@ describe('Throw desired Errors', () => {
 				expect(actual).not.toThrow(InsertColumnsAndValuesNotEqualError)
 			})
 		})
+		describe('Table only', () => {
+			it(`columns more than values`, () => {
+				function actual() {
+					sql.insertInto(table2).values('A')
+				}
+
+				expect(actual).toThrow(InsertColumnsAndValuesNotEqualError)
+			})
+			it(`values more than columns`, () => {
+				function actual() {
+					sql.insertInto(table2).values('A', 'B', 'C')
+				}
+
+				expect(actual).toThrow(InsertColumnsAndValuesNotEqualError)
+			})
+			it(`won't throw when values equal columns`, () => {
+				function actual() {
+					sql.insertInto(table2).values('A', 'B')
+				}
+
+				expect(actual).not.toThrow(InsertColumnsAndValuesNotEqualError)
+			})
+		})
 	})
 	describe('Error: InsertColumnsAndExpressionsNotEqualError', () => {
 		describe('Table and columns one step', () => {

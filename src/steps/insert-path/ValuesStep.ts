@@ -1,4 +1,4 @@
-import { InsertColumnsAndValuesNotEqualError } from '../../errors'
+import { InsertColumnsAndExpressionsNotEqualError, InsertColumnsAndValuesNotEqualError } from '../../errors'
 import { Binder, BinderStore } from '../../binder'
 import { Default } from '../../singletoneConstants'
 import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString } from '../../util'
@@ -29,8 +29,15 @@ export class ValuesStep extends BaseStep {
 		prevStep: BaseStep,
 	) {
 		const columnsCount = prevStep.getStepArtifacts().columns.size
-		// TODO: in case columnCount = 0 we should check number of column in schema
-		if (columnsCount > 0 && columnsCount !== values.length) {
+		if (columnsCount === 0) {
+			const tables = Array.from(prevStep.getStepArtifacts().tables) // it contains only one table or empty
+			if (tables.length > 0) {
+				const tableColumnCount = tables[0].getColumns().length
+				if (values.length !== tableColumnCount) {
+					throw new InsertColumnsAndValuesNotEqualError(tableColumnCount, values.length)
+				}
+			}
+		} else if (values.length !== columnsCount) {
 			throw new InsertColumnsAndValuesNotEqualError(columnsCount, values.length)
 		}
 	}

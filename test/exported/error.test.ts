@@ -341,6 +341,29 @@ describe('Throw desired Errors', () => {
 				expect(actual).not.toThrow(InsertColumnsAndValuesNotEqualError)
 			})
 		})
+		describe('Table only two steps', () => {
+			it(`throw when columns more than values`, () => {
+				function actual() {
+					sql.insertInto(table2)().values('A')
+				}
+
+				expect(actual).toThrow('IntoColumnsStep must have at least one column')
+			})
+			it(`throw when values more than columns`, () => {
+				function actual() {
+					sql.insertInto(table2)().values('A', 'B', 'C')
+				}
+
+				expect(actual).toThrow('IntoColumnsStep must have at least one column')
+			})
+			it(`throw when values equal columns`, () => {
+				function actual() {
+					sql.insertInto(table2)().values('A', 'B')
+				}
+
+				expect(actual).toThrow('IntoColumnsStep must have at least one column')
+			})
+		})
 	})
 	describe('Error: InsertColumnsAndExpressionsNotEqualError', () => {
 		describe('Table and columns one step', () => {
@@ -410,6 +433,29 @@ describe('Throw desired Errors', () => {
 				}
 
 				expect(actual).not.toThrow(InsertColumnsAndExpressionsNotEqualError)
+			})
+		})
+		describe('Table only two steps', () => {
+			it(`throws for expressions more than columns`, () => {
+				function actual() {
+					sql.insertInto(table2)().select('A', 'B', 'C')
+				}
+
+				expect(actual).toThrow('IntoColumnsStep must have at least one column')
+			})
+			it(`throws for expressions less than columns`, () => {
+				function actual() {
+					sql.insertInto(table2)().select('A')
+				}
+
+				expect(actual).toThrow('IntoColumnsStep must have at least one column')
+			})
+			it(`throws for expressions equal columns`, () => {
+				function actual() {
+					sql.insertInto(table2)().select('A', 'B')
+				}
+
+				expect(actual).toThrow('IntoColumnsStep must have at least one column')
 			})
 		})
 	})
@@ -485,19 +531,20 @@ describe('Throw desired Errors', () => {
 
 		function actual() {
 			// @ts-ignore
-			sql.insertInto(table1).values(value).getSQL()
+			sql.insertInto(table1, col1).values(value).getSQL()
 		}
 
 		expect(actual).toThrow(`Value step has Unsupported value: ${value}, type: ${typeof value}`)
 	})
-	it(`throws "VALUES step must have at least one value"`, () => {
+	it(`Throws "VALUES step must have at least one value"`, () => {
 		function actual() {
+			// @ts-ignore
 			sql.insertInto(table1).values()
 		}
 
-		expect(actual).toThrow(`VALUES step must have at least one value`)
+		expect(actual).toThrow(`ValuesStep step must have at least one value`)
 	})
-	it(`throws "Invalid empty SELECT step" for empty select step`, () => {
+	it(`Throws "Invalid empty SELECT step" for empty select step`, () => {
 		function actual() {
 			sql.insertInto(table1).select().getSQL()
 		}

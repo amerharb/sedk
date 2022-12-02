@@ -10,10 +10,12 @@ import { Default } from '../../singletoneConstants'
 import { ValuesStep } from './ValuesStep'
 
 export abstract class IntoStep extends BaseStep {
+	public values(value: (PrimitiveType|Binder|Default), ...values: (PrimitiveType|Binder|Default)[]): ValuesStep
 	public values(...values: (PrimitiveType|Binder|Default)[]): ValuesStep {
 		return new ValuesStep(this, values)
 	}
 
+	public values$(value: PrimitiveType, ...values: PrimitiveType[]): ValuesStep
 	public values$(...values: PrimitiveType[]): ValuesStep {
 		return new ValuesStep(this, values.map(it => new Binder(it)))
 	}
@@ -33,17 +35,25 @@ export abstract class IntoStep extends BaseStep {
 	}
 
 	private throwForInvalidExpressionsNumber(items: (SelectItemInfo|SelectItem|PrimitiveType)[]) {
-		const columnsCount = this.getStepArtifacts().columns.size
-		if (columnsCount === 0) {
-			const tables = Array.from(this.getStepArtifacts().tables) // it contains only one table or empty
-			if (tables.length > 0) {
+		if (this instanceof IntoTableStep) {
+			const tables = Array.from(this.getStepArtifacts().tables)
+			if (tables.length === 1) {
 				const tableColumnCount = tables[0].getColumns().length
 				if (items.length !== tableColumnCount) {
 					throw new InsertColumnsAndExpressionsNotEqualError(tableColumnCount, items.length)
 				}
+			} else {
+				throw new Error('Invalid number of tables, IntoStep can have only one table')
 			}
-		} else if (items.length !== columnsCount) {
-			throw new InsertColumnsAndExpressionsNotEqualError(columnsCount, items.length)
+		} else if (this instanceof IntoColumnsStep) {
+			const columnsCount = this.getStepArtifacts().columns.size
+			if (columnsCount === 0) {
+				throw new Error('IntoColumnsStep must have at least one column')
+			} else if (items.length !== columnsCount) {
+				throw new InsertColumnsAndExpressionsNotEqualError(columnsCount, items.length)
+			}
+		} else {
+			throw new Error('Unsupported IntoStep type')
 		}
 	}
 }
@@ -57,7 +67,7 @@ export class IntoTableStep extends IntoStep {
 		this.throwIfTableNotInDb(table)
 		return new Proxy(
 			this,
-			{ apply: (target, thisArg, args) => target.selfCall(...args) },
+			{ apply: (target: this, thisArg, args: Column[]) => target.selfCall(...args) },
 		)
 	}
 

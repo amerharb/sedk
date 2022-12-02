@@ -1,4 +1,5 @@
-import { InsertColumnsAndExpressionsNotEqualError, InsertColumnsAndValuesNotEqualError } from '../../errors'
+import { IntoColumnsStep, IntoTableStep } from '../../steps'
+import { InsertColumnsAndValuesNotEqualError } from '../../errors'
 import { Binder, BinderStore } from '../../binder'
 import { Default } from '../../singletoneConstants'
 import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString } from '../../util'
@@ -14,13 +15,13 @@ export class ValuesStep extends BaseStep {
 		protected readonly values: (PrimitiveType|Binder|Default)[],
 	) {
 		super(prevStep)
-		ValuesStep.throwForInvalidValuesNumber(values, prevStep)
 		if (values.length === 0) {
-			throw new Error('VALUES step must have at least one value')
+			throw new Error('ValuesStep step must have at least one value')
 		}
+		ValuesStep.throwForInvalidValuesNumber(values, prevStep)
 		return new Proxy(
 			this,
-			{ apply: (target, thisArg, args) => target.selfCall(...args) },
+			{ apply: (target: this, thisArg, args: (PrimitiveType|Binder|Default)[]) => target.selfCall(...args) },
 		)
 	}
 
@@ -28,17 +29,32 @@ export class ValuesStep extends BaseStep {
 		values: (PrimitiveType|Binder|Default)[],
 		prevStep: BaseStep,
 	) {
-		const columnsCount = prevStep.getStepArtifacts().columns.size
-		if (columnsCount === 0) {
-			const tables = Array.from(prevStep.getStepArtifacts().tables) // it contains only one table or empty
-			if (tables.length > 0) {
+		if (prevStep instanceof IntoTableStep) {
+			const tables = Array.from(prevStep.getStepArtifacts().tables)
+			if (tables.length === 1) {
 				const tableColumnCount = tables[0].getColumns().length
 				if (values.length !== tableColumnCount) {
 					throw new InsertColumnsAndValuesNotEqualError(tableColumnCount, values.length)
 				}
+			} else {
+				throw new Error('Invalid number of tables, IntoStep can have only one table')
 			}
-		} else if (values.length !== columnsCount) {
-			throw new InsertColumnsAndValuesNotEqualError(columnsCount, values.length)
+		} else if (prevStep instanceof IntoColumnsStep) {
+			const columnsCount = prevStep.getStepArtifacts().columns.size
+			if (columnsCount === 0) {
+				throw new Error('IntoColumnsStep must have at least one column')
+			} else if (values.length !== columnsCount) {
+				throw new InsertColumnsAndValuesNotEqualError(columnsCount, values.length)
+			}
+		} else if (prevStep instanceof ValuesStep || prevStep instanceof MoreValuesStep) {
+			const valueCount = prevStep.values.length
+			if (valueCount === 0) {
+				throw new Error('ValuesStep and MoreValuesStep must have at least one value')
+			} else if (values.length !== valueCount) {
+				throw new InsertColumnsAndValuesNotEqualError(valueCount, values.length)
+			}
+		} else {
+			throw new Error('Invalid previous step')
 		}
 	}
 

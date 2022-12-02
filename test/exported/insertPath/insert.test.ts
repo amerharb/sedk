@@ -14,6 +14,7 @@ const col9 = table1.c.col9
 const table2 = database.s.public.t.table2
 const T2col1 = table2.c.col1
 const T2col2 = table2.c.col2
+const table3 = database.s.public.t.table3
 
 const $ = sedk.$
 
@@ -146,6 +147,15 @@ describe('INSERT Path', () => {
 				.getSQL()
 
 			expect(actual).toEqual(`INSERT INTO "table1"("col1") SELECT 'A';`)
+		})
+		it.skip(`Produces [INSERT INTO "table2" SELECT * FROM "table3";]`, () => { //TODO: support this case
+			const actual = sql
+				.insertInto(table2)
+				.select(ASTERISK)
+				.from(table3)
+				.getSQL()
+
+			expect(actual).toEqual(`INSERT INTO "table2" SELECT * FROM "table3";`)
 		})
 		it(`Produces [INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2";]`, () => {
 			const actual = sql

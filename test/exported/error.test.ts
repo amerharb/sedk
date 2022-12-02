@@ -37,6 +37,7 @@ const col2 = table1.c.col2
 const col3 = table1.c.col3
 const col4 = table1.c.col4
 const table2 = database.s.public.t.table2
+const table3 = database.s.public.t.table3
 
 describe('Throw desired Errors', () => {
 	const sql = builder(database)
@@ -400,6 +401,16 @@ describe('Throw desired Errors', () => {
 			it(`expressions more than columns`, () => {
 				function actual() {
 					sql.insertInto(table1)(col1, col2).select('A', 'B', 'C')
+				}
+
+				expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+			})
+			it.skip(`Throw error when number of columns and Asterisk not match number`, () => { //TODO: support this case
+				function actual() {
+					sql
+						.insertInto(table2)(col1)
+						.select(ASTERISK)
+						.from(table3)
 				}
 
 				expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)

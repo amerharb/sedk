@@ -40,7 +40,7 @@ export abstract class IntoStep extends BaseStep {
 export class IntoTableStep extends IntoStep {
 	constructor(
 		prevStep: BaseStep,
-		private readonly table: Table,
+		public readonly table: Table,
 	) {
 		super(prevStep)
 		this.throwIfTableNotInDb(table)
@@ -75,7 +75,7 @@ export class IntoColumnsStep extends IntoStep {
 
 	constructor(
 		prevStep: BaseStep,
-		private readonly columns: Column[],
+		public readonly columns: Column[],
 	) {
 		super(prevStep)
 	}

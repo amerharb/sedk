@@ -26,4 +26,9 @@ describe('ValuesStep', () => {
 		const actual = new ValuesStep(intoStep, [DEFAULT]).getStepStatement()
 		expect(actual).toEqual(`VALUES(DEFAULT)`)
 	})
+	it(`throws: "Invalid previous step"`, () => {
+		// @ts-ignore
+		const actual = () => new ValuesStep(rootStep, [DEFAULT]).getStepStatement()
+		expect(actual).toThrow('Invalid previous step')
+	})
 })

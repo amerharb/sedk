@@ -1,4 +1,4 @@
-import { IntoColumnsStep, IntoTableStep } from '../../steps'
+import { IntoColumnsStep, IntoStep, IntoTableStep } from '../../steps'
 import { InsertColumnsAndValuesNotEqualError } from '../../errors'
 import { Binder, BinderStore } from '../../binder'
 import { Default } from '../../singletoneConstants'
@@ -11,7 +11,7 @@ import { ReturningStep } from '../ReturningStep'
 
 export class ValuesStep extends BaseStep {
 	constructor(
-		prevStep: BaseStep,
+		prevStep: IntoStep|ValuesStep,
 		protected readonly values: (PrimitiveType|Binder|Default)[],
 	) {
 		super(prevStep)
@@ -27,26 +27,21 @@ export class ValuesStep extends BaseStep {
 
 	private static throwForInvalidValuesNumber(
 		values: (PrimitiveType|Binder|Default)[],
-		prevStep: BaseStep,
+		prevStep: IntoStep|ValuesStep,
 	) {
 		if (prevStep instanceof IntoTableStep) {
-			const tables = Array.from(prevStep.getStepArtifacts().tables)
-			if (tables.length === 1) {
-				const tableColumnCount = tables[0].getColumns().length
-				if (values.length !== tableColumnCount) {
-					throw new InsertColumnsAndValuesNotEqualError(tableColumnCount, values.length)
-				}
-			} else {
-				throw new Error('Invalid number of tables, IntoStep can have only one table')
+			const tableColumnCount = prevStep.table.getColumns().length
+			if (values.length !== tableColumnCount) {
+				throw new InsertColumnsAndValuesNotEqualError(tableColumnCount, values.length)
 			}
 		} else if (prevStep instanceof IntoColumnsStep) {
-			const columnsCount = prevStep.getStepArtifacts().columns.size
+			const columnsCount = prevStep.columns.length
 			if (columnsCount === 0) {
 				throw new Error('IntoColumnsStep must have at least one column')
 			} else if (values.length !== columnsCount) {
 				throw new InsertColumnsAndValuesNotEqualError(columnsCount, values.length)
 			}
-		} else if (prevStep instanceof ValuesStep || prevStep instanceof MoreValuesStep) {
+		} else if (prevStep instanceof ValuesStep) {
 			const valueCount = prevStep.values.length
 			if (valueCount === 0) {
 				throw new Error('ValuesStep and MoreValuesStep must have at least one value')
@@ -78,6 +73,13 @@ export class ValuesStep extends BaseStep {
 
 export class MoreValuesStep extends ValuesStep {
 	override readonly prefixSeparator = ''
+
+	constructor(
+		prevStep: ValuesStep,
+		values: (PrimitiveType|Binder|Default)[],
+	) {
+		super(prevStep, values)
+	}
 
 	override getStepStatement(): string {
 		const valueStringArray = getValueStringArray(this.values, this.binderStore)

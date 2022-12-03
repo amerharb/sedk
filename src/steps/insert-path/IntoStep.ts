@@ -1,3 +1,4 @@
+import { getMinOneArray } from '../../util'
 import { Column, Table } from '../../database'
 import { Artifacts, BaseStep } from '../BaseStep'
 import { PrimitiveType } from '../../models'
@@ -12,12 +13,12 @@ import { ValuesStep } from './ValuesStep'
 export abstract class IntoStep extends BaseStep {
 	public values(value: (PrimitiveType|Binder|Default), ...values: (PrimitiveType|Binder|Default)[]): ValuesStep
 	public values(...values: (PrimitiveType|Binder|Default)[]): ValuesStep {
-		return new ValuesStep(this, values)
+		return new ValuesStep(this, getMinOneArray(values))
 	}
 
 	public values$(value: PrimitiveType, ...values: PrimitiveType[]): ValuesStep
 	public values$(...values: PrimitiveType[]): ValuesStep {
-		return new ValuesStep(this, values.map(it => new Binder(it)))
+		return new ValuesStep(this, getMinOneArray(values.map(it => new Binder(it))))
 	}
 
 	public defaultValues(): DefaultValuesStep {

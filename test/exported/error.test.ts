@@ -574,7 +574,7 @@ describe('Throw desired Errors', () => {
 			sql.insertInto(table1).values()
 		}
 
-		expect(actual).toThrow(`ValuesStep step must have at least one value`)
+		expect(actual).toThrow(`Array must have at least one element`)
 	})
 	it(`Throws "Invalid empty SELECT step" for empty select step`, () => {
 		function actual() {

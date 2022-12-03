@@ -12,7 +12,7 @@ import { ReturningStep } from '../ReturningStep'
 export class ValuesStep extends BaseStep {
 	constructor(
 		prevStep: IntoStep|ValuesStep,
-		protected readonly values: (PrimitiveType|Binder|Default)[],
+		protected readonly values: [(PrimitiveType|Binder|Default), ...(PrimitiveType|Binder|Default)[]],
 	) {
 		super(prevStep)
 		if (values.length === 0) {
@@ -21,7 +21,7 @@ export class ValuesStep extends BaseStep {
 		ValuesStep.throwForInvalidValuesNumber(values, prevStep)
 		return new Proxy(
 			this,
-			{ apply: (target: this, thisArg, args: (PrimitiveType|Binder|Default)[]) => target.selfCall(...args) },
+			{ apply: (target: this, thisArg, args: [(PrimitiveType|Binder|Default), ...(PrimitiveType|Binder|Default)[]]) => target.selfCall(...args) },
 		)
 	}
 
@@ -43,9 +43,7 @@ export class ValuesStep extends BaseStep {
 			}
 		} else if (prevStep instanceof ValuesStep) {
 			const valueCount = prevStep.values.length
-			if (valueCount === 0) {
-				throw new Error('ValuesStep and MoreValuesStep must have at least one value')
-			} else if (values.length !== valueCount) {
+			if (values.length !== valueCount) {
 				throw new InsertColumnsAndValuesNotEqualError(valueCount, values.length)
 			}
 		} else {
@@ -53,7 +51,7 @@ export class ValuesStep extends BaseStep {
 		}
 	}
 
-	private selfCall(...values: (PrimitiveType|Binder|Default)[]): MoreValuesStep {
+	private selfCall(...values: [(PrimitiveType|Binder|Default), ...(PrimitiveType|Binder|Default)[]]): MoreValuesStep {
 		return new MoreValuesStep(this, values)
 	}
 
@@ -76,7 +74,7 @@ export class MoreValuesStep extends ValuesStep {
 
 	constructor(
 		prevStep: ValuesStep,
-		values: (PrimitiveType|Binder|Default)[],
+		values: [(PrimitiveType|Binder|Default), ...(PrimitiveType|Binder|Default)[]],
 	) {
 		super(prevStep, values)
 	}

@@ -364,6 +364,27 @@ describe('Throw desired Errors', () => {
 
 				expect(actual).toThrow('IntoColumnsStep must have at least one column')
 			})
+			it(`Throws: "Number of values does not match number of columns. Columns: 2, Values: 1"`, () => {
+				function actual() {
+					sql.insertInto(table2).values('A', 'B')('a')
+				}
+
+				expect(actual).toThrow('Number of values does not match number of columns. Columns: 2, Values: 1')
+			})
+			it(`Throws: "Number of values does not match number of columns. Columns: 2, Values: 3"`, () => {
+				function actual() {
+					sql.insertInto(table2).values('A', 'B')('a', 'b')('x', 'y', 'z')
+				}
+
+				expect(actual).toThrow('Number of values does not match number of columns. Columns: 2, Values: 3')
+			})
+			it(`Throws: "ValuesStep step must have at least one value"`, () => {
+				function actual() {
+					sql.insertInto(table2).values('A', 'B')('a', 'b')()
+				}
+
+				expect(actual).toThrow('ValuesStep step must have at least one value')
+			})
 		})
 	})
 	describe('Error: InsertColumnsAndExpressionsNotEqualError', () => {

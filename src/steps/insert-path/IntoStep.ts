@@ -30,32 +30,11 @@ export abstract class IntoStep extends BaseStep {
 		if (items.length === 0) {
 			throw new Error('Invalid empty SELECT step')
 		}
-		this.throwForInvalidExpressionsNumber(items)
+		this.throwWhenInvalidExpressionsNumber(items)
 		return new SelectStep(this, items)
 	}
 
-	private throwForInvalidExpressionsNumber(items: (SelectItemInfo|SelectItem|PrimitiveType)[]) {
-		if (this instanceof IntoTableStep) {
-			const tables = Array.from(this.getStepArtifacts().tables)
-			if (tables.length === 1) {
-				const tableColumnCount = tables[0].getColumns().length
-				if (items.length !== tableColumnCount) {
-					throw new InsertColumnsAndExpressionsNotEqualError(tableColumnCount, items.length)
-				}
-			} else {
-				throw new Error('Invalid number of tables, IntoStep can have only one table')
-			}
-		} else if (this instanceof IntoColumnsStep) {
-			const columnsCount = this.getStepArtifacts().columns.size
-			if (columnsCount === 0) {
-				throw new Error('IntoColumnsStep must have at least one column')
-			} else if (items.length !== columnsCount) {
-				throw new InsertColumnsAndExpressionsNotEqualError(columnsCount, items.length)
-			}
-		} else {
-			throw new Error('Unsupported IntoStep type')
-		}
-	}
+	protected abstract throwWhenInvalidExpressionsNumber(items: (SelectItemInfo|SelectItem|PrimitiveType)[]): void
 }
 
 export class IntoTableStep extends IntoStep {
@@ -82,6 +61,13 @@ export class IntoTableStep extends IntoStep {
 	private selfCall(...columns: Column[]): IntoColumnsStep {
 		return new IntoColumnsStep(this, columns)
 	}
+
+	protected throwWhenInvalidExpressionsNumber(items: (SelectItemInfo|SelectItem|PrimitiveType)[]): void {
+		const tableColumnCount = this.table.getColumns().length
+		if (items.length !== tableColumnCount) {
+			throw new InsertColumnsAndExpressionsNotEqualError(tableColumnCount, items.length)
+		}
+	}
 }
 
 export class IntoColumnsStep extends IntoStep {
@@ -100,5 +86,14 @@ export class IntoColumnsStep extends IntoStep {
 
 	getStepArtifacts(): Artifacts {
 		return { tables: new Set(), columns: new Set(this.columns) }
+	}
+
+	protected throwWhenInvalidExpressionsNumber(items: (SelectItemInfo|SelectItem|PrimitiveType)[]): void {
+		const columnsCount = this.getStepArtifacts().columns.size
+		if (columnsCount === 0) {
+			throw new Error('IntoColumnsStep must have at least one column')
+		} else if (items.length !== columnsCount) {
+			throw new InsertColumnsAndExpressionsNotEqualError(columnsCount, items.length)
+		}
 	}
 }

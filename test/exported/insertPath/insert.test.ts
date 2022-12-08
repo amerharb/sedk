@@ -148,7 +148,7 @@ describe('INSERT Path', () => {
 
 			expect(actual).toEqual(`INSERT INTO "table1"("col1") SELECT 'A';`)
 		})
-		it.skip(`Produces [INSERT INTO "table2" SELECT * FROM "table3";]`, () => { //TODO: support this case
+		it(`Produces [INSERT INTO "table2" SELECT * FROM "table3";]`, () => {
 			const actual = sql
 				.insertInto(table2)
 				.select(ASTERISK)

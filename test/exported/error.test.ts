@@ -426,7 +426,8 @@ describe('Throw desired Errors', () => {
 
 				expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
 			})
-			it.skip(`Throw error when number of columns and Asterisk not match number`, () => { //TODO: support this case
+			// TODO: Currently the expected behavior is not to throw an error when use ASTERISK, later this should change.
+			it(`Not throw error when use Asterisk`, () => {
 				function actual() {
 					sql
 						.insertInto(table2)(col1)
@@ -434,7 +435,19 @@ describe('Throw desired Errors', () => {
 						.from(table3)
 				}
 
+				expect(actual).not.toThrow(InsertColumnsAndExpressionsNotEqualError)
+				expect(actual).not.toThrow(`Number of expressions in Select does not match number of columns. Columns: 1, Expressions: 2`)
+			})
+			it(`Throw error when number of columns and TableAsterisk not match number`, () => {
+				function actual() {
+					sql
+						.insertInto(table2)(col1)
+						.select(table3.ASTERISK)
+						.from(table3)
+				}
+
 				expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+				expect(actual).toThrow(`Number of expressions in Select does not match number of columns. Columns: 1, Expressions: 2`)
 			})
 			it(`won't throw for expressions equal columns`, () => {
 				function actual() {

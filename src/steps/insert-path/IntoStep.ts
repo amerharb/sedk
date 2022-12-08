@@ -1,3 +1,4 @@
+import { TableAsterisk } from '@src/TableAsterisk'
 import { getMinOneArray } from '../../util'
 import { Column, Table } from '../../database'
 import { Artifacts, BaseStep } from '../BaseStep'
@@ -7,7 +8,7 @@ import { InsertColumnsAndExpressionsNotEqualError } from '../../errors'
 import { Binder } from '../../binder'
 import { SelectItem, SelectStep } from '../select-path/SelectStep'
 import { SelectItemInfo } from '../../SelectItemInfo'
-import { Default } from '../../singletoneConstants'
+import { Asterisk, Default } from '../../singletoneConstants'
 import { ValuesStep } from './ValuesStep'
 
 export abstract class IntoStep extends BaseStep {
@@ -64,9 +65,15 @@ export class IntoTableStep extends IntoStep {
 	}
 
 	protected throwWhenInvalidExpressionsNumber(items: (SelectItemInfo|SelectItem|PrimitiveType)[]): void {
+		if (items.find(it => it instanceof Asterisk)) {
+			/** Validation can not be done when asterisk is used because it is unknown which table(s) is used */
+			return
+		}
+		const expCount = countExpressions(items)
+
 		const tableColumnCount = this.table.getColumns().length
-		if (items.length !== tableColumnCount) {
-			throw new InsertColumnsAndExpressionsNotEqualError(tableColumnCount, items.length)
+		if (expCount !== tableColumnCount) {
+			throw new InsertColumnsAndExpressionsNotEqualError(tableColumnCount, expCount)
 		}
 	}
 }
@@ -90,11 +97,28 @@ export class IntoColumnsStep extends IntoStep {
 	}
 
 	protected throwWhenInvalidExpressionsNumber(items: (SelectItemInfo|SelectItem|PrimitiveType)[]): void {
+		if (items.find(it => it instanceof Asterisk)) {
+			/** Validation can not be done when asterisk is used because it is unknown which table(s) is used */
+			return
+		}
+		const expCount = countExpressions(items)
 		const columnsCount = this.getStepArtifacts().columns.size
 		if (columnsCount === 0) {
 			throw new Error('IntoColumnsStep must have at least one column')
-		} else if (items.length !== columnsCount) {
-			throw new InsertColumnsAndExpressionsNotEqualError(columnsCount, items.length)
+		} else if (expCount !== columnsCount) {
+			throw new InsertColumnsAndExpressionsNotEqualError(columnsCount, expCount)
 		}
 	}
+}
+
+function countExpressions(items: (SelectItemInfo|SelectItem|PrimitiveType)[]): number {
+	let expCount = 0
+	items.forEach(it => {
+		if (it instanceof TableAsterisk) {
+			expCount += it.table.getColumns().length
+		} else {
+			expCount += 1
+		}
+	})
+	return expCount
 }

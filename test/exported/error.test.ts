@@ -36,6 +36,8 @@ const col1 = table1.c.col1
 const col2 = table1.c.col2
 const col3 = table1.c.col3
 const col4 = table1.c.col4
+const table2 = database.s.public.t.table2
+const table3 = database.s.public.t.table3
 
 describe('Throw desired Errors', () => {
 	const sql = builder(database)
@@ -271,35 +273,235 @@ describe('Throw desired Errors', () => {
 		})
 	})
 	describe('Error: InsertColumnsAndValuesNotEqualError', () => {
-		it(`columns more than values`, () => {
-			function actual() {
-				sql.insertInto(table1, col1, col2).values('A')
-			}
+		describe('Table and columns one step', () => {
+			it(`columns more than values`, () => {
+				function actual() {
+					sql.insertInto(table1, col1, col2).values('A')
+				}
 
-			expect(actual).toThrow(InsertColumnsAndValuesNotEqualError)
+				expect(actual).toThrow(InsertColumnsAndValuesNotEqualError)
+			})
+			it(`values more than columns`, () => {
+				function actual() {
+					sql.insertInto(table1, col1, col2).values('A', 'B', 'C')
+				}
+
+				expect(actual).toThrow(InsertColumnsAndValuesNotEqualError)
+			})
+			it(`won't throw when values equal columns`, () => {
+				function actual() {
+					sql.insertInto(table1, col1, col2).values('A', 'B')
+				}
+
+				expect(actual).not.toThrow(InsertColumnsAndValuesNotEqualError)
+			})
 		})
-		it(`values more than columns`, () => {
-			function actual() {
-				sql.insertInto(table1, col1, col2).values('A', 'B', 'C')
-			}
+		describe('Table and columns two steps', () => {
+			it(`columns more than values`, () => {
+				function actual() {
+					sql.insertInto(table1)(col1, col2).values('A')
+				}
 
-			expect(actual).toThrow(InsertColumnsAndValuesNotEqualError)
+				expect(actual).toThrow(InsertColumnsAndValuesNotEqualError)
+			})
+			it(`values more than columns`, () => {
+				function actual() {
+					sql.insertInto(table1)(col1, col2).values('A', 'B', 'C')
+				}
+
+				expect(actual).toThrow(InsertColumnsAndValuesNotEqualError)
+			})
+			it(`won't throw when values equal columns`, () => {
+				function actual() {
+					sql.insertInto(table1)(col1, col2).values('A', 'B')
+				}
+
+				expect(actual).not.toThrow(InsertColumnsAndValuesNotEqualError)
+			})
+		})
+		describe('Table only', () => {
+			it(`columns more than values`, () => {
+				function actual() {
+					sql.insertInto(table2).values('A')
+				}
+
+				expect(actual).toThrow(InsertColumnsAndValuesNotEqualError)
+			})
+			it(`values more than columns`, () => {
+				function actual() {
+					sql.insertInto(table2).values('A', 'B', 'C')
+				}
+
+				expect(actual).toThrow(InsertColumnsAndValuesNotEqualError)
+			})
+			it(`won't throw when values equal columns`, () => {
+				function actual() {
+					sql.insertInto(table2).values('A', 'B')
+				}
+
+				expect(actual).not.toThrow(InsertColumnsAndValuesNotEqualError)
+			})
+		})
+		describe('Table only two steps', () => {
+			it(`throw when columns more than values`, () => {
+				function actual() {
+					sql.insertInto(table2)().values('A')
+				}
+
+				expect(actual).toThrow('IntoColumnsStep must have at least one column')
+			})
+			it(`throw when values more than columns`, () => {
+				function actual() {
+					sql.insertInto(table2)().values('A', 'B', 'C')
+				}
+
+				expect(actual).toThrow('IntoColumnsStep must have at least one column')
+			})
+			it(`throw when values equal columns`, () => {
+				function actual() {
+					sql.insertInto(table2)().values('A', 'B')
+				}
+
+				expect(actual).toThrow('IntoColumnsStep must have at least one column')
+			})
+			it(`Throws: "Number of values does not match number of columns. Columns: 2, Values: 1"`, () => {
+				function actual() {
+					sql.insertInto(table2).values('A', 'B')('a')
+				}
+
+				expect(actual).toThrow('Number of values does not match number of columns. Columns: 2, Values: 1')
+			})
+			it(`Throws: "Number of values does not match number of columns. Columns: 2, Values: 3"`, () => {
+				function actual() {
+					sql.insertInto(table2).values('A', 'B')('a', 'b')('x', 'y', 'z')
+				}
+
+				expect(actual).toThrow('Number of values does not match number of columns. Columns: 2, Values: 3')
+			})
+			it(`Throws: "ValuesStep step must have at least one value"`, () => {
+				function actual() {
+					sql.insertInto(table2).values('A', 'B')('a', 'b')()
+				}
+
+				expect(actual).toThrow('ValuesStep step must have at least one value')
+			})
 		})
 	})
 	describe('Error: InsertColumnsAndExpressionsNotEqualError', () => {
-		it(`columns more than expressions`, () => {
-			function actual() {
-				sql.insertInto(table1, col1, col2).select('A')
-			}
+		describe('Table and columns one step', () => {
+			it(`columns more than expressions`, () => {
+				function actual() {
+					sql.insertInto(table1, col1, col2).select('A')
+				}
 
-			expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+				expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+			})
+			it(`expressions more than columns`, () => {
+				function actual() {
+					sql.insertInto(table1, col1, col2).select('A', 'B', 'C')
+				}
+
+				expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+			})
+			it(`won't throw for expressions equal columns`, () => {
+				function actual() {
+					sql.insertInto(table2, col1, col2).select('A', 'B')
+				}
+
+				expect(actual).not.toThrow(InsertColumnsAndExpressionsNotEqualError)
+			})
 		})
-		it(`expressions more than columns`, () => {
-			function actual() {
-				sql.insertInto(table1, col1, col2).select('A', 'B', 'C')
-			}
+		describe('Table and columns two steps', () => {
+			it(`columns more than expressions`, () => {
+				function actual() {
+					sql.insertInto(table1)(col1, col2).select('A')
+				}
 
-			expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+				expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+			})
+			it(`expressions more than columns`, () => {
+				function actual() {
+					sql.insertInto(table1)(col1, col2).select('A', 'B', 'C')
+				}
+
+				expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+			})
+			// TODO: Currently the expected behavior is not to throw an error when use ASTERISK, later this should change.
+			it(`Not throw error when use Asterisk`, () => {
+				function actual() {
+					sql
+						.insertInto(table2)(col1)
+						.select(ASTERISK)
+						.from(table3)
+				}
+
+				expect(actual).not.toThrow(InsertColumnsAndExpressionsNotEqualError)
+				expect(actual).not.toThrow(`Number of expressions in Select does not match number of columns. Columns: 1, Expressions: 2`)
+			})
+			it(`Throw error when number of columns and TableAsterisk not match number`, () => {
+				function actual() {
+					sql
+						.insertInto(table2)(col1)
+						.select(table3.ASTERISK)
+						.from(table3)
+				}
+
+				expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+				expect(actual).toThrow(`Number of expressions in Select does not match number of columns. Columns: 1, Expressions: 2`)
+			})
+			it(`won't throw for expressions equal columns`, () => {
+				function actual() {
+					sql.insertInto(table2)(col1, col2).select('A', 'B')
+				}
+
+				expect(actual).not.toThrow(InsertColumnsAndExpressionsNotEqualError)
+			})
+		})
+		describe('Table only', () => {
+			it(`expressions more than columns`, () => {
+				function actual() {
+					sql.insertInto(table2).select('A', 'B', 'C')
+				}
+
+				expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+			})
+			it(`expressions less than columns`, () => {
+				function actual() {
+					sql.insertInto(table2).select('A')
+				}
+
+				expect(actual).toThrow(InsertColumnsAndExpressionsNotEqualError)
+			})
+			it(`won't throw for expressions equal columns`, () => {
+				function actual() {
+					sql.insertInto(table2).select('A', 'B')
+				}
+
+				expect(actual).not.toThrow(InsertColumnsAndExpressionsNotEqualError)
+			})
+		})
+		describe('Table only two steps', () => {
+			it(`throws for expressions more than columns`, () => {
+				function actual() {
+					sql.insertInto(table2)().select('A', 'B', 'C')
+				}
+
+				expect(actual).toThrow('IntoColumnsStep must have at least one column')
+			})
+			it(`throws for expressions less than columns`, () => {
+				function actual() {
+					sql.insertInto(table2)().select('A')
+				}
+
+				expect(actual).toThrow('IntoColumnsStep must have at least one column')
+			})
+			it(`throws for expressions equal columns`, () => {
+				function actual() {
+					sql.insertInto(table2)().select('A', 'B')
+				}
+
+				expect(actual).toThrow('IntoColumnsStep must have at least one column')
+			})
 		})
 	})
 	describe('Error: EmptyArrayError', () => {
@@ -374,19 +576,20 @@ describe('Throw desired Errors', () => {
 
 		function actual() {
 			// @ts-ignore
-			sql.insertInto(table1).values(value).getSQL()
+			sql.insertInto(table1, col1).values(value).getSQL()
 		}
 
 		expect(actual).toThrow(`Value step has Unsupported value: ${value}, type: ${typeof value}`)
 	})
-	it(`throws "VALUES step must have at least one value"`, () => {
+	it(`Throws "VALUES step must have at least one value"`, () => {
 		function actual() {
+			// @ts-ignore
 			sql.insertInto(table1).values()
 		}
 
-		expect(actual).toThrow(`VALUES step must have at least one value`)
+		expect(actual).toThrow(`Array must have at least one element`)
 	})
-	it(`throws "Invalid empty SELECT step" for empty select step`, () => {
+	it(`Throws "Invalid empty SELECT step" for empty select step`, () => {
 		function actual() {
 			sql.insertInto(table1).select().getSQL()
 		}

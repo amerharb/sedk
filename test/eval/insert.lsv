@@ -14,8 +14,8 @@ INSERT INTO "table1"("col1") SELECT "col2" FROM "table1" GROUP BY "col2" RETURNI
 sql.insertInto(table1, col1).select(col2).from(table1).groupBy(col2).orderBy(col2)
 INSERT INTO "table1"("col1") SELECT "col2" FROM "table1" GROUP BY "col2" ORDER BY "col2";
 
-sql.insertInto(table1).values('a')('b')('c')
-INSERT INTO "table1" VALUES('a'),('b'),('c');
+sql.insertInto(table2).values('a', 'A')('b', 'B')('c', 'C')
+INSERT INTO "table2" VALUES('a', 'A'),('b', 'B'),('c', 'C');
 
 sql.insertInto(table1)(col1).values('a')('b')('c')
 INSERT INTO "table1"("col1") VALUES('a'),('b'),('c');

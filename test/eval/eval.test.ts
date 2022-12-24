@@ -22,7 +22,7 @@ const col6 = table1.c.col6
 const col7 = table1.c.col7
 const col8 = table1.c.col8
 const col9 = table1.c.col9
-
+const table2 = database.s.public.t.table2
 describe('eval', () => {
 	const sql = sedk.builder(database)
 	const filenames = [

@@ -70,6 +70,14 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements INameGiver, ISt
 		return this.columns
 	}
 
+	/**
+	 * Returns array of table's columns, this is different from
+	 * columns() property which returns an object with column name as key
+	 */
+	public getColumns(): readonly Column[] {
+		return this.columnArray
+	}
+
 	public get ASTERISK(): TableAsterisk {
 		return new TableAsterisk(this)
 	}

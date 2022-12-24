@@ -7,6 +7,7 @@
 - Add function `NOT` for class Condition also as standalone
 - Support insert more than one row
 - Support object callable style in insert statement (old style still supported)
+- Throw for invalid number of arguments in INSERT and UPDATE step
 
 ### Changed
 - Use eq() and eq$() for UPDATE instead of let() and let$().
@@ -18,6 +19,7 @@
 - Deprecate class Builder and replace it with function builder()
 - Major refactor in the way sql generated, each step now hold its data and remove dependency on builder data
 - Deprecate cleanUp() function in all Step, Builder and BinderStore
+
 ### Breaking Changes
 - Delete getColumns() and getColumn() from Table class
 

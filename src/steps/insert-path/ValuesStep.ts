@@ -1,3 +1,4 @@
+import { IntoColumnsStep, IntoStep, IntoTableStep } from '../../steps'
 import { InsertColumnsAndValuesNotEqualError } from '../../errors'
 import { Binder, BinderStore } from '../../binder'
 import { Default } from '../../singletoneConstants'
@@ -10,32 +11,47 @@ import { ReturningStep } from '../ReturningStep'
 
 export class ValuesStep extends BaseStep {
 	constructor(
-		prevStep: BaseStep,
-		protected readonly values: (PrimitiveType|Binder|Default)[],
+		prevStep: IntoStep|ValuesStep,
+		protected readonly values: [(PrimitiveType|Binder|Default), ...(PrimitiveType|Binder|Default)[]],
 	) {
 		super(prevStep)
-		ValuesStep.throwForInvalidValuesNumber(values, prevStep)
 		if (values.length === 0) {
-			throw new Error('VALUES step must have at least one value')
+			throw new Error('ValuesStep step must have at least one value')
 		}
+		ValuesStep.throwForInvalidValuesNumber(values, prevStep)
 		return new Proxy(
 			this,
-			{ apply: (target, thisArg, args) => target.selfCall(...args) },
+			{ apply: (target: this, thisArg, args: [(PrimitiveType|Binder|Default), ...(PrimitiveType|Binder|Default)[]]) => target.selfCall(...args) },
 		)
 	}
 
 	private static throwForInvalidValuesNumber(
 		values: (PrimitiveType|Binder|Default)[],
-		prevStep: BaseStep,
+		prevStep: IntoStep|ValuesStep,
 	) {
-		const columnsCount = prevStep.getStepArtifacts().columns.size
-		// TODO: in case columnCount = 0 we should check number of column in schema
-		if (columnsCount > 0 && columnsCount !== values.length) {
-			throw new InsertColumnsAndValuesNotEqualError(columnsCount, values.length)
+		if (prevStep instanceof IntoTableStep) {
+			const tableColumnCount = prevStep.table.getColumns().length
+			if (values.length !== tableColumnCount) {
+				throw new InsertColumnsAndValuesNotEqualError(tableColumnCount, values.length)
+			}
+		} else if (prevStep instanceof IntoColumnsStep) {
+			const columnsCount = prevStep.columns.length
+			if (columnsCount === 0) {
+				throw new Error('IntoColumnsStep must have at least one column')
+			} else if (values.length !== columnsCount) {
+				throw new InsertColumnsAndValuesNotEqualError(columnsCount, values.length)
+			}
+		} else if (prevStep instanceof ValuesStep) {
+			const valueCount = prevStep.values.length
+			if (values.length !== valueCount) {
+				throw new InsertColumnsAndValuesNotEqualError(valueCount, values.length)
+			}
+		} else {
+			throw new Error('Invalid previous step')
 		}
 	}
 
-	private selfCall(...values: (PrimitiveType|Binder|Default)[]): MoreValuesStep {
+	private selfCall(...values: [(PrimitiveType|Binder|Default), ...(PrimitiveType|Binder|Default)[]]): MoreValuesStep {
 		return new MoreValuesStep(this, values)
 	}
 
@@ -55,6 +71,13 @@ export class ValuesStep extends BaseStep {
 
 export class MoreValuesStep extends ValuesStep {
 	override readonly prefixSeparator = ''
+
+	constructor(
+		prevStep: ValuesStep,
+		values: [(PrimitiveType|Binder|Default), ...(PrimitiveType|Binder|Default)[]],
+	) {
+		super(prevStep, values)
+	}
 
 	override getStepStatement(): string {
 		const valueStringArray = getValueStringArray(this.values, this.binderStore)

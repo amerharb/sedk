@@ -45,5 +45,17 @@
     "ts-jest": "^29.0.3",
     "ts-node": "^10.4.0",
     "typescript": "^4.8.4"
+  },
+  "publishConfig": {
+    "exclude": [
+      "@types/jest",
+      "@typescript-eslint/eslint-plugin",
+      "@typescript-eslint/parser",
+      "eslint",
+      "jest",
+      "ts-jest",
+      "ts-node",
+      "typescript"
+    ]
   }
 }

@@ -1,4 +1,4 @@
-import { TableAsterisk } from '@src/TableAsterisk'
+import { TableAsterisk } from '../../TableAsterisk'
 import { getMinOneArray } from '../../util'
 import { Column, Table } from '../../database'
 import { Artifacts, BaseStep } from '../BaseStep'

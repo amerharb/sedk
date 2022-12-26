@@ -4,10 +4,12 @@
   "description": "Simple SQL builder and validator",
   "private": true,
   "workspaces": {
-    "packages": ["lib"]
+    "packages": ["packages/lib"]
   },
   "email": "sedk@amerharb.com",
   "scripts": {
+    "build": "yarn workspaces run build",
+    "test": "yarn workspaces run test",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix"
   },

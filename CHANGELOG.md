@@ -19,6 +19,8 @@
 - Deprecate class Builder and replace it with function builder()
 - Major refactor in the way sql generated, each step now hold its data and remove dependency on builder data
 - Deprecate cleanUp() function in all Step, Builder and BinderStore
+- Use package manager yarn and delete npm-shrinkwrap.json
+- Use workspace and move all code into sub package in folder "lib" where we publish to npm
 
 ### Breaking Changes
 - Delete getColumns() and getColumn() from Table class

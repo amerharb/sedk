@@ -1,29 +1,15 @@
 {
-  "name": "sedk-postgres",
-  "version": "0.15.0-next.1",
+  "name": "sedk-postgres-root",
+  "version": "0.15.0-next.3",
   "description": "Simple SQL builder and validator",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
-  "files": [
-    "dist/src/**/*.d.ts",
-    "dist/src/**/*.js",
-    "LICENSE",
-    "README.md"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/amerharb/sedk-postgres.git"
+  "private": true,
+  "workspaces": {
+    "packages": ["packages/lib"]
   },
-  "homepage": "https://github.com/amerharb/sedk-postgres#readme",
-  "url": "https://github.com/amerharb/sedk-postgres/issues",
   "email": "sedk@amerharb.com",
   "scripts": {
-    "start": "node dist/src/index.js",
-    "prebuild": "rm -rf dist",
-    "build": "tsc",
-    "build&start": "npm run build && npm run start",
-    "test": "jest",
-    "build&test": "npm run build && npm run test",
+    "build": "yarn workspaces run build",
+    "test": "yarn workspaces run test",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix"
   },

@@ -12,5 +12,8 @@ module.exports = {
   },
   testMatch: [
     '**/?(*.)+(test.ts)',
-  ]
+  ],
+  coverageReporters: [
+    'json-summary',
+  ],
 };

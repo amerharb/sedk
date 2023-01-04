@@ -23,6 +23,7 @@
     "build": "tsc",
     "build&start": "npm run build && npm run start",
     "test": "jest",
+    "posttest": "npx make-coverage-badge --report-path coverage/coverage-summary.json --output-path badges/coverage.svg",
     "build&test": "npm run build && npm run test",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix"

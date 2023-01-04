@@ -12,10 +12,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amerharb/sedk-postgres.git"
+    "url": "git+https://github.com/amerharb/sedk.git"
   },
-  "homepage": "https://github.com/amerharb/sedk-postgres#readme",
-  "url": "https://github.com/amerharb/sedk-postgres/issues",
+  "homepage": "https://github.com/amerharb/sedk#readme",
+  "url": "https://github.com/amerharb/sedk/issues",
   "email": "sedk@amerharb.com",
   "scripts": {
     "start": "node dist/src/index.js",

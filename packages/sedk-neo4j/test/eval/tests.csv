@@ -1,0 +1,20 @@
+cypher.match(n).return(n).getCypher()
+MATCH (`n`) RETURN `n`
+
+cypher.match(n, Person).return(n).getCypher()
+MATCH (`n`:`Person`) RETURN `n`
+
+cypher.match(n, Person, Animal).return(n).getCypher()
+MATCH (`n`:`Person`:`Animal`) RETURN `n`
+
+cypher.match(n, Person, Animal).return(ASTERISK).getCypher()
+MATCH (`n`:`Person`:`Animal`) RETURN *
+
+cypher.match(n, Person, Animal).return(n, ASTERISK).getCypher()
+MATCH (`n`:`Person`:`Animal`) RETURN `n`, *
+
+cypher.match(Person).getCypher()
+MATCH (:`Person`)
+
+cypher.match(n, Person, Animal).getCypher()
+MATCH (`n`:`Person`:`Animal`)

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="221" height="37">
+    <defs>
+        <style type="text/css">
+            .line {fill: none; stroke: #001133; stroke-width: 1;}
+            .bold-line {stroke: #000714; shape-rendering: crispEdges; stroke-width: 2;}
+            .thin-line {stroke: #000A1F; shape-rendering: crispEdges}
+            .filled {fill: #001133; stroke: none;}
+            text.terminal {font-family: Verdana, Sans-serif;
+            font-size: 12px;
+            fill: #000714;
+            font-weight: bold;
+            }
+            text.nonterminal {font-family: Verdana, Sans-serif;
+            font-size: 12px;
+            fill: #00091A;
+            font-weight: normal;
+            }
+            text.regexp {font-family: Verdana, Sans-serif;
+            font-size: 12px;
+            fill: #000A1F;
+            font-weight: normal;
+            }
+            rect, circle, polygon {fill: #001133; stroke: #001133;}
+            rect.terminal {fill: #4D88FF; stroke: #001133; stroke-width: 1;}
+            rect.nonterminal {fill: #9EBFFF; stroke: #001133; stroke-width: 1;}
+            rect.text {fill: none; stroke: none;}
+            polygon.regexp {fill: #C7DAFF; stroke: #001133; stroke-width: 1;}
+        </style>
+    </defs>
+    <polygon points="9 17 1 13 1 21"/>
+    <polygon points="17 17 9 13 9 21"/>
+    <rect x="31" y="3" width="68" height="32" rx="10"/>
+    <rect x="29" y="1" width="68" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="39" y="21">MATCH</text>
+    <rect x="119" y="3" width="74" height="32" rx="10"/>
+    <rect x="117" y="1" width="74" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="127" y="21">RETURN</text>
+    <path class="line" d="m17 17 h2 m0 0 h10 m68 0 h10 m0 0 h10 m74 0 h10 m3 0 h-3"/>
+    <polygon points="211 17 219 13 219 21"/>
+    <polygon points="211 17 203 13 203 21"/>
+</svg>
+
+

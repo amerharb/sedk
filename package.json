@@ -1,11 +1,12 @@
 {
   "name": "sedk",
-  "version": "0.0.1",
-  "description": "Root package for sedk-postgres",
+  "version": "0.1.2",
+  "description": "Root package for sedk-postgres and sedk-neo4j",
   "private": true,
   "workspaces": {
     "packages": [
-      "packages/sedk-postgres"
+      "packages/sedk-postgres",
+      "packages/sedk-neo4j"
     ]
   },
   "email": "sedk@amerharb.com",

@@ -1,0 +1,39 @@
+{
+  "name": "sedk-neo4j",
+  "version": "0.0.4",
+  "description": "Cypher builder and validator for Neo4j",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist/src/**/*.d.ts",
+    "dist/src/**/*.js",
+    "LICENSE",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amerharb/sedk.git"
+  },
+  "homepage": "https://github.com/amerharb/sedk/packages/sedk-neo4j#readme",
+  "url": "https://github.com/amerharb/sedk/issues",
+  "email": "sedk@amerharb.com",
+  "scripts": {
+    "start": "tsc && node dist/src/index.js",
+    "prebuild": "rm -rf dist",
+    "build": "tsc",
+    "test": "jest",
+    "posttest": "npx make-coverage-badge --report-path coverage/coverage-summary.json --output-path badges/coverage.svg",
+    "build&test": "tsc && jest",
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix"
+  },
+  "keywords": [
+    "Cypher",
+    "Cypher Builder",
+    "Neo4j",
+    "Graph Database",
+    "sedk"
+  ],
+  "author": "Amer Harb",
+  "license": "ISC"
+}

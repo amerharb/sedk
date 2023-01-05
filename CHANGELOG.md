@@ -2,6 +2,7 @@
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
 ## [0.1.2]  2023-01-05
+### Added
 - add package sedk-neo4j to workspace
 - add example project sedk-neo4j-ts-example
 

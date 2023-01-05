@@ -12,15 +12,17 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amerharb/sedk-neo4j.git"
+    "url": "git+https://github.com/amerharb/sedk.git"
   },
-  "homepage": "https://github.com/amerharb/sedk-neo4j#readme",
-  "url": "https://github.com/amerharb/sedk-neo4j/issues",
+  "homepage": "https://github.com/amerharb/sedk/packages/sedk-neo4j#readme",
+  "url": "https://github.com/amerharb/sedk/issues",
   "email": "sedk@amerharb.com",
   "scripts": {
     "start": "tsc && node dist/src/index.js",
+    "prebuild": "rm -rf dist",
     "build": "tsc",
     "test": "jest",
+    "posttest": "npx make-coverage-badge --report-path coverage/coverage-summary.json --output-path badges/coverage.svg",
     "build&test": "tsc && jest",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix"

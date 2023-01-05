@@ -1,6 +1,7 @@
 # SEDK-neo4j
 ![Version](https://img.shields.io/badge/version-0.0.4-blue.svg)
 [![License: GPLv3](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+![Coverage](https://raw.githubusercontent.com/amerharb/sedk/root/version/0.1.2/packages/sedk-neo4j/badges/coverage.svg)
 
 SEDK-neo4j is a Cypher builder library for Neo4j, support binding parameters, and use a pre-defined Label and Relation
 

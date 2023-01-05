@@ -3,6 +3,7 @@
 
 ## [0.1.2]  2023-01-05
 - add package sedk-neo4j to workspace
+- add example project sedk-neo4j-ts-example
 
 ## [0.0.1]  2023-01-05
 ### Added

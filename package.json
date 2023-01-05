@@ -1,51 +1,35 @@
 {
-  "name": "sedk-postgres",
-  "version": "0.14.1",
-  "description": "Simple SQL builder and validator",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
-  "files": [
-    "dist/src/**/*.d.ts",
-    "dist/src/**/*.js",
-    "LICENSE",
-    "README.md",
-    "doc/StepsRailRoad.svg"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/amerharb/sedk-postgres.git"
+  "name": "sedk",
+  "version": "0.0.1",
+  "description": "Root package for sedk-postgres",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/sedk-postgres"
+    ]
   },
-  "homepage": "https://github.com/amerharb/sedk-postgres#readme",
-  "url": "https://github.com/amerharb/sedk-postgres/issues",
   "email": "sedk@amerharb.com",
   "scripts": {
-    "start": "tsc && node dist/src/index.js",
-    "build": "tsc",
-    "test": "jest",
-    "build&test": "tsc && jest",
+    "build": "yarn workspaces run build",
+    "test": "yarn workspaces run test",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix"
   },
   "keywords": [
-    "SQL",
-    "SQL Builder",
-    "Postgresql",
-    "Postgres",
-    "sedk"
+    "sedk",
+    "sedk-postgres"
   ],
   "author": "Amer Harb",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.16.5",
-    "@babel/preset-env": "^7.16.5",
-    "@babel/preset-typescript": "^7.16.5",
-    "@types/jest": "^28.1.2",
+    "@types/jest": "^29.2.2",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
-    "babel-jest": "^27.4.5",
-    "eslint": "^8.4.1",
-    "jest": "^28.1.1",
+    "eslint": "^8.27.0",
+    "jest": "^29.3.0",
+    "make-coverage-badge": "^1.2.0",
+    "ts-jest": "^29.0.3",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.4"
+    "typescript": "^4.8.4"
   }
 }

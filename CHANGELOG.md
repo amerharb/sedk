@@ -1,6 +1,30 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.15.0]  2022-11-04
+### Added
+- make builder() function return a new instance RootStep `const sql = sedk.builder()`
+- Add function `NOT` for class Condition also as standalone
+- Support insert more than one row
+- Support object callable style in insert statement (old style still supported)
+- Throw for invalid number of arguments in INSERT and UPDATE step
+
+### Changed
+- Use eq() and eq$() for UPDATE instead of let() and let$().
+- Change style adopt all Caps for some static statement like eqDEFAULT instead of letDefault, 
+ and NULLS_FIRST instead of nullsFirst.
+- Divided file database.ts into Table.ts, Schema.ts, and Database.ts.
+- Refactor import, add index for both steps and model
+- Only accept normal number exclude NaN, Infinity, -Infinity
+- Deprecate class Builder and replace it with function builder()
+- Major refactor in the way sql generated, each step now hold its data and remove dependency on builder data
+- Deprecate cleanUp() function in all Step, Builder and BinderStore
+- Use package manager yarn and delete npm-shrinkwrap.json
+- Use workspace and move all code into sub package in folder "lib" where we publish to npm
+
+### Breaking Changes
+- Delete getColumns() and getColumn() from Table class
+
 ## [0.14.1]  2022-10-06
 ### Added
 - Add IN operator
@@ -40,7 +64,7 @@
 - Option `throwErrorIfDeleteHasNoCondition`
 - WHERE, OR and AND steps after DELETE step
 - Functions isEq(), isEq$(), isNe() and isNe$(), those function work with null and non-null values
-- Github Action for unit test at pushing code
+- GitHub Action for unit test at pushing code
 - Codecov badge to README.md
 - Throw error if limit or offer value is NaN or INFINITY
 ### Changed

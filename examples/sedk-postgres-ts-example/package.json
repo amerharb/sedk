@@ -5,6 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
+    "prebuild": "rm -fr dist",
     "build": "tsc",
     "start": "node dist/index.js",
     "build&start": "npm run build && npm run start"

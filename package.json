@@ -1,11 +1,12 @@
 {
   "name": "sedk",
-  "version": "0.1.2",
+  "version": "0.3.0",
   "description": "Root package for sedk-postgres and sedk-neo4j",
   "private": true,
   "workspaces": {
     "packages": [
       "packages/sedk-postgres",
+      "packages/sedk-mysql",
       "packages/sedk-neo4j"
     ]
   },

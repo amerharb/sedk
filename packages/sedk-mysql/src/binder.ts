@@ -32,6 +32,11 @@ export class BinderStore {
 	public getValues(): PrimitiveType[] {
 		return Array.from(this.store).map(it => it.value)
 	}
+
+	/** @deprecated - Not needed since version 0.15.0 */
+	public cleanUp(): void {
+		// Do nothing
+	}
 }
 
 export class Binder implements IStatementGiver {

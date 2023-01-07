@@ -27,6 +27,8 @@ describe('eval', () => {
 	const sql = sedk.builder(database)
 	const filenames = [
 		'test/eval/select.lsv',
+		'test/eval/insert.lsv',
+		'test/eval/update.lsv',
 	]
 	filenames.forEach(filename => {
 		describe(filename, () => {

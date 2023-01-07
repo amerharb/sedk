@@ -105,6 +105,16 @@ export class TextColumn extends Column {
 		return Expression.getComplexExp(this, TextOperator.CONCAT, value)
 	}
 
+	/** @deprecated - since v.0.15.0 use eq() */
+	public let(value: string|null|Default): UpdateSetItemInfo {
+		return new UpdateSetItemInfo(this, value)
+	}
+
+	/** @deprecated - since v.0.15.0 use eq$() */
+	public let$(value: string|null): UpdateSetItemInfo {
+		return new UpdateSetItemInfo(this, new Binder(value))
+	}
+
 	public in(...values: TextLike[]): Condition {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		return new Condition({

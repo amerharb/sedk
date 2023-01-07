@@ -5,8 +5,9 @@ import { ColumnLike } from './select-path/SelectStep'
 import { BuilderData } from '../builder'
 import { Condition, Expression, PrimitiveType } from '../models'
 import { LogicalOperator } from '../operators'
-import { ColumnNotFoundError, TableNotFoundError } from '../errors'
+import { ColumnNotFoundError, DeleteWithoutConditionError, TableNotFoundError } from '../errors'
 import { BooleanColumn, Column, Table } from '../database'
+import { isDeleteStep, isDeleteWhereStep } from '../util'
 
 export enum Parenthesis {
 	Open = '(',
@@ -32,6 +33,22 @@ export abstract class BaseStep extends Function {
 
 	public getSQL(): string {
 		let result = this.getFullStatement({ tables: new Set(), columns: new Set() })
+		if (this.data.option.throwErrorIfDeleteHasNoCondition) {
+			//look if the path is DELETE and there is no WHERE step
+			let foundDELETE = false
+			let foundWHERE = false
+			let step: BaseStep|null = this
+			do {
+				if (isDeleteStep(step))
+					foundDELETE = true
+				if (isDeleteWhereStep(step))
+					foundWHERE = true
+				step = step.prevStep
+			} while (step !== null)
+			if (foundDELETE && !foundWHERE) {
+				throw new DeleteWithoutConditionError()
+			}
+		}
 		if (this.data.option.useSemicolonAtTheEnd) result += ';'
 		return result
 	}
@@ -79,6 +96,11 @@ export abstract class BaseStep extends Function {
 			return [...this.prevStep.getBindValues(), ...this.binderStore.getValues()]
 		}
 		return [...this.binderStore.getValues()]
+	}
+
+	/** @deprecated - Not needed since version 0.15.0 */
+	public cleanUp(): void {
+		// Do nothing
 	}
 
 	protected static getTable(item: FromItem): Table {

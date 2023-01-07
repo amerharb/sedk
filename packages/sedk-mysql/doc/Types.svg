@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css"
+     height="3778px" preserveAspectRatio="none" style="width:688px;height:3778px;background:#FFFFFF;" version="1.1"
+     viewBox="0 0 688 3778" width="688px" zoomAndPan="magnify">
+    <defs/>
+    <g>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="116"
+              x="10" y="104.7324"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="92" x="20"
+              y="128.2676">PrimitiveType
+        </text>
+        <rect fill="#008000" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="50"
+              x="176" y="48.2441"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="26" x="186"
+              y="71.7793">null
+        </text>
+        <path d="M126,122.9766 L136,122.9766 C151,122.9766 151,66.4883 166,66.4883 L176,66.4883 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="171"
+              x="176" y="104.7324"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="147" x="186"
+              y="128.2676">NonNullPrimitiveType
+        </text>
+        <rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="80"
+              x="397" y="20"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="407"
+              y="43.5352">boolean
+        </text>
+        <path d="M347,122.9766 L357,122.9766 C372,122.9766 372,38.2441 387,38.2441 L397,38.2441 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="78"
+              x="397" y="76.4883"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="407"
+              y="100.0234">number
+        </text>
+        <path d="M347,122.9766 L357,122.9766 C372,122.9766 372,94.7324 387,94.7324 L397,94.7324 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="64"
+              x="397" y="132.9766"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="40" x="407"
+              y="156.5117">string
+        </text>
+        <path d="M347,122.9766 L357,122.9766 C372,122.9766 372,151.2207 387,151.2207 L397,151.2207 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="55"
+              x="397" y="189.4648"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="31" x="407"
+              y="213">Date
+        </text>
+        <path d="M347,122.9766 L357,122.9766 C372,122.9766 372,207.709 387,207.709 L397,207.709 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M126,122.9766 L136,122.9766 C151,122.9766 151,122.9766 166,122.9766 L176,122.9766 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="94"
+              x="10" y="387.1738"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="70" x="20"
+              y="410.709">SelectItem
+        </text>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="160"
+              x="154" y="245.9531"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="136" x="164"
+              y="269.4883">Aggregate Function
+        </text>
+        <path d="M104,405.418 L114,405.418 C129,405.418 129,264.1973 144,264.1973 L154,264.1973 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="105"
+              x="154" y="415.418"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="81" x="164"
+              y="438.9531">ColumnLike
+        </text>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="78"
+              x="309" y="387.1738"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="319"
+              y="410.709">Column
+        </text>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133"
+              x="437" y="302.4414"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="447"
+              y="325.9766">ColumnBoolean
+        </text>
+        <path d="M387,405.418 L397,405.418 C412,405.418 412,320.6855 427,320.6855 L437,320.6855 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133"
+              x="437" y="358.9297"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="447"
+              y="382.4648">ColumnNumber
+        </text>
+        <path d="M387,405.418 L397,405.418 C412,405.418 412,377.1738 427,377.1738 L437,377.1738 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="109"
+              x="437" y="415.418"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="447"
+              y="438.9531">ColumnText
+        </text>
+        <path d="M387,405.418 L397,405.418 C412,405.418 412,433.6621 427,433.6621 L437,433.6621 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="109"
+              x="437" y="471.9063"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="447"
+              y="495.4414">ColumnDate
+        </text>
+        <path d="M387,405.418 L397,405.418 C412,405.418 412,490.1504 427,490.1504 L437,490.1504 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M259,433.6621 L269,433.6621 C284,433.6621 284,405.418 299,405.418 L309,405.418 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="100"
+              x="309" y="528.3945"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="76" x="319"
+              y="551.9297">Expression
+        </text>
+        <path d="M259,433.6621 L269,433.6621 C284,433.6621 284,546.6387 299,546.6387 L309,546.6387 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M104,405.418 L114,405.418 C129,405.418 129,433.6621 144,433.6621 L154,433.6621 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="79"
+              x="154" y="471.9063"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="55" x="164"
+              y="495.4414">Asterisk
+        </text>
+        <path d="M104,405.418 L114,405.418 C129,405.418 129,490.1504 144,490.1504 L154,490.1504 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="166"
+              x="10" y="810.8359"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="142" x="20"
+              y="834.3711">OrderByArgsElement
+        </text>
+        <rect fill="#FFD700" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="168"
+              x="226" y="641.3711"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="144" x="236"
+              y="664.9063">OrderByNullsPosition
+        </text>
+        <rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="220"
+              x="444" y="584.8828"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="196" x="454"
+              y="608.418">NULLS_POSITION_NOT_EXIST
+        </text>
+        <path d="M394,659.6152 L404,659.6152 C419,659.6152 419,603.127 434,603.127 L444,603.127 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="111"
+              x="444" y="641.3711"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="87" x="454"
+              y="664.9063">NULLS_FIRST
+        </text>
+        <path d="M394,659.6152 L404,659.6152 C419,659.6152 419,659.6152 434,659.6152 L444,659.6152 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="107"
+              x="444" y="697.8594"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="83" x="454"
+              y="721.3945">NULLS_LAST
+        </text>
+        <path d="M394,659.6152 L404,659.6152 C419,659.6152 419,716.1035 434,716.1035 L444,716.1035 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M176,829.0801 L186,829.0801 C201,829.0801 201,659.6152 216,659.6152 L226,659.6152 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFD700" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="141"
+              x="226" y="810.8359"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="117" x="236"
+              y="834.3711">OrderByDirection
+        </text>
+        <rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="181"
+              x="417" y="754.3477"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="157" x="427"
+              y="777.8828">DIRECTION_NOT_EXIST
+        </text>
+        <path d="M367,829.0801 L377,829.0801 C392,829.0801 392,772.5918 407,772.5918 L417,772.5918 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="52"
+              x="417" y="810.8359"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="28" x="427"
+              y="834.3711">ASC
+        </text>
+        <path d="M367,829.0801 L377,829.0801 C392,829.0801 392,829.0801 407,829.0801 L417,829.0801 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#DAA520" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="60"
+              x="417" y="867.3242"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="36" x="427"
+              y="890.8594">DESC
+        </text>
+        <path d="M367,829.0801 L377,829.0801 C392,829.0801 392,885.5684 407,885.5684 L417,885.5684 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M176,829.0801 L186,829.0801 C201,829.0801 201,829.0801 216,829.0801 L226,829.0801 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="136"
+              x="226" y="867.3242"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="112" x="236"
+              y="890.8594">OrderByItemInfo
+        </text>
+        <path d="M176,829.0801 L186,829.0801 C201,829.0801 201,885.5684 216,885.5684 L226,885.5684 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="109"
+              x="226" y="980.3008"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="236"
+              y="1003.8359">OrderByItem
+        </text>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="78"
+              x="385" y="923.8125"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="395"
+              y="947.3477">Column
+        </text>
+        <path d="M335,998.5449 L345,998.5449 C360,998.5449 360,942.0566 375,942.0566 L385,942.0566 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="100"
+              x="385" y="980.3008"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="76" x="395"
+              y="1003.8359">Expression
+        </text>
+        <path d="M335,998.5449 L345,998.5449 C360,998.5449 360,998.5449 375,998.5449 L385,998.5449 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="64"
+              x="385" y="1036.7891"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="40" x="395"
+              y="1060.3242">string
+        </text>
+        <path d="M335,998.5449 L345,998.5449 C360,998.5449 360,1055.0332 375,1055.0332 L385,1055.0332 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M176,829.0801 L186,829.0801 C201,829.0801 201,998.5449 216,998.5449 L226,998.5449 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="117"
+              x="10" y="1361.5967"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="93" x="20"
+              y="1385.1318">OperandType
+        </text>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="100"
+              x="177" y="1093.2773"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="76" x="187"
+              y="1116.8125">Expression
+        </text>
+        <path d="M127,1379.8408 L137,1379.8408 C152,1379.8408 152,1111.5215 167,1111.5215 L177,1111.5215 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="156"
+              x="177" y="1149.7656"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="132" x="187"
+              y="1173.3008">AggregateFunction
+        </text>
+        <path d="M127,1379.8408 L137,1379.8408 C152,1379.8408 152,1168.0098 167,1168.0098 L177,1168.0098 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="95"
+              x="177" y="1206.2539"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="71" x="187"
+              y="1229.7891">ValueType
+        </text>
+        <path d="M127,1379.8408 L137,1379.8408 C152,1379.8408 152,1224.498 167,1224.498 L177,1224.498 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="132"
+              x="177" y="1418.085"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="108" x="187"
+              y="1441.6201">ValueArrayType
+        </text>
+        <rect fill="#008000" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="50"
+              x="359" y="1206.2539"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="26" x="369"
+              y="1229.7891">null
+        </text>
+        <path d="M309,1436.3291 L319,1436.3291 C334,1436.3291 334,1224.498 349,1224.498 L359,1224.498 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="106"
+              x="359" y="1262.7422"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="82" x="369"
+              y="1286.2773">BooleanLike
+        </text>
+        <rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="80"
+              x="515" y="1234.498"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="525"
+              y="1258.0332">boolean
+        </text>
+        <path d="M465,1280.9863 L475,1280.9863 C490,1280.9863 490,1252.7422 505,1252.7422 L515,1252.7422 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133"
+              x="515" y="1290.9863"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="525"
+              y="1314.5215">BooleanColumn
+        </text>
+        <path d="M465,1280.9863 L475,1280.9863 C490,1280.9863 490,1309.2305 505,1309.2305 L515,1309.2305 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M309,1436.3291 L319,1436.3291 C334,1436.3291 334,1280.9863 349,1280.9863 L359,1280.9863 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="106"
+              x="359" y="1375.7188"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="82" x="369"
+              y="1399.2539">NumberLike
+        </text>
+        <rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="78"
+              x="515" y="1347.4746"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="525"
+              y="1371.0098">number
+        </text>
+        <path d="M465,1393.9629 L475,1393.9629 C490,1393.9629 490,1365.7188 505,1365.7188 L515,1365.7188 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133"
+              x="515" y="1403.9629"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="525"
+              y="1427.498">NumberColumn
+        </text>
+        <path d="M465,1393.9629 L475,1393.9629 C490,1393.9629 490,1422.207 505,1422.207 L515,1422.207 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M309,1436.3291 L319,1436.3291 C334,1436.3291 334,1393.9629 349,1393.9629 L359,1393.9629 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="82"
+              x="359" y="1488.6953"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="58" x="369"
+              y="1512.2305">TextLike
+        </text>
+        <rect fill="#90EE90" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="64"
+              x="491" y="1460.4512"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="40" x="501"
+              y="1483.9863">string
+        </text>
+        <path d="M441,1506.9395 L451,1506.9395 C466,1506.9395 466,1478.6953 481,1478.6953 L491,1478.6953 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="113"
+              x="491" y="1516.9395"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="501"
+              y="1540.4746">TextColumn
+        </text>
+        <path d="M441,1506.9395 L451,1506.9395 C466,1506.9395 466,1535.1836 481,1535.1836 L491,1535.1836 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M309,1436.3291 L319,1436.3291 C334,1436.3291 334,1506.9395 349,1506.9395 L359,1506.9395 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="82"
+              x="359" y="1601.6719"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="58" x="369"
+              y="1625.207">DateLike
+        </text>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="55"
+              x="491" y="1573.4277"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="31" x="501"
+              y="1596.9629">Date
+        </text>
+        <path d="M441,1619.916 L451,1619.916 C466,1619.916 466,1591.6719 481,1591.6719 L491,1591.6719 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFFF00" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="113"
+              x="491" y="1629.916"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="501"
+              y="1653.4512">DateColumn
+        </text>
+        <path d="M441,1619.916 L451,1619.916 C466,1619.916 466,1648.1602 481,1648.1602 L491,1648.1602 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M309,1436.3291 L319,1436.3291 C334,1436.3291 334,1619.916 349,1619.916 L359,1619.916 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M127,1379.8408 L137,1379.8408 C152,1379.8408 152,1436.3291 167,1436.3291 L177,1436.3291 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="86"
+              x="10" y="2223.043"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="62" x="20"
+              y="2246.5781">Operator
+        </text>
+        <rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="157"
+              x="146" y="1827.625"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="133" x="156"
+              y="1851.1602">ArithmeticOperator
+        </text>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="90"
+              x="353" y="1686.4043"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="66" x="363"
+              y="1709.9395">ADD = '+'
+        </text>
+        <path d="M303,1845.8691 L313,1845.8691 C328,1845.8691 328,1704.6484 343,1704.6484 L353,1704.6484 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="83"
+              x="353" y="1742.8926"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="59" x="363"
+              y="1766.4277">SUB = '-'
+        </text>
+        <path d="M303,1845.8691 L313,1845.8691 C328,1845.8691 328,1761.1367 343,1761.1367 L353,1761.1367 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="85"
+              x="353" y="1799.3809"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="61" x="363"
+              y="1822.916">MUL = '*'
+        </text>
+        <path d="M303,1845.8691 L313,1845.8691 C328,1845.8691 328,1817.625 343,1817.625 L353,1817.625 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="79"
+              x="353" y="1855.8691"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="55" x="363"
+              y="1879.4043">DIV = '/'
+        </text>
+        <path d="M303,1845.8691 L313,1845.8691 C328,1845.8691 328,1874.1133 343,1874.1133 L353,1874.1133 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="91"
+              x="353" y="1912.3574"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="67" x="363"
+              y="1935.8926">MOD = '%'
+        </text>
+        <path d="M303,1845.8691 L313,1845.8691 C328,1845.8691 328,1930.6016 343,1930.6016 L353,1930.6016 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="83"
+              x="353" y="1968.8457"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="59" x="363"
+              y="1992.3809">EXP = '^'
+        </text>
+        <path d="M303,1845.8691 L313,1845.8691 C328,1845.8691 328,1987.0898 343,1987.0898 L353,1987.0898 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M96,2241.2871 L106,2241.2871 C121,2241.2871 121,1845.8691 136,1845.8691 L146,1845.8691 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133"
+              x="146" y="2081.8223"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="156"
+              y="2105.3574">BitwiseOperator
+        </text>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="118"
+              x="329" y="2025.334"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="94" x="339"
+              y="2048.8691">BitwiseOr = '|'
+        </text>
+        <path d="M279,2100.0664 L289,2100.0664 C304,2100.0664 304,2043.5781 319,2043.5781 L329,2043.5781 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="134"
+              x="329" y="2081.8223"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="110" x="339"
+              y="2105.3574">BitwiseAnd = '&amp;'
+        </text>
+        <path d="M279,2100.0664 L289,2100.0664 C304,2100.0664 304,2100.0664 319,2100.0664 L329,2100.0664 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="129"
+              x="329" y="2138.3105"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="105" x="339"
+              y="2161.8457">BitwiseXor = '#'
+        </text>
+        <path d="M279,2100.0664 L289,2100.0664 C304,2100.0664 304,2156.5547 319,2156.5547 L329,2156.5547 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M96,2241.2871 L106,2241.2871 C121,2241.2871 121,2100.0664 136,2100.0664 L146,2100.0664 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="117"
+              x="146" y="2194.7988"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="93" x="156"
+              y="2218.334">TextOperator
+        </text>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="119"
+              x="313" y="2194.7988"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="95" x="323"
+              y="2218.334">CONCAT = '||'
+        </text>
+        <path d="M263,2213.043 L273,2213.043 C288,2213.043 288,2213.043 303,2213.043 L313,2213.043 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M96,2241.2871 L106,2241.2871 C121,2241.2871 121,2213.043 136,2213.043 L146,2213.043 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#ADD8E6" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="83"
+              x="146" y="2505.4844"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="59" x="156"
+              y="2529.0195">Qualifier
+        </text>
+        <rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="170"
+              x="279" y="2448.9961"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="146" x="289"
+              y="2472.5313">ComparisonOperator
+        </text>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="98"
+              x="499" y="2251.2871"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="74" x="509"
+              y="2274.8223">Equal = '='
+        </text>
+        <path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2269.5313 489,2269.5313 L499,2269.5313 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133"
+              x="499" y="2307.7754"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="509"
+              y="2331.3105">NotEqual = '&lt;&gt;'
+        </text>
+        <path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2326.0195 489,2326.0195 L499,2326.0195 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="146"
+              x="499" y="2364.2637"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="122" x="509"
+              y="2387.7988">GreaterThan = '&gt;'
+        </text>
+        <path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2382.5078 489,2382.5078 L499,2382.5078 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="177"
+              x="499" y="2420.752"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="153" x="509"
+              y="2444.2871">GreaterOrEqual = '&gt;='
+        </text>
+        <path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2438.9961 489,2438.9961 L499,2438.9961 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="138"
+              x="499" y="2477.2402"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="114" x="509"
+              y="2500.7754">LesserThan = '&lt;'
+        </text>
+        <path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2495.4844 489,2495.4844 L499,2495.4844 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="169"
+              x="499" y="2533.7285"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="145" x="509"
+              y="2557.2637">LesserOrEqual = '&lt;='
+        </text>
+        <path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2551.9727 489,2551.9727 L499,2551.9727 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="76"
+              x="499" y="2590.2168"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="52" x="509"
+              y="2613.752">In = 'IN'
+        </text>
+        <path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2608.4609 489,2608.4609 L499,2608.4609 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="134"
+              x="499" y="2646.7051"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="110" x="509"
+              y="2670.2402">NotIn = 'NOT IN'
+        </text>
+        <path d="M449,2467.2402 L459,2467.2402 C474,2467.2402 474,2664.9492 489,2664.9492 L499,2664.9492 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M229,2523.7285 L239,2523.7285 C254,2523.7285 254,2467.2402 269,2467.2402 L279,2467.2402 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="113"
+              x="279" y="2731.4375"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="89" x="289"
+              y="2754.9727">NullOperator
+        </text>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="72"
+              x="442" y="2703.1934"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="48" x="452"
+              y="2726.7285">Is = 'IS'
+        </text>
+        <path d="M392,2749.6816 L402,2749.6816 C417,2749.6816 417,2721.4375 432,2721.4375 L442,2721.4375 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="130"
+              x="442" y="2759.6816"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106" x="452"
+              y="2783.2168">IsNot = 'IS NOT'
+        </text>
+        <path d="M392,2749.6816 L402,2749.6816 C417,2749.6816 417,2777.9258 432,2777.9258 L442,2777.9258 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M229,2523.7285 L239,2523.7285 C254,2523.7285 254,2749.6816 269,2749.6816 L279,2749.6816 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <path d="M96,2241.2871 L106,2241.2871 C121,2241.2871 121,2523.7285 136,2523.7285 L146,2523.7285 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="134"
+              x="10" y="2844.4141"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="110" x="20"
+              y="2867.9492">LogicalOperator
+        </text>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="109"
+              x="194" y="2816.1699"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="204"
+              y="2839.7051">AND = 'AND'
+        </text>
+        <path d="M144,2862.6582 L154,2862.6582 C169,2862.6582 169,2834.4141 184,2834.4141 L194,2834.4141 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="89"
+              x="194" y="2872.6582"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="65" x="204"
+              y="2896.1934">OR = 'OR'
+        </text>
+        <path d="M144,2862.6582 L154,2862.6582 C169,2862.6582 169,2890.9023 184,2890.9023 L194,2890.9023 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="133"
+              x="10" y="3098.6113"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="20"
+              y="3122.1465">ExpressionType
+        </text>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="99"
+              x="193" y="2929.1465"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="75" x="203"
+              y="2952.6816">NOT_EXIST
+        </text>
+        <path d="M143,3116.8555 L153,3116.8555 C168,3116.8555 168,2947.3906 183,2947.3906 L193,2947.3906 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="58"
+              x="193" y="2985.6348"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="34" x="203"
+              y="3009.1699">NULL
+        </text>
+        <path d="M143,3116.8555 L153,3116.8555 C168,3116.8555 168,3003.8789 183,3003.8789 L193,3003.8789 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="89"
+              x="193" y="3042.123"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="65" x="203"
+              y="3065.6582">BOOLEAN
+        </text>
+        <path d="M143,3116.8555 L153,3116.8555 C168,3116.8555 168,3060.3672 183,3060.3672 L193,3060.3672 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="81"
+              x="193" y="3098.6113"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="57" x="203"
+              y="3122.1465">NUMBER
+        </text>
+        <path d="M143,3116.8555 L153,3116.8555 C168,3116.8555 168,3116.8555 183,3116.8555 L193,3116.8555 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="59"
+              x="193" y="3155.0996"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="35" x="203"
+              y="3178.6348">TEXT
+        </text>
+        <path d="M143,3116.8555 L153,3116.8555 C168,3116.8555 168,3173.3438 183,3173.3438 L193,3173.3438 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="61"
+              x="193" y="3211.5879"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="37" x="203"
+              y="3235.123">DATE
+        </text>
+        <path d="M143,3116.8555 L153,3116.8555 C168,3116.8555 168,3229.832 183,3229.832 L193,3229.832 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="71"
+              x="193" y="3268.0762"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="47" x="203"
+              y="3291.6113">ARRAY
+        </text>
+        <path d="M143,3116.8555 L153,3116.8555 C168,3116.8555 168,3286.3203 183,3286.3203 L193,3286.3203 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#EE82EE" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="146"
+              x="10" y="3522.2734"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="122" x="20"
+              y="3545.8086">FromItemRelation
+        </text>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="145"
+              x="206" y="3324.5645"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="121" x="216"
+              y="3348.0996">NO_RELATION = ''
+        </text>
+        <path d="M156,3540.5176 L166,3540.5176 C181,3540.5176 181,3342.8086 196,3342.8086 L206,3342.8086 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="112"
+              x="206" y="3381.0527"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="88" x="216"
+              y="3404.5879">COMMA = ', '
+        </text>
+        <path d="M156,3540.5176 L166,3540.5176 C181,3540.5176 181,3399.2969 196,3399.2969 L206,3399.2969 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="115"
+              x="206" y="3437.541"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="91" x="216"
+              y="3461.0762">JOIN = ' JOIN '
+        </text>
+        <path d="M156,3540.5176 L166,3540.5176 C181,3540.5176 181,3455.7852 196,3455.7852 L206,3455.7852 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="190"
+              x="206" y="3494.0293"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="166" x="216"
+              y="3517.5645">LEFT_JOIN = ' LEFT JOIN '
+        </text>
+        <path d="M156,3540.5176 L166,3540.5176 C181,3540.5176 181,3512.2734 196,3512.2734 L206,3512.2734 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="210"
+              x="206" y="3550.5176"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="186" x="216"
+              y="3574.0527">RIGHT_JOIN = ' RIGHT JOIN '
+        </text>
+        <path d="M156,3540.5176 L166,3540.5176 C181,3540.5176 181,3568.7617 196,3568.7617 L206,3568.7617 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="208"
+              x="206" y="3607.0059"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="184" x="216"
+              y="3630.541">INNER_JOIN = ' INNER JOIN '
+        </text>
+        <path d="M156,3540.5176 L166,3540.5176 C181,3540.5176 181,3625.25 196,3625.25 L206,3625.25 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="190"
+              x="206" y="3663.4941"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="166" x="216"
+              y="3687.0293">FULL_JOIN = ' FULL JOIN '
+        </text>
+        <path d="M156,3540.5176 L166,3540.5176 C181,3540.5176 181,3681.7383 196,3681.7383 L206,3681.7383 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/>
+        <rect fill="#FFC0CB" height="36.4883" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:1.5;" width="218"
+              x="206" y="3719.9824"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="194" x="216"
+              y="3743.5176">CROSS_JOIN = ' CROSS JOIN '
+        </text>
+        <path d="M156,3540.5176 L166,3540.5176 C181,3540.5176 181,3738.2266 196,3738.2266 L206,3738.2266 " fill="none"
+              style="stroke:#181818;stroke-width:1.0;"/><!--MD5=[5fc2450fef4b43f4de3b4b74c47e1230]
+@startmindmap
+
+<style>
+mindmapDiagram {
+  .primitive {
+    BackgroundColor #lightgreen
+  }
+  .type {
+    BackgroundColor #lightblue
+  }
+  .abstractClass {
+    BackgroundColor #Gold
+  }
+  .singleToneClass {
+    BackgroundColor #GoldenRod
+  }
+  .class {
+    BackgroundColor #Yellow
+  }
+  .null {
+    BackgroundColor #green
+  }
+  .enum {
+    BackgroundColor #violet
+  }
+  .enumItem {
+    BackgroundColor #pink
+  }
+}
+</style>
+
+* PrimitiveType <<type>>
+** null <<null>>
+** NonNullPrimitiveType <<type>>
+*** boolean <<primitive>>
+*** number <<primitive>>
+*** string <<primitive>>
+*** Date <<class>>
+
+* SelectItem <<type>>
+** Aggregate Function <<class>>
+** ColumnLike <<type>>
+*** Column <<class>>
+**** ColumnBoolean <<class>>
+**** ColumnNumber <<class>>
+**** ColumnText <<class>>
+**** ColumnDate <<class>>
+*** Expression <<class>>
+** Asterisk <<class>>
+
+* OrderByArgsElement <<type>>
+** OrderByNullsPosition <<abstractClass>>
+*** NULLS_POSITION_NOT_EXIST <<singleToneClass>>
+*** NULLS_FIRST <<singleToneClass>>
+*** NULLS_LAST <<singleToneClass>>
+** OrderByDirection <<abstractClass>>
+*** DIRECTION_NOT_EXIST <<singleToneClass>>
+*** ASC <<singleToneClass>>
+*** DESC <<singleToneClass>>
+** OrderByItemInfo <<class>>
+** OrderByItem <<type>>
+*** Column <<class>>
+*** Expression <<class>>
+*** string <<primitive>>
+
+* OperandType <<type>>
+** Expression <<class>>
+** AggregateFunction <<class>>
+** ValueType <<type>>
+** ValueArrayType <<type>>
+*** null <<null>>
+*** BooleanLike <<type>>
+**** boolean <<primitive>>
+**** BooleanColumn <<class>>
+*** NumberLike <<type>>
+**** number <<primitive>>
+**** NumberColumn <<class>>
+*** TextLike <<type>>
+**** string <<primitive>>
+**** TextColumn  <<class>>
+*** DateLike <<type>>
+**** Date <<class>>
+**** DateColumn  <<class>>
+
+* Operator <<type>>
+** ArithmeticOperator <<enum>>
+*** ADD = '+' <<enumItem>>
+*** SUB = '-' <<enumItem>>
+*** MUL = '*' <<enumItem>>
+*** DIV = '/' <<enumItem>>
+*** MOD = '%' <<enumItem>>
+*** EXP = '^' <<enumItem>>
+** BitwiseOperator <<enum>>
+*** BitwiseOr = '|' <<enumItem>>
+*** BitwiseAnd = '&' <<enumItem>>
+*** BitwiseXor = '#' <<enumItem>>
+** TextOperator <<enum>>
+*** CONCAT = '||' <<enumItem>>
+** Qualifier <<type>>
+*** ComparisonOperator <<enum>>
+**** Equal = '=' <<enumItem>>
+**** NotEqual = '<>' <<enumItem>>
+**** GreaterThan = '>' <<enumItem>>
+**** GreaterOrEqual = '>=' <<enumItem>>
+**** LesserThan = '<' <<enumItem>>
+**** LesserOrEqual = '<=' <<enumItem>>
+**** In = 'IN' <<enumItem>>
+**** NotIn = 'NOT IN' <<enumItem>>
+*** NullOperator <<enum>>
+**** Is = 'IS' <<enumItem>>
+**** IsNot = 'IS NOT' <<enumItem>>
+
+* LogicalOperator <<enum>>
+** AND = 'AND' <<enumItem>>
+** OR = 'OR' <<enumItem>>
+
+* ExpressionType <<enum>>
+** NOT_EXIST <<enumItem>>
+** NULL <<enumItem>>
+** BOOLEAN <<enumItem>>
+** NUMBER <<enumItem>>
+** TEXT <<enumItem>>
+** DATE <<enumItem>>
+** ARRAY <<enumItem>>
+
+* FromItemRelation <<enum>>
+** NO_RELATION = '' <<enumItem>>
+** COMMA = ', ' <<enumItem>>
+** JOIN = ' JOIN ' <<enumItem>>
+** LEFT_JOIN = ' LEFT JOIN ' <<enumItem>>
+** RIGHT_JOIN = ' RIGHT JOIN ' <<enumItem>>
+** INNER_JOIN = ' INNER JOIN ' <<enumItem>>
+** FULL_JOIN = ' FULL JOIN ' <<enumItem>>
+** CROSS_JOIN = ' CROSS JOIN ' <<enumItem>>
+
+@endmindmap
+
+PlantUML version 1.2022.13(Sat Nov 19 14:22:17 CET 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: GB
+-->
+    </g>
+</svg>

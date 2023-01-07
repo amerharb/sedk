@@ -1,8 +1,16 @@
-import { NumberColumn } from 'sedk-mysql'
+import {
+	InvalidConditionError,
+	NumberColumn,
+	builder,
+	e,
+} from 'sedk-mysql'
 
 // test non-exported Classes
-import { Operand } from '@src/models'
+import { Condition, Expression, Operand } from '@src/models'
+import { Parenthesis } from '@src/steps'
 import { Binder, BinderArray, BinderStore } from '@src/binder'
+import { BuilderData } from '@src/builder'
+import { ItemInfo } from '@src/ItemInfo'
 import { Column } from '@src/database'
 
 import { database } from '@test/database'
@@ -11,6 +19,22 @@ import { database } from '@test/database'
 const table1 = database.s.public.t.table1
 
 describe('Throw desired Errors', () => {
+	const sql = builder(database)
+
+	describe('Error: InvalidConditionError', () => {
+		it(`Throws error when condition created with only "NUMBER"`, () => {
+			function actual() {
+				sql
+					.selectAsteriskFrom(table1)
+					.where(new Condition({ leftExpression: Expression.getSimpleExp(1) }))
+					.getSQL()
+			}
+
+			expect(actual).toThrow(InvalidConditionError)
+			expect(actual).toThrow(`Condition can not created with only "NUMBER"`)
+		})
+	})
+
 	describe('Binder', () => {
 		it('Throws: "This binder already stored"', () => {
 			function actual() {
@@ -68,6 +92,67 @@ describe('Throw desired Errors', () => {
 			expect(actual).not.toThrow(`BinderArray must have at least one element`)
 			expect(actual).not.toThrow(`All binders in BinderArray must be same type`)
 		})
+	})
+
+	describe('BaseStep', () => {
+		it('Throws: "Invalid conditions build, opening parentheses are more than closing ones"', () => {
+			function actual() {
+				sql
+					.selectAsteriskFrom(table1)
+					// @ts-ignore
+					.where(Parenthesis.Open)
+					.getSQL()
+			}
+
+			expect(actual).toThrow(`Invalid conditions build, opening parentheses are more than closing ones`)
+		})
+
+		it('Throws: "Invalid conditions build, empty parentheses are not allowed"', () => {
+			function actual() {
+				sql
+					.selectAsteriskFrom(table1)
+					// @ts-ignore
+					.where({}, Parenthesis.Open, Parenthesis.Close)
+					.getSQL()
+			}
+
+			expect(actual).toThrow(`Invalid conditions build, empty parentheses are not allowed`)
+		})
+
+		it('Throws: "Invalid conditions build, closing parenthesis must occur after Opening one"', () => {
+			function actual() {
+				sql
+					.selectAsteriskFrom(table1)
+					// @ts-ignore
+					.where(Parenthesis.Close)
+					.getSQL()
+			}
+
+			expect(actual).toThrow(`Invalid conditions build, closing parenthesis must occur after Opening one`)
+		})
+	})
+
+	it(`Throws: ItemInfo is an abstract class`, () => {
+		class DummyItemInfo extends ItemInfo {
+			constructor() {super()}
+
+			getColumns(): Column[] {
+				return []
+			}
+
+			getStmt(data: BuilderData): string {
+				return ''
+			}
+		}
+
+		function actual() {
+			sql
+				.deleteFrom(table1)
+				.where(e(1).eq(1))
+				.returning(new DummyItemInfo())
+		}
+
+		expect(actual).toThrow(`ItemInfo is an abstract class`)
 	})
 
 	describe('Column', () => {

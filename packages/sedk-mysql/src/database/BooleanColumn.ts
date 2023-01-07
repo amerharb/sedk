@@ -101,6 +101,11 @@ export class BooleanColumn extends Column implements Condition {
 		})
 	}
 
+	/** @deprecated - since v0.15.0 use NOT */
+	public get not(): Condition {
+		return this.NOT
+	}
+
 	public get NOT(): Condition {
 		return new Condition({ leftExpression: Expression.getSimpleExp(this, true) })
 	}
@@ -141,5 +146,15 @@ export class BooleanColumn extends Column implements Condition {
 			operator: ComparisonOperator.NotIn,
 			rightExpression: Expression.getSimpleExp(binderArray),
 		})
+	}
+
+	/** @deprecated - since v0.15.0 use eq() */
+	public let(value: boolean|null|Default): UpdateSetItemInfo {
+		return new UpdateSetItemInfo(this, value)
+	}
+
+	/** @deprecated - since v0.15.0 use eq$() */
+	public let$(value: boolean|null): UpdateSetItemInfo {
+		return new UpdateSetItemInfo(this, new Binder(value))
 	}
 }

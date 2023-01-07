@@ -16,8 +16,53 @@ SELECT FROM "table1";
 sql.select(col1).from(table1)
 SELECT "col1" FROM "table1";
 
+sql.selectAsteriskFrom(table1).where(col1.eq$('x'))
+SELECT * FROM "table1" WHERE "col1" = $1;
+[ "x" ]
+
 sql.select(table1.ASTERISK).from(table1)
 SELECT "table1".* FROM "table1";
 
 sql.select(table1.ASTERISK, col1).from(table1)
 SELECT "table1".*, "col1" FROM "table1";
+
+sql.select(col1.as('c1'), col2).from(table1).orderBy('c1')
+SELECT "col1" AS "c1", "col2" FROM "table1" ORDER BY "c1";
+
+sql.selectAsteriskFrom(table1).where(col7.eq$(true))
+SELECT * FROM "table1" WHERE "col7" = $1;
+[ true ]
+
+sql.selectAsteriskFrom(table1).where(col7.ne$(true))
+SELECT * FROM "table1" WHERE "col7" <> $1;
+[ true ]
+
+sql.select(col4).from(table1).where(col4.isEq(1))
+SELECT "col4" FROM "table1" WHERE "col4" = 1;
+
+sql.select(col4).from(table1).where(col4.isNe(1))
+SELECT "col4" FROM "table1" WHERE "col4" <> 1;
+
+sql.select(col9).from(table1).where(col9.isEq$(null))
+SELECT "col9" FROM "table1" WHERE "col9" IS $1;
+[ null ]
+
+sql.select(col7).from(table1).where(col7.isEq(true))
+SELECT "col7" FROM "table1" WHERE "col7" = TRUE;
+
+sql.select(col7).from(table1).where(col7.isNe(true))
+SELECT "col7" FROM "table1" WHERE "col7" <> TRUE;
+
+sql.select(col1).from(table1).where(col1.isNe$(null))
+SELECT "col1" FROM "table1" WHERE "col1" IS NOT $1;
+[ null ]
+
+sql.select(col1).from(table1).where(col1.isNe$('A'))
+SELECT "col1" FROM "table1" WHERE "col1" <> $1;
+[ "A" ]
+
+sql.select(col1).from(table1).where(col1.isNe('A'))
+SELECT "col1" FROM "table1" WHERE "col1" <> 'A';
+
+sql.select(col1).from(table1).where(col1.isEq('A'))
+SELECT "col1" FROM "table1" WHERE "col1" = 'A';

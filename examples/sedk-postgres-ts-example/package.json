@@ -11,7 +11,7 @@
     "build&start": "npm run build && npm run start"
   },
   "keywords": [],
-  "author": "",
+  "author": "Amer Harb",
   "license": "ISC",
   "dependencies": {
     "sedk-postgres": "0.15.0"

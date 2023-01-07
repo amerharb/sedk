@@ -72,4 +72,4 @@ so if you change from MySQL to Postgres then you will need to change the library
 ## What is New
 
 ### Version: 0.0.1
-- Use eq() in UPDATE instead of let() to be more WYSIWYG
+- Initial WiP

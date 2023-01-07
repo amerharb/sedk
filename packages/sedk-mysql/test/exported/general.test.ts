@@ -815,16 +815,6 @@ describe(`test from one table`, () => {
 		expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE "col7";`)
 	})
 
-	it(`Produces [SELECT "col1" FROM "table1" WHERE NOT "col7";] using "not" old style`, () => {
-		const actual = sql
-			.select(col1)
-			.from(table1)
-			.where(col7.not)
-			.getSQL()
-
-		expect(actual).toEqual(`SELECT "col1" FROM "table1" WHERE NOT "col7";`)
-	})
-
 	it(`Produces [SELECT "col1" FROM "table1" WHERE NOT "col7";]`, () => {
 		const actual = sql
 			.select(col1)

@@ -157,16 +157,6 @@ export class DateColumn extends Column {
 		})
 	}
 
-	/** @deprecated - since v0.15.0 use eq() */
-	public let(value: Date|null|Default): UpdateSetItemInfo {
-		return new UpdateSetItemInfo(this, value)
-	}
-
-	/** @deprecated - since v0.15.0 use eq$() */
-	public let$(value: Date|null): UpdateSetItemInfo {
-		return new UpdateSetItemInfo(this, new Binder(value))
-	}
-
 	public in(...values: DateLike[]): Condition {
 		Column.throwIfArrayIsEmpty(values, ComparisonOperator.In)
 		return new Condition({

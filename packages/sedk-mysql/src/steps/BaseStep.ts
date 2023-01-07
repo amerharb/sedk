@@ -98,11 +98,6 @@ export abstract class BaseStep extends Function {
 		return [...this.binderStore.getValues()]
 	}
 
-	/** @deprecated - Not needed since version 0.15.0 */
-	public cleanUp(): void {
-		// Do nothing
-	}
-
 	protected static getTable(item: FromItem): Table {
 		if (item instanceof Table)
 			return item

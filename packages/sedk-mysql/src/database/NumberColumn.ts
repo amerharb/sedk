@@ -247,14 +247,4 @@ export class NumberColumn extends Column {
 	public get min(): AggregateFunction {
 		return new AggregateFunction(AggregateFunctionEnum.MIN, Expression.getSimpleExp(this))
 	}
-
-	/** @deprecated - since v0.15.0 use eq() */
-	public let(value: number|null|Default): UpdateSetItemInfo {
-		return new UpdateSetItemInfo(this, value)
-	}
-
-	/** @deprecated - since v0.15.0 use eq$() */
-	public let$(value: number|null): UpdateSetItemInfo {
-		return new UpdateSetItemInfo(this, new Binder(value))
-	}
 }

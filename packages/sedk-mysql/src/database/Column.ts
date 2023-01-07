@@ -59,81 +59,35 @@ export abstract class Column implements INameGiver, IStatementGiver {
 		return new SelectItemInfo(this, alias)
 	}
 
-	/** @deprecated */
-	public get asc(): OrderByItemInfo {
-		return this.ASC
-	}
-
 	public get ASC(): OrderByItemInfo {
 		return new OrderByItemInfo(this, ASC, NULLS_POSITION_NOT_EXIST)
 	}
-
-	/** @deprecated */
-	public get desc(): OrderByItemInfo {
-		return this.DESC
-	}
-
 	public get DESC(): OrderByItemInfo {
 		return new OrderByItemInfo(this, DESC, NULLS_POSITION_NOT_EXIST)
-	}
-
-	/** @deprecated */
-	public get nullsFirst(): OrderByItemInfo {
-		return this.NULLS_FIRST
 	}
 
 	public get NULLS_FIRST(): OrderByItemInfo {
 		return new OrderByItemInfo(this, DIRECTION_NOT_EXIST, NULLS_FIRST)
 	}
 
-	/** @deprecated */
-	public get nullsLast(): OrderByItemInfo {
-		return this.NULLS_LAST
-	}
-
 	public get NULLS_LAST(): OrderByItemInfo {
 		return new OrderByItemInfo(this, DIRECTION_NOT_EXIST, NULLS_LAST)
-	}
-
-	/** @deprecated */
-	public get ascNullsFirst(): OrderByItemInfo {
-		return this.ASC_NULLS_FIRST
 	}
 
 	public get ASC_NULLS_FIRST(): OrderByItemInfo {
 		return new OrderByItemInfo(this, ASC, NULLS_FIRST)
 	}
 
-	/** @deprecated */
-	public get descNullsFirst(): OrderByItemInfo {
-		return this.DESC_NULLS_FIRST
-	}
-
 	public get DESC_NULLS_FIRST(): OrderByItemInfo {
 		return new OrderByItemInfo(this, DESC, NULLS_FIRST)
-	}
-
-	/** @deprecated */
-	public get ascNullsLast(): OrderByItemInfo {
-		return this.ASC_NULLS_LAST
 	}
 
 	public get ASC_NULLS_LAST(): OrderByItemInfo {
 		return new OrderByItemInfo(this, ASC, NULLS_LAST)
 	}
 
-	/** @deprecated */
-	public get descNullsLast(): OrderByItemInfo {
-		return this.DESC_NULLS_LAST
-	}
-
 	public get DESC_NULLS_LAST(): OrderByItemInfo {
 		return new OrderByItemInfo(this, DESC, NULLS_LAST)
-	}
-
-	/** @deprecated - since v0.15.0 use eqDEFAULT */
-	public get letDefault(): UpdateSetItemInfo {
-		return this.eqDEFAULT
 	}
 
 	public get eqDEFAULT(): UpdateSetItemInfo {

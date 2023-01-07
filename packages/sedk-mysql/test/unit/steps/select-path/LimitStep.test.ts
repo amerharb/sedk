@@ -9,12 +9,12 @@ describe('LimitStep', () => {
 			const actual = new LimitStep(rootStep, 1).getStepStatement()
 			expect(actual).toEqual('LIMIT 1')
 		})
-		/** Postgres accept decimal value */
+		/** TODO: check in mySQL if it is to accept decimal value */
 		it(`returns: [LIMIT 1.7]`, () => {
 			const actual = new LimitStep(rootStep, 1.7).getStepStatement()
 			expect(actual).toEqual(`LIMIT 1.7`)
 		})
-		/** Postgres accept null in limit */
+		/** TODO: check in mySQL if it accept null in limit */
 		it(`returns: [LIMIT NULL]`, () => {
 			const actual = new LimitStep(rootStep, null).getStepStatement()
 			expect(actual).toEqual(`LIMIT NULL`)

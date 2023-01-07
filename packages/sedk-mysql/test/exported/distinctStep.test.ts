@@ -13,9 +13,7 @@ const col2 = database.s.public.t.table1.c.col2
 describe('test orderBy Step', () => {
 	const sql = builder(database)
 
-	/* In Postgres it is allowed to have FROM directly
-   after SELECT with or without ALL
-   */
+	/** TODO: check mySQL if it is ok to have FROM without any columns */
 	it('Produces [SELECT ALL FROM "table1";]', () => {
 		const actual = sql
 			.selectAll()

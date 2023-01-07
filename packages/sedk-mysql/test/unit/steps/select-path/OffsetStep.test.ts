@@ -9,7 +9,7 @@ describe('OffsetStep', () => {
 			const actual = new OffsetStep(rootStep, 1).getStepStatement()
 			expect(actual).toEqual('OFFSET 1')
 		})
-		/** Postgres accept decimal value */
+		/** TODO: check if mySQL accept decimal value */
 		it(`returns: [OFFSET 1.7]`, () => {
 			const actual = new OffsetStep(rootStep, 1.7).getStepStatement()
 			expect(actual).toEqual(`OFFSET 1.7`)

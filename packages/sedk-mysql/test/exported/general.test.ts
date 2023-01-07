@@ -29,7 +29,7 @@ const col8 = table1.c.col8
 describe(`test from one table`, () => {
 	const sql = builder(database)
 
-	/** In Postgres, it is ok to have FROM directly after SELECT */
+	/** TODO: check in mySQL if it is ok to have FROM directly after SELECT */
 	it(`Produces [SELECT FROM "table1";]`, () => {
 		const actual = sql
 			.select().from(table1).getSQL()

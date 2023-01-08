@@ -1,7 +1,7 @@
 # SEDK-mysql
-[![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://github.com/amerharb/sedk/tree/root/version/0.3.0)
+[![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://github.com/amerharb/sedk/tree/main)
 [![License: GPLv3](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
-![Coverage](https://raw.githubusercontent.com/amerharb/sedk/root/version/0.3.0/packages/sedk-mysql/badges/coverage.svg)
+![Coverage](https://raw.githubusercontent.com/amerharb/sedk/main/packages/sedk-mysql/badges/coverage.svg)
 ![Github workflow](https://github.com/amerharb/sedk/actions/workflows/test-lint.yaml/badge.svg?branch=main)
 
 SEDK is a SQL builder library for MySQL dialect, support binding parameters, and use a pre-defined database schema
@@ -67,7 +67,7 @@ currently the only place where string is used is when you define an alias for a 
 so if you change from MySQL to Postgres then you will need to change the library too
 
 ## Steps Rail Road
-![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk/root/version/0.3.0/packages/sedk-mysql/doc/StepsRailRoad.svg)
+![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk/main/packages/sedk-mysql/doc/StepsRailRoad.svg)
 
 ## What is New
 

@@ -8,7 +8,7 @@
     "start": "node index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Amer Harb",
   "license": "ISC",
   "dependencies": {
     "sedk-postgres": "0.15.0"

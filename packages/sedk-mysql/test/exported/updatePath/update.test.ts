@@ -72,25 +72,6 @@ describe('UPDATE Path', () => {
 			expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1 AND "col2" = 'B' OR "col3" = 'C';`)
 		})
 	})
-	describe('Update with Returning', () => {
-		it(`Produces [UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1 RETURNING *;]`, () => {
-			const actual = sql
-				.update(table1)
-				.set(col1.eq('A'))
-				.where(e(1).eq(1))
-				.returning(ASTERISK)
-				.getSQL()
-			expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A' WHERE 1 = 1 RETURNING *;`)
-		})
-		it(`Produces [UPDATE "table1" SET "col1" = 'A' RETURNING *;]`, () => {
-			const actual = sql
-				.update(table1)
-				.set(col1.eq('A'))
-				.returning(ASTERISK)
-				.getSQL()
-			expect(actual).toEqual(`UPDATE "table1" SET "col1" = 'A' RETURNING *;`)
-		})
-	})
 	describe('Update with Binders', () => {
 		it(`Produces [UPDATE "table1" SET "col1" = $1;]`, () => {
 			const actual = sql

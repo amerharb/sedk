@@ -21,18 +21,6 @@ export class DeleteWithoutConditionError extends Error {
 	}
 }
 
-export class InvalidLimitValueError extends Error {
-	constructor(value: null|number|All) {
-		super(`Invalid limit value: ${value}, value must be positive number, null or "ALL"`)
-	}
-}
-
-export class InvalidOffsetValueError extends Error {
-	constructor(value: number) {
-		super(`Invalid offset value: ${value}, value must be positive number`)
-	}
-}
-
 export class InsertColumnsAndValuesNotEqualError extends Error {
 	constructor(columnsCount: number, valuesCount: number) {
 		super()

@@ -3,11 +3,8 @@ import { InsertColumnsAndValuesNotEqualError } from '../../errors'
 import { Binder, BinderStore } from '../../binder'
 import { Default } from '../../singletoneConstants'
 import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString } from '../../util'
-import { ItemInfo } from '../../ItemInfo'
 import { PrimitiveType, isNumber } from '../../models'
-import { ReturningItem } from '../../ReturningItemInfo'
 import { Artifacts, BaseStep } from '../BaseStep'
-import { ReturningStep } from '../ReturningStep'
 
 export class ValuesStep extends BaseStep {
 	constructor(
@@ -53,10 +50,6 @@ export class ValuesStep extends BaseStep {
 
 	private selfCall(...values: [(PrimitiveType|Binder|Default), ...(PrimitiveType|Binder|Default)[]]): MoreValuesStep {
 		return new MoreValuesStep(this, values)
-	}
-
-	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this, items)
 	}
 
 	getStepStatement(): string {

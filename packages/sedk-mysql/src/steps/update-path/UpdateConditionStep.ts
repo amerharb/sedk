@@ -1,11 +1,8 @@
 import { BooleanColumn } from '../../database'
 import { ConditionStep } from '../ConditionStep'
 import { BaseStep, Parenthesis } from '../BaseStep'
-import { Condition, PrimitiveType } from '../../models'
+import { Condition } from '../../models'
 import { LogicalOperator } from '../../operators'
-import { ReturningStep } from '../ReturningStep'
-import { ReturningItem } from '../../ReturningItemInfo'
-import { ItemInfo } from '../../ItemInfo'
 
 export abstract class UpdateConditionStep extends ConditionStep {
 	public and(condition: Condition): UpdateConditionStep
@@ -24,10 +21,6 @@ export abstract class UpdateConditionStep extends ConditionStep {
 		const whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
 		BaseStep.addConditionParts(whereParts, cond1, op1, cond2, op2, cond3)
 		return new UpdateWhereOrStep(this, whereParts)
-	}
-
-	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this, items)
 	}
 }
 
@@ -48,4 +41,3 @@ export class UpdateWhereAndStep extends UpdateConditionStep {
 		super('AND', prevStep, whereParts)
 	}
 }
-

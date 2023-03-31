@@ -219,13 +219,13 @@ describe('Throw desired Errors', () => {
 		expect(actual).toThrow(/^ DESC shouldn't come after "ASC" or "DESC" without column or alias in between$/)
 	})
 
-	it.skip('Throws error "Expression Type must be number in aggregate function"', () => {
+	it('Throws error "Expression Type must be number in aggregate function"', () => {
 		function actual() {
 			sql
 				.select(col1)
 				.from(table1)
 				.groupBy(col1)
-				// .having(f.sum(e('text')).eq(4))
+				.having(f.sum(e('text')).eq(4))
 				.getSQL()
 		}
 

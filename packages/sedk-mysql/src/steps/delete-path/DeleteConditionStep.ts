@@ -3,8 +3,6 @@ import { BooleanColumn } from '../../database'
 import { BaseStep, Parenthesis } from '../BaseStep'
 import { Condition, PrimitiveType } from '../../models'
 import { LogicalOperator } from '../../operators'
-import { ReturningItem } from '../../ReturningItemInfo'
-import { ItemInfo } from '../../ItemInfo'
 
 abstract class DeleteConditionStep extends ConditionStep {
 	public and(condition: Condition): DeleteWhereStep

@@ -1,17 +1,11 @@
-import { OffsetStep } from './OffsetStep'
-import { LimitStep } from './LimitStep'
 import { OrderByStep } from './OrderByStep'
 import { ConditionStep } from '../ConditionStep'
 import { BaseStep, Parenthesis } from '../BaseStep'
-import { Condition, PrimitiveType } from '../../models'
+import { Condition } from '../../models'
 import { BooleanColumn, Column } from '../../database'
 import { OrderByArgsElement } from '../../orderBy'
-import { All } from '../../singletoneConstants'
 import { GroupByStep } from './GroupByStep'
 import { LogicalOperator } from '../../operators'
-import { ItemInfo } from '../../ItemInfo'
-import { ReturningItem } from '../../ReturningItemInfo'
-import { ReturningStep } from '../ReturningStep'
 
 abstract class SelectConditionStep extends ConditionStep {
 	public and(condition: Condition): SelectWhereAndStep
@@ -38,27 +32,6 @@ abstract class SelectConditionStep extends ConditionStep {
 
 	public orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep {
 		return new OrderByStep(this, orderByItems)
-	}
-
-	public limit(n: null|number|All): LimitStep {
-		return new LimitStep(this, n)
-	}
-
-	public limit$(n: null|number): LimitStep {
-		return new LimitStep(this, n, true)
-	}
-
-	public offset(n: number): OffsetStep {
-		return new OffsetStep(this, n)
-	}
-
-	public offset$(n: number): OffsetStep {
-		return new OffsetStep(this, n, true)
-	}
-
-	//TODO: check if we should have returning as this is path of select
-	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this, items)
 	}
 }
 

@@ -9,7 +9,6 @@ import { SelectItemInfo } from '../../SelectItemInfo'
 import { ALL, All, Asterisk, DISTINCT, Distinct } from '../../singletoneConstants'
 import { Artifacts, BaseStep } from '../BaseStep'
 import { FromItems, SelectFromStep } from './SelectFromStep'
-import { ReturningStep } from '../ReturningStep'
 import { TableAsterisk } from '../../TableAsterisk'
 
 export type ColumnLike = Column|Expression
@@ -107,11 +106,6 @@ export class SelectStep extends BaseStep {
 
 	from(...tables: FromItems): SelectFromStep {
 		return new SelectFromStep(this, tables)
-	}
-
-	// TODO: check if this needed here
-	returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this, items)
 	}
 
 	private getColumns(): Column[] {

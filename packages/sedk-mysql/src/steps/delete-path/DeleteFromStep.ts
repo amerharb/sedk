@@ -1,12 +1,9 @@
 import { BooleanColumn, Table } from '../../database'
 import { FromItem } from '../select-path/SelectFromStep'
 import { Artifacts, BaseStep, Parenthesis } from '../BaseStep'
-import { Condition, PrimitiveType } from '../../models'
+import { Condition } from '../../models'
 import { DeleteWhereStep } from './DeleteConditionStep'
 import { LogicalOperator } from '../../operators'
-import { ReturningStep } from '../ReturningStep'
-import { ReturningItem } from '../../ReturningItemInfo'
-import { ItemInfo } from '../../ItemInfo'
 
 export class DeleteFromStep extends BaseStep {
 	constructor(
@@ -32,9 +29,5 @@ export class DeleteFromStep extends BaseStep {
 		const whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
 		BaseStep.addConditionParts(whereParts, cond1, op1, cond2, op2, cond3)
 		return new DeleteWhereStep(this, whereParts)
-	}
-
-	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this, items)
 	}
 }

@@ -1,12 +1,9 @@
 import { BooleanColumn } from '../../database'
 import { UpdateSetItemInfo } from '../../UpdateSetItemInfo'
 import { Artifacts, BaseStep, Parenthesis } from '../BaseStep'
-import { Condition, PrimitiveType } from '../../models'
+import { Condition } from '../../models'
 import { UpdateWhereStep } from './UpdateConditionStep'
 import { LogicalOperator } from '../../operators'
-import { ItemInfo } from '../../ItemInfo'
-import { ReturningItem } from '../../ReturningItemInfo'
-import { ReturningStep } from '../ReturningStep'
 
 export class SetStep extends BaseStep {
 	constructor(
@@ -31,9 +28,5 @@ export class SetStep extends BaseStep {
 		const whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
 		BaseStep.addConditionParts(whereParts, cond1, op1, cond2, op2, cond3)
 		return new UpdateWhereStep(this, whereParts)
-	}
-
-	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this, items)
 	}
 }

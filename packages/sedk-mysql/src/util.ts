@@ -1,7 +1,7 @@
 import { BaseStep, DeleteStep, DeleteWhereStep } from './steps'
 
-export function escapeDoubleQuote(source: string): string {
-	return source.replace(/"/g, '""')
+export function escapeBackTick(source: string): string {
+	return source.replace(/`/g, '``')
 }
 
 function escapeSingleQuote(source: string): string {

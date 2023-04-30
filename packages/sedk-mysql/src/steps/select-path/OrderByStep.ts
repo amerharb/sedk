@@ -7,7 +7,7 @@ import {
 	OrderByItemInfo,
 	OrderByNullsPosition,
 } from '../../orderBy'
-import { escapeDoubleQuote } from '../../util'
+import { escapeBackTick } from '../../util'
 import { Expression, PrimitiveType } from '../..//models'
 import { Artifacts, BaseStep } from '../BaseStep'
 
@@ -71,7 +71,7 @@ export class OrderByStep extends BaseStep {
 				}
 				const aliases = prevStep.getAliases()
 				if (aliases.find(alias => alias === it)) {
-					store.orderByItem = `"${escapeDoubleQuote(it)}"`
+					store.orderByItem = `\`${escapeBackTick(it)}\``
 				} else {
 					throw new Error(`Alias ${it} is not exist, if this is a column, then it should be entered as Column class`)
 				}

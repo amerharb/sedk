@@ -22,157 +22,157 @@ describe('INSERT Path', () => {
 	const sql = sedk.builder(database)
 	const EPOCH_2022_07_20 = Date.UTC(2022, 6, 20)
 	describe('Basic insert all', () => {
-		it(`Produces [INSERT INTO "table1"("col1") VALUES('a');]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`) VALUES('a');]", () => {
 			const actual = sql
 				.insertInto(table1)(col1)
 				.values('a')
 				.getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES('a');`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`) VALUES('a');")
 		})
-		it(`Produces [INSERT INTO "table2" VALUES('a', 'b');]`, () => {
+		it("Produces [INSERT INTO `table2` VALUES('a', 'b');]", () => {
 			const actual = sql
 				.insertInto(table2)
 				.values('a', 'b')
 				.getSQL()
-			expect(actual).toEqual(`INSERT INTO "table2" VALUES('a', 'b');`)
+			expect(actual).toEqual("INSERT INTO `table2` VALUES('a', 'b');")
 		})
-		it(`Produces [INSERT INTO "table1"("col1") VALUES('a'),('b'),('c');]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`) VALUES('a'),('b'),('c');]", () => {
 			const actual = sql
 				.insertInto(table1)(col1)
 				.values('a')('b')('c')
 				.getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES('a'),('b'),('c');`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`) VALUES('a'),('b'),('c');")
 		})
-		it(`Produces [INSERT INTO "table1"("col1", "col4", "col7", "col9") VALUES('A', 1, TRUE, '2022-07-20T00:00:00.000Z');]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`, `col9`) VALUES('A', 1, TRUE, '2022-07-20T00:00:00.000Z');]", () => {
 			const actual = sql
 				.insert()
 				.into(table1)(col1, col4, col7, col9)
 				.values('A', 1, true, new Date(EPOCH_2022_07_20))
 				.getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col4", "col7", "col9") VALUES('A', 1, TRUE, '2022-07-20T00:00:00.000Z');`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`, `col4`, `col7`, `col9`) VALUES('A', 1, TRUE, '2022-07-20T00:00:00.000Z');")
 		})
-		it(`Produces [INSERT INTO "table1"("col1", "col2", "col4", "col7", "col9") VALUES(NULL, 'B', 2, FALSE, '2022-07-20T00:00:00.000Z');]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`, `col2`, `col4`, `col7`, `col9`) VALUES(NULL, 'B', 2, FALSE, '2022-07-20T00:00:00.000Z');]", () => {
 			const actual = sql
 				.insertInto(table1)(col1, col2, col4, col7, col9)
 				.values(null, 'B', 2, false, new Date(EPOCH_2022_07_20))
 				.getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2", "col4", "col7", "col9") VALUES(NULL, 'B', 2, FALSE, '2022-07-20T00:00:00.000Z');`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`, `col2`, `col4`, `col7`, `col9`) VALUES(NULL, 'B', 2, FALSE, '2022-07-20T00:00:00.000Z');")
 		})
 	})
 	describe('Insert specific column', () => {
-		it(`Produces [INSERT INTO "table1"("col1") VALUES('A');]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`) VALUES('A');]", () => {
 			const actual = sql.insertInto(table1, col1).values('A').getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES('A');`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`) VALUES('A');")
 		})
-		it(`Produces [INSERT INTO "table1"("col1", "col4", "col7") VALUES('A', 1, TRUE);]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES('A', 1, TRUE);]", () => {
 			const actual = sql.insertInto(table1, col1, col4, col7).values('A', 1, true).getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col4", "col7") VALUES('A', 1, TRUE);`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES('A', 1, TRUE);")
 		})
 	})
 	describe('Insert specific column with object callable way', () => {
-		it(`Produces [INSERT INTO "table1"("col1") VALUES('A');]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`) VALUES('A');]", () => {
 			const actual = sql.insertInto(table1)(col1).values('A').getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES('A');`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`) VALUES('A');")
 		})
-		it(`Produces [INSERT INTO "table1"("col1", "col4", "col7") VALUES('A', 1, TRUE);]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES('A', 1, TRUE);]", () => {
 			const actual = sql.insertInto(table1)(col1, col4, col7).values('A', 1, true).getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col4", "col7") VALUES('A', 1, TRUE);`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES('A', 1, TRUE);")
 		})
 	})
 	describe('Insert with returning step', () => {
-		it(`Produces [INSERT INTO "table1"("col1") VALUES('A');]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`) VALUES('A');]", () => {
 			const actual = sql
 				.insertInto(table1, col1)
 				.values('A')
 				.getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES('A');`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`) VALUES('A');")
 		})
-		it(`Produces [INSERT INTO "table1"("col1") VALUES('A');]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`) VALUES('A');]", () => {
 			const actual = sql
 				.insertInto(table1, col1)
 				.values('A')
 				.getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES('A');`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`) VALUES('A');")
 		})
-		it(`Produces [INSERT INTO "table1"("col1") VALUES('A');]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`) VALUES('A');]", () => {
 			const actual = sql
 				.insertInto(table1, col1)
 				.values('A')
 				.getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES('A');`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`) VALUES('A');")
 		})
 	})
 	describe('Insert with binder $', () => {
-		it(`Produces [INSERT INTO "table1"("col1") VALUES($1);]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`) VALUES($1);]", () => {
 			const actual = sql.insertInto(table1, col1).values($('A'))
-			expect(actual.getSQL()).toEqual(`INSERT INTO "table1"("col1") VALUES($1);`)
+			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`) VALUES($1);")
 			expect(actual.getBindValues()).toEqual(['A'])
 		})
-		it(`Produces [INSERT INTO "table1"("col1") VALUES($1);]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`) VALUES($1);]", () => {
 			const actual = sql.insertInto(table1, col1).values($('A'))
-			expect(actual.getSQL()).toEqual(`INSERT INTO "table1"("col1") VALUES($1);`)
+			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`) VALUES($1);")
 			expect(actual.getBindValues()).toEqual(['A'])
 		})
-		it(`Produces [INSERT INTO "table1"("col1", "col4", "col7") VALUES($1, $2, $3);]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES($1, $2, $3);]", () => {
 			const actual = sql
 				.insertInto(table1, col1, col4, col7)
 				.values($('A'), $(1), $(true))
-			expect(actual.getSQL()).toEqual(`INSERT INTO "table1"("col1", "col4", "col7") VALUES($1, $2, $3);`)
+			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES($1, $2, $3);")
 			expect(actual.getBindValues()).toEqual(['A', 1, true])
 		})
-		it(`Produces [INSERT INTO "table1"("col1", "col4", "col7") VALUES($1, 1, $2);]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES($1, 1, $2);]", () => {
 			const actual = sql.insertInto(table1, col1, col4, col7).values($('A'), 1, $(true))
-			expect(actual.getSQL()).toEqual(`INSERT INTO "table1"("col1", "col4", "col7") VALUES($1, 1, $2);`)
+			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES($1, 1, $2);")
 			expect(actual.getBindValues()).toEqual(['A', true])
 		})
-		it(`Produces [INSERT INTO "table2" VALUES($1, $2);]`, () => {
+		it("Produces [INSERT INTO `table2` VALUES($1, $2);]", () => {
 			const actual = sql.insertInto(table2).values$('A',  'B')
-			expect(actual.getSQL()).toEqual(`INSERT INTO "table2" VALUES($1, $2);`)
+			expect(actual.getSQL()).toEqual("INSERT INTO `table2` VALUES($1, $2);")
 			expect(actual.getBindValues()).toEqual(['A', 'B'])
 		})
-		it(`Produces [INSERT INTO "table1"("col1", "col4", "col7") VALUES($1, $2, $3);]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES($1, $2, $3);]", () => {
 			const actual = sql.insertInto(table1)(col1, col4, col7).values$('A', 1, true)
-			expect(actual.getSQL()).toEqual(`INSERT INTO "table1"("col1", "col4", "col7") VALUES($1, $2, $3);`)
+			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES($1, $2, $3);")
 			expect(actual.getBindValues()).toEqual(['A', 1, true])
 		})
 	})
 	describe('Insert with select step', () => {
-		it(`Produces [INSERT INTO "table1"("col1") SELECT 'A';]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`) SELECT 'A';]", () => {
 			const actual = sql
 				.insertInto(table1, col1)
 				.select('A')
 				.getSQL()
 
-			expect(actual).toEqual(`INSERT INTO "table1"("col1") SELECT 'A';`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`) SELECT 'A';")
 		})
-		it(`Produces [INSERT INTO "table2" SELECT * FROM "table3";]`, () => {
+		it("Produces [INSERT INTO `table2` SELECT * FROM `table3`;]", () => {
 			const actual = sql
 				.insertInto(table2)
 				.select(ASTERISK)
 				.from(table3)
 				.getSQL()
 
-			expect(actual).toEqual(`INSERT INTO "table2" SELECT * FROM "table3";`)
+			expect(actual).toEqual("INSERT INTO `table2` SELECT * FROM `table3`;")
 		})
-		it(`Produces [INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2";]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`, `col2`) SELECT `col1`, `col2` FROM `table2`;]", () => {
 			const actual = sql
 				.insertInto(table1, col1, col2)
 				.select(T2col1, T2col2)
 				.from(table2)
 				.getSQL()
 
-			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2") SELECT "table2"."col1", "table2"."col2" FROM "table2";`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`, `col2`) SELECT `table2`.`col1`, `table2`.`col2` FROM `table2`;")
 		})
-		it(`Produces [INSERT INTO "table1"("col1", "col2") SELECT "col1", "col2" FROM "table2";]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`, `col2`) SELECT `col1`, `col2` FROM `table2`;]", () => {
 			const actual = sql
 				.insertInto(table1, col1, col2)
 				.select(T2col1, T2col2)
 				.from(table2)
 				.getSQL()
 
-			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2") SELECT "table2"."col1", "table2"."col2" FROM "table2";`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`, `col2`) SELECT `table2`.`col1`, `table2`.`col2` FROM `table2`;")
 		})
-		it.skip(`Produces [INSERT INTO "table1"("col2") SELECT "table2"."col2" FROM "table2" LEFT JOIN "table1" ON "table1"."col1" = "table2"."col1";]`, () => {
+		it.skip("Produces [INSERT INTO `table1`(`col2`) SELECT `table2`.`col2` FROM `table2` LEFT JOIN `table1` ON `table1`.`col1` = `table2`.`col1`;]", () => {
 			const actual = sql
 				.insertInto(table1, col2)
 				.select(T2col2)
@@ -181,9 +181,9 @@ describe('INSERT Path', () => {
 				//.on(col1.eq(T2col1))
 				.getSQL()
 
-			expect(actual).toEqual(`INSERT INTO "table1"("col2") SELECT "table2"."col2" FROM "table2" LEFT JOIN "table1" ON "table1"."col1" = "table2"."col1";`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col2`) SELECT `table2`.`col2` FROM `table2` LEFT JOIN `table1` ON `table1`.`col1` = `table2`.`col1`;")
 		})
-		it(`Produces [INSERT INTO "table1"("col2") SELECT "col2" FROM "table2" WHERE "col1" = 'A';]`, () => {
+		it("Produces [INSERT INTO `table1`(`col2`) SELECT `col2` FROM `table2` WHERE `col1` = 'A';]", () => {
 			const actual = sql
 				.insertInto(table1, col2)
 				.select(T2col2)
@@ -191,46 +191,46 @@ describe('INSERT Path', () => {
 				.where(T2col1.eq('A'))
 				.getSQL()
 
-			expect(actual).toEqual(`INSERT INTO "table1"("col2") SELECT "table2"."col2" FROM "table2" WHERE "table2"."col1" = 'A';`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col2`) SELECT `table2`.`col2` FROM `table2` WHERE `table2`.`col1` = 'A';")
 		})
 	})
 	describe('Insert with DEFAULT keyword', () => {
-		it(`Produces [INSERT INTO "table1"("col1") VALUES(DEFAULT);]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`) VALUES(DEFAULT);]", () => {
 			const actual = sql
 				.insertInto(table1, col1)
 				.values(DEFAULT)
 				.getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES(DEFAULT);`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`) VALUES(DEFAULT);")
 		})
-		it(`Produces [INSERT INTO "table1"("col1", "col2", "col3") VALUES(DEFAULT, 'A', DEFAULT);]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`, `col2`, `col3`) VALUES(DEFAULT, 'A', DEFAULT);]", () => {
 			const actual = sql
 				.insertInto(table1, col1, col2, col3)
 				.values(DEFAULT, 'A', DEFAULT)
 				.getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2", "col3") VALUES(DEFAULT, 'A', DEFAULT);`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`, `col2`, `col3`) VALUES(DEFAULT, 'A', DEFAULT);")
 		})
-		it(`Produces [INSERT INTO "table1"("col1", "col2", "col3") VALUES('A', DEFAULT, 'B');]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`, `col2`, `col3`) VALUES('A', DEFAULT, 'B');]", () => {
 			const actual = sql
 				.insertInto(table1, col1, col2, col3)
 				.values('A', DEFAULT, 'B')
 				.getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2", "col3") VALUES('A', DEFAULT, 'B');`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`, `col2`, `col3`) VALUES('A', DEFAULT, 'B');")
 		})
 	})
 	describe.skip('Insert with DEFAULT VALUES keyword', () => {
-		it(`Produces [INSERT INTO "table1"("col1") DEFAULT VALUES;]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`) DEFAULT VALUES;]", () => {
 			const actual = sql
 				.insertInto(table1, col1)
 				// .defaultValues()
 				.getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1"("col1") DEFAULT VALUES;`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`) DEFAULT VALUES;")
 		})
-		it(`Produces [INSERT INTO "table1"("col1", "col2", "col3") DEFAULT VALUES;]`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`, `col2`, `col3`) DEFAULT VALUES;]", () => {
 			const actual = sql
 				.insertInto(table1, col1, col2, col3)
 				// .defaultValues()
 				.getSQL()
-			expect(actual).toEqual(`INSERT INTO "table1"("col1", "col2", "col3") DEFAULT VALUES;`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`, `col2`, `col3`) DEFAULT VALUES;")
 		})
 	})
 })

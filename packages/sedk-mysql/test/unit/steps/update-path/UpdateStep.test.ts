@@ -9,6 +9,6 @@ describe('UpdateStep', () => {
 	const rootStep = new RootStep(builderData)
 	it('returns: [UPDATE]', () => {
 		const actual = new UpdateStep(rootStep, table1).getStepStatement()
-		expect(actual).toEqual('UPDATE "table1"')
+		expect(actual).toEqual('UPDATE `table1`')
 	})
 })

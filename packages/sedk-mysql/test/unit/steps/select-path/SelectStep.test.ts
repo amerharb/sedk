@@ -20,6 +20,6 @@ describe('SelectStep', () => {
 
 	it(`returns: [SELECT "col1"]`, () => {
 		const actual = new SelectStep(rootStep, [col1]).getStepStatement()
-		expect(actual).toEqual(`SELECT "col1"`)
+		expect(actual).toEqual('SELECT `col1`')
 	})
 })

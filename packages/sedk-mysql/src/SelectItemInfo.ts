@@ -3,7 +3,7 @@ import { Artifacts } from './steps/BaseStep'
 import { SelectItem } from './steps'
 import { Column } from './database'
 import { Expression } from './models'
-import { escapeDoubleQuote } from './util'
+import { escapeBackTick } from './util'
 import { BuilderData } from './builder'
 import { AggregateFunction } from './AggregateFunction'
 import { ItemInfo } from './ItemInfo'
@@ -30,9 +30,9 @@ export class SelectItemInfo extends ItemInfo {
 	public getStmt(data: BuilderData, artifacts: Artifacts, binderStore: BinderStore): string {
 		if (this.alias !== undefined) {
 			// escape double quote by repeating it
-			const escapedAlias = escapeDoubleQuote(this.alias)
+			const escapedAlias = escapeBackTick(this.alias)
 			const asString = (data.option.addAsBeforeColumnAlias === 'always') ? ' AS' : ''
-			return `${this.selectItem.getStmt(data, artifacts, binderStore)}${asString} "${escapedAlias}"`
+			return `${this.selectItem.getStmt(data, artifacts, binderStore)}${asString} \`${escapedAlias}\``
 		}
 		return `${this.selectItem.getStmt(data, artifacts, binderStore)}`
 	}

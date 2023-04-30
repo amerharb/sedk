@@ -9,15 +9,15 @@ describe('Table', () => {
 	describe('class Table', () => {
 		it('should have a name', () => {
 			expect(table1.name).toBe('table1')
-			expect(table1.fqName).toBe('"public"."table1"')
+			expect(table1.fqName).toBe('`public`.`table1`')
 			expect(table1.schema.name).toBe('public')
-			expect(table1.ASTERISK.getStmt(builderData, artifacts)).toBe('"table1".*')
+			expect(table1.ASTERISK.getStmt(builderData, artifacts)).toBe('`table1`.*')
 		})
 	})
 	describe('class AliasedTable', () => {
 		const aliasedTable = table1.as('t1')
 		it('fqName/name/alias', () => {
-			expect(aliasedTable.fqName).toEqual('"public"."table1"')
+			expect(aliasedTable.fqName).toEqual('`public`.`table1`')
 			expect(aliasedTable.name).toEqual('table1')
 			expect(aliasedTable.alias).toEqual('t1')
 		})

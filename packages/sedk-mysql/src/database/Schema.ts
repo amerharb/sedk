@@ -1,4 +1,4 @@
-import { escapeDoubleQuote } from '../util'
+import { escapeBackTick } from '../util'
 import { INameGiver } from './INameGiver'
 import { Column } from './Column'
 import { Database } from './Database'
@@ -49,7 +49,7 @@ export class Schema<T extends TablesObj = TablesObj> implements INameGiver {
 	}
 
 	public get fqName(): string {
-		return `"${escapeDoubleQuote(this.mName)}"`
+		return `\`${escapeBackTick(this.mName)}\``
 	}
 
 	public get tables(): T {

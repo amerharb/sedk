@@ -9,7 +9,7 @@ import { Schema } from './Schema'
 import { TextColumn } from './TextColumn'
 import { IStatementGiver } from '../models'
 import { TableAsterisk } from '../TableAsterisk'
-import { escapeDoubleQuote } from '../util'
+import { escapeBackTick } from '../util'
 
 type ColumnsObj = {
 	[columnName: string]: BooleanColumn|NumberColumn|TextColumn|DateColumn
@@ -54,7 +54,7 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements INameGiver, ISt
 	}
 
 	public get fqName(): string {
-		return `${this.schema.fqName}."${escapeDoubleQuote(this.data.name)}"`
+		return `${this.schema.fqName}.\`${escapeBackTick(this.data.name)}\``
 	}
 
 	public as(alias: string): AliasedTable {
@@ -98,7 +98,7 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements INameGiver, ISt
 		)
 			? `${this.mSchema.fqName}.`
 			: ''
-		return `${schemaName}"${escapeDoubleQuote(this.data.name)}"`
+		return `${schemaName}\`${escapeBackTick(this.data.name)}\``
 	}
 }
 
@@ -106,9 +106,9 @@ export class AliasedTable implements INameGiver, IStatementGiver {
 	constructor(public readonly table: Table, public readonly alias: string) {}
 
 	public getStmt(data: BuilderData, artifacts: Artifacts): string {
-		const escapedAlias = escapeDoubleQuote(this.alias)
+		const escapedAlias = escapeBackTick(this.alias)
 		const asString = (data.option.addAsBeforeTableAlias === 'always') ? ' AS' : ''
-		return `${this.table.getStmt(data, artifacts)}${asString} "${escapedAlias}"`
+		return `${this.table.getStmt(data, artifacts)}${asString} \`${escapedAlias}\``
 	}
 
 	get name(): string {

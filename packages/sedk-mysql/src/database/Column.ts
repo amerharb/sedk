@@ -1,7 +1,7 @@
 import { Artifacts } from '../steps/BaseStep'
 import { INameGiver } from './INameGiver'
 import { Table } from './Table'
-import { escapeDoubleQuote } from '../util'
+import { escapeBackTick } from '../util'
 import { Condition, IStatementGiver, PrimitiveType, ValueLike } from '../models'
 import { ComparisonOperator } from '../operators'
 import {
@@ -48,11 +48,11 @@ export abstract class Column implements INameGiver, IStatementGiver {
 	}
 
 	public get fqName(): string {
-		return `${this.table.fqName}."${escapeDoubleQuote(this.data.name)}"`
+		return `${this.table.fqName}.\`${escapeBackTick(this.data.name)}\``
 	}
 
 	public getDoubleQuotedName(): string {
-		return `"${escapeDoubleQuote(this.data.name)}"`
+		return `\`${escapeBackTick(this.data.name)}\``
 	}
 
 	public as(alias: string): ItemInfo {
@@ -101,7 +101,7 @@ export abstract class Column implements INameGiver, IStatementGiver {
 		const schemaName = Array
 			.from(artifacts.tables)
 			.some(it => it !== this.table && it.name === this.table.name)
-			? `"${escapeDoubleQuote(this.table.schema.name)}".`
+			? `\`${escapeBackTick(this.table.schema.name)}\`.`
 			: ''
 
 		const tableName = (
@@ -109,9 +109,9 @@ export abstract class Column implements INameGiver, IStatementGiver {
 			|| (data.option.addTableName === 'when two tables or more'
 				&& Array.from(artifacts.tables)
 					.some(it => it !== this.table))
-		) ? `"${escapeDoubleQuote(this.table.name)}".` : ''
+		) ? `\`${escapeBackTick(this.table.name)}\`.` : ''
 
-		return `${schemaName}${tableName}"${escapeDoubleQuote(this.data.name)}"`
+		return `${schemaName}${tableName}\`${escapeBackTick(this.data.name)}\``
 	}
 
 	public abstract in(...values: ValueLike[]): Condition

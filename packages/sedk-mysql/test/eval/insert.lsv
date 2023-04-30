@@ -1,24 +1,24 @@
-sql.insertInto(table1, col1, col2).values$("x", "y")
-INSERT INTO "table1"("col1", "col2") VALUES($1, $2);
+sql.insertInto(table1, col1, col2).values$('x', 'y')
+INSERT INTO `table1`(`col1`, `col2`) VALUES($1, $2);
 [ "x", "y" ]
 
 sql.insertInto(table1, col1, col2).select('x', 'y')
-INSERT INTO "table1"("col1", "col2") SELECT 'x', 'y';
+INSERT INTO `table1`(`col1`, `col2`) SELECT 'x', 'y';
 
 sql.insertInto(table1, col1).select(col2).from(table1).orderBy(col2)
-INSERT INTO "table1"("col1") SELECT "col2" FROM "table1" ORDER BY "col2";
+INSERT INTO `table1`(`col1`) SELECT `col2` FROM `table1` ORDER BY `col2`;
 
 sql.insertInto(table1, col1).select(col2).from(table1).groupBy(col2)
-INSERT INTO "table1"("col1") SELECT "col2" FROM "table1" GROUP BY "col2";
+INSERT INTO `table1`(`col1`) SELECT `col2` FROM `table1` GROUP BY `col2`;
 
 sql.insertInto(table1, col1).select(col2).from(table1).groupBy(col2).orderBy(col2)
-INSERT INTO "table1"("col1") SELECT "col2" FROM "table1" GROUP BY "col2" ORDER BY "col2";
+INSERT INTO `table1`(`col1`) SELECT `col2` FROM `table1` GROUP BY `col2` ORDER BY `col2`;
 
 sql.insertInto(table2).values('a', 'A')('b', 'B')('c', 'C')
-INSERT INTO "table2" VALUES('a', 'A'),('b', 'B'),('c', 'C');
+INSERT INTO `table2` VALUES('a', 'A'),('b', 'B'),('c', 'C');
 
 sql.insertInto(table1)(col1).values('a')('b')('c')
-INSERT INTO "table1"("col1") VALUES('a'),('b'),('c');
+INSERT INTO `table1`(`col1`) VALUES('a'),('b'),('c');
 
 sql.insertInto(table1)(col1, col2).values('a', 'A')('b', 'B')('c', 'C')
-INSERT INTO "table1"("col1", "col2") VALUES('a', 'A'),('b', 'B'),('c', 'C');
+INSERT INTO `table1`(`col1`, `col2`) VALUES('a', 'A'),('b', 'B'),('c', 'C');

@@ -49,7 +49,7 @@ describe('builder', () => {
 		})
 		it(`returns for selectAsteriskFrom()`, () => {
 			const actual = sql.selectAsteriskFrom(table1).getStepStatement()
-			expect(actual).toEqual(`FROM "table1"`)
+			expect(actual).toEqual("FROM `table1`")
 		})
 		it(`returns for insert()`, () => {
 			const actual = sql.insert().getStepStatement()
@@ -57,11 +57,11 @@ describe('builder', () => {
 		})
 		it(`returns for insertInto()`, () => {
 			const actual = sql.insertInto(table1).getStepStatement()
-			expect(actual).toEqual(`INTO "table1"`)
+			expect(actual).toEqual("INTO `table1`")
 		})
 		it(`returns for update()`, () => {
 			const actual = sql.update(table1).getStepStatement()
-			expect(actual).toEqual(`UPDATE "table1"`)
+			expect(actual).toEqual("UPDATE `table1`")
 		})
 		it(`returns for delete()`, () => {
 			const actual = sql.delete().getStepStatement()
@@ -69,7 +69,7 @@ describe('builder', () => {
 		})
 		it(`returns for deleteFrom()`, () => {
 			const actual = sql.deleteFrom(table1).getStepStatement()
-			expect(actual).toEqual(`FROM "table1"`)
+			expect(actual).toEqual("FROM `table1`")
 		})
 	})
 })

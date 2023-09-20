@@ -103,36 +103,36 @@ describe('INSERT Path', () => {
 		})
 	})
 	describe('Insert with binder $', () => {
-		it("Produces [INSERT INTO `table1`(`col1`) VALUES($1);]", () => {
+		it("Produces [INSERT INTO `table1`(`col1`) VALUES(?);]", () => {
 			const actual = sql.insertInto(table1, col1).values($('A'))
-			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`) VALUES($1);")
+			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`) VALUES(?);")
 			expect(actual.getBindValues()).toEqual(['A'])
 		})
-		it("Produces [INSERT INTO `table1`(`col1`) VALUES($1);]", () => {
+		it("Produces [INSERT INTO `table1`(`col1`) VALUES(?);]", () => {
 			const actual = sql.insertInto(table1, col1).values($('A'))
-			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`) VALUES($1);")
+			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`) VALUES(?);")
 			expect(actual.getBindValues()).toEqual(['A'])
 		})
-		it("Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES($1, $2, $3);]", () => {
+		it("Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, ?, ?);]", () => {
 			const actual = sql
 				.insertInto(table1, col1, col4, col7)
 				.values($('A'), $(1), $(true))
-			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES($1, $2, $3);")
+			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, ?, ?);")
 			expect(actual.getBindValues()).toEqual(['A', 1, true])
 		})
-		it("Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES($1, 1, $2);]", () => {
+		it("Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, 1, ?);]", () => {
 			const actual = sql.insertInto(table1, col1, col4, col7).values($('A'), 1, $(true))
-			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES($1, 1, $2);")
+			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, 1, ?);")
 			expect(actual.getBindValues()).toEqual(['A', true])
 		})
-		it("Produces [INSERT INTO `table2` VALUES($1, $2);]", () => {
+		it("Produces [INSERT INTO `table2` VALUES(?, ?);]", () => {
 			const actual = sql.insertInto(table2).values$('A',  'B')
-			expect(actual.getSQL()).toEqual("INSERT INTO `table2` VALUES($1, $2);")
+			expect(actual.getSQL()).toEqual("INSERT INTO `table2` VALUES(?, ?);")
 			expect(actual.getBindValues()).toEqual(['A', 'B'])
 		})
-		it("Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES($1, $2, $3);]", () => {
+		it("Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, ?, ?);]", () => {
 			const actual = sql.insertInto(table1)(col1, col4, col7).values$('A', 1, true)
-			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES($1, $2, $3);")
+			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, ?, ?);")
 			expect(actual.getBindValues()).toEqual(['A', 1, true])
 		})
 	})

@@ -26,10 +26,10 @@ describe(`test Date column`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.isEq(null)).getSQL()
 			expect(actual).toEqual(`SELECT "col9" FROM "table1" WHERE "col9" IS NULL;`)
 		})
-		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" = $1;]`, () => {
+		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" = ?;]`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.isEq$(new Date(EPOCH_2022_06_20)))
 			const expected = {
-				sql: `SELECT "col9" FROM "table1" WHERE "col9" = $1;`,
+				sql: `SELECT "col9" FROM "table1" WHERE "col9" = ?;`,
 				values: [new Date(EPOCH_2022_06_20)],
 			}
 			expect(actual.getSQL()).toEqual(expected.sql)
@@ -48,11 +48,11 @@ describe(`test Date column`, () => {
 
 			expect(actual).toEqual(`SELECT "col9" FROM "table1" WHERE "col9" = '2022-06-20T00:00:00.000Z';`)
 		})
-		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" = $1;]`, () => {
+		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" = ?;]`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.eq$(new Date(EPOCH_2022_06_20)))
 
 			const expected = {
-				sql: `SELECT "col9" FROM "table1" WHERE "col9" = $1;`,
+				sql: `SELECT "col9" FROM "table1" WHERE "col9" = ?;`,
 				values: [new Date(EPOCH_2022_06_20)],
 			}
 			expect(actual.getSQL()).toEqual(expected.sql)
@@ -69,10 +69,10 @@ describe(`test Date column`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.isNe(new Date(EPOCH_2022_06_20))).getSQL()
 			expect(actual).toEqual(`SELECT "col9" FROM "table1" WHERE "col9" <> '2022-06-20T00:00:00.000Z';`)
 		})
-		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" <> $1;]`, () => {
+		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" <> ?;]`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.isNe$(new Date(EPOCH_2022_06_20)))
 			const expected = {
-				sql: `SELECT "col9" FROM "table1" WHERE "col9" <> $1;`,
+				sql: `SELECT "col9" FROM "table1" WHERE "col9" <> ?;`,
 				values: [new Date(EPOCH_2022_06_20)],
 			}
 			expect(actual.getSQL()).toEqual(expected.sql)
@@ -82,10 +82,10 @@ describe(`test Date column`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.isNe(null)).getSQL()
 			expect(actual).toEqual(`SELECT "col9" FROM "table1" WHERE "col9" IS NOT NULL;`)
 		})
-		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" IS NOT $1;]`, () => {
+		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" IS NOT ?;]`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.isNe$(null))
 			const expected = {
-				sql: `SELECT "col9" FROM "table1" WHERE "col9" IS NOT $1;`,
+				sql: `SELECT "col9" FROM "table1" WHERE "col9" IS NOT ?;`,
 				values: [null],
 			}
 			expect(actual.getSQL()).toEqual(expected.sql)
@@ -102,11 +102,11 @@ describe(`test Date column`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.ne(new Date(EPOCH_2022_06_20))).getSQL()
 			expect(actual).toEqual(`SELECT "col9" FROM "table1" WHERE "col9" <> '2022-06-20T00:00:00.000Z';`)
 		})
-		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" <> $1;]`, () => {
+		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" <> ?;]`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.ne$(new Date(EPOCH_2022_06_20)))
 
 			const expected = {
-				sql: `SELECT "col9" FROM "table1" WHERE "col9" <> $1;`,
+				sql: `SELECT "col9" FROM "table1" WHERE "col9" <> ?;`,
 				values: [new Date(EPOCH_2022_06_20)],
 			}
 			expect(actual.getSQL()).toEqual(expected.sql)
@@ -123,10 +123,10 @@ describe(`test Date column`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.gt(new Date(EPOCH_2022_06_20))).getSQL()
 			expect(actual).toEqual(`SELECT "col9" FROM "table1" WHERE "col9" > '2022-06-20T00:00:00.000Z';`)
 		})
-		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" > $1;]`, () => {
+		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" > ?;]`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.gt$(new Date(EPOCH_2022_06_20)))
 			const expected = {
-				sql: `SELECT "col9" FROM "table1" WHERE "col9" > $1;`,
+				sql: `SELECT "col9" FROM "table1" WHERE "col9" > ?;`,
 				values: [new Date(EPOCH_2022_06_20)],
 			}
 			expect(actual.getSQL()).toEqual(expected.sql)
@@ -143,11 +143,11 @@ describe(`test Date column`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.ge(new Date(EPOCH_2022_06_20))).getSQL()
 			expect(actual).toEqual(`SELECT "col9" FROM "table1" WHERE "col9" >= '2022-06-20T00:00:00.000Z';`)
 		})
-		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" >= $1;]`, () => {
+		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" >= ?;]`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.ge$(new Date(EPOCH_2022_06_20)))
 
 			const expected = {
-				sql: `SELECT "col9" FROM "table1" WHERE "col9" >= $1;`,
+				sql: `SELECT "col9" FROM "table1" WHERE "col9" >= ?;`,
 				values: [new Date(EPOCH_2022_06_20)],
 			}
 			expect(actual.getSQL()).toEqual(expected.sql)
@@ -164,10 +164,10 @@ describe(`test Date column`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.lt(new Date(EPOCH_2022_06_20))).getSQL()
 			expect(actual).toEqual(`SELECT "col9" FROM "table1" WHERE "col9" < '2022-06-20T00:00:00.000Z';`)
 		})
-		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" < $1;]`, () => {
+		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" < ?;]`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.lt$(new Date(EPOCH_2022_06_20)))
 			const expected = {
-				sql: `SELECT "col9" FROM "table1" WHERE "col9" < $1;`,
+				sql: `SELECT "col9" FROM "table1" WHERE "col9" < ?;`,
 				values: [new Date(EPOCH_2022_06_20)],
 			}
 			expect(actual.getSQL()).toEqual(expected.sql)
@@ -184,10 +184,10 @@ describe(`test Date column`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.le(new Date(EPOCH_2022_06_20))).getSQL()
 			expect(actual).toEqual(`SELECT "col9" FROM "table1" WHERE "col9" <= '2022-06-20T00:00:00.000Z';`)
 		})
-		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" <= $1;]`, () => {
+		it(`Produces [SELECT "col9" FROM "table1" WHERE "col9" <= ?;]`, () => {
 			const actual = sql.select(col9).from(table1).where(col9.le$(new Date(EPOCH_2022_06_20)))
 			const expected = {
-				sql: `SELECT "col9" FROM "table1" WHERE "col9" <= $1;`,
+				sql: `SELECT "col9" FROM "table1" WHERE "col9" <= ?;`,
 				values: [new Date(EPOCH_2022_06_20)],
 			}
 			expect(actual.getSQL()).toEqual(expected.sql)

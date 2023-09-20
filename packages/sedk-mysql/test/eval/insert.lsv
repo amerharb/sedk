@@ -1,5 +1,5 @@
 sql.insertInto(table1, col1, col2).values$('x', 'y')
-INSERT INTO `table1`(`col1`, `col2`) VALUES($1, $2);
+INSERT INTO `table1`(`col1`, `col2`) VALUES(?, ?);
 [ "x", "y" ]
 
 sql.insertInto(table1, col1, col2).select('x', 'y')

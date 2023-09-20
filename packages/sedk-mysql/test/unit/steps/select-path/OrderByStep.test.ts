@@ -26,10 +26,10 @@ describe('OrderByStep', () => {
 			// expect(actual.getSQL()).toEqual('ORDER BY "col1" LIMIT 5;')
 			// expect(actual.getStepStatement()).toEqual('LIMIT 5')
 		})
-		it('returns: [ORDER BY "col1" LIMIT $1]', () => {
+		it('returns: [ORDER BY "col1" LIMIT ?]', () => {
 			// const actual = new OrderByStep(rootStep, [col1]).limit$(5)
-			// expect(actual.getSQL()).toEqual('ORDER BY "col1" LIMIT $1;')
-			// expect(actual.getStepStatement()).toEqual('LIMIT $1')
+			// expect(actual.getSQL()).toEqual('ORDER BY "col1" LIMIT ?;')
+			// expect(actual.getStepStatement()).toEqual('LIMIT ?')
 			// expect(actual.getBindValues()).toEqual([5])
 		})
 	})
@@ -39,10 +39,10 @@ describe('OrderByStep', () => {
 			// expect(actual.getSQL()).toEqual('ORDER BY "col1" OFFSET 10;')
 			// expect(actual.getStepStatement()).toEqual('OFFSET 10')
 		})
-		it('returns: [ORDER BY "col1" LIMIT $1]', () => {
+		it('returns: [ORDER BY "col1" LIMIT ?]', () => {
 			// const actual = new OrderByStep(rootStep, [col1]).offset$(10)
-			// expect(actual.getSQL()).toEqual('ORDER BY "col1" OFFSET $1;')
-			// expect(actual.getStepStatement()).toEqual('OFFSET $1')
+			// expect(actual.getSQL()).toEqual('ORDER BY "col1" OFFSET ?;')
+			// expect(actual.getStepStatement()).toEqual('OFFSET ?')
 			// expect(actual.getBindValues()).toEqual([10])
 		})
 	})

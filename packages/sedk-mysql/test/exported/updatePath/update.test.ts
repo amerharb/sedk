@@ -72,15 +72,15 @@ describe('UPDATE Path', () => {
 		})
 	})
 	describe('Update with Binders', () => {
-		it("Produces [UPDATE `table1` SET `col1` = $1;]", () => {
+		it("Produces [UPDATE `table1` SET `col1` = ?;]", () => {
 			const actual = sql
 				.update(table1)
 				.set(col1.eq$('A'))
 
-			expect(actual.getSQL()).toEqual("UPDATE `table1` SET `col1` = $1;")
+			expect(actual.getSQL()).toEqual("UPDATE `table1` SET `col1` = ?;")
 			expect(actual.getBindValues()).toEqual(['A'])
 		})
-		it("Produces [UPDATE `table1` SET `col1` = $1, `col4` = $2, `col7` = $3, `col9` = $4;]", () => {
+		it("Produces [UPDATE `table1` SET `col1` = ?, `col4` = ?, `col7` = ?, `col9` = ?;]", () => {
 			const actual = sql
 				.update(table1)
 				.set(
@@ -90,7 +90,7 @@ describe('UPDATE Path', () => {
 					col9.eq$(new Date(EPOCH_2022_07_23)),
 				)
 
-			expect(actual.getSQL()).toEqual("UPDATE `table1` SET `col1` = $1, `col4` = $2, `col7` = $3, `col9` = $4;")
+			expect(actual.getSQL()).toEqual("UPDATE `table1` SET `col1` = ?, `col4` = ?, `col7` = ?, `col9` = ?;")
 			expect(actual.getBindValues()).toEqual(['A', 1, true, new Date(EPOCH_2022_07_23)])
 		})
 	})

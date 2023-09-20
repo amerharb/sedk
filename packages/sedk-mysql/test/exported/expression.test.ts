@@ -52,13 +52,13 @@ describe('Expression', () => {
 	})
 
 	describe('With Binder', () => {
-		it(`Produces [SELECT (1 + $1) FROM "table1";]`, () => {
+		it(`Produces [SELECT (1 + ?) FROM "table1";]`, () => {
 			const actual = sql
 				.select(e(1, ADD, $(5)))
 				.from(table)
 
 			const expected = {
-				sql: `SELECT (1 + $1) FROM "table1";`,
+				sql: `SELECT (1 + ?) FROM "table1";`,
 				values: [5],
 			}
 			expect(actual.getSQL()).toEqual(expected.sql)

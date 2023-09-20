@@ -17,7 +17,7 @@ describe('functions', () => {
 		it('takes Binder', () => {
 			const actual = e(new Binder(1), ADD, 1)
 			expect(actual).toBeInstanceOf(Expression)
-			expect(actual.getStmt(builderData, emptyArtifacts, new BinderStore(0))).toEqual('($1 + 1)')
+			expect(actual.getStmt(builderData, emptyArtifacts, new BinderStore(0))).toEqual('(? + 1)')
 		})
 	})
 })

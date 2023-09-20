@@ -50,13 +50,13 @@ describe(`test from one table`, () => {
 		expect(actual).toEqual("SELECT `col1` AS `C1` FROM `table1`;")
 	})
 
-	it("Produces [SELECT `col1` AS `C\`\`1` FROM `table1`;] (escape double quote)", () => {
+	it("Produces [SELECT `col1` AS `C``1` FROM `table1`;] (escape backtick)", () => {
 		const actual = sql
-			.select(col1.as(`C\`1`))
+			.select(col1.as("C`1"))
 			.from(table1)
 			.getSQL()
 
-		expect(actual).toEqual("SELECT `col1` AS `C\`\`1` FROM `table1`;")
+		expect(actual).toEqual("SELECT `col1` AS `C``1` FROM `table1`;")
 	})
 
 	it("Produces [SELECT * FROM `table1`;]", () => {

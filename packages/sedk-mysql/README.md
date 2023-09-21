@@ -1,5 +1,5 @@
 # SEDK-mysql
-[![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://github.com/amerharb/sedk/tree/main)
+[![Version](https://img.shields.io/badge/version-0.0.2-blue.svg)](https://github.com/amerharb/sedk/tree/main)
 [![License: GPLv3](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 ![Coverage](https://raw.githubusercontent.com/amerharb/sedk/main/packages/sedk-mysql/badges/coverage.svg)
 ![Github workflow](https://github.com/amerharb/sedk/actions/workflows/test-lint.yaml/badge.svg?branch=main)
@@ -43,16 +43,16 @@ const sql = sedk.builder(database)
 
 const stmt1 = sql.select(name, salary).from(Employee).where(name.eq('John'), AND, salary.gt(1500)).getSQL()
 console.log(stmt1)
-// SELECT "name", "salary" FROM "Employee" WHERE ( "name" = 'John' AND "salary" > 1500 );
+// SELECT `name`, `salary` FROM `Employee` WHERE ( `name` = 'John' AND `salary` > 1500 );
 
 // Also it can be written as
 const stmt2 = sql.select(name, salary).from(Employee).where(name.eq('John')).and(salary.gt(1500)).getSQL()
 console.log(stmt2)
-// SELECT "name", "salary" FROM "Employee" WHERE "name" = 'John' AND "salary" > 1500;
+// SELECT `name`, `salary` FROM `Employee` WHERE `name` = 'John' AND `salary` > 1500;
 
 const binderExample = sql.select(name, salary).from(Employee).where(name.eq$('John'), AND, salary.gt$(1500))
 console.log(binderExample.getSQL())
-// SELECT "name", "salary" FROM "Employee" WHERE ( "name" = $1 AND "salary" > $2 );
+// SELECT `name`, `salary` FROM `Employee` WHERE ( `name` = ? AND `salary` > ? );
 console.log(binderExample.getBindValues())
 //  [ 'John', 1500 ]
 ```

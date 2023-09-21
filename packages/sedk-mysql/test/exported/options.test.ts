@@ -239,13 +239,13 @@ describe('test Options', () => {
 			expect(actual).toEqual('SELECT "col1" "C1" FROM "table1";')
 		})
 
-		it(`Produces [INSERT INTO "table1"("col1") VALUES('A');] option(never)`, () => {
+		it("Produces [INSERT INTO `table1`(`col1`) VALUES('A');] option(never)", () => {
 			const actual = sqlNever
 				.insertInto(publicTable1)(col1)
 				.values('A')
 				.getSQL()
 
-			expect(actual).toEqual(`INSERT INTO "table1"("col1") VALUES('A');`)
+			expect(actual).toEqual("INSERT INTO `table1`(`col1`) VALUES('A');")
 		})
 
 		it('Produces [SELECT "col1" AS "C1" FROM "table1";] option(default)', () => {

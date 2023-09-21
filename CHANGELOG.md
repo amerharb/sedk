@@ -4,6 +4,7 @@
 ## [0.3.0]  2023-01-06
 ### Added
 - add package sedk-mysql to workspace
+- fix unit test of sedk-mysql
 
 ## [0.1.2]  2023-01-05
 ### Added

@@ -24,10 +24,10 @@ describe('SetStep', () => {
 		})
 	})
 	describe('use Binders', () => {
-		it("returns: [SET `col1` = ?, `col4` = ?]", () => {
+		it('returns: [SET `col1` = ?, `col4` = ?]', () => {
 			const items = [new UpdateSetItemInfo(col1, new Binder('A')), new UpdateSetItemInfo(col4, new Binder(1))]
 			const actual = new SetStep(rootStep, items).getStepStatement()
-			expect(actual).toEqual("SET `col1` = ?, `col4` = ?")
+			expect(actual).toEqual('SET `col1` = ?, `col4` = ?')
 		})
 	})
 	describe('use Default', () => {

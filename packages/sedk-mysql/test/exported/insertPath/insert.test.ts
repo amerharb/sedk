@@ -103,36 +103,36 @@ describe('INSERT Path', () => {
 		})
 	})
 	describe('Insert with binder $', () => {
-		it("Produces [INSERT INTO `table1`(`col1`) VALUES(?);]", () => {
+		it('Produces [INSERT INTO `table1`(`col1`) VALUES(?);]', () => {
 			const actual = sql.insertInto(table1, col1).values($('A'))
-			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`) VALUES(?);")
+			expect(actual.getSQL()).toEqual('INSERT INTO `table1`(`col1`) VALUES(?);')
 			expect(actual.getBindValues()).toEqual(['A'])
 		})
-		it("Produces [INSERT INTO `table1`(`col1`) VALUES(?);]", () => {
+		it('Produces [INSERT INTO `table1`(`col1`) VALUES(?);]', () => {
 			const actual = sql.insertInto(table1, col1).values($('A'))
-			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`) VALUES(?);")
+			expect(actual.getSQL()).toEqual('INSERT INTO `table1`(`col1`) VALUES(?);')
 			expect(actual.getBindValues()).toEqual(['A'])
 		})
-		it("Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, ?, ?);]", () => {
+		it('Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, ?, ?);]', () => {
 			const actual = sql
 				.insertInto(table1, col1, col4, col7)
 				.values($('A'), $(1), $(true))
-			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, ?, ?);")
+			expect(actual.getSQL()).toEqual('INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, ?, ?);')
 			expect(actual.getBindValues()).toEqual(['A', 1, true])
 		})
-		it("Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, 1, ?);]", () => {
+		it('Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, 1, ?);]', () => {
 			const actual = sql.insertInto(table1, col1, col4, col7).values($('A'), 1, $(true))
-			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, 1, ?);")
+			expect(actual.getSQL()).toEqual('INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, 1, ?);')
 			expect(actual.getBindValues()).toEqual(['A', true])
 		})
-		it("Produces [INSERT INTO `table2` VALUES(?, ?);]", () => {
+		it('Produces [INSERT INTO `table2` VALUES(?, ?);]', () => {
 			const actual = sql.insertInto(table2).values$('A',  'B')
-			expect(actual.getSQL()).toEqual("INSERT INTO `table2` VALUES(?, ?);")
+			expect(actual.getSQL()).toEqual('INSERT INTO `table2` VALUES(?, ?);')
 			expect(actual.getBindValues()).toEqual(['A', 'B'])
 		})
-		it("Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, ?, ?);]", () => {
+		it('Produces [INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, ?, ?);]', () => {
 			const actual = sql.insertInto(table1)(col1, col4, col7).values$('A', 1, true)
-			expect(actual.getSQL()).toEqual("INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, ?, ?);")
+			expect(actual.getSQL()).toEqual('INSERT INTO `table1`(`col1`, `col4`, `col7`) VALUES(?, ?, ?);')
 			expect(actual.getBindValues()).toEqual(['A', 1, true])
 		})
 	})
@@ -145,34 +145,34 @@ describe('INSERT Path', () => {
 
 			expect(actual).toEqual("INSERT INTO `table1`(`col1`) SELECT 'A';")
 		})
-		it("Produces [INSERT INTO `table2` SELECT * FROM `table3`;]", () => {
+		it('Produces [INSERT INTO `table2` SELECT * FROM `table3`;]', () => {
 			const actual = sql
 				.insertInto(table2)
 				.select(ASTERISK)
 				.from(table3)
 				.getSQL()
 
-			expect(actual).toEqual("INSERT INTO `table2` SELECT * FROM `table3`;")
+			expect(actual).toEqual('INSERT INTO `table2` SELECT * FROM `table3`;')
 		})
-		it("Produces [INSERT INTO `table1`(`col1`, `col2`) SELECT `col1`, `col2` FROM `table2`;]", () => {
+		it('Produces [INSERT INTO `table1`(`col1`, `col2`) SELECT `col1`, `col2` FROM `table2`;]', () => {
 			const actual = sql
 				.insertInto(table1, col1, col2)
 				.select(T2col1, T2col2)
 				.from(table2)
 				.getSQL()
 
-			expect(actual).toEqual("INSERT INTO `table1`(`col1`, `col2`) SELECT `table2`.`col1`, `table2`.`col2` FROM `table2`;")
+			expect(actual).toEqual('INSERT INTO `table1`(`col1`, `col2`) SELECT `table2`.`col1`, `table2`.`col2` FROM `table2`;')
 		})
-		it("Produces [INSERT INTO `table1`(`col1`, `col2`) SELECT `col1`, `col2` FROM `table2`;]", () => {
+		it('Produces [INSERT INTO `table1`(`col1`, `col2`) SELECT `col1`, `col2` FROM `table2`;]', () => {
 			const actual = sql
 				.insertInto(table1, col1, col2)
 				.select(T2col1, T2col2)
 				.from(table2)
 				.getSQL()
 
-			expect(actual).toEqual("INSERT INTO `table1`(`col1`, `col2`) SELECT `table2`.`col1`, `table2`.`col2` FROM `table2`;")
+			expect(actual).toEqual('INSERT INTO `table1`(`col1`, `col2`) SELECT `table2`.`col1`, `table2`.`col2` FROM `table2`;')
 		})
-		it.skip("Produces [INSERT INTO `table1`(`col2`) SELECT `table2`.`col2` FROM `table2` LEFT JOIN `table1` ON `table1`.`col1` = `table2`.`col1`;]", () => {
+		it.skip('Produces [INSERT INTO `table1`(`col2`) SELECT `table2`.`col2` FROM `table2` LEFT JOIN `table1` ON `table1`.`col1` = `table2`.`col1`;]', () => {
 			const actual = sql
 				.insertInto(table1, col2)
 				.select(T2col2)
@@ -181,7 +181,7 @@ describe('INSERT Path', () => {
 				//.on(col1.eq(T2col1))
 				.getSQL()
 
-			expect(actual).toEqual("INSERT INTO `table1`(`col2`) SELECT `table2`.`col2` FROM `table2` LEFT JOIN `table1` ON `table1`.`col1` = `table2`.`col1`;")
+			expect(actual).toEqual('INSERT INTO `table1`(`col2`) SELECT `table2`.`col2` FROM `table2` LEFT JOIN `table1` ON `table1`.`col1` = `table2`.`col1`;')
 		})
 		it("Produces [INSERT INTO `table1`(`col2`) SELECT `col2` FROM `table2` WHERE `col1` = 'A';]", () => {
 			const actual = sql
@@ -195,12 +195,12 @@ describe('INSERT Path', () => {
 		})
 	})
 	describe('Insert with DEFAULT keyword', () => {
-		it("Produces [INSERT INTO `table1`(`col1`) VALUES(DEFAULT);]", () => {
+		it('Produces [INSERT INTO `table1`(`col1`) VALUES(DEFAULT);]', () => {
 			const actual = sql
 				.insertInto(table1, col1)
 				.values(DEFAULT)
 				.getSQL()
-			expect(actual).toEqual("INSERT INTO `table1`(`col1`) VALUES(DEFAULT);")
+			expect(actual).toEqual('INSERT INTO `table1`(`col1`) VALUES(DEFAULT);')
 		})
 		it("Produces [INSERT INTO `table1`(`col1`, `col2`, `col3`) VALUES(DEFAULT, 'A', DEFAULT);]", () => {
 			const actual = sql
@@ -218,19 +218,19 @@ describe('INSERT Path', () => {
 		})
 	})
 	describe.skip('Insert with DEFAULT VALUES keyword', () => {
-		it("Produces [INSERT INTO `table1`(`col1`) DEFAULT VALUES;]", () => {
+		it('Produces [INSERT INTO `table1`(`col1`) DEFAULT VALUES;]', () => {
 			const actual = sql
 				.insertInto(table1, col1)
 				// .defaultValues()
 				.getSQL()
-			expect(actual).toEqual("INSERT INTO `table1`(`col1`) DEFAULT VALUES;")
+			expect(actual).toEqual('INSERT INTO `table1`(`col1`) DEFAULT VALUES;')
 		})
-		it("Produces [INSERT INTO `table1`(`col1`, `col2`, `col3`) DEFAULT VALUES;]", () => {
+		it('Produces [INSERT INTO `table1`(`col1`, `col2`, `col3`) DEFAULT VALUES;]', () => {
 			const actual = sql
 				.insertInto(table1, col1, col2, col3)
 				// .defaultValues()
 				.getSQL()
-			expect(actual).toEqual("INSERT INTO `table1`(`col1`, `col2`, `col3`) DEFAULT VALUES;")
+			expect(actual).toEqual('INSERT INTO `table1`(`col1`, `col2`, `col3`) DEFAULT VALUES;')
 		})
 	})
 })

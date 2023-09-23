@@ -1,0 +1,19 @@
+{
+  "name": "sedk-mysql-ts-example",
+  "version": "0.0.1",
+  "description": "example project for sedk-mysql in typescript",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "build&start": "npm run build && npm run start"
+  },
+  "keywords": [],
+  "author": "Amer Harb",
+  "license": "ISC",
+  "dependencies": {
+    "sedk-mysql": "^0.0.2"
+  }
+}

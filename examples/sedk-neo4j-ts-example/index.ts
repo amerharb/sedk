@@ -13,7 +13,7 @@ async function main() {
 	}
 }
 
-console.log('🚀 Starting sedk-postgres-js-example ...')
+console.log('🚀 Starting sedk-neo4j-ts-example ...')
 main().then(() => {
-	console.log('👋 End of sedk-postgres-js-example')
+	console.log('👋 End of sedk-neo4j-ts-example')
 })

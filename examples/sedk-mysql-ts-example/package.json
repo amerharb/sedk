@@ -1,5 +1,6 @@
 {
   "name": "sedk-mysql-ts-example",
+  "private": true,
   "version": "0.0.1",
   "description": "example project for sedk-mysql in typescript",
   "type": "module",
@@ -14,6 +15,6 @@
   "author": "Amer Harb",
   "license": "ISC",
   "dependencies": {
-    "sedk-mysql": "^0.0.2"
+    "sedk-mysql": "^0.0.3-next.0"
   }
 }

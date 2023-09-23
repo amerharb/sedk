@@ -43,7 +43,7 @@ console.assert(stmt2 === expt2, 'stmt2 is not as expected')
 
 const binderExample = sql.select(name, salary).from(Employee).where(name.eq$('John'), AND, salary.gt$(1500))
 console.log(binderExample.getSQL())
-const expt3 = "SELECT `name`, `age` FROM `Employee` WHERE ( `name` = ? AND `salary` > ? );"
+const expt3 = "SELECT `name`, `salary` FROM `Employee` WHERE ( `name` = ? AND `salary` > ? );"
 console.assert(binderExample.getSQL() === expt3, 'binderExample.getSQL() is not as expected')
 console.log(binderExample.getBindValues())
 const expt3Arr = [ 'John', 1500 ]

@@ -26,7 +26,9 @@
     "posttest": "npx make-coverage-badge --report-path coverage/coverage-summary.json --output-path badges/coverage.svg",
     "build&test": "npm run build && npm run test",
     "lint": "eslint .",
-    "lint-fix": "eslint . --fix"
+    "lint-fix": "eslint . --fix",
+    "prepublishOnly": "npm run build",
+    "preversion": "npm run lint && npm run test"
   },
   "keywords": [
     "SQL",

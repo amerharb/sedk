@@ -67,7 +67,7 @@ export class Binder implements IStatementGiver {
 		if (this.mNo === undefined) {
 			throw new Error(`You can't getStmt() from this binder, The binder is not stored and has undefined "No"`)
 		}
-		return `$${this.mNo}`
+		return '?'
 	}
 
 	private static getType(value: PrimitiveType): ExpressionType {

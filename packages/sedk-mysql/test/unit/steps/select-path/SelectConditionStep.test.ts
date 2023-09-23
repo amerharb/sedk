@@ -26,19 +26,19 @@ describe('SelectConditionStep', () => {
 			).getStepStatement()
 			expect(actual).toEqual('')
 		})
-		it('returns: [WHERE "col7"]', () => {
+		it('returns: [WHERE `col7`]', () => {
 			const actual = new SelectWhereStep(
 				rootStep,
 				[col7],
 			).getStepStatement()
-			expect(actual).toEqual(`WHERE "col7"`)
+			expect(actual).toEqual(`WHERE \`col7\``)
 		})
-		it(`returns: [WHERE "col1" = 'A' AND "col4" = 1]`, () => {
+		it(`returns: [WHERE \`col1\` = 'A' AND \`col4\` = 1]`, () => {
 			const actual = new SelectWhereStep(
 				rootStep,
 				[OPEN, col1.eq('A'), AND, col4.eq(1), CLOSE],
 			).getStepStatement()
-			expect(actual).toEqual(`WHERE ( "col1" = 'A' AND "col4" = 1 )`)
+			expect(actual).toEqual(`WHERE ( \`col1\` = 'A' AND \`col4\` = 1 )`)
 		})
 	})
 	describe('SelectWhereAndStep', () => {

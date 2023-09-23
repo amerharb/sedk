@@ -132,29 +132,6 @@ describe('Throw desired Errors', () => {
 		})
 	})
 
-	it(`Throws: ItemInfo is an abstract class`, () => {
-		class DummyItemInfo extends ItemInfo {
-			constructor() {super()}
-
-			getColumns(): Column[] {
-				return []
-			}
-
-			getStmt(data: BuilderData): string {
-				return ''
-			}
-		}
-
-		function actual() {
-			sql
-				.deleteFrom(table1)
-				.where(e(1).eq(1))
-				.returning(new DummyItemInfo())
-		}
-
-		expect(actual).toThrow(`ItemInfo is an abstract class`)
-	})
-
 	describe('Column', () => {
 		it(`Throws: "Table can only be assigned one time"`, () => {
 			function actual() {

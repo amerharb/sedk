@@ -8,9 +8,9 @@ const table1 = database.s.public.t.table1
 describe('UpdateConditionStep', () => {
 	const rootStep = new RootStep(builderData)
 	describe('UpdateWhereStep', () => {
-		it(`returns: [WHERE "col7"]`, () => {
+		it('returns: [WHERE `col7`]', () => {
 			const actual = new UpdateWhereStep(rootStep, [table1.c.col7]).getStepStatement()
-			expect(actual).toEqual('WHERE "col7"')
+			expect(actual).toEqual('WHERE `col7`')
 		})
 	})
 })

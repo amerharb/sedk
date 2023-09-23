@@ -13,8 +13,6 @@ import {
 	InsertColumnsAndValuesNotEqualError,
 	InvalidConditionError,
 	InvalidExpressionError,
-	InvalidLimitValueError,
-	InvalidOffsetValueError,
 	MoreThanOneDistinctOrAllError,
 	NULLS_FIRST,
 	NULLS_LAST,
@@ -221,34 +219,6 @@ describe('Throw desired Errors', () => {
 		expect(actual).toThrow(/^ DESC shouldn't come after "ASC" or "DESC" without column or alias in between$/)
 	})
 
-	it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
-	('Throws error when LIMIT step has invalid value for %s', (value) => {
-		const actual = () => sql.selectAsteriskFrom(table1).limit(value)
-		expect(actual).toThrow(InvalidLimitValueError)
-		expect(actual).toThrow(`Invalid limit value: ${value}, value must be positive number, null or "ALL"`)
-	})
-
-	it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
-	('Throws error when LIMIT$ step has invalid value for %s', (value) => {
-		const actual = () => sql.selectAsteriskFrom(table1).limit$(value)
-		expect(actual).toThrow(InvalidLimitValueError)
-		expect(actual).toThrow(`Invalid limit value: ${value}, value must be positive number, null or "ALL"`)
-	})
-
-	it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
-	(`Throws error when OFFSET step has invalid value for %s`, (value) => {
-		const actual = () => sql.selectAsteriskFrom(table1).offset(value)
-		expect(actual).toThrow(InvalidOffsetValueError)
-		expect(actual).toThrow(`Invalid offset value: ${value}, value must be positive number`)
-	})
-
-	it.each([NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
-	(`Throws error when OFFSET$ step has invalid value for %s`, (value) => {
-		const actual = () => sql.selectAsteriskFrom(table1).offset$(value)
-		expect(actual).toThrow(InvalidOffsetValueError)
-		expect(actual).toThrow(`Invalid offset value: ${value}, value must be positive number`)
-	})
-
 	it('Throws error "Expression Type must be number in aggregate function"', () => {
 		function actual() {
 			sql
@@ -262,16 +232,6 @@ describe('Throw desired Errors', () => {
 		expect(actual).toThrow(/^Expression Type must be number in aggregate function$/)
 	})
 
-	describe('Delete Path Errors', () => {
-		const deleteSql = builder(database, { throwErrorIfDeleteHasNoCondition: false })
-		it(`Throws error "Aggregate function SUM cannot be used in RETURNING clause"`, () => {
-			function actual() {
-				deleteSql.deleteFrom(table1).returning(f.sum(table1.c.col4).as('whatEver')).getSQL()
-			}
-
-			expect(actual).toThrow(/^Aggregate function SUM cannot be used in RETURNING clause$/)
-		})
-	})
 	describe('Error: InsertColumnsAndValuesNotEqualError', () => {
 		describe('Table and columns one step', () => {
 			it(`columns more than values`, () => {
@@ -595,12 +555,5 @@ describe('Throw desired Errors', () => {
 		}
 
 		expect(actual).toThrow(`Invalid empty SELECT step`)
-	})
-	it(`throws "Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE"`, () => {
-		function actual() {
-			sql.selectAsteriskFrom(table1).returning(ASTERISK)
-		}
-
-		expect(actual).toThrow(`Returning step can not be used in SELECT statement, It can be only use if the path start with INSERT, DELETE, or UPDATE`)
 	})
 })

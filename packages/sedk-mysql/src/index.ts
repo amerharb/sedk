@@ -16,8 +16,6 @@ export {
 	MoreThanOneDistinctOrAllError,
 	InvalidConditionError,
 	DeleteWithoutConditionError,
-	InvalidLimitValueError,
-	InvalidOffsetValueError,
 	InsertColumnsAndValuesNotEqualError,
 	InsertColumnsAndExpressionsNotEqualError,
 	EmptyArrayError,

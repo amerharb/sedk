@@ -7,15 +7,13 @@ SQL ::=
 
   (  // SELECT Path
 
-  ( ( ( 'SELECT' | 'SELECT_ALL' | 'SELECT_DISTINCT' ) ( 'FROM' ) ) | ( 'SELECT_ASTERISK_FROM' ) )
-
-  ( ( ( 'JOIN' | 'LEFT_JOIN' | 'RIGHT_JOIN' | 'INNER_JOIN' | 'FULL_OUTER_JOIN' ) 'ON' ( 'AND' | 'OR' )* ) | ( 'CROSS_JOIN' ) )*
+  ( ( ( 'SELECT' ) ( 'FROM' ) ) | ( 'SELECT_ASTERISK_FROM' ) )
 
   ( 'WHERE' ( 'AND' | 'OR' )* )? 
 
   ( 'GROUPBY' ('HAVING' ( 'AND' | 'OR' )*)? )? 
 
-  'ORDER BY'? 'LIMIT'? 'OFFSET'?
+  'ORDER BY'?
 
   ) | ( // DELETE Path
 
@@ -23,22 +21,16 @@ SQL ::=
 
   ( 'WHERE' ( 'AND' | 'OR' )* )?
 
-  'RETURNING' ?
-
   ) | ( // INSERT Path
 
   ( ( 'INSERT' 'INTO' ) | ( 'INSERT_INTO' ) )
 
   ( 'VALUES' | SELECT )
 
-  'RETURNING' ?
-
   ) | ( // UPDATE Path
 
   ( 'UPDATE' 'SET' )
 
   ( 'WHERE' ( 'AND' | 'OR' )* )?
-
-  'RETURNING' ?
   )
 ```

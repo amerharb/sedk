@@ -3,9 +3,6 @@ import { BooleanColumn } from '../../database'
 import { BaseStep, Parenthesis } from '../BaseStep'
 import { Condition, PrimitiveType } from '../../models'
 import { LogicalOperator } from '../../operators'
-import { ReturningStep } from '../ReturningStep'
-import { ReturningItem } from '../../ReturningItemInfo'
-import { ItemInfo } from '../../ItemInfo'
 
 abstract class DeleteConditionStep extends ConditionStep {
 	public and(condition: Condition): DeleteWhereStep
@@ -24,10 +21,6 @@ abstract class DeleteConditionStep extends ConditionStep {
 		const whereParts: (LogicalOperator|Condition|Parenthesis|BooleanColumn)[] = []
 		BaseStep.addConditionParts(whereParts, cond1, op1, cond2, op2, cond3)
 		return new DeleteWhereOrStep(this, whereParts)
-	}
-
-	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this, items)
 	}
 }
 

@@ -11,7 +11,7 @@ describe('GroupByStep', () => {
 	describe('getStepStatement()', () => {
 		it('returns: [GROUP BY "col1"]', () => {
 			const actual = new GroupByStep(rootStep, [col1]).getStepStatement()
-			expect(actual).toEqual('GROUP BY "col1"')
+			expect(actual).toEqual('GROUP BY `col1`')
 		})
 	})
 	describe('Errors:', () => {

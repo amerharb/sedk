@@ -7,15 +7,9 @@ import {
 	OrderByItemInfo,
 	OrderByNullsPosition,
 } from '../../orderBy'
-import { escapeDoubleQuote } from '../../util'
-import { ItemInfo } from '../../ItemInfo'
+import { escapeBackTick } from '../../util'
 import { Expression, PrimitiveType } from '../..//models'
-import { ReturningItem } from '../../ReturningItemInfo'
-import { All } from '../../singletoneConstants'
 import { Artifacts, BaseStep } from '../BaseStep'
-import { LimitStep } from './LimitStep'
-import { OffsetStep } from './OffsetStep'
-import { ReturningStep } from '../ReturningStep'
 
 export class OrderByStep extends BaseStep {
 	private readonly orderByItemInfos: OrderByItemInfo[] = []
@@ -77,7 +71,7 @@ export class OrderByStep extends BaseStep {
 				}
 				const aliases = prevStep.getAliases()
 				if (aliases.find(alias => alias === it)) {
-					store.orderByItem = `"${escapeDoubleQuote(it)}"`
+					store.orderByItem = `\`${escapeBackTick(it)}\``
 				} else {
 					throw new Error(`Alias ${it} is not exist, if this is a column, then it should be entered as Column class`)
 				}
@@ -106,25 +100,5 @@ export class OrderByStep extends BaseStep {
 			return it.getStmt(this.data, artifacts, this.binderStore)
 		})
 		return `ORDER BY ${orderByPartsString.join(', ')}`
-	}
-
-	public limit(n: null|number|All): LimitStep {
-		return new LimitStep(this, n)
-	}
-
-	public limit$(n: null|number): LimitStep {
-		return new LimitStep(this, n, true)
-	}
-
-	public offset(n: number): OffsetStep {
-		return new OffsetStep(this, n)
-	}
-
-	public offset$(n: number): OffsetStep {
-		return new OffsetStep(this, n, true)
-	}
-
-	public returning(...items: (ItemInfo|ReturningItem|PrimitiveType)[]): ReturningStep {
-		return new ReturningStep(this, items)
 	}
 }

@@ -1,0 +1,16 @@
+{
+  "name": "sedk-neo4j-js-example",
+  "version": "0.0.1",
+  "description": "example project for sedk-neo4j in Java Script",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "Amer Harb",
+  "license": "ISC",
+  "dependencies": {
+    "sedk-neo4j": "0.0.4"
+  }
+}

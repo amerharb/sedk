@@ -1,16 +1,8 @@
-import { log } from "./util.js";
-
-async function importReadmeExample() {
-	return await import('./readme-example.js')
-}
-
-async function importExample1() {
-	return await import('./example1.js')
-}
+import { log } from './util.js';
 
 const importFunctionsList = [
-	importReadmeExample,
-	importExample1,
+	async () => await import('./readme-example.js'),
+	async () => await import('./example1.js'),
 ]
 
 async function main() {

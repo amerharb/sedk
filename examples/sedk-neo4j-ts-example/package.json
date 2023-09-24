@@ -1,6 +1,6 @@
 {
   "name": "sedk-neo4j-ts-example",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "example project for sedk-neo4j in typescript",
   "type": "module",
   "main": "dist/index.js",

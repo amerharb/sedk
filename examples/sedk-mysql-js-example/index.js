@@ -10,7 +10,7 @@ async function main() {
 	}
 }
 
-console.log('🚀 Starting sedk-postgres-js-example ...')
+console.log('🚀 Starting sedk-mysql-js-example ...')
 main().then(() => {
-	console.log('👋 End of sedk-postgres-js-example')
+	console.log('👋 End of sedk-mysql-js-example')
 })

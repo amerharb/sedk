@@ -1,6 +1,13 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.3.1]  2023-09-23
+### Added
+- test against node v20.x in pipeline
+- refactor examples
+- add example for sedk-mysql: sedk-mysql-ts-example, sedk-mysql-js-example
+- add example for sedk-neo4j: sedk-neo4j-js-example
+
 ## [0.3.0]  2023-01-06
 ### Added
 - add package sedk-mysql to workspace

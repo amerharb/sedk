@@ -1,5 +1,5 @@
 import { assert, log } from './util.js'
-import * as sedk from 'sedk-postgres'
+import * as sedk from 'sedk-mysql'
 
 // Schema definition (practically this should be defined in one separate file for the whole project)
 const database = new sedk.Database({
@@ -33,18 +33,18 @@ const sql = sedk.builder(database)
 
 const stmt1 = sql.select(name, salary).from(Employee).where(name.eq('John'), AND, salary.gt(1500)).getSQL()
 log(stmt1)
-const expt1 = `SELECT "name", "salary" FROM "Employee" WHERE ( "name" = 'John' AND "salary" > 1500 );`
+const expt1 = "SELECT `name`, `salary` FROM `Employee` WHERE ( `name` = 'John' AND `salary` > 1500 );"
 assert(stmt1 === expt1, 'stmt1 is not as expected')
 
 // Also it can be written as
 const stmt2 = sql.select(name, salary).from(Employee).where(name.eq('John')).and(salary.gt(1500)).getSQL()
 log(stmt2)
-const expt2 = `SELECT "name", "salary" FROM "Employee" WHERE "name" = 'John' AND "salary" > 1500;`
+const expt2 = "SELECT `name`, `salary` FROM `Employee` WHERE `name` = 'John' AND `salary` > 1500;"
 assert(stmt2 === expt2, 'stmt2 is not as expected')
 
 const binderExample = sql.select(name, salary).from(Employee).where(name.eq$('John'), AND, salary.gt$(1500))
 log(binderExample.getSQL())
-const expt3 = `SELECT "name", "salary" FROM "Employee" WHERE ( "name" = $1 AND "salary" > $2 );`
+const expt3 = 'SELECT `name`, `salary` FROM `Employee` WHERE ( `name` = ? AND `salary` > ? );'
 assert(binderExample.getSQL() === expt3, 'binderExample.getSQL() is not as expected')
 log(binderExample.getBindValues())
 const expt3Arr = [ 'John', 1500 ]

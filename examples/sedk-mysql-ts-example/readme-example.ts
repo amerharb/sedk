@@ -1,5 +1,5 @@
+import { assert, log } from './util.js'
 import * as sedk from 'sedk-mysql'
-import { assert, log } from './util'
 
 // Schema definition (practically this should be defined in one separate file for the whole project)
 const database = new sedk.Database({

@@ -1,11 +1,11 @@
 import * as sedk from 'sedk-neo4j'
 
 const database = {
-  Labels: {
-    Person: new sedk.Label('Person'),
-    Animal: new sedk.Label('Animal'),
-    Student: new sedk.Label('Student'),
-  }
+	Labels: {
+		Person: new sedk.Label('Person'),
+		Animal: new sedk.Label('Animal'),
+		Student: new sedk.Label('Student'),
+	}
 }
 
 //Aliases

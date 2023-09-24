@@ -1,3 +1,5 @@
+import { log } from "./util.js";
+
 async function importReadmeExample() {
 	return await import('./readme-example.js')
 }
@@ -13,12 +15,12 @@ const importFunctionsList = [
 
 async function main() {
 	for (const fn of importFunctionsList) {
-		console.log(`📦 run ${fn.name}`)
+		log(`📦 run ${fn.name}`)
 		await fn()
 	}
 }
 
-console.log('🚀 Starting sedk-postgres-ts-example ...')
+log('🚀 Starting sedk-postgres-ts-example ...')
 main().then(() => {
-	console.log('👋 End of sedk-postgres-ts-example')
+	log('👋 End of sedk-postgres-ts-example')
 })

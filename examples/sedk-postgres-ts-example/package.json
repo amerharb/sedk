@@ -1,6 +1,6 @@
 {
   "name": "sedk-postgres-ts-example",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "example project for sedk postgres in typescript",
   "type": "module",
   "main": "dist/index.js",

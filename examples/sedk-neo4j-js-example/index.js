@@ -1,6 +1,5 @@
 const importFunctionsList = [
 	async () => await import('./readme-example.js'),
-	async () => await import('./example1.js'),
 ]
 
 async function main() {
@@ -10,7 +9,7 @@ async function main() {
 	}
 }
 
-console.log('🚀 Starting sedk-postgres-js-example ...')
+console.log('🚀 Starting sedk-neo4j-js-example ...')
 main().then(() => {
-	console.log('👋 End of sedk-postgres-js-example')
+	console.log('👋 End of sedk-neo4j-js-example')
 })

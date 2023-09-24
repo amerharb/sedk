@@ -1,7 +1,7 @@
 {
-  "name": "sedk-postgres-js-example",
-  "version": "0.0.3",
-  "description": "example project for sedk postgres",
+  "name": "sedk-mysql-js-example",
+  "version": "0.0.1",
+  "description": "example project for sedk mysql",
   "type": "module",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,6 @@
   "author": "Amer Harb",
   "license": "ISC",
   "dependencies": {
-    "sedk-postgres": "0.15.0"
+    "sedk-mysql": "0.0.3-next.0"
   }
 }

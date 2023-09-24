@@ -1,4 +1,4 @@
-import { assert, log } from "./util.js"
+import { assert, log } from './util.js'
 import * as sedk from 'sedk-postgres'
 
 // Schema definition (practically this should be defined in one separate file for the whole project)

@@ -1,4 +1,4 @@
-import { log } from './util.js';
+import { log } from './util.js'
 
 const importFunctionsList = [
 	async () => await import('./readme-example.js'),

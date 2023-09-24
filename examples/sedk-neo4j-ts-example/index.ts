@@ -1,9 +1,5 @@
-async function importReadmeExample() {
-	return await import('./readme-example.js')
-}
-
 const importFunctionsList = [
-	importReadmeExample,
+	async () => await import('./readme-example.js'),
 ]
 
 async function main() {

@@ -1,4 +1,3 @@
-import './readme-example.js'
 import * as sedk from 'sedk-postgres';
 
 // Schema definition (practically this should be defined in one separate file for the whole project)

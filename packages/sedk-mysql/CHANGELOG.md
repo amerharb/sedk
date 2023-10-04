@@ -1,9 +1,10 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
-## [0.0.2]  2023-09-22
+## [0.0.3]  2023-10-04
 ### Fix
-- fix earlier version publish
+- earlier version publish
+- unit test
 
 ## [0.0.2]  2023-09-22
 ### Added

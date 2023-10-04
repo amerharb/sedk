@@ -1,7 +1,7 @@
 {
   "name": "sedk-mysql",
-  "version": "0.0.2",
-  "description": "Simple SQL builder and validator",
+  "version": "0.0.3-next.0",
+  "description": "Simple SQL builder and validator for MySQL",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "files": [
@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/amerharb/sedk.git"
   },
-  "homepage": "https://github.com/amerharb/sedk#readme",
+  "homepage": "https://github.com/amerharb/sedk/tree/main/packages/sedk-mysql#sedk-mysql",
   "url": "https://github.com/amerharb/sedk/issues",
   "email": "sedk@amerharb.com",
   "scripts": {
@@ -26,7 +26,8 @@
     "posttest": "npx make-coverage-badge --report-path coverage/coverage-summary.json --output-path badges/coverage.svg",
     "build&test": "npm run build && npm run test",
     "lint": "eslint .",
-    "lint-fix": "eslint . --fix"
+    "lint-fix": "eslint . --fix",
+    "prepublishOnly": "npm run build && npm run lint && npm run test"
   },
   "keywords": [
     "SQL",

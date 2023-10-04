@@ -25,13 +25,13 @@ describe('Expression', () => {
 			expect(actual).toEqual(`SELECT FALSE;`)
 		})
 
-		it("Produces [SELECT 1 FROM `table1`;]", () => {
+		it('Produces [SELECT 1 FROM `table1`;]', () => {
 			const actual = sql
 				.select(e(1))
 				.from(table)
 				.getSQL()
 
-			expect(actual).toEqual("SELECT 1 FROM `table1`;")
+			expect(actual).toEqual('SELECT 1 FROM `table1`;')
 		})
 
 		it(`Produces [SELECT -1;]`, () => {
@@ -52,13 +52,13 @@ describe('Expression', () => {
 	})
 
 	describe('With Binder', () => {
-		it("Produces [SELECT (1 + ?) FROM `table1`;]", () => {
+		it('Produces [SELECT (1 + ?) FROM `table1`;]', () => {
 			const actual = sql
 				.select(e(1, ADD, $(5)))
 				.from(table)
 
 			const expected = {
-				sql: "SELECT (1 + ?) FROM `table1`;",
+				sql: 'SELECT (1 + ?) FROM `table1`;',
 				values: [5],
 			}
 			expect(actual.getSQL()).toEqual(expected.sql)
@@ -76,22 +76,22 @@ describe('Expression', () => {
 			expect(actual).toEqual("SELECT ('a' || 'b') FROM `table1`;")
 		})
 
-		it("Produces [SELECT (1 + (2 - 3)) FROM `table1`;]", () => {
+		it('Produces [SELECT (1 + (2 - 3)) FROM `table1`;]', () => {
 			const actual = sql
 				.select(e(1, ADD, e(2, SUB, 3)))
 				.from(table)
 				.getSQL()
 
-			expect(actual).toEqual("SELECT (1 + (2 - 3)) FROM `table1`;")
+			expect(actual).toEqual('SELECT (1 + (2 - 3)) FROM `table1`;')
 		})
 
-		it("Produces [SELECT (1 + (2 - 3)) AS `Calc` FROM `table1`;]", () => {
+		it('Produces [SELECT (1 + (2 - 3)) AS `Calc` FROM `table1`;]', () => {
 			const actual = sql
 				.select(e(1, ADD, e(2, SUB, 3)).as(`Calc`))
 				.from(table)
 				.getSQL()
 
-			expect(actual).toEqual("SELECT (1 + (2 - 3)) AS `Calc` FROM `table1`;")
+			expect(actual).toEqual('SELECT (1 + (2 - 3)) AS `Calc` FROM `table1`;')
 		})
 
 		it("Produces [SELECT * FROM `table1` WHERE (`col7` > 'tru');]", () => {
@@ -103,21 +103,21 @@ describe('Expression', () => {
 			expect(actual).toEqual("SELECT * FROM `table1` WHERE (`col7` > 'tru');")
 		})
 
-		it("Produces [SELECT * FROM `table1` WHERE (`col7` IS NULL);]", () => {
+		it('Produces [SELECT * FROM `table1` WHERE (`col7` IS NULL);]', () => {
 			const actual = sql
 				.selectAsteriskFrom(table)
 				.where(e(col7, IS, null))
 				.getSQL()
 
-			expect(actual).toEqual("SELECT * FROM `table1` WHERE (`col7` IS NULL);")
+			expect(actual).toEqual('SELECT * FROM `table1` WHERE (`col7` IS NULL);')
 		})
-		it("Produces [SELECT * FROM `table1` WHERE (`col7` IS TRUE);]", () => {
+		it('Produces [SELECT * FROM `table1` WHERE (`col7` IS TRUE);]', () => {
 			const actual = sql
 				.selectAsteriskFrom(table)
 				.where(e(col7, IS, true))
 				.getSQL()
 
-			expect(actual).toEqual("SELECT * FROM `table1` WHERE (`col7` IS TRUE);")
+			expect(actual).toEqual('SELECT * FROM `table1` WHERE (`col7` IS TRUE);')
 		})
 
 		describe('With TextBoolean', () => {
@@ -155,13 +155,13 @@ describe('Expression', () => {
 	})
 
 	describe('With Aliases', () => {
-		it("Produces [SELECT 1 AS `One` FROM `table1`;]", () => {
+		it('Produces [SELECT 1 AS `One` FROM `table1`;]', () => {
 			const actual = sql
 				.select(e(1).as(`One`))
 				.from(table)
 				.getSQL()
 
-			expect(actual).toEqual("SELECT 1 AS `One` FROM `table1`;")
+			expect(actual).toEqual('SELECT 1 AS `One` FROM `table1`;')
 		})
 	})
 })

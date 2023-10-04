@@ -71,5 +71,12 @@ So if you change from MySQL to Postgres then you will need to change the library
 
 ## What is New
 
+### Version: 0.0.3
+- Fix publish 
+- Fix unit test
+
+### Version: 0.0.2
+- First publish
+
 ### Version: 0.0.1
 - Initial WiP still under development

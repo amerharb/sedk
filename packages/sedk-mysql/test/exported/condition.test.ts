@@ -114,13 +114,13 @@ describe('Condition', () => {
 	})
 	describe('Condition from Condition in/in$', () => {
 		describe('Boolean column', () => {
-			it("Produces [SELECT * FROM `table1` WHERE `col7` IN (TRUE);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col7` IN (TRUE);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col7.in(true))
 					.getSQL()
 
-				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col7` IN (TRUE);")
+				expect(actual).toEqual('SELECT * FROM `table1` WHERE `col7` IN (TRUE);')
 			})
 			it("Produces [SELECT * FROM `table1` WHERE `col7` IN ('tr');]", () => {
 				const actual = sql
@@ -130,21 +130,21 @@ describe('Condition', () => {
 
 				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col7` IN ('tr');")
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col7` IN (`col8`);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col7` IN (`col8`);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col7.in(col8))
 					.getSQL()
 
-				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col7` IN (`col8`);")
+				expect(actual).toEqual('SELECT * FROM `table1` WHERE `col7` IN (`col8`);')
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col7` IN (?);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col7` IN (?);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col7.in$(true))
 
 				const expected = {
-					sql: "SELECT * FROM `table1` WHERE `col7` IN (?);",
+					sql: 'SELECT * FROM `table1` WHERE `col7` IN (?);',
 					values: [true],
 				}
 				expect(actual.getSQL()).toEqual(expected.sql)
@@ -152,29 +152,29 @@ describe('Condition', () => {
 			})
 		})
 		describe('Number column', () => {
-			it("Produces [SELECT * FROM `table1` WHERE `col4` IN (1, 2, 3);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col4` IN (1, 2, 3);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col4.in(1, 2, 3))
 					.getSQL()
 
-				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col4` IN (1, 2, 3);")
+				expect(actual).toEqual('SELECT * FROM `table1` WHERE `col4` IN (1, 2, 3);')
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col4` IN (`col5`);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col4` IN (`col5`);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col4.in(col5))
 					.getSQL()
 
-				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col4` IN (`col5`);")
+				expect(actual).toEqual('SELECT * FROM `table1` WHERE `col4` IN (`col5`);')
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col4` IN (?, ?, ?);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col4` IN (?, ?, ?);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col4.in$(1, 2, 3))
 
 				const expected = {
-					sql: "SELECT * FROM `table1` WHERE `col4` IN (?, ?, ?);",
+					sql: 'SELECT * FROM `table1` WHERE `col4` IN (?, ?, ?);',
 					values: [1, 2, 3],
 				}
 				expect(actual.getSQL()).toEqual(expected.sql)
@@ -198,21 +198,21 @@ describe('Condition', () => {
 
 				expect(actual).toEqual("SELECT * FROM `table1` WHERE NOT `col1` IN ('a', 'b', 'c');")
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col1` IN (`col2`);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col1` IN (`col2`);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col1.in(col2))
 					.getSQL()
 
-				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col1` IN (`col2`);")
+				expect(actual).toEqual('SELECT * FROM `table1` WHERE `col1` IN (`col2`);')
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col1` IN (?, ?, ?);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col1` IN (?, ?, ?);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col1.in$('a', 'b', 'c'))
 
 				const expected = {
-					sql: "SELECT * FROM `table1` WHERE `col1` IN (?, ?, ?);",
+					sql: 'SELECT * FROM `table1` WHERE `col1` IN (?, ?, ?);',
 					values: ['a', 'b', 'c'],
 				}
 				expect(actual.getSQL()).toEqual(expected.sql)
@@ -231,21 +231,21 @@ describe('Condition', () => {
 
 				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col9` IN ('1979-11-14T00:00:00.000Z', '2019-05-05T00:00:00.000Z', '1980-11-01T00:00:00.000Z');")
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col9` IN (`col10`);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col9` IN (`col10`);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col9.in(col10))
 					.getSQL()
 
-				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col9` IN (`col10`);")
+				expect(actual).toEqual('SELECT * FROM `table1` WHERE `col9` IN (`col10`);')
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col9` IN (?, ?, ?);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col9` IN (?, ?, ?);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col9.in$(date1, date2, date3))
 
 				const expected = {
-					sql: "SELECT * FROM `table1` WHERE `col9` IN (?, ?, ?);",
+					sql: 'SELECT * FROM `table1` WHERE `col9` IN (?, ?, ?);',
 					values: [date1, date2, date3],
 				}
 				expect(actual.getSQL()).toEqual(expected.sql)
@@ -255,13 +255,13 @@ describe('Condition', () => {
 	})
 	describe('Condition from Condition notIn/notIn$', () => {
 		describe('Boolean column', () => {
-			it("Produces [SELECT * FROM `table1` WHERE `col7` NOT IN (TRUE);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col7` NOT IN (TRUE);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col7.notIn(true))
 					.getSQL()
 
-				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col7` NOT IN (TRUE);")
+				expect(actual).toEqual('SELECT * FROM `table1` WHERE `col7` NOT IN (TRUE);')
 			})
 			it("Produces [SELECT * FROM `table1` WHERE `col7` NOT IN ('tr');]", () => {
 				const actual = sql
@@ -271,21 +271,21 @@ describe('Condition', () => {
 
 				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col7` NOT IN ('tr');")
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col7` NOT IN (`col8`);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col7` NOT IN (`col8`);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col7.notIn(col8))
 					.getSQL()
 
-				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col7` NOT IN (`col8`);")
+				expect(actual).toEqual('SELECT * FROM `table1` WHERE `col7` NOT IN (`col8`);')
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col7` NOT IN (?);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col7` NOT IN (?);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col7.notIn$(true))
 
 				const expected = {
-					sql: "SELECT * FROM `table1` WHERE `col7` NOT IN (?);",
+					sql: 'SELECT * FROM `table1` WHERE `col7` NOT IN (?);',
 					values: [true],
 				}
 				expect(actual.getSQL()).toEqual(expected.sql)
@@ -293,29 +293,29 @@ describe('Condition', () => {
 			})
 		})
 		describe('Number column', () => {
-			it("Produces [SELECT * FROM `table1` WHERE `col4` NOT IN (1, 2, 3);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col4` NOT IN (1, 2, 3);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col4.notIn(1, 2, 3))
 					.getSQL()
 
-				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col4` NOT IN (1, 2, 3);")
+				expect(actual).toEqual('SELECT * FROM `table1` WHERE `col4` NOT IN (1, 2, 3);')
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col4` NOT IN (`col5`);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col4` NOT IN (`col5`);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col4.notIn(col5))
 					.getSQL()
 
-				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col4` NOT IN (`col5`);")
+				expect(actual).toEqual('SELECT * FROM `table1` WHERE `col4` NOT IN (`col5`);')
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col4` NOT IN (?, ?, ?);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col4` NOT IN (?, ?, ?);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col4.notIn$(1, 2, 3))
 
 				const expected = {
-					sql: "SELECT * FROM `table1` WHERE `col4` NOT IN (?, ?, ?);",
+					sql: 'SELECT * FROM `table1` WHERE `col4` NOT IN (?, ?, ?);',
 					values: [1, 2, 3],
 				}
 				expect(actual.getSQL()).toEqual(expected.sql)
@@ -331,21 +331,21 @@ describe('Condition', () => {
 
 				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col1` NOT IN ('a', 'b', 'c');")
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col1` NOT IN (`col2`);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col1` NOT IN (`col2`);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col1.notIn(col2))
 					.getSQL()
 
-				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col1` NOT IN (`col2`);")
+				expect(actual).toEqual('SELECT * FROM `table1` WHERE `col1` NOT IN (`col2`);')
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col1` NOT IN (?, ?, ?);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col1` NOT IN (?, ?, ?);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col1.notIn$('a', 'b', 'c'))
 
 				const expected = {
-					sql: "SELECT * FROM `table1` WHERE `col1` NOT IN (?, ?, ?);",
+					sql: 'SELECT * FROM `table1` WHERE `col1` NOT IN (?, ?, ?);',
 					values: ['a', 'b', 'c'],
 				}
 				expect(actual.getSQL()).toEqual(expected.sql)
@@ -364,21 +364,21 @@ describe('Condition', () => {
 
 				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col9` NOT IN ('1979-11-14T00:00:00.000Z', '2019-05-05T00:00:00.000Z', '1980-11-01T00:00:00.000Z');")
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col9` NOT IN (`col10`);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col9` NOT IN (`col10`);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col9.notIn(col10))
 					.getSQL()
 
-				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col9` NOT IN (`col10`);")
+				expect(actual).toEqual('SELECT * FROM `table1` WHERE `col9` NOT IN (`col10`);')
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col9` NOT IN (?, ?, ?);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col9` NOT IN (?, ?, ?);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col9.notIn$(date1, date2, date3))
 
 				const expected = {
-					sql: "SELECT * FROM `table1` WHERE `col9` NOT IN (?, ?, ?);",
+					sql: 'SELECT * FROM `table1` WHERE `col9` NOT IN (?, ?, ?);',
 					values: [date1, date2, date3],
 				}
 				expect(actual.getSQL()).toEqual(expected.sql)
@@ -397,14 +397,14 @@ describe('Condition', () => {
 
 				expect(actual).toEqual("SELECT * FROM `table1` WHERE `col1` IN ('a', 'b', 'c') AND `col4` NOT IN (1, 2, 3);")
 			})
-			it("Produces [SELECT * FROM `table1` WHERE `col1` IN (?, ?, ?) AND `col4` NOT IN (?, ?, ?);]", () => {
+			it('Produces [SELECT * FROM `table1` WHERE `col1` IN (?, ?, ?) AND `col4` NOT IN (?, ?, ?);]', () => {
 				const actual = sql
 					.selectAsteriskFrom(table1)
 					.where(col1.in$('a', 'b', 'c'))
 					.and(col4.notIn$(1, 2, 3))
 
 				const expected = {
-					sql: "SELECT * FROM `table1` WHERE `col1` IN (?, ?, ?) AND `col4` NOT IN (?, ?, ?);",
+					sql: 'SELECT * FROM `table1` WHERE `col1` IN (?, ?, ?) AND `col4` NOT IN (?, ?, ?);',
 					values: ['a', 'b', 'c', 1, 2, 3],
 				}
 				expect(actual.getSQL()).toEqual(expected.sql)

@@ -1,10 +1,11 @@
-const importFunctionsList = [
-	async () => await import('./readme-example.js'),
-	async () => await import('./example1.js'),
+const examples = [
+	'./readme-example.js',
+	'./example1.js',
 ]
 
 async function main() {
-	for (const fn of importFunctionsList) {
+	const functions = examples.map((file) => async () => await import(file))
+	for (const fn of functions) {
 		console.log(`📦 run ${fn.name}`)
 		await fn()
 	}

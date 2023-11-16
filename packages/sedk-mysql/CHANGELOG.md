@@ -1,6 +1,8 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.0.4]  2023-11-16
+
 ## [0.0.3]  2023-10-04
 ### Fix
 - earlier version publish

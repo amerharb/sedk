@@ -9,7 +9,7 @@ SQL ::=
 
   ( ( ( 'SELECT' ) ( 'FROM' ) ) | ( 'SELECT_ASTERISK_FROM' ) )
   
-  ( ( 'JOIN' | 'LEFT JOIN' | 'RIGHT JOIN' | 'INNER JOIN' ) 'ON' ( 'AND' | 'OR' )* ) 
+  ( ( 'JOIN' | 'LEFT JOIN' | 'RIGHT JOIN' | 'INNER JOIN' ) 'ON' ( 'AND' | 'OR' )* )?
 
   ( 'WHERE' ( 'AND' | 'OR' )* )? 
 

@@ -6,6 +6,7 @@ import { OrderByArgsElement } from '../../orderBy'
 import { SelectWhereStep } from './SelectConditionStep'
 import { OrderByStep } from './OrderByStep'
 import { GroupByStep } from './GroupByStep'
+import { Artifacts } from "../BaseStep";
 
 export abstract class AfterFromStep extends BaseStep {
 	public where(condition: Condition): SelectWhereStep
@@ -23,5 +24,42 @@ export abstract class AfterFromStep extends BaseStep {
 
 	orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep {
 		return new OrderByStep(this, orderByItems)
+	}
+}
+
+export class OnStep extends AfterFromStep {
+	constructor(
+		prevStep: BaseStep,
+		protected readonly condition: Condition,
+	) {
+		super(prevStep)
+	}
+
+	override getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+		return `ON ${this.condition.getStmt(this.data, artifacts, this.binderStore)}`
+	}
+
+	getStepArtifacts(): Artifacts {
+		return { tables: new Set(), columns: new Set(this.condition.getColumns()) }
+	}
+
+	public or(condition: Condition): OnOrStep {
+		return new OnOrStep(this, condition)
+	}
+
+	public and(condition: Condition): OnAndStep {
+		return new OnAndStep(this, condition)
+	}
+}
+
+export class OnAndStep extends OnStep {
+	override getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+		return `AND ${this.condition.getStmt(this.data, artifacts, this.binderStore)}`
+	}
+}
+
+export class OnOrStep extends OnStep {
+	override getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+		return `OR ${this.condition.getStmt(this.data, artifacts, this.binderStore)}`
 	}
 }

@@ -57,7 +57,7 @@ export abstract class BaseStep extends Function {
 		let result: string = ''
 		const artifacts = this.mergeArtifacts(this.getFullArtifacts(), nextArtifacts)
 		if (this.prevStep !== null) {
-			const stmt = this.prevStep.getFullStatement(artifacts).trimRight()
+			const stmt = this.prevStep.getFullStatement(artifacts).trimEnd()
 			if (stmt !== '') {
 				result += `${stmt}${this.prefixSeparator}`
 			}

@@ -6,9 +6,27 @@ import { OrderByArgsElement } from '../../orderBy'
 import { SelectWhereStep } from './SelectConditionStep'
 import { OrderByStep } from './OrderByStep'
 import { GroupByStep } from './GroupByStep'
-import { Artifacts } from "../BaseStep";
+import { Artifacts } from '../BaseStep'
+import { FromItem } from './SelectFromStep'
+import { InnerJoinStep, JoinStep, LeftJoinStep, RightJoinStep } from './BaseJoinStep'
 
 export abstract class AfterFromStep extends BaseStep {
+	public leftJoin(fromItem: FromItem): LeftJoinStep {
+		return new LeftJoinStep(this, fromItem)
+	}
+
+	public rightJoin(fromItem: FromItem): RightJoinStep {
+		return new RightJoinStep(this, fromItem)
+	}
+
+	public innerJoin(fromItem: FromItem): InnerJoinStep {
+		return new InnerJoinStep(this, fromItem)
+	}
+
+	public join(fromItem: FromItem): JoinStep {
+		return new JoinStep(this, fromItem)
+	}
+
 	public where(condition: Condition): SelectWhereStep
 	public where(left: Condition, operator: LogicalOperator, right: Condition): SelectWhereStep
 	public where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): SelectWhereStep

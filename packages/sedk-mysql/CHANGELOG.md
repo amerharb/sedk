@@ -2,6 +2,9 @@
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
 ## [0.0.4]  2023-11-16
+###
+- support join, leftJoin, rightJoin and innerJoin steps.
+- support limit and offset steps.
 
 ## [0.0.3]  2023-10-04
 ### Fix

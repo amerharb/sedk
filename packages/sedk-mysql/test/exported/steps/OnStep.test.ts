@@ -58,17 +58,20 @@ describe('test on step', () => {
 
 			expect(actual).toEqual('SELECT * FROM `table1` JOIN `table2` ON `table1`.`col1` = `table2`.`col1` INNER JOIN `table3` ON `table3`.`col1` = `table2`.`col1`;')
 		})
-		it.skip('Produces [SELECT * FROM `table1` JOIN `table2` ON `table1`.`col1` = `table2`.`col1` LIMIT $1;]', () => {
-			// const actual = onStep.limit$(10)
-			//
-			// expect(actual.getSQL()).toEqual('SELECT * FROM `table1` JOIN `table2` ON `table1`.`col1` = `table2`.`col1` LIMIT $1;')
-			// expect(actual.getBindValues()).toEqual([10])
+		it('Produces [SELECT * FROM `table1` JOIN `table2` ON `table1`.`col1` = `table2`.`col1` LIMIT ?;]', () => {
+			const actual = onStep.limit$(10)
+			expect(actual.getSQL()).toEqual('SELECT * FROM `table1` JOIN `table2` ON `table1`.`col1` = `table2`.`col1` LIMIT ?;')
+			expect(actual.getBindValues()).toEqual([10])
 		})
-		it.skip('Produces [SELECT * FROM `table1` JOIN `table2` ON `table1`.`col1` = `table2`.`col1` OFFSET $1;]', () => {
-			// const actual = onStep.offset$(20)
-			//
-			// expect(actual.getSQL()).toEqual('SELECT * FROM `table1` JOIN `table2` ON `table1`.`col1` = `table2`.`col1` OFFSET $1;')
-			// expect(actual.getBindValues()).toEqual([20])
+		it('Produces [SELECT * FROM `table1` JOIN `table2` ON `table1`.`col1` = `table2`.`col1` LIMIT ?, ?;]', () => {
+			const actual = onStep.limit$(20, 10)
+			expect(actual.getSQL()).toEqual('SELECT * FROM `table1` JOIN `table2` ON `table1`.`col1` = `table2`.`col1` LIMIT ?, ?;')
+			expect(actual.getBindValues()).toEqual([20, 10])
+		})
+		it('Produces [SELECT * FROM `table1` JOIN `table2` ON `table1`.`col1` = `table2`.`col1` OFFSET ?;]', () => {
+			const actual = onStep.offset$(20)
+			expect(actual.getSQL()).toEqual('SELECT * FROM `table1` JOIN `table2` ON `table1`.`col1` = `table2`.`col1` OFFSET ?;')
+			expect(actual.getBindValues()).toEqual([20])
 		})
 	})
 })

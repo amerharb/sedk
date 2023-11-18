@@ -31,11 +31,11 @@ export class LimitStep extends BaseLimitStep {
 		return { tables: new Set(), columns: new Set() }
 	}
 
-	offset(value: number): OffsetStep {
+	public offset(value: number): OffsetStep {
 		return new OffsetStep(this, value)
 	}
 
-	offset$(value: number): OffsetStep {
+	public offset$(value: number): OffsetStep {
 		return new OffsetStep(this, value, true)
 	}
 }

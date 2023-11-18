@@ -32,29 +32,29 @@ export abstract class AfterFromStep extends BaseStep {
 	}
 
 
-	limit(limit: number): LimitStep
-	limit(offset: number, limit: number): LimitWithOffsetStep
-	limit(offsetOrLimit: number, limit: number | undefined = undefined): BaseLimitStep {
+	public limit(limit: number): LimitStep
+	public limit(offset: number, limit: number): LimitWithOffsetStep
+	public limit(offsetOrLimit: number, limit: number | undefined = undefined): BaseLimitStep {
 		if (limit === undefined) {
 			return new LimitStep(this, offsetOrLimit)
 		}
 		return new LimitWithOffsetStep(this, offsetOrLimit, limit)
 	}
 
-	limit$(limit: number): LimitStep
-	limit$(offset: number, limit: number): LimitWithOffsetStep
-	limit$(offsetOrLimit: number, limit: number | undefined = undefined): BaseLimitStep {
+	public limit$(limit: number): LimitStep
+	public limit$(offset: number, limit: number): LimitWithOffsetStep
+	public limit$(offsetOrLimit: number, limit: number | undefined = undefined): BaseLimitStep {
 		if (limit === undefined) {
 			return new LimitStep(this, offsetOrLimit, true)
 		}
 		return new LimitWithOffsetStep(this, offsetOrLimit, limit, true)
 	}
 
-	offset(value: number): OffsetStep {
+	public offset(value: number): OffsetStep {
 		return new OffsetStep(this, value)
 	}
 
-	offset$(value: number): OffsetStep {
+	public offset$(value: number): OffsetStep {
 		return new OffsetStep(this, value, true)
 	}
 
@@ -67,11 +67,11 @@ export abstract class AfterFromStep extends BaseStep {
 		return new SelectWhereStep(this, whereParts)
 	}
 
-	groupBy(...groupByItems: Column[]): GroupByStep {
+	public groupBy(...groupByItems: Column[]): GroupByStep {
 		return new GroupByStep(this, groupByItems)
 	}
 
-	orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep {
+	public orderBy(...orderByItems: OrderByArgsElement[]): OrderByStep {
 		return new OrderByStep(this, orderByItems)
 	}
 }

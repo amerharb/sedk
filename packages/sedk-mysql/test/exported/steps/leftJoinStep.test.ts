@@ -87,26 +87,37 @@ describe('test leftJoin step', () => {
 			expect(actual).toEqual('SELECT * FROM `table1` LEFT JOIN `table2` ON `table1`.`col1` = `table2`.`col1` ORDER BY `table1`.`col2`;')
 		})
 
-		it.skip('Produces [SELECT * FROM `table1` LEFT JOIN `table2` ON `table1`.`col1` = `table2`.`col1` LIMIT 10;]', () => {
+		it('Produces [SELECT * FROM `table1` LEFT JOIN `table2` ON `table1`.`col1` = `table2`.`col1` LIMIT 10;]', () => {
 			const actual = sql
 				.selectAsteriskFrom(table1)
 				.leftJoin(table2)
 				.on(table1Col1.eq(table2Col1))
-				// .limit(10)
+				.limit(10)
 				.getSQL()
 
 			expect(actual).toEqual('SELECT * FROM `table1` LEFT JOIN `table2` ON `table1`.`col1` = `table2`.`col1` LIMIT 10;')
 		})
 
-		it.skip('Produces [SELECT * FROM `table1` LEFT JOIN `table2` ON `table1`.`col1` = `table2`.`col1` OFFSET 20;]', () => {
+		it('Produces [SELECT * FROM `table1` LEFT JOIN `table2` ON `table1`.`col1` = `table2`.`col1` LIMIT 20, 10;]', () => {
 			const actual = sql
 				.selectAsteriskFrom(table1)
 				.leftJoin(table2)
 				.on(table1Col1.eq(table2Col1))
-				// .offset(20)
+				.limit(20, 10)
 				.getSQL()
 
-			expect(actual).toEqual('SELECT * FROM "table1" LEFT JOIN "table2" ON "table1"."col1" = "table2"."col1" OFFSET 20;')
+			expect(actual).toEqual('SELECT * FROM `table1` LEFT JOIN `table2` ON `table1`.`col1` = `table2`.`col1` LIMIT 20, 10;')
+		})
+
+		it('Produces [SELECT * FROM `table1` LEFT JOIN `table2` ON `table1`.`col1` = `table2`.`col1` OFFSET 20;]', () => {
+			const actual = sql
+				.selectAsteriskFrom(table1)
+				.leftJoin(table2)
+				.on(table1Col1.eq(table2Col1))
+				.offset(20)
+				.getSQL()
+
+			expect(actual).toEqual('SELECT * FROM `table1` LEFT JOIN `table2` ON `table1`.`col1` = `table2`.`col1` OFFSET 20;')
 		})
 
 	})

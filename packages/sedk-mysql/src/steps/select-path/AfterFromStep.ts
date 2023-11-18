@@ -9,6 +9,10 @@ import { GroupByStep } from './GroupByStep'
 import { Artifacts } from '../BaseStep'
 import { FromItem } from './SelectFromStep'
 import { InnerJoinStep, JoinStep, LeftJoinStep, RightJoinStep } from './BaseJoinStep'
+import { LimitStep } from './LimitStep'
+import { LimitWithOffsetStep } from './LimitWithOffsetStep'
+import { BaseLimitStep } from './BaseLimitStep'
+import { OffsetStep } from './OffsetStep'
 
 export abstract class AfterFromStep extends BaseStep {
 	public leftJoin(fromItem: FromItem): LeftJoinStep {
@@ -27,11 +31,38 @@ export abstract class AfterFromStep extends BaseStep {
 		return new JoinStep(this, fromItem)
 	}
 
+
+	limit(limit: number): LimitStep
+	limit(offset: number, limit: number): LimitWithOffsetStep
+	limit(offsetOrLimit: number, limit: number | undefined = undefined): BaseLimitStep {
+		if (limit === undefined) {
+			return new LimitStep(this, offsetOrLimit)
+		}
+		return new LimitWithOffsetStep(this, offsetOrLimit, limit)
+	}
+
+	limit$(limit: number): LimitStep
+	limit$(offset: number, limit: number): LimitWithOffsetStep
+	limit$(offsetOrLimit: number, limit: number | undefined = undefined): BaseLimitStep {
+		if (limit === undefined) {
+			return new LimitStep(this, offsetOrLimit, true)
+		}
+		return new LimitWithOffsetStep(this, offsetOrLimit, limit, true)
+	}
+
+	offset(value: number): OffsetStep {
+		return new OffsetStep(this, value)
+	}
+
+	offset$(value: number): OffsetStep {
+		return new OffsetStep(this, value, true)
+	}
+
 	public where(condition: Condition): SelectWhereStep
 	public where(left: Condition, operator: LogicalOperator, right: Condition): SelectWhereStep
 	public where(left: Condition, operator1: LogicalOperator, middle: Condition, operator2: LogicalOperator, right: Condition): SelectWhereStep
 	public where(condition: Condition, operator?: LogicalOperator, middle?: Condition, operator2?: LogicalOperator, right?: Condition): SelectWhereStep {
-		const whereParts: (Condition|LogicalOperator|BooleanColumn|Parenthesis)[] = []
+		const whereParts: (Condition | LogicalOperator | BooleanColumn | Parenthesis)[] = []
 		BaseStep.addConditionParts(whereParts, condition, operator, middle, operator2, right)
 		return new SelectWhereStep(this, whereParts)
 	}
@@ -53,12 +84,12 @@ export class OnStep extends AfterFromStep {
 		super(prevStep)
 	}
 
-	override getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+	override getStepStatement(artifacts: Artifacts = {tables: new Set(), columns: new Set()}): string {
 		return `ON ${this.condition.getStmt(this.data, artifacts, this.binderStore)}`
 	}
 
 	getStepArtifacts(): Artifacts {
-		return { tables: new Set(), columns: new Set(this.condition.getColumns()) }
+		return {tables: new Set(), columns: new Set(this.condition.getColumns())}
 	}
 
 	public or(condition: Condition): OnOrStep {
@@ -71,13 +102,13 @@ export class OnStep extends AfterFromStep {
 }
 
 export class OnAndStep extends OnStep {
-	override getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+	override getStepStatement(artifacts: Artifacts = {tables: new Set(), columns: new Set()}): string {
 		return `AND ${this.condition.getStmt(this.data, artifacts, this.binderStore)}`
 	}
 }
 
 export class OnOrStep extends OnStep {
-	override getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
+	override getStepStatement(artifacts: Artifacts = {tables: new Set(), columns: new Set()}): string {
 		return `OR ${this.condition.getStmt(this.data, artifacts, this.binderStore)}`
 	}
 }

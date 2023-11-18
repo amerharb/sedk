@@ -15,7 +15,7 @@ SQL ::=
 
   ( 'GROUPBY' ('HAVING' ( 'AND' | 'OR' )*)? )? 
 
-  'ORDER BY'?
+  'ORDER BY'? 'LIMIT'? 'OFFSET'?
 
   ) | ( // DELETE Path
 

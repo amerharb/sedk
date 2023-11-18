@@ -18,8 +18,7 @@
     "lint-fix": "eslint . --fix"
   },
   "keywords": [
-    "sedk",
-    "sedk-postgres"
+    "sedk"
   ],
   "author": "Amer Harb",
   "license": "ISC",

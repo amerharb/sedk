@@ -23,10 +23,10 @@ npm: packages/sedk-neo4j
 [README](https://github.com/amerharb/sedk/blob/main/packages/sedk-neo4j/README.md)
 
 --- 
-### sedk-mysql (under development, not published)
+### sedk-mysql (under development)
 npm: packages/sedk-mysql
 
-[![Version](https://img.shields.io/badge/version-0.0.2-blue.svg)](https://github.com/amerharb/sedk/tree/sedk-mysql/version/0.0.2)
+[![Version](https://img.shields.io/badge/version-0.0.4-blue.svg)](https://github.com/amerharb/sedk/tree/sedk-mysql/version/0.0.4)
 [![License: GPLv3](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 ![Coverage](https://raw.githubusercontent.com/amerharb/sedk/main/packages/sedk-mysql/badges/coverage.svg)
 ![Github workflow](https://github.com/amerharb/sedk/actions/workflows/test-lint.yaml/badge.svg?branch=main)

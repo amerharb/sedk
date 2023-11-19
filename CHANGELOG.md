@@ -1,6 +1,10 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.3.2]  2023-11-19
+### Added
+- lint without warning in pipeline
+
 ## [0.3.1]  2023-09-23
 ### Added
 - test against node v20.x in pipeline

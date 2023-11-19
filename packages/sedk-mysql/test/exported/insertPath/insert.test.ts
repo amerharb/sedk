@@ -172,13 +172,13 @@ describe('INSERT Path', () => {
 
 			expect(actual).toEqual('INSERT INTO `table1`(`col1`, `col2`) SELECT `table2`.`col1`, `table2`.`col2` FROM `table2`;')
 		})
-		it.skip('Produces [INSERT INTO `table1`(`col2`) SELECT `table2`.`col2` FROM `table2` LEFT JOIN `table1` ON `table1`.`col1` = `table2`.`col1`;]', () => {
+		it('Produces [INSERT INTO `table1`(`col2`) SELECT `table2`.`col2` FROM `table2` LEFT JOIN `table1` ON `table1`.`col1` = `table2`.`col1`;]', () => {
 			const actual = sql
 				.insertInto(table1, col2)
 				.select(T2col2)
 				.from(table2)
-				//.leftJoin(table1)
-				//.on(col1.eq(T2col1))
+				.leftJoin(table1)
+				.on(col1.eq(T2col1))
 				.getSQL()
 
 			expect(actual).toEqual('INSERT INTO `table1`(`col2`) SELECT `table2`.`col2` FROM `table2` LEFT JOIN `table1` ON `table1`.`col1` = `table2`.`col1`;')
@@ -215,22 +215,6 @@ describe('INSERT Path', () => {
 				.values('A', DEFAULT, 'B')
 				.getSQL()
 			expect(actual).toEqual("INSERT INTO `table1`(`col1`, `col2`, `col3`) VALUES('A', DEFAULT, 'B');")
-		})
-	})
-	describe.skip('Insert with DEFAULT VALUES keyword', () => {
-		it('Produces [INSERT INTO `table1`(`col1`) DEFAULT VALUES;]', () => {
-			const actual = sql
-				.insertInto(table1, col1)
-				// .defaultValues()
-				.getSQL()
-			expect(actual).toEqual('INSERT INTO `table1`(`col1`) DEFAULT VALUES;')
-		})
-		it('Produces [INSERT INTO `table1`(`col1`, `col2`, `col3`) DEFAULT VALUES;]', () => {
-			const actual = sql
-				.insertInto(table1, col1, col2, col3)
-				// .defaultValues()
-				.getSQL()
-			expect(actual).toEqual('INSERT INTO `table1`(`col1`, `col2`, `col3`) DEFAULT VALUES;')
 		})
 	})
 })

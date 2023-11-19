@@ -208,7 +208,7 @@ set option `throwErrorIfDeleteHasNoCondition` to `false` or by just adding a dum
 sql.delete().from(Employee).where(name.eq('John')).and(age.gt(40)).getSQL()
 // DELETE FROM "Employee" WHERE "name" = 'John' AND "age" > 40;
 ```
-- functions `eq()`, `eq$()`, `ne()` and `ne$()` will not accept null anymore, there for they will only return equal "=" or not equal "<>" condition.
+- functions `eq()`, `eq$()`, `ne()` and `ne$()` will not accept null anymore, therefor they will only return equal "=" or not equal "<>" condition.
 this is a breaking change in behavior, but for the old behavior function that automatically return Equal "=" or Is "IS" you should use the 
 new functions `isEq()`, `isEq$()`, `isNe()`, `isNe$()`. This correction needed to follow SEDK principle WYSIWYG, so `eq()` always return "=" but `isEq()` can return either "IS" or "="
 

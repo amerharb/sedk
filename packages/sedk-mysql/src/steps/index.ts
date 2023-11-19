@@ -1,5 +1,6 @@
 export { SelectItem, ColumnLike, SelectStep } from './select-path/SelectStep'
 export { FromItems, SelectFromStep } from './select-path/SelectFromStep'
+export { OnStep } from './select-path/AfterFromStep'
 export { SelectWhereStep, SelectWhereAndStep, SelectWhereOrStep } from './select-path/SelectConditionStep'
 export { OrderByStep } from './select-path/OrderByStep'
 export { GroupByStep } from './select-path/GroupByStep'

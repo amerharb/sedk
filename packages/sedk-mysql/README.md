@@ -71,6 +71,23 @@ So if you change from MySQL to Postgres then you will need to change the library
 
 ## What is New
 
+### Version: 0.0.4
+- Support join, leftJoin, rightJoin and innerJoin steps.
+```typescript
+sql.selectAsteriskFrom(Employee).leftJoin(Manager).on(Employee.c.name.eq(Manager.c.name)).getSQL()
+// SELECT * FROM `Employee` LEFT JOIN `Manager` ON `Employee`.`name` = `Manager`.`name`;
+```
+- Support limit and offset steps.
+```typescript
+sql.selectAsteriskFrom(Employee).limit(50).offset(10).getSQL()
+// SELECT * FROM `Employee` LIMIT 50 OFFSET 10;
+```
+or like 
+```typescript
+sql.selectAsteriskFrom(Employee).limit(10, 50).getSQL()
+// SELECT * FROM `Employee` LIMIT 10, 50;
+```
+
 ### Version: 0.0.3
 - Fix publish 
 - Fix unit test

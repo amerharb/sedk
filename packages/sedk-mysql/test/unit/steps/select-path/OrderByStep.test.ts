@@ -20,30 +20,55 @@ describe('OrderByStep', () => {
 			expect(actual).toEqual('ORDER BY `table1`.`col1`')
 		})
 	})
-	describe.skip('limit()', () => {
+	describe('limit()', () => {
 		it('returns: [ORDER BY `col1` LIMIT 5]', () => {
-			// const actual = new OrderByStep(rootStep, [col1]).limit(5)
-			// expect(actual.getSQL()).toEqual('ORDER BY "col1" LIMIT 5;')
-			// expect(actual.getStepStatement()).toEqual('LIMIT 5')
+			const actual = new OrderByStep(rootStep, [col1]).limit(5)
+			expect(actual.getSQL()).toEqual('ORDER BY `col1` LIMIT 5;')
+			expect(actual.getStepStatement()).toEqual('LIMIT 5')
 		})
-		it('returns: [ORDER BY "col1" LIMIT ?]', () => {
-			// const actual = new OrderByStep(rootStep, [col1]).limit$(5)
-			// expect(actual.getSQL()).toEqual('ORDER BY "col1" LIMIT ?;')
-			// expect(actual.getStepStatement()).toEqual('LIMIT ?')
-			// expect(actual.getBindValues()).toEqual([5])
+		it('returns: [ORDER BY `col1` LIMIT 2, 5]', () => {
+			const actual = new OrderByStep(rootStep, [col1]).limit(2, 5)
+			expect(actual.getSQL()).toEqual('ORDER BY `col1` LIMIT 2, 5;')
+			expect(actual.getStepStatement()).toEqual('LIMIT 2, 5')
+		})
+		it('returns: [ORDER BY `col1` LIMIT ?]', () => {
+			const actual = new OrderByStep(rootStep, [col1]).limit$(5)
+			expect(actual.getSQL()).toEqual('ORDER BY `col1` LIMIT ?;')
+			expect(actual.getStepStatement()).toEqual('LIMIT ?')
+			expect(actual.getBindValues()).toEqual([5])
+		})
+		it.each([-1, 1.1, NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
+		('throws: InvalidLimitValueError for limit %s', (value) => {
+			const actual = () => new OrderByStep(rootStep, [col1]).limit(value)
+			expect(actual).toThrow(`Invalid limit value: ${value}, value must be positive integer number`)
+		})
+		it.each([-1, 1.1, NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
+		('throws: InvalidLimitValueError for limit %s with valid offset', (value) => {
+			const actual = () => new OrderByStep(rootStep, [col1]).limit(1, value)
+			expect(actual).toThrow(`Invalid limit value: ${value}, value must be positive integer number`)
+		})
+		it.each([-1, 1.1, NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
+		('throws: InvalidLimitValueError for offset %s with valid limit', (value) => {
+			const actual = () => new OrderByStep(rootStep, [col1]).limit(value, 10)
+			expect(actual).toThrow(`Invalid offset value: ${value}, value must be positive integer number`)
 		})
 	})
-	describe.skip('offset()', () => {
-		it('returns: [ORDER BY "col1" OFFSET 10]', () => {
-			// const actual = new OrderByStep(rootStep, [col1]).offset(10)
-			// expect(actual.getSQL()).toEqual('ORDER BY "col1" OFFSET 10;')
-			// expect(actual.getStepStatement()).toEqual('OFFSET 10')
+	describe('offset()', () => {
+		it('returns: [ORDER BY `col1` OFFSET 10]', () => {
+			const actual = new OrderByStep(rootStep, [col1]).offset(10)
+			expect(actual.getSQL()).toEqual('ORDER BY `col1` OFFSET 10;')
+			expect(actual.getStepStatement()).toEqual('OFFSET 10')
 		})
-		it('returns: [ORDER BY "col1" LIMIT ?]', () => {
-			// const actual = new OrderByStep(rootStep, [col1]).offset$(10)
-			// expect(actual.getSQL()).toEqual('ORDER BY "col1" OFFSET ?;')
-			// expect(actual.getStepStatement()).toEqual('OFFSET ?')
-			// expect(actual.getBindValues()).toEqual([10])
+		it('returns: [ORDER BY `col1` LIMIT ?]', () => {
+			const actual = new OrderByStep(rootStep, [col1]).offset$(10)
+			expect(actual.getSQL()).toEqual('ORDER BY `col1` OFFSET ?;')
+			expect(actual.getStepStatement()).toEqual('OFFSET ?')
+			expect(actual.getBindValues()).toEqual([10])
+		})
+		it.each([-1, 1.1, NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY])
+		('throws: InvalidLimitValueError for offset %s with valid limit', (value) => {
+			const actual = () => new OrderByStep(rootStep, [col1]).offset(value)
+			expect(actual).toThrow(`Invalid offset value: ${value}, value must be positive integer number`)
 		})
 	})
 	describe('Errors', () => {

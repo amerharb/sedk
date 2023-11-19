@@ -8,12 +8,14 @@ SQL ::=
   (  // SELECT Path
 
   ( ( ( 'SELECT' ) ( 'FROM' ) ) | ( 'SELECT_ASTERISK_FROM' ) )
+  
+  ( ( 'JOIN' | 'LEFT JOIN' | 'RIGHT JOIN' | 'INNER JOIN' ) 'ON' ( 'AND' | 'OR' )* )*
 
   ( 'WHERE' ( 'AND' | 'OR' )* )? 
 
   ( 'GROUPBY' ('HAVING' ( 'AND' | 'OR' )*)? )? 
 
-  'ORDER BY'?
+  'ORDER BY'? 'LIMIT'? 'OFFSET'?
 
   ) | ( // DELETE Path
 

@@ -1,7 +1,7 @@
 import { Binder } from '../../binder'
 import { InvalidLimitValueError, InvalidOffsetValueError } from '../../errors'
 import { BaseStep } from '../BaseStep'
-import { BaseLimitStep } from './BaseLimitStep';
+import { BaseLimitStep } from './BaseLimitStep'
 
 export class LimitWithOffsetStep extends BaseLimitStep {
 	private readonly offset: number|Binder

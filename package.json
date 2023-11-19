@@ -14,7 +14,7 @@
   "scripts": {
     "build": "yarn workspaces run build",
     "test": "yarn workspaces run test",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 0",
     "lint-fix": "eslint . --fix"
   },
   "keywords": [

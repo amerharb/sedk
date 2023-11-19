@@ -84,12 +84,12 @@ export class OnStep extends AfterFromStep {
 		super(prevStep)
 	}
 
-	override getStepStatement(artifacts: Artifacts = {tables: new Set(), columns: new Set()}): string {
+	override getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
 		return `ON ${this.condition.getStmt(this.data, artifacts, this.binderStore)}`
 	}
 
 	getStepArtifacts(): Artifacts {
-		return {tables: new Set(), columns: new Set(this.condition.getColumns())}
+		return { tables: new Set(), columns: new Set(this.condition.getColumns()) }
 	}
 
 	public or(condition: Condition): OnOrStep {
@@ -102,13 +102,13 @@ export class OnStep extends AfterFromStep {
 }
 
 export class OnAndStep extends OnStep {
-	override getStepStatement(artifacts: Artifacts = {tables: new Set(), columns: new Set()}): string {
+	override getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
 		return `AND ${this.condition.getStmt(this.data, artifacts, this.binderStore)}`
 	}
 }
 
 export class OnOrStep extends OnStep {
-	override getStepStatement(artifacts: Artifacts = {tables: new Set(), columns: new Set()}): string {
+	override getStepStatement(artifacts: Artifacts = { tables: new Set(), columns: new Set() }): string {
 		return `OR ${this.condition.getStmt(this.data, artifacts, this.binderStore)}`
 	}
 }

@@ -2,7 +2,8 @@
 [![Version](https://img.shields.io/badge/version-0.0.4-blue.svg)](https://github.com/amerharb/sedk/tree/sedk-mysql/version/0.0.4)
 [![License: GPLv3](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 ![Coverage](https://raw.githubusercontent.com/amerharb/sedk/sedk-mysql/version/0.0.4/packages/sedk-mysql/badges/coverage.svg)
-![Github workflow](https://github.com/amerharb/sedk/actions/workflows/test-lint.yaml/badge.svg?branch=main)
+![Github workflow](https://github.com/amerharb/sedk/actions/workflows/test-lint.yaml/badge.svg?branch=sedk-mysql/version/0.0.4)
+![Github workflow](https://github.com/amerharb/sedk/actions/workflows/publish-sedk-mysql@next.yaml/badge.svg?branch=sedk-mysql/version/0.0.4)
 
 SEDK is a SQL builder library for MySQL dialect, support binding parameters, and use a pre-defined database schema
 

@@ -3,6 +3,9 @@
   "version": "0.3.2",
   "description": "Root package for sedk-postgres, sedk-neo4j and sedk-mysql",
   "private": true,
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "workspaces": {
     "packages": [
       "packages/sedk-postgres",

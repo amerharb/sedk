@@ -12,8 +12,8 @@ import { Expression } from '../../models'
 import { Artifacts, BaseStep } from '../BaseStep'
 import { LimitStep } from './LimitStep'
 import { LimitWithOffsetStep } from './LimitWithOffsetStep'
-import { BaseLimitStep } from '@src/steps/select-path/BaseLimitStep'
-import { OffsetStep } from '@src/steps/select-path/OffsetStep'
+import { BaseLimitStep } from './BaseLimitStep'
+import { OffsetStep } from './OffsetStep'
 
 export class OrderByStep extends BaseStep {
 	private readonly orderByItemInfos: OrderByItemInfo[] = []

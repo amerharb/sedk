@@ -1,0 +1,21 @@
+name: Publish sedk-mysql@next
+on:
+  release:
+    types: [ prereleased ]
+    tags:
+      - sedk-mysql/v*-next.*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: cd packages/sedk-mysql
+      - run: yarn ci
+      - run: yarn publish --access public --no-git-tag-version --new-version $(jq -r '.version' package.json) --tag next
+        env:
+          MYSQL_PUBLISH_NPM_TOKEN: ${{ secrets.MYSQL_PUBLISH_NPM_TOKEN }}

@@ -1,6 +1,6 @@
 {
   "name": "sedk-mysql",
-  "version": "0.0.4-next.1",
+  "version": "0.0.4-next.3",
   "description": "Simple SQL builder and validator for MySQL",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -21,13 +21,12 @@
     "start": "node dist/src/index.js",
     "prebuild": "rm -rf dist",
     "build": "tsc",
-    "build&start": "npm run build && npm run start",
+    "build&start": "yarn build && yarn run start",
     "test": "jest",
     "posttest": "npx make-coverage-badge --report-path coverage/coverage-summary.json --output-path badges/coverage.svg",
-    "build&test": "npm run build && npm run test",
-    "lint": "eslint .",
-    "lint-fix": "eslint . --fix",
-    "prepublishOnly": "npm run build && npm run lint && npm run test"
+    "build&test": "yarn build && yarn test",
+    "lint": "npx eslint .",
+    "lint-fix": "npx eslint . --fix"
   },
   "keywords": [
     "SQL",
@@ -36,5 +35,6 @@
     "sedk"
   ],
   "author": "Amer Harb",
-  "license": "ISC"
+  "license": "ISC",
+  "tag": "next"
 }

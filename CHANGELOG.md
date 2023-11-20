@@ -4,6 +4,7 @@
 ## [0.3.2]  2023-11-19
 ### Added
 - lint without warning in pipeline
+- update root package dependencies to latest version (sedk only has dev dependencies)
 
 ## [0.3.1]  2023-09-23
 ### Added

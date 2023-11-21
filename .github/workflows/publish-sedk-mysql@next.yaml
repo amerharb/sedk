@@ -16,9 +16,8 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           always-auth: true
           cache: 'yarn'
-      - run: yarn
-        working-directory: ./packages/sedk-mysql
-      - run: yarn publish --access public --no-git-tag-version --new-version $(jq -r '.version' package.json) --tag next
+      - run: yarn workspace sedk-mysql install --frozen-lockfile
+      - run: npm publish -workspace sedk-mysql --access public --no-git-tag-version --new-version $(jq -r '.version' package.json) --tag next
         working-directory: ./packages/sedk-mysql
         env:
           NODE_AUTH_TOKEN: ${{ secrets.MYSQL_PUBLISH_NPM_TOKEN }}

@@ -17,8 +17,7 @@ jobs:
           always-auth: true
           cache: 'yarn'
       - run: yarn workspace sedk-mysql install --frozen-lockfile
-      - run: npm publish -workspace sedk-mysql --access public --no-git-tag-version --new-version $(jq -r '.version' package.json) --tag next
-        working-directory: ./packages/sedk-mysql
+      - run: npm publish --workspace sedk-mysql --access public --no-git-tag-version --new-version $(jq -r '.version' package.json) --tag next
         env:
           NODE_AUTH_TOKEN: ${{ secrets.MYSQL_PUBLISH_NPM_TOKEN }}
-          NPM_CONFIG_USERCONFIG: .npmrc-publish
+          NPM_CONFIG_USERCONFIG: ./packages/sedk-mysql/.npmrc-publish

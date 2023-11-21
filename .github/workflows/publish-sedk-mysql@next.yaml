@@ -16,7 +16,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: cd packages/sedk-mysql
       - run: yarn install --frozen-lockfile
-      - run: mv .npmrc-publish .npmrc
-      - run: yarn publish --access public --no-git-tag-version --new-version $(jq -r '.version' package.json) --tag next
+      - run: yarn publish --access public --no-git-tag-version --new-version $(jq -r '.version' package.json) --tag next --userconfig .npmrc-publish
         env:
           MYSQL_PUBLISH_NPM_TOKEN: ${{ secrets.MYSQL_PUBLISH_NPM_TOKEN }}

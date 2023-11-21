@@ -13,14 +13,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20.x'
+          cache: 'yarn'
+      - run: yarn workspace sedk-mysql install --frozen-lockfile
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
           registry-url: 'https://registry.npmjs.org'
           always-auth: true
           cache: 'yarn'
-      - run: echo "//registry.npmjs.org/:_authToken=\${NODE_AUTH_TOKEN}" > ~/.npmrc
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.MYSQL_PUBLISH_NPM_TOKEN }}
-      - run: npm login --registry=https://registry.npmjs.org/
       - run: yarn workspace sedk-mysql install --frozen-lockfile
-      - run: npm publish --workspace sedk-mysql --access public --no-git-tag-version --new-version $(jq -r '.version' package.json) --tag next
+      - run: npm publish --workspace sedk-mysql --access public --no-git-tag-version --new-version $(jq -r '.version' package.json)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.MYSQL_PUBLISH_NPM_TOKEN }}

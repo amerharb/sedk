@@ -18,6 +18,9 @@ jobs:
           cache: 'yarn'
       - run: yarn
         working-directory: ./packages/sedk-mysql
+      - run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.MYSQL_PUBLISH_NPM_TOKEN }}
 #      - run: yarn publish --access public --no-git-tag-version --new-version $(jq -r '.version' package.json) --tag next
       - run: yarn publish
         working-directory: ./packages/sedk-mysql

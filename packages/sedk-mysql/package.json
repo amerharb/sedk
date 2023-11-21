@@ -1,7 +1,8 @@
 {
   "name": "sedk-mysql",
-  "version": "0.0.4-next.7",
+  "version": "0.0.4-next.8",
   "description": "Simple SQL builder and validator for MySQL",
+  "private": false,
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "files": [

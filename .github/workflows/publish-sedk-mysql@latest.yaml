@@ -1,9 +1,9 @@
-name: Publish sedk-mysql@next
+name: Publish sedk-mysql@latest
 on:
   release:
-    types: [ prereleased ]
+    types: [ released ]
     tags:
-      - sedk-mysql/v*-next.*
+      - sedk-mysql/v*.*.*
 
 jobs:
   build:
@@ -17,6 +17,6 @@ jobs:
           always-auth: true
           cache: yarn
       - run: yarn workspace sedk-mysql install --frozen-lockfile
-      - run: yarn workspace sedk-mysql publish --access public --no-git-tag-version --new-version $(jq -r '.version' packages/sedk-mysql/package.json) --tag next
+      - run: yarn workspace sedk-mysql publish --access public --no-git-tag-version --new-version $(jq -r '.version' packages/sedk-mysql/package.json) --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.MYSQL_PUBLISH_AUTH_TOKEN }}

@@ -1,13 +1,10 @@
 name: test and lint
 
 on:
-#  push:
-#    branches: [ "*" ]
-#  pull_request:
-#    branches: [ "main" ]
-  workflow_dispatch:
-    manual:
-      name: Test and Lint
+  push:
+    branches: [ "*" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:

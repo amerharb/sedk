@@ -7,6 +7,7 @@
 - Update root package dependencies to latest version (sedk only has dev dependencies), which fix vulnerabilities
 - Remove unused dependencies `ts-node`
 - End support for node v14.x (only applicable for root package)
+- publish sedk-mysql in pipeline
 
 ## [0.3.1]  2023-09-23
 ### Added

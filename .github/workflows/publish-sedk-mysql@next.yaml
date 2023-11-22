@@ -15,7 +15,11 @@ jobs:
           node-version: 20
           cache: 'yarn'
           always-auth: true
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTO }}
       - run: yarn workspace sedk-mysql install --frozen-lockfile
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTO }}
 
   publish-npm:
     needs: build

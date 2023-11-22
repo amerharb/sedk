@@ -1,6 +1,11 @@
 {
   "name": "sedk-mysql",
-  "version": "0.0.4-next.26",
+  "version": "0.0.4-next.27",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "tag": "next"
+  },
   "description": "Simple SQL builder and validator for MySQL",
   "private": false,
   "main": "dist/src/index.js",

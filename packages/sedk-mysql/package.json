@@ -1,6 +1,6 @@
 {
   "name": "sedk-mysql",
-  "version": "0.0.4-next.31",
+  "version": "0.0.4-next.32",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/",

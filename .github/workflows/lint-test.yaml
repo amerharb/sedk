@@ -1,4 +1,4 @@
-name: test and lint
+name: Lint and Test All workspaces
 
 on:
   push:
@@ -7,9 +7,11 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  lint-test:
+    name: Lint & Test
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: true
       matrix:
         node-version: [ 20.x, 18.x, 16.x]
 

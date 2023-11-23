@@ -11,6 +11,6 @@
   "author": "Amer Harb",
   "license": "ISC",
   "dependencies": {
-    "sedk-mysql": "0.0.4-next.32"
+    "sedk-mysql": "0.0.4"
   }
 }

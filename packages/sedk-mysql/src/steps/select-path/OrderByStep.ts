@@ -8,11 +8,16 @@ import {
 	OrderByNullsPosition,
 } from '../../orderBy'
 import { escapeBackTick } from '../../util'
-import { Expression, PrimitiveType } from '../..//models'
+import { Expression } from '../../models'
 import { Artifacts, BaseStep } from '../BaseStep'
+import { LimitStep } from './LimitStep'
+import { LimitWithOffsetStep } from './LimitWithOffsetStep'
+import { BaseLimitStep } from './BaseLimitStep'
+import { OffsetStep } from './OffsetStep'
 
 export class OrderByStep extends BaseStep {
 	private readonly orderByItemInfos: OrderByItemInfo[] = []
+
 	constructor(
 		prevStep: BaseStep,
 		private readonly orderByArgsElement: OrderByArgsElement[],
@@ -78,6 +83,32 @@ export class OrderByStep extends BaseStep {
 			}
 		})
 		pushWhenOrderByItemDefined()
+	}
+
+	public limit(limit: number): LimitStep
+	public limit(offset: number, limit: number): LimitWithOffsetStep
+	public limit(offsetOrLimit: number, limit: number | undefined = undefined): BaseLimitStep {
+		if (limit === undefined) {
+			return new LimitStep(this, offsetOrLimit)
+		}
+		return new LimitWithOffsetStep(this, offsetOrLimit, limit)
+	}
+
+	public limit$(limit: number): LimitStep
+	public limit$(offset: number, limit: number): LimitWithOffsetStep
+	public limit$(offsetOrLimit: number, limit: number | undefined = undefined): BaseLimitStep {
+		if (limit === undefined) {
+			return new LimitStep(this, offsetOrLimit, true)
+		}
+		return new LimitWithOffsetStep(this, offsetOrLimit, limit, true)
+	}
+
+	public offset(value: number): OffsetStep {
+		return new OffsetStep(this, value)
+	}
+
+	public offset$(value: number): OffsetStep {
+		return new OffsetStep(this, value, true)
 	}
 
 	getStepArtifacts(): Artifacts {

@@ -1,8 +1,8 @@
 # SEDK-mysql
-[![Version](https://img.shields.io/badge/version-0.0.2-blue.svg)](https://github.com/amerharb/sedk/tree/main)
+[![Version](https://img.shields.io/badge/version-0.0.4-blue.svg)](https://github.com/amerharb/sedk/tree/sedk-mysql/version/0.0.4)
 [![License: GPLv3](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
-![Coverage](https://raw.githubusercontent.com/amerharb/sedk/main/packages/sedk-mysql/badges/coverage.svg)
-![Github workflow](https://github.com/amerharb/sedk/actions/workflows/test-lint.yaml/badge.svg?branch=main)
+![Coverage](https://raw.githubusercontent.com/amerharb/sedk/sedk-mysql/version/0.0.4/packages/sedk-mysql/badges/coverage.svg)
+[![Github workflow](https://github.com/amerharb/sedk/actions/workflows/test-lint.yaml/badge.svg?branch=sedk-mysql/version/0.0.4)](https://github.com/amerharb/sedk/actions/workflows/test-lint.yaml)
 
 SEDK is a SQL builder library for MySQL dialect, support binding parameters, and use a pre-defined database schema
 
@@ -67,9 +67,42 @@ currently the only place where string is used is when you define an alias for a 
 So if you change from MySQL to Postgres then you will need to change the library too
 
 ## Steps Rail Road
-![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk/main/packages/sedk-mysql/doc/StepsRailRoad.svg)
+![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk/sedk-mysql/version/0.0.4/packages/sedk-mysql/doc/StepsRailRoad.svg)
 
 ## What is New
+
+### Version: 0.0.4
+- Support join, leftJoin, rightJoin and innerJoin steps.
+```typescript
+sql.selectAsteriskFrom(Employee).leftJoin(Manager).on(Employee.c.name.eq(Manager.c.name)).getSQL()
+// SELECT * FROM `Employee` LEFT JOIN `Manager` ON `Employee`.`name` = `Manager`.`name`;
+```
+- Support limit and offset steps.
+```typescript
+sql.selectAsteriskFrom(Employee).limit(50).offset(10).getSQL()
+// SELECT * FROM `Employee` LIMIT 50 OFFSET 10;
+```
+or like 
+```typescript
+sql.selectAsteriskFrom(Employee).limit(10, 50).getSQL()
+// SELECT * FROM `Employee` LIMIT 10, 50;
+```
+Also binders are supported
+```typescript
+sql.selectAsteriskFrom(Employee).limit$(50).offset$(10)
+    .getSQL()
+    // SELECT * FROM `Employee` LIMIT ? OFFSET ?;
+    .getBindValues()
+    // [50, 10]
+``` 
+or like 
+```typescript
+sql.selectAsteriskFrom(Employee).limit$(10, 50)
+    .getSQL()
+    // SELECT * FROM `Employee` LIMIT ?, ?;
+    .getBindValues()
+    // [10, 50]
+```
 
 ### Version: 0.0.3
 - Fix publish 

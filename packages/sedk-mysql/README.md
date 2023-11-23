@@ -87,6 +87,22 @@ or like
 sql.selectAsteriskFrom(Employee).limit(10, 50).getSQL()
 // SELECT * FROM `Employee` LIMIT 10, 50;
 ```
+Also binders are supported
+```typescript
+sql.selectAsteriskFrom(Employee).limit$(50).offset$(10)
+    .getSQL()
+    // SELECT * FROM `Employee` LIMIT ? OFFSET ?;
+    .getBindValues()
+    // [50, 10]
+``` 
+or like 
+```typescript
+sql.selectAsteriskFrom(Employee).limit$(10, 50)
+    .getSQL()
+    // SELECT * FROM `Employee` LIMIT ?, ?;
+    .getBindValues()
+    // [10, 50]
+```
 
 ### Version: 0.0.3
 - Fix publish 

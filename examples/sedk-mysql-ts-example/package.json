@@ -10,13 +10,13 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "build&start": "npm run build && npm run start",
-    "lint": "eslint .",
-    "lint-fix": "eslint . --fix"
+    "lint": "npx eslint .",
+    "lint-fix": "npx eslint . --fix"
   },
   "keywords": [],
   "author": "Amer Harb",
   "license": "ISC",
   "dependencies": {
-    "sedk-mysql": "0.0.3-next.0"
+    "sedk-mysql": "0.0.4-next.32"
   }
 }

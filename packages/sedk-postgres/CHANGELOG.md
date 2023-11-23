@@ -115,7 +115,7 @@ it does not support Time columns.
 - Remove deprecated function `getBinds()` and type `PostgresBinder`
 
 ## [0.11.3]  2022-04-19
-### fix
+### Fixed
 - Version mistake in package.json
 ### Changed
 - Deprecate PostgresBinder Type and getBinder() function
@@ -245,7 +245,7 @@ it does not support Time columns.
 - Add **Distinct** and **All** clauses as param in select `select(DISTINCT, ...` and `select(ALL, ...`
 
 ## [0.5.1]  2022-01-29
-### fixed
+### Fixed
 - typo in function name from "selectAstriskFrom" to "selectAsteriskFrom"
 
 ## [0.5.0]  2022-01-28

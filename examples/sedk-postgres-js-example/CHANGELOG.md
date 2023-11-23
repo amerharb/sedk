@@ -6,6 +6,6 @@
 - refactor
 
 ## [0.0.2]  2023-01-05
-### changed
+### Changed
 - use sedk-postgres@0.15.0
 

@@ -3,6 +3,11 @@ export function log(message: any): void {
 	console.log(message)
 }
 
+export function error(message: any): void {
+	// eslint-disable-next-line no-console
+	console.error(message)
+}
+
 export function assert(condition: boolean, message: string): void {
 	// eslint-disable-next-line no-console
 	console.assert(condition, message)

@@ -1,7 +1,7 @@
 {
   "name": "sedk-neo4j-js-example",
-  "version": "0.0.1",
-  "description": "example project for sedk-neo4j in Java Script",
+  "version": "0.0.2",
+  "description": "Example project for sedk-neo4j in Java Script",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {

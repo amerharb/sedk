@@ -1,7 +1,7 @@
 {
   "name": "sedk-mysql-js-example",
   "version": "0.0.2",
-  "description": "example project for sedk mysql",
+  "description": "Example project for sedk-mysql in Java Script",
   "type": "module",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,6 @@
   "author": "Amer Harb",
   "license": "ISC",
   "dependencies": {
-    "sedk-mysql": "0.0.4-next.32"
+    "sedk-mysql": "0.0.4"
   }
 }

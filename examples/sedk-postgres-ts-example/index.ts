@@ -1,18 +1,24 @@
 import { log } from './util.js'
 
-const importFunctionsList = [
-	async () => await import('./readme-example.js'),
-	async () => await import('./example1.js'),
+const examples = [
+	'./readme-example.js',
+	'./example1.js',
 ]
 
 async function main() {
-	for (const fn of importFunctionsList) {
-		log(`📦 run ${fn.name}`)
-		await fn()
+	const functions = examples.map((filename) => ({
+		filename,
+		execFile: async () => await import(filename)
+	}))
+	for (const fn of functions) {
+		log(`📦 run ${fn.filename}`)
+		await fn.execFile()
+		log('')
 	}
 }
 
 log('🚀 Starting sedk-postgres-ts-example ...')
+log('')
 main().then(() => {
 	log('👋 End of sedk-postgres-ts-example')
 })

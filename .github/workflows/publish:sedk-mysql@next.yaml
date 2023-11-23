@@ -6,7 +6,8 @@ on:
       - sedk-mysql/v*-next.*
 
 jobs:
-  build:
+  publish:
+    name: Publish sedk-mysql@next
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

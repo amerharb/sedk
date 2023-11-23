@@ -7,7 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  lint-test:
+    name: Lint and Test All workspaces
     runs-on: ubuntu-latest
     strategy:
       matrix:

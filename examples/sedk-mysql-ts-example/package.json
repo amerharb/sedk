@@ -2,14 +2,14 @@
   "name": "sedk-mysql-ts-example",
   "private": true,
   "version": "0.0.2",
-  "description": "example project for sedk-mysql in typescript",
+  "description": "Example project for sedk-mysql in Type Script",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "tsc",
     "start": "node dist/index.js",
-    "build&start": "npm run build && npm run start",
+    "build&start": "yarn run build && yarn run start",
     "lint": "npx eslint .",
     "lint-fix": "npx eslint . --fix"
   },

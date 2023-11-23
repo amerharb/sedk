@@ -1,7 +1,7 @@
 {
   "name": "sedk-mysql-ts-example",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "example project for sedk-mysql in typescript",
   "type": "module",
   "main": "dist/index.js",

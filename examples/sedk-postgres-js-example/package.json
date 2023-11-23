@@ -1,7 +1,7 @@
 {
   "name": "sedk-postgres-js-example",
-  "version": "0.0.3",
-  "description": "example project for sedk postgres",
+  "version": "0.0.4",
+  "description": "example project for sedk-postgres in Java Script",
   "type": "module",
   "main": "index.js",
   "scripts": {

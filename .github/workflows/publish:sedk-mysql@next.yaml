@@ -3,11 +3,13 @@ on:
   release:
     types: [ prereleased ]
     tags:
-      - sedk-mysql/v*-next.*
+      - sedk-mysql/v*.*.*-next.*
+    paths:
+      - 'packages/sedk-mysql/**'
 
 jobs:
   publish:
-    name: Publish sedk-mysql@next
+    name: Publish to npm
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

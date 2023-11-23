@@ -1,4 +1,4 @@
-import { log } from './util.js'
+import { error, log } from './util.js'
 
 const examples = [
 	'./readme-example.js',
@@ -22,4 +22,9 @@ main()
 	.then(() => {
 		log('')
 		log('👋 End of sedk-mysql-ts-example')
+	})
+	.catch((err) => {
+		log('❌ Error')
+		error(err)
+		process.exit(1)
 	})

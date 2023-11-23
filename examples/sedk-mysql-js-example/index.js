@@ -5,11 +5,13 @@ const examples = [
 ]
 
 async function main() {
-    const functions = examples.map((file) => async () => await import(file))
+    const functions = examples.map((filename) => ({
+        filename,
+        execFile: async () => await import(filename)
+    }))
     for (const fn of functions) {
-        console.log()
-        console.log(`📦 run ${fn.name}`)
-        await fn()
+        console.log(`📦 run ${fn.filename}`)
+        await fn.execFile()
     }
 }
 

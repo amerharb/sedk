@@ -1,6 +1,6 @@
 {
   "name": "sedk-postgres",
-  "version": "0.15.1-next.0",
+  "version": "0.15.1-next.1",
   "description": "Simple SQL builder and validator",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -21,12 +21,13 @@
     "start": "node dist/src/index.js",
     "prebuild": "rm -rf dist",
     "build": "tsc",
-    "build&start": "npm run build && npm run start",
+    "build&start": "yarn build && yarn run start",
     "test": "jest",
     "posttest": "npx make-coverage-badge --report-path coverage/coverage-summary.json --output-path badges/coverage.svg",
-    "build&test": "npm run build && npm run test",
-    "lint": "eslint .",
-    "lint-fix": "eslint . --fix"
+    "build&test": "yarn build && yarn test",
+    "lint": "npx eslint . --max-warnings 0",
+    "lint-fix": "npx eslint . --fix",
+    "prepublishOnly": "yarn lint && yarn build && yarn test"
   },
   "keywords": [
     "SQL",

@@ -4,8 +4,6 @@ on:
     types: [ prereleased ]
     tags:
       - sedk-postgres/v*.*.*-next.*
-    paths:
-      - 'packages/sedk-postgres/**'
 
 jobs:
   publish:

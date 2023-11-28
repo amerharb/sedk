@@ -4,8 +4,7 @@ on:
     types: [ released ]
     tags:
       - sedk-postgres/v*.*.*
-    paths:
-      - 'packages/sedk-postgres/**'
+
 jobs:
   publish:
     name: Publish to npm

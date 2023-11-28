@@ -4,7 +4,7 @@
 ### sedk-postgres
 npm: packages/sedk-postgres
 
-[![Version](https://img.shields.io/badge/version-0.15.1-blue.svg)](https://github.com/amerharb/sedk/tree/version/0.15.1)
+[![Version](https://img.shields.io/badge/version-0.15.1-blue.svg)](https://github.com/amerharb/sedk/tree/sedk-postgres/version/0.15.1)
 [![License: GPLv3](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 ![Coverage](https://raw.githubusercontent.com/amerharb/sedk/sedk-postgres/version/0.15.1/packages/sedk-postgres/badges/coverage.svg)
 

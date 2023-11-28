@@ -3,7 +3,7 @@
 
 ## [0.3.3]  2023-11-28
 ### Added
-- publish sedk-mysql in pipeline
+- publish sedk-postgres in pipeline
 
 ## [0.3.2]  2023-11-19
 ### Added

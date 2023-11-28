@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-sedk-postgres@0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/sedk-postgres/-/sedk-postgres-0.15.0.tgz#9125010cfb699808cb0ed9f0cd7aa3b7f79bab6c"
-  integrity sha512-jfOLUKQ9IVusfAV3ab30ogOJvBH52hG4NH8XLO7o+p9wRvBneaqpOO2WROfem+bWPGT+3NBgOUV539WJ5gqAmw==
+sedk-postgres@0.15.1-next.1:
+  version "0.15.1-next.1"
+  resolved "https://registry.yarnpkg.com/sedk-postgres/-/sedk-postgres-0.15.1-next.1.tgz#ad169a7f5393469bd87fb615abd77e6906a1b5c1"
+  integrity sha512-y5Hp0nqtDbTLY+qwUk/4ZNDPhQQwgBBQ+FiTcy+Lcy3JNeos+1Sqa26sAxwjKaVLwI9uJ5wOKZx1OsfOJCMmnA==

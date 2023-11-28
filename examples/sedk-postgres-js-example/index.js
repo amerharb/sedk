@@ -1,6 +1,7 @@
 const examples = [
 	'./readme-example.js',
 	'./example1.js',
+	'./v0_15_1.js',
 ]
 
 async function main() {

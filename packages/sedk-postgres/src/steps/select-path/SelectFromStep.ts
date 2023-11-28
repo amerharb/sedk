@@ -2,7 +2,7 @@ import { AfterFromStep } from './AfterFromStep'
 import { AliasedTable, Table } from '../../database'
 import { Artifacts, BaseStep } from '../BaseStep'
 
-export type FromItem = Table|AliasedTable
+export type FromItem = Table|AliasedTable<Table>
 export type FromItems = [FromItem, ...FromItem[]]
 
 export class SelectFromStep extends AfterFromStep {

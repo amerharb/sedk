@@ -71,6 +71,14 @@ so if you change from Postgres to Mysql then you will need to change the library
 
 ## What is New
 
+### Version: 0.15.1
+- fix type issue can be caused by eq() function, it throws UpdateInfo instead of UpdateCondition when it used from AliasedTable like:
+```typescript
+const E = Employee.as('E')
+sql.selectAsteriskFrom(E).where(E.table.c.name.eq('John')).getSQL()
+```
+
+
 ### Version: 0.15.0
 - Use eq() in UPDATE instead of let() to be more WYSIWYG
 - Add NOT function to Condition also as standalone function

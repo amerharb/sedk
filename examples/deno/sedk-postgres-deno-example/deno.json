@@ -4,11 +4,11 @@
     "strict": true
   },
   "tasks": {
-    "start": "deno run --allow-read index.ts",
-  }
+    "start": "deno run --allow-read index.ts"
+  },
   "lint": {
     "files": {
-      "include": ["**/*.ts"],
+      "include": ["**/*.ts"]
     },
     "rules": {
       "tags": ["recommended"],
@@ -18,7 +18,7 @@
   },
   "fmt": {
     "files": {
-      "include": ["**/*.ts"],
+      "include": ["**/*.ts"]
     },
     "options": {
       "useTabs": true,

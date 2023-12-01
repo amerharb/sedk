@@ -18,8 +18,8 @@ async function main() {
 	}
 }
 
-log('🚀 Starting sedk-postgres-ts-example ...')
+log('🚀 Starting sedk-postgres-deno-example ...')
 log('')
 main().then(() => {
-	log('👋 End of sedk-postgres-ts-example')
+	log('👋 End of sedk-postgres-deno-example')
 })

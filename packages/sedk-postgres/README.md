@@ -1,8 +1,8 @@
 # SEDK-postgres
-[![Version](https://img.shields.io/badge/version-0.15.0-blue.svg)](https://github.com/amerharb/sedk/tree/version/0.15.0)
+[![Version](https://img.shields.io/badge/version-0.15.1-blue.svg)](https://github.com/amerharb/sedk/tree/version/0.15.1)
 [![License: GPLv3](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
-![Coverage](https://raw.githubusercontent.com/amerharb/sedk/main/packages/sedk-postgres/badges/coverage.svg)
-![Github workflow](https://github.com/amerharb/sedk/actions/workflows/test-lint.yaml/badge.svg?branch=main)
+![Coverage](https://raw.githubusercontent.com/amerharb/sedk/sedk-postgres/version/0.15.1/packages/sedk-postgres/badges/coverage.svg)
+![Github workflow](https://github.com/amerharb/sedk/actions/workflows/test-lint.yaml/badge.svg?branch=sedk-postgres/version/0.15.1)
 
 SEDK is a SQL builder library for Postgres dialect, support binding parameters, and use a pre-defined database schema
 
@@ -67,9 +67,17 @@ currently the only place where string is used is when you define an alias for a 
 so if you change from Postgres to Mysql then you will need to change the library too
 
 ## Steps Rail Road
-![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk/main/packages/sedk-postgres/doc/StepsRailRoad.svg)
+![SEDK steps](https://raw.githubusercontent.com/amerharb/sedk/sedk-postgres/version/0.15.1/packages/sedk-postgres/doc/StepsRailRoad.svg)
 
 ## What is New
+
+### Version: 0.15.1
+- fix type issue can be caused by eq() function, it throws UpdateInfo instead of UpdateCondition when it used from AliasedTable like:
+```typescript
+const E = Employee.as('E')
+sql.selectAsteriskFrom(E).where(E.table.c.name.eq('John')).getSQL()
+```
+
 
 ### Version: 0.15.0
 - Use eq() in UPDATE instead of let() to be more WYSIWYG

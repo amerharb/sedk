@@ -4,8 +4,6 @@ on:
     types: [ prereleased ]
     tags:
       - sedk-mysql/v*.*.*-next.*
-    paths:
-      - 'packages/sedk-mysql/**'
 
 jobs:
   publish:

@@ -2,8 +2,7 @@ name: Publish sedk-mysql@next
 on:
   release:
     types: [ prereleased ]
-    tags:
-      - sedk-mysql/v*.*.*-next.*
+    tags: [ sedk-mysql/v*.*.*-next.* ]
 
 jobs:
   publish:

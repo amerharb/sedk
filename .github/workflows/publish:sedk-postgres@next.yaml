@@ -2,8 +2,7 @@ name: Publish sedk-postgres@next
 on:
   release:
     types: [ prereleased ]
-    tags:
-      - sedk-postgres/v*.*.*-next.*
+    tags: [ sedk-postgres/v*.*.*-next.* ]
 
 jobs:
   publish:

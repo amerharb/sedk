@@ -20,7 +20,6 @@ jobs:
           node-version: 20
 
       - name: Validate Version
-        if: github.event.pull_request.base.ref == 'main'
         run: |
           package_json_files=$(find . -name 'package.json')
           

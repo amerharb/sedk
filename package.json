@@ -1,6 +1,6 @@
 {
   "name": "sedk",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Root package for sedk-postgres, sedk-neo4j and sedk-mysql",
   "private": true,
   "engines": {

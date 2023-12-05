@@ -2,14 +2,13 @@
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
 ## [0.3.5]  2023-12-05
-### Changed
-- Validate version only if PR status is ready_to_merge
+### Fixed
+- Fix broken link in README.md
 
 ## [0.3.4]  2023-11-28
 ### Added
 - Add Deno example for sedk-postgres
 - Validate version in package before merge to main
-- Fix broken link in README.md
 
 ## [0.3.3]  2023-11-28
 ### Added

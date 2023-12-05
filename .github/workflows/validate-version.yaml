@@ -1,11 +1,10 @@
 name: Validate Version
 
 on:
-  pull_request:
-    types:
-      - opened
-      - synchronize
-
+  release:
+    types: [ released ]
+    tags:
+      - sedk-*/v*.*.*
 jobs:
   validate_version:
     runs-on: ubuntu-latest

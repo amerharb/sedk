@@ -1,6 +1,6 @@
 {
   "name": "sedk-postgres",
-  "version": "0.15.1-next.1",
+  "version": "0.15.1",
   "description": "Simple SQL builder and validator",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",

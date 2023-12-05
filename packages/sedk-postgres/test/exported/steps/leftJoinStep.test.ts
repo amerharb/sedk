@@ -110,4 +110,20 @@ describe('test leftJoin step', () => {
 		})
 
 	})
+
+	describe('Self reference table', () => {
+		// TODO: for future when self reference table is supported
+		it.skip('Produces [SELECT "a1"."col1", "a2"."col1" FROM "table1" AS "a1" LEFT JOIN "table1" AS "a2" ON "a1"."col1" = "a2"."col2";]', () => {
+			const a1 = table1.as('a1')
+			const a2 = table1.as('a2')
+			const actual = sql
+				.select(a1.table.c.col1, a2.table.c.col1)
+				.from(a1)
+				.leftJoin(a2)
+				.on(a1.table.c.col1.eq(a2.table.c.col2))
+				.getSQL()
+
+			expect(actual).toEqual('SELECT "a1"."col1", "a2"."col1" FROM "table1" AS "a1" LEFT JOIN "table1" AS "a2" ON "a1"."col1" = "a2"."col2";')
+		})
+	})
 })

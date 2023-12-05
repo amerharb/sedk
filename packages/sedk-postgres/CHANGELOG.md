@@ -1,6 +1,10 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.15.1]  2023-11-28
+### Changed
+- AliasedTable use Generic that extends Table instead of Table, to avoid build time error when using Column from table
+
 ## [0.15.0]  2022-11-04
 ### Added
 - make builder() function return a new instance RootStep `const sql = sedk.builder()`

@@ -57,7 +57,7 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements INameGiver, ISt
 		return `${this.schema.fqName}."${escapeDoubleQuote(this.data.name)}"`
 	}
 
-	public as(alias: string): AliasedTable {
+	public as(alias: string): AliasedTable<typeof this> {
 		return new AliasedTable(this, alias)
 	}
 
@@ -102,8 +102,8 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements INameGiver, ISt
 	}
 }
 
-export class AliasedTable implements INameGiver, IStatementGiver {
-	constructor(public readonly table: Table, public readonly alias: string) {}
+export class AliasedTable<T extends Table> implements INameGiver, IStatementGiver {
+	constructor(public readonly table: T, public readonly alias: string) {}
 
 	public getStmt(data: BuilderData, artifacts: Artifacts): string {
 		const escapedAlias = escapeDoubleQuote(this.alias)

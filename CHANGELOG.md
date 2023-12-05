@@ -1,13 +1,18 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.3.3]  2023-11-28
+### Added
+- publish sedk-postgres in pipeline
+
 ## [0.3.2]  2023-11-19
+### Added
+- publish sedk-mysql in pipeline
 ### Changed
 - Lint must have no warning in GitHub pipeline
 - Update root package dependencies to latest version (sedk only has dev dependencies), which fix vulnerabilities
 - Remove unused dependencies `ts-node`
 - End support for node v14.x (only applicable for root package)
-- publish sedk-mysql in pipeline
 
 ## [0.3.1]  2023-09-23
 ### Added

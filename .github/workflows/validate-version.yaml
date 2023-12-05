@@ -1,6 +1,8 @@
 name: Validate Version
 
 on:
+  push:
+    branches: [ "main", "stage" ]
   pull_request:
     branches: [main]
 

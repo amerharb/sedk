@@ -2,9 +2,9 @@ name: Lint and Test All workspaces
 
 on:
   push:
-    branches: [ "main", "stage" ]
+    branches: [ "main", "*/version/*" ]
   pull_request:
-    branches: [ "main", "stage" ]
+    branches: [ "main" ]
 
 jobs:
   lint-test:

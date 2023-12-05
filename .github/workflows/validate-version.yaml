@@ -27,10 +27,10 @@ jobs:
           for package_json in $package_json_files; do
             version=$(jq -r '.version' $package_json)
             if ! [[ $version =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-              echo "Invalid semver version: $version found in $package_json.\nPlease fix the version and try again."
+              echo "❌Invalid semver version: $version found in $package_json."
               exit 1
             else
-              echo "Valid semver version: $version found in $package_json."
+              echo "✅Valid semver version: $version found in $package_json."
             fi
           done
           exit 0

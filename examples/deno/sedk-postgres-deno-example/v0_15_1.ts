@@ -1,5 +1,5 @@
 import { assert, log } from './util.ts'
-import sedk from 'npm:sedk-postgres@0.15.0'
+import sedk from 'npm:sedk-postgres@0.15.1-next.1'
 
 // Schema definition (practically this should be defined in one separate file for the whole project)
 export const database = new sedk.Database({
@@ -32,7 +32,8 @@ const stmt1 = sql
 	.select(e.table.c.name.as('employee_name'), m.table.c.name.as('employee_manager_name'))
 	.from(e)
 	.leftJoin(m)
-	.on(e.table.c.manager.eq(m.table.c.name)).getSQL()
+	.on(e.table.c.manager.eq(m.table.c.name))
+	.getSQL()
 log(stmt1)
 const expt1 = `SELECT "name" AS "employee_name", "name" AS "employee_manager_name" FROM "Employee" AS "e" LEFT JOIN "Employee" AS "m" ON "manager" = "name";`
 // TODO: above this is temporary, actual desired output is:

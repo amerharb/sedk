@@ -2,11 +2,11 @@ name: Publish sedk-postgres@latest
 on:
   release:
     types: [ released ]
-    tags: [ sedk-postgres/v*.*.* ]
+    tags: [ "sedk-postgres/v*.*.*" ]
 
 env:
   TAG_NAME: ${{ github.event.release.tag_name }}
-  PACKAGE_VERSION: "$(jq -r '.version' packages/sedk-postgres/package.json)"
+  PACKAGE_VERSION: "" # to be filled later after checkout
 
 jobs:
   publish:
@@ -20,6 +20,11 @@ jobs:
           registry-url: https://registry.npmjs.org
           always-auth: true
           cache: yarn
+
+      - name: get package version
+        run: |
+          PACKAGE_VERSION="$(jq -r '.version' packages/sedk-postgres/package.json)"
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION"
 
       - name: validate tag name
         run: |

@@ -23,7 +23,7 @@ jobs:
 
       - name: validate tag name
         run: |
-          if [[ ! $TAG_NAME =~ "^sedk-mysql\/v([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)$" ]]; then
+          if [[ ! $TAG_NAME =~ ^sedk-mysql\/v([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)$ ]]; then
               echo "❌ Invalid tag name: $TAG_NAME not suitable for latest release"
               exit 1
           else
@@ -32,7 +32,7 @@ jobs:
 
       - name: validate version in package.json
         run: |
-          if [[ ! $PACKAGE_VERSION =~ "^([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)$" ]]; then
+          if [[ ! $PACKAGE_VERSION =~ ^([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)$ ]]; then
               echo "❌ Invalid version name: $PACKAGE_VERSION not suitable for latest release"
               exit 1
           else

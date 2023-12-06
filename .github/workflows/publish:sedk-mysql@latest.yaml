@@ -4,6 +4,10 @@ on:
     types: [ released ]
     tags: [ sedk-mysql/v*.*.* ]
 
+env:
+  TAG-NAME: ${{ github.event.release.tag_name }}
+  PACKAGE_VERSION: $(jq -r '.version' packages/sedk-mysql/package.json)
+
 jobs:
   publish:
     name: Publish to npm
@@ -16,7 +20,35 @@ jobs:
           registry-url: https://registry.npmjs.org
           always-auth: true
           cache: yarn
+
+      - name: validate tag name
+        run: |
+          if [[ ! $TAG_NAME =~ "^sedk-mysql\/v([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)$" ]]; then
+              echo "❌ Invalid tag name: $TAG_NAME not suitable for latest release"
+              exit 1
+          else
+              echo "✅ Valid tag name: $TAG_NAME"
+          fi
+
+      - name: validate version in package.json
+        run: |
+          if [[ ! $PACKAGE_VERSION =~ "^([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)$" ]]; then
+              echo "❌ Invalid version name: $PACKAGE_VERSION not suitable for latest release"
+              exit 1
+          else
+              echo "✅ Valid version: $PACKAGE_VERSION"
+          fi
+
+      - name: check if version in package.json is matching tag name
+        run: |
+          if [[ "sedk-mysql/v$PACKAGE_VERSION" != $TAG_NAME ]]; then
+              echo "❌ Version in package.json: $PACKAGE_VERSION is not matching with tag name: $TAG_NAME"
+              exit 1
+          else
+              echo "✅ Version in package.json is matching with tag name"
+          fi
+
       - run: yarn workspace sedk-mysql install --frozen-lockfile
-      - run: yarn workspace sedk-mysql publish --access public --no-git-tag-version --new-version $(jq -r '.version' packages/sedk-mysql/package.json) --tag latest
+      - run: yarn workspace sedk-mysql publish --access public --no-git-tag-version --new-version $PACKAGE_VERSION --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.MYSQL_PUBLISH_AUTH_TOKEN }}

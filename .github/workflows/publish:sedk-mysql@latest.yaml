@@ -23,6 +23,7 @@ jobs:
       - name: get package version
         run: |
           PACKAGE_VERSION=$(jq -r '.version' packages/sedk-mysql/package.json)
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION"
           echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
       - name: validate tag name
         run: |

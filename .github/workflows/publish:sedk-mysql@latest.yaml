@@ -5,7 +5,7 @@ on:
     tags: [ sedk-mysql/v*.*.* ]
 
 env:
-  TAG-NAME: ${{ github.event.release.tag_name }}
+  TAG_NAME: ${{ github.event.release.tag_name }}
   PACKAGE_VERSION: $(jq -r '.version' packages/sedk-mysql/package.json)
 
 jobs:

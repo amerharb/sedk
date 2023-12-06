@@ -2,22 +2,22 @@ import * as sedk from 'sedk-mysql';
 
 // Schema definition (practically this should be defined in one separate file for the whole project)
 export const database = new sedk.Database({
-    version: 1,
-    schemas: {
-        public: new sedk.Schema({
-            name: 'public',
-            tables: {
-                Employee: new sedk.Table({
-                    name: 'Employee',
-                    columns: {
-                        name: new sedk.TextColumn({name: 'name'}),
-                        salary: new sedk.NumberColumn({name: 'salary'}),
-                        isManager: new sedk.BooleanColumn({name: 'isManager'}),
-                    },
-                }),
-            },
-        }),
-    },
+	version: 1,
+	schemas: {
+		public: new sedk.Schema({
+			name: 'public',
+			tables: {
+				Employee: new sedk.Table({
+					name: 'Employee',
+					columns: {
+						name: new sedk.TextColumn({ name: 'name' }),
+						salary: new sedk.NumberColumn({ name: 'salary' }),
+						isManager: new sedk.BooleanColumn({ name: 'isManager' }),
+					},
+				}),
+			},
+		}),
+	},
 })
 
 // Aliases

@@ -13,6 +13,7 @@ async function main() {
 		console.log('')
 	}
 }
+
 console.log('🚀 Starting sedk-neo4j-js-example ...')
 console.log('')
 main().then(() => {

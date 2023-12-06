@@ -11,6 +11,6 @@
   "author": "Amer Harb",
   "license": "ISC",
   "dependencies": {
-    "sedk-postgres": "0.15.1-next.1"
+    "sedk-postgres": "0.15.1"
   }
 }

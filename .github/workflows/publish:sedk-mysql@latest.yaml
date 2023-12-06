@@ -22,8 +22,8 @@ jobs:
           cache: yarn
       - name: get package version
         run: |
-          PACKAGE_VERSION="$(jq -r '.version' packages/sedk-mysql/package.json)"
-          echo "PACKAGE_VERSION=$PACKAGE_VERSION"
+          PACKAGE_VERSION=$(jq -r '.version' packages/sedk-mysql/package.json)
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
       - name: validate tag name
         run: |
           if [[ ! $TAG_NAME =~ ^sedk-mysql\/v([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)$ ]]; then

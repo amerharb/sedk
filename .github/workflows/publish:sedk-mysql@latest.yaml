@@ -6,7 +6,7 @@ on:
 
 env:
   TAG_NAME: ${{ github.event.release.tag_name }}
-  PACKAGE_VERSION: $(jq -r '.version' packages/sedk-mysql/package.json)
+  PACKAGE_VERSION: "$(jq -r '.version' packages/sedk-mysql/package.json)"
 
 jobs:
   publish:

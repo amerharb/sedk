@@ -78,7 +78,6 @@ const E = Employee.as('E')
 sql.selectAsteriskFrom(E).where(E.table.c.name.eq('John')).getSQL()
 ```
 
-
 ### Version: 0.15.0
 - Use eq() in UPDATE instead of let() to be more WYSIWYG
 - Add NOT function to Condition also as standalone function

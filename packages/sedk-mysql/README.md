@@ -71,6 +71,13 @@ So if you change from MySQL to Postgres then you will need to change the library
 
 ## What is New
 
+### Version: 0.1.0
+- fix type issue can be caused by eq() function, it throws UpdateInfo instead of UpdateCondition when it used from AliasedTable like:
+```typescript
+const E = Employee.as('E')
+sql.selectAsteriskFrom(E).where(E.table.c.name.eq('John')).getSQL()
+```
+
 ### Version: 0.0.4
 - Support join, leftJoin, rightJoin and innerJoin steps.
 ```typescript

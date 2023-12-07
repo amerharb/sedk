@@ -24,8 +24,8 @@ npm: packages/sedk-neo4j
 ### sedk-mysql
 npm: packages/sedk-mysql
 
-[![Version](https://img.shields.io/badge/version-0.0.4-blue.svg)](https://github.com/amerharb/sedk/tree/sedk-mysql/version/0.0.4/packages/sedk-mysql)
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/amerharb/sedk/tree/sedk-mysql/version/0.1.0/packages/sedk-mysql)
 [![License: GPLv3](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
-![Coverage](https://raw.githubusercontent.com/amerharb/sedk/sedk-mysql/version/0.0.4/packages/sedk-mysql/badges/coverage.svg)
+![Coverage](https://raw.githubusercontent.com/amerharb/sedk/sedk-mysql/version/0.1.0/packages/sedk-mysql/badges/coverage.svg)
 
 [README](https://github.com/amerharb/sedk/blob/main/packages/sedk-mysql/README.md)

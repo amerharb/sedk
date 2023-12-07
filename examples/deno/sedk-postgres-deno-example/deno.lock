@@ -2,11 +2,11 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "npm:sedk-postgres@0.15.0": "npm:sedk-postgres@0.15.0"
+      "npm:sedk-postgres@0.15.1": "npm:sedk-postgres@0.15.1"
     },
     "npm": {
-      "sedk-postgres@0.15.0": {
-        "integrity": "sha512-jfOLUKQ9IVusfAV3ab30ogOJvBH52hG4NH8XLO7o+p9wRvBneaqpOO2WROfem+bWPGT+3NBgOUV539WJ5gqAmw==",
+      "sedk-postgres@0.15.1": {
+        "integrity": "sha512-gygmNTn5D7IoBqr7GTsdE6geMyF6r18kOWq2bjy2w/oi1oDjrx5XOYi04LUQQzJurzzRZc9Y7+WWLCdsRmConA==",
         "dependencies": {}
       }
     }

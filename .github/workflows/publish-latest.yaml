@@ -1,0 +1,81 @@
+name: Publish Latest
+on:
+  release:
+    types: [ released ]
+
+env:
+  TAG_NAME: ${{ github.event.release.tag_name }}
+  PACKAGE_NAME: "" # to be filled later
+  PACKAGE_VERSION: "" # to be filled later after checkout
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    steps:
+      - name: fill package name
+        run: |
+          if [[ $TAG_NAME =~ ^sedk-postgres\/v.* ]]; then
+              PACKAGE_NAME="sedk-postgres"
+          elif [[ $TAG_NAME =~ ^sedk-mysql\/v.* ]]; then
+              PACKAGE_NAME="sedk-mysql"
+          else
+              echo "❌ tag name: $TAG_NAME doesn't point to any publishable package"
+              exit 1
+          fi
+          echo "📦 Package name: $PACKAGE_NAME"
+          echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v4
+
+      - name: fill package version
+        run: |
+          PACKAGE_VERSION=$(jq -r '.version' packages/$PACKAGE_NAME/package.json)
+          echo "🔢 Package version: $PACKAGE_VERSION"
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
+
+      - name: validate tag name
+        run: |
+          if [[ ! $TAG_NAME =~ ^$PACKAGE_NAME\/v([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)$ ]]; then
+              echo "❌ Invalid tag name: $TAG_NAME not suitable for latest release"
+              exit 1
+          else
+              echo "✅ Valid tag name: $TAG_NAME"
+          fi
+      - name: validate version in package.json
+        run: |
+          if [[ ! $PACKAGE_VERSION =~ ^([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)$ ]]; then
+              echo "❌ Invalid version name: $PACKAGE_VERSION not suitable for latest release"
+              exit 1
+          else
+              echo "✅ Valid version: $PACKAGE_VERSION"
+          fi
+      - name: check if version in package.json is matching tag name
+        run: |
+          if [[ "$PACKAGE_NAME/v$PACKAGE_VERSION" != $TAG_NAME ]]; then
+              echo "❌ Version in package.json of $PACKAGE_NAME: $PACKAGE_VERSION is not matching with tag name: $TAG_NAME"
+              exit 1
+          else
+              echo "✅ Version in package.json of $PACKAGE_NAME is matching with tag name"
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          registry-url: https://registry.npmjs.org
+          always-auth: true
+          cache: yarn
+
+      - run: yarn workspace $PACKAGE_NAME install --frozen-lockfile
+
+      - name: publish sedk-postgres to npm
+        if: ${{ env.PACKAGE_NAME == 'sedk-postgres' }}
+        run: yarn workspace sedk-postgres publish --access public --no-git-tag-version --new-version $PACKAGE_VERSION --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.POSTGRES_PUBLISH_AUTH_TOKEN }}
+
+      - name: publish sedk-mysql to npm
+        if: ${{ env.PACKAGE_NAME == 'sedk-mysql' }}
+        run: yarn workspace sedk-mysql publish --access public --no-git-tag-version --new-version $PACKAGE_VERSION --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.MYSQL_PUBLISH_AUTH_TOKEN }}

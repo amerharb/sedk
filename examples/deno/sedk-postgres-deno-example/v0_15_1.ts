@@ -1,5 +1,5 @@
 import { assert, log } from './util.ts'
-import sedk from 'npm:sedk-postgres@0.15.1-next.1'
+import sedk from 'npm:sedk-postgres@0.15.1'
 
 // Schema definition (practically this should be defined in one separate file for the whole project)
 export const database = new sedk.Database({

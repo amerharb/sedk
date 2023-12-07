@@ -1,10 +1,17 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.3.5]  2023-12-05
+### Fixed
+- Fix broken link in README.md
+- Make github action publish latest in one file and next in one file to prevent bug of publish to both sedk-postgres and sedk-mysql
+### CHanged
+- Update sedk-postgres version in sedk-postgres examples
+
 ## [0.3.4]  2023-11-28
 ### Added
 - Add Deno example for sedk-postgres
-- validate version in package before merge to main
+- Validate version in package before merge to main
 
 ## [0.3.3]  2023-11-28
 ### Added

@@ -17,7 +17,7 @@ export const database = new sedk.Database({
 			},
 		}),
 	},
-});
+})
 
 // Aliases
 const Employee = database.s.public.t.Employee

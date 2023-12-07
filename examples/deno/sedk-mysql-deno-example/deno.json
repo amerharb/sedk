@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "strict": true
+  },
+  "tasks": {
+    "start": "deno run --allow-read index.ts"
+  },
+  "lint": {
+    "files": {
+      "include": ["**/*.ts"]
+    },
+    "rules": {
+      "tags": ["recommended"],
+      "include": ["ban-untagged-todo"],
+      "exclude": ["no-unused-vars"]
+    }
+  },
+  "fmt": {
+    "files": {
+      "include": ["**/*.ts"]
+    },
+    "options": {
+      "useTabs": true,
+      "lineWidth": 120,
+      "indentWidth": 2,
+      "singleQuote": true,
+      "proseWrap": "preserve"
+    }
+  }
+}

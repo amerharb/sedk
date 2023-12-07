@@ -4,7 +4,6 @@ on:
   push:
     branches: [ "main", "*/version/*" ]
   pull_request:
-    branches: [ "main" ]
 
 jobs:
   lint-test:

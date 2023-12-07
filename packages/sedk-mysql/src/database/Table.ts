@@ -12,7 +12,7 @@ import { TableAsterisk } from '../TableAsterisk'
 import { escapeBackTick } from '../util'
 
 type ColumnsObj = {
-	[columnName: string]: BooleanColumn|NumberColumn|TextColumn|DateColumn
+	[columnName: string]: BooleanColumn | NumberColumn | TextColumn | DateColumn
 }
 
 type TableObj<C extends ColumnsObj> = {
@@ -57,7 +57,7 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements INameGiver, ISt
 		return `${this.schema.fqName}.\`${escapeBackTick(this.data.name)}\``
 	}
 
-	public as(alias: string): AliasedTable {
+	public as(alias: string): AliasedTable<typeof this> {
 		return new AliasedTable(this, alias)
 	}
 
@@ -102,8 +102,9 @@ export class Table<C extends ColumnsObj = ColumnsObj> implements INameGiver, ISt
 	}
 }
 
-export class AliasedTable implements INameGiver, IStatementGiver {
-	constructor(public readonly table: Table, public readonly alias: string) {}
+export class AliasedTable<T extends Table> implements INameGiver, IStatementGiver {
+	constructor(public readonly table: T, public readonly alias: string) {
+	}
 
 	public getStmt(data: BuilderData, artifacts: Artifacts): string {
 		const escapedAlias = escapeBackTick(this.alias)

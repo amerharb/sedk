@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-sedk-mysql@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/sedk-mysql/-/sedk-mysql-0.0.4.tgz#c1e27193eabe49765855d699210ef44271b3808d"
-  integrity sha512-yY2/SzvLMu+PUCndMfpMVBJFrZZ4i0Tus6xQWpJ8mLwK7fPOEDZwkXucdZPb/CUMqynbLsdvrIcvYCJNyOUyNA==
+sedk-mysql@0.1.0-next.0:
+  version "0.1.0-next.0"
+  resolved "https://registry.yarnpkg.com/sedk-mysql/-/sedk-mysql-0.1.0-next.0.tgz#b691533b63ded3fa90e11d6dcb4de8ca74cf5832"
+  integrity sha512-Z3jlaEmX+IdPilonFHdAD3xIBjWbff846ef85zbfffai8hyoeHloZmnSIGAckZO0yjtCqGx3X4caEBLwrVmCHA==

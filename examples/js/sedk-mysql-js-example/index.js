@@ -2,6 +2,7 @@ const examples = [
 	'./readme-example.js',
 	'./example1.js',
 	'./sedk-mysql_v0_0_4.js',
+	'./v0_1_0.js',
 ]
 
 async function main() {

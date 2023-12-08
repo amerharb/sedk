@@ -1,0 +1,15 @@
+{
+  "version": "3",
+  "packages": {
+    "specifiers": {
+      "npm:sedk-mysql@0.1.0-next.0": "npm:sedk-mysql@0.1.0-next.0"
+    },
+    "npm": {
+      "sedk-mysql@0.1.0-next.0": {
+        "integrity": "sha512-Z3jlaEmX+IdPilonFHdAD3xIBjWbff846ef85zbfffai8hyoeHloZmnSIGAckZO0yjtCqGx3X4caEBLwrVmCHA==",
+        "dependencies": {}
+      }
+    }
+  },
+  "remote": {}
+}

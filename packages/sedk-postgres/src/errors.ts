@@ -1,5 +1,5 @@
-import { All } from './singletoneConstants'
-import { ComparisonOperator } from './operators'
+import { All } from './singletoneConstants.ts'
+import { ComparisonOperator } from './operators.ts'
 
 export class ColumnNotFoundError extends Error {
 	constructor(columnName: string) {

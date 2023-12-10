@@ -1,6 +1,6 @@
-import { AfterFromStep } from './AfterFromStep'
-import { AliasedTable, Table } from '../../database'
-import { Artifacts, BaseStep } from '../BaseStep'
+import { AfterFromStep } from './AfterFromStep.ts'
+import { AliasedTable, Table } from '../../database/index.ts'
+import { Artifacts, BaseStep } from '../BaseStep.ts'
 
 export type FromItem = Table|AliasedTable<Table>
 export type FromItems = [FromItem, ...FromItem[]]

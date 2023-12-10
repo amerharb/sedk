@@ -1,7 +1,7 @@
-export { Condition, UpdateCondition } from './Condition'
-export { Expression, ExpressionType } from './Expression'
-export { type IStatementGiver } from './IStatementGiver'
-export { ConditionOperand, Operand } from './Operand'
+export { Condition, UpdateCondition } from './Condition.ts'
+export { Expression, ExpressionType } from './Expression.ts'
+export { type IStatementGiver } from './IStatementGiver.ts'
+export { ConditionOperand, Operand } from './Operand.ts'
 export {
 	type BooleanLike,
 	type DateLike,

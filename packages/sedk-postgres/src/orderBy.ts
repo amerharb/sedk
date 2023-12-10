@@ -1,8 +1,8 @@
-import { BinderStore } from './binder'
-import { Artifacts } from './steps/BaseStep'
-import { Column } from './database'
-import { Expression, IStatementGiver } from './models'
-import { BuilderData } from './builder'
+import { BinderStore } from './binder.ts'
+import { Artifacts } from './steps/BaseStep.ts'
+import { Column } from './database/index.ts'
+import { Expression, IStatementGiver } from './models/index.ts'
+import { BuilderData } from './builder.ts'
 
 export type OrderByItem = Column|Expression|string
 export type OrderByArgsElement = OrderByItemInfo|OrderByItem|OrderByDirection|OrderByNullsPosition

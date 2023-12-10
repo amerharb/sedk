@@ -1,4 +1,4 @@
-import { BaseStep, DeleteStep, DeleteWhereStep } from './steps'
+import { BaseStep, DeleteStep, DeleteWhereStep } from './steps/index.ts'
 
 export function escapeDoubleQuote(source: string): string {
 	return source.replace(/"/g, '""')

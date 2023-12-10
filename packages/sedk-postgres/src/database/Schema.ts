@@ -1,8 +1,8 @@
-import { escapeDoubleQuote } from '../util'
-import { INameGiver } from './INameGiver'
-import { Column } from './Column'
-import { Database } from './Database'
-import { Table } from './Table'
+import { escapeDoubleQuote } from '../util.ts'
+import { INameGiver } from './INameGiver.ts'
+import { Column } from './Column.ts'
+import { Database } from './Database.ts'
+import { Table } from './Table.ts'
 
 type TablesObj = {
 	[tableName: string]: Table

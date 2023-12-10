@@ -1,8 +1,8 @@
-import { IntoColumnsStep, IntoTableStep } from './steps/insert-path/IntoStep'
-import { FromItem } from './steps/select-path/SelectFromStep'
-import { Column, Database, Table } from './database'
-import { PrimitiveType } from './models'
-import { ASTERISK, All, Distinct } from './singletoneConstants'
+import { IntoColumnsStep, IntoTableStep } from './steps/insert-path/IntoStep.ts'
+import { FromItem } from './steps/select-path/SelectFromStep.ts'
+import { Column, Database, Table } from './database/index.ts'
+import { PrimitiveType } from './models/index.ts'
+import { ASTERISK, All, Distinct } from './singletoneConstants.ts'
 import {
 	DeleteFromStep,
 	DeleteStep,
@@ -14,11 +14,11 @@ import {
 	SelectItem,
 	SelectStep,
 	UpdateStep,
-} from './steps'
-import { SelectItemInfo } from './SelectItemInfo'
-import { BuilderOption, BuilderOptionRequired, fillUndefinedOptionsWithDefault } from './option'
-import { MoreThanOneDistinctOrAllError } from './errors'
-import { ItemInfo } from './ItemInfo'
+} from './steps/index.ts'
+import { SelectItemInfo } from './SelectItemInfo.ts'
+import { BuilderOption, BuilderOptionRequired, fillUndefinedOptionsWithDefault } from './option.ts'
+import { MoreThanOneDistinctOrAllError } from './errors.ts'
+import { ItemInfo } from './ItemInfo.ts'
 
 export type BuilderData = {
 	database: Database,

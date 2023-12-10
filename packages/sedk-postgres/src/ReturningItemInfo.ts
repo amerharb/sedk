@@ -1,13 +1,13 @@
-import { Artifacts } from './steps/BaseStep'
-import { Column } from './database'
-import { Expression } from './models'
-import { escapeDoubleQuote } from './util'
-import { BuilderData } from './builder'
-import { Binder, BinderStore } from './binder'
-import { Asterisk } from './singletoneConstants'
-import { ColumnLike } from './steps'
-import { ItemInfo } from './ItemInfo'
-import { TableAsterisk } from './TableAsterisk'
+import { Artifacts } from './steps/BaseStep.ts'
+import { Column } from './database/index.ts'
+import { Expression } from './models/index.ts'
+import { escapeDoubleQuote } from './util.ts'
+import { BuilderData } from './builder.ts'
+import { Binder, BinderStore } from './binder.ts'
+import { Asterisk } from './singletoneConstants.ts'
+import { ColumnLike } from './steps/index.ts'
+import { ItemInfo } from './ItemInfo.ts'
+import { TableAsterisk } from './TableAsterisk.ts'
 
 export type ReturningItem = ColumnLike|Binder|Asterisk|TableAsterisk
 

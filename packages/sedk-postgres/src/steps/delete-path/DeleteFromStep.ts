@@ -1,12 +1,12 @@
-import { BooleanColumn, Table } from '../../database'
-import { FromItem } from '../select-path/SelectFromStep'
-import { Artifacts, BaseStep, Parenthesis } from '../BaseStep'
-import { Condition, PrimitiveType } from '../../models'
-import { DeleteWhereStep } from './DeleteConditionStep'
-import { LogicalOperator } from '../../operators'
-import { ReturningStep } from '../ReturningStep'
-import { ReturningItem } from '../../ReturningItemInfo'
-import { ItemInfo } from '../../ItemInfo'
+import { BooleanColumn, Table } from '../../database/index.ts'
+import { FromItem } from '../select-path/SelectFromStep.ts'
+import { Artifacts, BaseStep, Parenthesis } from '../BaseStep.ts'
+import { Condition, PrimitiveType } from '../../models/index.ts'
+import { DeleteWhereStep } from './DeleteConditionStep.ts'
+import { LogicalOperator } from '../../operators.ts'
+import { ReturningStep } from '../ReturningStep.ts'
+import { ReturningItem } from '../../ReturningItemInfo.ts'
+import { ItemInfo } from '../../ItemInfo.ts'
 
 export class DeleteFromStep extends BaseStep {
 	constructor(

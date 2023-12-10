@@ -1,10 +1,10 @@
-import { Artifacts } from '../steps/BaseStep'
-import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
-import { Binder, BinderStore } from '../binder'
-import { BuilderData } from '../builder'
-import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../database'
-import { InvalidConditionError } from '../errors'
-import { ItemInfo } from '../ItemInfo'
+import { Artifacts } from '../steps/BaseStep.ts'
+import { UpdateSetItemInfo } from '../UpdateSetItemInfo.ts'
+import { Binder, BinderStore } from '../binder.ts'
+import { BuilderData } from '../builder.ts'
+import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../database/index.ts'
+import { InvalidConditionError } from '../errors.ts'
+import { ItemInfo } from '../ItemInfo.ts'
 import {
 	ComparisonOperator,
 	NullOperator,
@@ -12,11 +12,11 @@ import {
 	Qualifier,
 	isComparisonOperator,
 	isNullOperator,
-} from '../operators'
-import { SelectItemInfo } from '../SelectItemInfo'
-import { Expression, ExpressionType } from './Expression'
-import { IStatementGiver } from './IStatementGiver'
-import { ConditionOperand, Operand } from './Operand'
+} from '../operators.ts'
+import { SelectItemInfo } from '../SelectItemInfo.ts'
+import { Expression, ExpressionType } from './Expression.ts'
+import { IStatementGiver } from './IStatementGiver.ts'
+import { ConditionOperand, Operand } from './Operand.ts'
 import { BooleanLike, isTextBoolean } from './types'
 
 type ConditionConstructor = {

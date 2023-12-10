@@ -1,13 +1,13 @@
-import { Artifacts } from '../steps/BaseStep'
-import { Binder, BinderArray, BinderStore } from '../binder'
-import { Expression, ExpressionType } from './Expression'
-import { BuilderData } from '../builder'
-import { AggregateFunction } from '../AggregateFunction'
-import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../database'
+import { Artifacts } from '../steps/BaseStep.ts'
+import { Binder, BinderArray, BinderStore } from '../binder.ts'
+import { Expression, ExpressionType } from './Expression.ts'
+import { BuilderData } from '../builder.ts'
+import { AggregateFunction } from '../AggregateFunction.ts'
+import { BooleanColumn, Column, DateColumn, NumberColumn, TextColumn } from '../database/index.ts'
 import { OperandType, isNumber } from './types'
-import { IStatementGiver } from './IStatementGiver'
-import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString } from '../util'
-import { Condition } from './Condition'
+import { IStatementGiver } from './IStatementGiver.ts'
+import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString } from '../util.ts'
+import { Condition } from './Condition.ts'
 
 export class Operand implements IStatementGiver {
 	public type: ExpressionType

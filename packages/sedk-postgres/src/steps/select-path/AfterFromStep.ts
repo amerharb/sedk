@@ -1,25 +1,25 @@
-import { FromItem } from './SelectFromStep'
-import { Artifacts, BaseStep, Parenthesis } from '../BaseStep'
-import { All } from '../../singletoneConstants'
-import { LimitStep } from './LimitStep'
-import { OffsetStep } from './OffsetStep'
-import { BooleanColumn, Column, Table } from '../../database'
-import { ItemInfo } from '../../ItemInfo'
-import { Condition, PrimitiveType } from '../../models'
-import { LogicalOperator } from '../../operators'
-import { OrderByArgsElement } from '../../orderBy'
-import { ReturningItem } from '../../ReturningItemInfo'
-import { SelectWhereStep } from './SelectConditionStep'
-import { ReturningStep } from '../ReturningStep'
+import { FromItem } from './SelectFromStep.ts'
+import { Artifacts, BaseStep, Parenthesis } from '../BaseStep.ts'
+import { All } from '../../singletoneConstants.ts'
+import { LimitStep } from './LimitStep.ts'
+import { OffsetStep } from './OffsetStep.ts'
+import { BooleanColumn, Column, Table } from '../../database/index.ts'
+import { ItemInfo } from '../../ItemInfo.ts'
+import { Condition, PrimitiveType } from '../../models/index.ts'
+import { LogicalOperator } from '../../operators.ts'
+import { OrderByArgsElement } from '../../orderBy.ts'
+import { ReturningItem } from '../../ReturningItemInfo.ts'
+import { SelectWhereStep } from './SelectConditionStep.ts'
+import { ReturningStep } from '../ReturningStep.ts'
 import {
 	FullOuterJoinStep,
 	InnerJoinStep,
 	JoinStep,
 	LeftJoinStep,
 	RightJoinStep,
-} from './BaseJoinStep'
-import { OrderByStep } from './OrderByStep'
-import { GroupByStep } from './GroupByStep'
+} from './BaseJoinStep.ts'
+import { OrderByStep } from './OrderByStep.ts'
+import { GroupByStep } from './GroupByStep.ts'
 
 export abstract class AfterFromStep extends BaseStep {
 	public crossJoin(fromItem: FromItem): CrossJoinStep {

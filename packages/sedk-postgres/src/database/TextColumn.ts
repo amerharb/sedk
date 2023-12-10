@@ -1,14 +1,14 @@
-import { Binder, BinderArray } from '../binder'
-import { Column, ColumnObj } from './Column'
+import { Binder, BinderArray } from '../binder.ts'
+import { Column, ColumnObj } from './Column.ts'
 import {
 	Condition,
 	Expression,
 	TextLike,
 	UpdateCondition,
-} from '../models'
-import { ComparisonOperator, NullOperator, TextOperator } from '../operators'
-import { Default } from '../singletoneConstants'
-import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
+} from '../models/index.ts'
+import { ComparisonOperator, NullOperator, TextOperator } from '../operators.ts'
+import { Default } from '../singletoneConstants.ts'
+import { UpdateSetItemInfo } from '../UpdateSetItemInfo.ts'
 
 export class TextColumn extends Column {
 	constructor(data: ColumnObj) {

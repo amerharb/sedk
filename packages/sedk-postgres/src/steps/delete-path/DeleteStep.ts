@@ -1,6 +1,6 @@
-import { FromItem } from '../select-path/SelectFromStep'
-import { Artifacts, BaseStep } from '../BaseStep'
-import { DeleteFromStep } from './DeleteFromStep'
+import { FromItem } from '../select-path/SelectFromStep.ts'
+import { Artifacts, BaseStep } from '../BaseStep.ts'
+import { DeleteFromStep } from './DeleteFromStep.ts'
 
 export class DeleteStep extends BaseStep {
 	constructor(

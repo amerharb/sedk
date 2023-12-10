@@ -1,6 +1,6 @@
-import { Artifacts, BaseStep } from '../BaseStep'
-import { Column, Table } from '../../database'
-import { IntoColumnsStep, IntoStep, IntoTableStep } from './IntoStep'
+import { Artifacts, BaseStep } from '../BaseStep.ts'
+import { Column, Table } from '../../database/index.ts'
+import { IntoColumnsStep, IntoStep, IntoTableStep } from './IntoStep.ts'
 
 export class InsertStep extends BaseStep {
 	constructor(

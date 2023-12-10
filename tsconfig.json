@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "emitDeclarationOnly": true,
     "noEmit": false,
     "isolatedModules": true,
     "experimentalDecorators": false,

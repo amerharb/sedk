@@ -13,4 +13,4 @@ export {
 	isNumber,
 	type PrimitiveType,
 	type ValueLike,
-} from './types'
+} from './types.ts'

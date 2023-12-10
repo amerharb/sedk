@@ -1,5 +1,5 @@
-export { SelectItem, ColumnLike, SelectStep } from './select-path/SelectStep'
-export { FromItems, SelectFromStep } from './select-path/SelectFromStep'
+export { type SelectItem, type ColumnLike, SelectStep } from './select-path/SelectStep'
+export { type FromItems, SelectFromStep } from './select-path/SelectFromStep'
 export { SelectWhereStep, SelectWhereAndStep, SelectWhereOrStep } from './select-path/SelectConditionStep'
 export { HavingStep } from './select-path/HavingStep'
 export { CrossJoinStep, OnStep } from './select-path/AfterFromStep'

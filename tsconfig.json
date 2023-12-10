@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
-    "noEmit": false,
     "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "isolatedModules": true,
     "experimentalDecorators": false,
     "module": "commonjs",
     "esModuleInterop": true,

@@ -1,9 +1,10 @@
 {
   "name": "sedk-postgres",
-  "version": "0.15.2",
+  "version": "0.15.2-next.1",
   "description": "Simple SQL builder and validator",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
+  "type": "module",
   "files": [
     "dist/src/**/*.d.ts",
     "dist/src/**/*.js",
@@ -20,7 +21,7 @@
   "scripts": {
     "start": "node dist/src/index.js",
     "prebuild": "rm -rf dist",
-    "build": "tsc",
+    "build": "tsc && node ./esbuild.mjs",
     "build&start": "yarn build && yarn run start",
     "test": "jest",
     "posttest": "npx make-coverage-badge --report-path coverage/coverage-summary.json --output-path badges/coverage.svg",

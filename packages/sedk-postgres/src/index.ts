@@ -1,14 +1,14 @@
-export { Builder, builder } from './builder'
-export { ASTERISK, DISTINCT, ALL, DEFAULT } from './singletoneConstants'
-export { LogicalOperator } from './operators'
-export { e, o, f, $, NOT } from './functions'
+export { Builder, builder } from './builder.ts'
+export { ASTERISK, DISTINCT, ALL, DEFAULT } from './singletoneConstants.ts'
+export { e, o, f, $, NOT } from './functions.ts'
 export {
 	NullOperator,
 	ComparisonOperator,
 	ArithmeticOperator,
 	TextOperator,
-	Operator,
-} from './operators'
+	type Operator,
+	LogicalOperator,
+} from './operators.ts'
 export {
 	ColumnNotFoundError,
 	TableNotFoundError,
@@ -21,7 +21,7 @@ export {
 	InsertColumnsAndValuesNotEqualError,
 	InsertColumnsAndExpressionsNotEqualError,
 	EmptyArrayError,
-} from './errors'
+} from './errors.ts'
 export {
 	Database,
 	Schema,
@@ -30,10 +30,10 @@ export {
 	NumberColumn,
 	TextColumn,
 	DateColumn,
-} from './database'
+} from './database/index.ts'
 export {
 	ASC,
 	DESC,
 	NULLS_FIRST,
 	NULLS_LAST,
-} from './orderBy'
+} from './orderBy.ts'

@@ -7,23 +7,23 @@ import {
 	PrimitiveType,
 	TextLike,
 	isNumber,
-} from './models'
+} from './models/index.ts'
 import {
 	ArithmeticOperator,
 	ComparisonOperator,
 	NullOperator,
 	Operator,
 	isComparisonOperator,
-} from './operators'
+} from './operators.ts'
 import {
 	OrderByDirection,
 	OrderByItem,
 	OrderByItemInfo,
 	OrderByNullsPosition,
-} from './orderBy'
-import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction'
-import { BooleanColumn, DateColumn, NumberColumn, TextColumn } from './database'
-import { Binder } from './binder'
+} from './orderBy.ts'
+import { AggregateFunction, AggregateFunctionEnum } from './AggregateFunction.ts'
+import { BooleanColumn, DateColumn, NumberColumn, TextColumn } from './database/index.ts'
+import { Binder } from './binder.ts'
 
 export function e(left: OperandType): Expression
 export function e(left: BooleanLike, operator: ComparisonOperator, right: BooleanLike): Condition

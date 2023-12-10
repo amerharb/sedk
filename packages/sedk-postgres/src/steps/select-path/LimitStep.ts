@@ -1,12 +1,12 @@
-import { OffsetStep } from './OffsetStep'
-import { All } from '../../singletoneConstants'
-import { Binder } from '../../binder'
-import { InvalidLimitValueError } from '../../errors'
-import { ItemInfo } from '../../ItemInfo'
-import { PrimitiveType } from '../../models'
-import { ReturningItem } from '../../ReturningItemInfo'
-import { ReturningStep } from '../ReturningStep'
-import { Artifacts, BaseStep } from '../BaseStep'
+import { OffsetStep } from './OffsetStep.ts'
+import { All } from '../../singletoneConstants.ts'
+import { Binder } from '../../binder.ts'
+import { InvalidLimitValueError } from '../../errors.ts'
+import { ItemInfo } from '../../ItemInfo.ts'
+import { PrimitiveType } from '../../models/index.ts'
+import { ReturningItem } from '../../ReturningItemInfo.ts'
+import { ReturningStep } from '../ReturningStep.ts'
+import { Artifacts, BaseStep } from '../BaseStep.ts'
 
 export class LimitStep extends BaseStep {
 	private readonly value: null|number|Binder|All

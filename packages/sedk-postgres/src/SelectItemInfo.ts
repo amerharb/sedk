@@ -1,12 +1,12 @@
-import { BinderStore } from './binder'
-import { Artifacts } from './steps/BaseStep'
-import { SelectItem } from './steps'
-import { Column } from './database'
-import { Expression } from './models'
-import { escapeDoubleQuote } from './util'
-import { BuilderData } from './builder'
-import { AggregateFunction } from './AggregateFunction'
-import { ItemInfo } from './ItemInfo'
+import { BinderStore } from './binder.ts'
+import { Artifacts } from './steps/BaseStep.ts'
+import { SelectItem } from './steps/index.ts'
+import { Column } from './database/index.ts'
+import { Expression } from './models/index.ts'
+import { escapeDoubleQuote } from './util.ts'
+import { BuilderData } from './builder.ts'
+import { AggregateFunction } from './AggregateFunction.ts'
+import { ItemInfo } from './ItemInfo.ts'
 
 export class SelectItemInfo extends ItemInfo {
 	constructor(

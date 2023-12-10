@@ -2,6 +2,8 @@
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
 ## [0.15.2]  2023-12-08
+### Changed
+- Make typescript code Deno compatible
 
 ## [0.15.1]  2023-11-28
 ### Changed

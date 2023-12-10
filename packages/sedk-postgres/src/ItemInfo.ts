@@ -1,8 +1,8 @@
-import { BinderStore } from './binder'
-import { Artifacts } from './steps/BaseStep'
-import { Column } from './database'
-import { BuilderData } from './builder'
-import { IStatementGiver } from './models'
+import { BinderStore } from './binder.ts'
+import { Artifacts } from './steps/BaseStep.ts'
+import { Column } from './database/index.ts'
+import { BuilderData } from './builder.ts'
+import { IStatementGiver } from './models/index.ts'
 
 export abstract class ItemInfo implements IStatementGiver {
 	private readonly unique: symbol = Symbol()

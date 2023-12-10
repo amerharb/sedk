@@ -1,9 +1,9 @@
-import { Artifacts } from '../steps/BaseStep'
-import { INameGiver } from './INameGiver'
-import { Table } from './Table'
-import { escapeDoubleQuote } from '../util'
-import { Condition, IStatementGiver, PrimitiveType, ValueLike } from '../models'
-import { ComparisonOperator } from '../operators'
+import { Artifacts } from '../steps/BaseStep.ts'
+import { INameGiver } from './INameGiver.ts'
+import { Table } from './Table.ts'
+import { escapeDoubleQuote } from '../util.ts'
+import { Condition, IStatementGiver, PrimitiveType, ValueLike } from '../models/index.ts'
+import { ComparisonOperator } from '../operators.ts'
 import {
 	ASC,
 	DESC,
@@ -12,13 +12,13 @@ import {
 	NULLS_LAST,
 	NULLS_POSITION_NOT_EXIST,
 	OrderByItemInfo,
-} from '../orderBy'
-import { SelectItemInfo } from '../SelectItemInfo'
-import { BuilderData } from '../builder'
-import { ItemInfo } from '../ItemInfo'
-import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
-import { DEFAULT } from '../singletoneConstants'
-import { EmptyArrayError } from '../errors'
+} from '../orderBy.ts'
+import { SelectItemInfo } from '../SelectItemInfo.ts'
+import { BuilderData } from '../builder.ts'
+import { ItemInfo } from '../ItemInfo.ts'
+import { UpdateSetItemInfo } from '../UpdateSetItemInfo.ts'
+import { DEFAULT } from '../singletoneConstants.ts'
+import { EmptyArrayError } from '../errors.ts'
 
 export type ColumnObj = {
 	name: string

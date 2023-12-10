@@ -1,7 +1,7 @@
-import { BooleanColumn, Column } from '../database'
-import { Artifacts, BaseStep, Parenthesis } from './BaseStep'
-import { Condition, Expression } from '../models'
-import { LogicalOperator } from '../operators'
+import { BooleanColumn, Column } from '../database/index.ts'
+import { Artifacts, BaseStep, Parenthesis } from './BaseStep.ts'
+import { Condition, Expression } from '../models/index.ts'
+import { LogicalOperator } from '../operators.ts'
 
 export abstract class ConditionStep extends BaseStep {
 	protected constructor(

@@ -1,6 +1,6 @@
-import { BooleanColumn, DateColumn, NumberColumn, TextColumn } from '../database'
-import { AggregateFunction } from '../AggregateFunction'
-import { Expression } from './Expression'
+import { BooleanColumn, DateColumn, NumberColumn, TextColumn } from '../database/index.ts'
+import { AggregateFunction } from '../AggregateFunction.ts'
+import { Expression } from './Expression.ts'
 
 export type NonNullPrimitiveType = boolean|number|string|Date
 export type PrimitiveType = null|NonNullPrimitiveType

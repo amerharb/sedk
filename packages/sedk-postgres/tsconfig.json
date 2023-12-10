@@ -1,11 +1,13 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "emitDeclarationOnly": true,
     "outDir": "dist",
     "paths": {
       "sedk-postgres": ["./src/index.ts"],
       "@src/*": ["./src/*"],
       "@test/*": ["./test/*"],
     },
-  },
+    "allowImportingTsExtensions": true
+  }
 }

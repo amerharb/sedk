@@ -1,6 +1,6 @@
-import { Column } from './Column'
-import { Schema } from './Schema'
-import { Table } from './Table'
+import { Column } from './Column.ts'
+import { Schema } from './Schema.ts'
+import { Table } from './Table.ts'
 
 type SchemasObj = {
 	[schemaName: string]: Schema

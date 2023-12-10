@@ -1,14 +1,14 @@
-import { Artifacts } from './steps/BaseStep'
+import { Artifacts } from './steps/BaseStep.ts'
 import {
 	Expression,
 	IStatementGiver,
 	Operand,
 	PrimitiveType,
-} from './models'
-import { Column } from './database'
-import { BuilderData } from './builder'
-import { Binder, BinderStore } from './binder'
-import { Default } from './singletoneConstants'
+} from './models/index.ts'
+import { Column } from './database/index.ts'
+import { BuilderData } from './builder.ts'
+import { Binder, BinderStore } from './binder.ts'
+import { Default } from './singletoneConstants.ts'
 
 export class UpdateSetItemInfo implements IStatementGiver {
 	public readonly operand: Operand|Default

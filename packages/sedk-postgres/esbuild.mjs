@@ -1,4 +1,5 @@
 'use strict';
+
 import esbuild from 'esbuild';
 import { transformExtPlugin } from '@gjsify/esbuild-plugin-transform-ext';
 

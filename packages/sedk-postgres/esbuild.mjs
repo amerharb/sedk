@@ -9,7 +9,7 @@ async function main() {
 		entryPoints: ['./src/**/*.ts'],
 		outdir: './dist/src/',
 		bundle: false,
-		format: 'cjs',
+		format: 'esm',
 	});
 }
 

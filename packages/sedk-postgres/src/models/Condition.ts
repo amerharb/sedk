@@ -17,7 +17,7 @@ import { SelectItemInfo } from '../SelectItemInfo.ts'
 import { Expression, ExpressionType } from './Expression.ts'
 import { IStatementGiver } from './IStatementGiver.ts'
 import { ConditionOperand, Operand } from './Operand.ts'
-import { BooleanLike, isTextBoolean } from './types'
+import { BooleanLike, isTextBoolean } from './types.ts'
 
 type ConditionConstructor = {
 	leftExpression: Expression,

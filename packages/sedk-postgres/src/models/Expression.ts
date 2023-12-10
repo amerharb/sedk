@@ -22,7 +22,7 @@ import {
 	ValueLike,
 	isTextBoolean,
 	isTextNumber,
-} from './types'
+} from './types.ts'
 import { IStatementGiver } from './IStatementGiver.ts'
 import { Condition } from './Condition.ts'
 import { ItemInfo } from '../ItemInfo.ts'

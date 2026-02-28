@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "dist",
     "paths": {
-      "sedk-postgres": ["./src/index.ts"],
+      "sqlite": ["./src/index.ts"],
       "@src/*": ["./src/*"],
       "@test/*": ["./test/*"],
     },

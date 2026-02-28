@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "paths": {
+      "sedk-postgres": ["./src/index.ts"],
+      "@src/*": ["./src/*"],
+      "@test/*": ["./test/*"],
+    },
+  },
+}

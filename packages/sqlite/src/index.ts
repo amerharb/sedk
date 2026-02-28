@@ -1,1 +1,1 @@
-console.log('Hello from sqlite package!');
+console.log('Hello from sqlite package!')

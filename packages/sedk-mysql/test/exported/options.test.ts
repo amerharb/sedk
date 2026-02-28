@@ -454,16 +454,16 @@ describe('test Options', () => {
 					sqlTrue.deleteFrom(publicTable1).getSQL()
 				}
 
-				expect(actual).toThrowError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
-				expect(actual).toThrowError(DeleteWithoutConditionError)
+				expect(actual).toThrow(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
+				expect(actual).toThrow(DeleteWithoutConditionError)
 			})
 			it('Produces [DELETE FROM `table1` WHERE 1 = 1;] Will not throw error', () => {
 				function actual() {
 					sqlTrue.deleteFrom(publicTable1).where(e(1).eq(1)).getSQL()
 				}
 
-				expect(actual).not.toThrowError(DeleteWithoutConditionError)
-				expect(actual).not.toThrowError() // not to throw any other error
+				expect(actual).not.toThrow(DeleteWithoutConditionError)
+				expect(actual).not.toThrow() // not to throw any other error
 			})
 		})
 
@@ -474,16 +474,16 @@ describe('test Options', () => {
 					sqlDefault.deleteFrom(publicTable1).getSQL()
 				}
 
-				expect(actual).toThrowError(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
-				expect(actual).toThrowError(DeleteWithoutConditionError)
+				expect(actual).toThrow(`Delete statement must have where conditions or set throwErrorIfDeleteHasNoCondition option to false`)
+				expect(actual).toThrow(DeleteWithoutConditionError)
 			})
 			it('Produces [DELETE FROM `table1` WHERE 1 = 1;] Will not throw error', () => {
 				function actual() {
 					sqlDefault.deleteFrom(publicTable1).where(e(1).eq(1)).getSQL()
 				}
 
-				expect(actual).not.toThrowError(DeleteWithoutConditionError)
-				expect(actual).not.toThrowError() // not to throw any other error
+				expect(actual).not.toThrow(DeleteWithoutConditionError)
+				expect(actual).not.toThrow() // not to throw any other error
 			})
 		})
 	})

@@ -19,22 +19,22 @@ describe('builder', () => {
 		})
 		it(`throws for select(DISTINCT)`, () => {
 			const actual = () => sql.select(DISTINCT).getStepStatement()
-			expect(actual).toThrowError(`Select step must have at least one parameter after DISTINCT`)
+			expect(actual).toThrow(`Select step must have at least one parameter after DISTINCT`)
 		})
 		it(`throws for select(ALL, DISTINCT)`, () => {
 			// @ts-ignore
 			const actual = () => sql.select(ALL, DISTINCT).getStepStatement()
-			expect(actual).toThrowError(`You can not have more than one DISTINCT or ALL`)
+			expect(actual).toThrow(`You can not have more than one DISTINCT or ALL`)
 		})
 		it(`throws for select(DISTINCT, DISTINCT)`, () => {
 			// @ts-ignore
 			const actual = () => sql.select(DISTINCT, DISTINCT).getStepStatement()
-			expect(actual).toThrowError(`You can not have more than one DISTINCT or ALL`)
+			expect(actual).toThrow(`You can not have more than one DISTINCT or ALL`)
 		})
 		it(`throws for select(ALL, ALL)`, () => {
 			// @ts-ignore
 			const actual = () => sql.select(ALL, ALL).getStepStatement()
-			expect(actual).toThrowError(`You can not have more than one DISTINCT or ALL`)
+			expect(actual).toThrow(`You can not have more than one DISTINCT or ALL`)
 		})
 		it(`returns for select(DISTINCT, 'a')`, () => {
 			const actual = sql.select(DISTINCT, 'a').getStepStatement()
@@ -89,22 +89,22 @@ describe('builder', () => {
 		})
 		it(`throws for select(DISTINCT)`, () => {
 			const actual = () => sql.select(DISTINCT).getStepStatement()
-			expect(actual).toThrowError(`Select step must have at least one parameter after DISTINCT`)
+			expect(actual).toThrow(`Select step must have at least one parameter after DISTINCT`)
 		})
 		it(`throws for select(ALL, DISTINCT)`, () => {
 			// @ts-ignore
 			const actual = () => sql.select(ALL, DISTINCT).getStepStatement()
-			expect(actual).toThrowError(`You can not have more than one DISTINCT or ALL`)
+			expect(actual).toThrow(`You can not have more than one DISTINCT or ALL`)
 		})
 		it(`throws for select(DISTINCT, DISTINCT)`, () => {
 			// @ts-ignore
 			const actual = () => sql.select(DISTINCT, DISTINCT).getStepStatement()
-			expect(actual).toThrowError(`You can not have more than one DISTINCT or ALL`)
+			expect(actual).toThrow(`You can not have more than one DISTINCT or ALL`)
 		})
 		it(`throws for select(ALL, ALL)`, () => {
 			// @ts-ignore
 			const actual = () => sql.select(ALL, ALL).getStepStatement()
-			expect(actual).toThrowError(`You can not have more than one DISTINCT or ALL`)
+			expect(actual).toThrow(`You can not have more than one DISTINCT or ALL`)
 		})
 		it(`returns for select(DISTINCT, 'a')`, () => {
 			const actual = sql.select(DISTINCT, 'a').getStepStatement()

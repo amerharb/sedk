@@ -19,6 +19,8 @@ jobs:
               PACKAGE_NAME="sedk-postgres"
           elif [[ $TAG_NAME =~ ^sedk-mysql\/v.* ]]; then
               PACKAGE_NAME="sedk-mysql"
+          elif [[ $TAG_NAME =~ ^sqlite\/v.* ]]; then
+              PACKAGE_NAME="sqlite"
           else
               echo "❌ tag name: $TAG_NAME doesn't point to any publishable package"
               exit 1
@@ -79,3 +81,9 @@ jobs:
         run: yarn workspace sedk-mysql publish --access public --no-git-tag-version --new-version $PACKAGE_VERSION --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.MYSQL_PUBLISH_AUTH_TOKEN }}
+
+      - name: publish sqlite to npm
+        if: ${{ env.PACKAGE_NAME == 'sqlite' }}
+        run: yarn workspace sqlite publish --access public --no-git-tag-version --new-version $PACKAGE_VERSION --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.SQLITE_PUBLISH_AUTH_TOKEN }}

@@ -3,7 +3,7 @@
 
 ## [0.4.0]  2026-02-28
 ### Added
-- Add package sqlite to workspace
+- Add package @sedk/sqlite to workspace
 
 ## [0.3.5]  2023-12-05
 ### Fixed

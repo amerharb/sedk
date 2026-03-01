@@ -48,16 +48,16 @@ describe('Throw desired Errors', () => {
 				sql.select(e(1, GT, 'f'))
 			}
 
-			expect(actual).toThrowError('You can not have "NUMBER" and "TEXT" with operator ">"')
-			expect(actual).toThrowError(InvalidExpressionError)
+			expect(actual).toThrow('You can not have "NUMBER" and "TEXT" with operator ">"')
+			expect(actual).toThrow(InvalidExpressionError)
 		})
 		it('Throws error if number added to text', () => {
 			function actual() {
 				sql.select(e(1, ADD, 'a')).getSQL()
 			}
 
-			expect(actual).toThrowError('You can not have "NUMBER" and "TEXT" with operator "+"')
-			expect(actual).toThrowError(InvalidExpressionError)
+			expect(actual).toThrow('You can not have "NUMBER" and "TEXT" with operator "+"')
+			expect(actual).toThrow(InvalidExpressionError)
 		})
 	})
 
@@ -142,8 +142,8 @@ describe('Throw desired Errors', () => {
 			sql.select(col1, wrongColumn, col3)
 		}
 
-		expect(actual).toThrowError('Column: "wrongColumn" not found')
-		expect(actual).toThrowError(ColumnNotFoundError)
+		expect(actual).toThrow('Column: "wrongColumn" not found')
+		expect(actual).toThrow(ColumnNotFoundError)
 	})
 
 	it('Throws error when table1 not exist', () => {
@@ -153,8 +153,8 @@ describe('Throw desired Errors', () => {
 			sql.select(col1).from(wrongTable)
 		}
 
-		expect(actual).toThrowError('Table: "wrongTable" not found')
-		expect(actual).toThrowError(TableNotFoundError)
+		expect(actual).toThrow('Table: "wrongTable" not found')
+		expect(actual).toThrow(TableNotFoundError)
 	})
 
 	it('Throws error when no param to select passed after DISTINCT', () => {

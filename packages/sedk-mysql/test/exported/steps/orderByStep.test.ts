@@ -94,7 +94,7 @@ describe('test orderBy Step', () => {
 				.getSQL()
 		}
 
-		expect(actual).toThrowError('Alias B is not exist, if this is a column, then it should be entered as Column class')
+		expect(actual).toThrow('Alias B is not exist, if this is a column, then it should be entered as Column class')
 	})
 
 	it('Produces [SELECT * FROM `table1` ORDER BY `col1` ASC, `col2` DESC;]', () => {

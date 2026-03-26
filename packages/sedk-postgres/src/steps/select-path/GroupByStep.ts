@@ -1,13 +1,13 @@
-import { ItemInfo } from '../../ItemInfo'
-import { ReturningItem } from '../../ReturningItemInfo'
-import { ReturningStep } from '../ReturningStep'
-import { BooleanColumn, Column } from '../../database'
-import { Condition, PrimitiveType } from '../../models'
-import { LogicalOperator } from '../../operators'
-import { OrderByArgsElement } from '../../orderBy'
-import { HavingStep } from './HavingStep'
-import { OrderByStep } from './OrderByStep'
-import { Artifacts, BaseStep, Parenthesis } from '../BaseStep'
+import { ItemInfo } from '../../ItemInfo.ts'
+import { ReturningItem } from '../../ReturningItemInfo.ts'
+import { ReturningStep } from '../ReturningStep.ts'
+import { BooleanColumn, Column } from '../../database/index.ts'
+import { Condition, PrimitiveType } from '../../models/index.ts'
+import { LogicalOperator } from '../../operators.ts'
+import { OrderByArgsElement } from '../../orderBy.ts'
+import { HavingStep } from './HavingStep.ts'
+import { OrderByStep } from './OrderByStep.ts'
+import { Artifacts, BaseStep, Parenthesis } from '../BaseStep.ts'
 
 export class GroupByStep extends BaseStep {
 	constructor(

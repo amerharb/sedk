@@ -1,8 +1,8 @@
-import { FromItem } from './SelectFromStep'
-import { Condition } from '../../models'
-import { OnStep } from './AfterFromStep'
-import { Table } from '../../database'
-import { Artifacts, BaseStep } from '../BaseStep'
+import { FromItem } from './SelectFromStep.ts'
+import { Condition } from '../../models/index.ts'
+import { OnStep } from './AfterFromStep.ts'
+import { Table } from '../../database/index.ts'
+import { Artifacts, BaseStep } from '../BaseStep.ts'
 
 abstract class BaseJoinStep extends BaseStep {
 	protected constructor(

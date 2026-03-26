@@ -1,13 +1,13 @@
-import { BinderStore } from '../binder'
-import { FromItem } from './select-path/SelectFromStep'
-import { ItemInfo } from '../ItemInfo'
-import { ColumnLike } from './select-path/SelectStep'
-import { BuilderData } from '../builder'
-import { Condition, Expression, PrimitiveType } from '../models'
-import { LogicalOperator } from '../operators'
-import { ColumnNotFoundError, DeleteWithoutConditionError, TableNotFoundError } from '../errors'
-import { BooleanColumn, Column, Table } from '../database'
-import { isDeleteStep, isDeleteWhereStep } from '../util'
+import { BinderStore } from '../binder.ts'
+import { FromItem } from './select-path/SelectFromStep.ts'
+import { ItemInfo } from '../ItemInfo.ts'
+import { ColumnLike } from './select-path/SelectStep.ts'
+import { BuilderData } from '../builder.ts'
+import { Condition, Expression, PrimitiveType } from '../models/index.ts'
+import { LogicalOperator } from '../operators.ts'
+import { ColumnNotFoundError, DeleteWithoutConditionError, TableNotFoundError } from '../errors.ts'
+import { BooleanColumn, Column, Table } from '../database/index.ts'
+import { isDeleteStep, isDeleteWhereStep } from '../util.ts'
 
 export enum Parenthesis {
 	Open = '(',

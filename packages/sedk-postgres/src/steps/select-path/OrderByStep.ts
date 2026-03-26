@@ -1,21 +1,21 @@
-import { SelectStep } from './SelectStep'
-import { Column } from '../../database'
+import { SelectStep } from './SelectStep.ts'
+import { Column } from '../../database/index.ts'
 import {
 	OrderByArgsElement,
 	OrderByDirection,
 	OrderByItem,
 	OrderByItemInfo,
 	OrderByNullsPosition,
-} from '../../orderBy'
-import { escapeDoubleQuote } from '../../util'
-import { ItemInfo } from '../../ItemInfo'
-import { Expression, PrimitiveType } from '../..//models'
-import { ReturningItem } from '../../ReturningItemInfo'
-import { All } from '../../singletoneConstants'
-import { Artifacts, BaseStep } from '../BaseStep'
-import { LimitStep } from './LimitStep'
-import { OffsetStep } from './OffsetStep'
-import { ReturningStep } from '../ReturningStep'
+} from '../../orderBy.ts'
+import { escapeDoubleQuote } from '../../util.ts'
+import { ItemInfo } from '../../ItemInfo.ts'
+import { Expression, PrimitiveType } from '../..//models/index.ts'
+import { ReturningItem } from '../../ReturningItemInfo.ts'
+import { All } from '../../singletoneConstants.ts'
+import { Artifacts, BaseStep } from '../BaseStep.ts'
+import { LimitStep } from './LimitStep.ts'
+import { OffsetStep } from './OffsetStep.ts'
+import { ReturningStep } from '../ReturningStep.ts'
 
 export class OrderByStep extends BaseStep {
 	private readonly orderByItemInfos: OrderByItemInfo[] = []

@@ -1,11 +1,11 @@
-import { ConditionStep } from '../ConditionStep'
-import { BooleanColumn } from '../../database'
-import { BaseStep, Parenthesis } from '../BaseStep'
-import { Condition, PrimitiveType } from '../../models'
-import { LogicalOperator } from '../../operators'
-import { ReturningStep } from '../ReturningStep'
-import { ReturningItem } from '../../ReturningItemInfo'
-import { ItemInfo } from '../../ItemInfo'
+import { ConditionStep } from '../ConditionStep.ts'
+import { BooleanColumn } from '../../database/index.ts'
+import { BaseStep, Parenthesis } from '../BaseStep.ts'
+import { Condition, PrimitiveType } from '../../models/index.ts'
+import { LogicalOperator } from '../../operators.ts'
+import { ReturningStep } from '../ReturningStep.ts'
+import { ReturningItem } from '../../ReturningItemInfo.ts'
+import { ItemInfo } from '../../ItemInfo.ts'
 
 abstract class DeleteConditionStep extends ConditionStep {
 	public and(condition: Condition): DeleteWhereStep

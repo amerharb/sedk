@@ -1,16 +1,16 @@
-import { Artifacts } from './steps/BaseStep'
+import { Artifacts } from './steps/BaseStep.ts'
 import {
 	Condition,
 	Expression,
 	ExpressionType,
 	IStatementGiver,
-} from './models'
-import { SelectItemInfo } from './SelectItemInfo'
-import { BuilderData } from './builder'
-import { ComparisonOperator } from './operators'
-import { Binder, BinderStore } from './binder'
-import { Column } from './database'
-import { ItemInfo } from './ItemInfo'
+} from './models/index.ts'
+import { SelectItemInfo } from './SelectItemInfo.ts'
+import { BuilderData } from './builder.ts'
+import { ComparisonOperator } from './operators.ts'
+import { Binder, BinderStore } from './binder.ts'
+import { Column } from './database/index.ts'
+import { ItemInfo } from './ItemInfo.ts'
 
 export enum AggregateFunctionEnum {
 	SUM = 'SUM',

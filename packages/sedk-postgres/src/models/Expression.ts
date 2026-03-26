@@ -1,4 +1,4 @@
-import { Artifacts } from '../steps/BaseStep'
+import { Artifacts } from '../steps/BaseStep.ts'
 import {
 	ComparisonOperator,
 	NullOperator,
@@ -8,13 +8,13 @@ import {
 	isComparisonOperator,
 	isNullOperator,
 	isTextOperator,
-} from '../operators'
-import { Binder, BinderArray, BinderStore } from '../binder'
-import { BuilderData } from '../builder'
-import { SelectItemInfo } from '../SelectItemInfo'
-import { Column } from '../database'
-import { InvalidExpressionError } from '../errors'
-import { Operand } from './Operand'
+} from '../operators.ts'
+import { Binder, BinderArray, BinderStore } from '../binder.ts'
+import { BuilderData } from '../builder.ts'
+import { SelectItemInfo } from '../SelectItemInfo.ts'
+import { Column } from '../database/index.ts'
+import { InvalidExpressionError } from '../errors.ts'
+import { Operand } from './Operand.ts'
 import {
 	NonNullPrimitiveType,
 	OperandType,
@@ -22,10 +22,10 @@ import {
 	ValueLike,
 	isTextBoolean,
 	isTextNumber,
-} from './types'
-import { IStatementGiver } from './IStatementGiver'
-import { Condition } from './Condition'
-import { ItemInfo } from '../ItemInfo'
+} from './types.ts'
+import { IStatementGiver } from './IStatementGiver.ts'
+import { Condition } from './Condition.ts'
+import { ItemInfo } from '../ItemInfo.ts'
 
 export enum ExpressionType {
 	NOT_EXIST,

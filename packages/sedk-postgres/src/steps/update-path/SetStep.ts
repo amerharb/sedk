@@ -1,12 +1,12 @@
-import { BooleanColumn } from '../../database'
-import { UpdateSetItemInfo } from '../../UpdateSetItemInfo'
-import { Artifacts, BaseStep, Parenthesis } from '../BaseStep'
-import { Condition, PrimitiveType } from '../../models'
-import { UpdateWhereStep } from './UpdateConditionStep'
-import { LogicalOperator } from '../../operators'
-import { ItemInfo } from '../../ItemInfo'
-import { ReturningItem } from '../../ReturningItemInfo'
-import { ReturningStep } from '../ReturningStep'
+import { BooleanColumn } from '../../database/index.ts'
+import { UpdateSetItemInfo } from '../../UpdateSetItemInfo.ts'
+import { Artifacts, BaseStep, Parenthesis } from '../BaseStep.ts'
+import { Condition, PrimitiveType } from '../../models/index.ts'
+import { UpdateWhereStep } from './UpdateConditionStep.ts'
+import { LogicalOperator } from '../../operators.ts'
+import { ItemInfo } from '../../ItemInfo.ts'
+import { ReturningItem } from '../../ReturningItemInfo.ts'
+import { ReturningStep } from '../ReturningStep.ts'
 
 export class SetStep extends BaseStep {
 	constructor(

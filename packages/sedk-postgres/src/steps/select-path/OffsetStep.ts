@@ -1,10 +1,10 @@
-import { Binder } from '../../binder'
-import { InvalidOffsetValueError } from '../../errors'
-import { ItemInfo } from '../../ItemInfo'
-import { PrimitiveType } from '../../models'
-import { ReturningItem } from '../../ReturningItemInfo'
-import { ReturningStep } from '../ReturningStep'
-import { Artifacts, BaseStep } from '../BaseStep'
+import { Binder } from '../../binder.ts'
+import { InvalidOffsetValueError } from '../../errors.ts'
+import { ItemInfo } from '../../ItemInfo.ts'
+import { PrimitiveType } from '../../models/index.ts'
+import { ReturningItem } from '../../ReturningItemInfo.ts'
+import { ReturningStep } from '../ReturningStep.ts'
+import { Artifacts, BaseStep } from '../BaseStep.ts'
 
 export class OffsetStep extends BaseStep {
 	private readonly value: number|Binder

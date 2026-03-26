@@ -1,7 +1,7 @@
-import { Artifacts } from './steps/BaseStep'
-import { Table } from './database'
-import { IStatementGiver } from './models'
-import { BuilderData } from './builder'
+import { Artifacts } from './steps/BaseStep.ts'
+import { Table } from './database/index.ts'
+import { IStatementGiver } from './models/index.ts'
+import { BuilderData } from './builder.ts'
 
 export class TableAsterisk implements IStatementGiver{
 	constructor(public readonly table: Table) {}

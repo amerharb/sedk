@@ -1,7 +1,7 @@
-import { UpdateSetItemInfo } from '../../UpdateSetItemInfo'
-import { SetStep } from './SetStep'
-import { Table } from '../../database'
-import { Artifacts, BaseStep } from '../BaseStep'
+import { UpdateSetItemInfo } from '../../UpdateSetItemInfo.ts'
+import { SetStep } from './SetStep.ts'
+import { Table } from '../../database/index.ts'
+import { Artifacts, BaseStep } from '../BaseStep.ts'
 
 export class UpdateStep extends BaseStep {
 	constructor(

@@ -1,13 +1,13 @@
-import { IntoColumnsStep, IntoStep, IntoTableStep } from '../../steps'
-import { InsertColumnsAndValuesNotEqualError } from '../../errors'
-import { Binder, BinderStore } from '../../binder'
-import { Default } from '../../singletoneConstants'
-import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString } from '../../util'
-import { ItemInfo } from '../../ItemInfo'
-import { PrimitiveType, isNumber } from '../../models'
-import { ReturningItem } from '../../ReturningItemInfo'
-import { Artifacts, BaseStep } from '../BaseStep'
-import { ReturningStep } from '../ReturningStep'
+import { IntoColumnsStep, IntoStep, IntoTableStep } from '../../steps/index.ts'
+import { InsertColumnsAndValuesNotEqualError } from '../../errors.ts'
+import { Binder, BinderStore } from '../../binder.ts'
+import { Default } from '../../singletoneConstants.ts'
+import { getStmtBoolean, getStmtDate, getStmtNull, getStmtString } from '../../util.ts'
+import { ItemInfo } from '../../ItemInfo.ts'
+import { PrimitiveType, isNumber } from '../../models/index.ts'
+import { ReturningItem } from '../../ReturningItemInfo.ts'
+import { Artifacts, BaseStep } from '../BaseStep.ts'
+import { ReturningStep } from '../ReturningStep.ts'
 
 export class ValuesStep extends BaseStep {
 	constructor(

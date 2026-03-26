@@ -3,7 +3,7 @@ import {
 	IStatementGiver,
 	PrimitiveType,
 	isNumber,
-} from './models'
+} from './models/index.ts'
 
 export class BinderStore {
 	private store: Set<Binder> = new Set()

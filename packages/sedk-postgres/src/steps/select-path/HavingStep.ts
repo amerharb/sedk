@@ -1,13 +1,13 @@
-import { ConditionStep } from '../ConditionStep'
-import { BooleanColumn } from '../../database'
-import { BaseStep, Parenthesis } from '../BaseStep'
-import { Condition } from '../../models'
-import { OrderByArgsElement } from '../../orderBy'
-import { All } from '../../singletoneConstants'
-import { LogicalOperator } from '../../operators'
-import { OffsetStep } from './OffsetStep'
-import { LimitStep } from './LimitStep'
-import { OrderByStep } from './OrderByStep'
+import { ConditionStep } from '../ConditionStep.ts'
+import { BooleanColumn } from '../../database/index.ts'
+import { BaseStep, Parenthesis } from '../BaseStep.ts'
+import { Condition } from '../../models/index.ts'
+import { OrderByArgsElement } from '../../orderBy.ts'
+import { All } from '../../singletoneConstants.ts'
+import { LogicalOperator } from '../../operators.ts'
+import { OffsetStep } from './OffsetStep.ts'
+import { LimitStep } from './LimitStep.ts'
+import { OrderByStep } from './OrderByStep.ts'
 
 abstract class HavingConditionStep extends ConditionStep {
 	public and(condition: Condition): HavingAndStep

@@ -1,15 +1,15 @@
-import { AggregateFunction, AggregateFunctionEnum } from '../AggregateFunction'
-import { Binder, BinderArray } from '../binder'
-import { Column, ColumnObj } from './Column'
+import { AggregateFunction, AggregateFunctionEnum } from '../AggregateFunction.ts'
+import { Binder, BinderArray } from '../binder.ts'
+import { Column, ColumnObj } from './Column.ts'
 import {
 	Condition,
 	Expression,
 	NumberLike,
 	UpdateCondition,
-} from '../models'
-import { BitwiseOperator, ComparisonOperator, NullOperator, Operator } from '../operators'
-import { Default } from '../singletoneConstants'
-import { UpdateSetItemInfo } from '../UpdateSetItemInfo'
+} from '../models/index.ts'
+import { BitwiseOperator, ComparisonOperator, NullOperator, Operator } from '../operators.ts'
+import { Default } from '../singletoneConstants.ts'
+import { UpdateSetItemInfo } from '../UpdateSetItemInfo.ts'
 
 export class NumberColumn extends Column {
 	constructor(data: ColumnObj) {

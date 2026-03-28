@@ -37,16 +37,21 @@ mindmapDiagram {
 *** string <<primitive>>
 *** Date <<class>>
 
-* SelectItem <<type>>
-** Aggregate Function <<class>>
-** ColumnLike <<type>>
-*** Column <<class>>
-**** ColumnBoolean <<class>>
-**** ColumnNumber <<class>>
-**** ColumnText <<class>>
-**** ColumnDate <<class>>
-*** Expression <<class>>
-** Asterisk <<class>>
+* SelectArgsElement (N/E) <<type>>
+** SelectItem <<type>>
+*** Aggregate Function <<class>>
+*** ColumnLike <<type>>
+**** Column <<class>>
+***** ColumnBoolean <<class>>
+***** ColumnNumber <<class>>
+***** ColumnText <<class>>
+***** ColumnDate <<class>>
+**** Expression <<class>>
+*** Asterisk <<class>>
+*** TableAsterisk <<class>>
+*** Binder <<class>>
+** PrimitiveType <<type>>
+** ItemInfo <<class>>
 
 * OrderByArgsElement <<type>>
 ** OrderByNullsPosition <<abstractClass>>
@@ -62,6 +67,12 @@ mindmapDiagram {
 *** Column <<class>>
 *** Expression <<class>>
 *** string <<primitive>>
+
+* ReturningItem <<type>>
+** ColumnLike <<type>>
+** Binder <<class>>
+** Asterisk <<class>>
+** TableAsterisk <<class>>
 
 * OperandType <<type>>
 ** Expression <<class>>

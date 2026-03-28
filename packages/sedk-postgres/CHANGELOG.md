@@ -1,6 +1,8 @@
 # Changelog
 <!-- https://keepachangelog.com/en/1.0.0/ -->
 
+## [0.15.2]  2023-12-08
+
 ## [0.15.1]  2023-11-28
 ### Changed
 - AliasedTable use Generic that extends Table instead of Table, to avoid build time error when using Column from table
